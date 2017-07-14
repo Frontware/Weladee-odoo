@@ -1,8 +1,8 @@
-# Weladee Odoo 
+# Weladee - Odoo 
 
 
 
-![Weladee logo](https://vgy.me/jlVton.png)![odoo](https://vgy.me/BWJLks.png)
+![Weladee logo](https://vgy.me/jlVton.png)![odoo](https://goo.gl/D9uZDJ)
 
 ## What is Weladee?
 
@@ -35,6 +35,7 @@ The communication between Odoo & Weladee is encrypted by TLS 1.3
 To connect your Odoo instance to [weladee](https://www.weladee.com) server you need an api key.
 The api key is available when you create an account at http://www.weladee.com/register
 
+Weladee is free to subscribe with 3 months trial period or even 100% free for company with less than 5 employees.
 
----
+--------------------------------------------------------------
 (c) 2017 [Frontware International](https://www.frontware.co.th)
