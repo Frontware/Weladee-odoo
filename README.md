@@ -29,6 +29,10 @@ You will be able to synchronize departments, employees and attendance.
 The http2 protocol and stream push between client and server offer excellent performances.
 The communication between Odoo & Weladee is encrypted by TLS 1.3
 
+Sample calls:
+
+[uml](https://goo.gl/3xyzN5)
+
 
 ### API Key
 
