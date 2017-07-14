@@ -2,7 +2,7 @@
 
 
 
-![Logo](https://vgy.me/jlVton.png)
+![Weladee logo](https://vgy.me/jlVton.png)![odoo](https://vgy.me/BWJLks.png)
 
 
 ## Description
