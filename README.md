@@ -27,11 +27,11 @@ You will be able to synchronize departments, employees and attendance.
 
 [gRPC](https://grpc.io) is used to communicate with [weladee](https://www.weladee.com) server.
 The http2 protocol and stream push between client and server offer excellent performances.
-The communication between Odoo & Weladee is encrypted by TLS 1.3
+The communication between Odoo & Weladee is encrypted with SSL3 and TLS 1.3 certificate.
 
 Sample calls:
 
-[uml](https://goo.gl/3xyzN5)
+![uml](https://goo.gl/3xyzN5)
 
 
 ### API Key
