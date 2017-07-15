@@ -46,7 +46,7 @@ Weladee is free to subscribe with 3 months trial period or even 100% free for co
 
 ### Connect to server
 
-   python
+```python
    
    
     import grpc
@@ -62,15 +62,14 @@ Weladee is free to subscribe with 3 months trial period or even 100% free for co
     creds = grpc.ssl_channel_credentials(certificate)
     channel = grpc.secure_channel(address, creds)
 
-
-      
+```
 
 ### Provide api-key and get some data
 
 
 This code retrieve the list of departments and add a holiday to Weladee.
 
-   python
+```python
    
    
     # Connect from Odoo
@@ -97,7 +96,7 @@ This code retrieve the list of departments and add a holiday to Weladee.
     except Exception as e:
         print("Add holiday failed",e)
 
-   
+```
    
       
 
