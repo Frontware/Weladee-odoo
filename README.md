@@ -37,7 +37,7 @@ Sample calls:
 ### API Key
 
 To connect your Odoo instance to [weladee](https://www.weladee.com) server you need an api key.
-The api key is available when you create an account at http://www.weladee.com/register
+The api key is available when you create an account at https://www.weladee.com/register
 
 Weladee is free to subscribe with 3 months trial period or even 100% free for company with less than 5 employees.
 
@@ -47,8 +47,6 @@ Weladee is free to subscribe with 3 months trial period or even 100% free for co
 ### Connect to server
 
 ```python
-   
-   
     import grpc
     import weladee_pb2
     import weladee_pb2_grpc
@@ -61,7 +59,6 @@ Weladee is free to subscribe with 3 months trial period or even 100% free for co
 
     creds = grpc.ssl_channel_credentials(certificate)
     channel = grpc.secure_channel(address, creds)
-
 ```
 
 ### Provide api-key and get some data
@@ -70,8 +67,6 @@ Weladee is free to subscribe with 3 months trial period or even 100% free for co
 This code retrieve the list of departments and add a holiday to Weladee.
 
 ```python
-   
-   
     # Connect from Odoo
     # Place here the token specific to each company. It's called api_key in table company
 
@@ -95,7 +90,6 @@ This code retrieve the list of departments and add a holiday to Weladee.
         print (result.id)
     except Exception as e:
         print("Add holiday failed",e)
-
 ```
    
       
