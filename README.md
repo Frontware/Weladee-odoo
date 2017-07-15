@@ -41,5 +41,65 @@ The api key is available when you create an account at http://www.weladee.com/re
 
 Weladee is free to subscribe with 3 months trial period or even 100% free for company with less than 5 employees.
 
+
+## Sample Code for gRPC API
+
+### Connect to server
+
+   python
+   
+   
+    import grpc
+    import weladee_pb2
+    import weladee_pb2_grpc
+  
+   
+    # Weladee grpc server address is hrpc.weladee.com:22443
+    address = "grpc.weladee.com:22443"
+
+    # Define a secure channel with embedded public certificate
+
+    creds = grpc.ssl_channel_credentials(certificate)
+    channel = grpc.secure_channel(address, creds)
+
+
+      
+
+### Provide api-key and get some data
+
+
+This code retrieve the list of departments and add a holiday to Weladee.
+
+   python
+   
+   
+    # Connect from Odoo
+    # Place here the token specific to each company. It's called api_key in table company
+
+    authorization = [("authorization", "bc7f3c00-bfa4-4ac2-810b-a11dca5ec48e")]
+
+    stub = weladee_pb2_grpc.OdooStub(channel)
+
+    # List all departments
+    print("Departments")
+    for dept in stub.GetDepartments(myrequest, metadata=token):
+        print(dept)
+
+    # Add new holiday
+    newHoliday = weladee_pb2.HolidayOdoo()
+    newHoliday.Holiday.date = 20170918
+    newHoliday.Holiday.name_english = "Company holiday"
+    newHoliday.odoo.odoo_id = 9
+    try:
+        result = stub.AddHoliday(newHoliday, metadata=authorization)
+
+        print (result.id)
+    except Exception as e:
+        print("Add holiday failed",e)
+
+   
+   
+      
+
 --------------------------------------------------------------
 (c) 2017 [Frontware International](https://www.frontware.co.th)
