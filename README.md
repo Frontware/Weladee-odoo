@@ -7,11 +7,17 @@
 ## What is Weladee?
 
 Weladee is a "In The Cloud" service to manage employee attendance.
-It's developed to be simple, fast and cheap to use for any small company (or even big ones).
-The primary market of this service is Thailand for now (2017).
+It's developed to be **simple**, **fast** and **cheap** to use for any small company (or even big ones).
+The primary market of this service is **Thailand** for now (2017).
 
 Take a look: https://www.weladee.com
 
+### Why using Weladee?
+
+Because employee lateness and absenteeism cost a lot of money to your company.
+Weladee provides a very easy way to reduce it.
+
+See how much lateness costs you with our simulation page: https://www.weladee.com/simulation
 
 ## Description
 
