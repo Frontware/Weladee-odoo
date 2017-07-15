@@ -97,7 +97,18 @@ This code retrieve the list of departments and add a holiday to Weladee.
     except Exception as e:
         print("Add holiday failed",e)
 ```
-   
+### Get all log from Weladee not yet sync with Odoo
+
+Simple code parsing a stream of log events that need to be synchronized with Odoo.
+
+```python
+    # List of attendance to sync
+    print("Attendance to sync")
+    i=0
+    for att in stub.GetNewAttendance(weladee_pb2.Empty(), metadata=authorization):
+        i+=1
+        logging.log(i,att)
+```
       
 
 --------------------------------------------------------------
