@@ -37,7 +37,7 @@ The communication between Odoo & Weladee is encrypted with SSL3 and TLS 1.3 cert
 
 Sample calls:
 
-![uml](https://goo.gl/7dfyo4)
+![uml](https://goo.gl/37LBQS)
 
 
 ### API Key
@@ -82,7 +82,7 @@ This code retrieve the list of departments and add a holiday to Weladee.
 
     # List all departments
     print("Departments")
-    for dept in stub.GetDepartments(myrequest, metadata=token):
+    for dept in stub.GetDepartments(myrequest, metadata=authorization):
         print(dept)
 
     # Add new holiday

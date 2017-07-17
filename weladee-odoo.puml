@@ -1,6 +1,9 @@
 # Don't forget to update the image in README.md if you do any change in this file
 
 @startuml
+
+title Sequence Diagram - Samples Cases\n
+
 note right Odoo
     All communication is encrypted
     by modern TLS 3 certificate.
@@ -31,5 +34,11 @@ alt successfull
     end note
     Odoo -> Weladee: Add a holiday
     Odoo <- Weladee: Returns the holiday id for weladee
-end
+
+
+footer
+
+2017 Frontware International ... www.weladee.com
+end footer
+
 @enduml
