@@ -58,7 +58,7 @@ Weladee is free to subscribe with 3 months trial period or even 100% free for co
     import weladee_pb2_grpc
   
    
-    # Weladee grpc server address is hrpc.weladee.com:22443
+    # Weladee grpc server address is grpc.weladee.com:22443
     address = "grpc.weladee.com:22443"
 
     # Define a secure channel with embedded public certificate
