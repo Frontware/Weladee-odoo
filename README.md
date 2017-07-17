@@ -21,7 +21,7 @@ See how much lateness costs you with our simulation page: https://www.weladee.co
 
 ## Description
 
-Odoo module for Weladee
+[Odoo](https://www.odoo.co.th) module for Weladee
 
 This Odoo module create the link between Weladee and your Odoo instance.
 
