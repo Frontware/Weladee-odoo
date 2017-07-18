@@ -1,29 +1,84 @@
-##############################################################################
-#
-#    OpenERP, Open Source Management Solution    
-#    Copyright (C) 2004-Now Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    d$
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
-from openerp.osv import fields
-from openerp.osv import osv
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+
 import grpc
-import logging
 import weladee_pb2
 import weladee_pb2_grpc
+import os
+import logging
+from time import sleep
+
+
+def main():
+    print("Test grpc weladee")
+
+
+    # Weladee grpc server address is hrpc.weladee.com:22443
+    address = "grpc.weladee.com:22443"
+
+    # Define a secure channel with embedded public certificate
+
+    creds = grpc.ssl_channel_credentials(certificate)
+    channel = grpc.secure_channel(address, creds)
+
+
+    # We create one channel to the server then we can use for several functions
+    stub = weladee_pb2_grpc.MobileStub(channel)
+    # Here you define the token. It's always sent as metadata to all requests
+
+    # Connect from mobile device
+
+    #token = [("token", "88917ec1-a589-4891-bb64-b10ca0afd666")]
+
+
+    myrequest = weladee_pb2.EmployeeRequest()
+
+
+
+
+    # Connect from Odoo
+    # Place here the token specific to each company. It's called api_key in table company
+
+    authorization = [("authorization", "bc7f3c00-bfa4-4ac2-810b-a11dca5ec48e")]
+
+    stub = weladee_pb2_grpc.OdooStub(channel)
+
+    # List all departments
+    print("Departments")
+    for dept in stub.GetDepartments(myrequest, metadata=authorization):
+        print(dept)
+
+    # List of employees
+    print("Employees")
+    i = 0
+    for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
+        i += 1
+        logging.log(i, emp)
+
+    # List of attendance to sync
+    print("Attendance to sync")
+    i=0
+    for att in stub.GetNewAttendance(weladee_pb2.Empty(), metadata=authorization):
+        i+=1
+        logging.log(i,att)
+
+
+    # Add new holiday
+    newHoliday = weladee_pb2.HolidayOdoo()
+    newHoliday.Holiday.date = 20170918
+    newHoliday.Holiday.name_english = "Company holiday"
+    newHoliday.odoo.odoo_id = 9
+    try:
+        result = stub.AddHoliday(newHoliday, metadata=authorization)
+
+        print (result.id)
+    except Exception as e:
+        print("Add holiday failed",e)
+
+
+
+# Certificate to be downloaded from https://git.frontware.co.th/raw/Weladee/proto.git/master/certificates!grpc.weladee.com.chain.crt
 
 certificate = """-----BEGIN CERTIFICATE-----
 MIIEkjCCA3qgAwIBAgIQCgFBQgAAAVOFc2oLheynCDANBgkqhkiG9w0BAQsFADA/
@@ -74,52 +129,12 @@ Ob8VZRzI9neWagqNdwvYkQsEjgfbKbYK7p2CNTUQ
 -----END CERTIFICATE-----
 """
 
-class weladee_attendance(osv.osv):
-      _name="weladee_attendance.synchronous"
-      _description="synchronous Employee, Department, Holiday and attences"
 
-      #purpose : synchronous data
-      #remarks :
-      #2017-07-18 CKA created
-      def synchronousBtn(self, cr, uid, ids, context=None):
-          print("synchronous datas")
-          # Certificate to be downloaded from https://git.frontware.co.th/raw/Weladee/proto.git/master/certificates!grpc.weladee.com.chain.crt
+if __name__ == "__main__":
+    import sys
 
-          # Weladee grpc server address is hrpc.weladee.com:22443
-          address = "grpc.weladee.com:22443"
-
-          # Define a secure channel with embedded public certificate
-
-          creds = grpc.ssl_channel_credentials(certificate)
-
-          channel = grpc.secure_channel(address, creds)
-
-          myrequest = weladee_pb2.EmployeeRequest()
-
-          # Connect from Odoo
-          # Place here the token specific to each company. It's called api_key in table company
-
-          authorization = [("authorization", "bc7f3c00-bfa4-4ac2-810b-a11dca5ec48e")]
-
-          stub = weladee_pb2_grpc.OdooStub(channel)
-
-          # List all departments
-          print("Departments")
-          for dept in stub.GetDepartments(myrequest, metadata=authorization):
-            print(dept)
-            # List of employees
-          print("Employees")
-          i = 0
-          for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
-            i += 1
-            logging.log(i, emp)
-
-          # List of attendance to sync
-          print("Attendance to sync")
-          i=0
-          for att in stub.GetNewAttendance(weladee_pb2.Empty(), metadata=authorization):
-            i+=1
-            logging.log(i,att)
-
-
-weladee_attendance()
+    if '--optimize' in sys.argv:  # if --optimize then restart application with -O parameter.
+        sys.argv.remove('--optimize')
+        os.execl(sys.executable, sys.executable, '-O', *sys.argv)
+    else:
+        main()
