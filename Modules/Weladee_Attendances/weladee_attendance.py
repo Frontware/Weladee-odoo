@@ -107,19 +107,16 @@ class weladee_attendance(osv.osv):
           print("Departments")
           for dept in stub.GetDepartments(myrequest, metadata=authorization):
             print(dept)
+
             # List of employees
           print("Employees")
-          i = 0
           for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
-            i += 1
-            logging.log(i, emp)
+            print(emp)
 
           # List of attendance to sync
-          print("Attendance to sync")
-          i=0
-          for att in stub.GetNewAttendance(weladee_pb2.Empty(), metadata=authorization):
-            i+=1
-            logging.log(i,att)
+          #print("Attendance to sync")
+          #for att in stub.GetNewAttendance(weladee_pb2.Empty(), metadata=authorization):
+              #print(att)
 
 
 weladee_attendance()
