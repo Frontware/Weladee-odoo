@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!-- 
+	purpose : render synchronous
+
+	remarks :
+	2017-07-18 CKA add view synchronous menu For sync Employee, Department, Holiday and attences on Attendances menu
+ -->
+<openerp>
+    <data>
+
+        <record model="ir.actions.act_window" id="action_weladee_attendance_synchronous_form">
+            <field name="name">weladee_attendance_form</field>
+            <field name="res_model">weladee_attendance.synchronous</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <menuitem id="weladee_attendance_synchronous_menu"
+                  name="Synchronous"
+                  sequence="99"
+                  parent="hr_attendance.menu_hr_attendance_root"
+                  groups="base.group_hr_attendance"
+                  action="action_weladee_attendance_synchronous_form"
+        />
+
+    </data>
+</openerp>    
