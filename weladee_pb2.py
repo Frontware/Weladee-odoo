@@ -22,7 +22,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='weladee.proto',
   package='grpc.weladee.com',
   syntax='proto3',
-  serialized_pb=_b('\n\rweladee.proto\x12\x10grpc.weladee.com\"G\n\x10LogEventOdooSync\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12\r\n\x05logid\x18\x02 \x01(\x03\"\x17\n\tAddResult\x12\n\n\x02id\x18\x02 \x01(\x03\"\x07\n\x05\x45mpty\"_\n\x0bHolidayOdoo\x12*\n\x07Holiday\x18\x01 \x01(\x0b\x32\x19.grpc.weladee.com.Holiday\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"\x9b\x01\n\x07Holiday\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x14\n\x0cname_english\x18\x02 \x01(\t\x12\x11\n\tname_thai\x18\x03 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x04 \x01(\x05\x12\x0e\n\x06\x61\x63tive\x18\x05 \x01(\x08\x12\x0c\n\x04\x63ode\x18\x06 \x01(\t\x12\r\n\x05\x63olor\x18\x07 \x01(\t\x12\x12\n\nemployeeid\x18\x08 \x01(\x03\x12\x0c\n\x04note\x18\t \x01(\t\"\x80\x01\n\nDepartment\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x14\n\x0cname_english\x18\x02 \x01(\t\x12\x11\n\tname_thai\x18\x03 \x01(\t\x12\x11\n\tmanagerid\x18\x04 \x01(\x03\x12\x0e\n\x06\x61\x63tive\x18\x05 \x01(\x08\x12\x0c\n\x04\x63ode\x18\x06 \x01(\t\x12\x0c\n\x04note\x18\t \x01(\t\"y\n\x08LogEvent\x12\x12\n\nemployeeid\x18\x01 \x01(\x03\x12\x0e\n\x06\x61\x63tion\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\x03\x12\x16\n\x06teamid\x18\x04 \x01(\x03R\x06teamid\x12\x12\n\x04late\x18\x05 \x01(\x05R\x04late\x12\n\n\x02id\x18\x06 \x01(\x03\"|\n\x0cLogEventOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12,\n\x08logevent\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.LogEvent\x12\x18\n\x10\x65mployee_odoo_id\x18\x03 \x01(\x03\"N\n\x0f\x45mployeeRequest\x12\x13\n\tuser_name\x18\x01 \x01(\tH\x00\x12\x0f\n\x05\x65mail\x18\x02 \x01(\tH\x00\x12\x0c\n\x02ID\x18\x03 \x01(\x03H\x00\x42\x07\n\x05query\"7\n\x0bOdooRequest\x12\x0c\n\x02ID\x18\x01 \x01(\x03H\x00\x12\x11\n\x07odoo_id\x18\x02 \x01(\x03H\x00\x42\x07\n\x05query\"H\n\x10\x45mployeesRequest\x12\x16\n\x06teamid\x18\x02 \x01(\x03R\x06teamid\x12\x1c\n\tmanagerid\x18\x03 \x01(\x03R\tmanagerid\"\xf6\x06\n\x08\x45mployee\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x14\n\x05\x65mail\x18\x02 \x01(\tR\x05\x65mail\x12\x1c\n\tuser_name\x18\x03 \x01(\tR\tuser_name\x12,\n\x11last_name_english\x18\x04 \x01(\tR\x11last_name_english\x12.\n\x12\x66irst_name_english\x18\x05 \x01(\tR\x12\x66irst_name_english\x12(\n\x0f\x66irst_name_thai\x18\x06 \x01(\tR\x0f\x66irst_name_thai\x12&\n\x0elast_name_thai\x18\x07 \x01(\tR\x0elast_name_thai\x12\x1c\n\tmanagerID\x18\x08 \x01(\x03R\tmanagerid\x12\x16\n\x06lineID\x18\t \x01(\tR\x06lineid\x12*\n\x10nickname_english\x18\n \x01(\tR\x10nickname_english\x12$\n\rnickname_thai\x18\x0b \x01(\tR\rnickname_thai\x12\x10\n\x08\x46\x43Mtoken\x18\x12 \x03(\t\x12 \n\x0bphone_model\x18\x13 \x01(\tR\x0bphone_model\x12\"\n\x0cphone_serial\x18\x14 \x01(\tR\x0cphone_serial\x12\x12\n\x04\x63ode\x18\x15 \x01(\tR\x04\x63ode\x12\x1e\n\ncreated_by\x18\x0e \x01(\x03R\ncreated_by\x12\x1e\n\nupdated_by\x18\x0f \x01(\x03R\nupdated_by\x12\x16\n\x06\x61\x63tive\x18\x10 \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04note\x18\x11 \x01(\tR\x04note\x12\x1e\n\ncreated_on\x18\x16 \x01(\x03R\ncreated_on\x12\x1e\n\nupdated_on\x18\x17 \x01(\x03R\nupdated_on\x12\x14\n\x05photo\x18\x18 \x01(\tR\x05photo\x12\x0e\n\x02lg\x18\x19 \x01(\tR\x02lg\x12=\n\x11\x61pplication_level\x18\x1a \x01(\x0e\x32\".grpc.weladee.com.ApplicationLevel\x12\x12\n\npositionid\x18\x1b \x01(\x03\x12\x0e\n\x06Phones\x18\x1c \x03(\t\x12\x0c\n\x04rfid\x18\x1d \x01(\x03\x12\'\n\x0e\x45mailValidated\x18\" \x01(\x08R\x0f\x65mail_validated\x12\x16\n\x06teamid\x18# \x01(\x03R\x06teamid\"b\n\x0c\x45mployeeOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12,\n\x08\x65mployee\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.Employee\"h\n\x0e\x44\x65partmentOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12\x30\n\ndepartment\x18\x02 \x01(\x0b\x32\x1c.grpc.weladee.com.Department\"\x85\x01\n\x04odoo\x12\x18\n\x07odoo_id\x18\x01 \x01(\x03R\x07odoo_id\x12(\n\x0fodoo_created_on\x18\x02 \x01(\x03R\x0fodoo_created_on\x12&\n\x0eodoo_synced_on\x18\x03 \x01(\x03R\x0eodoo_synced_on\x12\x11\n\todoo_note\x18\x04 \x01(\t*\xa3\x01\n\x10\x41pplicationLevel\x12\x13\n\x0fSimple_Employee\x10\x00\x12\x0f\n\x0bHR_Operator\x10\x01\x12\x0e\n\nHR_Manager\x10\x02\x12\x10\n\x0cTeam_Manager\x10\x03\x12\x16\n\x12\x44\x65partment_Manager\x10\x04\x12\x0c\n\x08\x44irector\x10\x05\x12\x11\n\rAdministrator\x10\x06\x12\x0e\n\nSupervisor\x10\t2\xbd\x02\n\x06Mobile\x12L\n\x0bGetEmployee\x12!.grpc.weladee.com.EmployeeRequest\x1a\x1a.grpc.weladee.com.Employee\x12P\n\x0cGetEmployees\x12\".grpc.weladee.com.EmployeesRequest\x1a\x1a.grpc.weladee.com.Employee0\x01\x12M\n\x0bGetHolidays\x12!.grpc.weladee.com.EmployeeRequest\x1a\x19.grpc.weladee.com.Holiday0\x01\x12\x44\n\x0bGetLogEvent\x12\x17.grpc.weladee.com.Empty\x1a\x1a.grpc.weladee.com.LogEvent0\x01\x32\xa7\x07\n\x04Odoo\x12L\n\x0bGetEmployee\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x1e.grpc.weladee.com.EmployeeOdoo\x12I\n\x0eUpdateEmployee\x12\x1e.grpc.weladee.com.EmployeeOdoo\x1a\x17.grpc.weladee.com.Empty\x12I\n\x0cGetEmployees\x12\x17.grpc.weladee.com.Empty\x1a\x1e.grpc.weladee.com.EmployeeOdoo0\x01\x12J\n\x0b\x41\x64\x64\x45mployee\x12\x1e.grpc.weladee.com.EmployeeOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12M\n\x0bGetHolidays\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x1d.grpc.weladee.com.HolidayOdoo0\x01\x12N\n\x12GetCompanyHolidays\x12\x17.grpc.weladee.com.Empty\x1a\x1d.grpc.weladee.com.HolidayOdoo0\x01\x12H\n\nAddHoliday\x12\x1d.grpc.weladee.com.HolidayOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12\x45\n\x0b\x44ropHoliday\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x17.grpc.weladee.com.Empty\x12P\n\rGetDepartment\x12\x1d.grpc.weladee.com.OdooRequest\x1a .grpc.weladee.com.DepartmentOdoo\x12M\n\x0eGetDepartments\x12\x17.grpc.weladee.com.Empty\x1a .grpc.weladee.com.DepartmentOdoo0\x01\x12M\n\x10GetNewAttendance\x12\x17.grpc.weladee.com.Empty\x1a\x1e.grpc.weladee.com.LogEventOdoo0\x01\x12O\n\x0eSyncAttendance\x12\".grpc.weladee.com.LogEventOdooSync\x1a\x17.grpc.weladee.com.Empty(\x01\x42+\n\x15\x63om.frontware.weladeeB\x0bWeladeeGRPCH\x03P\x01\x90\x01\x01\x62\x06proto3')
+  serialized_pb=_b('\n\rweladee.proto\x12\x10grpc.weladee.com\"G\n\x10LogEventOdooSync\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12\r\n\x05logid\x18\x02 \x01(\x03\"\x17\n\tAddResult\x12\n\n\x02id\x18\x02 \x01(\x03\"\x07\n\x05\x45mpty\"_\n\x0bHolidayOdoo\x12*\n\x07Holiday\x18\x01 \x01(\x0b\x32\x19.grpc.weladee.com.Holiday\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"\x9b\x01\n\x07Holiday\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x14\n\x0cname_english\x18\x02 \x01(\t\x12\x11\n\tname_thai\x18\x03 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x04 \x01(\x05\x12\x0e\n\x06\x61\x63tive\x18\x05 \x01(\x08\x12\x0c\n\x04\x63ode\x18\x06 \x01(\t\x12\r\n\x05\x63olor\x18\x07 \x01(\t\x12\x12\n\nemployeeid\x18\x08 \x01(\x03\x12\x0c\n\x04note\x18\t \x01(\t\"\x80\x01\n\nDepartment\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x14\n\x0cname_english\x18\x02 \x01(\t\x12\x11\n\tname_thai\x18\x03 \x01(\t\x12\x11\n\tmanagerid\x18\x04 \x01(\x03\x12\x0e\n\x06\x61\x63tive\x18\x05 \x01(\x08\x12\x0c\n\x04\x63ode\x18\x06 \x01(\t\x12\x0c\n\x04note\x18\t \x01(\t\"y\n\x08LogEvent\x12\x12\n\nemployeeid\x18\x01 \x01(\x03\x12\x0e\n\x06\x61\x63tion\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\x03\x12\x16\n\x06teamid\x18\x04 \x01(\x03R\x06teamid\x12\x12\n\x04late\x18\x05 \x01(\x05R\x04late\x12\n\n\x02id\x18\x06 \x01(\x03\"|\n\x0cLogEventOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12,\n\x08logevent\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.LogEvent\x12\x18\n\x10\x65mployee_odoo_id\x18\x03 \x01(\x03\"N\n\x0f\x45mployeeRequest\x12\x13\n\tuser_name\x18\x01 \x01(\tH\x00\x12\x0f\n\x05\x65mail\x18\x02 \x01(\tH\x00\x12\x0c\n\x02ID\x18\x03 \x01(\x03H\x00\x42\x07\n\x05query\"7\n\x0bOdooRequest\x12\x0c\n\x02ID\x18\x01 \x01(\x03H\x00\x12\x11\n\x07odoo_id\x18\x02 \x01(\x03H\x00\x42\x07\n\x05query\"H\n\x10\x45mployeesRequest\x12\x16\n\x06teamid\x18\x02 \x01(\x03R\x06teamid\x12\x1c\n\tmanagerid\x18\x03 \x01(\x03R\tmanagerid\"\xf6\x06\n\x08\x45mployee\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x14\n\x05\x65mail\x18\x02 \x01(\tR\x05\x65mail\x12\x1c\n\tuser_name\x18\x03 \x01(\tR\tuser_name\x12,\n\x11last_name_english\x18\x04 \x01(\tR\x11last_name_english\x12.\n\x12\x66irst_name_english\x18\x05 \x01(\tR\x12\x66irst_name_english\x12(\n\x0f\x66irst_name_thai\x18\x06 \x01(\tR\x0f\x66irst_name_thai\x12&\n\x0elast_name_thai\x18\x07 \x01(\tR\x0elast_name_thai\x12\x1c\n\tmanagerID\x18\x08 \x01(\x03R\tmanagerid\x12\x16\n\x06lineID\x18\t \x01(\tR\x06lineid\x12*\n\x10nickname_english\x18\n \x01(\tR\x10nickname_english\x12$\n\rnickname_thai\x18\x0b \x01(\tR\rnickname_thai\x12\x10\n\x08\x46\x43Mtoken\x18\x12 \x03(\t\x12 \n\x0bphone_model\x18\x13 \x01(\tR\x0bphone_model\x12\"\n\x0cphone_serial\x18\x14 \x01(\tR\x0cphone_serial\x12\x12\n\x04\x63ode\x18\x15 \x01(\tR\x04\x63ode\x12\x1e\n\ncreated_by\x18\x0e \x01(\x03R\ncreated_by\x12\x1e\n\nupdated_by\x18\x0f \x01(\x03R\nupdated_by\x12\x16\n\x06\x61\x63tive\x18\x10 \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04note\x18\x11 \x01(\tR\x04note\x12\x1e\n\ncreated_on\x18\x16 \x01(\x03R\ncreated_on\x12\x1e\n\nupdated_on\x18\x17 \x01(\x03R\nupdated_on\x12\x14\n\x05photo\x18\x18 \x01(\tR\x05photo\x12\x0e\n\x02lg\x18\x19 \x01(\tR\x02lg\x12=\n\x11\x61pplication_level\x18\x1a \x01(\x0e\x32\".grpc.weladee.com.ApplicationLevel\x12\x12\n\npositionid\x18\x1b \x01(\x03\x12\x0e\n\x06Phones\x18\x1c \x03(\t\x12\x0c\n\x04rfid\x18\x1d \x01(\x03\x12\'\n\x0e\x45mailValidated\x18\" \x01(\x08R\x0f\x65mail_validated\x12\x16\n\x06teamid\x18# \x01(\x03R\x06teamid\"b\n\x0c\x45mployeeOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12,\n\x08\x65mployee\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.Employee\"h\n\x0e\x44\x65partmentOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12\x30\n\ndepartment\x18\x02 \x01(\x0b\x32\x1c.grpc.weladee.com.Department\"\x85\x01\n\x04odoo\x12\x18\n\x07odoo_id\x18\x01 \x01(\x03R\x07odoo_id\x12(\n\x0fodoo_created_on\x18\x02 \x01(\x03R\x0fodoo_created_on\x12&\n\x0eodoo_synced_on\x18\x03 \x01(\x03R\x0eodoo_synced_on\x12\x11\n\todoo_note\x18\x04 \x01(\t*\xa3\x01\n\x10\x41pplicationLevel\x12\x13\n\x0fSimple_Employee\x10\x00\x12\x0f\n\x0bHR_Operator\x10\x01\x12\x0e\n\nHR_Manager\x10\x02\x12\x10\n\x0cTeam_Manager\x10\x03\x12\x16\n\x12\x44\x65partment_Manager\x10\x04\x12\x0c\n\x08\x44irector\x10\x05\x12\x11\n\rAdministrator\x10\x06\x12\x0e\n\nSupervisor\x10\t2\xbd\x02\n\x06Mobile\x12L\n\x0bGetEmployee\x12!.grpc.weladee.com.EmployeeRequest\x1a\x1a.grpc.weladee.com.Employee\x12P\n\x0cGetEmployees\x12\".grpc.weladee.com.EmployeesRequest\x1a\x1a.grpc.weladee.com.Employee0\x01\x12M\n\x0bGetHolidays\x12!.grpc.weladee.com.EmployeeRequest\x1a\x19.grpc.weladee.com.Holiday0\x01\x12\x44\n\x0bGetLogEvent\x12\x17.grpc.weladee.com.Empty\x1a\x1a.grpc.weladee.com.LogEvent0\x01\x32\xf7\x07\n\x04Odoo\x12L\n\x0bGetEmployee\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x1e.grpc.weladee.com.EmployeeOdoo\x12I\n\x0eUpdateEmployee\x12\x1e.grpc.weladee.com.EmployeeOdoo\x1a\x17.grpc.weladee.com.Empty\x12I\n\x0cGetEmployees\x12\x17.grpc.weladee.com.Empty\x1a\x1e.grpc.weladee.com.EmployeeOdoo0\x01\x12J\n\x0b\x41\x64\x64\x45mployee\x12\x1e.grpc.weladee.com.EmployeeOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12M\n\x0bGetHolidays\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x1d.grpc.weladee.com.HolidayOdoo0\x01\x12N\n\x12GetCompanyHolidays\x12\x17.grpc.weladee.com.Empty\x1a\x1d.grpc.weladee.com.HolidayOdoo0\x01\x12H\n\nAddHoliday\x12\x1d.grpc.weladee.com.HolidayOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12\x45\n\x0b\x44ropHoliday\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x17.grpc.weladee.com.Empty\x12P\n\rGetDepartment\x12\x1d.grpc.weladee.com.OdooRequest\x1a .grpc.weladee.com.DepartmentOdoo\x12M\n\x0eGetDepartments\x12\x17.grpc.weladee.com.Empty\x1a .grpc.weladee.com.DepartmentOdoo0\x01\x12N\n\rAddDepartment\x12 .grpc.weladee.com.DepartmentOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12M\n\x10GetNewAttendance\x12\x17.grpc.weladee.com.Empty\x1a\x1e.grpc.weladee.com.LogEventOdoo0\x01\x12O\n\x0eSyncAttendance\x12\".grpc.weladee.com.LogEventOdooSync\x1a\x17.grpc.weladee.com.Empty(\x01\x42+\n\x15\x63om.frontware.weladeeB\x0bWeladeeGRPCH\x03P\x01\x90\x01\x01\x62\x06proto3')
 )
 
 _APPLICATIONLEVEL = _descriptor.EnumDescriptor(
@@ -1184,7 +1184,7 @@ _ODOO = _descriptor.ServiceDescriptor(
   index=1,
   options=None,
   serialized_start=2706,
-  serialized_end=3641,
+  serialized_end=3721,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetEmployee',
@@ -1277,9 +1277,18 @@ _ODOO = _descriptor.ServiceDescriptor(
     options=None,
   ),
   _descriptor.MethodDescriptor(
+    name='AddDepartment',
+    full_name='grpc.weladee.com.Odoo.AddDepartment',
+    index=10,
+    containing_service=None,
+    input_type=_DEPARTMENTODOO,
+    output_type=_ADDRESULT,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
     name='GetNewAttendance',
     full_name='grpc.weladee.com.Odoo.GetNewAttendance',
-    index=10,
+    index=11,
     containing_service=None,
     input_type=_EMPTY,
     output_type=_LOGEVENTODOO,
@@ -1288,7 +1297,7 @@ _ODOO = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='SyncAttendance',
     full_name='grpc.weladee.com.Odoo.SyncAttendance',
-    index=11,
+    index=12,
     containing_service=None,
     input_type=_LOGEVENTODOOSYNC,
     output_type=_EMPTY,
@@ -1476,6 +1485,11 @@ try:
           request_serializer=Empty.SerializeToString,
           response_deserializer=DepartmentOdoo.FromString,
           )
+      self.AddDepartment = channel.unary_unary(
+          '/grpc.weladee.com.Odoo/AddDepartment',
+          request_serializer=DepartmentOdoo.SerializeToString,
+          response_deserializer=AddResult.FromString,
+          )
       self.GetNewAttendance = channel.unary_stream(
           '/grpc.weladee.com.Odoo/GetNewAttendance',
           request_serializer=Empty.SerializeToString,
@@ -1567,6 +1581,13 @@ try:
       context.set_details('Method not implemented!')
       raise NotImplementedError('Method not implemented!')
 
+    def AddDepartment(self, request, context):
+      """/ Add department, get the id as return.
+      """
+      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+      context.set_details('Method not implemented!')
+      raise NotImplementedError('Method not implemented!')
+
     def GetNewAttendance(self, request, context):
       """/ Attendance
       / return a stream of attendance record + odoo employee id that have not yet been synchronized with Odoo or that need to be synchronized again.
@@ -1634,6 +1655,11 @@ try:
             servicer.GetDepartments,
             request_deserializer=Empty.FromString,
             response_serializer=DepartmentOdoo.SerializeToString,
+        ),
+        'AddDepartment': grpc.unary_unary_rpc_method_handler(
+            servicer.AddDepartment,
+            request_deserializer=DepartmentOdoo.FromString,
+            response_serializer=AddResult.SerializeToString,
         ),
         'GetNewAttendance': grpc.unary_stream_rpc_method_handler(
             servicer.GetNewAttendance,
@@ -1817,6 +1843,10 @@ try:
       """/ return a stream of departments
       """
       context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+    def AddDepartment(self, request, context):
+      """/ Add department, get the id as return.
+      """
+      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
     def GetNewAttendance(self, request, context):
       """/ Attendance
       / return a stream of attendance record + odoo employee id that have not yet been synchronized with Odoo or that need to be synchronized again.
@@ -1887,6 +1917,11 @@ try:
       """/ return a stream of departments
       """
       raise NotImplementedError()
+    def AddDepartment(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+      """/ Add department, get the id as return.
+      """
+      raise NotImplementedError()
+    AddDepartment.future = None
     def GetNewAttendance(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
       """/ Attendance
       / return a stream of attendance record + odoo employee id that have not yet been synchronized with Odoo or that need to be synchronized again.
@@ -1906,6 +1941,7 @@ try:
     file not marked beta) for all further purposes. This function was
     generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
     request_deserializers = {
+      ('grpc.weladee.com.Odoo', 'AddDepartment'): DepartmentOdoo.FromString,
       ('grpc.weladee.com.Odoo', 'AddEmployee'): EmployeeOdoo.FromString,
       ('grpc.weladee.com.Odoo', 'AddHoliday'): HolidayOdoo.FromString,
       ('grpc.weladee.com.Odoo', 'DropHoliday'): OdooRequest.FromString,
@@ -1920,6 +1956,7 @@ try:
       ('grpc.weladee.com.Odoo', 'UpdateEmployee'): EmployeeOdoo.FromString,
     }
     response_serializers = {
+      ('grpc.weladee.com.Odoo', 'AddDepartment'): AddResult.SerializeToString,
       ('grpc.weladee.com.Odoo', 'AddEmployee'): AddResult.SerializeToString,
       ('grpc.weladee.com.Odoo', 'AddHoliday'): AddResult.SerializeToString,
       ('grpc.weladee.com.Odoo', 'DropHoliday'): Empty.SerializeToString,
@@ -1934,6 +1971,7 @@ try:
       ('grpc.weladee.com.Odoo', 'UpdateEmployee'): Empty.SerializeToString,
     }
     method_implementations = {
+      ('grpc.weladee.com.Odoo', 'AddDepartment'): face_utilities.unary_unary_inline(servicer.AddDepartment),
       ('grpc.weladee.com.Odoo', 'AddEmployee'): face_utilities.unary_unary_inline(servicer.AddEmployee),
       ('grpc.weladee.com.Odoo', 'AddHoliday'): face_utilities.unary_unary_inline(servicer.AddHoliday),
       ('grpc.weladee.com.Odoo', 'DropHoliday'): face_utilities.unary_unary_inline(servicer.DropHoliday),
@@ -1958,6 +1996,7 @@ try:
     file not marked beta) for all further purposes. This function was
     generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
     request_serializers = {
+      ('grpc.weladee.com.Odoo', 'AddDepartment'): DepartmentOdoo.SerializeToString,
       ('grpc.weladee.com.Odoo', 'AddEmployee'): EmployeeOdoo.SerializeToString,
       ('grpc.weladee.com.Odoo', 'AddHoliday'): HolidayOdoo.SerializeToString,
       ('grpc.weladee.com.Odoo', 'DropHoliday'): OdooRequest.SerializeToString,
@@ -1972,6 +2011,7 @@ try:
       ('grpc.weladee.com.Odoo', 'UpdateEmployee'): EmployeeOdoo.SerializeToString,
     }
     response_deserializers = {
+      ('grpc.weladee.com.Odoo', 'AddDepartment'): AddResult.FromString,
       ('grpc.weladee.com.Odoo', 'AddEmployee'): AddResult.FromString,
       ('grpc.weladee.com.Odoo', 'AddHoliday'): AddResult.FromString,
       ('grpc.weladee.com.Odoo', 'DropHoliday'): Empty.FromString,
@@ -1986,6 +2026,7 @@ try:
       ('grpc.weladee.com.Odoo', 'UpdateEmployee'): Empty.FromString,
     }
     cardinalities = {
+      'AddDepartment': cardinality.Cardinality.UNARY_UNARY,
       'AddEmployee': cardinality.Cardinality.UNARY_UNARY,
       'AddHoliday': cardinality.Cardinality.UNARY_UNARY,
       'DropHoliday': cardinality.Cardinality.UNARY_UNARY,

@@ -163,6 +163,11 @@ class OdooStub(object):
         request_serializer=weladee__pb2.Empty.SerializeToString,
         response_deserializer=weladee__pb2.DepartmentOdoo.FromString,
         )
+    self.AddDepartment = channel.unary_unary(
+        '/grpc.weladee.com.Odoo/AddDepartment',
+        request_serializer=weladee__pb2.DepartmentOdoo.SerializeToString,
+        response_deserializer=weladee__pb2.AddResult.FromString,
+        )
     self.GetNewAttendance = channel.unary_stream(
         '/grpc.weladee.com.Odoo/GetNewAttendance',
         request_serializer=weladee__pb2.Empty.SerializeToString,
@@ -254,6 +259,13 @@ class OdooServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def AddDepartment(self, request, context):
+    """/ Add department, get the id as return.
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
   def GetNewAttendance(self, request, context):
     """/ Attendance
     / return a stream of attendance record + odoo employee id that have not yet been synchronized with Odoo or that need to be synchronized again.
@@ -321,6 +333,11 @@ def add_OdooServicer_to_server(servicer, server):
           servicer.GetDepartments,
           request_deserializer=weladee__pb2.Empty.FromString,
           response_serializer=weladee__pb2.DepartmentOdoo.SerializeToString,
+      ),
+      'AddDepartment': grpc.unary_unary_rpc_method_handler(
+          servicer.AddDepartment,
+          request_deserializer=weladee__pb2.DepartmentOdoo.FromString,
+          response_serializer=weladee__pb2.AddResult.SerializeToString,
       ),
       'GetNewAttendance': grpc.unary_stream_rpc_method_handler(
           servicer.GetNewAttendance,
