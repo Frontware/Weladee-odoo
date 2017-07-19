@@ -24,10 +24,7 @@ import grpc
 import logging
 import weladee_pb2
 import weladee_pb2_grpc
-import urllib
-import cStringIO
 import base64
-from PIL import Image
 import requests
 
 certificate = """-----BEGIN CERTIFICATE-----
@@ -109,19 +106,19 @@ class weladee_attendance(osv.osv):
           stub = weladee_pb2_grpc.OdooStub(channel)
 
           # List all departments
-          print("Departments")
-          for dept in stub.GetDepartments(myrequest, metadata=authorization):
-            print(dept)
+          #print("Departments")
+          #for dept in stub.GetDepartments(myrequest, metadata=authorization):
+            #print(dept)
 
             # List of employees
           print("Employees")
+          sEmployees = {}
           for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
               if not emp is None:
                   if not emp.employee is None:
                       if not emp.employee.ID is None:
                         chk_id = self.pool.get('hr.employee').search(cr, uid, [('identification_id','=',emp.employee.ID)])
                         if not chk_id:
-                            print("Employee id : %s"  % emp.employee.ID)
                             photoBase64 = ''
                             if emp.employee.photo:
                                 print("photo url : %s" % emp.employee.photo)
@@ -129,10 +126,35 @@ class weladee_attendance(osv.osv):
                             data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
                                     ,"identification_id" :emp.employee.ID
                                     ,"image":photoBase64
+                                    ,"notes": ( emp.employee.note or "" )
                                     ,"work_email":( emp.employee.email or "" )
                                   }
                             oid = self.pool.get("hr.employee").create(cr, uid, data, context=None)
                             print("odoo id : %s" % oid)
+                        sEmployees[ str(emp.employee.ID) ] = emp.employee
+
+          employee_line_obj = self.pool.get('hr.employee')
+          employee_line_ids = employee_line_obj.search(cr, uid, [])
+          for empId in employee_line_ids:
+              emp = employee_line_obj.browse(cr, uid,empId ,context=context)
+              if emp.identification_id:
+                  if not str( emp.identification_id ) in sEmployees :
+                      print("Add new employee %s with odoo id %s" % (emp.name, emp.id))
+                      newEmployee = weladee_pb2.EmployeeOdoo()
+                      newEmployee.odoo.odoo_id = emp.id
+                      newEmployee.employee.first_name_english = (emp.name).split(" ")[0]
+                      newEmployee.employee.last_name_english = (emp.name).split(" ")[1]
+                      newEmployee.employee.email = emp.work_email
+                      newEmployee.employee.note = emp.notes
+                      newEmployee.employee.lg = "en"
+                      newEmployee.employee.active = True
+                      print(newEmployee)
+                      try:
+                        result = stub.AddEmployee(newEmployee, metadata=authorization)
+                        print ("Weladee id : %s" % result.id)
+                      except Exception as e:
+                        print("Add employee failed",e)
+
 
 
 
