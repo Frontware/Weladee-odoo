@@ -106,11 +106,40 @@ class weladee_attendance(osv.osv):
           stub = weladee_pb2_grpc.OdooStub(channel)
 
           # List all departments
-          #print("Departments")
-          #for dept in stub.GetDepartments(myrequest, metadata=authorization):
-            #print(dept)
+          sDepartment = []
+          print("Departments")
+          for dept in stub.GetDepartments(myrequest, metadata=authorization):
+              if not dept is None:
+                  if not dept.department is None:
+                      if not dept.department.name_english is None:
+                          chk_did = self.pool.get('hr.department').search(cr, uid, [('name','=',dept.department.name_english)])
+                          if not chk_did :
+                              data = {"name" : dept.department.name_english
+                              }
+                              did = self.pool.get("hr.department").create(cr, uid, data, context=None)
+                              print("odoo department id : %s" % did)
+                          sDepartment.append( dept.department.name_english )
 
-            # List of employees
+          department_line_obj = self.pool.get('hr.department')
+          department_line_ids = department_line_obj.search(cr, uid, [])
+          for deptId in department_line_ids:
+              deptData = department_line_obj.browse(cr, uid,deptId ,context=context)
+              if deptData.name:
+                  if not deptData.name in sDepartment:
+                      print( "%s don't have on site" % deptData.name )
+                      newDepartment = weladee_pb2.DepartmentOdoo()
+                      newDepartment.odoo.odoo_id = deptData.id
+                      newDepartment.department.name_english = deptData.name
+                      print(newDepartment)
+                      try:
+                          result = stub.AddDepartment(newDepartment, metadata=authorization)
+                          print ("Weladee department id : %s" % result.id)
+                      except Exception as e:
+                          print("Add department failed",e)
+
+
+
+          # List of employees
           print("Employees")
           sEmployees = {}
           for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
@@ -125,10 +154,11 @@ class weladee_attendance(osv.osv):
                                 photoBase64 = base64.b64encode(requests.get(emp.employee.photo).content)
                             data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
                                     ,"identification_id" :emp.employee.ID
-                                    ,"image":photoBase64
                                     ,"notes": ( emp.employee.note or "" )
                                     ,"work_email":( emp.employee.email or "" )
                                   }
+                            if photoBase64:
+                                data["image"] = photoBase64
                             oid = self.pool.get("hr.employee").create(cr, uid, data, context=None)
                             print("odoo id : %s" % oid)
                         sEmployees[ str(emp.employee.ID) ] = emp.employee
@@ -147,7 +177,7 @@ class weladee_attendance(osv.osv):
                       newEmployee.employee.email = emp.work_email
                       newEmployee.employee.note = emp.notes
                       newEmployee.employee.lg = "en"
-                      newEmployee.employee.active = True
+                      newEmployee.employee.active = False
                       print(newEmployee)
                       try:
                         result = stub.AddEmployee(newEmployee, metadata=authorization)
