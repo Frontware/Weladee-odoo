@@ -186,31 +186,58 @@ class weladee_attendance(osv.osv):
                         print("Add employee failed",e)
 
 
-           # List of Holiday
+          # List of Holiday
           print("Holiday")
           sHoliday = []
           for hol in stub.GetHolidays(weladee_pb2.Empty(), metadata=authorization):
               print(hol)
               if not hol is None:
                   if not hol.Holiday is None:
-                      if not hol.Holiday.date is None:
-                          chk_date = self.pool.get('fw_company.holiday').search(cr, uid, [('datefrom','=',hol.Holiday.date)])
+                      if not hol.Holiday.name_english is None:
+                          chk_date = self.pool.get('hr.holidays').search(cr, uid, [('name','=',hol.Holiday.name_english), ('date_from','=',hol.Holiday.date)])
                           if not chk_date:
                               data = { "name" : hol.Holiday.name_english
-                                  ,"datefrom" : hol.Holiday.date
-                                  ,"dateto"   :  hol.Holiday.date
-                                  ,"enable":hol.Holiday.active
+                                  ,"date_from" : hol.Holiday.date
+                                  ,"date_to"   :  hol.Holiday.date
                                        }
-                              dateid = self.pool.get("fw_company.holiday").create(cr, uid, data, context=None)
+                              dateid = self.pool.get("hr.holidays").create(cr, uid, data, context=None)
                               print("odoo id : %s" % dateid)
-                          sHoliday.append( str(hol.Holiday.date) )
+                          sHoliday.append( str(hol.Holiday.name_english) )
 
-          holiday_line_obj = self.pool.get('fw_company.holiday')
+          holiday_line_obj = self.pool.get('hr.holidays')
           holiday_line_ids = holiday_line_obj.search(cr, uid, [])
           for holydayId in holiday_line_ids:
               holy = holiday_line_obj.browse(cr, uid,holydayId ,context=context)
-              if holy.datefrom:
-                  print(holy.datefrom)
+              if holy.date_from:
+                  print(holy.date_from)
+
+
+
+          # List of Company holiday
+          #print("Company Holiday")
+          #sCHoliday = []
+          #for chol in stub.GetCompanyHolidays(weladee_pb2.Empty(), metadata=authorization):
+              #print(chol)
+              #if not chol is None:
+                  #if not chol.Holiday is None:
+                      #if not chol.Holiday.date is None:
+                          #chk_date = self.pool.get('fw_company.holiday').search(cr, uid, [('datefrom','=',chol.Holiday.date)])
+                          #if not chk_date:
+                              #data = { "name" : chol.Holiday.name_english
+                              #    ,"datefrom" : chol.Holiday.date
+                              #    ,"dateto"   :  chol.Holiday.date
+                              #    ,"enable":chol.Holiday.active
+                              #         }
+                              #dateid = self.pool.get("fw_company.holiday").create(cr, uid, data, context=None)
+                              #print("odoo id : %s" % dateid)
+                          #sCHoliday.append( str(chol.Holiday.date) )
+
+          #holiday_line_obj = self.pool.get('fw_company.holiday')
+          #holiday_line_ids = holiday_line_obj.search(cr, uid, [])
+          #for holydayId in holiday_line_ids:
+              #holy = holiday_line_obj.browse(cr, uid,holydayId ,context=context)
+              #if holy.datefrom:
+                  #print(holy.datefrom)
 
 
 
