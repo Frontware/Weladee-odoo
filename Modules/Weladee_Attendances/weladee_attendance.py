@@ -186,12 +186,33 @@ class weladee_attendance(osv.osv):
                         print("Add employee failed",e)
 
 
+           # List of Holiday
+          print("Holiday")
+          sHoliday = []
+          for hol in stub.GetHolidays(weladee_pb2.Empty(), metadata=authorization):
+              print(hol)
+              if not hol is None:
+                  if not hol.Holiday is None:
+                      if not hol.Holiday.date is None:
+                          chk_date = self.pool.get('fw_company.holiday').search(cr, uid, [('datefrom','=',hol.Holiday.date)])
+                          if not chk_date:
+                              data = { "name" : hol.Holiday.name_english
+                                  ,"datefrom" : hol.Holiday.date
+                                  ,"dateto"   :  hol.Holiday.date
+                                  ,"enable":hol.Holiday.active
+                                       }
+                              dateid = self.pool.get("fw_company.holiday").create(cr, uid, data, context=None)
+                              print("odoo id : %s" % dateid)
+                          sHoliday.append( str(hol.Holiday.date) )
+
+          holiday_line_obj = self.pool.get('fw_company.holiday')
+          holiday_line_ids = holiday_line_obj.search(cr, uid, [])
+          for holydayId in holiday_line_ids:
+              holy = holiday_line_obj.browse(cr, uid,holydayId ,context=context)
+              if holy.datefrom:
+                  print(holy.datefrom)
 
 
-          # List of attendance to sync
-          #print("Attendance to sync")
-          #for att in stub.GetNewAttendance(weladee_pb2.Empty(), metadata=authorization):
-              #print(att)
 
 
 weladee_attendance()
