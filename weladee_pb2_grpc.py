@@ -153,6 +153,11 @@ class OdooStub(object):
         request_serializer=weladee__pb2.OdooRequest.SerializeToString,
         response_deserializer=weladee__pb2.Empty.FromString,
         )
+    self.UpdateHoliday = channel.unary_unary(
+        '/grpc.weladee.com.Odoo/UpdateHoliday',
+        request_serializer=weladee__pb2.HolidayOdoo.SerializeToString,
+        response_deserializer=weladee__pb2.Empty.FromString,
+        )
     self.GetDepartment = channel.unary_unary(
         '/grpc.weladee.com.Odoo/GetDepartment',
         request_serializer=weladee__pb2.OdooRequest.SerializeToString,
@@ -167,6 +172,11 @@ class OdooStub(object):
         '/grpc.weladee.com.Odoo/AddDepartment',
         request_serializer=weladee__pb2.DepartmentOdoo.SerializeToString,
         response_deserializer=weladee__pb2.AddResult.FromString,
+        )
+    self.UpdateDepartment = channel.unary_unary(
+        '/grpc.weladee.com.Odoo/UpdateDepartment',
+        request_serializer=weladee__pb2.DepartmentOdoo.SerializeToString,
+        response_deserializer=weladee__pb2.Empty.FromString,
         )
     self.GetNewAttendance = channel.unary_stream(
         '/grpc.weladee.com.Odoo/GetNewAttendance',
@@ -244,6 +254,13 @@ class OdooServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def UpdateHoliday(self, request, context):
+    """/ Update holiday. raise error if fails
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
   def GetDepartment(self, request, context):
     """/ Department
     / return department record based on id or odoo_id
@@ -261,6 +278,13 @@ class OdooServicer(object):
 
   def AddDepartment(self, request, context):
     """/ Add department, get the id as return.
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def UpdateDepartment(self, request, context):
+    """/ Update a department. raise error if fails
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -324,6 +348,11 @@ def add_OdooServicer_to_server(servicer, server):
           request_deserializer=weladee__pb2.OdooRequest.FromString,
           response_serializer=weladee__pb2.Empty.SerializeToString,
       ),
+      'UpdateHoliday': grpc.unary_unary_rpc_method_handler(
+          servicer.UpdateHoliday,
+          request_deserializer=weladee__pb2.HolidayOdoo.FromString,
+          response_serializer=weladee__pb2.Empty.SerializeToString,
+      ),
       'GetDepartment': grpc.unary_unary_rpc_method_handler(
           servicer.GetDepartment,
           request_deserializer=weladee__pb2.OdooRequest.FromString,
@@ -338,6 +367,11 @@ def add_OdooServicer_to_server(servicer, server):
           servicer.AddDepartment,
           request_deserializer=weladee__pb2.DepartmentOdoo.FromString,
           response_serializer=weladee__pb2.AddResult.SerializeToString,
+      ),
+      'UpdateDepartment': grpc.unary_unary_rpc_method_handler(
+          servicer.UpdateDepartment,
+          request_deserializer=weladee__pb2.DepartmentOdoo.FromString,
+          response_serializer=weladee__pb2.Empty.SerializeToString,
       ),
       'GetNewAttendance': grpc.unary_stream_rpc_method_handler(
           servicer.GetNewAttendance,
