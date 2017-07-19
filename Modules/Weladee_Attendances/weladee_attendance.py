@@ -24,6 +24,11 @@ import grpc
 import logging
 import weladee_pb2
 import weladee_pb2_grpc
+import urllib
+import cStringIO
+import base64
+from PIL import Image
+import requests
 
 certificate = """-----BEGIN CERTIFICATE-----
 MIIEkjCCA3qgAwIBAgIQCgFBQgAAAVOFc2oLheynCDANBgkqhkiG9w0BAQsFADA/
@@ -111,7 +116,25 @@ class weladee_attendance(osv.osv):
             # List of employees
           print("Employees")
           for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
-            print(emp)
+              if not emp is None:
+                  if not emp.employee is None:
+                      if not emp.employee.ID is None:
+                        chk_id = self.pool.get('hr.employee').search(cr, uid, [('identification_id','=',emp.employee.ID)])
+                        if not chk_id:
+                            print("Employee id : %s"  % emp.employee.ID)
+                            photoBase64 = ''
+                            if emp.employee.photo:
+                                print("photo url : %s" % emp.employee.photo)
+                                photoBase64 = base64.b64encode(requests.get(emp.employee.photo).content)
+                            data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
+                                    ,"identification_id" :emp.employee.ID
+                                    ,"image":photoBase64
+                                    ,"work_email":( emp.employee.email or "" )
+                                  }
+                            oid = self.pool.get("hr.employee").create(cr, uid, data, context=None)
+                            print("odoo id : %s" % oid)
+
+
 
           # List of attendance to sync
           #print("Attendance to sync")
