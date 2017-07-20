@@ -149,69 +149,62 @@ class weladee_attendance(osv.osv):
                       except Exception as e:
                           print("Add position failed",e)
 
-
-
-
-
-
-
-
-
-
           # List all departments
           sDepartment = []
           print("Departments")
-          if False :
+          if True :
               # sync data from Weladee to odoo if odoo don't haave that data
               for dept in stub.GetDepartments(myrequest, metadata=authorization):
-                  if not dept is None:
-                      if not dept.odoo is None:
-                          if dept.odoo.odoo_id is None:
-                              if not dept.department is None:
-                                  if not dept.department.name_english is None:
-                                      departmentName = dept.department.name_english
-                                      sDepartment.append( departmentName )
-                                      chk_did = self.pool.get('hr.department').search(cr, uid, [('name','=',departmentName)])
-                                      if not chk_did :
-                                          data = {"name" : departmentName
-                                          }
-                                          odoo_id_department = self.pool.get("hr.department").create(cr, uid, data, context=None)
-                                          # update odoo id
-                                          newDepartment = weladee_pb2.DepartmentOdoo()
-                                          newDepartment.odoo.odoo_id = odoo_id_department
+                  if dept:
+                      if dept.department:
+                          if dept.department.name_english:
+                              departmentName = dept.department.name_english
+                              sDepartment.append( departmentName )
+                              chk_did = self.pool.get('hr.department').search(cr, uid, [('name','=',departmentName)])
+                              if not chk_did :
+                                  data = {"name" : departmentName
+                                  }
+                                  odoo_id_department = self.pool.get("hr.department").create(cr, uid, data, context=None)
+                                  # update odoo id
+                                  updateDepartment = weladee_pb2.DepartmentOdoo()
+                                  updateDepartment.odoo.odoo_id = odoo_id_department
+                                  updateDepartment.odoo.odoo_created_on = int(time.time())
+                                  updateDepartment.odoo.odoo_synced_on = int(time.time())
 
-                                          newDepartment.department.id = dept.department.id
-                                          newDepartment.department.name_english = ( dept.department.name_english or "" )
-                                          newDepartment.department.name_thai = ( dept.department.name_thai or "" )
-                                          if dept.department.managerid :
-                                            newDepartment.department.managerid = dept.department.managerid
-                                          newDepartment.department.active = ( dept.department.active or False )
-                                          newDepartment.department.code = ( dept.department.code or "" )
-                                          newDepartment.department.note = ( dept.department.note or "" )
-                                          try :
-                                              result = stub.AddDepartment(newDepartment, metadata=authorization)
-                                              print ("Update odoo department id to Weladee : %s" % result.id)
-                                          except Exception as e:
-                                              print("Update odoo department id",e)
+                                  updateDepartment.department.id = dept.department.id
+                                  updateDepartment.department.name_english = ( dept.department.name_english or "" )
+                                  updateDepartment.department.name_thai = ( dept.department.name_thai or "" )
+                                  if dept.department.managerid :
+                                      updateDepartment.department.managerid = dept.department.managerid
+                                  updateDepartment.department.active = ( dept.department.active or False )
+                                  updateDepartment.department.code = ( dept.department.code or "" )
+                                  updateDepartment.department.note = ( dept.department.note or "" )
+                                  print( updateDepartment )
+                                  try :
+                                      result = stub.UpdateDepartment(updateDepartment, metadata=authorization)
+                                      print ("Update odoo department id to Weladee : %s" % result.id)
+                                  except Exception as e:
+                                      print("Update odoo department id",e)
 
 
               # sync data from odoo to Weladee
-              department_line_obj = self.pool.get('hr.department')
-              department_line_ids = department_line_obj.search(cr, uid, [])
-              for deptId in department_line_ids:
-                  deptData = department_line_obj.browse(cr, uid,deptId ,context=context)
-                  if deptData.name:
-                      if not deptData.name in sDepartment:
-                          print( "%s don't have on Weladee" % deptData.name )
-                          newDepartment = weladee_pb2.DepartmentOdoo()
-                          newDepartment.odoo.odoo_id = deptData.id
-                          newDepartment.department.name_english = deptData.name
-                          print(newDepartment)
-                          try:
-                              result = stub.AddDepartment(newDepartment, metadata=authorization)
-                              print ("Weladee department id : %s" % result.id)
-                          except Exception as e:
-                              print("Add department failed",e)
+              if False :
+                  department_line_obj = self.pool.get('hr.department')
+                  department_line_ids = department_line_obj.search(cr, uid, [])
+                  for deptId in department_line_ids:
+                      deptData = department_line_obj.browse(cr, uid,deptId ,context=context)
+                      if deptData.name:
+                          if not deptData.name in sDepartment:
+                              print( "%s don't have on Weladee" % deptData.name )
+                              newDepartment = weladee_pb2.DepartmentOdoo()
+                              newDepartment.odoo.odoo_id = deptData.id
+                              newDepartment.department.name_english = deptData.name
+                              print(newDepartment)
+                              try:
+                                  result = stub.AddDepartment(newDepartment, metadata=authorization)
+                                  print ("Weladee department id : %s" % result.id)
+                              except Exception as e:
+                                  print("Add department failed",e)
 
 
           # List of employees
@@ -220,8 +213,8 @@ class weladee_attendance(osv.osv):
               sEmployees = {}
               for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
                   if emp :
-                      if emp.odoo :
-                          if not emp.odoo.odoo_id :
+                      #if emp.odoo :
+                          #if not emp.odoo.odoo_id :
                               if emp.employee:
                                   if emp.employee.ID:
                                     sEmployees[ str(emp.employee.ID) ] = emp.employee
