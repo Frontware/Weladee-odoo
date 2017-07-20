@@ -188,6 +188,16 @@ class OdooStub(object):
         request_serializer=weladee__pb2.LogEventOdooSync.SerializeToString,
         response_deserializer=weladee__pb2.Empty.FromString,
         )
+    self.GetPositions = channel.unary_stream(
+        '/grpc.weladee.com.Odoo/GetPositions',
+        request_serializer=weladee__pb2.Empty.SerializeToString,
+        response_deserializer=weladee__pb2.PositionOdoo.FromString,
+        )
+    self.AddPosition = channel.unary_unary(
+        '/grpc.weladee.com.Odoo/AddPosition',
+        request_serializer=weladee__pb2.PositionOdoo.SerializeToString,
+        response_deserializer=weladee__pb2.AddResult.FromString,
+        )
 
 
 class OdooServicer(object):
@@ -305,6 +315,21 @@ class OdooServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def GetPositions(self, request, context):
+    """/ Position
+    / return a stream of positions. Called "job title" in odoo
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def AddPosition(self, request, context):
+    """/ Add position, get the id as return.
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_OdooServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -382,6 +407,16 @@ def add_OdooServicer_to_server(servicer, server):
           servicer.SyncAttendance,
           request_deserializer=weladee__pb2.LogEventOdooSync.FromString,
           response_serializer=weladee__pb2.Empty.SerializeToString,
+      ),
+      'GetPositions': grpc.unary_stream_rpc_method_handler(
+          servicer.GetPositions,
+          request_deserializer=weladee__pb2.Empty.FromString,
+          response_serializer=weladee__pb2.PositionOdoo.SerializeToString,
+      ),
+      'AddPosition': grpc.unary_unary_rpc_method_handler(
+          servicer.AddPosition,
+          request_deserializer=weladee__pb2.PositionOdoo.FromString,
+          response_serializer=weladee__pb2.AddResult.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(

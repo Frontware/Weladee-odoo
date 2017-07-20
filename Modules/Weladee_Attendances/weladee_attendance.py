@@ -108,32 +108,52 @@ class weladee_attendance(osv.osv):
 
           #List all position
           odooPositions = {}
+          weladeePositions = []
 
           print("Positions")
-          if False :
+          if True :
               position_line_obj = self.pool.get('hr.job')
               position_line_ids = position_line_obj.search(cr, uid, [])
               for posId in position_line_ids:
                   positionData = position_line_obj.browse(cr, uid,posId ,context=context)
-                  if positionData.id :
-                      odooPositions[ positionData.id ] = positionData.name
+                  if positionData.name :
+                      odooPositions[ positionData.name ] = positionData.id
 
               for position in stub.GetPositions(myrequest, metadata=authorization):
-                  if not position is None :
-                      if not position.odoo :
-                          if "position" in position :
-                              if "name_english" in position["position"] :
-                                  positionName = position["position"]["name_english"]
-                                  chk_position = self.pool.get('hr.job').search(cr, uid, [('name','=',positionName)])
-                                  if not chk_position :
-                                      data = {"name" : positionName,
-                                              "no_of_recruitment" : 1}
-                                      positionId = self.pool.get("hr.job").create(cr, uid, data, context=None)
-                                      #####
-                                      # wait code for update odoo id
-                                      #####
-                                  else :
-                                      print( chk_position )
+                  if position :
+                      if position.position.name_english :
+                          weladeePositions.append( position.position.name_english )
+                          if not position.position.name_english in odooPositions :
+                              positionName = position.position.name_english
+                              chk_position = self.pool.get('hr.job').search(cr, uid, [('name','=',positionName)])
+                              if not chk_position :
+                                  data = {"name" : positionName,
+                                          "no_of_recruitment" : 1}
+                                  odoo_id_position = self.pool.get("hr.job").create(cr, uid, data, context=None)
+                                  odooPositions[ positionName ] = odoo_id_position
+
+              for pName in odooPositions:
+                  if not pName in weladeePositions :
+                      newPosition = weladee_pb2.PositionOdoo()
+                      newPosition.odoo.odoo_id = odooPositions[pName]
+                      newPosition.odoo.odoo_created_on = int(time.time())
+                      newPosition.odoo.odoo_synced_on = int(time.time())
+
+                      newPosition.position.name_english = pName
+                      newPosition.position.active = True
+
+                      print(newPosition)
+                      try:
+                          result = stub.AddPosition(newPosition, metadata=authorization)
+                          print ("Add position : %s" % pName)
+                      except Exception as e:
+                          print("Add position failed",e)
+
+
+
+
+
+
 
 
 
@@ -196,7 +216,7 @@ class weladee_attendance(osv.osv):
 
           # List of employees
           print("Employees")
-          if True :
+          if False :
               sEmployees = {}
               for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
                   if emp :
