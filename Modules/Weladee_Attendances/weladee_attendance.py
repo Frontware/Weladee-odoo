@@ -26,6 +26,7 @@ import weladee_pb2
 import weladee_pb2_grpc
 import base64
 import requests
+import time
 
 certificate = """-----BEGIN CERTIFICATE-----
 MIIEkjCCA3qgAwIBAgIQCgFBQgAAAVOFc2oLheynCDANBgkqhkiG9w0BAQsFADA/
@@ -105,111 +106,180 @@ class weladee_attendance(osv.osv):
 
           stub = weladee_pb2_grpc.OdooStub(channel)
 
+          #List all position
+          odooPositions = {}
+
+          print("Positions")
+          if False :
+              position_line_obj = self.pool.get('hr.job')
+              position_line_ids = position_line_obj.search(cr, uid, [])
+              for posId in position_line_ids:
+                  positionData = position_line_obj.browse(cr, uid,posId ,context=context)
+                  if positionData.id :
+                      odooPositions[ positionData.id ] = positionData.name
+
+              for position in stub.GetDepartments(myrequest, metadata=authorization):
+                  if not position is None :
+                      if not "odoo" in position :
+                          if "position" in position :
+                              if "name_english" in position["position"] :
+                                  positionName = position["position"]["name_english"]
+                                  chk_position = self.pool.get('hr.job').search(cr, uid, [('name','=',positionName)])
+                                  if not chk_position :
+                                      data = {"name" : positionName,
+                                              "no_of_recruitment" : 1}
+                                      positionId = self.pool.get("hr.job").create(cr, uid, data, context=None)
+                                      #####
+                                      # wait code for update odoo id
+                                      #####
+                                  else :
+                                      print( chk_position )
+
+
+
+
           # List all departments
           sDepartment = []
           print("Departments")
-          for dept in stub.GetDepartments(myrequest, metadata=authorization):
-              if not dept is None:
-                  if not dept.department is None:
-                      if not dept.department.name_english is None:
-                          chk_did = self.pool.get('hr.department').search(cr, uid, [('name','=',dept.department.name_english)])
-                          if not chk_did :
-                              data = {"name" : dept.department.name_english
-                              }
-                              did = self.pool.get("hr.department").create(cr, uid, data, context=None)
-                              print("odoo department id : %s" % did)
-                          sDepartment.append( dept.department.name_english )
+          if False :
+              # sync data from Weladee to odoo if odoo don't haave that data
+              for dept in stub.GetDepartments(myrequest, metadata=authorization):
+                  if not dept is None:
+                      if not dept.odoo is None:
+                          if dept.odoo.odoo_id is None:
+                              if not dept.department is None:
+                                  if not dept.department.name_english is None:
+                                      departmentName = dept.department.name_english
+                                      sDepartment.append( departmentName )
+                                      chk_did = self.pool.get('hr.department').search(cr, uid, [('name','=',departmentName)])
+                                      if not chk_did :
+                                          data = {"name" : departmentName
+                                          }
+                                          odoo_id_department = self.pool.get("hr.department").create(cr, uid, data, context=None)
+                                          # update odoo id
+                                          newDepartment = weladee_pb2.DepartmentOdoo()
+                                          newDepartment.odoo.odoo_id = odoo_id_department
 
-          department_line_obj = self.pool.get('hr.department')
-          department_line_ids = department_line_obj.search(cr, uid, [])
-          for deptId in department_line_ids:
-              deptData = department_line_obj.browse(cr, uid,deptId ,context=context)
-              if deptData.name:
-                  if not deptData.name in sDepartment:
-                      print( "%s don't have on site" % deptData.name )
-                      newDepartment = weladee_pb2.DepartmentOdoo()
-                      newDepartment.odoo.odoo_id = deptData.id
-                      newDepartment.department.name_english = deptData.name
-                      print(newDepartment)
-                      try:
-                          result = stub.AddDepartment(newDepartment, metadata=authorization)
-                          print ("Weladee department id : %s" % result.id)
-                      except Exception as e:
-                          print("Add department failed",e)
+                                          newDepartment.department.id = dept.department.id
+                                          newDepartment.department.name_english = ( dept.department.name_english or "" )
+                                          newDepartment.department.name_thai = ( dept.department.name_thai or "" )
+                                          if dept.department.managerid :
+                                            newDepartment.department.managerid = dept.department.managerid
+                                          newDepartment.department.active = ( dept.department.active or False )
+                                          newDepartment.department.code = ( dept.department.code or "" )
+                                          newDepartment.department.note = ( dept.department.note or "" )
+                                          try :
+                                              result = stub.AddDepartment(newDepartment, metadata=authorization)
+                                              print ("Update odoo department id to Weladee : %s" % result.id)
+                                          except Exception as e:
+                                              print("Update odoo department id",e)
 
+
+              # sync data from odoo to Weladee
+              department_line_obj = self.pool.get('hr.department')
+              department_line_ids = department_line_obj.search(cr, uid, [])
+              for deptId in department_line_ids:
+                  deptData = department_line_obj.browse(cr, uid,deptId ,context=context)
+                  if deptData.name:
+                      if not deptData.name in sDepartment:
+                          print( "%s don't have on Weladee" % deptData.name )
+                          newDepartment = weladee_pb2.DepartmentOdoo()
+                          newDepartment.odoo.odoo_id = deptData.id
+                          newDepartment.department.name_english = deptData.name
+                          print(newDepartment)
+                          try:
+                              result = stub.AddDepartment(newDepartment, metadata=authorization)
+                              print ("Weladee department id : %s" % result.id)
+                          except Exception as e:
+                              print("Add department failed",e)
 
 
           # List of employees
           print("Employees")
-          sEmployees = {}
-          for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
-              if not emp is None:
-                  if not emp.employee is None:
-                      if not emp.employee.ID is None:
-                        chk_id = self.pool.get('hr.employee').search(cr, uid, [('identification_id','=',emp.employee.ID)])
-                        if not chk_id:
-                            photoBase64 = ''
-                            if emp.employee.photo:
-                                print("photo url : %s" % emp.employee.photo)
-                                photoBase64 = base64.b64encode(requests.get(emp.employee.photo).content)
-                            data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
-                                    ,"identification_id" :emp.employee.ID
-                                    ,"notes": ( emp.employee.note or "" )
-                                    ,"work_email":( emp.employee.email or "" )
-                                  }
-                            if photoBase64:
-                                data["image"] = photoBase64
-                            oid = self.pool.get("hr.employee").create(cr, uid, data, context=None)
-                            print("odoo id : %s" % oid)
-                        sEmployees[ str(emp.employee.ID) ] = emp.employee
+          if True :
+              sEmployees = {}
+              for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
+                  if emp :
+                      if emp.odoo :
+                          if not emp.odoo.odoo_id :
+                              if emp.employee:
+                                  if emp.employee.ID:
+                                    sEmployees[ str(emp.employee.ID) ] = emp.employee
+                                    chk_id = self.pool.get('hr.employee').search(cr, uid, [('identification_id','=',emp.employee.ID)])
+                                    if not chk_id:
+                                        photoBase64 = ''
+                                        if emp.employee.photo:
+                                            print("photo url : %s" % emp.employee.photo)
+                                            photoBase64 = base64.b64encode(requests.get(emp.employee.photo).content)
+                                        data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
+                                                ,"identification_id" :emp.employee.ID
+                                                ,"notes": ( emp.employee.note or "" )
+                                                ,"work_email":( emp.employee.email or "" )
+                                              }
+                                        if photoBase64:
+                                            data["image"] = photoBase64
+                                        odoo_employeeId = self.pool.get("hr.employee").create(cr, uid, data, context=None)
 
-          employee_line_obj = self.pool.get('hr.employee')
-          employee_line_ids = employee_line_obj.search(cr, uid, [])
-          for empId in employee_line_ids:
-              emp = employee_line_obj.browse(cr, uid,empId ,context=context)
-              if emp.identification_id:
-                  if not str( emp.identification_id ) in sEmployees :
-                      print("Add new employee %s with odoo id %s" % (emp.name, emp.id))
-                      newEmployee = weladee_pb2.EmployeeOdoo()
-                      newEmployee.odoo.odoo_id = emp.id
-                      newEmployee.employee.first_name_english = (emp.name).split(" ")[0]
-                      newEmployee.employee.last_name_english = (emp.name).split(" ")[1]
-                      newEmployee.employee.email = emp.work_email
-                      newEmployee.employee.note = emp.notes
-                      newEmployee.employee.lg = "en"
-                      newEmployee.employee.active = False
-                      print(newEmployee)
-                      try:
-                        result = stub.AddEmployee(newEmployee, metadata=authorization)
-                        print ("Weladee id : %s" % result.id)
-                      except Exception as e:
-                        print("Add employee failed",e)
+                                        newEmployee = weladee_pb2.EmployeeOdoo()
+                                        newEmployee.odoo.odoo_id = odoo_employeeId
+                                        newEmployee.odoo.odoo_created_on = int(time.time())
+                                        newEmployee.odoo.odoo_synced_on = int(time.time())
+                                        print( newEmployee )
+                                        try:
+                                            result = stub.AddEmployee(newEmployee, metadata=authorization)
+                                            print ("Update odoo employee id : %s" % result.id)
+                                        except Exception as e:
+                                            print("Update odoo employee id",e)
+
+
+              employee_line_obj = self.pool.get('hr.employee')
+              employee_line_ids = employee_line_obj.search(cr, uid, [])
+              for empId in employee_line_ids:
+                  emp = employee_line_obj.browse(cr, uid,empId ,context=context)
+                  if emp.identification_id:
+                      if not str( emp.identification_id ) in sEmployees :
+                          print("Add new employee %s with odoo id %s" % (emp.name, emp.id))
+                          newEmployee = weladee_pb2.EmployeeOdoo()
+                          newEmployee.odoo.odoo_id = emp.id
+                          newEmployee.employee.first_name_english = (emp.name).split(" ")[0]
+                          newEmployee.employee.last_name_english = (emp.name).split(" ")[1]
+                          newEmployee.employee.email = emp.work_email
+                          newEmployee.employee.note = emp.notes
+                          newEmployee.employee.lg = "en"
+                          newEmployee.employee.active = False
+                          print(newEmployee)
+                          try:
+                            result = stub.AddEmployee(newEmployee, metadata=authorization)
+                            print ("Weladee id : %s" % result.id)
+                          except Exception as e:
+                            print("Add employee failed",e)
 
 
           # List of Holiday
           print("Holiday")
-          sHoliday = []
-          for hol in stub.GetHolidays(weladee_pb2.Empty(), metadata=authorization):
-              print(hol)
-              if not hol is None:
-                  if not hol.Holiday is None:
-                      if not hol.Holiday.name_english is None:
-                          chk_date = self.pool.get('hr.holidays').search(cr, uid, [('name','=',hol.Holiday.name_english), ('date_from','=',hol.Holiday.date)])
-                          if not chk_date:
-                              data = { "name" : hol.Holiday.name_english
-                                  ,"date_from" : hol.Holiday.date
-                                  ,"date_to"   :  hol.Holiday.date
-                                       }
-                              dateid = self.pool.get("hr.holidays").create(cr, uid, data, context=None)
-                              print("odoo id : %s" % dateid)
-                          sHoliday.append( str(hol.Holiday.name_english) )
+          if False :
+              sHoliday = []
+              for hol in stub.GetHolidays(weladee_pb2.Empty(), metadata=authorization):
+                  print(hol)
+                  if not hol is None:
+                      if not hol.Holiday is None:
+                          if not hol.Holiday.name_english is None:
+                              chk_date = self.pool.get('hr.holidays').search(cr, uid, [('name','=',hol.Holiday.name_english), ('date_from','=',hol.Holiday.date)])
+                              if not chk_date:
+                                  data = { "name" : hol.Holiday.name_english
+                                      ,"date_from" : hol.Holiday.date
+                                      ,"date_to"   :  hol.Holiday.date
+                                           }
+                                  dateid = self.pool.get("hr.holidays").create(cr, uid, data, context=None)
+                                  print("odoo id : %s" % dateid)
+                              sHoliday.append( str(hol.Holiday.name_english) )
 
-          holiday_line_obj = self.pool.get('hr.holidays')
-          holiday_line_ids = holiday_line_obj.search(cr, uid, [])
-          for holydayId in holiday_line_ids:
-              holy = holiday_line_obj.browse(cr, uid,holydayId ,context=context)
-              if holy.date_from:
-                  print(holy.date_from)
+              holiday_line_obj = self.pool.get('hr.holidays')
+              holiday_line_ids = holiday_line_obj.search(cr, uid, [])
+              for holydayId in holiday_line_ids:
+                  holy = holiday_line_obj.browse(cr, uid,holydayId ,context=context)
+                  if holy.date_from:
+                      print(holy.date_from)
 
 
 
