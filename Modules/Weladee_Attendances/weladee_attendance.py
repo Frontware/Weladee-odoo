@@ -209,7 +209,7 @@ class weladee_attendance(osv.osv):
 
           # List of employees
           print("Employees")
-          if False :
+          if True :
               sEmployees = {}
               for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
                   if emp :
@@ -278,10 +278,6 @@ class weladee_attendance(osv.osv):
                                                 newEmployee.employee.active = emp.employee.active
                                             if emp.employee.note :
                                                 newEmployee.employee.note = emp.employee.note
-                                            if emp.employee.created_on :
-                                                newEmployee.employee.created_on = emp.employee.created_on
-                                            if emp.employee.updated_on :
-                                                newEmployee.employee.updated_on = emp.employee.updated_on
                                             if emp.employee.photo :
                                                 newEmployee.employee.photo = emp.employee.photo
                                             if emp.employee.lg :
@@ -305,28 +301,28 @@ class weladee_attendance(osv.osv):
                                             except Exception as e:
                                                 print("Update odoo employee id",e)
 
-
-              employee_line_obj = self.pool.get('hr.employee')
-              employee_line_ids = employee_line_obj.search(cr, uid, [])
-              for empId in employee_line_ids:
-                  emp = employee_line_obj.browse(cr, uid,empId ,context=context)
-                  if emp.identification_id:
-                      if not str( emp.identification_id ) in sEmployees :
-                          print("Add new employee %s with odoo id %s" % (emp.name, emp.id))
-                          newEmployee = weladee_pb2.EmployeeOdoo()
-                          newEmployee.odoo.odoo_id = emp.id
-                          newEmployee.employee.first_name_english = (emp.name).split(" ")[0]
-                          newEmployee.employee.last_name_english = (emp.name).split(" ")[1]
-                          newEmployee.employee.email = emp.work_email
-                          newEmployee.employee.note = emp.notes
-                          newEmployee.employee.lg = "en"
-                          newEmployee.employee.active = False
-                          print(newEmployee)
-                          try:
-                            result = stub.AddEmployee(newEmployee, metadata=authorization)
-                            print ("Weladee id : %s" % result.id)
-                          except Exception as e:
-                            print("Add employee failed",e)
+              if False :
+                  employee_line_obj = self.pool.get('hr.employee')
+                  employee_line_ids = employee_line_obj.search(cr, uid, [])
+                  for empId in employee_line_ids:
+                      emp = employee_line_obj.browse(cr, uid,empId ,context=context)
+                      if emp.identification_id:
+                          if not str( emp.identification_id ) in sEmployees :
+                              print("Add new employee %s with odoo id %s" % (emp.name, emp.id))
+                              newEmployee = weladee_pb2.EmployeeOdoo()
+                              newEmployee.odoo.odoo_id = emp.id
+                              newEmployee.employee.first_name_english = (emp.name).split(" ")[0]
+                              newEmployee.employee.last_name_english = (emp.name).split(" ")[1]
+                              newEmployee.employee.email = emp.work_email
+                              newEmployee.employee.note = emp.notes
+                              newEmployee.employee.lg = "en"
+                              newEmployee.employee.active = False
+                              print(newEmployee)
+                              try:
+                                result = stub.AddEmployee(newEmployee, metadata=authorization)
+                                print ("Weladee id : %s" % result.id)
+                              except Exception as e:
+                                print("Add employee failed",e)
 
 
           # List of Holiday
