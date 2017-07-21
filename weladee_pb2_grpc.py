@@ -59,14 +59,19 @@ class MobileServicer(object):
     raise NotImplementedError('Method not implemented!')
 
   def GetHolidays(self, request, context):
-    """/ Stream of active holidays 1 employee including company holidays
+    """/ Stream of active holidays of an employee including company holidays
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def GetLogEvent(self, request, context):
-    """/ Realtime event when employee check in/out. Get a stream for each in/out in the company depending on token or authorization. It can be limited to an employee, a team or entire company
+    """*
+    Realtime event when employee check in/out.
+    Get a stream for each in/out in the company depending on token or authorization.
+    It can be limited to an employee, a team or entire company.
+    The header contains "employees": an array of all employeeid who are IN at the moment the request was done.
+    Header example : "employees":["6762","451","152"]
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
