@@ -1707,7 +1707,13 @@ try:
       raise NotImplementedError('Method not implemented!')
 
     def UpdateEmployee(self, request, context):
-      """/ raise error if fails
+      """*
+      // updates the Employee from odoo in the database.
+      // Only few fields can be updated:
+      // phones, first_name_english, last_name_english, email, nickname_english,
+      // last_name_thai, active,  code, first_name_thai, nickname_thai
+      // positionid, photo.
+      // raise error if fails
       """
       context.set_code(grpc.StatusCode.UNIMPLEMENTED)
       context.set_details('Method not implemented!')
@@ -2055,7 +2061,13 @@ try:
       """
       context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
     def UpdateEmployee(self, request, context):
-      """/ raise error if fails
+      """*
+      // updates the Employee from odoo in the database.
+      // Only few fields can be updated:
+      // phones, first_name_english, last_name_english, email, nickname_english,
+      // last_name_thai, active,  code, first_name_thai, nickname_thai
+      // positionid, photo.
+      // raise error if fails
       """
       context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
     def GetEmployees(self, request, context):
@@ -2141,7 +2153,13 @@ try:
       raise NotImplementedError()
     GetEmployee.future = None
     def UpdateEmployee(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      """/ raise error if fails
+      """*
+      // updates the Employee from odoo in the database.
+      // Only few fields can be updated:
+      // phones, first_name_english, last_name_english, email, nickname_english,
+      // last_name_thai, active,  code, first_name_thai, nickname_thai
+      // positionid, photo.
+      // raise error if fails
       """
       raise NotImplementedError()
     UpdateEmployee.future = None
