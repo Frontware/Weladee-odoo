@@ -37,7 +37,7 @@ The communication between Odoo & Weladee is encrypted with SSL3 and TLS 1.3 cert
 
 Sample calls:
 
-![uml](https://goo.gl/37LBQS)
+![uml](https://goo.gl/AFpwfs)
 
 
 ### API Key
