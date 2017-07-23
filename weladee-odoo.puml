@@ -30,12 +30,11 @@ alt successfull
     note right Odoo
         **Odoo** can take action as soon the 1st stream is received.
         Streaming with http2 is a very big advantage,
-        it reduce a lot the latency between client and server
+        it reduces a lot latency between client and server
     end note
     Odoo -> Weladee: Add a holiday
     Odoo <- Weladee: Returns the holiday id for weladee
-
-
+end
 footer
 
 2017 Frontware International ... www.weladee.com
