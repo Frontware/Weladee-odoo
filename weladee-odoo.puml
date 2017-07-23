@@ -2,7 +2,7 @@
 
 @startuml
 
-title Sequence Diagram - Samples Cases\n
+title Weladee/Odoo Sequence Diagram - Samples Cases\n
 
 note right Odoo
     All communication is encrypted
