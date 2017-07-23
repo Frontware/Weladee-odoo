@@ -8,7 +8,7 @@
 
 Weladee is a "In The Cloud" service to manage employee attendance.
 It's developed to be **simple**, **fast** and **cheap** to use for any small company (or even big ones).
-The primary market of this service is **Thailand** for now (2017).
+The primary market of this service is **Thailand** for now (2017). We hope to make it available to other countries later.
 
 Take a look: https://www.weladee.com
 
@@ -49,6 +49,8 @@ Weladee is free to subscribe with 3 months trial period or even 100% free for co
 
 
 ## Sample Code for gRPC API
+
+It's ready for Odoo 11. gRPC code is compatible python 2 & 3.
 
 ### Connect to server
 
@@ -97,7 +99,7 @@ This code retrieve the list of departments and add a holiday to Weladee.
     except Exception as e:
         print("Add holiday failed",e)
 ```
-### Get all log from Weladee not yet sync with Odoo
+### Get all logs from Weladee not yet sync with Odoo
 
 Simple code parsing a stream of log events that need to be synchronized with Odoo.
 
@@ -112,4 +114,4 @@ Simple code parsing a stream of log events that need to be synchronized with Odo
       
 
 --------------------------------------------------------------
-(c) 2017 [Frontware International](https://www.frontware.co.th)
+(c) 2017 [Frontware International Co,Ltd.](https://www.frontware.co.th)
