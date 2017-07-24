@@ -117,27 +117,27 @@ class weladee_attendance(osv.osv):
                           weladeePositions[ position.position.name_english ] = position.position.id
 
 
-                  position_line_obj = self.pool.get('hr.job')
-                  position_line_ids = position_line_obj.search(cr, uid, [])
-                  for posId in position_line_ids:
-                      positionData = position_line_obj.browse(cr, uid,posId, context=context)
-                      if positionData.name :
-                          if not positionData.name in weladeePositions :
-                              newPosition = weladee_pb2.PositionOdoo()
-                              newPosition.odoo.odoo_id = positionData.id
-                              newPosition.odoo.odoo_created_on = int(time.time())
-                              newPosition.odoo.odoo_synced_on = int(time.time())
+              position_line_obj = self.pool.get('hr.job')
+              position_line_ids = position_line_obj.search(cr, uid, [])
+              for posId in position_line_ids:
+                  positionData = position_line_obj.browse(cr, uid,posId, context=context)
+                  if positionData.name :
+                      if not positionData.name in weladeePositions :
+                          newPosition = weladee_pb2.PositionOdoo()
+                          newPosition.odoo.odoo_id = positionData.id
+                          newPosition.odoo.odoo_created_on = int(time.time())
+                          newPosition.odoo.odoo_synced_on = int(time.time())
 
-                              newPosition.position.name_english = positionData.name
-                              newPosition.position.active = True
+                          newPosition.position.name_english = positionData.name
+                          newPosition.position.active = True
 
-                              print(newPosition)
-                              try:
-                                  result = stub.AddPosition(newPosition, metadata=authorization)
-                                  weladeePositions[positionData.name ] = result
-                                  print ("Add position : %s" % positionData.name)
-                              except Exception as e:
-                                  print("Add position failed",e)
+                          print(newPosition)
+                          try:
+                              result = stub.AddPosition(newPosition, metadata=authorization)
+                              weladeePositions[positionData.name ] = result
+                              print ("Add position : %s" % positionData.name)
+                          except Exception as e:
+                              print("Add position failed",e)
 
 
           # List all departments
