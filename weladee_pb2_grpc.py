@@ -221,12 +221,12 @@ class OdooServicer(object):
 
   def UpdateEmployee(self, request, context):
     """*
-    // updates the Employee from odoo in the database.
-    // Only few fields can be updated:
-    // phones, first_name_english, last_name_english, email, nickname_english,
-    // last_name_thai, active,  code, first_name_thai, nickname_thai
-    // positionid, photo.
-    // raise error if fails
+    updates the Employee from odoo in the database.
+    Only few fields can be updated:
+    phones, first_name_english, last_name_english, email, nickname_english,
+    last_name_thai, active, code, first_name_thai, nickname_thai
+    positionid, photo.
+    Raise error if fails
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
