@@ -108,6 +108,7 @@ class weladee_attendance(osv.osv):
 
           #List all position
           weladeePositions = {}
+          odooPositions = {}
 
           print("Positions")
           if True :
@@ -115,6 +116,11 @@ class weladee_attendance(osv.osv):
                   if position :
                       if position.position.name_english :
                           weladeePositions[ position.position.name_english ] = position.position.id
+                          chk_position = self.pool.get('hr.job').search(cr, uid, [('name','=',position.position.name_english)])
+                          if not chk_position :
+                              data = {"name" : position.position.name_english,
+                                      "no_of_recruitment" : 1}
+                              odoo_id_position = self.pool.get("hr.job").create(cr, uid, data, context=None)
 
 
               position_line_obj = self.pool.get('hr.job')
@@ -122,6 +128,7 @@ class weladee_attendance(osv.osv):
               for posId in position_line_ids:
                   positionData = position_line_obj.browse(cr, uid,posId, context=context)
                   if positionData.name :
+                      odooPositions[ positionData.name ] = positionData.id
                       if not positionData.name in weladeePositions :
                           newPosition = weladee_pb2.PositionOdoo()
                           newPosition.odoo.odoo_id = positionData.id
@@ -143,7 +150,7 @@ class weladee_attendance(osv.osv):
           # List all departments
           sDepartment = []
           print("Departments")
-          if False :
+          if True :
               # sync data from Weladee to odoo if department don't have odoo id
               for dept in stub.GetDepartments(myrequest, metadata=authorization):
                   if dept:
@@ -183,7 +190,7 @@ class weladee_attendance(osv.osv):
                               sDepartment.append( dept.odoo.odoo_id )
 
               # sync data from odoo to Weladee
-              if False :
+              if True :
                   department_line_obj = self.pool.get('hr.department')
                   department_line_ids = department_line_obj.search(cr, uid, [])
                   for deptId in department_line_ids:
@@ -205,11 +212,12 @@ class weladee_attendance(osv.osv):
 
           # List of employees
           print("Employees")
-          if False :
+          if True :
               sEmployees = {}
               odooIdEmps = []
               for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
                   if emp :
+                      print("------------------------------")
                       if emp.odoo :
                           if not emp.odoo.odoo_id :
                               if emp.employee:
@@ -296,11 +304,11 @@ class weladee_attendance(osv.osv):
                                             result = stub.UpdateEmployee(newEmployee, metadata=authorization)
                                             print ("Update odoo employee id : %s" % result.id)
                                         except Exception as e:
-                                            print("Update odoo employee id",e)
+                                            print("Update odoo employee id is failed",e)
                           else :
                               odooIdEmps.append( emp.odoo.odoo_id )
 
-              if False :
+              if True :
                   employee_line_obj = self.pool.get('hr.employee')
                   employee_line_ids = employee_line_obj.search(cr, uid, [])
                   for empId in employee_line_ids:
