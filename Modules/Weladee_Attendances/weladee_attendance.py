@@ -109,6 +109,7 @@ class weladee_attendance(osv.osv):
           #List all position
           weladeePositions = {}
           odooPositions = {}
+          weladeePositionName = {}
 
           print("Positions")
           if True :
@@ -116,6 +117,7 @@ class weladee_attendance(osv.osv):
                   if position :
                       if position.position.name_english :
                           weladeePositions[ position.position.name_english ] = position.position.id
+                          weladeePositionName[ position.position.id ] = position.position.name_english
                           chk_position = self.pool.get('hr.job').search(cr, uid, [('name','=',position.position.name_english)])
                           if not chk_position :
                               data = {"name" : position.position.name_english,
@@ -141,7 +143,8 @@ class weladee_attendance(osv.osv):
                           print(newPosition)
                           try:
                               result = stub.AddPosition(newPosition, metadata=authorization)
-                              weladeePositions[positionData.name ] = result
+                              weladeePositions[ positionData.name ] = result
+                              weladeePositionName[ result ] = positionData.name
                               print( result  )
                               print ("Add position : %s" % positionData.name)
                           except Exception as e:
@@ -233,6 +236,11 @@ class weladee_attendance(osv.osv):
                                             ,"notes": ( emp.employee.note or "" )
                                             ,"work_email":( emp.employee.email or "" )
                                           }
+                                    if emp.employee.positionid :
+                                        if weladeePositionName[ emp.employee.positionid ] :
+                                            posName = weladeePositionName[ emp.employee.positionid ]
+                                            if odooPositions[ posName ] :
+                                                data[ "job_id" ] = odooPositions[ posName ]
                                     if photoBase64:
                                         data["image"] = photoBase64
                                     odoo_employeeId = self.pool.get("hr.employee").create(cr, uid, data, context=None)
