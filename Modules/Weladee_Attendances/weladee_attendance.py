@@ -309,7 +309,7 @@ class weladee_attendance(osv.osv):
                           else :
                               odooIdEmps.append( emp.odoo.odoo_id )
 
-              if False :
+              if True :
                   employee_line_obj = self.pool.get('hr.employee')
                   employee_line_ids = employee_line_obj.search(cr, uid, [])
                   for empId in employee_line_ids:
