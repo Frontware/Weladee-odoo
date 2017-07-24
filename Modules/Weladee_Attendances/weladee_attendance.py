@@ -142,6 +142,7 @@ class weladee_attendance(osv.osv):
                           try:
                               result = stub.AddPosition(newPosition, metadata=authorization)
                               weladeePositions[positionData.name ] = result
+                              print( result  )
                               print ("Add position : %s" % positionData.name)
                           except Exception as e:
                               print("Add position failed",e)
@@ -308,12 +309,17 @@ class weladee_attendance(osv.osv):
                           else :
                               odooIdEmps.append( emp.odoo.odoo_id )
 
-              if True :
+              if False :
                   employee_line_obj = self.pool.get('hr.employee')
                   employee_line_ids = employee_line_obj.search(cr, uid, [])
                   for empId in employee_line_ids:
                       emp = employee_line_obj.browse(cr, uid,empId ,context=context)
                       if emp.id:
+                          pos = False
+                          if emp.job_id :
+                              if emp.job_id.name :
+                                  pos = emp.job_id.name
+                                  print( "Position Name : %s" % pos )
                           if not emp.id in odooIdEmps :
                               print("Add new employee %s with odoo id %s" % (emp.name, emp.id))
                               newEmployee = weladee_pb2.EmployeeOdoo()
@@ -324,6 +330,9 @@ class weladee_attendance(osv.osv):
                               newEmployee.employee.note = emp.notes
                               newEmployee.employee.lg = "en"
                               newEmployee.employee.active = False
+                              if pos :
+                                  if weladeePositions[ pos ] :
+                                      newEmployee.employee.positionid = weladeePositions[ pos ]
                               print(newEmployee)
                               try:
                                 result = stub.AddEmployee(newEmployee, metadata=authorization)
