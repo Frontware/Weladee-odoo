@@ -105,26 +105,28 @@ class weladee_employee(osv.osv):
     newEmployee.odoo.odoo_id = eid
     newEmployee.employee.first_name_english = ( vals["name"] ).split(" ")[0]
     newEmployee.employee.last_name_english = ( vals["name"] ).split(" ")[1]
-    newEmployee.employee.email = vals["work_email"]
-    newEmployee.employee.note = vals["notes"]
-    newEmployee.employee.lg = "en"
-    newEmployee.employee.active = False
-    if vals["job_id"] :
-      chk_position = self.pool.get('hr.job').search(cr, uid, [('id','=',vals["job_id"])])
-      position_line_obj = self.pool.get('hr.job')
-      for posId in chk_position:
-        positionData = position_line_obj.browse(cr, uid,posId, context=context)
-        if positionData :
-          pName = positionData.name
-          if pName in wPos :
-            newEmployee.employee.positionid = wPos[ pName ]
+    if vals["notes"] :
+      newEmployee.employee.note = vals["notes"]
+    if vals["work_email"] :
+      newEmployee.employee.email = vals["work_email"]
+      newEmployee.employee.lg = "en"
+      newEmployee.employee.active = False
+      if vals["job_id"] :
+        chk_position = self.pool.get('hr.job').search(cr, uid, [('id','=',vals["job_id"])])
+        position_line_obj = self.pool.get('hr.job')
+        for posId in chk_position:
+          positionData = position_line_obj.browse(cr, uid,posId, context=context)
+          if positionData :
+            pName = positionData.name
+            if pName in wPos :
+              newEmployee.employee.positionid = wPos[ pName ]
 
-            print(newEmployee)
-            try:
-              result = stub.AddEmployee(newEmployee, metadata=authorization)
-              print ("Weladee id : %s" % result.id)
-            except Exception as e:
-              print("Add employee failed",e)
+              print(newEmployee)
+              try:
+                result = stub.AddEmployee(newEmployee, metadata=authorization)
+                print ("Weladee id : %s" % result.id)
+              except Exception as e:
+                print("Add employee failed",e)
 
     return eid
 
