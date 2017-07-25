@@ -27,7 +27,6 @@ import weladee_pb2
 import weladee_pb2_grpc
 import base64
 import requests
-import time
 
 class weladee_employee(osv.osv):
   _name="weladee_attendance.synchronous"
@@ -37,3 +36,4 @@ class weladee_employee(osv.osv):
   _columns = {
     'sync' : fields.date('sync_date')
   }
+

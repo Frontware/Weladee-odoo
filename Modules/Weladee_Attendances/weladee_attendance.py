@@ -218,6 +218,8 @@ class weladee_attendance(osv.osv):
           # List of employees
           print("Employees")
           sEmployees = {}
+          wEidTooEid = {}
+
           if True :
               odooIdEmps = []
               employee_line_obj = self.pool.get('hr.employee')
@@ -250,6 +252,7 @@ class weladee_attendance(osv.osv):
                                     odoo_employeeId = self.pool.get("hr.employee").create(cr, uid, data, context=None)
 
                                     odooIdEmps.append( odoo_employeeId )
+                                    wEidTooEid[ emp.employee.ID ] = odoo_employeeId
 
                                     if odoo_employeeId :
 
@@ -320,6 +323,7 @@ class weladee_attendance(osv.osv):
                                             print("Update odoo employee id is failed",e)
                           else :
                               odooIdEmps.append( emp.odoo.odoo_id )
+                              wEidTooEid[ emp.employee.ID ] = emp.odoo.odoo_id
                               sEmployees[ emp.odoo.odoo_id ] = emp.employee
 
               #add new employee on odoo to Weladee
@@ -461,46 +465,43 @@ class weladee_attendance(osv.osv):
           # List of Holiday
           print("Holiday")
           if True :
-              holiday_line_obj = self.pool.get('hr.holidays')
-              holiday_line_ids = holiday_line_obj.search(cr, uid, [])
-              for hid in holiday_line_ids:
-                  holiday = holiday_line_obj.browse(cr, uid,hid ,context=context)
-                  if holiday :
-                      if holiday.state :
-                          if holiday.state == "validate" :
-                              print("-----------")
-                              if holiday.employee_id :
-                                  if holiday.employee_id.id :
-                                      if holiday.employee_id.id in sEmployees :
-                                        employeeData = sEmployees[ holiday.employee_id.id ]
-                                        if employeeData.ID :
-                                          if holiday.date_from and holiday.date_to  :
-                                              df = datetime.strptime( holiday.date_from, "%Y-%m-%d %H:%M:%S" )
-                                              dt = datetime.strptime( holiday.date_to, "%Y-%m-%d %H:%M:%S" )
+              employee_line_obj = self.pool.get('hr.employee')
+              employee_line_ids = employee_line_obj.search(cr, uid, [])
+              for empId in employee_line_ids:
+                  emp = employee_line_obj.browse(cr, uid,empId ,context=context)
+                  if emp :
+                      if emp.id :
+                          gEmp = weladee_pb2.OdooRequest()
+                          gEmp.odoo_id = emp.id
+                          try:
+                              result = stub.GetHolidays(gEmp, metadata=authorization)
+                          except Exception as e:
+                              print("Error add holiday failed", e)
 
-                                              delta = dt - df
-                                              for i in range(delta.days + 1):
-                                                  dteHoliday = ( df + timedelta(days=i) ).strftime("%Y%m%d")
+                          if result :
+                              for hol in stub.GetHolidays(gEmp, metadata=authorization):
+                                  if hol :
+                                      if hol.odoo :
+                                          if not hol.odoo.odoo_id :
+                                              if hol.employeeid :
+                                                  if hol.employeeid in wEidTooEid :
+                                                      oEmp = wEidTooEid[ hol.employeeid ]
+                                                      if hol.Holiday.date :
+                                                          if hol.Holiday.date :
+                                                              if len( str (hol.Holiday.date ) ) == 8 :
+                                                                  dte = str( hol.Holiday.date )
+                                                                  fdte = dte[:4] + "-" + dte[4:6] + "-" + dte[6:8]
+                                                                  data = { "name" : hol.Holiday.name_english,
+                                                                           "datefrom" : fdte,
+                                                                           "dateto"   :  fdte,
+                                                                           "enable": True,
+                                                                           "employee" : oEmp
+                                                                           }
+                                                                  print(data)
+                                                                  hid = self.pool.get("hr.holidays").create(cr, uid, data, context=None)
 
-                                                  newHoliday = weladee_pb2.HolidayOdoo()
-                                                  newHoliday.odoo.odoo_id = holiday.id
-                                                  #newHoliday.odoo.odoo_created_on = int(time.time())
-                                                  #newHoliday.odoo.odoo_synced_on = int(time.time())
 
-                                                  newHoliday.Holiday.name_english = holiday.name
-                                                  newHoliday.Holiday.name_thai = holiday.name
-                                                  newHoliday.Holiday.date = int( dteHoliday )
-                                                  newHoliday.Holiday.active = True
-                                                  newHoliday.Holiday.employeeid = employeeData.ID
 
-                                                  print(newHoliday)
-                                                  try:
-                                                      result = stub.AddHoliday(newHoliday, metadata=authorization)
-                                                      print ("Create Employee holiday. the date is %s" % str(dteHoliday) )
-                                                  except Exception as e:
-                                                      print("Error when Create Employee holiday : ",e)
-
-                                              print("-----------")
 
 
 
