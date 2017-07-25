@@ -20,6 +20,7 @@
 ##############################################################################
 from openerp.osv import fields
 from openerp.osv import osv
+from datetime import datetime,date, timedelta
 import grpc
 import logging
 import weladee_pb2
@@ -216,8 +217,8 @@ class weladee_attendance(osv.osv):
 
           # List of employees
           print("Employees")
+          sEmployees = {}
           if True :
-              sEmployees = {}
               odooIdEmps = []
               employee_line_obj = self.pool.get('hr.employee')
               employee_line_ids = employee_line_obj.search(cr, uid, [])
@@ -322,7 +323,7 @@ class weladee_attendance(osv.osv):
                               sEmployees[ emp.odoo.odoo_id ] = emp.employee
 
               #add new employee on odoo to Weladee
-              if True :
+              if False :
                   for empId in employee_line_ids:
                       emp = employee_line_obj.browse(cr, uid,empId ,context=context)
                       if emp.id:
@@ -426,7 +427,6 @@ class weladee_attendance(osv.osv):
                                   except Exception as e:
                                       print("Update odoo employee id is failed",e)
 
-
           #List of Company holiday
           print("Company Holiday")
           if False :
@@ -436,48 +436,61 @@ class weladee_attendance(osv.osv):
                       if chol.odoo :
                           if not chol.odoo.odoo_id :
                               if chol.Holiday :
+                                  print(chol.Holiday)
                                   if chol.Holiday.date :
-                                      data = { "name" : chol.Holiday.name_english,
-                                              "datefrom" : chol.Holiday.date,
-                                              "dateto"   :  chol.Holiday.date,
-                                              "enable":chol.Holiday.active
-                                           }
-                                      dateid = self.pool.get("fw_company.holiday").create(cr, uid, data, context=None)
-                                      print("odoo id : %s" % dateid)
-                                      sCHoliday.append( str(chol.Holiday.date) )
+                                      if len( str (chol.Holiday.date ) ) == 8 :
+                                          dte = str( chol.Holiday.date )
+                                          fdte = dte[:4] + "-" + dte[4:6] + "-" + dte[6:8]
+                                          data = { "name" : chol.Holiday.name_english,
+                                                  "datefrom" : fdte,
+                                                  "dateto"   :  fdte,
+                                                  "enable":chol.Holiday.active
+                                               }
+                                          print(data)
+                                          dateid = self.pool.get("fw_company.holiday").create(cr, uid, data, context=None)
+                                          print("odoo id : %s" % dateid)
+                                          sCHoliday.append( str(chol.Holiday.date) )
 
-              holiday_line_obj = self.pool.get('fw_company.holiday')
+              """holiday_line_obj = self.pool.get('fw_company.holiday')
               holiday_line_ids = holiday_line_obj.search(cr, uid, [])
               for holydayId in holiday_line_ids:
                   holy = holiday_line_obj.browse(cr, uid,holydayId ,context=context)
                   if holy.datefrom:
-                      print(holy.datefrom)
+                      print(holy.datefrom)"""
 
           # List of Holiday
           print("Holiday")
-          if False :
-              sHoliday = []
-              for hol in stub.GetHolidays(weladee_pb2.Empty(), metadata=authorization):
-                  print(hol)
-                  if not hol is None:
-                      if not hol.Holiday is None:
-                          if not hol.Holiday.name_english is None:
-                              chk_date = self.pool.get('hr.holidays').search(cr, uid, [('name','=',hol.Holiday.name_english), ('date_from','=',hol.Holiday.date)])
-                              if not chk_date:
-                                  data = { "name" : hol.Holiday.name_english
-                                      ,"date_from" : hol.Holiday.date
-                                      ,"date_to"   :  hol.Holiday.date
-                                           }
-                                  dateid = self.pool.get("hr.holidays").create(cr, uid, data, context=None)
-                                  print("odoo id : %s" % dateid)
-                              sHoliday.append( str(hol.Holiday.name_english) )
-
+          if True :
               holiday_line_obj = self.pool.get('hr.holidays')
               holiday_line_ids = holiday_line_obj.search(cr, uid, [])
-              for holydayId in holiday_line_ids:
-                  holy = holiday_line_obj.browse(cr, uid,holydayId ,context=context)
-                  if holy.date_from:
-                      print(holy.date_from)
+              for hid in holiday_line_ids:
+                  holiday = holiday_line_obj.browse(cr, uid,hid ,context=context)
+                  if holiday :
+                      if holiday.state :
+                          if holiday.state == "validate" :
+                              if holiday.employee_id :
+                                  if holiday.employee_id.id :
+                                      if holiday.employee_id.id in sEmployees :
+                                        employeeData = sEmployees[ holiday.employee_id.id ]
+                                        if employeeData.ID :
+                                          if holiday.date_from and holiday.date_to  :
+                                              df = datetime.strptime( holiday.date_from, "%Y-%m-%d %H:%M:%S" )
+                                              dt = datetime.strptime( holiday.date_to, "%Y-%m-%d %H:%M:%S" )
+
+                                              delta = dt - df
+                                              for i in range(delta.days + 1):
+                                                  dteHoliday = ( df + timedelta(days=i) ).strftime("%Y%m%d")
+                                                  data = {
+                                                      "name_english" : holiday.name,
+                                                      "name_thai" : holiday.name,
+                                                      "date" : int( dteHoliday ),
+                                                      "active" : True,
+                                                      "employeeid" : employeeData.ID
+                                                  }
+                                                  print( data )
+
+                                              print("-----")
+
 
 
 weladee_attendance()
