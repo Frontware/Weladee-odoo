@@ -219,20 +219,23 @@ class weladee_attendance(osv.osv):
           if True :
               sEmployees = {}
               odooIdEmps = []
+              employee_line_obj = self.pool.get('hr.employee')
+              employee_line_ids = employee_line_obj.search(cr, uid, [])
+              #check code Weladee on odoo
               for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
                   if emp :
-                      print("------------------------------")
                       if emp.odoo :
                           if not emp.odoo.odoo_id :
+                              print("------------------------------")
                               if emp.employee:
                                   if emp.employee.ID:
-                                    sEmployees[ str(emp.employee.ID) ] = emp.employee
+                                    sEmployees[ emp.odoo.odoo_id ] = emp.employee
                                     photoBase64 = ''
                                     if emp.employee.photo:
                                         print("photo url : %s" % emp.employee.photo)
                                         photoBase64 = base64.b64encode(requests.get(emp.employee.photo).content)
                                     data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
-                                            ,"identification_id" :emp.employee.ID
+                                            ,"identification_id" :(emp.employee.code or "" )
                                             ,"notes": ( emp.employee.note or "" )
                                             ,"work_email":( emp.employee.email or "" )
                                           }
@@ -316,18 +319,18 @@ class weladee_attendance(osv.osv):
                                             print("Update odoo employee id is failed",e)
                           else :
                               odooIdEmps.append( emp.odoo.odoo_id )
+                              sEmployees[ emp.odoo.odoo_id ] = emp.employee
 
+              #add new employee on odoo to Weladee
               if True :
-                  employee_line_obj = self.pool.get('hr.employee')
-                  employee_line_ids = employee_line_obj.search(cr, uid, [])
                   for empId in employee_line_ids:
                       emp = employee_line_obj.browse(cr, uid,empId ,context=context)
                       if emp.id:
+                          print("------------------------------")
                           pos = False
                           if emp.job_id :
                               if emp.job_id.name :
                                   pos = emp.job_id.name
-                                  print( "Position Name : %s" % pos )
                           if not emp.id in odooIdEmps :
                               print("Add new employee %s with odoo id %s" % (emp.name, emp.id))
                               newEmployee = weladee_pb2.EmployeeOdoo()
@@ -347,7 +350,108 @@ class weladee_attendance(osv.osv):
                                 print ("Weladee id : %s" % result.id)
                               except Exception as e:
                                 print("Add employee failed",e)
+                          else :
+                              #Update Employee on odoo to Weladee
+                              print("Update odoo")
+                              if emp.id in sEmployees :
+                                  WeladeeData = sEmployees[ emp.id ]
 
+                                  newEmployee = weladee_pb2.EmployeeOdoo()
+                                  newEmployee.odoo.odoo_id = emp.id
+                                  newEmployee.odoo.odoo_created_on = int(time.time())
+                                  newEmployee.odoo.odoo_synced_on = int(time.time())
+
+                                  if WeladeeData.ID :
+                                    newEmployee.employee.ID = WeladeeData.ID
+                                  if emp.work_email or WeladeeData.email :
+                                    newEmployee.employee.email = emp.work_email or WeladeeData.email
+                                  if WeladeeData.user_name :
+                                    newEmployee.employee.user_name = WeladeeData.user_name
+                                  if emp.name or WeladeeData.first_name_english:
+                                    newEmployee.employee.first_name_english = ( emp.name ).split(" ")[0] or WeladeeData.first_name_english
+                                  if emp.name or WeladeeData.last_name_english :
+                                    newEmployee.employee.last_name_english = ( emp.name ).split(" ")[1] or WeladeeData.last_name_english
+                                  if WeladeeData.first_name_thai :
+                                    newEmployee.employee.first_name_thai = WeladeeData.first_name_thai
+                                  if WeladeeData.last_name_thai :
+                                    newEmployee.employee.last_name_thai = WeladeeData.last_name_thai
+                                  if WeladeeData.managerID :
+                                    newEmployee.employee.managerID = WeladeeData.managerID
+                                  if WeladeeData.lineID :
+                                    newEmployee.employee.lineID = WeladeeData.lineID
+                                  if WeladeeData.nickname_english :
+                                    newEmployee.employee.nickname_english = WeladeeData.nickname_english
+                                  if WeladeeData.nickname_thai :
+                                    newEmployee.employee.nickname_thai = WeladeeData.nickname_thai
+                                  if WeladeeData.FCMtoken :
+                                    newEmployee.employee.FCMtoken = WeladeeData.FCMtoken
+                                  if WeladeeData.phone_model :
+                                    newEmployee.employee.phone_model = WeladeeData.phone_model
+                                  if WeladeeData.phone_serial :
+                                    newEmployee.employee.phone_serial = WeladeeData.phone_serial
+                                  if emp.identification_id or WeladeeData.code :
+                                    newEmployee.employee.code = emp.identification_id or WeladeeData.code
+                                  if WeladeeData.created_by :
+                                    newEmployee.employee.created_by = WeladeeData.created_by
+                                  if WeladeeData.updated_by :
+                                    newEmployee.employee.updated_by = WeladeeData.updated_by
+                                  if WeladeeData.active :
+                                    newEmployee.employee.active = WeladeeData.active
+                                  if emp.notes or WeladeeData.note :
+                                    newEmployee.employee.note = emp.notes or WeladeeData.note
+                                  if WeladeeData.photo :
+                                    newEmployee.employee.photo = WeladeeData.photo
+                                  if WeladeeData.lg :
+                                    newEmployee.employee.lg = WeladeeData.lg
+                                  if WeladeeData.application_level :
+                                    newEmployee.employee.application_level = WeladeeData.application_level
+                                  if WeladeeData.positionid :
+                                    newEmployee.employee.positionid = WeladeeData.positionid
+                                  if WeladeeData.Phones :
+                                    newEmployee.employee.Phones = WeladeeData.Phones
+                                  if WeladeeData.rfid :
+                                    newEmployee.employee.rfid = WeladeeData.rfid
+                                  if WeladeeData.EmailValidated :
+                                    newEmployee.employee.EmailValidated = WeladeeData.EmailValidated
+                                  if WeladeeData.teamid :
+                                    newEmployee.employee.teamid = WeladeeData.teamid
+
+                                  if pos :
+                                      if weladeePositions[ pos ] :
+                                          newEmployee.employee.positionid = weladeePositions[ pos ]
+                                  print(newEmployee)
+                                  try:
+                                      result = stub.UpdateEmployee(newEmployee, metadata=authorization)
+                                      print ("Update odoo employee id : %s" % result.id)
+                                  except Exception as e:
+                                      print("Update odoo employee id is failed",e)
+
+
+          #List of Company holiday
+          print("Company Holiday")
+          if False :
+              sCHoliday = []
+              for chol in stub.GetCompanyHolidays(weladee_pb2.Empty(), metadata=authorization):
+                  if chol :
+                      if chol.odoo :
+                          if not chol.odoo.odoo_id :
+                              if chol.Holiday :
+                                  if chol.Holiday.date :
+                                      data = { "name" : chol.Holiday.name_english,
+                                              "datefrom" : chol.Holiday.date,
+                                              "dateto"   :  chol.Holiday.date,
+                                              "enable":chol.Holiday.active
+                                           }
+                                      dateid = self.pool.get("fw_company.holiday").create(cr, uid, data, context=None)
+                                      print("odoo id : %s" % dateid)
+                                      sCHoliday.append( str(chol.Holiday.date) )
+
+              holiday_line_obj = self.pool.get('fw_company.holiday')
+              holiday_line_ids = holiday_line_obj.search(cr, uid, [])
+              for holydayId in holiday_line_ids:
+                  holy = holiday_line_obj.browse(cr, uid,holydayId ,context=context)
+                  if holy.datefrom:
+                      print(holy.datefrom)
 
           # List of Holiday
           print("Holiday")
@@ -374,36 +478,6 @@ class weladee_attendance(osv.osv):
                   holy = holiday_line_obj.browse(cr, uid,holydayId ,context=context)
                   if holy.date_from:
                       print(holy.date_from)
-
-
-
-          # List of Company holiday
-          #print("Company Holiday")
-          #sCHoliday = []
-          #for chol in stub.GetCompanyHolidays(weladee_pb2.Empty(), metadata=authorization):
-              #print(chol)
-              #if not chol is None:
-                  #if not chol.Holiday is None:
-                      #if not chol.Holiday.date is None:
-                          #chk_date = self.pool.get('fw_company.holiday').search(cr, uid, [('datefrom','=',chol.Holiday.date)])
-                          #if not chk_date:
-                              #data = { "name" : chol.Holiday.name_english
-                              #    ,"datefrom" : chol.Holiday.date
-                              #    ,"dateto"   :  chol.Holiday.date
-                              #    ,"enable":chol.Holiday.active
-                              #         }
-                              #dateid = self.pool.get("fw_company.holiday").create(cr, uid, data, context=None)
-                              #print("odoo id : %s" % dateid)
-                          #sCHoliday.append( str(chol.Holiday.date) )
-
-          #holiday_line_obj = self.pool.get('fw_company.holiday')
-          #holiday_line_ids = holiday_line_obj.search(cr, uid, [])
-          #for holydayId in holiday_line_ids:
-              #holy = holiday_line_obj.browse(cr, uid,holydayId ,context=context)
-              #if holy.datefrom:
-                  #print(holy.datefrom)
-
-
 
 
 weladee_attendance()
