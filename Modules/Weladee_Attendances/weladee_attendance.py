@@ -484,8 +484,8 @@ class weladee_attendance(osv.osv):
 
                                                   newHoliday = weladee_pb2.HolidayOdoo()
                                                   newHoliday.odoo.odoo_id = holiday.id
-                                                  newHoliday.odoo.odoo_created_on = int(time.time())
-                                                  newHoliday.odoo.odoo_synced_on = int(time.time())
+                                                  #newHoliday.odoo.odoo_created_on = int(time.time())
+                                                  #newHoliday.odoo.odoo_synced_on = int(time.time())
 
                                                   newHoliday.Holiday.name_english = holiday.name
                                                   newHoliday.Holiday.name_thai = holiday.name
