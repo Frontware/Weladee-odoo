@@ -468,6 +468,7 @@ class weladee_attendance(osv.osv):
                   if holiday :
                       if holiday.state :
                           if holiday.state == "validate" :
+                              print("-----------")
                               if holiday.employee_id :
                                   if holiday.employee_id.id :
                                       if holiday.employee_id.id in sEmployees :
@@ -480,16 +481,26 @@ class weladee_attendance(osv.osv):
                                               delta = dt - df
                                               for i in range(delta.days + 1):
                                                   dteHoliday = ( df + timedelta(days=i) ).strftime("%Y%m%d")
-                                                  data = {
-                                                      "name_english" : holiday.name,
-                                                      "name_thai" : holiday.name,
-                                                      "date" : int( dteHoliday ),
-                                                      "active" : True,
-                                                      "employeeid" : employeeData.ID
-                                                  }
-                                                  print( data )
 
-                                              print("-----")
+                                                  newHoliday = weladee_pb2.HolidayOdoo()
+                                                  newHoliday.odoo.odoo_id = holiday.id
+                                                  newHoliday.odoo.odoo_created_on = int(time.time())
+                                                  newHoliday.odoo.odoo_synced_on = int(time.time())
+
+                                                  newHoliday.Holiday.name_english = holiday.name
+                                                  newHoliday.Holiday.name_thai = holiday.name
+                                                  newHoliday.Holiday.date = int( dteHoliday )
+                                                  newHoliday.Holiday.active = True
+                                                  newHoliday.Holiday.employeeid = employeeData.ID
+
+                                                  print(newHoliday)
+                                                  try:
+                                                      result = stub.AddHoliday(newHoliday, metadata=authorization)
+                                                      print ("Create Employee holiday. the date is %s" % str(dteHoliday) )
+                                                  except Exception as e:
+                                                      print("Error when Create Employee holiday : ",e)
+
+                                              print("-----------")
 
 
 
