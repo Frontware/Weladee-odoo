@@ -279,7 +279,7 @@ class weladee_job(osv.osv):
       print(newPosition)
       try:
         result = stub.AddPosition(newPosition, metadata=authorization)
-        print ("Added position on Weladee")
+        print ("Added position on Weladee : %s" % result.id)
       except Exception as e:
         print("Add position failed",e)
 
