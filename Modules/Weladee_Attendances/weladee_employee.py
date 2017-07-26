@@ -254,12 +254,12 @@ class weladee_employee(osv.osv):
 
 weladee_employee()
 
-class weladee_department(osv.osv):
+class weladee_job(osv.osv):
   _description="synchronous Employee, Department, Holiday and attences"
-  _inherit = 'hr.department'
+  _inherit = 'hr.job'
 
   def create(self, cr, uid, vals, context=None) :
-    dId = super(weladee_department,self).create(cr, uid, vals, context=context)
+    dId = super(weladee_job,self).create(cr, uid, vals, context=context)
 
     newDepartment = weladee_pb2.DepartmentOdoo()
     newDepartment.odoo.odoo_id = dId
@@ -315,6 +315,6 @@ class weladee_department(osv.osv):
       print("Update odoo department id is failed",e)
 
 
-    return super(weladee_department, self).write(cr, uid, ids, vals, context)
+    return super(weladee_job, self).write(cr, uid, ids, vals, context)
 
-weladee_department()
+weladee_job()
