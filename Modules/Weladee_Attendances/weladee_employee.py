@@ -27,6 +27,7 @@ import weladee_pb2
 import weladee_pb2_grpc
 import base64
 import requests
+import time
 
 certificate = """-----BEGIN CERTIFICATE-----
 MIIEkjCCA3qgAwIBAgIQCgFBQgAAAVOFc2oLheynCDANBgkqhkiG9w0BAQsFADA/
@@ -76,24 +77,26 @@ JDGFoqgCWjBH4d1QB7wCCZAA62RjYJsWvIjJEubSfZGL+T0yjWW06XyxV3bqxbYo
 Ob8VZRzI9neWagqNdwvYkQsEjgfbKbYK7p2CNTUQ
 -----END CERTIFICATE-----
 """
+address = "grpc.weladee.com:22443"
+creds = grpc.ssl_channel_credentials(certificate)
+channel = grpc.secure_channel(address, creds)
+myrequest = weladee_pb2.EmployeeRequest()
+authorization = [("authorization", "bc7f3c00-bfa4-4ac2-810b-a11dca5ec48e")]
+stub = weladee_pb2_grpc.OdooStub(channel)
 
 class weladee_employee(osv.osv):
   _description="synchronous Employee, Department, Holiday and attences"
   _inherit = 'hr.employee'
 
   _columns = {
-    'sync' : fields.date('sync_date')
+    'sync' : fields.date('sync_date'),
+    'work_email' : fields.char('Work Email', size=50, required=True),
+    'job_id' : fields.many2one('hr.job','Job Title', required=True),
+    'identification_id' : fields.char('Identification No', size=50, required=True),
   }
 
   def create(self, cr, uid, vals, context=None):
     eid = super(weladee_employee,self).create(cr, uid, vals, context=context)
-
-    address = "grpc.weladee.com:22443"
-    creds = grpc.ssl_channel_credentials(certificate)
-    channel = grpc.secure_channel(address, creds)
-    myrequest = weladee_pb2.EmployeeRequest()
-    authorization = [("authorization", "bc7f3c00-bfa4-4ac2-810b-a11dca5ec48e")]
-    stub = weladee_pb2_grpc.OdooStub(channel)
 
     wPos = {}
     for position in stub.GetPositions(myrequest, metadata=authorization):
@@ -103,35 +106,40 @@ class weladee_employee(osv.osv):
 
     newEmployee = weladee_pb2.EmployeeOdoo()
     newEmployee.odoo.odoo_id = eid
+    newEmployee.odoo.odoo_created_on = int(time.time())
+    newEmployee.odoo.odoo_synced_on = int(time.time())
+
     newEmployee.employee.first_name_english = ( vals["name"] ).split(" ")[0]
     newEmployee.employee.last_name_english = ( vals["name"] ).split(" ")[1]
+
+    newEmployee.employee.lg = "en"
+    newEmployee.employee.active = False
+
     if vals["notes"] :
       newEmployee.employee.note = vals["notes"]
     if vals["work_email"] :
       newEmployee.employee.email = vals["work_email"]
-      newEmployee.employee.lg = "en"
-      newEmployee.employee.active = False
-      if vals["job_id"] :
-        chk_position = self.pool.get('hr.job').search(cr, uid, [('id','=',vals["job_id"])])
-        position_line_obj = self.pool.get('hr.job')
-        for posId in chk_position:
-          positionData = position_line_obj.browse(cr, uid,posId, context=context)
-          if positionData :
-            pName = positionData.name
-            if pName in wPos :
-              newEmployee.employee.positionid = wPos[ pName ]
+    if vals["job_id"] :
+      positionData = self.pool.get('hr.job').browse(cr, uid, vals["job_id"], context=context)
+      if positionData :
+        pName = positionData.name
+        if pName in wPos :
+          newEmployee.employee.positionid = wPos[ pName ]
 
-              print(newEmployee)
-              try:
-                result = stub.AddEmployee(newEmployee, metadata=authorization)
-                print ("Weladee id : %s" % result.id)
-              except Exception as e:
-                print("Add employee failed",e)
+          print(newEmployee)
+
+          try:
+            result = stub.AddEmployee(newEmployee, metadata=authorization)
+            print ("Weladee id : %s" % result.id)
+          except Exception as e:
+            print("Add employee failed",e)
 
     return eid
 
   def write(self, cr, uid, ids, vals, context=None):
     print(vals)
+    print(uid)
+    print(ids)
     return super(weladee_employee, self).write(cr, uid, ids, vals, context)
 
 weladee_employee()
