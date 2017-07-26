@@ -440,9 +440,15 @@ class weladee_holidays(osv.osv):
                 lid = super(weladee_holidays,self).create(cr, uid, vals, context=context)
                 super(weladee_holidays, self).holidays_validate(cr, uid, lid, context)
               except Exception as e:
-                print("Error : ",e)
+                print("Error on submain approve : ",e)
 
-    print("Done function")
+    try:
+      appr = super(weladee_holidays, self).holidays_validate(cr, uid, ids, context)
 
-    return super(weladee_holidays, self).holidays_validate(cr, uid, ids, context)
+    except Exception as e:
+      print("Error on main approve : ",e)
+
+
+
+    return appr
 weladee_holidays()
