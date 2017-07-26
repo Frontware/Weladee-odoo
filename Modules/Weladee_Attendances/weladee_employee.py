@@ -372,11 +372,11 @@ class weladee_holidays(osv.osv):
 
   def create(self, cr, uid, vals, context=None) :
     pid = super(weladee_holidays,self).create(cr, uid, vals, context=context)
-
+    print(vals)
     return pid
 
   def write(self, cr, uid, ids, vals, context=None):
-
+    print(vals)
     return super(weladee_holidays, self).write(cr, uid, ids, vals, context)
 
   def holidays_validate(self, cr, uid, ids, context=None):
@@ -388,29 +388,61 @@ class weladee_holidays(osv.osv):
         dt = datetime.strptime( originHolidays.date_to, "%Y-%m-%d %H:%M:%S" )
 
         delta = dt - df
-        for i in range(delta.days + 1):
-          odooDate = ( df + timedelta(days=i) ).strftime("%Y-%m-%d")
-          weladeeDate = ( df + timedelta(days=i) ).strftime("%Y%m%d")
-          if i == 0 :
-            if "date_from" in originHolidays :
-              vals = {"date_to" : originHolidays["date_from"]}
-              self.pool.get('hr.holidays').write(cr, uid, ids, vals, context=context)
-          else :
-            vals = {}
-            if "name" in originHolidays :
-              vals["name"] = originHolidays["name"]
-            if "holiday_status_id" in originHolidays :
-              vals["holiday_status_id"] = originHolidays["holiday_status_id"]
-            if "name" in originHolidays :
-              vals["name"] = originHolidays["name"]
-            if "name" in originHolidays :
-              vals["name"] = originHolidays["name"]
+        if range(delta.days + 1) > 1 :
+          for i in range(delta.days + 1):
+            odooDate = ( df + timedelta(days=i) ).strftime("%Y-%m-%d")
+            weladeeDate = ( df + timedelta(days=i) ).strftime("%Y%m%d")
+            if i == 0 :
+              if "date_from" in originHolidays :
+                vals = {"date_to" : originHolidays["date_from"],
+                        "number_of_days_temp" : 1.0}
 
+                print(vals)
 
+                lid = self.pool.get('hr.holidays').write(cr, uid, ids, vals, context=context)
+            else :
+              vals = {}
 
+              vals["date_from"] = odooDate
+              vals["date_to"] = odooDate
+              vals["message_follower_ids"] = []
+              vals["message_ids"] = []
+              vals["number_of_days_temp"] = 1.0
 
+              if "name" in originHolidays :
+                vals["name"] = originHolidays["name"] + "(" + str(i+1) +")"
+              if "holiday_status_id" in originHolidays and "id" in originHolidays["holiday_status_id"] :
+                vals["holiday_status_id"] = originHolidays["holiday_status_id"]["id"]
+              if "employee_id" in originHolidays :
+                vals["employee_id"] = originHolidays["employee_id"]["id"]
+              if "payslip_status" in originHolidays :
+                vals["payslip_status"] = originHolidays["payslip_status"]
 
+              if "category_id" in originHolidays and "id" in originHolidays["category_id"] :
+                vals["category_id"] = originHolidays["category_id"]["id"]
+              if "type" in originHolidays :
+                vals["type"] = originHolidays["type"]
 
+              if "report_note" in originHolidays :
+                if originHolidays["report_note"] :
+                  vals["notes"] = originHolidays["report_note"] + "\n*****\nSplit leave from " + originHolidays["name"] + "\n*****"
+                else :
+                  vals["notes"] = "*****\nSplit leave from " + originHolidays["name"] + "\n*****"
+              else :
+                vals["notes"] = "*****\nSplit leave from " + originHolidays["name"] + "\n*****"
+
+              vals["report_note"] = vals["notes"]
+
+              if "department_id" in originHolidays  and "id" in originHolidays["department_id"] :
+                vals["department_id"] = originHolidays["department_id"]["id"]
+
+              try:
+                lid = super(weladee_holidays,self).create(cr, uid, vals, context=context)
+                super(weladee_holidays, self).holidays_validate(cr, uid, lid, context)
+              except Exception as e:
+                print("Error : ",e)
+
+    print("Done function")
 
     return super(weladee_holidays, self).holidays_validate(cr, uid, ids, context)
 weladee_holidays()
