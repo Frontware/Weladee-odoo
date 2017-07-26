@@ -259,61 +259,57 @@ class weladee_job(osv.osv):
   _inherit = 'hr.job'
 
   def create(self, cr, uid, vals, context=None) :
-    dId = super(weladee_job,self).create(cr, uid, vals, context=context)
+    pid = super(weladee_job,self).create(cr, uid, vals, context=context)
 
-    newDepartment = weladee_pb2.DepartmentOdoo()
-    newDepartment.odoo.odoo_id = dId
-    newDepartment.odoo.odoo_created_on = int(time.time())
-    newDepartment.odoo.odoo_synced_on = int(time.time())
+    weladeePositions = {}
+    for position in stub.GetPositions(myrequest, metadata=authorization):
+      if position :
+        if position.position.name_english :
+          weladeePositions[ position.position.name_english ] = position.position.id
 
-    newDepartment.department.name_english = vals["name"]
-    newDepartment.department.name_thai = vals["name"]
+    if not vals["name"] in weladeePositions :
+      newPosition = weladee_pb2.PositionOdoo()
+      newPosition.odoo.odoo_id = pid
+      newPosition.odoo.odoo_created_on = int(time.time())
+      newPosition.odoo.odoo_synced_on = int(time.time())
 
-    print(newDepartment)
-    try:
-      result = stub.AddDepartment(newDepartment, metadata=authorization)
-      print ("Create Weladee department id : %s" % result.id)
-    except Exception as e:
-      print("Create department failed",e)
+      newPosition.position.name_english = vals["name"]
+      newPosition.position.active = True
 
-    return dId
+      print(newPosition)
+      try:
+        result = stub.AddPosition(newPosition, metadata=authorization)
+        print ("Added position on Weladee")
+      except Exception as e:
+        print("Add position failed",e)
+
+
+    return pid
 
   def write(self, cr, uid, ids, vals, context=None):
-    oldData = self.pool.get('hr.department').browse(cr, uid, ids, context=context)
-    dept = False
-    for dpm in stub.GetDepartments(weladee_pb2.Empty(), metadata=authorization):
-      if dpm :
-        if dpm.odoo :
-          if dpm.odoo.odoo_id :
-            if dpm.odoo.odoo_id == ids[0] :
-              dept = dpm
-    if dept :
 
-      updateDepartment = weladee_pb2.DepartmentOdoo()
-      updateDepartment.odoo.odoo_id = ids[0]
-      updateDepartment.odoo.odoo_created_on = int(time.time())
-      updateDepartment.odoo.odoo_synced_on = int(time.time())
+    if "name" in vals:
+      weladeePositions = {}
+      for position in stub.GetPositions(myrequest, metadata=authorization):
+        if position :
+          if position.position.name_english :
+            weladeePositions[ position.position.name_english ] = position.position.id
 
-    if "name" in vals :
-      updateDepartment.department.name_english = vals["name"]
-    else :
-      updateDepartment.department.name_english = oldData["name"]
+      if not vals["name"] in weladeePositions :
+        newPosition = weladee_pb2.PositionOdoo()
+        newPosition.odoo.odoo_id = pid
+        newPosition.odoo.odoo_created_on = int(time.time())
+        newPosition.odoo.odoo_synced_on = int(time.time())
 
-    updateDepartment.department.id = dept.department.id
-    updateDepartment.department.name_thai = updateDepartment.department.name_english
+        newPosition.position.name_english = vals["name"]
+        newPosition.position.active = True
 
-    if dept.department.managerid :
-      updateDepartment.department.managerid = dept.department.managerid
-    updateDepartment.department.active = ( dept.department.active or False )
-    updateDepartment.department.code = ( dept.department.code or "" )
-    updateDepartment.department.note = ( dept.department.note or "" )
-    print( updateDepartment )
-    try :
-      result = stub.UpdateDepartment(updateDepartment, metadata=authorization)
-      print ("Updated odoo department id to Weladee")
-    except Exception as e:
-      print("Update odoo department id is failed",e)
-
+        print(newPosition)
+        try:
+          result = stub.AddPosition(newPosition, metadata=authorization)
+          print ("Added position on Weladee")
+        except Exception as e:
+          print("Add position failed",e)
 
     return super(weladee_job, self).write(cr, uid, ids, vals, context)
 
