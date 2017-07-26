@@ -115,6 +115,8 @@ class weladee_employee(osv.osv):
     newEmployee.employee.lg = "en"
     newEmployee.employee.active = False
 
+    if vals["identification_id"] :
+      newEmployee.employee.code = vals["identification_id"]
     if vals["notes"] :
       newEmployee.employee.note = vals["notes"]
     if vals["work_email"] :
@@ -137,9 +139,117 @@ class weladee_employee(osv.osv):
     return eid
 
   def write(self, cr, uid, ids, vals, context=None):
-    print(vals)
-    print(uid)
-    print(ids)
+    oldData = self.pool.get('hr.employee').browse(cr, uid, ids, context=context)
+    WeladeeData =False
+    for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
+      if emp :
+        if emp.odoo :
+          if emp.odoo.odoo_id :
+            if emp.odoo.odoo_id == ids[0] :
+              WeladeeData = emp.employee
+    if WeladeeData :
+      wPos = {}
+      for position in stub.GetPositions(myrequest, metadata=authorization):
+        if position :
+          if position.position.name_english :
+            wPos[ position.position.name_english ] = position.position.id
+
+      newEmployee = weladee_pb2.EmployeeOdoo()
+      newEmployee.odoo.odoo_id = ids[0]
+      newEmployee.odoo.odoo_created_on = int(time.time())
+      newEmployee.odoo.odoo_synced_on = int(time.time())
+
+      if "name" in vals :
+        newEmployee.employee.first_name_english = ( vals["name"] ).split(" ")[0]
+        newEmployee.employee.last_name_english = ( vals["name"] ).split(" ")[1]
+      else :
+        newEmployee.employee.first_name_english = ( oldData["name"] ).split(" ")[0]
+        newEmployee.employee.last_name_english = ( oldData["name"] ).split(" ")[1]
+
+      if "identification_id" in vals :
+        newEmployee.employee.code = vals["identification_id"]
+      else :
+        newEmployee.employee.code = oldData["identification_id"]
+      if "notes" in vals :
+        newEmployee.employee.note = vals["notes"]
+      else :
+        newEmployee.employee.note = oldData["notes"]
+
+      if "work_email" in vals :
+        newEmployee.employee.email = vals["work_email"]
+      else :
+        newEmployee.employee.email = oldData["work_email"]
+
+      jid = False
+      if "job_id" in vals :
+        positionData = self.pool.get('hr.job').browse(cr, uid, vals["job_id"], context=context)
+        if positionData :
+          pName = positionData.name
+          if pName in wPos :
+            newEmployee.employee.positionid = wPos[ pName ]
+            jid = True
+      else :
+        newEmployee.employee.positionid = oldData["job_id"]["id"]
+        jid = True
+
+      if WeladeeData.ID :
+        newEmployee.employee.ID = WeladeeData.ID
+      if WeladeeData.user_name :
+        newEmployee.employee.user_name = WeladeeData.user_name
+      if WeladeeData.first_name_thai :
+        newEmployee.employee.first_name_thai = WeladeeData.first_name_thai
+      if WeladeeData.last_name_thai :
+        newEmployee.employee.last_name_thai = WeladeeData.last_name_thai
+      if WeladeeData.managerID :
+        newEmployee.employee.managerID = WeladeeData.managerID
+      if WeladeeData.lineID :
+        newEmployee.employee.lineID = WeladeeData.lineID
+      if WeladeeData.nickname_english :
+        newEmployee.employee.nickname_english = WeladeeData.nickname_english
+      if WeladeeData.nickname_thai :
+        newEmployee.employee.nickname_thai = WeladeeData.nickname_thai
+      if WeladeeData.FCMtoken :
+        newEmployee.employee.FCMtoken = WeladeeData.FCMtoken
+      if WeladeeData.phone_model :
+        newEmployee.employee.phone_model = WeladeeData.phone_model
+      if WeladeeData.phone_serial :
+        newEmployee.employee.phone_serial = WeladeeData.phone_serial
+      if WeladeeData.created_by :
+        newEmployee.employee.created_by = WeladeeData.created_by
+      if WeladeeData.updated_by :
+        newEmployee.employee.updated_by = WeladeeData.updated_by
+      if WeladeeData.active :
+        newEmployee.employee.active = WeladeeData.active
+      if WeladeeData.photo :
+        newEmployee.employee.photo = WeladeeData.photo
+      if WeladeeData.lg :
+        newEmployee.employee.lg = WeladeeData.lg
+      if WeladeeData.application_level :
+        newEmployee.employee.application_level = WeladeeData.application_level
+      if WeladeeData.positionid :
+        newEmployee.employee.positionid = WeladeeData.positionid
+      if WeladeeData.Phones :
+        newEmployee.employee.Phones = WeladeeData.Phones
+      if WeladeeData.rfid :
+        newEmployee.employee.rfid = WeladeeData.rfid
+      if WeladeeData.EmailValidated :
+        newEmployee.employee.EmailValidated = WeladeeData.EmailValidated
+      if WeladeeData.teamid :
+        newEmployee.employee.teamid = WeladeeData.teamid
+
+      print(newEmployee)
+
+
+      if jid :
+          try:
+            wid = stub.UpdateEmployee(newEmployee, metadata=authorization)
+            print ("Updated Weladee Employee" )
+          except Exception as e:
+            print("Update employee failed",e)
+
+
+
+
     return super(weladee_employee, self).write(cr, uid, ids, vals, context)
 
 weladee_employee()
