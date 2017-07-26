@@ -253,3 +253,68 @@ class weladee_employee(osv.osv):
     return super(weladee_employee, self).write(cr, uid, ids, vals, context)
 
 weladee_employee()
+
+class weladee_department(osv.osv):
+  _description="synchronous Employee, Department, Holiday and attences"
+  _inherit = 'hr.department'
+
+  def create(self, cr, uid, vals, context=None) :
+    dId = super(weladee_department,self).create(cr, uid, vals, context=context)
+
+    newDepartment = weladee_pb2.DepartmentOdoo()
+    newDepartment.odoo.odoo_id = dId
+    newDepartment.odoo.odoo_created_on = int(time.time())
+    newDepartment.odoo.odoo_synced_on = int(time.time())
+
+    newDepartment.department.name_english = vals["name"]
+    newDepartment.department.name_thai = vals["name"]
+
+    print(newDepartment)
+    try:
+      result = stub.AddDepartment(newDepartment, metadata=authorization)
+      print ("Create Weladee department id : %s" % result.id)
+    except Exception as e:
+      print("Create department failed",e)
+
+    return dId
+
+  def write(self, cr, uid, ids, vals, context=None):
+    oldData = self.pool.get('hr.department').browse(cr, uid, ids, context=context)
+    dept = False
+    for dpm in stub.GetDepartments(weladee_pb2.Empty(), metadata=authorization):
+      if dpm :
+        if dpm.odoo :
+          if dpm.odoo.odoo_id :
+            if dpm.odoo.odoo_id == ids[0] :
+              dept = dpm
+    if dept :
+
+      updateDepartment = weladee_pb2.DepartmentOdoo()
+      updateDepartment.odoo.odoo_id = ids[0]
+      updateDepartment.odoo.odoo_created_on = int(time.time())
+      updateDepartment.odoo.odoo_synced_on = int(time.time())
+
+    if "name" in vals :
+      updateDepartment.department.name_english = vals["name"]
+    else :
+      updateDepartment.department.name_english = oldData["name"]
+
+    updateDepartment.department.id = dept.department.id
+    updateDepartment.department.name_thai = updateDepartment.department.name_english
+
+    if dept.department.managerid :
+      updateDepartment.department.managerid = dept.department.managerid
+    updateDepartment.department.active = ( dept.department.active or False )
+    updateDepartment.department.code = ( dept.department.code or "" )
+    updateDepartment.department.note = ( dept.department.note or "" )
+    print( updateDepartment )
+    try :
+      result = stub.UpdateDepartment(updateDepartment, metadata=authorization)
+      print ("Updated odoo department id to Weladee")
+    except Exception as e:
+      print("Update odoo department id is failed",e)
+
+
+    return super(weladee_department, self).write(cr, uid, ids, vals, context)
+
+weladee_department()
