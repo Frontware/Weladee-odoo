@@ -36,7 +36,7 @@
         </record>
 
         <menuitem id="weladee_attendance_synchronous_menu"
-                  name="Synchronous"
+                  name="Weladee Synchronization"
                   sequence="99"
                   parent="hr_attendance.menu_hr_attendance_root"
                   groups="base.group_hr_attendance"
