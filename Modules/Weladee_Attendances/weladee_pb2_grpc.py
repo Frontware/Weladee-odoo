@@ -59,14 +59,19 @@ class MobileServicer(object):
     raise NotImplementedError('Method not implemented!')
 
   def GetHolidays(self, request, context):
-    """/ Stream of active holidays 1 employee including company holidays
+    """/ Stream of active holidays of an employee including company holidays
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def GetLogEvent(self, request, context):
-    """/ Realtime event when employee check in/out. Get a stream for each in/out in the company depending on token or authorization. It can be limited to an employee, a team or entire company
+    """*
+    Realtime event when employee check in/out.
+    Get a stream for each in/out in the company depending on token or authorization.
+    It can be limited to an employee, a team or entire company.
+    The header contains "employees": an array of all employeeid who are IN at the moment the request was done.
+    Header example : "employees":["6762","451","152"]
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -153,6 +158,11 @@ class OdooStub(object):
         request_serializer=weladee__pb2.OdooRequest.SerializeToString,
         response_deserializer=weladee__pb2.Empty.FromString,
         )
+    self.UpdateHoliday = channel.unary_unary(
+        '/grpc.weladee.com.Odoo/UpdateHoliday',
+        request_serializer=weladee__pb2.HolidayOdoo.SerializeToString,
+        response_deserializer=weladee__pb2.Empty.FromString,
+        )
     self.GetDepartment = channel.unary_unary(
         '/grpc.weladee.com.Odoo/GetDepartment',
         request_serializer=weladee__pb2.OdooRequest.SerializeToString,
@@ -163,6 +173,16 @@ class OdooStub(object):
         request_serializer=weladee__pb2.Empty.SerializeToString,
         response_deserializer=weladee__pb2.DepartmentOdoo.FromString,
         )
+    self.AddDepartment = channel.unary_unary(
+        '/grpc.weladee.com.Odoo/AddDepartment',
+        request_serializer=weladee__pb2.DepartmentOdoo.SerializeToString,
+        response_deserializer=weladee__pb2.AddResult.FromString,
+        )
+    self.UpdateDepartment = channel.unary_unary(
+        '/grpc.weladee.com.Odoo/UpdateDepartment',
+        request_serializer=weladee__pb2.DepartmentOdoo.SerializeToString,
+        response_deserializer=weladee__pb2.Empty.FromString,
+        )
     self.GetNewAttendance = channel.unary_stream(
         '/grpc.weladee.com.Odoo/GetNewAttendance',
         request_serializer=weladee__pb2.Empty.SerializeToString,
@@ -172,6 +192,16 @@ class OdooStub(object):
         '/grpc.weladee.com.Odoo/SyncAttendance',
         request_serializer=weladee__pb2.LogEventOdooSync.SerializeToString,
         response_deserializer=weladee__pb2.Empty.FromString,
+        )
+    self.GetPositions = channel.unary_stream(
+        '/grpc.weladee.com.Odoo/GetPositions',
+        request_serializer=weladee__pb2.Empty.SerializeToString,
+        response_deserializer=weladee__pb2.PositionOdoo.FromString,
+        )
+    self.AddPosition = channel.unary_unary(
+        '/grpc.weladee.com.Odoo/AddPosition',
+        request_serializer=weladee__pb2.PositionOdoo.SerializeToString,
+        response_deserializer=weladee__pb2.AddResult.FromString,
         )
 
 
@@ -190,7 +220,13 @@ class OdooServicer(object):
     raise NotImplementedError('Method not implemented!')
 
   def UpdateEmployee(self, request, context):
-    """/ raise error if fails
+    """*
+    updates the Employee from odoo in the database.
+    Only few fields can be updated:
+    phones, first_name_english, last_name_english, email, nickname_english,
+    last_name_thai, active, code, first_name_thai, nickname_thai
+    positionid, photo.
+    Raise error if fails
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -239,6 +275,13 @@ class OdooServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def UpdateHoliday(self, request, context):
+    """/ Update holiday. raise error if fails
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
   def GetDepartment(self, request, context):
     """/ Department
     / return department record based on id or odoo_id
@@ -254,6 +297,20 @@ class OdooServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def AddDepartment(self, request, context):
+    """/ Add department, get the id as return.
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def UpdateDepartment(self, request, context):
+    """/ Update a department. raise error if fails
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
   def GetNewAttendance(self, request, context):
     """/ Attendance
     / return a stream of attendance record + odoo employee id that have not yet been synchronized with Odoo or that need to be synchronized again.
@@ -264,6 +321,21 @@ class OdooServicer(object):
 
   def SyncAttendance(self, request_iterator, context):
     """/ Send a stream of LogEventSync to confirm the log entries have been synchronized with Odoo. This funciton use a stream in order to synchronize a large bunch of records very quickly. Odoo can not update or create or delete LogEvent record in Weladee.
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def GetPositions(self, request, context):
+    """/ Position
+    / return a stream of positions. Called "job title" in odoo
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def AddPosition(self, request, context):
+    """/ Add position, get the id as return.
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -312,6 +384,11 @@ def add_OdooServicer_to_server(servicer, server):
           request_deserializer=weladee__pb2.OdooRequest.FromString,
           response_serializer=weladee__pb2.Empty.SerializeToString,
       ),
+      'UpdateHoliday': grpc.unary_unary_rpc_method_handler(
+          servicer.UpdateHoliday,
+          request_deserializer=weladee__pb2.HolidayOdoo.FromString,
+          response_serializer=weladee__pb2.Empty.SerializeToString,
+      ),
       'GetDepartment': grpc.unary_unary_rpc_method_handler(
           servicer.GetDepartment,
           request_deserializer=weladee__pb2.OdooRequest.FromString,
@@ -322,6 +399,16 @@ def add_OdooServicer_to_server(servicer, server):
           request_deserializer=weladee__pb2.Empty.FromString,
           response_serializer=weladee__pb2.DepartmentOdoo.SerializeToString,
       ),
+      'AddDepartment': grpc.unary_unary_rpc_method_handler(
+          servicer.AddDepartment,
+          request_deserializer=weladee__pb2.DepartmentOdoo.FromString,
+          response_serializer=weladee__pb2.AddResult.SerializeToString,
+      ),
+      'UpdateDepartment': grpc.unary_unary_rpc_method_handler(
+          servicer.UpdateDepartment,
+          request_deserializer=weladee__pb2.DepartmentOdoo.FromString,
+          response_serializer=weladee__pb2.Empty.SerializeToString,
+      ),
       'GetNewAttendance': grpc.unary_stream_rpc_method_handler(
           servicer.GetNewAttendance,
           request_deserializer=weladee__pb2.Empty.FromString,
@@ -331,6 +418,16 @@ def add_OdooServicer_to_server(servicer, server):
           servicer.SyncAttendance,
           request_deserializer=weladee__pb2.LogEventOdooSync.FromString,
           response_serializer=weladee__pb2.Empty.SerializeToString,
+      ),
+      'GetPositions': grpc.unary_stream_rpc_method_handler(
+          servicer.GetPositions,
+          request_deserializer=weladee__pb2.Empty.FromString,
+          response_serializer=weladee__pb2.PositionOdoo.SerializeToString,
+      ),
+      'AddPosition': grpc.unary_unary_rpc_method_handler(
+          servicer.AddPosition,
+          request_deserializer=weladee__pb2.PositionOdoo.FromString,
+          response_serializer=weladee__pb2.AddResult.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(

@@ -13,21 +13,22 @@
             <field name="model">weladee_attendance.synchronous</field>
             <field name="arch" type="xml">
                 <form string="Synchronous">
-                    <label string="List for synchronous" colspan="4" /><br />
+                    <label string="List" colspan="4" /><br />
+                    <label string="   - Positions" colspan="4" /><br />
                     <label string="   - Employees" colspan="4" /><br />
                     <label string="   - Departments" colspan="4" /><br />
                     <label string="   - Holidays" colspan="4" /><br />
-                    <label string="   - Attences" colspan="4" />
+                    <label string="   - Attendance" colspan="4" />
                     <footer>
                         <button icon="gtk-cancel"  special="cancel"   string="Close"/>
-                        <button icon="gtk-execute" name="synchronousBtn" string="Synchronous" class="oe_highlight" type="object"/>
+                        <button icon="gtk-execute" name="synchronousBtn" string="Synchronize" class="oe_highlight" type="object"/>
                     </footer>
                 </form>
             </field>
         </record>
 
         <record model="ir.actions.act_window" id="action_weladee_attendance_synchronous_form">
-            <field name="name">Synchronous wizard</field>
+            <field name="name">Weladee synchronization</field>
             <field name="res_model">weladee_attendance.synchronous</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
@@ -36,7 +37,7 @@
         </record>
 
         <menuitem id="weladee_attendance_synchronous_menu"
-                  name="Synchronous"
+                  name="Weladee Synchronization"
                   sequence="99"
                   parent="hr_attendance.menu_hr_attendance_root"
                   groups="base.group_hr_attendance"

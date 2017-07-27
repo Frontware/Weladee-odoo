@@ -23,7 +23,7 @@
 "version" : "4.00",
 "author" : "Frontware International",
 "category" : "Generic Modules",
-"depends" : ['base', 'hr_attendance', 'hr'],
+"depends" : ['base', 'hr_attendance', 'hr', 'hr_holidays'],
 "data" :['weladee_attendance.xml'],
 "installable" : True,
 "active" : False,

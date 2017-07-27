@@ -19,3 +19,4 @@
 #
 ##############################################################################
 import weladee_attendance
+import weladee_employee
