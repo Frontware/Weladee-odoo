@@ -47,3 +47,4 @@ docs/_build/
 .idea/workspace.xml
 .idea/markdown-navigator/profiles_settings.xml
 .idea/markdown-navigator.xml
+*.iml
