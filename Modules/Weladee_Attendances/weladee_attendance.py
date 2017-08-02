@@ -428,6 +428,36 @@ class weladee_attendance(osv.osv):
                                                                   print(data)
                                                                   hid = self.pool.get("hr.holidays").create(cr, uid, data, context=None)
 
+          # List of Attendances
+          print("Attendances")
+          if True :
+              for att in stub.GetNewAttendance(weladee_pb2.Empty(), metadata=authorization):
+                  if att :
+                      if att.odoo :
+                          if not att.odoo.odoo_id :
+                              if att.logevent :
+                                  try:
+                                      if att.logevent.employeeid and att.logevent.action and att.logevent.timestamp :
+                                          acion = "sign_in"
+                                      if att.logevent.action == "o" :
+                                          action = "sign_out"
+                                      datetime = datetime.datetime.fromtimestamp(
+                                          att.logevent.timestamp
+                                      ).strftime('%Y-%m-%d %H:%M:%S')
+                                      acEid = False
+                                      if att.logevent.employeeid in wEidTooEid :
+                                          acEid = wEidTooEid[ att.logevent.employeeid in wEidTooEid ]
+
+                                      packet = {"employee_id" : acEid,
+                                                "name" : datetime,
+                                                "action" : action}
+                                      print(packet)
+                                  except Exception as e:
+                                      print("Found problem when create attendance on odoo",e)
+
+
+
+
 
 
 
