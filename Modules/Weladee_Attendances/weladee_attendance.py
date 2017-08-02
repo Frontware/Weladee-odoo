@@ -430,30 +430,69 @@ class weladee_attendance(osv.osv):
 
           # List of Attendances
           print("Attendances")
+          att_line_obj = self.pool.get('hr.attendance')
+          att_line_ids = position_line_obj.search(cr, uid, [])
           if True :
               for att in stub.GetNewAttendance(weladee_pb2.Empty(), metadata=authorization):
+                  newAttendance = False
                   if att :
                       if att.odoo :
+                          attendanceData = False
                           if not att.odoo.odoo_id :
-                              if att.logevent :
-                                  try:
-                                      if att.logevent.employeeid and att.logevent.action and att.logevent.timestamp :
-                                          acion = "sign_in"
-                                      if att.logevent.action == "o" :
-                                          action = "sign_out"
-                                      datetime = datetime.datetime.fromtimestamp(
-                                          att.logevent.timestamp
-                                      ).strftime('%Y-%m-%d %H:%M:%S')
-                                      acEid = False
-                                      if att.logevent.employeeid in wEidTooEid :
-                                          acEid = wEidTooEid[ att.logevent.employeeid in wEidTooEid ]
+                              newAttendance = True
+                          else :
+                              attendanceData = att_line_obj.browse(cr, uid, att.odoo.odoo_id, context=context)
 
-                                      packet = {"employee_id" : acEid,
-                                                "name" : datetime,
-                                                "action" : action}
+                          if att.logevent :
+                              try:
+                                  if att.logevent.employeeid and att.logevent.action and att.logevent.timestamp :
+                                      acion = "sign_in"
+                                  if att.logevent.action == "o" :
+                                      action = "sign_out"
+                                  datetime = datetime.datetime.fromtimestamp(
+                                      att.logevent.timestamp
+                                  ).strftime('%Y-%m-%d %H:%M:%S')
+                                  acEid = False
+                                  if att.logevent.employeeid in wEidTooEid :
+                                      acEid = wEidTooEid[ att.logevent.employeeid in wEidTooEid ]
+
+                                  packet = {"employee_id" : acEid,
+                                            "name" : datetime,
+                                            "action" : action}
+                                  if newAttendance :
+                                      aid = False
+                                      try :
+                                          aid = self.pool.get("hr.attendance").create(cr, uid, packet, context=None)
+                                          print ("Created log event on odoo")
+                                      except Exception as e:
+                                          print("Create log event is failed",e)
                                       print(packet)
-                                  except Exception as e:
-                                      print("Found problem when create attendance on odoo",e)
+                                      # update odoo id
+                                      if aid :
+                                          syncLogEvent = weladee_pb2.LogEventOdooSync()
+                                          syncLogEvent.odoo.odoo_id = aid
+                                          syncLogEvent.odoo.odoo_created_on = int(time.time())
+                                          syncLogEvent.odoo.odoo_synced_on = int(time.time())
+
+                                          syncLogEvent.logid = att.logevent.id
+
+                                          try :
+                                              result = stub.SyncAttendance(syncLogEvent, metadata=authorization)
+                                              print ("Sync log event to Weladee : %s" % result)
+                                          except Exception as e:
+                                              print("Sync log event is failed",e)
+                                  else :
+                                      if attendanceData :
+                                          try :
+                                              self.pool.get("hr.attendance").write(cr, uid, att.odoo.odoo_id, packet, context=None)
+                                              print ("Updated log event on odoo")
+                                          except Exception as e:
+                                              print("Updated log event is failed",e)
+
+                              except Exception as e:
+                                  print("Found problem when create attendance on odoo",e)
+
+
 
 
 
