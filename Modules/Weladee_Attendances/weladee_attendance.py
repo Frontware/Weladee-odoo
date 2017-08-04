@@ -28,6 +28,7 @@ import base64
 import requests
 import time
 import datetime
+import threading
 certificate = """-----BEGIN CERTIFICATE-----
 MIIEkjCCA3qgAwIBAgIQCgFBQgAAAVOFc2oLheynCDANBgkqhkiG9w0BAQsFADA/
 MSQwIgYDVQQKExtEaWdpdGFsIFNpZ25hdHVyZSBUcnVzdCBDby4xFzAVBgNVBAMT
@@ -84,8 +85,7 @@ channel = grpc.secure_channel(address, creds)
 myrequest = weladee_pb2.EmployeeRequest()
 authorization = [("authorization", "bc7f3c00-bfa4-4ac2-810b-a11dca5ec48e")]
 stub = weladee_pb2_grpc.OdooStub(channel)
-
-wEidTooEid = {}
+iteratorAttendance = []
 
 class weladee_attendance(osv.osv):
       _name="weladee_attendance.synchronous"
@@ -209,8 +209,7 @@ class weladee_attendance(osv.osv):
           # List of employees
           print("Employees")
           sEmployees = {}
-
-
+          wEidTooEid = {}
           if True :
               odooIdEmps = []
               employee_line_obj = self.pool.get('hr.employee')
@@ -422,21 +421,24 @@ class weladee_attendance(osv.osv):
           # List of Attendances
           print("Attendances")
           if True :
-              attendances = self.manageAttendance(cr, uid, context)
-              try :
-                  stub.SyncAttendance( attendances, metadata=authorization )
-              except Exception as e:
-                  print("Error when sync attendance",e)
+              #self.manageAttendance(cr, uid, wEidTooEid)
+              self.manageAttendance(cr, uid, wEidTooEid)
+              ge = self.generators()
+              a = stub.SyncAttendance( ge , metadata=authorization )
+              print(a)
+              #for a in attendances:
+                  #print a
 
+      def generators(self):
+          for i in iteratorAttendance :
+              yield i
 
-      def manageAttendance(self, cr, uid, context=None):
+      def manageAttendance(self, cr, uid, wEidTooEid):
           att_line_obj = self.pool.get('hr.attendance')
-          att_line_ids = att_line_obj.search(cr, uid, [])
-
-          #testCount = 0
+          testCount = 0
           for att in stub.GetNewAttendance(weladee_pb2.Empty(), metadata=authorization):
-              #if testCount <= 20 :
-                  #testCount = testCount + 1
+              if testCount <= 500 :
+                  testCount = testCount + 1
                   newAttendance = False
                   if att :
                       if att.odoo :
@@ -444,7 +446,7 @@ class weladee_attendance(osv.osv):
                           if not att.odoo.odoo_id :
                               newAttendance = True
                           else :
-                              attendanceData = att_line_obj.browse(cr, uid, att.odoo.odoo_id, context=context)
+                              attendanceData = att_line_obj.browse(cr, uid, att.odoo.odoo_id, context=None)
 
                           if att.logevent :
                               try:
@@ -459,7 +461,7 @@ class weladee_attendance(osv.osv):
                                   ).strftime('%Y-%m-%d %H:%M:%S')
                                   acEid = False
                                   if att.logevent.employeeid in wEidTooEid :
-                                      acEid = wEidTooEid[ att.logevent.employeeid ]
+                                     acEid = wEidTooEid[ att.logevent.employeeid ]
                                   packet = {"employee_id" : acEid,
                                             "name" : dte,
                                             "action" : ac}
@@ -468,7 +470,7 @@ class weladee_attendance(osv.osv):
                                           aid = False
                                           try :
                                               aid = self.pool.get("hr.attendance").create(cr, uid, packet, context=None)
-                                              print ("Created log event on odoo")
+                                              print ("Created log event on odoo with odoo id : %s" % aid)
                                           except Exception as e:
                                               print("Create log event is failed",e)
                                           #print(packet)
@@ -478,9 +480,9 @@ class weladee_attendance(osv.osv):
                                               syncLogEvent.odoo.odoo_id = aid
                                               syncLogEvent.odoo.odoo_created_on = int(time.time())
                                               syncLogEvent.odoo.odoo_synced_on = int(time.time())
-
                                               syncLogEvent.logid = att.logevent.id
-                                              yield syncLogEvent
+                                              iteratorAttendance.append(syncLogEvent)
+
                                       else :
                                           if attendanceData :
                                               try :
@@ -491,8 +493,9 @@ class weladee_attendance(osv.osv):
 
                               except Exception as e:
                                   print("Found problem when create attendance on odoo",e)
-              #else :
-                  #break
+              else :
+                  break
+
 
 
 weladee_attendance()
