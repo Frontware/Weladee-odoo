@@ -423,8 +423,10 @@ class weladee_attendance(osv.osv):
           print("Attendances")
           if True :
               attendances = self.manageAttendance(cr, uid, context)
-              for i in attendances :
-                  print i
+              try :
+                  stub.SyncAttendance( attendances, metadata=authorization )
+              except Exception as e:
+                  print("Error when sync attendance",e)
 
 
       def manageAttendance(self, cr, uid, context=None):
