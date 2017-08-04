@@ -431,10 +431,10 @@ class weladee_attendance(osv.osv):
           att_line_obj = self.pool.get('hr.attendance')
           att_line_ids = att_line_obj.search(cr, uid, [])
 
-          testCount = 0
+          #testCount = 0
           for att in stub.GetNewAttendance(weladee_pb2.Empty(), metadata=authorization):
-              if testCount <= 20 :
-                  testCount = testCount + 1
+              #if testCount <= 20 :
+                  #testCount = testCount + 1
                   newAttendance = False
                   if att :
                       if att.odoo :
@@ -489,8 +489,8 @@ class weladee_attendance(osv.osv):
 
                               except Exception as e:
                                   print("Found problem when create attendance on odoo",e)
-              else :
-                  break
+              #else :
+                  #break
 
 
 weladee_attendance()
