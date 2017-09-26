@@ -44,5 +44,38 @@
                   action="action_weladee_attendance_synchronous_form"
         />
 
+        <record id="weladee_setting_wizard" model="ir.ui.view">
+            <field name="name">weladee_setting_wizard</field>
+            <field name="model">weladee_attendance.synchronous.setting</field>
+            <field name="arch" type="xml">
+                <form string="Setting">
+                    <group>
+                        <field name="holiday_status_id"/>
+                    </group>
+                    <footer>
+                        <button icon="gtk-cancel"  special="cancel"   string="Close"/>
+                        <button icon="gtk-execute" name="saveBtn" string="Save" class="oe_highlight" type="object"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_weladee_setting_form">
+            <field name="name">Weladee setting</field>
+            <field name="res_model">weladee_attendance.synchronous.setting</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="weladee_setting_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="weladee_setting_menu"
+                  name="Weladee setting"
+                  sequence="100"
+                  parent="hr_attendance.menu_hr_attendance_root"
+                  groups="base.group_hr_attendance"
+                  action="action_weladee_setting_form"
+        />
+
     </data>
 </openerp>    

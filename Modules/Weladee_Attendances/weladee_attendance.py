@@ -373,12 +373,7 @@ class weladee_attendance(osv.osv):
                                           print("odoo id : %s" % dateid)
                                           sCHoliday.append( str(chol.Holiday.date) )
 
-              """holiday_line_obj = self.pool.get('fw_company.holiday')
-              holiday_line_ids = holiday_line_obj.search(cr, uid, [])
-              for holydayId in holiday_line_ids:
-                  holy = holiday_line_obj.browse(cr, uid,holydayId ,context=context)
-                  if holy.datefrom:
-                      print(holy.datefrom)"""
+
 
           # List of Holiday
           print("Holiday")
@@ -497,5 +492,48 @@ class weladee_attendance(osv.osv):
                   break
 
 
+class weladee_settings(osv.osv):
+    _name="weladee_attendance.synchronous.setting"
+    _description="Weladee settings"
+
+    '''
+    purpose : get default holiday_status_id
+    remarks :
+    2017-09-26 CKA created
+    '''
+    def _get_holiday_status(self, cr, uid, context=None):
+        line_obj = self.pool.get('weladee_attendance.synchronous.setting')
+        line_ids = line_obj.search(cr, uid, [])
+        holiday_status_id = False
+
+        for sId in line_ids:
+            dataSet = line_obj.browse(cr, uid,sId, context=context)
+            if dataSet.holiday_status_id :
+                holiday_status_id = dataSet.holiday_status_id
+
+        return holiday_status_id
+
+
+    _columns = {
+        'holiday_status_id': fields.many2one("hr.holidays.status", "Leave Type",required=True),
+
+    }
+
+    _defaults = {
+
+        'holiday_status_id': _get_holiday_status
+    }
+
+    def saveBtn(self, cr, uid, ids, context=None):
+        print("--------Save-----------")
+        print(cr)
+        print(uid)
+        print(ids)
+        print("--------Save-----------")
+
+
+
+
 
 weladee_attendance()
+weladee_settings()
