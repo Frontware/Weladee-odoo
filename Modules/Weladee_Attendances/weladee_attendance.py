@@ -83,7 +83,7 @@ address = "grpc.weladee.com:22443"
 creds = grpc.ssl_channel_credentials(certificate)
 channel = grpc.secure_channel(address, creds)
 myrequest = weladee_pb2.EmployeeRequest()
-authorization = [("authorization", "bc7f3c00-bfa4-4ac2-810b-a11dca5ec48e")]
+authorization = [("authorization", "183df053-eebe-42af-b9e0-9397b52e04c3")]
 stub = weladee_pb2_grpc.OdooStub(channel)
 iteratorAttendance = []
 
@@ -362,8 +362,7 @@ class weladee_attendance(osv.osv):
 
               #List of Company holiday
               print("Company Holiday")
-              if False :
-                  sCHoliday = []
+              if True :
                   for chol in stub.GetCompanyHolidays(weladee_pb2.Empty(), metadata=authorization):
                       if chol :
                           if chol.odoo :
@@ -374,15 +373,42 @@ class weladee_attendance(osv.osv):
                                           if len( str (chol.Holiday.date ) ) == 8 :
                                               dte = str( chol.Holiday.date )
                                               fdte = dte[:4] + "-" + dte[4:6] + "-" + dte[6:8]
-                                              data = { "name" : chol.Holiday.name_english,
-                                                      "datefrom" : fdte,
-                                                      "dateto"   :  fdte,
-                                                      "enable":chol.Holiday.active
-                                                   }
-                                              print(data)
-                                              dateid = self.pool.get("fw_company.holiday").create(cr, uid, data, context=None)
-                                              print("odoo id : %s" % dateid)
-                                              sCHoliday.append( str(chol.Holiday.date) )
+                                              data = { "name" : chol.Holiday.name_english }
+                                              if chol.Holiday.employeeid :
+                                                  print("Company holiday")
+
+                                                  data["holiday_status_id"] = holiday_status_id.id
+                                                  data["holiday_type"] = "employee"
+                                                  data["date_from"] = fdte
+                                                  data["date_to"] = fdte
+                                                  data["message_follower_ids"] = []
+                                                  data["message_ids"] = []
+                                                  data["number_of_days_temp"] = 1.0
+                                                  data["payslip_status"] = False
+                                                  data["notes"] = "Import from weladee"
+                                                  data["report_note"] = "Import from weladee"
+                                                  data["department_id"] = False
+                                                  print("-------------")
+                                                  print(wEidTooEid)
+                                                  print("-------------")
+                                                  if chol.Holiday.employeeid in wEidTooEid :
+                                                      empId = wEidTooEid[ chol.Holiday.employeeid ]
+                                                      data["employee_id"] = empId
+                                                      print(data)
+                                                      dateid = self.pool.get("hr.holidays").create(cr, uid, data, context=None)
+                                                      print("odoo id : %s" % dateid)
+                                                  else :
+                                                      print("** Don't have employee id **")
+                                              else :
+                                                  print("Company holiday")
+
+                                                  data["enable"] = True
+                                                  data["datefrom"] = fdte
+                                                  data["dateto"] = fdte
+
+                                                  print(data)
+                                                  dateid = self.pool.get("fw_company.holiday").create(cr, uid, data, context=None)
+                                                  print("odoo id : %s" % dateid)
 
 
 
