@@ -368,6 +368,7 @@ class weladee_attendance(osv.osv):
                           if chol.odoo :
                               if not chol.odoo.odoo_id :
                                   if chol.Holiday :
+                                      print("----------------------------------")
                                       print(chol.Holiday)
                                       if chol.Holiday.date :
                                           if len( str (chol.Holiday.date ) ) == 8 :
@@ -375,7 +376,7 @@ class weladee_attendance(osv.osv):
                                               fdte = dte[:4] + "-" + dte[4:6] + "-" + dte[6:8]
                                               data = { "name" : chol.Holiday.name_english }
                                               if chol.Holiday.employeeid :
-                                                  print("Company holiday")
+                                                  print("Employee holiday")
 
                                                   data["holiday_status_id"] = holiday_status_id.id
                                                   data["holiday_type"] = "employee"
@@ -388,15 +389,34 @@ class weladee_attendance(osv.osv):
                                                   data["notes"] = "Import from weladee"
                                                   data["report_note"] = "Import from weladee"
                                                   data["department_id"] = False
-                                                  print("-------------")
-                                                  print(wEidTooEid)
-                                                  print("-------------")
                                                   if chol.Holiday.employeeid in wEidTooEid :
                                                       empId = wEidTooEid[ chol.Holiday.employeeid ]
                                                       data["employee_id"] = empId
-                                                      print(data)
                                                       dateid = self.pool.get("hr.holidays").create(cr, uid, data, context=None)
                                                       print("odoo id : %s" % dateid)
+
+                                                      newHoliday = weladee_pb2.HolidayOdoo()
+                                                      newHoliday.odoo.odoo_id = dateid
+                                                      newHoliday.odoo.odoo_created_on = int(time.time())
+                                                      newHoliday.odoo.odoo_synced_on = int(time.time())
+
+                                                      newHoliday.Holiday.id = chol.Holiday.id
+                                                      newHoliday.Holiday.name_english = chol.Holiday.name_english
+                                                      newHoliday.Holiday.name_thai = chol.Holiday.name_english
+                                                      newHoliday.Holiday.date = chol.Holiday.date
+                                                      newHoliday.Holiday.active = True
+
+                                                      newHoliday.Holiday.employeeid = chol.Holiday.employeeid
+
+                                                      print(newHoliday)
+                                                      try:
+                                                          result = stub.UpdateHoliday(newHoliday, metadata=authorization)
+                                                          print ("Created Employee holiday" )
+                                                      except Exception as ee :
+                                                          print("Error when Create Employee holiday : ",ee)
+
+
+
                                                   else :
                                                       print("** Don't have employee id **")
                                               else :
@@ -405,10 +425,28 @@ class weladee_attendance(osv.osv):
                                                   data["enable"] = True
                                                   data["datefrom"] = fdte
                                                   data["dateto"] = fdte
-
-                                                  print(data)
                                                   dateid = self.pool.get("fw_company.holiday").create(cr, uid, data, context=None)
                                                   print("odoo id : %s" % dateid)
+
+                                                  newHoliday = weladee_pb2.HolidayOdoo()
+                                                  newHoliday.odoo.odoo_id = dateid
+                                                  newHoliday.odoo.odoo_created_on = int(time.time())
+                                                  newHoliday.odoo.odoo_synced_on = int(time.time())
+
+                                                  newHoliday.Holiday.id = chol.Holiday.id
+                                                  newHoliday.Holiday.name_english = chol.Holiday.name_english
+                                                  newHoliday.Holiday.name_thai = chol.Holiday.name_english
+                                                  newHoliday.Holiday.date = chol.Holiday.date
+                                                  newHoliday.Holiday.active = True
+
+                                                  newHoliday.Holiday.employeeid = 0
+
+                                                  print(newHoliday)
+                                                  try:
+                                                      result = stub.UpdateHoliday(newHoliday, metadata=authorization)
+                                                      print ("Created Company holiday" )
+                                                  except Exception as ee :
+                                                      print("Error when Create Company holiday : ",ee)
 
 
 
@@ -469,8 +507,8 @@ class weladee_attendance(osv.osv):
           att_line_obj = self.pool.get('hr.attendance')
           testCount = 0
           for att in stub.GetNewAttendance(weladee_pb2.Empty(), metadata=authorization):
-              if testCount <= 500 :
-                  testCount = testCount + 1
+              #if testCount <= 5 :
+                  #testCount = testCount + 1
                   newAttendance = False
                   if att :
                       if att.odoo :
@@ -525,8 +563,8 @@ class weladee_attendance(osv.osv):
 
                               except Exception as e:
                                   print("Found problem when create attendance on odoo",e)
-              else :
-                  break
+              #else :
+                  #break
 
 
 class weladee_settings(osv.osv):
