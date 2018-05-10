@@ -83,7 +83,7 @@ address = "grpc.weladee.com:22443"
 creds = grpc.ssl_channel_credentials(certificate)
 channel = grpc.secure_channel(address, creds)
 myrequest = weladee_pb2.EmployeeRequest()
-authorization = [("authorization", "183df053-eebe-42af-b9e0-9397b52e04c3")]
+authorization = [("authorization", "6a8ab715-52d9-4299-a0b5-378b431d6afe")]
 stub = weladee_pb2_grpc.OdooStub(channel)
 iteratorAttendance = []
 
@@ -221,7 +221,7 @@ class weladee_attendance(osv.osv):
               print("Employees")
               sEmployees = {}
               wEidTooEid = {}
-              if True :
+              if False :
                   odooIdEmps = []
                   employee_line_obj = self.pool.get('hr.employee')
                   employee_line_ids = employee_line_obj.search(cr, uid, [])
@@ -343,7 +343,7 @@ class weladee_attendance(osv.osv):
                                   newEmployee.odoo.odoo_id = emp.id
                                   newEmployee.employee.first_name_english = (emp.name).split(" ")[0]
                                   if len((emp.name).split(" ")) > 1 :
-                                    newEmployee.employee.last_name_english = (emp.name).split(" ")[1]
+                                      newEmployee.employee.last_name_english = (emp.name).split(" ")[1]
                                   else :
                                       newEmployee.employee.last_name_english = ""
                                   newEmployee.employee.email = emp.work_email
@@ -355,10 +355,10 @@ class weladee_attendance(osv.osv):
                                           newEmployee.employee.positionid = weladeePositions[ pos ]
                                   print(newEmployee)
                                   try:
-                                    result = stub.AddEmployee(newEmployee, metadata=authorization)
-                                    print ("Weladee id : %s" % result.id)
+                                      result = stub.AddEmployee(newEmployee, metadata=authorization)
+                                      print ("Weladee id : %s" % result.id)
                                   except Exception as e:
-                                    print("Add employee failed",e)
+                                      print("Add employee failed",e)
 
               #List of Company holiday
               print("Company Holiday")
@@ -490,7 +490,7 @@ class weladee_attendance(osv.osv):
 
               # List of Attendances
               print("Attendances")
-              if True :
+              if False :
                   #self.manageAttendance(cr, uid, wEidTooEid)
                   self.manageAttendance(cr, uid, wEidTooEid)
                   ge = self.generators()
