@@ -33,25 +33,25 @@ def main():
 
     # List all departments
     print("Departments")
-    if True:
+    if False:
         for dept in stub.GetDepartments(myrequest, metadata=authorization):
             print(dept)
 
     # List of employees
     print("Employees")
-    if True :
+    if False :
         for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
             print(emp)
 
     # List of GetPositions
     print("Positions")
-    if False :
+    if True :
         for pos in stub.GetPositions(weladee_pb2.Empty(), metadata=authorization):
             print(pos)
 
     # List of CompanyHolidays
     print("CompanyHolidays")
-    if True :
+    if False :
         for ch in stub.GetCompanyHolidays(weladee_pb2.Empty(), metadata=authorization):
             print(ch)
     print("----------------------------------")
@@ -66,7 +66,7 @@ def main():
 
     # List of attendance to sync
     print("Attendance to sync")
-    if True :
+    if False :
         for att in stub.GetNewAttendance(weladee_pb2.Empty(), metadata=authorization):
             if att.logevent :
                 print("------------")

@@ -31,14 +31,14 @@ def main():
 
     # List all departments
     print("Departments")
-    if True:
+    if False:
         for dept in stub.GetDepartments(myrequest, metadata=authorization):
             print(dept)
 
     # List of employees
     print("----------------------------------")
     print("Employees")
-    if True :
+    if False :
         for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
             for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
                 if emp :
@@ -55,7 +55,7 @@ def main():
 
     # List of CompanyHolidays
     print("CompanyHolidays")
-    if True :
+    if False :
         for ch in stub.GetCompanyHolidays(weladee_pb2.Empty(), metadata=authorization):
             print(ch)
     print("----------------------------------")
