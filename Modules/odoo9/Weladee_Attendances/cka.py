@@ -49,7 +49,7 @@ def main():
     # List of GetPositions
     print("----------------------------------")
     print("Positions")
-    if False :
+    if True :
         for pos in stub.GetPositions(weladee_pb2.Empty(), metadata=authorization):
             print(pos)
 
