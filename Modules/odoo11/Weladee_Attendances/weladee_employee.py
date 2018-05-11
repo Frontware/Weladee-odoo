@@ -83,7 +83,7 @@ address = "grpc.weladee.com:22443"
 creds = grpc.ssl_channel_credentials(certificate)
 channel = grpc.secure_channel(address, creds)
 myrequest = weladee_pb2.EmployeeRequest()
-authorization = [("authorization", "183df053-eebe-42af-b9e0-9397b52e04c3")]
+#authorization = [("authorization", "fed4af9a-eaa0-4640-ac7e-50f7186ecd8c")]
 stub = odoo_pb2_grpc.OdooStub(channel)
 
 class weladee_employee(models.Model):
@@ -96,44 +96,55 @@ class weladee_employee(models.Model):
 
   @api.model
   def create(self, vals):
-    eid = super(weladee_employee,self).create(vals)
-    wPos = {}
-    for position in stub.GetPositions(myrequest, metadata=authorization):
-      if position :
-        if position.position.name_english :
-          wPos[ position.position.name_english ] = position.position.id
+    id = super(weladee_employee,self).create(vals)
 
-    newEmployee = odoo_pb2.EmployeeOdoo()
-    newEmployee.odoo.odoo_id = eid.id
-    newEmployee.odoo.odoo_created_on = int(time.time())
-    newEmployee.odoo.odoo_synced_on = int(time.time())
+    line_obj = self.env['weladee_attendance.synchronous.setting']
+    line_ids = line_obj.search([])
+    authorization = False
 
-    newEmployee.employee.first_name_english = ( vals["name"] ).split(" ")[0]
-    newEmployee.employee.last_name_english = ( vals["name"] ).split(" ")[1]
+    for sId in line_ids:
+        dataSet = line_obj.browse(sId.id)
+        if dataSet.api_key :
+            authorization = [("authorization", dataSet.api_key)]
 
-    newEmployee.employee.lg = "en"
-    newEmployee.employee.active = False
+    if False :
+        wPos = {}
+        for position in stub.GetPositions(myrequest, metadata=authorization):
+          if position :
+            if position.position.name_english :
+              wPos[ position.position.name_english ] = position.position.id
 
-    if vals["identification_id"] :
-      newEmployee.employee.code = vals["identification_id"]
-    if vals["notes"] :
-      newEmployee.employee.note = vals["notes"]
-    if vals["work_email"] :
-      newEmployee.employee.email = vals["work_email"]
-    if vals["job_id"] :
-      positionData = self.env['hr.job'].browse( vals["job_id"] )
-      if positionData :
-        pName = positionData.name
-        if pName in wPos :
-          newEmployee.employee.positionid = wPos[ pName ]
+        newEmployee = odoo_pb2.EmployeeOdoo()
+        newEmployee.odoo.odoo_id = eid.id
+        newEmployee.odoo.odoo_created_on = int(time.time())
+        newEmployee.odoo.odoo_synced_on = int(time.time())
 
-          print(newEmployee)
+        newEmployee.employee.first_name_english = ( vals["name"] ).split(" ")[0]
+        newEmployee.employee.last_name_english = ( vals["name"] ).split(" ")[1]
 
-          try:
-            result = stub.AddEmployee(newEmployee, metadata=authorization)
-            print ("Weladee id : %s" % result.id)
-          except Exception as e:
-            print("Add employee failed",e)
+        newEmployee.employee.lg = "en"
+        newEmployee.employee.active = False
+
+        if vals["identification_id"] :
+          newEmployee.employee.code = vals["identification_id"]
+        if vals["notes"] :
+          newEmployee.employee.note = vals["notes"]
+        if vals["work_email"] :
+          newEmployee.employee.email = vals["work_email"]
+        if vals["job_id"] :
+          positionData = self.env['hr.job'].browse( vals["job_id"] )
+          if positionData :
+            pName = positionData.name
+            if pName in wPos :
+              newEmployee.employee.positionid = wPos[ pName ]
+
+              print(newEmployee)
+
+              try:
+                result = stub.AddEmployee(newEmployee, metadata=authorization)
+                print ("Weladee id : %s" % result.id)
+              except Exception as e:
+                print("Add employee failed",e)
 
     return eid
 

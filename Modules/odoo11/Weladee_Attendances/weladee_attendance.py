@@ -85,7 +85,7 @@ address = "grpc.weladee.com:22443"
 creds = grpc.ssl_channel_credentials(certificate)
 channel = grpc.secure_channel(address, creds)
 myrequest = weladee_pb2.EmployeeRequest()
-authorization = [("authorization", "183df053-eebe-42af-b9e0-9397b52e04c3")]
+#authorization = [("authorization", "fed4af9a-eaa0-4640-ac7e-50f7186ecd8c")]
 stub = odoo_pb2_grpc.OdooStub(channel)
 iteratorAttendance = []
 
@@ -99,15 +99,20 @@ class weladee_attendance(models.TransientModel):
         line_obj = self.env['weladee_attendance.synchronous.setting']
         line_ids = line_obj.search([])
         holiday_status_id = False
+        authorization = False
 
         for sId in line_ids:
             dataSet = line_obj.browse(sId.id)
             if dataSet.holiday_status_id :
                 holiday_status_id = dataSet.holiday_status_id
+            if dataSet.api_key :
+                authorization = [("authorization", dataSet.api_key)]
 
-        if not holiday_status_id :
+        
+        if not holiday_status_id or not authorization :
             raise osv.except_osv(('Error'), ('Must to be set Leave Type on Weladee setting'))
         else:
+            print( "Authorization : %s" % authorization )
             #List all position
             weladeePositions = {}
             odooPositions = {}
@@ -486,7 +491,8 @@ class weladee_settings(models.TransientModel):
         return holiday_status_id
 
 
-    holiday_status_id = fields.Many2one("hr.holidays.status", String="Leave Type",required=True)
+    holiday_status_id = fields.Many2one("hr.holidays.status", String="Leave Type",required=True,default=_get_holiday_status )
+    api_key = fields.Char(string="API Key", required=True)
 
     def saveBtn(self):
         print("--------Save-----------")

@@ -52,6 +52,7 @@
             <field name="arch" type="xml">
                 <form string="Setting">
                     <group>
+                        <field name="api_key"/>
                         <field name="holiday_status_id"/>
                     </group>
                     <footer>

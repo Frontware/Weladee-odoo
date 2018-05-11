@@ -83,7 +83,7 @@ address = "grpc.weladee.com:22443"
 creds = grpc.ssl_channel_credentials(certificate)
 channel = grpc.secure_channel(address, creds)
 myrequest = weladee_pb2.EmployeeRequest()
-authorization = [("authorization", "6a8ab715-52d9-4299-a0b5-378b431d6afe")]
+authorization = [("authorization", "fed4af9a-eaa0-4640-ac7e-50f7186ecd8c")]
 stub = weladee_pb2_grpc.OdooStub(channel)
 iteratorAttendance = []
 
