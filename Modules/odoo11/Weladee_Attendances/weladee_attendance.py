@@ -140,7 +140,7 @@ class weladee_attendance(models.TransientModel):
 
         # List all departments
         sDepartment = []
-        print("Departments")
+        print("-------------Departments")
         if True :
             # sync data from Weladee to odoo if department don't have odoo id
             for dept in stub.GetDepartments(myrequest, metadata=authorization):
@@ -200,6 +200,163 @@ class weladee_attendance(models.TransientModel):
                                     print ("Weladee department id : %s" % result.id)
                                 except Exception as e:
                                     print("Add department failed",e)
+
+        # List of employees
+        print("Employees")
+        sEmployees = {}
+        wEidTooEid = {}
+        if True :
+            odooIdEmps = []
+            employee_line_obj = self.env['hr.employee']
+            employee_line_ids = employee_line_obj.search([])
+            #check code Weladee on odoo
+            for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
+                if emp :
+                    if emp.odoo :
+                        if not emp.odoo.odoo_id :
+                            print("------------------------------")
+                            if emp.employee:
+                                if emp.employee.ID:
+                                    photoBase64 = ''
+                                    if emp.employee.photo:
+                                        print("photo url : %s" % emp.employee.photo)
+                                        try :
+                                            photoBase64 = base64.b64encode(requests.get(emp.employee.photo).content)
+                                        except Exception as e:
+                                            print("Error when load image : ",e)
+                                        
+                                    data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
+                                            ,"identification_id" :(emp.employee.code or "" )
+                                            ,"notes": ( emp.employee.note or "" )
+                                            ,"work_email":( emp.employee.email or "" )
+                                            }
+                                    if emp.employee.positionid :
+                                        if weladeePositionName[ emp.employee.positionid ] :
+                                            posName = weladeePositionName[ emp.employee.positionid ]
+                                            if odooPositions[ posName ] :
+                                                data[ "job_id" ] = odooPositions[ posName ]
+                                    if photoBase64:
+                                        data["image"] = photoBase64
+
+                                    if emp.Badge:
+                                        data["barcode"] = emp.Badge
+
+                                    try :
+                                        odoo_employeeId = self.env["hr.employee"].create( data )
+                                    except Exception as e:
+                                        print("Error when create employee to odoo : ",e)
+                                   
+                                    if odoo_employeeId :
+                                        odooIdEmps.append( odoo_employeeId.id )
+                                        wEidTooEid[ emp.employee.ID ] = odoo_employeeId.id
+
+                                        if odoo_employeeId.id :
+                                            sEmployees[ odoo_employeeId.id ] = emp.employee
+                                            newEmployee = odoo_pb2.EmployeeOdoo()
+                                            newEmployee.odoo.odoo_id = odoo_employeeId.id
+                                            newEmployee.odoo.odoo_created_on = int(time.time())
+                                            newEmployee.odoo.odoo_synced_on = int(time.time())
+
+                                            if emp.employee.ID :
+                                                newEmployee.employee.ID = emp.employee.ID
+                                            if emp.employee.email :
+                                                newEmployee.employee.email = emp.employee.email
+                                            if emp.employee.user_name :
+                                                newEmployee.employee.user_name = emp.employee.user_name
+                                            if emp.employee.last_name_english :
+                                                newEmployee.employee.last_name_english = emp.employee.last_name_english
+                                            if emp.employee.first_name_english :
+                                                newEmployee.employee.first_name_english = emp.employee.first_name_english
+                                            if emp.employee.first_name_thai :
+                                                newEmployee.employee.first_name_thai = emp.employee.first_name_thai
+                                            if emp.employee.last_name_thai :
+                                                newEmployee.employee.last_name_thai = emp.employee.last_name_thai
+                                            if emp.employee.managerID :
+                                                newEmployee.employee.managerID = emp.employee.managerID
+                                            if emp.employee.lineID :
+                                                newEmployee.employee.lineID = emp.employee.lineID
+                                            if emp.employee.nickname_english :
+                                                newEmployee.employee.nickname_english = emp.employee.nickname_english
+                                            if emp.employee.nickname_thai :
+                                                newEmployee.employee.nickname_thai = emp.employee.nickname_thai
+                                            if emp.employee.FCMtoken :
+                                                newEmployee.employee.FCMtoken = emp.employee.FCMtoken
+                                            if emp.employee.phone_model :
+                                                newEmployee.employee.phone_model = emp.employee.phone_model
+                                            if emp.employee.phone_serial :
+                                                newEmployee.employee.phone_serial = emp.employee.phone_serial
+                                            if emp.employee.code :
+                                                newEmployee.employee.code = emp.employee.code
+                                            if emp.employee.created_by :
+                                                newEmployee.employee.created_by = emp.employee.created_by
+                                            if emp.employee.updated_by :
+                                                newEmployee.employee.updated_by = emp.employee.updated_by
+                                            if emp.employee.active :
+                                                newEmployee.employee.active = emp.employee.active
+                                            if emp.employee.note :
+                                                newEmployee.employee.note = emp.employee.note
+                                            if emp.employee.photo :
+                                                newEmployee.employee.photo = emp.employee.photo
+                                            if emp.employee.lg :
+                                                newEmployee.employee.lg = emp.employee.lg
+                                            if emp.employee.application_level :
+                                                newEmployee.employee.application_level = emp.employee.application_level
+                                            if emp.employee.positionid :
+                                                newEmployee.employee.positionid = emp.employee.positionid
+                                            if emp.employee.Phones :
+                                                newEmployee.employee.Phones = emp.employee.Phones
+                                            if emp.employee.rfid :
+                                                newEmployee.employee.rfid = emp.employee.rfid
+                                            if emp.employee.EmailValidated :
+                                                newEmployee.employee.EmailValidated = emp.employee.EmailValidated
+                                            if emp.employee.teamid :
+                                                newEmployee.employee.teamid = emp.employee.teamid
+                                            print( newEmployee )
+                                            try:
+                                                result = stub.UpdateEmployee(newEmployee, metadata=authorization)
+                                                print ("Update odoo employee id : %s" % result.id)
+                                            except Exception as e:
+                                                print("Update odoo employee id is failed",e)
+                        else :
+                            odooIdEmps.append( emp.odoo.odoo_id )
+                            wEidTooEid[ emp.employee.ID ] = emp.odoo.odoo_id
+                            sEmployees[ emp.odoo.odoo_id ] = emp.employee
+
+            #add new employee on odoo to Weladee
+            if True :
+                for empId in employee_line_ids:
+                    emp = employee_line_obj.browse(empId.id)
+                    if emp.id:
+                        print("------------------------------")
+                        pos = False
+                        if emp.job_id :
+                            if emp.job_id.name :
+                                pos = emp.job_id.name
+                        if not emp.id in odooIdEmps :
+                            print("Add new employee %s with odoo id %s" % (emp.name, emp.id))
+                            newEmployee = odoo_pb2.EmployeeOdoo()
+                            newEmployee.odoo.odoo_id = emp.id
+                            newEmployee.employee.first_name_english = (emp.name).split(" ")[0]
+                            if len((emp.name).split(" ")) > 1 :
+                                newEmployee.employee.last_name_english = (emp.name).split(" ")[1]
+                            else :
+                                newEmployee.employee.last_name_english = ""
+                            if emp.work_email:
+                                newEmployee.employee.email = emp.work_email
+                            if emp.notes:
+                                newEmployee.employee.note = emp.notes
+                            if emp.work_email:
+                                newEmployee.employee.lg = "en"
+                            newEmployee.employee.active = False
+                            if pos :
+                                if weladeePositions[ pos ] :
+                                    newEmployee.employee.positionid = weladeePositions[ pos ]
+                            print(newEmployee)
+                            try:
+                                result = stub.AddEmployee(newEmployee, metadata=authorization)
+                                print ("Weladee id : %s" % result.id)
+                            except Exception as e:
+                                print("Add employee failed",e)
 
 
 

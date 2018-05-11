@@ -31,25 +31,23 @@ def main():
 
     # List all departments
     print("Departments")
-    if True:
+    if False:
         for dept in stub.GetDepartments(myrequest, metadata=authorization):
             print(dept)
 
     # List of employees
     print("----------------------------------")
     print("Employees")
-    if False :
+    if True :
         for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
             for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
-                if emp :
-                    if emp.odoo :
-                        if not emp.odoo.odoo_id :
-                            print(emp)
+                print(emp)
+                            
 
     # List of GetPositions
     print("----------------------------------")
     print("Positions")
-    if True :
+    if False :
         for pos in stub.GetPositions(weladee_pb2.Empty(), metadata=authorization):
             print(pos)
 
