@@ -24,7 +24,7 @@
 "author" : "Frontware International",
 "category" : "Generic Modules",
 "depends" : ['base', 'hr_attendance', 'hr', 'hr_holidays'],
-"data" :[],
+"data" :["weladee_attendance.xml"],
 "installable" : True,
 "active" : False,
 "website" : "https://www.weladee.com/",

@@ -19,8 +19,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from odoo import fields
 from odoo import osv
+from odoo import models, fields, api
 from datetime import datetime,date, timedelta
 import grpc
 from . import odoo_pb2
@@ -83,18 +83,69 @@ address = "grpc.weladee.com:22443"
 creds = grpc.ssl_channel_credentials(certificate)
 channel = grpc.secure_channel(address, creds)
 myrequest = weladee_pb2.EmployeeRequest()
-authorization = [("authorization", "183df053-eebe-42af-b9e0-9397b52e04c3")]
+#authorization = [("authorization", "fed4af9a-eaa0-4640-ac7e-50f7186ecd8c")]
 stub = odoo_pb2_grpc.OdooStub(channel)
 
-class weladee_employee(osv.osv):
+class weladee_employee(models.Model):
   _description="synchronous Employee, Department, Holiday and attences"
   _inherit = 'hr.employee'
 
-  _columns = {
-    'sync' : fields.date('sync_date'),
-    'work_email' : fields.char('Work Email', size=50, required=True),
-    'job_id' : fields.many2one('hr.job','Job Title', required=True),
-    'identification_id' : fields.char('Identification No', size=50, required=True),
-  }
+  work_email = fields.Char(string="Work Email", required=True)
+  job_id = fields.Many2one('hr.job',string="Job Title", required=True)
+  identification_id = fields.Char(string="Identification No", required=True)
+
+  @api.model
+  def create(self, vals):
+    id = super(weladee_employee,self).create(vals)
+
+    line_obj = self.env['weladee_attendance.synchronous.setting']
+    line_ids = line_obj.search([])
+    authorization = False
+
+    for sId in line_ids:
+        dataSet = line_obj.browse(sId.id)
+        if dataSet.api_key :
+            authorization = [("authorization", dataSet.api_key)]
+
+    if False :
+        wPos = {}
+        for position in stub.GetPositions(myrequest, metadata=authorization):
+          if position :
+            if position.position.name_english :
+              wPos[ position.position.name_english ] = position.position.id
+
+        newEmployee = odoo_pb2.EmployeeOdoo()
+        newEmployee.odoo.odoo_id = eid.id
+        newEmployee.odoo.odoo_created_on = int(time.time())
+        newEmployee.odoo.odoo_synced_on = int(time.time())
+
+        newEmployee.employee.first_name_english = ( vals["name"] ).split(" ")[0]
+        newEmployee.employee.last_name_english = ( vals["name"] ).split(" ")[1]
+
+        newEmployee.employee.lg = "en"
+        newEmployee.employee.active = False
+
+        if vals["identification_id"] :
+          newEmployee.employee.code = vals["identification_id"]
+        if vals["notes"] :
+          newEmployee.employee.note = vals["notes"]
+        if vals["work_email"] :
+          newEmployee.employee.email = vals["work_email"]
+        if vals["job_id"] :
+          positionData = self.env['hr.job'].browse( vals["job_id"] )
+          if positionData :
+            pName = positionData.name
+            if pName in wPos :
+              newEmployee.employee.positionid = wPos[ pName ]
+
+              print(newEmployee)
+
+              try:
+                result = stub.AddEmployee(newEmployee, metadata=authorization)
+                print ("Weladee id : %s" % result.id)
+              except Exception as e:
+                print("Add employee failed",e)
+
+    return eid
 
 weladee_employee()
