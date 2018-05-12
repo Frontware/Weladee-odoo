@@ -15,7 +15,7 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
-from . import weladee_pb2 as weladee__pb2
+import weladee_pb2 as weladee__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -42,14 +42,14 @@ _LOGEVENTODOOSYNC = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
+      options=None),
     _descriptor.FieldDescriptor(
       name='logid', full_name='grpc.weladee.com.LogEventOdooSync.logid', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
+      options=None),
   ],
   extensions=[
   ],
@@ -80,14 +80,14 @@ _HOLIDAYODOO = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
+      options=None),
     _descriptor.FieldDescriptor(
       name='odoo', full_name='grpc.weladee.com.HolidayOdoo.odoo', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
+      options=None),
   ],
   extensions=[
   ],
@@ -118,21 +118,21 @@ _LOGEVENTODOO = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
+      options=None),
     _descriptor.FieldDescriptor(
       name='logevent', full_name='grpc.weladee.com.LogEventOdoo.logevent', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
+      options=None),
     _descriptor.FieldDescriptor(
       name='employee_odoo_id', full_name='grpc.weladee.com.LogEventOdoo.employee_odoo_id', index=2,
       number=3, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
+      options=None),
   ],
   extensions=[
   ],
@@ -163,14 +163,14 @@ _ODOOREQUEST = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='id', file=DESCRIPTOR),
+      options=None, json_name='id'),
     _descriptor.FieldDescriptor(
       name='odoo_id', full_name='grpc.weladee.com.OdooRequest.odoo_id', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='odoo_id', file=DESCRIPTOR),
+      options=None, json_name='odoo_id'),
   ],
   extensions=[
   ],
@@ -204,21 +204,21 @@ _EMPLOYEEODOO = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
+      options=None),
     _descriptor.FieldDescriptor(
       name='employee', full_name='grpc.weladee.com.EmployeeOdoo.employee', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
+      options=None),
     _descriptor.FieldDescriptor(
       name='Badge', full_name='grpc.weladee.com.EmployeeOdoo.Badge', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
+      options=None),
   ],
   extensions=[
   ],
@@ -249,14 +249,14 @@ _DEPARTMENTODOO = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
+      options=None),
     _descriptor.FieldDescriptor(
       name='department', full_name='grpc.weladee.com.DepartmentOdoo.department', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
+      options=None),
   ],
   extensions=[
   ],
@@ -287,14 +287,14 @@ _POSITIONODOO = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='odoo', file=DESCRIPTOR),
+      options=None, json_name='odoo'),
     _descriptor.FieldDescriptor(
       name='position', full_name='grpc.weladee.com.PositionOdoo.position', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='position', file=DESCRIPTOR),
+      options=None, json_name='position'),
   ],
   extensions=[
   ],
@@ -325,28 +325,28 @@ _ODOO = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='odoo_id', file=DESCRIPTOR),
+      options=None, json_name='odoo_id'),
     _descriptor.FieldDescriptor(
       name='odoo_created_on', full_name='grpc.weladee.com.odoo.odoo_created_on', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='odoo_created_on', file=DESCRIPTOR),
+      options=None, json_name='odoo_created_on'),
     _descriptor.FieldDescriptor(
       name='odoo_synced_on', full_name='grpc.weladee.com.odoo.odoo_synced_on', index=2,
       number=3, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='odoo_synced_on', file=DESCRIPTOR),
+      options=None, json_name='odoo_synced_on'),
     _descriptor.FieldDescriptor(
       name='odoo_note', full_name='grpc.weladee.com.odoo.odoo_note', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='odoo_note', file=DESCRIPTOR),
+      options=None, json_name='odoo_note'),
   ],
   extensions=[
   ],
