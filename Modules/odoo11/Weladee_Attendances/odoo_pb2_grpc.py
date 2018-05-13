@@ -57,14 +57,9 @@ class OdooStub(object):
         request_serializer=odoo__pb2.HolidayOdoo.SerializeToString,
         response_deserializer=weladee__pb2.Empty.FromString,
         )
-    self.GetDepartment = channel.unary_unary(
-        '/grpc.weladee.com.Odoo/GetDepartment',
-        request_serializer=odoo__pb2.OdooRequest.SerializeToString,
-        response_deserializer=odoo__pb2.DepartmentOdoo.FromString,
-        )
     self.GetDepartments = channel.unary_stream(
         '/grpc.weladee.com.Odoo/GetDepartments',
-        request_serializer=weladee__pb2.Empty.SerializeToString,
+        request_serializer=odoo__pb2.OdooRequest.SerializeToString,
         response_deserializer=odoo__pb2.DepartmentOdoo.FromString,
         )
     self.AddDepartment = channel.unary_unary(
@@ -163,16 +158,9 @@ class OdooServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def GetDepartment(self, request, context):
-    """/ Department
-    / return department record based on id or odoo_id
-    """
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
-
   def GetDepartments(self, request, context):
-    """/ return a stream of departments
+    """/ Department
+    / return a stream of departments
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -265,14 +253,9 @@ def add_OdooServicer_to_server(servicer, server):
           request_deserializer=odoo__pb2.HolidayOdoo.FromString,
           response_serializer=weladee__pb2.Empty.SerializeToString,
       ),
-      'GetDepartment': grpc.unary_unary_rpc_method_handler(
-          servicer.GetDepartment,
-          request_deserializer=odoo__pb2.OdooRequest.FromString,
-          response_serializer=odoo__pb2.DepartmentOdoo.SerializeToString,
-      ),
       'GetDepartments': grpc.unary_stream_rpc_method_handler(
           servicer.GetDepartments,
-          request_deserializer=weladee__pb2.Empty.FromString,
+          request_deserializer=odoo__pb2.OdooRequest.FromString,
           response_serializer=odoo__pb2.DepartmentOdoo.SerializeToString,
       ),
       'AddDepartment': grpc.unary_unary_rpc_method_handler(
