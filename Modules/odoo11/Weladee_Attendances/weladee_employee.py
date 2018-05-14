@@ -96,7 +96,7 @@ class weladee_employee(models.Model):
 
   @api.model
   def create(self, vals):
-    id = super(weladee_employee,self).create(vals)
+    eid = super(weladee_employee,self).create(vals)
 
     line_obj = self.env['weladee_attendance.synchronous.setting']
     line_ids = line_obj.search([])

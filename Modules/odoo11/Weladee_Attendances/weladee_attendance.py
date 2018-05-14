@@ -237,7 +237,6 @@ class weladee_attendance(models.TransientModel):
                                     if emp.employee.ID:
                                         photoBase64 = ''
                                         if emp.employee.photo:
-                                            print("photo url : %s" % emp.employee.photo)
                                             try :
                                                 photoBase64 = base64.b64encode(requests.get(emp.employee.photo).content)
                                             except Exception as e:
@@ -259,20 +258,21 @@ class weladee_attendance(models.TransientModel):
                                         if emp.Badge:
                                             data["barcode"] = emp.Badge
 
-                                        odoo_employeeId = False
-                                        try :
-                                            odoo_employeeId = self.env["hr.employee"].create( data )
+                                        odoo_employee_id = False
+                                        try:
+                                            odoo_employee_id = self.env["hr.employee"].create( data )
                                         except Exception as e:
-                                            print("Error when create employee to odoo : ",e)
-                                        
-                                        if odoo_employeeId :
-                                            odooIdEmps.append( odoo_employeeId.id )
-                                            wEidTooEid[ emp.employee.ID ] = odoo_employeeId.id
+                                            print("photo url : %s" % emp.employee.photo)
+                                            print( 'Error when import employee : %s' % e )
 
-                                            if odoo_employeeId.id :
-                                                sEmployees[ odoo_employeeId.id ] = emp.employee
+                                        if odoo_employee_id :
+                                            odooIdEmps.append( odoo_employee_id.id )
+                                            wEidTooEid[ emp.employee.ID ] = odoo_employee_id.id
+
+                                            if odoo_employee_id.id :
+                                                sEmployees[ odoo_employee_id.id ] = emp.employee
                                                 newEmployee = odoo_pb2.EmployeeOdoo()
-                                                newEmployee.odoo.odoo_id = odoo_employeeId.id
+                                                newEmployee.odoo.odoo_id = odoo_employee_id.id
                                                 newEmployee.odoo.odoo_created_on = int(time.time())
                                                 newEmployee.odoo.odoo_synced_on = int(time.time())
 
@@ -497,6 +497,5 @@ class weladee_settings(models.TransientModel):
     def saveBtn(self):
         print("--------Save-----------")
 
-     
+weladee_settings()
 weladee_attendance()
-#weladee_settings()
