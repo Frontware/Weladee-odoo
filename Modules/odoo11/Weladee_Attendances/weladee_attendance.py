@@ -490,9 +490,21 @@ class weladee_settings(models.TransientModel):
 
         return holiday_status_id
 
+    def _get_api_key(self):
+        line_obj = self.env['weladee_attendance.synchronous.setting']
+        line_ids = line_obj.search([])
+        api_key = False
+
+        for sId in line_ids:
+            dataSet = line_obj.browse(sId.id)
+            if dataSet.api_key :
+                api_key = dataSet.api_key
+
+        return api_key
+
 
     holiday_status_id = fields.Many2one("hr.holidays.status", String="Leave Type",required=True,default=_get_holiday_status )
-    api_key = fields.Char(string="API Key", required=True)
+    api_key = fields.Char(string="API Key", required=True,default=_get_api_key )
 
     def saveBtn(self):
         print("--------Save-----------")

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- 
+    purpose : render holiday leave
+    
+    remarks :
+    2013-11-07 KPO upgrade to openerp 7.0
+    2014-12-15 KPO add duration
+ -->
+<openerp>
+    <data>
+    
+    </data>
+</openerp>

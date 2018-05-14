@@ -94,10 +94,7 @@ class weladee_employee(models.Model):
   job_id = fields.Many2one('hr.job',string="Job Title", required=True)
   identification_id = fields.Char(string="Identification No", required=True)
 
-  @api.model
-  def create(self, vals):
-    eid = super(weladee_employee,self).create(vals)
-
+  def get_api_key(self):
     line_obj = self.env['weladee_attendance.synchronous.setting']
     line_ids = line_obj.search([])
     authorization = False
@@ -106,46 +103,55 @@ class weladee_employee(models.Model):
         dataSet = line_obj.browse(sId.id)
         if dataSet.api_key :
             authorization = [("authorization", dataSet.api_key)]
+    return authorization
 
-    if False :
-        wPos = {}
-        for position in stub.GetPositions(myrequest, metadata=authorization):
-          if position :
-            if position.position.name_english :
-              wPos[ position.position.name_english ] = position.position.id
+  @api.model
+  def create(self, vals):
+    eid = super(weladee_employee,self).create(vals)
 
-        newEmployee = odoo_pb2.EmployeeOdoo()
-        newEmployee.odoo.odoo_id = eid.id
-        newEmployee.odoo.odoo_created_on = int(time.time())
-        newEmployee.odoo.odoo_synced_on = int(time.time())
+    authorization = False
+    authorization = get_api_key(self)
+    print("API : %s" % authorization)
+    if authorization :
+      if False :
+          wPos = {}
+          for position in stub.GetPositions(myrequest, metadata=authorization):
+            if position :
+              if position.position.name_english :
+                wPos[ position.position.name_english ] = position.position.id
 
-        newEmployee.employee.first_name_english = ( vals["name"] ).split(" ")[0]
-        newEmployee.employee.last_name_english = ( vals["name"] ).split(" ")[1]
+          newEmployee = odoo_pb2.EmployeeOdoo()
+          newEmployee.odoo.odoo_id = eid.id
+          newEmployee.odoo.odoo_created_on = int(time.time())
+          newEmployee.odoo.odoo_synced_on = int(time.time())
 
-        newEmployee.employee.lg = "en"
-        newEmployee.employee.active = False
+          newEmployee.employee.first_name_english = ( vals["name"] ).split(" ")[0]
+          newEmployee.employee.last_name_english = ( vals["name"] ).split(" ")[1]
 
-        if vals["identification_id"] :
-          newEmployee.employee.code = vals["identification_id"]
-        if vals["notes"] :
-          newEmployee.employee.note = vals["notes"]
-        if vals["work_email"] :
-          newEmployee.employee.email = vals["work_email"]
-        if vals["job_id"] :
-          positionData = self.env['hr.job'].browse( vals["job_id"] )
-          if positionData :
-            pName = positionData.name
-            if pName in wPos :
-              newEmployee.employee.positionid = wPos[ pName ]
+          newEmployee.employee.lg = "en"
+          newEmployee.employee.active = False
 
-              print(newEmployee)
+          if vals["identification_id"] :
+            newEmployee.employee.code = vals["identification_id"]
+          if vals["notes"] :
+            newEmployee.employee.note = vals["notes"]
+          if vals["work_email"] :
+            newEmployee.employee.email = vals["work_email"]
+          if vals["job_id"] :
+            positionData = self.env['hr.job'].browse( vals["job_id"] )
+            if positionData :
+              pName = positionData.name
+              if pName in wPos :
+                newEmployee.employee.positionid = wPos[ pName ]
 
-              try:
-                result = stub.AddEmployee(newEmployee, metadata=authorization)
-                print ("Weladee id : %s" % result.id)
-              except Exception as e:
-                print("Add employee failed",e)
+                print(newEmployee)
 
-    return eid
+                try:
+                  result = stub.AddEmployee(newEmployee, metadata=authorization)
+                  print ("Weladee id : %s" % result.id)
+                except Exception as e:
+                  print("Add employee failed",e)
+
+      return eid
 
 weladee_employee()
