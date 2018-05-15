@@ -21,6 +21,7 @@
 from odoo import osv
 from odoo import models, fields, api
 from datetime import datetime,date, timedelta
+from odoo import exceptions
 import grpc
 from . import odoo_pb2
 from . import odoo_pb2_grpc
@@ -110,7 +111,7 @@ class weladee_attendance(models.TransientModel):
 
         
         if not holiday_status_id or not authorization :
-            raise osv.except_osv(('Error'), ('Must to be set Leave Type on Weladee setting'))
+            raise exceptions.UserError('Must to be set Leave Type on Weladee setting')
         else:
             print( "Authorization : %s" % authorization )
             #List all position
@@ -225,8 +226,6 @@ class weladee_attendance(models.TransientModel):
             wEidTooEid = {}
             if True :
                 odooIdEmps = []
-                employee_line_obj = self.env['hr.employee']
-                employee_line_ids = employee_line_obj.search([])
                 #check code Weladee on odoo
                 for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
                     if emp :
@@ -333,7 +332,7 @@ class weladee_attendance(models.TransientModel):
                                                 print( newEmployee )
                                                 try:
                                                     result = stub.UpdateEmployee(newEmployee, metadata=authorization)
-                                                    print ("Update odoo employee id : %s" % result.id)
+                                                    print ("Updated odoo employee to weladee")
                                                 except Exception as e:
                                                     print("Update odoo employee id is failed",e)
                             else :
@@ -341,7 +340,9 @@ class weladee_attendance(models.TransientModel):
                                 wEidTooEid[ emp.employee.ID ] = emp.odoo.odoo_id
                                 sEmployees[ emp.odoo.odoo_id ] = emp.employee
 
-                #add new employee on odoo to Weladee
+                print("add new employee on odoo to Weladee")
+                employee_line_obj = self.env['hr.employee']
+                employee_line_ids = employee_line_obj.search([])
                 if True :
                     for empId in employee_line_ids:
                         emp = employee_line_obj.browse(empId.id)
@@ -379,7 +380,7 @@ class weladee_attendance(models.TransientModel):
 
 
             #List of Company holiday
-            print("Company Holiday")
+            print("Company Holiday And Employee holiday")
             if True :
                 for chol in stub.GetCompanyHolidays(weladee_pb2.Empty(), metadata=authorization):
                     if chol :
@@ -437,34 +438,38 @@ class weladee_attendance(models.TransientModel):
                                                 else :
                                                     print("** Don't have employee id **")
                                             else :
-                                                if False:
+                                                if True:
                                                     print("Company holiday")
+                                                    holiday_line_obj = self.env['weladee_attendance.company.holidays']
+                                                    holiday_line_ids = holiday_line_obj.search( [ ('company_holiday_date','=', fdte )] )
 
-                                                    data["enable"] = True
-                                                    data["datefrom"] = fdte
-                                                    data["dateto"] = fdte
-                                                    dateid = self.env["fw_company.holiday"].create( data )
-                                                    print("odoo id : %s" % dateid.id)
+                                                    if not holiday_line_ids :
+                                                        data = { 'company_holiday_description' :  chol.Holiday.name_english,
+                                                                'company_holiday_active' : True,
+                                                                'company_holiday_date' : fdte
+                                                         }
+                                                        dateid = self.env["weladee_attendance.company.holidays"].create( data )
+                                                        print("odoo id : %s" % dateid.id)
 
-                                                    newHoliday = odoo_pb2.HolidayOdoo()
-                                                    newHoliday.odoo.odoo_id = dateid.id
-                                                    newHoliday.odoo.odoo_created_on = int(time.time())
-                                                    newHoliday.odoo.odoo_synced_on = int(time.time())
+                                                        newHoliday = odoo_pb2.HolidayOdoo()
+                                                        newHoliday.odoo.odoo_id = dateid.id
+                                                        newHoliday.odoo.odoo_created_on = int(time.time())
+                                                        newHoliday.odoo.odoo_synced_on = int(time.time())
 
-                                                    newHoliday.Holiday.id = chol.Holiday.id
-                                                    newHoliday.Holiday.name_english = chol.Holiday.name_english
-                                                    newHoliday.Holiday.name_thai = chol.Holiday.name_english
-                                                    newHoliday.Holiday.date = chol.Holiday.date
-                                                    newHoliday.Holiday.active = True
+                                                        newHoliday.Holiday.id = chol.Holiday.id
+                                                        newHoliday.Holiday.name_english = chol.Holiday.name_english
+                                                        newHoliday.Holiday.name_thai = chol.Holiday.name_english
+                                                        newHoliday.Holiday.date = chol.Holiday.date
+                                                        newHoliday.Holiday.active = True
 
-                                                    newHoliday.Holiday.employeeid = 0
+                                                        newHoliday.Holiday.employeeid = 0
 
-                                                    print(newHoliday)
-                                                    try:
-                                                        result = stub.UpdateHoliday(newHoliday, metadata=authorization)
-                                                        print ("Created Company holiday" )
-                                                    except Exception as ee :
-                                                        print("Error when Create Company holiday : ",ee)
+                                                        print(newHoliday)
+                                                        try:
+                                                            result = stub.UpdateHoliday(newHoliday, metadata=authorization)
+                                                            print ("Created Company holiday" )
+                                                        except Exception as ee :
+                                                            print("Error when Create Company holiday : ",ee)
 
 
 

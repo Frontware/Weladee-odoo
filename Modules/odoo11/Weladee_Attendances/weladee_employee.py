@@ -110,7 +110,7 @@ class weladee_employee(models.Model):
     eid = super(weladee_employee,self).create(vals)
 
     authorization = False
-    authorization = get_api_key(self)
+    authorization = self.get_api_key()
     print("API : %s" % authorization)
     if authorization :
       if False :
