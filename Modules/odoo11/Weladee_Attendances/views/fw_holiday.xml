@@ -8,8 +8,7 @@
             <field name="arch" type="xml">
                 <tree string="Company holidays">
                     <field name="company_holiday_description"/>
-                    <field name="company_holiday_date_from"/>
-                    <field name="company_holiday_date_to"/>
+                    <field name="company_holiday_date"/>
                     <field name="company_holiday_notes"/>
                 </tree>
             </field>
@@ -24,8 +23,7 @@
                     <sheet>
                         <group>
                             <field name="company_holiday_description"/>   
-                            <field name="company_holiday_date_from"/>
-                            <field name="company_holiday_date_to"/>
+                            <field name="company_holiday_date"/>
                             <field name="company_holiday_active"/>
                             <field name="company_holiday_notes"/>      
                         </group>
@@ -47,7 +45,7 @@
         </record>
 
         <menuitem
-            name="Company holidays"
+            name="Company Holidays"
             action="action_company_holidays"
             parent="hr_holidays.menu_hr_holidays_report"
             groups="hr_holidays.group_hr_holidays_manager"
