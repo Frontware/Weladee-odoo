@@ -22,11 +22,42 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='odoo.proto',
   package='grpc.weladee.com',
   syntax='proto3',
-  serialized_pb=_b('\n\nodoo.proto\x12\x10grpc.weladee.com\x1a\rweladee.proto\"G\n\x10LogEventOdooSync\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12\r\n\x05logid\x18\x02 \x01(\x03\"_\n\x0bHolidayOdoo\x12*\n\x07Holiday\x18\x01 \x01(\x0b\x32\x19.grpc.weladee.com.Holiday\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"|\n\x0cLogEventOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12,\n\x08logevent\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.LogEvent\x12\x18\n\x10\x65mployee_odoo_id\x18\x03 \x01(\x03\"D\n\x0bOdooRequest\x12\x10\n\x02ID\x18\x01 \x01(\x03H\x00R\x02id\x12\x1a\n\x07odoo_id\x18\x02 \x01(\x03H\x00R\x07odoo_idB\x07\n\x05query\"q\n\x0c\x45mployeeOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12,\n\x08\x65mployee\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.Employee\x12\r\n\x05\x42\x61\x64ge\x18\x03 \x01(\t\"h\n\x0e\x44\x65partmentOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12\x30\n\ndepartment\x18\x02 \x01(\x0b\x32\x1c.grpc.weladee.com.Department\"r\n\x0cPositionOdoo\x12*\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odooR\x04odoo\x12\x36\n\x08position\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.PositionR\x08position\"\x90\x01\n\x04odoo\x12\x18\n\x07odoo_id\x18\x01 \x01(\x03R\x07odoo_id\x12(\n\x0fodoo_created_on\x18\x02 \x01(\x03R\x0fodoo_created_on\x12&\n\x0eodoo_synced_on\x18\x03 \x01(\x03R\x0eodoo_synced_on\x12\x1c\n\todoo_note\x18\x04 \x01(\tR\todoo_note2\x92\t\n\x04Odoo\x12I\n\x0eUpdateEmployee\x12\x1e.grpc.weladee.com.EmployeeOdoo\x1a\x17.grpc.weladee.com.Empty\x12O\n\x0cGetEmployees\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x1e.grpc.weladee.com.EmployeeOdoo0\x01\x12J\n\x0b\x41\x64\x64\x45mployee\x12\x1e.grpc.weladee.com.EmployeeOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12M\n\x0bGetHolidays\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x1d.grpc.weladee.com.HolidayOdoo0\x01\x12N\n\x12GetCompanyHolidays\x12\x17.grpc.weladee.com.Empty\x1a\x1d.grpc.weladee.com.HolidayOdoo0\x01\x12H\n\nAddHoliday\x12\x1d.grpc.weladee.com.HolidayOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12\x45\n\x0b\x44ropHoliday\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x17.grpc.weladee.com.Empty\x12G\n\rUpdateHoliday\x12\x1d.grpc.weladee.com.HolidayOdoo\x1a\x17.grpc.weladee.com.Empty\x12S\n\x0eGetDepartments\x12\x1d.grpc.weladee.com.OdooRequest\x1a .grpc.weladee.com.DepartmentOdoo0\x01\x12N\n\rAddDepartment\x12 .grpc.weladee.com.DepartmentOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12M\n\x10UpdateDepartment\x12 .grpc.weladee.com.DepartmentOdoo\x1a\x17.grpc.weladee.com.Empty\x12M\n\x10GetNewAttendance\x12\x17.grpc.weladee.com.Empty\x1a\x1e.grpc.weladee.com.LogEventOdoo0\x01\x12O\n\x0eSyncAttendance\x12\".grpc.weladee.com.LogEventOdooSync\x1a\x17.grpc.weladee.com.Empty(\x01\x12I\n\x0cGetPositions\x12\x17.grpc.weladee.com.Empty\x1a\x1e.grpc.weladee.com.PositionOdoo0\x01\x12J\n\x0b\x41\x64\x64Position\x12\x1e.grpc.weladee.com.PositionOdoo\x1a\x1b.grpc.weladee.com.AddResultB0\n\x1a\x63om.frontware.weladee_odooB\x0bWeladeeGRPCH\x03P\x01\x90\x01\x01\x62\x06proto3')
+  serialized_pb=_b('\n\nodoo.proto\x12\x10grpc.weladee.com\x1a\rweladee.proto\"\"\n\x11\x41ttendanceRequest\x12\r\n\x05\x66orce\x18\x01 \x01(\x08\"G\n\x10LogEventOdooSync\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12\r\n\x05logid\x18\x02 \x01(\x03\"_\n\x0bHolidayOdoo\x12*\n\x07Holiday\x18\x01 \x01(\x0b\x32\x19.grpc.weladee.com.Holiday\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"|\n\x0cLogEventOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12,\n\x08logevent\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.LogEvent\x12\x18\n\x10\x65mployee_odoo_id\x18\x03 \x01(\x03\"D\n\x0bOdooRequest\x12\x10\n\x02ID\x18\x01 \x01(\x03H\x00R\x02id\x12\x1a\n\x07odoo_id\x18\x02 \x01(\x03H\x00R\x07odoo_idB\x07\n\x05query\"q\n\x0c\x45mployeeOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12,\n\x08\x65mployee\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.Employee\x12\r\n\x05\x42\x61\x64ge\x18\x03 \x01(\t\"h\n\x0e\x44\x65partmentOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12\x30\n\ndepartment\x18\x02 \x01(\x0b\x32\x1c.grpc.weladee.com.Department\"r\n\x0cPositionOdoo\x12*\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odooR\x04odoo\x12\x36\n\x08position\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.PositionR\x08position\"\x90\x01\n\x04odoo\x12\x18\n\x07odoo_id\x18\x01 \x01(\x03R\x07odoo_id\x12(\n\x0fodoo_created_on\x18\x02 \x01(\x03R\x0fodoo_created_on\x12&\n\x0eodoo_synced_on\x18\x03 \x01(\x03R\x0eodoo_synced_on\x12\x1c\n\todoo_note\x18\x04 \x01(\tR\todoo_note2\x9e\t\n\x04Odoo\x12I\n\x0eUpdateEmployee\x12\x1e.grpc.weladee.com.EmployeeOdoo\x1a\x17.grpc.weladee.com.Empty\x12O\n\x0cGetEmployees\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x1e.grpc.weladee.com.EmployeeOdoo0\x01\x12J\n\x0b\x41\x64\x64\x45mployee\x12\x1e.grpc.weladee.com.EmployeeOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12M\n\x0bGetHolidays\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x1d.grpc.weladee.com.HolidayOdoo0\x01\x12N\n\x12GetCompanyHolidays\x12\x17.grpc.weladee.com.Empty\x1a\x1d.grpc.weladee.com.HolidayOdoo0\x01\x12H\n\nAddHoliday\x12\x1d.grpc.weladee.com.HolidayOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12\x45\n\x0b\x44ropHoliday\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x17.grpc.weladee.com.Empty\x12G\n\rUpdateHoliday\x12\x1d.grpc.weladee.com.HolidayOdoo\x1a\x17.grpc.weladee.com.Empty\x12S\n\x0eGetDepartments\x12\x1d.grpc.weladee.com.OdooRequest\x1a .grpc.weladee.com.DepartmentOdoo0\x01\x12N\n\rAddDepartment\x12 .grpc.weladee.com.DepartmentOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12M\n\x10UpdateDepartment\x12 .grpc.weladee.com.DepartmentOdoo\x1a\x17.grpc.weladee.com.Empty\x12Y\n\x10GetNewAttendance\x12#.grpc.weladee.com.AttendanceRequest\x1a\x1e.grpc.weladee.com.LogEventOdoo0\x01\x12O\n\x0eSyncAttendance\x12\".grpc.weladee.com.LogEventOdooSync\x1a\x17.grpc.weladee.com.Empty(\x01\x12I\n\x0cGetPositions\x12\x17.grpc.weladee.com.Empty\x1a\x1e.grpc.weladee.com.PositionOdoo0\x01\x12J\n\x0b\x41\x64\x64Position\x12\x1e.grpc.weladee.com.PositionOdoo\x1a\x1b.grpc.weladee.com.AddResultB0\n\x1a\x63om.frontware.weladee_odooB\x0bWeladeeGRPCH\x03P\x01\x90\x01\x01\x62\x06proto3')
   ,
   dependencies=[weladee__pb2.DESCRIPTOR,])
 
 
+
+
+_ATTENDANCEREQUEST = _descriptor.Descriptor(
+  name='AttendanceRequest',
+  full_name='grpc.weladee.com.AttendanceRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='force', full_name='grpc.weladee.com.AttendanceRequest.force', index=0,
+      number=1, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=47,
+  serialized_end=81,
+)
 
 
 _LOGEVENTODOOSYNC = _descriptor.Descriptor(
@@ -42,14 +73,14 @@ _LOGEVENTODOOSYNC = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='logid', full_name='grpc.weladee.com.LogEventOdooSync.logid', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -62,8 +93,8 @@ _LOGEVENTODOOSYNC = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=47,
-  serialized_end=118,
+  serialized_start=83,
+  serialized_end=154,
 )
 
 
@@ -80,14 +111,14 @@ _HOLIDAYODOO = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='odoo', full_name='grpc.weladee.com.HolidayOdoo.odoo', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -100,8 +131,8 @@ _HOLIDAYODOO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=120,
-  serialized_end=215,
+  serialized_start=156,
+  serialized_end=251,
 )
 
 
@@ -118,21 +149,21 @@ _LOGEVENTODOO = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='logevent', full_name='grpc.weladee.com.LogEventOdoo.logevent', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='employee_odoo_id', full_name='grpc.weladee.com.LogEventOdoo.employee_odoo_id', index=2,
       number=3, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -145,8 +176,8 @@ _LOGEVENTODOO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=217,
-  serialized_end=341,
+  serialized_start=253,
+  serialized_end=377,
 )
 
 
@@ -163,14 +194,14 @@ _ODOOREQUEST = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='id'),
+      options=None, json_name='id', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='odoo_id', full_name='grpc.weladee.com.OdooRequest.odoo_id', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='odoo_id'),
+      options=None, json_name='odoo_id', file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -186,8 +217,8 @@ _ODOOREQUEST = _descriptor.Descriptor(
       name='query', full_name='grpc.weladee.com.OdooRequest.query',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=343,
-  serialized_end=411,
+  serialized_start=379,
+  serialized_end=447,
 )
 
 
@@ -204,21 +235,21 @@ _EMPLOYEEODOO = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='employee', full_name='grpc.weladee.com.EmployeeOdoo.employee', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='Badge', full_name='grpc.weladee.com.EmployeeOdoo.Badge', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -231,8 +262,8 @@ _EMPLOYEEODOO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=413,
-  serialized_end=526,
+  serialized_start=449,
+  serialized_end=562,
 )
 
 
@@ -249,14 +280,14 @@ _DEPARTMENTODOO = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='department', full_name='grpc.weladee.com.DepartmentOdoo.department', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -269,8 +300,8 @@ _DEPARTMENTODOO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=528,
-  serialized_end=632,
+  serialized_start=564,
+  serialized_end=668,
 )
 
 
@@ -287,14 +318,14 @@ _POSITIONODOO = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='odoo'),
+      options=None, json_name='odoo', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='position', full_name='grpc.weladee.com.PositionOdoo.position', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='position'),
+      options=None, json_name='position', file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -307,8 +338,8 @@ _POSITIONODOO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=634,
-  serialized_end=748,
+  serialized_start=670,
+  serialized_end=784,
 )
 
 
@@ -325,28 +356,28 @@ _ODOO = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='odoo_id'),
+      options=None, json_name='odoo_id', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='odoo_created_on', full_name='grpc.weladee.com.odoo.odoo_created_on', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='odoo_created_on'),
+      options=None, json_name='odoo_created_on', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='odoo_synced_on', full_name='grpc.weladee.com.odoo.odoo_synced_on', index=2,
       number=3, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='odoo_synced_on'),
+      options=None, json_name='odoo_synced_on', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='odoo_note', full_name='grpc.weladee.com.odoo.odoo_note', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='odoo_note'),
+      options=None, json_name='odoo_note', file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -359,8 +390,8 @@ _ODOO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=751,
-  serialized_end=895,
+  serialized_start=787,
+  serialized_end=931,
 )
 
 _LOGEVENTODOOSYNC.fields_by_name['odoo'].message_type = _ODOO
@@ -380,6 +411,7 @@ _DEPARTMENTODOO.fields_by_name['odoo'].message_type = _ODOO
 _DEPARTMENTODOO.fields_by_name['department'].message_type = weladee__pb2._DEPARTMENT
 _POSITIONODOO.fields_by_name['odoo'].message_type = _ODOO
 _POSITIONODOO.fields_by_name['position'].message_type = weladee__pb2._POSITION
+DESCRIPTOR.message_types_by_name['AttendanceRequest'] = _ATTENDANCEREQUEST
 DESCRIPTOR.message_types_by_name['LogEventOdooSync'] = _LOGEVENTODOOSYNC
 DESCRIPTOR.message_types_by_name['HolidayOdoo'] = _HOLIDAYODOO
 DESCRIPTOR.message_types_by_name['LogEventOdoo'] = _LOGEVENTODOO
@@ -389,6 +421,13 @@ DESCRIPTOR.message_types_by_name['DepartmentOdoo'] = _DEPARTMENTODOO
 DESCRIPTOR.message_types_by_name['PositionOdoo'] = _POSITIONODOO
 DESCRIPTOR.message_types_by_name['odoo'] = _ODOO
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
+
+AttendanceRequest = _reflection.GeneratedProtocolMessageType('AttendanceRequest', (_message.Message,), dict(
+  DESCRIPTOR = _ATTENDANCEREQUEST,
+  __module__ = 'odoo_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.weladee.com.AttendanceRequest)
+  ))
+_sym_db.RegisterMessage(AttendanceRequest)
 
 LogEventOdooSync = _reflection.GeneratedProtocolMessageType('LogEventOdooSync', (_message.Message,), dict(
   DESCRIPTOR = _LOGEVENTODOOSYNC,
@@ -456,8 +495,8 @@ _ODOO = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   options=None,
-  serialized_start=898,
-  serialized_end=2068,
+  serialized_start=934,
+  serialized_end=2116,
   methods=[
   _descriptor.MethodDescriptor(
     name='UpdateEmployee',
@@ -563,7 +602,7 @@ _ODOO = _descriptor.ServiceDescriptor(
     full_name='grpc.weladee.com.Odoo.GetNewAttendance',
     index=11,
     containing_service=None,
-    input_type=weladee__pb2._EMPTY,
+    input_type=_ATTENDANCEREQUEST,
     output_type=_LOGEVENTODOO,
     options=None,
   ),
