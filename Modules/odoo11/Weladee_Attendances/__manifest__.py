@@ -37,6 +37,7 @@ change log:
 ------------------------------------
 * 2017-07-18 CKA add view synchronous menu For sync Employee, Department, Holiday and attences on Attendances menu
 * 2018-05-15 CKA change code for support odoo 11
+* 2018-05-16 CKA add event sync odoo to weladee
                 
 requirement:
 ------------------------------------

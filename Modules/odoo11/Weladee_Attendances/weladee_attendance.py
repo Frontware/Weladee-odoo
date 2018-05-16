@@ -88,7 +88,6 @@ channel = grpc.secure_channel(address, creds)
 myrequest = weladee_pb2.EmployeeRequest()
 #authorization = [("authorization", "fed4af9a-eaa0-4640-ac7e-50f7186ecd8c")]
 stub = odoo_pb2_grpc.OdooStub(channel)
-iteratorAttendance = []
 
 class weladee_attendance(models.TransientModel):
     _name="weladee_attendance.synchronous"
@@ -476,22 +475,20 @@ class weladee_attendance(models.TransientModel):
             if True :
                 #self.manageAttendance(cr, uid, wEidTooEid)
                 self.manageAttendance( wEidTooEid, authorization )
-                print("CKAA %s" % (iteratorAttendance))
-                ge = self.generators()
-                a = stub.SyncAttendance( ge , metadata=authorization )
-                print(a)
+                
 
-    def generators(self):
+    def generators(self, iteratorAttendance):
           for i in iteratorAttendance :
               yield i
 
     def manageAttendance(self, wEidTooEid, authorization):
+        iteratorAttendance = []
         att_line_obj = self.env['hr.attendance']
         testCount = 0
         lastAttendance = False
         for att in stub.GetNewAttendance(weladee_pb2.Empty(), metadata=authorization):
-            if testCount <= 5 :
-                testCount = testCount + 1
+            #if testCount <= 5 :
+                #testCount = testCount + 1
                 newAttendance = False
                 if att :
                     if att.odoo :
@@ -573,6 +570,11 @@ class weladee_attendance(models.TransientModel):
                             except Exception as e:
                                 print("Found problem when create attendance on odoo",e)
 
+        if len( iteratorAttendance ) > 0 :
+            #print("CKAA %s" % (iteratorAttendance))
+            ge = self.generators(iteratorAttendance)
+            a = stub.SyncAttendance( ge , metadata=authorization )
+            print(a)
     
 class weladee_settings(models.TransientModel):
     _name="weladee_attendance.synchronous.setting"

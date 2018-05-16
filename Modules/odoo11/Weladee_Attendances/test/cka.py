@@ -39,7 +39,7 @@ def main():
     # List of employees
     print("----------------------------------")
     print("Employees")
-    if True :
+    if False :
         for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
             for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
                 print(emp)
@@ -54,7 +54,7 @@ def main():
 
     # List of CompanyHolidays
     print("CompanyHolidays")
-    if False :
+    if True :
         for ch in stub.GetCompanyHolidays(weladee_pb2.Empty(), metadata=authorization):
             print(ch)
     print("----------------------------------")

@@ -486,7 +486,6 @@ class weladee_holidays(models.Model):
                     try:
                       mainHol = originHolidays.write( vals )
                       appr = super(weladee_holidays, self).action_validate( )
-                      print('*****')
                       if appr :
                         newHoliday = odoo_pb2.HolidayOdoo()
                         newHoliday.odoo.odoo_id = self.id
