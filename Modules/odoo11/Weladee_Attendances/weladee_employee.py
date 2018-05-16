@@ -430,8 +430,187 @@ class weladee_department(models.Model):
         except Exception as e:
           print("Update odoo department id is failed",e)
     return super(weladee_department, self).write( vals )
-
-
 weladee_department()
+
+class weladee_holidays(models.Model):
+  _description="synchronous holidays to weladee"
+  _inherit = 'hr.holidays'
+  
+
+  def get_api_key(self):
+    line_obj = self.env['weladee_attendance.synchronous.setting']
+    line_ids = line_obj.search([])
+    authorization = False
+
+    for sId in line_ids:
+        dataSet = line_obj.browse(sId.id)
+        if dataSet.api_key :
+            authorization = [("authorization", dataSet.api_key)]
+    return authorization
+
+  @api.multi
+  def action_approve( self ):
+    mainHol = False
+    authorization = False
+    authorization = self.get_api_key()
+    #print("API : %s" % authorization)
+    if authorization :
+      if True :
+        originHolidays = self.env['hr.holidays'].browse( self.id )
+        
+        weladeeEmp = {}
+        for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
+          if emp :
+            if emp.odoo :
+              if emp.odoo.odoo_id :
+                if emp.employee :
+                  weladeeEmp[ emp.odoo.odoo_id ] = emp.employee.ID
+
+        if originHolidays :
+          if originHolidays.date_from and originHolidays.date_to  :
+            df = datetime.strptime( originHolidays.date_from, "%Y-%m-%d %H:%M:%S" )
+            dt = datetime.strptime( originHolidays.date_to, "%Y-%m-%d %H:%M:%S" )
+
+            delta = dt - df
+            if delta.days + 1 > 1 :
+              for i in range(delta.days + 1):
+                odooDate = ( df + timedelta(days=i) ).strftime("%Y-%m-%d")
+                weladeeDate = ( df + timedelta(days=i) ).strftime("%Y%m%d")
+                if i == 0 :
+                  if "date_from" in originHolidays :
+                    vals = {"date_to" : originHolidays["date_from"],
+                            "number_of_days_temp" : 1.0}
+
+                    print(vals)
+                    try:
+                      mainHol = originHolidays.write( vals )
+                      appr = super(weladee_holidays, self).holidays_validate( )
+                      if appr :
+                        newHoliday = odoo_pb2.HolidayOdoo()
+                        newHoliday.odoo.odoo_id = appr.id
+                        newHoliday.odoo.odoo_created_on = int(time.time())
+                        newHoliday.odoo.odoo_synced_on = int(time.time())
+
+                        newHoliday.Holiday.name_english = originHolidays["name"]
+                        newHoliday.Holiday.name_thai = originHolidays["name"]
+                        newHoliday.Holiday.active = True
+
+                        weladeeDate = ( df ).strftime("%Y%m%d")
+                        newHoliday.Holiday.date = int( weladeeDate )
+                        if originHolidays["employee_id"]["id"] in weladeeEmp :
+                          newHoliday.Holiday.employeeid = weladeeEmp[ originHolidays["employee_id"]["id"] ]
+
+                          print(newHoliday)
+                          try:
+                            result = stub.AddHoliday(newHoliday, metadata=authorization)
+                            print ("Created Employee holiday" )
+                          except Exception as ee :
+                            print("Error when Create Employee holiday main : ",ee)
+                        else :
+                          print(weladeeEmp)
+                          print(originHolidays["employee_id"]["id"])
+                          print("Don't have emp id on Weladee")
+
+                    except Exception as e:
+                      print("Error on main approve : ",e)
+
+                else :
+                  vals = {}
+
+                  vals["date_from"] = odooDate
+                  vals["date_to"] = odooDate
+                  vals["message_follower_ids"] = []
+                  vals["message_ids"] = []
+                  vals["number_of_days_temp"] = 1.0
+
+                  if "name" in originHolidays :
+                    vals["name"] = originHolidays["name"] + "(" + str(i+1) +")"
+                  if "holiday_status_id" in originHolidays and "id" in originHolidays["holiday_status_id"] :
+                    vals["holiday_status_id"] = originHolidays["holiday_status_id"]["id"]
+                  if "employee_id" in originHolidays :
+                    vals["employee_id"] = originHolidays["employee_id"]["id"]
+                  if "payslip_status" in originHolidays :
+                    vals["payslip_status"] = originHolidays["payslip_status"]
+                  if "category_id" in originHolidays and "id" in originHolidays["category_id"] :
+                    vals["category_id"] = originHolidays["category_id"]["id"]
+                  if "type" in originHolidays :
+                    vals["type"] = originHolidays["type"]
+                  if "report_note" in originHolidays :
+                    if originHolidays["report_note"] :
+                      vals["notes"] = originHolidays["report_note"] + "\n*****\nSplit leave from " + originHolidays["name"] + "\n*****"
+                    else :
+                      vals["notes"] = "*****\nSplit leave from " + originHolidays["name"] + "\n*****"
+                  else :
+                    vals["notes"] = "*****\nSplit leave from " + originHolidays["name"] + "\n*****"
+
+                  vals["report_note"] = vals["notes"]
+
+                  if "department_id" in originHolidays  and "id" in originHolidays["department_id"] :
+                    vals["department_id"] = originHolidays["department_id"]["id"]
+
+                  try:
+                    lid = super(weladee_holidays,self).create( vals )
+                    appr = super(weladee_holidays, self).holidays_validate( )
+                    if appr :
+                      newHoliday = odoo_pb2.HolidayOdoo()
+                      newHoliday.odoo.odoo_id = lid.id
+                      newHoliday.odoo.odoo_created_on = int(time.time())
+                      newHoliday.odoo.odoo_synced_on = int(time.time())
+
+                      newHoliday.Holiday.name_english = vals["name"]
+                      newHoliday.Holiday.name_thai = vals["name"]
+                      newHoliday.Holiday.date = int( weladeeDate )
+                      newHoliday.Holiday.active = True
+
+                      if vals["employee_id"] in weladeeEmp :
+                        newHoliday.Holiday.employeeid = weladeeEmp[ vals["employee_id"] ]
+                        print(newHoliday)
+                        try:
+                          result = stub.AddHoliday(newHoliday, metadata=authorization)
+                          print ("Created Employee holiday" )
+                        except Exception as ee :
+                          print("Error when Create Employee holiday : ",ee)
+                      else :
+                        print("Don't have emp id on Weladee")
+
+                  except Exception as e:
+                      print("Error on submain approve : ",e)
+            else :
+              try:
+                appr = super(weladee_holidays, self).holidays_validate( )
+                if appr :
+                  newHoliday = weladee_pb2.HolidayOdoo()
+                  newHoliday.odoo.odoo_id = lid.id
+                  newHoliday.odoo.odoo_created_on = int(time.time())
+                  newHoliday.odoo.odoo_synced_on = int(time.time())
+
+                  newHoliday.Holiday.name_english = originHolidays["name"]
+                  newHoliday.Holiday.name_thai = originHolidays["name"]
+                  newHoliday.Holiday.active = True
+
+                  weladeeDate = ( df ).strftime("%Y%m%d")
+                  newHoliday.Holiday.date = int( weladeeDate )
+                  if originHolidays["employee_id"]["id"] in weladeeEmp :
+                    newHoliday.Holiday.employeeid = weladeeEmp[ originHolidays["employee_id"]["id"] ]
+
+                    print(newHoliday)
+                    try:
+                      result = stub.AddHoliday(newHoliday, metadata=authorization)
+                      print ("Created Employee holiday" )
+                    except Exception as ee :
+                      print("Error when Create Employee holiday main : ",ee)
+                  else :
+                    print(weladeeEmp)
+                    print(originHolidays["employee_id"]["id"])
+                    print("Don't have emp id on Weladee")
+
+              except Exception as e:
+                print("Error on main approve : ",e)
+
+
+
+        return mainHol
+
+weladee_holidays()
 
 
