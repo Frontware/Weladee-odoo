@@ -87,7 +87,7 @@ myrequest = weladee_pb2.EmployeeRequest()
 stub = odoo_pb2_grpc.OdooStub(channel)
 
 class weladee_employee(models.Model):
-  _description="synchronous Employee, Department, Holiday and attences"
+  _description="synchronous Employeeto weladee"
   _inherit = 'hr.employee'
 
   work_email = fields.Char(string="Work Email", required=True)
@@ -323,6 +323,7 @@ class weladee_job(models.Model):
       return pid
 
   def write(self, vals):
+    pid = super(weladee_job, self).write( vals )
     authorization = False
     authorization = self.get_api_key()
     #print("API : %s" % authorization)
@@ -337,7 +338,7 @@ class weladee_job(models.Model):
 
           if not vals["name"] in weladeePositions :
             newPosition = odoo_pb2.PositionOdoo()
-            newPosition.odoo.odoo_id = pid
+            newPosition.odoo.odoo_id = pid.id
             newPosition.odoo.odoo_created_on = int(time.time())
             newPosition.odoo.odoo_synced_on = int(time.time())
 
@@ -351,7 +352,86 @@ class weladee_job(models.Model):
             except Exception as e:
               print("Add position failed",e)
 
-      return super(weladee_job, self).write( vals )
+      return pid
 weladee_job()
+
+class weladee_department(models.Model):
+  _description="synchronous department to weladee"
+  _inherit = 'hr.department'
+
+  def get_api_key(self):
+    line_obj = self.env['weladee_attendance.synchronous.setting']
+    line_ids = line_obj.search([])
+    authorization = False
+
+    for sId in line_ids:
+        dataSet = line_obj.browse(sId.id)
+        if dataSet.api_key :
+            authorization = [("authorization", dataSet.api_key)]
+    return authorization
+
+
+  @api.model
+  def create(self, vals ) :
+    dId = super(weladee_department,self).create( vals )
+    authorization = False
+    authorization = self.get_api_key()
+    #print("API : %s" % authorization)
+    if authorization :
+      if True :
+        newDepartment = odoo_pb2.DepartmentOdoo()
+        newDepartment.odoo.odoo_id = dId.id
+        newDepartment.odoo.odoo_created_on = int(time.time())
+        newDepartment.odoo.odoo_synced_on = int(time.time())
+        newDepartment.department.name_english = vals["name"]
+        newDepartment.department.name_thai = vals["name"]
+        print(newDepartment)
+        try:
+          result = stub.AddDepartment(newDepartment, metadata=authorization)
+          print ("Create Weladee department id : %s" % result.id)
+        except Exception as e:
+          print("Create department failed",e)
+    return dId
+
+  def write(self, vals ):
+    oldData = self.env['hr.department'].browse( self.id )
+    authorization = False
+    authorization = self.get_api_key()
+    #print("API : %s" % authorization)
+    if authorization :
+      if True :
+        dept = False
+        for dpm in stub.GetDepartments(weladee_pb2.Empty(), metadata=authorization):
+          if dpm :
+            if dpm.odoo :
+              if dpm.odoo.odoo_id :
+                if dpm.odoo.odoo_id ==  self.id :
+                  dept = dpm
+        if dept :
+          updateDepartment = odoo_pb2.DepartmentOdoo()
+          updateDepartment.odoo.odoo_id = self.id
+          updateDepartment.odoo.odoo_created_on = int(time.time())
+          updateDepartment.odoo.odoo_synced_on = int(time.time())
+        if "name" in vals :
+          updateDepartment.department.name_english = vals["name"]
+        else :
+          updateDepartment.department.name_english = oldData["name"]
+        updateDepartment.department.id = dept.department.id
+        updateDepartment.department.name_thai = updateDepartment.department.name_english
+        if dept.department.managerid :
+          updateDepartment.department.managerid = dept.department.managerid
+        updateDepartment.department.active = ( dept.department.active or False )
+        updateDepartment.department.code = ( dept.department.code or "" )
+        updateDepartment.department.note = ( dept.department.note or "" )
+        print( updateDepartment )
+        try :
+          result = stub.UpdateDepartment(updateDepartment, metadata=authorization)
+          print ("Updated odoo department id to Weladee")
+        except Exception as e:
+          print("Update odoo department id is failed",e)
+    return super(weladee_department, self).write( vals )
+
+
+weladee_department()
 
 
