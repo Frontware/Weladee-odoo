@@ -126,7 +126,10 @@ class weladee_employee(models.Model):
           newEmployee.odoo.odoo_synced_on = int(time.time())
 
           newEmployee.employee.first_name_english = ( vals["name"] ).split(" ")[0]
-          newEmployee.employee.last_name_english = ( vals["name"] ).split(" ")[1]
+          if len( ( vals["name"] ).split(" ") ) > 1 :
+            newEmployee.employee.last_name_english = ( vals["name"] ).split(" ")[1]
+          else :
+            newEmployee.employee.last_name_english = " "
 
           newEmployee.employee.lg = "en"
           newEmployee.employee.active = False
@@ -183,10 +186,16 @@ class weladee_employee(models.Model):
 
           if "name" in vals :
             newEmployee.employee.first_name_english = ( vals["name"] ).split(" ")[0]
-            newEmployee.employee.last_name_english = ( vals["name"] ).split(" ")[1]
+            if len( ( vals["name"] ).split(" ") ) > 1 :
+              newEmployee.employee.last_name_english = ( vals["name"] ).split(" ")[1]
+            else :
+              newEmployee.employee.last_name_english = " "
           else :
             newEmployee.employee.first_name_english = ( oldData["name"] ).split(" ")[0]
-            newEmployee.employee.last_name_english = ( oldData["name"] ).split(" ")[1]
+            if len( ( oldData["name"] ).split(" ") ) > 1 :
+              newEmployee.employee.last_name_english = ( oldData["name"] ).split(" ")[1]
+            else :
+              newEmployee.employee.last_name_english = " "
 
           if "identification_id" in vals :
             newEmployee.employee.code = vals["identification_id"]
