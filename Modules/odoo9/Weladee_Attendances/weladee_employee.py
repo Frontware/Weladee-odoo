@@ -286,7 +286,7 @@ class weladee_job(osv.osv):
     return pid
 
   def write(self, cr, uid, ids, vals, context=None):
-
+    pid = super(weladee_job,self).write(cr, uid, ids, vals, context)
     if "name" in vals:
       weladeePositions = {}
       for position in stub.GetPositions(myrequest, metadata=authorization):
@@ -310,7 +310,7 @@ class weladee_job(osv.osv):
         except Exception as e:
           print("Add position failed",e)
 
-    return super(weladee_job, self).write(cr, uid, ids, vals, context)
+    return pid
 weladee_job()
 
 class weladee_department(osv.osv):

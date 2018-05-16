@@ -273,3 +273,85 @@ class weladee_employee(models.Model):
 
     return super(weladee_employee, self).write( vals )
 weladee_employee()
+
+class weladee_job(models.Model):
+  _description="synchronous position to weladee"
+  _inherit = 'hr.job'
+
+  def get_api_key(self):
+    line_obj = self.env['weladee_attendance.synchronous.setting']
+    line_ids = line_obj.search([])
+    authorization = False
+
+    for sId in line_ids:
+        dataSet = line_obj.browse(sId.id)
+        if dataSet.api_key :
+            authorization = [("authorization", dataSet.api_key)]
+    return authorization
+
+  @api.model
+  def create(self, vals) :
+    pid = super(weladee_job,self).create( vals )
+
+    authorization = False
+    authorization = self.get_api_key()
+    #print("API : %s" % authorization)
+    if authorization :
+      if True :
+        weladeePositions = {}
+        for position in stub.GetPositions(myrequest, metadata=authorization):
+          if position :
+            if position.position.name_english :
+              weladeePositions[ position.position.name_english ] = position.position.id
+
+        if not vals["name"] in weladeePositions :
+          newPosition = odoo_pb2.PositionOdoo()
+          newPosition.odoo.odoo_id = pid.id
+          newPosition.odoo.odoo_created_on = int(time.time())
+          newPosition.odoo.odoo_synced_on = int(time.time())
+
+          newPosition.position.name_english = vals["name"]
+          newPosition.position.active = True
+
+          print(newPosition)
+          try:
+            result = stub.AddPosition(newPosition, metadata=authorization)
+            print ("Added position on Weladee : %s" % result.id)
+          except Exception as e:
+            print("Add position failed",e)
+
+      return pid
+
+  def write(self, vals):
+    authorization = False
+    authorization = self.get_api_key()
+    #print("API : %s" % authorization)
+    if authorization :
+      if True :
+        if "name" in vals:
+          weladeePositions = {}
+          for position in stub.GetPositions(myrequest, metadata=authorization):
+            if position :
+              if position.position.name_english :
+                weladeePositions[ position.position.name_english ] = position.position.id
+
+          if not vals["name"] in weladeePositions :
+            newPosition = odoo_pb2.PositionOdoo()
+            newPosition.odoo.odoo_id = pid
+            newPosition.odoo.odoo_created_on = int(time.time())
+            newPosition.odoo.odoo_synced_on = int(time.time())
+
+            newPosition.position.name_english = vals["name"]
+            newPosition.position.active = True
+
+            print(newPosition)
+            try:
+              result = stub.AddPosition(newPosition, metadata=authorization)
+              print ("Added position on Weladee")
+            except Exception as e:
+              print("Add position failed",e)
+
+      return super(weladee_job, self).write( vals )
+weladee_job()
+
+
