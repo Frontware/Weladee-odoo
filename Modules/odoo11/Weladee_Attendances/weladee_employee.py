@@ -449,7 +449,7 @@ class weladee_holidays(models.Model):
     return authorization
 
   @api.multi
-  def action_approve( self ):
+  def action_validate( self ):
     mainHol = False
     authorization = False
     authorization = self.get_api_key()
@@ -457,6 +457,7 @@ class weladee_holidays(models.Model):
     if authorization :
       if True :
         originHolidays = self.env['hr.holidays'].browse( self.id )
+        current_employee = self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1)
         
         weladeeEmp = {}
         for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
@@ -484,10 +485,11 @@ class weladee_holidays(models.Model):
                     print(vals)
                     try:
                       mainHol = originHolidays.write( vals )
-                      appr = super(weladee_holidays, self).holidays_validate( )
+                      appr = super(weladee_holidays, self).action_validate( )
+                      print('*****')
                       if appr :
                         newHoliday = odoo_pb2.HolidayOdoo()
-                        newHoliday.odoo.odoo_id = appr.id
+                        newHoliday.odoo.odoo_id = self.id
                         newHoliday.odoo.odoo_created_on = int(time.time())
                         newHoliday.odoo.odoo_synced_on = int(time.time())
 
@@ -549,8 +551,8 @@ class weladee_holidays(models.Model):
                     vals["department_id"] = originHolidays["department_id"]["id"]
 
                   try:
-                    lid = super(weladee_holidays,self).create( vals )
-                    appr = super(weladee_holidays, self).holidays_validate( )
+                    lid = self.env['hr.holidays'].create( vals )
+                    appr = lid.action_validate( )
                     if appr :
                       newHoliday = odoo_pb2.HolidayOdoo()
                       newHoliday.odoo.odoo_id = lid.id
@@ -577,10 +579,10 @@ class weladee_holidays(models.Model):
                       print("Error on submain approve : ",e)
             else :
               try:
-                appr = super(weladee_holidays, self).holidays_validate( )
+                appr = super(weladee_holidays, self).action_validate( )
                 if appr :
-                  newHoliday = weladee_pb2.HolidayOdoo()
-                  newHoliday.odoo.odoo_id = lid.id
+                  newHoliday = odoo_pb2.HolidayOdoo()
+                  newHoliday.odoo.odoo_id = self.id
                   newHoliday.odoo.odoo_created_on = int(time.time())
                   newHoliday.odoo.odoo_synced_on = int(time.time())
 
@@ -605,7 +607,7 @@ class weladee_holidays(models.Model):
                     print("Don't have emp id on Weladee")
 
               except Exception as e:
-                print("Error on main approve : ",e)
+                print("Error on main2 approve : ",e)
 
 
 
