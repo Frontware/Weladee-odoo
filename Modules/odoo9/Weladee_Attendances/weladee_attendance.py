@@ -563,8 +563,6 @@ class weladee_attendance(osv.osv):
 
                               except Exception as e:
                                   print("Found problem when create attendance on odoo",e)
-              #else :
-                  #break
 
 
 class weladee_settings(osv.osv):

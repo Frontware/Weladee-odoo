@@ -20,7 +20,7 @@
 ##############################################################################
 {
 "name" : "Weladee attendances module",
-"version" : "4.00",
+"version" : "4.01",
 "author" : "Frontware International",
 "category" : "Generic Modules",
 "depends" : ['base', 'hr_attendance', 'hr', 'hr_holidays'],
@@ -36,6 +36,7 @@ Module to manage synchronous Employee, Department, Holiday and attences.
 change log:
 ------------------------------------
 * 2017-07-18 CKA add view synchronous menu For sync Employee, Department, Holiday and attences on Attendances menu
+* 2018-05-15 CKA change code for support odoo 11
                 
 requirement:
 ------------------------------------

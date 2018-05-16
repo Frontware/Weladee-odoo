@@ -471,7 +471,107 @@ class weladee_attendance(models.TransientModel):
                                                         except Exception as ee :
                                                             print("Error when Create Company holiday : ",ee)
 
+            # List of Attendances
+            print("Attendances")
+            if True :
+                #self.manageAttendance(cr, uid, wEidTooEid)
+                self.manageAttendance( wEidTooEid, authorization )
+                print("CKAA %s" % (iteratorAttendance))
+                ge = self.generators()
+                a = stub.SyncAttendance( ge , metadata=authorization )
+                print(a)
 
+    def generators(self):
+          for i in iteratorAttendance :
+              yield i
+
+    def manageAttendance(self, wEidTooEid, authorization):
+        att_line_obj = self.env['hr.attendance']
+        testCount = 0
+        lastAttendance = False
+        for att in stub.GetNewAttendance(weladee_pb2.Empty(), metadata=authorization):
+            if testCount <= 5 :
+                testCount = testCount + 1
+                newAttendance = False
+                if att :
+                    if att.odoo :
+                        attendanceData = False
+                        if not att.odoo.odoo_id :
+                            newAttendance = True
+                        else :
+                            attendanceData = att_line_obj.browse( att.odoo.odoo_id )
+
+                        if att.logevent :
+                            try:
+                                print("------------[ logevent ]----------------")
+                                print(att.logevent)
+                                print("----------------------------")
+                                ac = False
+                                if att.logevent.action == "i" :
+                                    ac = "sign_in"
+                                if att.logevent.action == "o" :
+                                    ac = "sign_out"
+                                dte = datetime.datetime.fromtimestamp(
+                                    att.logevent.timestamp
+                                ).strftime('%Y-%m-%d %H:%M:%S')
+                                acEid = False
+                                if att.logevent.employeeid in wEidTooEid :
+                                    acEid = wEidTooEid[ att.logevent.employeeid ]
+                                packet = {"employee_id" : acEid}
+                                if acEid :
+                                    if newAttendance :
+                                        aid = False
+                                        try :
+                                            attendace_odoo_id = False
+                                            if att.logevent.action == "i" :
+                                                packet["check_in"] = dte
+                                                print( packet )
+                                                try :
+                                                    aid = self.env["hr.attendance"].create( packet )
+                                                    lastAttendance = aid
+                                                    attendace_odoo_id = aid.id
+                                                    print ("Created check in : %s" % aid.id)
+                                                except Exception as e:
+                                                    print ("Error when create check in. : %s" %(e))
+                                            else :
+                                                if lastAttendance :
+                                                    oldAttendance = self.env["hr.attendance"].browse( lastAttendance.id )
+                                                    if oldAttendance :
+                                                        packet = {"check_in" : oldAttendance.check_in,
+                                                                "check_out" : dte
+                                                        }
+                                                        try :
+                                                            print( packet )
+                                                            oldAttendance.write( packet )
+                                                            attendace_odoo_id = lastAttendance.id
+                                                            print ("Updated check out.")
+                                                        except Exception as e:
+                                                            print ("Error when fill check out. : %s" %(e) )
+                                                else :
+                                                    print ("Receive checkout with lastAttendance is False")
+
+                                            if attendace_odoo_id :
+                                                print("Update odoo id")
+                                                syncLogEvent = odoo_pb2.LogEventOdooSync()
+                                                syncLogEvent.odoo.odoo_id = attendace_odoo_id
+                                                syncLogEvent.odoo.odoo_created_on = int(time.time())
+                                                syncLogEvent.odoo.odoo_synced_on = int(time.time())
+                                                syncLogEvent.logid = att.logevent.id
+                                                iteratorAttendance.append(syncLogEvent)
+
+                                        except Exception as e:
+                                            print("Create log event is failed",e)
+
+                                    else :
+                                        if attendanceData :
+                                            try :
+                                                self.env["hr.attendance"].write( att.odoo.odoo_id, packet)
+                                                print ("Updated log event on odoo")
+                                            except Exception as e:
+                                                print("Updated log event is failed",e)
+
+                            except Exception as e:
+                                print("Found problem when create attendance on odoo",e)
 
     
 class weladee_settings(models.TransientModel):
