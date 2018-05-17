@@ -331,13 +331,52 @@ class weladee_attendance(models.TransientModel):
                                                 print( newEmployee )
                                                 try:
                                                     result = stub.UpdateEmployee(newEmployee, metadata=authorization)
-                                                    print ("Updated odoo employee to weladee")
+                                                    print ("Created odoo employee to weladee")
                                                 except Exception as e:
-                                                    print("Update odoo employee id is failed",e)
+                                                    print("Created odoo employee id is failed",e)
                             else :
                                 odooIdEmps.append( emp.odoo.odoo_id )
                                 wEidTooEid[ emp.employee.ID ] = emp.odoo.odoo_id
                                 sEmployees[ emp.odoo.odoo_id ] = emp.employee
+
+                                oEmployee = self.env["hr.employee"].browse( emp.odoo.odoo_id )
+                                if oEmployee :
+                                    print("------------------------------")
+                                    if emp.employee:
+                                        if emp.employee.ID:
+                                            photoBase64 = ''
+                                            if emp.employee.photo:
+                                                try :
+                                                    photoBase64 = base64.b64encode(requests.get(emp.employee.photo).content)
+                                                except Exception as e:
+                                                    print("Error when load image : ",e)
+                                                
+                                            data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
+                                                    ,"identification_id" :(emp.employee.code or "" )
+                                                    ,"notes": ( emp.employee.note or "" )
+                                                    ,"work_email":( emp.employee.email or "" )
+                                                    }
+                                            if emp.employee.positionid :
+                                                if weladeePositionName[ emp.employee.positionid ] :
+                                                    posName = weladeePositionName[ emp.employee.positionid ]
+                                                    if odooPositions[ posName ] :
+                                                        data[ "job_id" ] = odooPositions[ posName ]
+                                            if photoBase64:
+                                                data["image"] = photoBase64
+
+                                            if emp.Badge:
+                                                data["barcode"] = emp.Badge
+
+                                            odoo_employee_id = False
+                                            try:
+                                                oEmployee.write( data )
+                                                print( 'Updated employee on odoo id %s' % oEmployee.id )
+                                            except Exception as e:
+                                                print("photo url : %s" % emp.employee.photo)
+                                                print( 'Error when update employee : %s' % e )
+
+
+
 
                 print("add new employee on odoo to Weladee")
                 employee_line_obj = self.env['hr.employee']
