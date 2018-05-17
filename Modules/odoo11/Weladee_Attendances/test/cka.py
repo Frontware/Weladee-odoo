@@ -30,23 +30,20 @@ def main():
     myrequest = weladee_pb2.EmployeeRequest()
 
 
+
     # List all departments
     print("Departments")
-    if False:
+    if True:
         for dept in stub.GetDepartments(myrequest, metadata=authorization):
             print(dept)
 
     # List of employees
-    print("----------------------------------")
     print("Employees")
-    if False :
+    if True :
         for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
-            for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
-                print(emp)
-                            
+            print(emp)
 
     # List of GetPositions
-    print("----------------------------------")
     print("Positions")
     if False :
         for pos in stub.GetPositions(weladee_pb2.Empty(), metadata=authorization):
@@ -69,7 +66,7 @@ def main():
 
     # List of attendance to sync
     print("Attendance to sync")
-    if False :
+    if True :
         for att in stub.GetNewAttendance(weladee_pb2.Empty(), metadata=authorization):
             if att.logevent :
                 print("------------")

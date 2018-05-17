@@ -130,7 +130,7 @@ class weladee_attendance(models.TransientModel):
                                 data = {"name" : position.position.name_english,
                                         "no_of_recruitment" : 1}
                                 odoo_id_position = self.env['hr.job'].create(data)
-                                print( "Insert position '%s' to odoo", position.position.name_english )
+                                print( "Insert position '%s' to odoo" % position.position.name_english )
 
                 position_line_obj = self.env['hr.job']
                 position_line_ids = position_line_obj.search([])
@@ -562,13 +562,17 @@ class weladee_attendance(models.TransientModel):
                                             if att.logevent.action == "i" :
                                                 packet["check_in"] = dte
                                                 print( packet )
-                                                try :
-                                                    aid = self.env["hr.attendance"].create( packet )
-                                                    lastAttendance = aid
-                                                    attendace_odoo_id = aid.id
-                                                    print ("Created check in : %s" % aid.id)
-                                                except Exception as e:
-                                                    print ("Error when create check in. : %s" %(e))
+                                                check_dp = self.env['hr.attendance'].search( [ ('employee_id','=', acEid ),('check_in','=', dte ) ] )
+                                                if not check_dp :
+                                                    try :
+                                                        aid = self.env["hr.attendance"].create( packet )
+                                                        lastAttendance = aid
+                                                        attendace_odoo_id = aid.id
+                                                        print ("Created check in : %s" % aid.id)
+                                                    except Exception as e:
+                                                        print ("Error when create check in. : %s" %(e))
+                                                else :
+                                                    print ("Check in duplicate.")
                                             else :
                                                 if lastAttendance :
                                                     oldAttendance = self.env["hr.attendance"].browse( lastAttendance.id )
