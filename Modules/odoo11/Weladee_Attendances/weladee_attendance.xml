@@ -88,7 +88,7 @@
                 <xpath expr="//field[@name='show_leaves']" position="after">
                    <button 
                         icon="fa-address-book" 
-                        name="cka_test" 
+                        name="open_weladee_employee" 
                         string="Weladee profile" 
                         class="oe_stat_button" 
                         type="object"

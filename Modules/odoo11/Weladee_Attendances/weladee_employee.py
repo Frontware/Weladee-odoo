@@ -286,7 +286,7 @@ class weladee_employee(models.Model):
 
     return super(weladee_employee, self).write( vals )
   
-  def cka_test(self):
+  def open_weladee_employee(self):
     if self.weladee_profile :
       print("Url weladee profile is %s" % self.weladee_profile)
       webbrowser.open( self.weladee_profile )
