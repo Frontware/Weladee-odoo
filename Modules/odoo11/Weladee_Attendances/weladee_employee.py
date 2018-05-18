@@ -92,7 +92,7 @@ class weladee_employee(models.Model):
   _description="synchronous Employeeto weladee"
   _inherit = 'hr.employee'
 
-  weladee_profile = fields.Char(string="Profile Url")
+  weladee_profile = fields.Char(string="Weladee Url")
   work_email = fields.Char(string="Work Email", required=True)
   job_id = fields.Many2one('hr.job',string="Job Title", required=True)
   identification_id = fields.Char(string="Identification No", required=True)

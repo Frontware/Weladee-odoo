@@ -85,14 +85,18 @@
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='show_leaves']" position="after">
+               <!-- <xpath expr="//field[@name='show_leaves']" position="after">
                    <button 
                         icon="fa-address-book" 
                         name="open_weladee_employee" 
                         string="Weladee profile" 
                         class="oe_stat_button" 
                         type="object"
+                        widget="url"
                     />  
+                </xpath> -->
+                <xpath expr="//field[@name='address_id']" position="before">
+                   <field name="weladee_profile" widget="url"/>
                 </xpath>
                 
             </field>
