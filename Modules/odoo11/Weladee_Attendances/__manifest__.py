@@ -39,6 +39,7 @@ change log:
 * 2018-05-15 CKA change code for support odoo 11
 * 2018-05-16 CKA add event sync odoo to weladee
 * 2018-05-17 CKA Sync employee for update on odoo datas, check duplicate check in
+* 2018-05-18 CKA add button to open weladee employee
 
                 
 requirement:

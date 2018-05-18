@@ -243,6 +243,7 @@ class weladee_attendance(models.TransientModel):
                                         data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
                                                 ,"identification_id" :(emp.employee.code or "" )
                                                 ,"notes": ( emp.employee.note or "" )
+                                                ,"weladee_profile" : "https://www.weladee.com/employee/" + str(emp.employee.ID)
                                                 ,"work_email":( emp.employee.email or "" )
                                                 }
                                         if emp.employee.positionid :
@@ -353,6 +354,7 @@ class weladee_attendance(models.TransientModel):
                                                 
                                             data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
                                                     ,"identification_id" :(emp.employee.code or "" )
+                                                    ,"weladee_profile" : "https://www.weladee.com/employee/" + str(emp.employee.ID)
                                                     ,"notes": ( emp.employee.note or "" )
                                                     ,"work_email":( emp.employee.email or "" )
                                                     }
@@ -584,6 +586,7 @@ class weladee_attendance(models.TransientModel):
                                                             print( packet )
                                                             oldAttendance.write( packet )
                                                             attendace_odoo_id = lastAttendance.id
+                                                            lastAttendance = False
                                                             print ("Updated check out.")
                                                         except Exception as e:
                                                             print ("Error when fill check out. : %s" %(e) )

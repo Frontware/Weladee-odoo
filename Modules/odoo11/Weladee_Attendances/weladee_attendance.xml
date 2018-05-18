@@ -19,8 +19,8 @@
                     <label string="   - Holidays" colspan="4" /><br />
                     <label string="   - Attendance" colspan="4" />
                     <footer>
-                        <button icon="gtk-cancel"  special="cancel"   string="Close"/>
-                        <button icon="gtk-execute" name="synchronousBtn" string="Synchronize" class="oe_highlight" type="object"/>
+                        <button icon="fa-close"  special="cancel"   string="Close"/>
+                        <button icon="fa-random" name="synchronousBtn" string="Synchronize" class="oe_highlight" type="object"/>
                     </footer>
                 </form>
             </field>
@@ -79,5 +79,23 @@
                   groups="hr_attendance.group_hr_attendance_manager"
                   action="action_weladee_setting_form"
         />
+
+        <record id="hr_employee_weladee_profile" model="ir.ui.view">
+            <field name="name">hr_employee_weladee_profile</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='show_leaves']" position="after">
+                   <button 
+                        icon="fa-address-book" 
+                        name="cka_test" 
+                        string="Weladee profile" 
+                        class="oe_stat_button" 
+                        type="object"
+                    />  
+                </xpath>
+                
+            </field>
+        </record>
 
 </odoo>  
