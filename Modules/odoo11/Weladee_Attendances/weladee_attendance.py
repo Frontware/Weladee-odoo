@@ -170,7 +170,8 @@ class weladee_attendance(models.TransientModel):
                                     if dept.department.name_english:
                                         departmentName = dept.department.name_english
                                         odoo_id_department = False
-                                        data = {"name" : departmentName
+                                        data = {"name" : departmentName,
+                                                "weladee_id" : dept.department.id
                                                 }
                                         odoo_id_department = self.env['hr.department'].create(data)
                                         
@@ -223,6 +224,14 @@ class weladee_attendance(models.TransientModel):
             print("Employees")
             sEmployees = {}
             wEidTooEid = {}
+            country = {}
+
+            country_line_obj = self.env['res.country']
+            country_line_ids = country_line_obj.search([])
+            for cu in country_line_ids:
+                if cu.name :
+                    country[ cu.name.lower() ] = cu.id
+
             if True :
                 odooIdEmps = []
                 #check code Weladee on odoo
@@ -245,6 +254,7 @@ class weladee_attendance(models.TransientModel):
                                                 ,"notes": ( emp.employee.note or "" )
                                                 ,"weladee_profile" : "https://www.weladee.com/employee/" + str(emp.employee.ID)
                                                 ,"work_email":( emp.employee.email or "" )
+                                                ,"weladee_id":emp.employee.ID
                                                 }
                                         if emp.employee.positionid :
                                             if weladeePositionName[ emp.employee.positionid ] :
@@ -256,6 +266,10 @@ class weladee_attendance(models.TransientModel):
 
                                         if emp.Badge:
                                             data["barcode"] = emp.Badge
+
+                                        if emp.employee.Nationality:
+                                            if emp.employee.Nationality.lower() in country :
+                                                data["country_id"] = country[ emp.employee.Nationality.lower() ]
 
                                         odoo_employee_id = False
                                         try:
@@ -387,7 +401,7 @@ class weladee_attendance(models.TransientModel):
                     for empId in employee_line_ids:
                         emp = employee_line_obj.browse(empId.id)
                         if emp.id:
-                            print("------------------------------")
+                            print("--------------[add new employee on odoo to Weladee]----------------")
                             pos = False
                             if emp.job_id :
                                 if emp.job_id.name :
@@ -557,7 +571,7 @@ class weladee_attendance(models.TransientModel):
                                     acEid = wEidTooEid[ att.logevent.employeeid ]
                                 packet = {"employee_id" : acEid}
                                 if acEid :
-                                    if newAttendance :
+                                    if newAttendance :                 
                                         aid = False
                                         try :
                                             attendace_odoo_id = False
@@ -607,8 +621,12 @@ class weladee_attendance(models.TransientModel):
 
                                     else :
                                         if attendanceData :
+                                            if att.logevent.action == "i" :
+                                                attendanceData["check_in"] = dte
+                                            elif att.logevent.action == "o" :
+                                                attendanceData["check_out"] = dte
                                             try :
-                                                self.env["hr.attendance"].write( att.odoo.odoo_id, packet)
+                                                attendanceData.write( attendanceData )
                                                 print ("Updated log event on odoo")
                                             except Exception as e:
                                                 print("Updated log event is failed",e)

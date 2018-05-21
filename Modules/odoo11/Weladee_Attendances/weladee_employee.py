@@ -96,6 +96,8 @@ class weladee_employee(models.Model):
   work_email = fields.Char(string="Work Email", required=True)
   job_id = fields.Many2one('hr.job',string="Job Title", required=True)
   identification_id = fields.Char(string="Identification No", required=True)
+  weladee_id = fields.Char(string="Weladee ID")
+  country_id = fields.Many2one('res.country',string="Nationality (Country)", required=True)
   
 
   def get_api_key(self):
@@ -113,53 +115,55 @@ class weladee_employee(models.Model):
   def create(self, vals):
     eid = super(weladee_employee,self).create(vals)
 
-    authorization = False
-    authorization = self.get_api_key()
-    #print("API : %s" % authorization)
-    if authorization :
-      if True :
-          wPos = {}
-          for position in stub.GetPositions(myrequest, metadata=authorization):
-            if position :
-              if position.position.name_english :
-                wPos[ position.position.name_english ] = position.position.id
+    if not vals["weladee_id"]:
+      authorization = False
+      authorization = self.get_api_key()
+      #print("API : %s" % authorization)
+      if authorization :
+        if True :
+            wPos = {}
+            for position in stub.GetPositions(myrequest, metadata=authorization):
+              if position :
+                if position.position.name_english :
+                  wPos[ position.position.name_english ] = position.position.id
 
-          newEmployee = odoo_pb2.EmployeeOdoo()
-          newEmployee.odoo.odoo_id = eid.id
-          newEmployee.odoo.odoo_created_on = int(time.time())
-          newEmployee.odoo.odoo_synced_on = int(time.time())
+            newEmployee = odoo_pb2.EmployeeOdoo()
+            newEmployee.odoo.odoo_id = eid.id
+            newEmployee.odoo.odoo_created_on = int(time.time())
+            newEmployee.odoo.odoo_synced_on = int(time.time())
 
-          newEmployee.employee.first_name_english = ( vals["name"] ).split(" ")[0]
-          if len( ( vals["name"] ).split(" ") ) > 1 :
-            newEmployee.employee.last_name_english = ( vals["name"] ).split(" ")[1]
-          else :
-            newEmployee.employee.last_name_english = " "
+            newEmployee.employee.first_name_english = ( vals["name"] ).split(" ")[0]
+            if len( ( vals["name"] ).split(" ") ) > 1 :
+              newEmployee.employee.last_name_english = ( vals["name"] ).split(" ")[1]
+            else :
+              newEmployee.employee.last_name_english = " "
 
-          newEmployee.employee.lg = "en"
-          newEmployee.employee.active = False
+            newEmployee.employee.lg = "en"
+            newEmployee.employee.active = False
 
-          if vals["identification_id"] :
-            newEmployee.employee.code = vals["identification_id"]
-          if vals["notes"] :
-            newEmployee.employee.note = vals["notes"]
-          if vals["work_email"] :
-            newEmployee.employee.email = vals["work_email"]
-          if vals["job_id"] :
-            positionData = self.env['hr.job'].browse( vals["job_id"] )
-            if positionData :
-              pName = positionData.name
-              if pName in wPos :
-                newEmployee.employee.positionid = wPos[ pName ]
+            if vals["identification_id"] :
+              newEmployee.employee.code = vals["identification_id"]
+            if vals["notes"] :
+              newEmployee.employee.note = vals["notes"]
+            if vals["work_email"] :
+              newEmployee.employee.email = vals["work_email"]
+            if vals["job_id"] :
+              positionData = self.env['hr.job'].browse( vals["job_id"] )
+              if positionData :
+                pName = positionData.name
+                if pName in wPos :
+                  newEmployee.employee.positionid = wPos[ pName ]
 
-                print(newEmployee)
+                  print(newEmployee)
 
-                try:
-                  result = stub.AddEmployee(newEmployee, metadata=authorization)
-                  print ("Weladee id : %s" % result.id)
-                except Exception as e:
-                  print("Add employee failed",e)
+                  try:
+                    result = stub.AddEmployee(newEmployee, metadata=authorization)
+                    print ("Weladee id : %s" % result.id)
 
-      return eid
+                  except Exception as e:
+                    print("Add employee failed",e)
+
+    return eid
 
   def write(self, vals):
     authorization = False
@@ -380,6 +384,8 @@ class weladee_department(models.Model):
   _description="synchronous department to weladee"
   _inherit = 'hr.department'
 
+  weladee_id = fields.Char(string="Weladee ID")
+
   def get_api_key(self):
     line_obj = self.env['weladee_attendance.synchronous.setting']
     line_ids = line_obj.search([])
@@ -395,23 +401,24 @@ class weladee_department(models.Model):
   @api.model
   def create(self, vals ) :
     dId = super(weladee_department,self).create( vals )
-    authorization = False
-    authorization = self.get_api_key()
-    #print("API : %s" % authorization)
-    if authorization :
-      if True :
-        newDepartment = odoo_pb2.DepartmentOdoo()
-        newDepartment.odoo.odoo_id = dId.id
-        newDepartment.odoo.odoo_created_on = int(time.time())
-        newDepartment.odoo.odoo_synced_on = int(time.time())
-        newDepartment.department.name_english = vals["name"]
-        newDepartment.department.name_thai = vals["name"]
-        print(newDepartment)
-        try:
-          result = stub.AddDepartment(newDepartment, metadata=authorization)
-          print ("Create Weladee department id : %s" % result.id)
-        except Exception as e:
-          print("Create department failed",e)
+    if not vals["weladee_id"]:
+      authorization = False
+      authorization = self.get_api_key()
+      #print("API : %s" % authorization)
+      if authorization :
+        if True :
+          newDepartment = odoo_pb2.DepartmentOdoo()
+          newDepartment.odoo.odoo_id = dId.id
+          newDepartment.odoo.odoo_created_on = int(time.time())
+          newDepartment.odoo.odoo_synced_on = int(time.time())
+          newDepartment.department.name_english = vals["name"]
+          newDepartment.department.name_thai = vals["name"]
+          print(newDepartment)
+          try:
+            result = stub.AddDepartment(newDepartment, metadata=authorization)
+            print ("Create Weladee department id : %s" % result.id)
+          except Exception as e:
+            print("Create department failed",e)
     return dId
 
   def write(self, vals ):
@@ -632,7 +639,5 @@ class weladee_holidays(models.Model):
 
 
         return mainHol
-
 weladee_holidays()
-
 

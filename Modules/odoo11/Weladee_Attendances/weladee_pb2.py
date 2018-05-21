@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='weladee.proto',
   package='grpc.weladee.com',
   syntax='proto3',
-  serialized_pb=_b('\n\rweladee.proto\x12\x10grpc.weladee.com\"\x17\n\tAddResult\x12\n\n\x02id\x18\x02 \x01(\x03\"\x07\n\x05\x45mpty\"\xae\x01\n\x07Holiday\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x14\n\x0cname_english\x18\x02 \x01(\t\x12\x11\n\tname_thai\x18\x03 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x04 \x01(\x05\x12\x0e\n\x06\x61\x63tive\x18\x05 \x01(\x08\x12\x0c\n\x04\x63ode\x18\x06 \x01(\t\x12\r\n\x05\x63olor\x18\x07 \x01(\t\x12\x12\n\nemployeeid\x18\x08 \x01(\x03\x12\x0c\n\x04note\x18\t \x01(\t\x12\x11\n\tsickLeave\x18\n \x01(\x08\"l\n\x08Position\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x14\n\x0cname_english\x18\x02 \x01(\t\x12\x11\n\tname_thai\x18\x03 \x01(\t\x12\x0e\n\x06\x61\x63tive\x18\x05 \x01(\x08\x12\r\n\x05level\x18\x07 \x01(\x05\x12\x0c\n\x04note\x18\t \x01(\t\"\xa5\x02\n\x04Gate\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x14\n\x0cname_english\x18\x02 \x01(\t\x12\x11\n\tname_thai\x18\x03 \x01(\t\x12\x0e\n\x06\x61\x63tive\x18\x05 \x01(\x08\x12\x0e\n\x06\x61\x63tion\x18\x07 \x03(\t\x12\x0e\n\x06QRCode\x18\x08 \x01(\t\x12\x0c\n\x04note\x18\t \x01(\t\x12\x10\n\x08latitude\x18\n \x01(\x01\x12\x11\n\tlongitude\x18\x0b \x01(\x01\x12\x0e\n\x06radius\x18\x0c \x01(\x05\x12\x0f\n\x07\x61\x64\x64ress\x18\r \x01(\t\x12\x0c\n\x04\x63ity\x18\x0e \x01(\t\x12\x10\n\x08postCode\x18\x0f \x01(\t\x12\x0f\n\x07\x63ountry\x18\x10 \x01(\t\x12\x33\n\topenHours\x18\x11 \x03(\x0b\x32 .grpc.weladee.com.OpenHourMobile\"h\n\x0eOpenHourMobile\x12\n\n\x02ID\x18\x01 \x01(\x03\x12\x0c\n\x04Name\x18\x03 \x01(\t\x12\x0f\n\x07WeekDay\x18\x04 \x01(\r\x12\x0c\n\x04\x46rom\x18\x05 \x01(\t\x12\n\n\x02To\x18\x06 \x01(\t\x12\x11\n\tDetailsID\x18\t \x01(\x03\"\x8f\x01\n\nDepartment\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x14\n\x0cname_english\x18\x02 \x01(\t\x12\x11\n\tname_thai\x18\x03 \x01(\t\x12\x11\n\tmanagerid\x18\x04 \x01(\x03\x12\x0e\n\x06\x61\x63tive\x18\x05 \x01(\x08\x12\x0c\n\x04\x63ode\x18\x06 \x01(\t\x12\r\n\x05\x65mail\x18\x07 \x01(\t\x12\x0c\n\x04note\x18\t \x01(\t\"\xc8\x01\n\x08LogEvent\x12\x1e\n\nemployeeid\x18\x01 \x01(\x03R\nemployeeid\x12\x16\n\x06\x61\x63tion\x18\x02 \x01(\tR\x06\x61\x63tion\x12\x1c\n\ttimestamp\x18\x03 \x01(\x03R\ttimestamp\x12\x16\n\x06teamid\x18\x04 \x01(\x03R\x06teamid\x12\x12\n\x04late\x18\x05 \x01(\x05R\x04late\x12\x0e\n\x02id\x18\x06 \x01(\x03R\x02id\x12\x16\n\x06gateid\x18\x07 \x01(\x03R\x06gateid\x12\x12\n\x04note\x18\x08 \x01(\tR\x04note\"9\n\rRefuseRequest\x12\n\n\x02ID\x18\x01 \x01(\x03\x12\x0e\n\x06reason\x18\x05 \x01(\t\x12\x0c\n\x04note\x18\x06 \x01(\t\"N\n\x0f\x45mployeeRequest\x12\x13\n\tuser_name\x18\x01 \x01(\tH\x00\x12\x0f\n\x05\x65mail\x18\x02 \x01(\tH\x00\x12\x0c\n\x02ID\x18\x03 \x01(\x03H\x00\x42\x07\n\x05query\"\xaf\x01\n\x10\x45mployeesRequest\x12\x1e\n\nemployeeID\x18\x01 \x01(\x03R\nemployeeid\x12\x16\n\x06teamid\x18\x02 \x01(\x03R\x06teamid\x12\x1c\n\tmanagerid\x18\x03 \x01(\x03R\tmanagerid\x12\"\n\x0c\x64\x65partmentid\x18\x04 \x01(\x03R\x0c\x64\x65partmentID\x12\x11\n\tprojectID\x18\x05 \x01(\x03\x12\x0e\n\x06taskID\x18\x06 \x01(\x03\"\x17\n\tRequestID\x12\n\n\x02ID\x18\x01 \x01(\x03\"\xc7\n\n\x08\x45mployee\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x14\n\x05\x65mail\x18\x02 \x01(\tR\x05\x65mail\x12\x1c\n\tuser_name\x18\x03 \x01(\tR\tuser_name\x12,\n\x11last_name_english\x18\x04 \x01(\tR\x11last_name_english\x12.\n\x12\x66irst_name_english\x18\x05 \x01(\tR\x12\x66irst_name_english\x12(\n\x0f\x66irst_name_thai\x18\x06 \x01(\tR\x0f\x66irst_name_thai\x12&\n\x0elast_name_thai\x18\x07 \x01(\tR\x0elast_name_thai\x12\x1c\n\tmanagerID\x18\x08 \x01(\x03R\tmanagerid\x12\x16\n\x06lineID\x18\t \x01(\tR\x06lineid\x12\x1e\n\ntelegramID\x18\x33 \x01(\x03R\ntelegramid\x12*\n\x10nickname_english\x18\n \x01(\tR\x10nickname_english\x12$\n\rnickname_thai\x18\x0b \x01(\tR\rnickname_thai\x12\x1b\n\x08\x46\x43Mtoken\x18\x12 \x03(\tR\tfcm_token\x12 \n\x0bphone_model\x18\x13 \x01(\tR\x0bphone_model\x12\"\n\x0cphone_serial\x18\x14 \x01(\tR\x0cphone_serial\x12\x12\n\x04\x63ode\x18\x15 \x01(\tR\x04\x63ode\x12\x1e\n\ncreated_by\x18\x0e \x01(\x03R\ncreated_by\x12\x1e\n\nupdated_by\x18\x0f \x01(\x03R\nupdated_by\x12\x16\n\x06\x61\x63tive\x18\x10 \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04note\x18\x11 \x01(\tR\x04note\x12\x1e\n\ncreated_on\x18\x16 \x01(\x03R\ncreated_on\x12\x1e\n\nupdated_on\x18\x17 \x01(\x03R\nupdated_on\x12\x14\n\x05photo\x18\x18 \x01(\tR\x05photo\x12\x0e\n\x02lg\x18\x19 \x01(\tR\x02lg\x12P\n\x11\x61pplication_level\x18\x1a \x01(\x0e\x32\".grpc.weladee.com.ApplicationLevelR\x11\x61pplication_level\x12\x1e\n\npositionid\x18\x1b \x01(\x03R\npositionid\x12\x16\n\x06Phones\x18\x1c \x03(\tR\x06phones\x12\x12\n\x04rfid\x18\x1d \x01(\x03R\x04rfid\x12\'\n\x0e\x45mailValidated\x18\" \x01(\x08R\x0f\x65mail_validated\x12\x16\n\x06teamid\x18# \x01(\x03R\x06teamid\x12\x16\n\x06gender\x18$ \x01(\tR\x06gender\x12\x31\n\x12hasToFillTimesheet\x18% \x01(\x08R\x15has_to_fill_timesheet\x12<\n\x18receiveCheckNotification\x18& \x01(\x08R\x1areceive_check_notification\x12.\n\x11\x63\x61nRequestHoliday\x18\' \x01(\x08R\x13\x63\x61n_request_holiday\x12\x1e\n\nnationalID\x18( \x01(\tR\nnationalid\x12\x14\n\x05taxID\x18) \x01(\tR\x05taxid\x12\'\n\x0epassportNumber\x18* \x01(\tR\x0fpassport_number\x12\x14\n\x05token\x18\x32 \x01(\tR\x05token\x12\x31\n\x12\x43\x61nCheckTeamMember\x18\x34 \x01(\x08R\x15\x63\x61n_check_team_member\x12\x16\n\x06QRCode\x18\x35 \x01(\tR\x06qrcode*\xa3\x01\n\x10\x41pplicationLevel\x12\x13\n\x0fSimple_Employee\x10\x00\x12\x0f\n\x0bHR_Operator\x10\x01\x12\x0e\n\nHR_Manager\x10\x02\x12\x10\n\x0cTeam_Manager\x10\x03\x12\x16\n\x12\x44\x65partment_Manager\x10\x04\x12\x0c\n\x08\x44irector\x10\x05\x12\x11\n\rAdministrator\x10\x06\x12\x0e\n\nSupervisor\x10\t*@\n\x14HolidayRequestStatus\x12\r\n\tRequested\x10\x00\x12\x0c\n\x08\x41pproved\x10\x01\x12\x0b\n\x07Refused\x10\x02\x42+\n\x15\x63om.frontware.weladeeB\x0bWeladeeGRPCH\x03P\x01\x90\x01\x01\x62\x06proto3')
+  serialized_pb=_b('\n\rweladee.proto\x12\x10grpc.weladee.com\"\x17\n\tAddResult\x12\n\n\x02id\x18\x02 \x01(\x03\"\x07\n\x05\x45mpty\"\xae\x01\n\x07Holiday\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x14\n\x0cname_english\x18\x02 \x01(\t\x12\x11\n\tname_thai\x18\x03 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x04 \x01(\x05\x12\x0e\n\x06\x61\x63tive\x18\x05 \x01(\x08\x12\x0c\n\x04\x63ode\x18\x06 \x01(\t\x12\r\n\x05\x63olor\x18\x07 \x01(\t\x12\x12\n\nemployeeid\x18\x08 \x01(\x03\x12\x0c\n\x04note\x18\t \x01(\t\x12\x11\n\tsickLeave\x18\n \x01(\x08\"l\n\x08Position\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x14\n\x0cname_english\x18\x02 \x01(\t\x12\x11\n\tname_thai\x18\x03 \x01(\t\x12\x0e\n\x06\x61\x63tive\x18\x05 \x01(\x08\x12\r\n\x05level\x18\x07 \x01(\x05\x12\x0c\n\x04note\x18\t \x01(\t\"\xbd\x02\n\x04Gate\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x14\n\x0cname_english\x18\x02 \x01(\t\x12\x11\n\tname_thai\x18\x03 \x01(\t\x12\x0e\n\x06\x61\x63tive\x18\x05 \x01(\x08\x12\x0e\n\x06\x61\x63tion\x18\x07 \x03(\t\x12\x0e\n\x06QRCode\x18\x08 \x01(\t\x12\x0c\n\x04note\x18\t \x01(\t\x12\x10\n\x08latitude\x18\n \x01(\x01\x12\x11\n\tlongitude\x18\x0b \x01(\x01\x12\x0e\n\x06radius\x18\x0c \x01(\x05\x12\x0f\n\x07\x61\x64\x64ress\x18\r \x01(\t\x12\x0c\n\x04\x63ity\x18\x0e \x01(\t\x12\x10\n\x08postCode\x18\x0f \x01(\t\x12\x0f\n\x07\x63ountry\x18\x10 \x01(\t\x12\x33\n\topenHours\x18\x11 \x03(\x0b\x32 .grpc.weladee.com.OpenHourMobile\x12\x16\n\x0e\x41llowFreeCheck\x18\x12 \x01(\x08\"\x8f\x01\n\nDepartment\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x14\n\x0cname_english\x18\x02 \x01(\t\x12\x11\n\tname_thai\x18\x03 \x01(\t\x12\x11\n\tmanagerid\x18\x04 \x01(\x03\x12\x0e\n\x06\x61\x63tive\x18\x05 \x01(\x08\x12\x0c\n\x04\x63ode\x18\x06 \x01(\t\x12\r\n\x05\x65mail\x18\x07 \x01(\t\x12\x0c\n\x04note\x18\t \x01(\t\"\xc8\x01\n\x08LogEvent\x12\x1e\n\nemployeeid\x18\x01 \x01(\x03R\nemployeeid\x12\x16\n\x06\x61\x63tion\x18\x02 \x01(\tR\x06\x61\x63tion\x12\x1c\n\ttimestamp\x18\x03 \x01(\x03R\ttimestamp\x12\x16\n\x06teamid\x18\x04 \x01(\x03R\x06teamid\x12\x12\n\x04late\x18\x05 \x01(\x05R\x04late\x12\x0e\n\x02id\x18\x06 \x01(\x03R\x02id\x12\x16\n\x06gateid\x18\x07 \x01(\x03R\x06gateid\x12\x12\n\x04note\x18\x08 \x01(\tR\x04note\"9\n\rRefuseRequest\x12\n\n\x02ID\x18\x01 \x01(\x03\x12\x0e\n\x06reason\x18\x05 \x01(\t\x12\x0c\n\x04note\x18\x06 \x01(\t\"N\n\x0f\x45mployeeRequest\x12\x13\n\tuser_name\x18\x01 \x01(\tH\x00\x12\x0f\n\x05\x65mail\x18\x02 \x01(\tH\x00\x12\x0c\n\x02ID\x18\x03 \x01(\x03H\x00\x42\x07\n\x05query\"\xaf\x01\n\x10\x45mployeesRequest\x12\x1e\n\nemployeeID\x18\x01 \x01(\x03R\nemployeeid\x12\x16\n\x06teamid\x18\x02 \x01(\x03R\x06teamid\x12\x1c\n\tmanagerid\x18\x03 \x01(\x03R\tmanagerid\x12\"\n\x0c\x64\x65partmentid\x18\x04 \x01(\x03R\x0c\x64\x65partmentID\x12\x11\n\tprojectID\x18\x05 \x01(\x03\x12\x0e\n\x06taskID\x18\x06 \x01(\x03\"\x17\n\tRequestID\x12\n\n\x02ID\x18\x01 \x01(\x03\"\xe9\n\n\x08\x45mployee\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x14\n\x05\x65mail\x18\x02 \x01(\tR\x05\x65mail\x12\x1c\n\tuser_name\x18\x03 \x01(\tR\tuser_name\x12,\n\x11last_name_english\x18\x04 \x01(\tR\x11last_name_english\x12.\n\x12\x66irst_name_english\x18\x05 \x01(\tR\x12\x66irst_name_english\x12(\n\x0f\x66irst_name_thai\x18\x06 \x01(\tR\x0f\x66irst_name_thai\x12&\n\x0elast_name_thai\x18\x07 \x01(\tR\x0elast_name_thai\x12\x1c\n\tmanagerID\x18\x08 \x01(\x03R\tmanagerid\x12\x16\n\x06lineID\x18\t \x01(\tR\x06lineid\x12\x1e\n\ntelegramID\x18\x33 \x01(\x03R\ntelegramid\x12*\n\x10nickname_english\x18\n \x01(\tR\x10nickname_english\x12$\n\rnickname_thai\x18\x0b \x01(\tR\rnickname_thai\x12\x1b\n\x08\x46\x43Mtoken\x18\x12 \x03(\tR\tfcm_token\x12 \n\x0bphone_model\x18\x13 \x01(\tR\x0bphone_model\x12\"\n\x0cphone_serial\x18\x14 \x01(\tR\x0cphone_serial\x12\x12\n\x04\x63ode\x18\x15 \x01(\tR\x04\x63ode\x12\x1e\n\ncreated_by\x18\x0e \x01(\x03R\ncreated_by\x12\x1e\n\nupdated_by\x18\x0f \x01(\x03R\nupdated_by\x12\x16\n\x06\x61\x63tive\x18\x10 \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04note\x18\x11 \x01(\tR\x04note\x12\x1e\n\ncreated_on\x18\x16 \x01(\x03R\ncreated_on\x12\x1e\n\nupdated_on\x18\x17 \x01(\x03R\nupdated_on\x12\x14\n\x05photo\x18\x18 \x01(\tR\x05photo\x12\x0e\n\x02lg\x18\x19 \x01(\tR\x02lg\x12P\n\x11\x61pplication_level\x18\x1a \x01(\x0e\x32\".grpc.weladee.com.ApplicationLevelR\x11\x61pplication_level\x12\x1e\n\npositionid\x18\x1b \x01(\x03R\npositionid\x12\x16\n\x06Phones\x18\x1c \x03(\tR\x06phones\x12\x12\n\x04rfid\x18\x1d \x01(\x03R\x04rfid\x12\'\n\x0e\x45mailValidated\x18\" \x01(\x08R\x0f\x65mail_validated\x12\x16\n\x06teamid\x18# \x01(\x03R\x06teamid\x12\x16\n\x06gender\x18$ \x01(\tR\x06gender\x12\x31\n\x12hasToFillTimesheet\x18% \x01(\x08R\x15has_to_fill_timesheet\x12<\n\x18receiveCheckNotification\x18& \x01(\x08R\x1areceive_check_notification\x12.\n\x11\x63\x61nRequestHoliday\x18\' \x01(\x08R\x13\x63\x61n_request_holiday\x12\x1e\n\nnationalID\x18( \x01(\tR\nnationalid\x12\x14\n\x05taxID\x18) \x01(\tR\x05taxid\x12\'\n\x0epassportNumber\x18* \x01(\tR\x0fpassport_number\x12\x14\n\x05token\x18\x32 \x01(\tR\x05token\x12\x31\n\x12\x43\x61nCheckTeamMember\x18\x34 \x01(\x08R\x15\x63\x61n_check_team_member\x12\x16\n\x06QRCode\x18\x35 \x01(\tR\x06qrcode\x12 \n\x0bNationality\x18\x36 \x01(\tR\x0bnationality\"h\n\x0eOpenHourMobile\x12\n\n\x02ID\x18\x01 \x01(\x03\x12\x0c\n\x04Name\x18\x03 \x01(\t\x12\x0f\n\x07WeekDay\x18\x04 \x01(\r\x12\x0c\n\x04\x46rom\x18\x05 \x01(\t\x12\n\n\x02To\x18\x06 \x01(\t\x12\x11\n\tDetailsID\x18\t \x01(\x03*\xa3\x01\n\x10\x41pplicationLevel\x12\x13\n\x0fSimple_Employee\x10\x00\x12\x0f\n\x0bHR_Operator\x10\x01\x12\x0e\n\nHR_Manager\x10\x02\x12\x10\n\x0cTeam_Manager\x10\x03\x12\x16\n\x12\x44\x65partment_Manager\x10\x04\x12\x0c\n\x08\x44irector\x10\x05\x12\x11\n\rAdministrator\x10\x06\x12\x0e\n\nSupervisor\x10\t*@\n\x14HolidayRequestStatus\x12\r\n\tRequested\x10\x00\x12\x0c\n\x08\x41pproved\x10\x01\x12\x0b\n\x07Refused\x10\x02\x42+\n\x15\x63om.frontware.weladeeB\x0bWeladeeGRPCH\x03P\x01\x90\x01\x01\x62\x06proto3')
 )
 
 _APPLICATIONLEVEL = _descriptor.EnumDescriptor(
@@ -64,8 +64,8 @@ _APPLICATIONLEVEL = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=2804,
-  serialized_end=2967,
+  serialized_start=2862,
+  serialized_end=3025,
 )
 _sym_db.RegisterEnumDescriptor(_APPLICATIONLEVEL)
 
@@ -91,8 +91,8 @@ _HOLIDAYREQUESTSTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=2969,
-  serialized_end=3033,
+  serialized_start=3027,
+  serialized_end=3091,
 )
 _sym_db.RegisterEnumDescriptor(_HOLIDAYREQUESTSTATUS)
 
@@ -438,6 +438,13 @@ _GATE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='AllowFreeCheck', full_name='grpc.weladee.com.Gate.AllowFreeCheck', index=15,
+      number=18, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -451,73 +458,7 @@ _GATE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=357,
-  serialized_end=650,
-)
-
-
-_OPENHOURMOBILE = _descriptor.Descriptor(
-  name='OpenHourMobile',
-  full_name='grpc.weladee.com.OpenHourMobile',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='ID', full_name='grpc.weladee.com.OpenHourMobile.ID', index=0,
-      number=1, type=3, cpp_type=2, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='Name', full_name='grpc.weladee.com.OpenHourMobile.Name', index=1,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='WeekDay', full_name='grpc.weladee.com.OpenHourMobile.WeekDay', index=2,
-      number=4, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='From', full_name='grpc.weladee.com.OpenHourMobile.From', index=3,
-      number=5, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='To', full_name='grpc.weladee.com.OpenHourMobile.To', index=4,
-      number=6, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='DetailsID', full_name='grpc.weladee.com.OpenHourMobile.DetailsID', index=5,
-      number=9, type=3, cpp_type=2, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=652,
-  serialized_end=756,
+  serialized_end=674,
 )
 
 
@@ -596,8 +537,8 @@ _DEPARTMENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=759,
-  serialized_end=902,
+  serialized_start=677,
+  serialized_end=820,
 )
 
 
@@ -676,8 +617,8 @@ _LOGEVENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=905,
-  serialized_end=1105,
+  serialized_start=823,
+  serialized_end=1023,
 )
 
 
@@ -721,8 +662,8 @@ _REFUSEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1107,
-  serialized_end=1164,
+  serialized_start=1025,
+  serialized_end=1082,
 )
 
 
@@ -769,8 +710,8 @@ _EMPLOYEEREQUEST = _descriptor.Descriptor(
       name='query', full_name='grpc.weladee.com.EmployeeRequest.query',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=1166,
-  serialized_end=1244,
+  serialized_start=1084,
+  serialized_end=1162,
 )
 
 
@@ -835,8 +776,8 @@ _EMPLOYEESREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1247,
-  serialized_end=1422,
+  serialized_start=1165,
+  serialized_end=1340,
 )
 
 
@@ -866,8 +807,8 @@ _REQUESTID = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1424,
-  serialized_end=1447,
+  serialized_start=1342,
+  serialized_end=1365,
 )
 
 
@@ -1158,6 +1099,13 @@ _EMPLOYEE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, json_name='qrcode', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Nationality', full_name='grpc.weladee.com.Employee.Nationality', index=40,
+      number=54, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, json_name='nationality', file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -1170,8 +1118,74 @@ _EMPLOYEE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1450,
-  serialized_end=2801,
+  serialized_start=1368,
+  serialized_end=2753,
+)
+
+
+_OPENHOURMOBILE = _descriptor.Descriptor(
+  name='OpenHourMobile',
+  full_name='grpc.weladee.com.OpenHourMobile',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='ID', full_name='grpc.weladee.com.OpenHourMobile.ID', index=0,
+      number=1, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Name', full_name='grpc.weladee.com.OpenHourMobile.Name', index=1,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='WeekDay', full_name='grpc.weladee.com.OpenHourMobile.WeekDay', index=2,
+      number=4, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='From', full_name='grpc.weladee.com.OpenHourMobile.From', index=3,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='To', full_name='grpc.weladee.com.OpenHourMobile.To', index=4,
+      number=6, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='DetailsID', full_name='grpc.weladee.com.OpenHourMobile.DetailsID', index=5,
+      number=9, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2755,
+  serialized_end=2859,
 )
 
 _GATE.fields_by_name['openHours'].message_type = _OPENHOURMOBILE
@@ -1190,7 +1204,6 @@ DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
 DESCRIPTOR.message_types_by_name['Holiday'] = _HOLIDAY
 DESCRIPTOR.message_types_by_name['Position'] = _POSITION
 DESCRIPTOR.message_types_by_name['Gate'] = _GATE
-DESCRIPTOR.message_types_by_name['OpenHourMobile'] = _OPENHOURMOBILE
 DESCRIPTOR.message_types_by_name['Department'] = _DEPARTMENT
 DESCRIPTOR.message_types_by_name['LogEvent'] = _LOGEVENT
 DESCRIPTOR.message_types_by_name['RefuseRequest'] = _REFUSEREQUEST
@@ -1198,6 +1211,7 @@ DESCRIPTOR.message_types_by_name['EmployeeRequest'] = _EMPLOYEEREQUEST
 DESCRIPTOR.message_types_by_name['EmployeesRequest'] = _EMPLOYEESREQUEST
 DESCRIPTOR.message_types_by_name['RequestID'] = _REQUESTID
 DESCRIPTOR.message_types_by_name['Employee'] = _EMPLOYEE
+DESCRIPTOR.message_types_by_name['OpenHourMobile'] = _OPENHOURMOBILE
 DESCRIPTOR.enum_types_by_name['ApplicationLevel'] = _APPLICATIONLEVEL
 DESCRIPTOR.enum_types_by_name['HolidayRequestStatus'] = _HOLIDAYREQUESTSTATUS
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -1236,13 +1250,6 @@ Gate = _reflection.GeneratedProtocolMessageType('Gate', (_message.Message,), dic
   # @@protoc_insertion_point(class_scope:grpc.weladee.com.Gate)
   ))
 _sym_db.RegisterMessage(Gate)
-
-OpenHourMobile = _reflection.GeneratedProtocolMessageType('OpenHourMobile', (_message.Message,), dict(
-  DESCRIPTOR = _OPENHOURMOBILE,
-  __module__ = 'weladee_pb2'
-  # @@protoc_insertion_point(class_scope:grpc.weladee.com.OpenHourMobile)
-  ))
-_sym_db.RegisterMessage(OpenHourMobile)
 
 Department = _reflection.GeneratedProtocolMessageType('Department', (_message.Message,), dict(
   DESCRIPTOR = _DEPARTMENT,
@@ -1292,6 +1299,13 @@ Employee = _reflection.GeneratedProtocolMessageType('Employee', (_message.Messag
   # @@protoc_insertion_point(class_scope:grpc.weladee.com.Employee)
   ))
 _sym_db.RegisterMessage(Employee)
+
+OpenHourMobile = _reflection.GeneratedProtocolMessageType('OpenHourMobile', (_message.Message,), dict(
+  DESCRIPTOR = _OPENHOURMOBILE,
+  __module__ = 'weladee_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.weladee.com.OpenHourMobile)
+  ))
+_sym_db.RegisterMessage(OpenHourMobile)
 
 
 DESCRIPTOR.has_options = True
