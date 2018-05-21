@@ -527,8 +527,10 @@ class weladee_attendance(models.TransientModel):
                                                 data["notes"] = "Import from weladee"
                                                 data["report_note"] = "Import from weladee"
                                                 data["department_id"] = False
-                                                if chol.Holiday.employeeid in wEidTooEid :
-                                                    empId = wEidTooEid[ chol.Holiday.employeeid ]
+                                                #if chol.Holiday.employeeid in wEidTooEid :
+                                                    #empId = wEidTooEid[ chol.Holiday.employeeid ]
+                                                if self.weladeeEmpIdToOdooId( chol.Holiday.employeeid  ) :
+                                                    empId =  self.weladeeEmpIdToOdooId( chol.Holiday.employeeid  )
                                                     data["employee_id"] = empId
                                                     dateid = self.env["hr.holidays"].create( data )
                                                     print("odoo id : %s" % dateid.id)
@@ -602,6 +604,17 @@ class weladee_attendance(models.TransientModel):
           for i in iteratorAttendance :
               yield i
 
+    def weladeeEmpIdToOdooId(self, weladeeId) :
+        odooid = False
+        line_obj = self.env['hr.employee']
+        line_ids = line_obj.search([("weladee_id", "=", weladeeId)])
+        for cu in line_ids:
+             employee_datas = line_obj.browse( cu )
+             if employee_datas :
+                 odooid = employee_datas.id
+        
+        return odooid.id
+
     def manageAttendance(self, wEidTooEid, authorization):
         iteratorAttendance = []
         att_line_obj = self.env['hr.attendance']
@@ -633,8 +646,10 @@ class weladee_attendance(models.TransientModel):
                                     att.logevent.timestamp
                                 ).strftime('%Y-%m-%d %H:%M:%S')
                                 acEid = False
-                                if att.logevent.employeeid in wEidTooEid :
-                                    acEid = wEidTooEid[ att.logevent.employeeid ]
+                                #if att.logevent.employeeid in wEidTooEid :
+                                    #acEid = wEidTooEid[ att.logevent.employeeid ]
+                                if self.weladeeEmpIdToOdooId( att.logevent.employeeid ) :
+                                    acEid =  self.weladeeEmpIdToOdooId( att.logevent.employeeid )
                                 packet = {"employee_id" : acEid}
                                 if acEid :
                                     if newAttendance :                 
