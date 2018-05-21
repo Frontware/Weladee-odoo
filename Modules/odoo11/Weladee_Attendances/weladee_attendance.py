@@ -631,6 +631,14 @@ class weladee_attendance(models.TransientModel):
                                             except Exception as e:
                                                 print("Updated log event is failed",e)
 
+                                            print("Update odoo id")
+                                            syncLogEvent = odoo_pb2.LogEventOdooSync()
+                                            syncLogEvent.odoo.odoo_id = attendanceData.id
+                                            syncLogEvent.odoo.odoo_created_on = int(time.time())
+                                            syncLogEvent.odoo.odoo_synced_on = int(time.time())
+                                            syncLogEvent.logid = att.logevent.id
+                                            iteratorAttendance.append(syncLogEvent)
+
                             except Exception as e:
                                 print("Found problem when create attendance on odoo",e)
 
