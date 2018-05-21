@@ -39,8 +39,10 @@ def main():
 
     # List of employees
     print("Employees")
-    if False :
+    if True :
+        print("Employees2")
         for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
+            print("Employees3")
             print(emp)
 
     # List of GetPositions
