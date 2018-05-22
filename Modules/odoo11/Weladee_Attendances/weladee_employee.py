@@ -363,7 +363,7 @@ class weladee_job(models.Model):
 
           if not vals["name"] in weladeePositions :
             newPosition = odoo_pb2.PositionOdoo()
-            newPosition.odoo.odoo_id = pid.id
+            newPosition.odoo.odoo_id = self.id
             newPosition.odoo.odoo_created_on = int(time.time())
             newPosition.odoo.odoo_synced_on = int(time.time())
 

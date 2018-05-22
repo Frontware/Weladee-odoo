@@ -44,6 +44,7 @@ change log:
 * 2018-05-17 CKA Sync employee for update on odoo datas, check duplicate check in
 * 2018-05-18 CKA add button to open weladee employee
 * 2018-05-21 CKA add new event when syn and fix problem when update employee
+* 2018-05-22 CKA fixed problem when sync position on odoo to weladee
 
                 
 requirement:
