@@ -47,7 +47,7 @@ def main():
 
     # List of GetPositions
     print("Positions")
-    if False :
+    if True :
         for pos in stub.GetPositions(weladee_pb2.Empty(), metadata=authorization):
             print(pos)
 
@@ -59,7 +59,7 @@ def main():
     print("----------------------------------")
     # List of CompanyHolidays
     print("Holidays")
-    if True :
+    if False :
         try:
             for ch in stub.GetHolidays(weladee_pb2.Empty(), metadata=authorization):
                 print(ch)

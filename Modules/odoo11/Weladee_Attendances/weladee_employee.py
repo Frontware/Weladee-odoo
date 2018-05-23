@@ -303,6 +303,8 @@ class weladee_job(models.Model):
   _description="synchronous position to weladee"
   _inherit = 'hr.job'
 
+  weladee_id = fields.Char(string="Weladee ID")
+
   def get_api_key(self):
     line_obj = self.env['weladee_attendance.synchronous.setting']
     line_ids = line_obj.search([])
@@ -317,6 +319,8 @@ class weladee_job(models.Model):
   @api.model
   def create(self, vals) :
     pid = super(weladee_job,self).create( vals )
+
+    if not vals["weladee_id"]:
 
     authorization = False
     authorization = self.get_api_key()
@@ -345,7 +349,7 @@ class weladee_job(models.Model):
           except Exception as e:
             print("Add position failed",e)
 
-      return pid
+    return pid
 
   def write(self, vals):
     pid = super(weladee_job, self).write( vals )
