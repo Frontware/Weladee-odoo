@@ -114,31 +114,38 @@ class weladee_attendance(models.TransientModel):
         else:
             print( "Authorization : %s" % authorization )
             #List all position
-            weladeePositions = {}
-            odooPositions = {}
-            weladeePositionName = {}
 
             print("-------------Positions")
             if True :
                 for position in stub.GetPositions(myrequest, metadata=authorization):
                     if position :
-                        if position.position.name_english :
-                            weladeePositions[ position.position.name_english ] = position.position.id
-                            weladeePositionName[ position.position.id ] = position.position.name_english
-                            chk_position = self.env['hr.job'].search([ ('name','=',position.position.name_english )])
-                            if not chk_position :
-                                data = {"name" : position.position.name_english,
-                                        "no_of_recruitment" : 1}
-                                odoo_id_position = self.env['hr.job'].create(data)
-                                print( "Insert position '%s' to odoo" % position.position.name_english )
+                        if position.position.id :
+                            job_line_obj = self.env['hr.job']
+                            job_line_ids = job_line_obj.search([("weladee_id", "=", position.position.id)])
+                            if not job_line_ids :
+                                if position.position.name_english :
+                                    chk_position = self.env['hr.job'].search([ ('name','=',position.position.name_english )])
+                                    if not chk_position :
+                                        data = {"name" : position.position.name_english,
+                                                "weladee_id" : position.position.id,
+                                                "no_of_recruitment" : 1}
+                                        odoo_id_position = self.env['hr.job'].create(data)
+                                        print( "Insert position '%s' to odoo" % position.position.name_english )
+                            else :
+                                for position_id in job_line_ids :
+                                    position_data = job_line_obj.browse( position_id.id )
+                                    data = {"name" : position.position.name_english,
+                                            "weladee_id" : position.position.id,
+                                            "no_of_recruitment" : 1}
+                                    position_data.write( data )
+                                    print( "Updated position '%s' to odoo" % position.position.name_english )
 
                 position_line_obj = self.env['hr.job']
                 position_line_ids = position_line_obj.search([])
                 for posId in position_line_ids:
                     positionData = position_line_obj.browse(posId.id)
                     if positionData.name :
-                        odooPositions[ positionData.name ] = positionData.id
-                        if not positionData.name in weladeePositions :
+                        if not positionData["weladee_id"] :
                             newPosition = odoo_pb2.PositionOdoo()
                             newPosition.odoo.odoo_id = positionData.id
                             newPosition.odoo.odoo_created_on = int(time.time())
@@ -149,8 +156,6 @@ class weladee_attendance(models.TransientModel):
                             print(newPosition)
                             try:
                                 result = stub.AddPosition(newPosition, metadata=authorization)
-                                weladeePositions[ positionData.name ] = result
-                                weladeePositionName[ result ] = positionData.name
                                 print( result  )
                                 print ("Add position : %s" % positionData.name)
                             except Exception as e:
@@ -198,7 +203,14 @@ class weladee_attendance(models.TransientModel):
                                         except Exception as e:
                                             print("Update odoo department id is failed",e)
                             else :
-                                sDepartment.append( dept.odoo.odoo_id )
+                                department_data = self.env['hr.department'].browse( dept.odoo.odoo_id )
+                                data = {"name" : dept.department.name_english,
+                                        "weladee_id" : dept.department.id
+                                        }
+                                try :
+                                    department_data.write( data )
+                                except Exception as e:
+                                    print("Error when update department to odoo : ",e)
 
                 # sync data from odoo to Weladee
                 if True :
@@ -208,7 +220,7 @@ class weladee_attendance(models.TransientModel):
                         deptData = department_line_obj.browse(deptId.id)
                         if deptData.name:
                             if deptData.id:
-                                if not deptData.id in sDepartment:
+                                if not deptData.weladee_id:
                                     print( "%s don't have on Weladee" % deptData.name )
                                     newDepartment = odoo_pb2.DepartmentOdoo()
                                     newDepartment.odoo.odoo_id = deptData.id
@@ -257,10 +269,10 @@ class weladee_attendance(models.TransientModel):
                                                 ,"weladee_id":emp.employee.ID
                                                 }
                                         if emp.employee.positionid :
-                                            if weladeePositionName[ emp.employee.positionid ] :
-                                                posName = weladeePositionName[ emp.employee.positionid ]
-                                                if odooPositions[ posName ] :
-                                                    data[ "job_id" ] = odooPositions[ posName ]
+                                            job_datas = self.env['hr.job'].search( [ ("weladee_id","=", emp.employee.positionid ) ] )
+                                            if job_datas :
+                                                for jdatas in job_datas :
+                                                    data[ "job_id" ] = jdatas.id
                                         if photoBase64:
                                             data["image"] = photoBase64
 
@@ -343,6 +355,28 @@ class weladee_attendance(models.TransientModel):
                                                     newEmployee.employee.EmailValidated = emp.employee.EmailValidated
                                                 if emp.employee.teamid :
                                                     newEmployee.employee.teamid = emp.employee.teamid
+                                                if emp.employee.gender :
+                                                    newEmployee.employee.gender = emp.employee.gender
+                                                if emp.employee.hasToFillTimesheet :
+                                                    newEmployee.employee.hasToFillTimesheet = emp.employee.hasToFillTimesheet
+                                                if emp.employee.receiveCheckNotification :
+                                                    newEmployee.employee.receiveCheckNotification = emp.employee.receiveCheckNotification
+                                                if emp.employee.canRequestHoliday :
+                                                    newEmployee.employee.canRequestHoliday = emp.employee.canRequestHoliday
+                                                if emp.employee.nationalID :
+                                                    newEmployee.employee.nationalID = emp.employee.nationalID
+                                                if emp.employee.taxID :
+                                                    newEmployee.employee.taxID = emp.employee.taxID
+                                                if emp.employee.passportNumber :
+                                                    newEmployee.employee.passportNumber = emp.employee.passportNumber
+                                                if emp.employee.token :
+                                                    newEmployee.employee.token = emp.employee.token
+                                                if emp.employee.CanCheckTeamMember :
+                                                    newEmployee.employee.CanCheckTeamMember = emp.employee.CanCheckTeamMember
+                                                if emp.employee.QRCode :
+                                                    newEmployee.employee.QRCode = emp.employee.QRCode
+                                                if emp.employee.Nationality :
+                                                    newEmployee.employee.Nationality = emp.employee.Nationality
                                                 print( newEmployee )
                                                 try:
                                                     result = stub.UpdateEmployee(newEmployee, metadata=authorization)
@@ -367,16 +401,17 @@ class weladee_attendance(models.TransientModel):
                                                     print("Error when load image : ",e)
                                                 
                                             data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
-                                                    ,"identification_id" :(emp.employee.code or "" )
-                                                    ,"weladee_profile" : "https://www.weladee.com/employee/" + str(emp.employee.ID)
-                                                    ,"notes": ( emp.employee.note or "" )
-                                                    ,"work_email":( emp.employee.email or "" )
-                                                    }
+                                                ,"identification_id" :(emp.employee.code or "" )
+                                                ,"notes": ( emp.employee.note or "" )
+                                                ,"weladee_profile" : "https://www.weladee.com/employee/" + str(emp.employee.ID)
+                                                ,"work_email":( emp.employee.email or "" )
+                                                ,"weladee_id":emp.employee.ID
+                                                }
                                             if emp.employee.positionid :
-                                                if weladeePositionName[ emp.employee.positionid ] :
-                                                    posName = weladeePositionName[ emp.employee.positionid ]
-                                                    if odooPositions[ posName ] :
-                                                        data[ "job_id" ] = odooPositions[ posName ]
+                                                job_datas = self.env['hr.job'].search( [ ("weladee_id","=", emp.employee.positionid ) ] )
+                                                if job_datas :
+                                                    for jdatas in job_datas :
+                                                        data[ "job_id" ] = jdatas.id
                                             if photoBase64:
                                                 data["image"] = photoBase64
 
@@ -385,9 +420,11 @@ class weladee_attendance(models.TransientModel):
 
                                             odoo_employee_id = False
                                             try:
+                                                print( data )
                                                 oEmployee.write( data )
                                                 print( 'Updated employee on odoo id %s' % oEmployee.id )
                                             except Exception as e:
+                                                print( emp )
                                                 print("photo url : %s" % emp.employee.photo)
                                                 print( 'Error when update employee : %s' % e )
                                                 
@@ -450,6 +487,28 @@ class weladee_attendance(models.TransientModel):
                                                 newEmployee.employee.EmailValidated = emp.employee.EmailValidated
                                             if emp.employee.teamid :
                                                 newEmployee.employee.teamid = emp.employee.teamid
+                                            if emp.employee.gender :
+                                                newEmployee.employee.gender = emp.employee.gender
+                                            if emp.employee.hasToFillTimesheet :
+                                                newEmployee.employee.hasToFillTimesheet = emp.employee.hasToFillTimesheet
+                                            if emp.employee.receiveCheckNotification :
+                                                newEmployee.employee.receiveCheckNotification = emp.employee.receiveCheckNotification
+                                            if emp.employee.canRequestHoliday :
+                                                newEmployee.employee.canRequestHoliday = emp.employee.canRequestHoliday
+                                            if emp.employee.nationalID :
+                                                newEmployee.employee.nationalID = emp.employee.nationalID
+                                            if emp.employee.taxID :
+                                                newEmployee.employee.taxID = emp.employee.taxID
+                                            if emp.employee.passportNumber :
+                                                newEmployee.employee.passportNumber = emp.employee.passportNumber
+                                            if emp.employee.token :
+                                                newEmployee.employee.token = emp.employee.token
+                                            if emp.employee.CanCheckTeamMember :
+                                                newEmployee.employee.CanCheckTeamMember = emp.employee.CanCheckTeamMember
+                                            if emp.employee.QRCode :
+                                                newEmployee.employee.QRCode = emp.employee.QRCode
+                                            if emp.employee.Nationality :
+                                                newEmployee.employee.Nationality = emp.employee.Nationality
                                             try:
                                                 result = stub.UpdateEmployee(newEmployee, metadata=authorization)
                                                 print ("Updated odoo employee to weladee")
@@ -470,8 +529,11 @@ class weladee_attendance(models.TransientModel):
                             print("--------------[add new employee on odoo to Weladee]----------------")
                             pos = False
                             if emp.job_id :
-                                if emp.job_id.name :
-                                    pos = emp.job_id.name
+                                position_line_obj = self.env['hr.job']
+                                position_data = position_line_obj.browse( emp.job_id )
+                                if position_data :
+                                    if position_data["weladee_id"] :
+                                        pos = position_data["weladee_id"]
                             if not emp.id in odooIdEmps :
                                 print("Add new employee %s with odoo id %s" % (emp.name, emp.id))
                                 newEmployee = odoo_pb2.EmployeeOdoo()
@@ -489,8 +551,7 @@ class weladee_attendance(models.TransientModel):
                                     newEmployee.employee.lg = "en"
                                 newEmployee.employee.active = False
                                 if pos :
-                                    if weladeePositions[ pos ] :
-                                        newEmployee.employee.positionid = weladeePositions[ pos ]
+                                    newEmployee.employee.positionid = pos
                                 print(newEmployee)
                                 try:
                                     result = stub.AddEmployee(newEmployee, metadata=authorization)

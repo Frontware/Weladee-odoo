@@ -20,7 +20,7 @@
 ##############################################################################
 {
 "name" : "Weladee attendances module",
-"version" : "4.01",
+"version" : "4.02",
 "author" : "Frontware International",
 "category" : "Generic Modules",
 "depends" : ['base', 'hr_attendance', 'hr', 'hr_holidays'],
@@ -45,7 +45,7 @@ change log:
 * 2018-05-18 CKA add button to open weladee employee
 * 2018-05-21 CKA add new event when syn and fix problem when update employee
 * 2018-05-22 CKA fixed problem when sync position on odoo to weladee
-
+* 2018-05-23 CKA changed code for sync odoo to weladee
                 
 requirement:
 ------------------------------------

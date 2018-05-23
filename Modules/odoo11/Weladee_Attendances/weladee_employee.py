@@ -115,7 +115,7 @@ class weladee_employee(models.Model):
   def create(self, vals):
     eid = super(weladee_employee,self).create(vals)
 
-    if not vals["weladee_id"]:
+    if not "weladee_id" in vals:
       authorization = False
       authorization = self.get_api_key()
       #print("API : %s" % authorization)
@@ -143,6 +143,12 @@ class weladee_employee(models.Model):
 
             if vals["identification_id"] :
               newEmployee.employee.code = vals["identification_id"]
+            if vals["country_id"] :
+              c_line_obj = self.env['res.country']
+              cdata = c_line_obj.browse( vals["country_id"] )
+              if cdata :
+                if cdata.name :
+                  newEmployee.employee.Nationality = cdata.name
             if vals["notes"] :
               newEmployee.employee.note = vals["notes"]
             if vals["work_email"] :
@@ -150,18 +156,17 @@ class weladee_employee(models.Model):
             if vals["job_id"] :
               positionData = self.env['hr.job'].browse( vals["job_id"] )
               if positionData :
-                pName = positionData.name
-                if pName in wPos :
-                  newEmployee.employee.positionid = wPos[ pName ]
+                if positionData.weladee_id :
+                  newEmployee.employee.positionid = int(positionData.weladee_id)
 
-                  print(newEmployee)
+            print(newEmployee)
 
-                  try:
-                    result = stub.AddEmployee(newEmployee, metadata=authorization)
-                    print ("Weladee id : %s" % result.id)
-
-                  except Exception as e:
-                    print("Add employee failed",e)
+            try:
+              result = stub.AddEmployee(newEmployee, metadata=authorization)
+              print ("Weladee id : %s" % result.id)
+              eid.write( {"weladee_id" : str(result.id) ,"weladee_profile" : "https://www.weladee.com/employee/" + str(result.id)  } )              
+            except Exception as e:
+              print("Add employee failed",e)
 
     return eid
 
@@ -173,25 +178,22 @@ class weladee_employee(models.Model):
       if True :
         print("----------")
         oldData = self.env['hr.employee'].browse( self.id )
-        WeladeeData =False
-        for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
+        WeladeeData = False
+        odooRequest = odoo_pb2.OdooRequest()
+        odooRequest.odoo_id = int(self.id)
+        for emp in stub.GetEmployees(odooRequest, metadata=authorization):
+          print("----------")
           if emp :
-            if emp.odoo :
-              if emp.odoo.odoo_id :
-                if emp.odoo.odoo_id == self.id :
+            if emp.employee :
+                print( emp )
+                if str(emp.employee.ID) == self.weladee_id :
                   WeladeeData = emp.employee
+                  
         if WeladeeData :
-          wPos = {}
-          for position in stub.GetPositions(myrequest, metadata=authorization):
-            if position :
-              if position.position.name_english :
-                wPos[ position.position.name_english ] = position.position.id
-
           newEmployee = odoo_pb2.EmployeeOdoo()
           newEmployee.odoo.odoo_id = self.id
           newEmployee.odoo.odoo_created_on = int(time.time())
           newEmployee.odoo.odoo_synced_on = int(time.time())
-
           if "name" in vals :
             newEmployee.employee.first_name_english = ( vals["name"] ).split(" ")[0]
             if len( ( vals["name"] ).split(" ") ) > 1 :
@@ -204,7 +206,6 @@ class weladee_employee(models.Model):
               newEmployee.employee.last_name_english = ( oldData["name"] ).split(" ")[1]
             else :
               newEmployee.employee.last_name_english = " "
-
           if "identification_id" in vals :
             newEmployee.employee.code = vals["identification_id"]
           else :
@@ -219,19 +220,17 @@ class weladee_employee(models.Model):
           else :
             newEmployee.employee.email = oldData["work_email"] or ""
 
-          jid = False
           if "job_id" in vals :
             positionData = self.env['hr.job'].browse( vals["job_id"] )
             if positionData :
-              pName = positionData.name
-              if pName in wPos :
-                newEmployee.employee.positionid = wPos[ pName ]
-                jid = True
+              if positionData.weladee_id :
+                newEmployee.employee.positionid = int(positionData.weladee_id)
               else :
                 newEmployee.employee.positionid = WeladeeData.positionid
+            else :
+                newEmployee.employee.positionid = WeladeeData.positionid
           else :
-            newEmployee.employee.positionid = oldData["job_id"]["id"] or ""
-            jid = True
+            newEmployee.employee.positionid = WeladeeData.positionid
 
           if WeladeeData.ID :
             newEmployee.employee.ID = WeladeeData.ID
@@ -277,16 +276,36 @@ class weladee_employee(models.Model):
             newEmployee.employee.EmailValidated = WeladeeData.EmailValidated
           if WeladeeData.teamid :
             newEmployee.employee.teamid = WeladeeData.teamid
+          if WeladeeData.gender :
+             newEmployee.employee.gender = WeladeeData.gender
+          if WeladeeData.hasToFillTimesheet :
+              newEmployee.employee.hasToFillTimesheet = WeladeeData.hasToFillTimesheet
+          if WeladeeData.receiveCheckNotification :
+              newEmployee.employee.receiveCheckNotification = WeladeeData.receiveCheckNotification
+          if WeladeeData.canRequestHoliday :
+              newEmployee.employee.canRequestHoliday = WeladeeData.canRequestHoliday
+          if WeladeeData.nationalID :
+              newEmployee.employee.nationalID = WeladeeData.nationalID
+          if WeladeeData.taxID :
+              newEmployee.employee.taxID = WeladeeData.taxID
+          if WeladeeData.passportNumber :
+              newEmployee.employee.passportNumber = WeladeeData.passportNumber
+          if WeladeeData.token :
+              newEmployee.employee.token = WeladeeData.token
+          if WeladeeData.CanCheckTeamMember :
+              newEmployee.employee.CanCheckTeamMember = WeladeeData.CanCheckTeamMember
+          if WeladeeData.QRCode :
+              newEmployee.employee.QRCode = WeladeeData.QRCode
+          if WeladeeData.Nationality :
+              newEmployee.employee.Nationality = WeladeeData.Nationality
 
           print(newEmployee)
 
-
-          if jid :
-              try:
-                wid = stub.UpdateEmployee(newEmployee, metadata=authorization)
-                print ("Updated Weladee Employee" )
-              except Exception as e:
-                print("Update employee failed",e)
+          try:
+            wid = stub.UpdateEmployee(newEmployee, metadata=authorization)
+            print ("Updated Weladee Employee" )
+          except Exception as e:
+            print("Update employee failed",e)
 
     return super(weladee_employee, self).write( vals )
   
@@ -319,33 +338,35 @@ class weladee_job(models.Model):
   @api.model
   def create(self, vals) :
     pid = super(weladee_job,self).create( vals )
+    
+    if not "weladee_id" in vals:
 
-    authorization = False
-    authorization = self.get_api_key()
-    #print("API : %s" % authorization)
-    if authorization :
-      if True :
-        weladeePositions = {}
-        for position in stub.GetPositions(myrequest, metadata=authorization):
-          if position :
-            if position.position.name_english :
-              weladeePositions[ position.position.name_english ] = position.position.id
+      authorization = False
+      authorization = self.get_api_key()
+      #print("API : %s" % authorization)
+      if authorization :
+        if True :
+          weladeePositions = {}
+          for position in stub.GetPositions(myrequest, metadata=authorization):
+            if position :
+              if position.position.name_english :
+                weladeePositions[ position.position.name_english ] = position.position.id
 
-        if not vals["name"] in weladeePositions :
-          newPosition = odoo_pb2.PositionOdoo()
-          newPosition.odoo.odoo_id = pid.id
-          newPosition.odoo.odoo_created_on = int(time.time())
-          newPosition.odoo.odoo_synced_on = int(time.time())
+          if not vals["name"] in weladeePositions :
+            newPosition = odoo_pb2.PositionOdoo()
+            newPosition.odoo.odoo_id = pid.id
+            newPosition.odoo.odoo_created_on = int(time.time())
+            newPosition.odoo.odoo_synced_on = int(time.time())
 
-          newPosition.position.name_english = vals["name"]
-          newPosition.position.active = True
+            newPosition.position.name_english = vals["name"]
+            newPosition.position.active = True
 
-          print(newPosition)
-          try:
-            result = stub.AddPosition(newPosition, metadata=authorization)
-            print ("Added position on Weladee : %s" % result.id)
-          except Exception as e:
-            print("Add position failed",e)
+            print(newPosition)
+            try:
+              result = stub.AddPosition(newPosition, metadata=authorization)
+              print ("Added position on Weladee : %s" % result.id)
+            except Exception as e:
+              print("Add position failed",e)
 
     return pid
 
@@ -403,7 +424,7 @@ class weladee_department(models.Model):
   @api.model
   def create(self, vals ) :
     dId = super(weladee_department,self).create( vals )
-    if not vals["weladee_id"]:
+    if not "weladee_id" in vals:
       authorization = False
       authorization = self.get_api_key()
       #print("API : %s" % authorization)
@@ -419,6 +440,7 @@ class weladee_department(models.Model):
           try:
             result = stub.AddDepartment(newDepartment, metadata=authorization)
             print ("Create Weladee department id : %s" % result.id)
+            dId.write( {"weladee_id" : str( result.id )} )
           except Exception as e:
             print("Create department failed",e)
     return dId
@@ -431,7 +453,9 @@ class weladee_department(models.Model):
     if authorization :
       if True :
         dept = False
-        for dpm in stub.GetDepartments(weladee_pb2.Empty(), metadata=authorization):
+        odooRequest = odoo_pb2.OdooRequest()
+        odooRequest.odoo_id = int(self.id)
+        for dpm in stub.GetDepartments(odooRequest, metadata=authorization):
           if dpm :
             if dpm.odoo :
               if dpm.odoo.odoo_id :
