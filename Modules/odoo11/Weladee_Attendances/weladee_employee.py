@@ -320,8 +320,6 @@ class weladee_job(models.Model):
   def create(self, vals) :
     pid = super(weladee_job,self).create( vals )
 
-    if not vals["weladee_id"]:
-
     authorization = False
     authorization = self.get_api_key()
     #print("API : %s" % authorization)
