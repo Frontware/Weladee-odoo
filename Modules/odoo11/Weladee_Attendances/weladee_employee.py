@@ -206,19 +206,16 @@ class weladee_employee(models.Model):
               newEmployee.employee.last_name_english = ( oldData["name"] ).split(" ")[1]
             else :
               newEmployee.employee.last_name_english = " "
+          print("CKAA1")
           if "identification_id" in vals :
+            print("CKAA2")
             newEmployee.employee.code = vals["identification_id"]
-          else :
-            newEmployee.employee.code = oldData["identification_id"] or ""
+            
           if "notes" in vals :
             newEmployee.employee.note = vals["notes"]
-          else :
-            newEmployee.employee.note = oldData["notes"] or ""
 
           if "work_email" in vals :
             newEmployee.employee.email = vals["work_email"]
-          else :
-            newEmployee.employee.email = oldData["work_email"] or ""
 
           if "job_id" in vals :
             positionData = self.env['hr.job'].browse( vals["job_id"] )

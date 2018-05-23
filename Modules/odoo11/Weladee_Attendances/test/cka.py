@@ -24,7 +24,7 @@ def main():
     # Connect from Odoo
     # Place here the token specific to each company. It's called api_key in table company
 
-    authorization = [("authorization", "9d04d6b9-fc50-4a11-925c-4bc2f8298350")]
+    authorization = [("authorization", "183df053-eebe-42af-b9e0-9397b52e04c3")]
 
     stub = odoo_pb2_grpc.OdooStub(channel)
     myrequest = weladee_pb2.EmployeeRequest()
@@ -39,7 +39,7 @@ def main():
 
     # List of employees
     print("Employees")
-    if False :
+    if True :
         print("Employees2")
         for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
             print("Employees3")
@@ -47,7 +47,7 @@ def main():
 
     # List of GetPositions
     print("Positions")
-    if True :
+    if False :
         for pos in stub.GetPositions(weladee_pb2.Empty(), metadata=authorization):
             print(pos)
 
@@ -68,7 +68,7 @@ def main():
 
     # List of attendance to sync
     print("Attendance to sync")
-    if True :
+    if False :
         for att in stub.GetNewAttendance(weladee_pb2.Empty(), metadata=authorization):
             if att.logevent :
                 print("------------")

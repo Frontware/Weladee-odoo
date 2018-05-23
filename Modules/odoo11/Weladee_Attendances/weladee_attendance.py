@@ -203,6 +203,7 @@ class weladee_attendance(models.TransientModel):
                                         except Exception as e:
                                             print("Update odoo department id is failed",e)
                             else :
+
                                 department_data = self.env['hr.department'].browse( dept.odoo.odoo_id )
                                 data = {"name" : dept.department.name_english,
                                         "weladee_id" : dept.department.id
