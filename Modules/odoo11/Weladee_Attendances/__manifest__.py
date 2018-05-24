@@ -46,7 +46,7 @@ change log:
 * 2018-05-21 CKA add new event when syn and fix problem when update employee
 * 2018-05-22 CKA fixed problem when sync position on odoo to weladee
 * 2018-05-23 CKA changed code for sync odoo to weladee
-* 2018-05-24 CKA fixed problem when sync
+* 2018-05-24 CKA fixed problem when sync, add new fields on employee
                 
 requirement:
 ------------------------------------

@@ -96,8 +96,24 @@
                     />  
                 </xpath> -->
                 <xpath expr="//field[@name='address_id']" position="before">
-                   <field name="weladee_profile" widget="url"/>
+                    <field name="active_employee"/>
+                    <field name="weladee_profile" widget="url" readonly="1"/>
                 </xpath>
+                <xpath expr="//field[@name='department_id']" position="before">
+                    <field name="receive_check_notification"/>
+                    <field name="can_request_holiday" />
+                </xpath>
+                <xpath expr="//field[@name='category_ids']" position="after">
+                    <group>
+                        <field name="first_name_english"/>
+                        <field name="last_name_english"/>
+                        <field name="first_name_thai"/>
+                        <field name="last_name_thai"/>
+                        <field name="nick_name_english"/>
+                        <field name="nick_name_thai"/>
+                    </group>
+                </xpath>
+
                 
             </field>
         </record>

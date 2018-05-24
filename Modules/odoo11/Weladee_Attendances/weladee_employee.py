@@ -92,12 +92,21 @@ class weladee_employee(models.Model):
   _description="synchronous Employeeto weladee"
   _inherit = 'hr.employee'
 
-  weladee_profile = fields.Char(string="Weladee Url")
+  weladee_profile = fields.Char(string="Weladee Url",default="")
   work_email = fields.Char(string="Work Email", required=True)
   job_id = fields.Many2one('hr.job',string="Job Title", required=True)
   identification_id = fields.Char(string="Identification No", required=True)
   weladee_id = fields.Char(string="Weladee ID")
   country_id = fields.Many2one('res.country',string="Nationality (Country)", required=True)
+  first_name_english = fields.Char(string="First Name English")
+  last_name_english = fields.Char(string="Last Name English")
+  first_name_thai = fields.Char(string="First Name Thai")
+  last_name_thai = fields.Char(string="Last Name Thai")
+  nick_name_english = fields.Char(string="Nick Name English")
+  nick_name_thai = fields.Char(string="Nick Name Thai")
+  active_employee = fields.Boolean(string="Active Employee")
+  receive_check_notification = fields.Boolean(string="Receive Check Notification")
+  can_request_holiday = fields.Boolean(string="Can Request Holiday")
   
 
   def get_api_key(self):
@@ -158,6 +167,8 @@ class weladee_employee(models.Model):
               if positionData :
                 if positionData.weladee_id :
                   newEmployee.employee.positionid = int(positionData.weladee_id)
+
+
 
             print(newEmployee)
 

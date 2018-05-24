@@ -267,8 +267,25 @@ class weladee_attendance(models.TransientModel):
                                                 ,"notes": ( emp.employee.note or "" )
                                                 ,"weladee_profile" : "https://www.weladee.com/employee/" + str(emp.employee.ID)
                                                 ,"work_email":( emp.employee.email or "" )
+                                                ,"first_name_english":emp.employee.first_name_english
+                                                ,"last_name_english":emp.employee.last_name_english
+                                                ,"first_name_thai":emp.employee.last_name_thai
+                                                ,"nickname_english":emp.employee.nickname_english
+                                                ,"nickname_thai":emp.employee.nickname_thai
+                                                ,"active_employee": False
+                                                ,"receive_check_notification": False
+                                                ,"can_request_holiday": False
                                                 ,"weladee_id":emp.employee.ID
                                                 }
+                                        
+                                       
+                                        if emp.employee.active :
+                                            data["active_employee"] = True
+                                        if emp.employee.receiveCheckNotification :
+                                            data["receive_check_notification"] = True
+                                        if emp.employee.canRequestHoliday :
+                                            data["can_request_holiday"] = True
+                                            
                                         if emp.employee.positionid :
                                             job_datas = self.env['hr.job'].search( [ ("weladee_id","=", emp.employee.positionid ) ] )
                                             if job_datas :
@@ -336,8 +353,6 @@ class weladee_attendance(models.TransientModel):
                                                     newEmployee.employee.created_by = emp.employee.created_by
                                                 if emp.employee.updated_by :
                                                     newEmployee.employee.updated_by = emp.employee.updated_by
-                                                if emp.employee.active :
-                                                    newEmployee.employee.active = emp.employee.active
                                                 if emp.employee.note :
                                                     newEmployee.employee.note = emp.employee.note
                                                 if emp.employee.photo :
@@ -360,10 +375,6 @@ class weladee_attendance(models.TransientModel):
                                                     newEmployee.employee.gender = emp.employee.gender
                                                 if emp.employee.hasToFillTimesheet :
                                                     newEmployee.employee.hasToFillTimesheet = emp.employee.hasToFillTimesheet
-                                                if emp.employee.receiveCheckNotification :
-                                                    newEmployee.employee.receiveCheckNotification = emp.employee.receiveCheckNotification
-                                                if emp.employee.canRequestHoliday :
-                                                    newEmployee.employee.canRequestHoliday = emp.employee.canRequestHoliday
                                                 if emp.employee.nationalID :
                                                     newEmployee.employee.nationalID = emp.employee.nationalID
                                                 if emp.employee.taxID :
@@ -400,14 +411,30 @@ class weladee_attendance(models.TransientModel):
                                                     photoBase64 = base64.b64encode(requests.get(emp.employee.photo).content)
                                                 except Exception as e:
                                                     print("Error when load image : ",e)
-                                                
+
                                             data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
                                                 ,"identification_id" :(emp.employee.code or "" )
                                                 ,"notes": ( emp.employee.note or "" )
                                                 ,"weladee_profile" : "https://www.weladee.com/employee/" + str(emp.employee.ID)
                                                 ,"work_email":( emp.employee.email or "" )
+                                                ,"first_name_english":emp.employee.first_name_english
+                                                ,"last_name_english":emp.employee.last_name_english
+                                                ,"first_name_thai":emp.employee.last_name_thai
+                                                ,"nickname_english":emp.employee.nickname_english
+                                                ,"nickname_thai":emp.employee.nickname_thai
+                                                ,"active_employee": False
+                                                ,"receive_check_notification": False
+                                                ,"can_request_holiday": False
                                                 ,"weladee_id":emp.employee.ID
                                                 }
+                                        
+                                       
+                                            if emp.employee.active :
+                                                data["active_employee"] = True
+                                            if emp.employee.receiveCheckNotification :
+                                                data["receive_check_notification"] = True
+                                            if emp.employee.canRequestHoliday :
+                                                data["can_request_holiday"] = True
                                             if emp.employee.positionid :
                                                 job_datas = self.env['hr.job'].search( [ ("weladee_id","=", emp.employee.positionid ) ] )
                                                 if job_datas :
@@ -467,8 +494,6 @@ class weladee_attendance(models.TransientModel):
                                                 newEmployee.employee.created_by = emp.employee.created_by
                                             if emp.employee.updated_by :
                                                 newEmployee.employee.updated_by = emp.employee.updated_by
-                                            if emp.employee.active :
-                                                newEmployee.employee.active = emp.employee.active
                                             if emp.employee.note :
                                                 newEmployee.employee.note = emp.employee.note
                                             if emp.employee.photo :
@@ -491,10 +516,6 @@ class weladee_attendance(models.TransientModel):
                                                 newEmployee.employee.gender = emp.employee.gender
                                             if emp.employee.hasToFillTimesheet :
                                                 newEmployee.employee.hasToFillTimesheet = emp.employee.hasToFillTimesheet
-                                            if emp.employee.receiveCheckNotification :
-                                                newEmployee.employee.receiveCheckNotification = emp.employee.receiveCheckNotification
-                                            if emp.employee.canRequestHoliday :
-                                                newEmployee.employee.canRequestHoliday = emp.employee.canRequestHoliday
                                             if emp.employee.nationalID :
                                                 newEmployee.employee.nationalID = emp.employee.nationalID
                                             if emp.employee.taxID :
