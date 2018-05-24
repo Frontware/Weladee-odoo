@@ -20,6 +20,7 @@ remarks:
                         class="oe_stat_button" 
                         type="object"
                         widget="url"
+                        attrs="{'invisible':[('weladee_profile','=',False)]}"
                     />  
                 </xpath>
                 <xpath expr="//field[@name='address_id']" position="before">
