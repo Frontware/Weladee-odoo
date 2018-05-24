@@ -174,135 +174,146 @@ class weladee_employee(models.Model):
     authorization = False
     authorization = self.get_api_key()
     #print("API : %s" % authorization)
-    if authorization :
-      if True :
-        print("----------")
-        oldData = self.env['hr.employee'].browse( self.id )
-        WeladeeData = False
-        odooRequest = odoo_pb2.OdooRequest()
-        odooRequest.odoo_id = int(self.id)
-        for emp in stub.GetEmployees(odooRequest, metadata=authorization):
+    if not "weladee_id" in vals:
+      if authorization :
+        if True :
           print("----------")
-          if emp :
-            if emp.employee :
-                print( emp )
-                if str(emp.employee.ID) == self.weladee_id :
-                  WeladeeData = emp.employee
-                  
-        if WeladeeData :
-          newEmployee = odoo_pb2.EmployeeOdoo()
-          newEmployee.odoo.odoo_id = self.id
-          newEmployee.odoo.odoo_created_on = int(time.time())
-          newEmployee.odoo.odoo_synced_on = int(time.time())
-          if "name" in vals :
-            newEmployee.employee.first_name_english = ( vals["name"] ).split(" ")[0]
-            if len( ( vals["name"] ).split(" ") ) > 1 :
-              newEmployee.employee.last_name_english = ( vals["name"] ).split(" ")[1]
-            else :
-              newEmployee.employee.last_name_english = " "
-          else :
-            newEmployee.employee.first_name_english = ( oldData["name"] ).split(" ")[0]
-            if len( ( oldData["name"] ).split(" ") ) > 1 :
-              newEmployee.employee.last_name_english = ( oldData["name"] ).split(" ")[1]
-            else :
-              newEmployee.employee.last_name_english = " "
-          print("CKAA1")
-          if "identification_id" in vals :
-            print("CKAA2")
-            newEmployee.employee.code = vals["identification_id"]
-            
-          if "notes" in vals :
-            newEmployee.employee.note = vals["notes"]
-
-          if "work_email" in vals :
-            newEmployee.employee.email = vals["work_email"]
-
-          if "job_id" in vals :
-            positionData = self.env['hr.job'].browse( vals["job_id"] )
-            if positionData :
-              if positionData.weladee_id :
-                newEmployee.employee.positionid = int(positionData.weladee_id)
+          oldData = self.env['hr.employee'].browse( self.id )
+          WeladeeData = False
+          odooRequest = odoo_pb2.OdooRequest()
+          odooRequest.odoo_id = int(self.id)
+          for emp in stub.GetEmployees(odooRequest, metadata=authorization):
+            print("----------")
+            if emp :
+              if emp.employee :
+                  print( emp )
+                  if str(emp.employee.ID) == self.weladee_id :
+                    WeladeeData = emp.employee
+                    
+          if WeladeeData :
+            newEmployee = odoo_pb2.EmployeeOdoo()
+            newEmployee.odoo.odoo_id = self.id
+            newEmployee.odoo.odoo_created_on = int(time.time())
+            newEmployee.odoo.odoo_synced_on = int(time.time())
+            if "name" in vals :
+              newEmployee.employee.first_name_english = ( vals["name"] ).split(" ")[0]
+              if len( ( vals["name"] ).split(" ") ) > 1 :
+                newEmployee.employee.last_name_english = ( vals["name"] ).split(" ")[1]
               else :
-                newEmployee.employee.positionid = WeladeeData.positionid
+                newEmployee.employee.last_name_english = " "
             else :
-                newEmployee.employee.positionid = WeladeeData.positionid
-          else :
-            newEmployee.employee.positionid = WeladeeData.positionid
+              newEmployee.employee.first_name_english = ( oldData["name"] ).split(" ")[0]
+              if len( ( oldData["name"] ).split(" ") ) > 1 :
+                newEmployee.employee.last_name_english = ( oldData["name"] ).split(" ")[1]
+              else :
+                newEmployee.employee.last_name_english = " "
 
-          if WeladeeData.ID :
-            newEmployee.employee.ID = WeladeeData.ID
-          if WeladeeData.user_name :
-            newEmployee.employee.user_name = WeladeeData.user_name
-          if WeladeeData.first_name_thai :
-            newEmployee.employee.first_name_thai = WeladeeData.first_name_thai
-          if WeladeeData.last_name_thai :
-            newEmployee.employee.last_name_thai = WeladeeData.last_name_thai
-          if WeladeeData.managerID :
-            newEmployee.employee.managerID = WeladeeData.managerID
-          if WeladeeData.lineID :
-            newEmployee.employee.lineID = WeladeeData.lineID
-          if WeladeeData.nickname_english :
-            newEmployee.employee.nickname_english = WeladeeData.nickname_english
-          if WeladeeData.nickname_thai :
-            newEmployee.employee.nickname_thai = WeladeeData.nickname_thai
-          if WeladeeData.FCMtoken :
-            newEmployee.employee.FCMtoken = WeladeeData.FCMtoken
-          if WeladeeData.phone_model :
-            newEmployee.employee.phone_model = WeladeeData.phone_model
-          if WeladeeData.phone_serial :
-            newEmployee.employee.phone_serial = WeladeeData.phone_serial
-          if WeladeeData.created_by :
-            newEmployee.employee.created_by = WeladeeData.created_by
-          if WeladeeData.updated_by :
-            newEmployee.employee.updated_by = WeladeeData.updated_by
-          if WeladeeData.active :
-            newEmployee.employee.active = WeladeeData.active
-          if WeladeeData.photo :
-            newEmployee.employee.photo = WeladeeData.photo
-          if WeladeeData.lg :
-            newEmployee.employee.lg = WeladeeData.lg
-          if WeladeeData.application_level :
-            newEmployee.employee.application_level = WeladeeData.application_level
-          #if WeladeeData.positionid :
-            #newEmployee.employee.positionid = WeladeeData.positionid
-          if WeladeeData.Phones :
-            newEmployee.employee.Phones = WeladeeData.Phones
-          if WeladeeData.rfid :
-            newEmployee.employee.rfid = WeladeeData.rfid
-          if WeladeeData.EmailValidated :
-            newEmployee.employee.EmailValidated = WeladeeData.EmailValidated
-          if WeladeeData.teamid :
-            newEmployee.employee.teamid = WeladeeData.teamid
-          if WeladeeData.gender :
-             newEmployee.employee.gender = WeladeeData.gender
-          if WeladeeData.hasToFillTimesheet :
-              newEmployee.employee.hasToFillTimesheet = WeladeeData.hasToFillTimesheet
-          if WeladeeData.receiveCheckNotification :
-              newEmployee.employee.receiveCheckNotification = WeladeeData.receiveCheckNotification
-          if WeladeeData.canRequestHoliday :
-              newEmployee.employee.canRequestHoliday = WeladeeData.canRequestHoliday
-          if WeladeeData.nationalID :
-              newEmployee.employee.nationalID = WeladeeData.nationalID
-          if WeladeeData.taxID :
-              newEmployee.employee.taxID = WeladeeData.taxID
-          if WeladeeData.passportNumber :
-              newEmployee.employee.passportNumber = WeladeeData.passportNumber
-          if WeladeeData.token :
-              newEmployee.employee.token = WeladeeData.token
-          if WeladeeData.CanCheckTeamMember :
-              newEmployee.employee.CanCheckTeamMember = WeladeeData.CanCheckTeamMember
-          if WeladeeData.QRCode :
-              newEmployee.employee.QRCode = WeladeeData.QRCode
-          if WeladeeData.Nationality :
-              newEmployee.employee.Nationality = WeladeeData.Nationality
+            if "identification_id" in vals :
+              newEmployee.employee.code = vals["identification_id"]
+            elif self.identification_id :
+              newEmployee.employee.code = self.identification_id
+            else :
+              newEmployee.employee.code = WeladeeData.code
+              
+            if "notes" in vals :
+              newEmployee.employee.note = vals["notes"]
+            elif self.notes :
+              newEmployee.employee.note = self.notes
 
-          print(newEmployee)
 
-          try:
-            wid = stub.UpdateEmployee(newEmployee, metadata=authorization)
-            print ("Updated Weladee Employee" )
-          except Exception as e:
-            print("Update employee failed",e)
+            if "work_email" in vals :
+              newEmployee.employee.email = vals["work_email"]
+            elif self.work_email :
+              newEmployee.employee.email = self.work_email
+            else :
+              newEmployee.employee.email = WeladeeData.email
+
+            if "job_id" in vals :
+              positionData = self.env['hr.job'].browse( vals["job_id"] )
+              if positionData :
+                if positionData.weladee_id :
+                  newEmployee.employee.positionid = int(positionData.weladee_id)
+                else :
+                  newEmployee.employee.positionid = WeladeeData.positionid
+              else :
+                  newEmployee.employee.positionid = WeladeeData.positionid
+            else :
+              newEmployee.employee.positionid = WeladeeData.positionid
+
+            if WeladeeData.ID :
+              newEmployee.employee.ID = WeladeeData.ID
+            if WeladeeData.user_name :
+              newEmployee.employee.user_name = WeladeeData.user_name
+            if WeladeeData.first_name_thai :
+              newEmployee.employee.first_name_thai = WeladeeData.first_name_thai
+            if WeladeeData.last_name_thai :
+              newEmployee.employee.last_name_thai = WeladeeData.last_name_thai
+            if WeladeeData.managerID :
+              newEmployee.employee.managerID = WeladeeData.managerID
+            if WeladeeData.lineID :
+              newEmployee.employee.lineID = WeladeeData.lineID
+            if WeladeeData.nickname_english :
+              newEmployee.employee.nickname_english = WeladeeData.nickname_english
+            if WeladeeData.nickname_thai :
+              newEmployee.employee.nickname_thai = WeladeeData.nickname_thai
+            if WeladeeData.FCMtoken :
+              newEmployee.employee.FCMtoken = WeladeeData.FCMtoken
+            if WeladeeData.phone_model :
+              newEmployee.employee.phone_model = WeladeeData.phone_model
+            if WeladeeData.phone_serial :
+              newEmployee.employee.phone_serial = WeladeeData.phone_serial
+            if WeladeeData.created_by :
+              newEmployee.employee.created_by = WeladeeData.created_by
+            if WeladeeData.updated_by :
+              newEmployee.employee.updated_by = WeladeeData.updated_by
+            if WeladeeData.active :
+              newEmployee.employee.active = WeladeeData.active
+            if WeladeeData.photo :
+              newEmployee.employee.photo = WeladeeData.photo
+            if WeladeeData.lg :
+              newEmployee.employee.lg = WeladeeData.lg
+            if WeladeeData.application_level :
+              newEmployee.employee.application_level = WeladeeData.application_level
+            #if WeladeeData.positionid :
+              #newEmployee.employee.positionid = WeladeeData.positionid
+            if WeladeeData.Phones :
+              newEmployee.employee.Phones = WeladeeData.Phones
+            if WeladeeData.rfid :
+              newEmployee.employee.rfid = WeladeeData.rfid
+            if WeladeeData.EmailValidated :
+              newEmployee.employee.EmailValidated = WeladeeData.EmailValidated
+            if WeladeeData.teamid :
+              newEmployee.employee.teamid = WeladeeData.teamid
+            if WeladeeData.gender :
+              newEmployee.employee.gender = WeladeeData.gender
+            if WeladeeData.hasToFillTimesheet :
+                newEmployee.employee.hasToFillTimesheet = WeladeeData.hasToFillTimesheet
+            if WeladeeData.receiveCheckNotification :
+                newEmployee.employee.receiveCheckNotification = WeladeeData.receiveCheckNotification
+            if WeladeeData.canRequestHoliday :
+                newEmployee.employee.canRequestHoliday = WeladeeData.canRequestHoliday
+            if WeladeeData.nationalID :
+                newEmployee.employee.nationalID = WeladeeData.nationalID
+            if WeladeeData.taxID :
+                newEmployee.employee.taxID = WeladeeData.taxID
+            if WeladeeData.passportNumber :
+                newEmployee.employee.passportNumber = WeladeeData.passportNumber
+            if WeladeeData.token :
+                newEmployee.employee.token = WeladeeData.token
+            if WeladeeData.CanCheckTeamMember :
+                newEmployee.employee.CanCheckTeamMember = WeladeeData.CanCheckTeamMember
+            if WeladeeData.QRCode :
+                newEmployee.employee.QRCode = WeladeeData.QRCode
+            if WeladeeData.Nationality :
+                newEmployee.employee.Nationality = WeladeeData.Nationality
+
+            print(newEmployee)
+
+            try:
+              wid = stub.UpdateEmployee(newEmployee, metadata=authorization)
+              print ("Updated Weladee Employee" )
+            except Exception as e:
+              print("Update employee failed",e)
 
     return super(weladee_employee, self).write( vals )
   
@@ -372,32 +383,33 @@ class weladee_job(models.Model):
     authorization = False
     authorization = self.get_api_key()
     #print("API : %s" % authorization)
-    if authorization :
-      if True :
-        if "name" in vals:
-          weladeePositions = {}
-          for position in stub.GetPositions(myrequest, metadata=authorization):
-            if position :
-              if position.position.name_english :
-                weladeePositions[ position.position.name_english ] = position.position.id
+    if not "weladee_id" in vals :
+      if authorization :
+        if True :
+          if "name" in vals:
+            weladeePositions = {}
+            for position in stub.GetPositions(myrequest, metadata=authorization):
+              if position :
+                if position.position.name_english :
+                  weladeePositions[ position.position.name_english ] = position.position.id
 
-          if not vals["name"] in weladeePositions :
-            newPosition = odoo_pb2.PositionOdoo()
-            newPosition.odoo.odoo_id = self.id
-            newPosition.odoo.odoo_created_on = int(time.time())
-            newPosition.odoo.odoo_synced_on = int(time.time())
+            if not vals["name"] in weladeePositions :
+              newPosition = odoo_pb2.PositionOdoo()
+              newPosition.odoo.odoo_id = self.id
+              newPosition.odoo.odoo_created_on = int(time.time())
+              newPosition.odoo.odoo_synced_on = int(time.time())
 
-            newPosition.position.name_english = vals["name"]
-            newPosition.position.active = True
+              newPosition.position.name_english = vals["name"]
+              newPosition.position.active = True
 
-            print(newPosition)
-            try:
-              result = stub.AddPosition(newPosition, metadata=authorization)
-              print ("Added position on Weladee")
-            except Exception as e:
-              print("Add position failed",e)
+              print(newPosition)
+              try:
+                result = stub.AddPosition(newPosition, metadata=authorization)
+                print ("Added position on Weladee")
+              except Exception as e:
+                print("Add position failed",e)
 
-      return pid
+    return pid
 weladee_job()
 
 class weladee_department(models.Model):
@@ -447,39 +459,42 @@ class weladee_department(models.Model):
     authorization = False
     authorization = self.get_api_key()
     #print("API : %s" % authorization)
-    if authorization :
-      if True :
-        dept = False
-        odooRequest = odoo_pb2.OdooRequest()
-        odooRequest.odoo_id = int(self.id)
-        for dpm in stub.GetDepartments(odooRequest, metadata=authorization):
-          if dpm :
-            if dpm.odoo :
-              if dpm.odoo.odoo_id :
-                if dpm.odoo.odoo_id ==  self.id :
-                  dept = dpm
-        if dept :
-          updateDepartment = odoo_pb2.DepartmentOdoo()
-          updateDepartment.odoo.odoo_id = self.id
-          updateDepartment.odoo.odoo_created_on = int(time.time())
-          updateDepartment.odoo.odoo_synced_on = int(time.time())
-        if "name" in vals :
-          updateDepartment.department.name_english = vals["name"]
-        else :
-          updateDepartment.department.name_english = oldData["name"]
-        updateDepartment.department.id = dept.department.id
-        updateDepartment.department.name_thai = updateDepartment.department.name_english
-        if dept.department.managerid :
-          updateDepartment.department.managerid = dept.department.managerid
-        updateDepartment.department.active = ( dept.department.active or False )
-        updateDepartment.department.code = ( dept.department.code or "" )
-        updateDepartment.department.note = ( dept.department.note or "" )
-        print( updateDepartment )
-        try :
-          result = stub.UpdateDepartment(updateDepartment, metadata=authorization)
-          print ("Updated odoo department id to Weladee")
-        except Exception as e:
-          print("Update odoo department id is failed",e)
+    if not "weladee_id" in vals :
+      
+      if authorization :
+        if True :
+          dept = False
+          odooRequest = odoo_pb2.OdooRequest()
+          odooRequest.odoo_id = int(self.id)
+          for dpm in stub.GetDepartments(odooRequest, metadata=authorization):
+            if dpm :
+              if dpm.odoo :
+                if dpm.odoo.odoo_id :
+                  if dpm.odoo.odoo_id ==  self.id :
+                    dept = dpm
+          if dept :
+            updateDepartment = odoo_pb2.DepartmentOdoo()
+            updateDepartment.odoo.odoo_id = self.id
+            updateDepartment.odoo.odoo_created_on = int(time.time())
+            updateDepartment.odoo.odoo_synced_on = int(time.time())
+          if "name" in vals :
+            updateDepartment.department.name_english = vals["name"]
+          else :
+            updateDepartment.department.name_english = oldData["name"]
+          updateDepartment.department.id = dept.department.id
+          updateDepartment.department.name_thai = updateDepartment.department.name_english
+          if dept.department.managerid :
+            updateDepartment.department.managerid = dept.department.managerid
+          updateDepartment.department.active = ( dept.department.active or False )
+          updateDepartment.department.code = ( dept.department.code or "" )
+          updateDepartment.department.note = ( dept.department.note or "" )
+          print( updateDepartment )
+          try :
+            result = stub.UpdateDepartment(updateDepartment, metadata=authorization)
+            print ("Updated odoo department id to Weladee")
+          except Exception as e:
+            print("Update odoo department id is failed",e)
+    
     return super(weladee_department, self).write( vals )
 weladee_department()
 

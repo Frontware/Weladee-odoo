@@ -199,9 +199,9 @@ class weladee_attendance(models.TransientModel):
                                         print( updateDepartment )
                                         try :
                                             result = stub.UpdateDepartment(updateDepartment, metadata=authorization)
-                                            print ("Update odoo department id to Weladee : %s" % result.id)
+                                            print ("Created odoo department id to Weladee : %s" % result.id)
                                         except Exception as e:
-                                            print("Update odoo department id is failed",e)
+                                            print("Create odoo department id is failed",e)
                             else :
 
                                 department_data = self.env['hr.department'].browse( dept.odoo.odoo_id )
@@ -421,7 +421,6 @@ class weladee_attendance(models.TransientModel):
 
                                             odoo_employee_id = False
                                             try:
-                                                print( data )
                                                 oEmployee.write( data )
                                                 print( 'Updated employee on odoo id %s' % oEmployee.id )
                                             except Exception as e:
