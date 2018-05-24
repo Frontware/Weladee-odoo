@@ -809,6 +809,14 @@ class weladee_settings(models.TransientModel):
             if dataSet.holiday_status_id :
                 holiday_status_id = dataSet.holiday_status_id
 
+        if not holiday_status_id :
+            holiday_status_id = self.env['hr.holidays.status'].create({ 'name' : 'Sync From Weladee',
+                                                                        'double_validation':False,
+                                                                        'limit':True,
+                                                                        'categ_id':False,
+                                                                        'color_name':'blue'})
+
+
         return holiday_status_id
 
     def _get_api_key(self):

@@ -15,11 +15,14 @@ def main():
 
     # Weladee grpc server address is grpc.weladee.com:22443
     address = "grpc.weladee.com:22443"
+    #address = "192.168.1.28:22443"
 
     # Define a secure channel with embedded public certificate
 
     creds = grpc.ssl_channel_credentials(certificate)
     channel = grpc.secure_channel(address, creds)
+   
+    #channel = grpc.insecure_channel(address)
 
     # Connect from Odoo
     # Place here the token specific to each company. It's called api_key in table company
@@ -33,13 +36,13 @@ def main():
 
     # List all departments
     print("Departments")
-    if False:
+    if True:
         for dept in stub.GetDepartments(myrequest, metadata=authorization):
             print(dept)
 
     # List of employees
     print("Employees")
-    if True :
+    if False :
         print("Employees2")
         for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
             print("Employees3")
