@@ -1,0 +1,15 @@
+/**
+weladee-odoo stylesheets
+
+remarks:
+2018-05-24 KPO created
+*/
+.icon-weladee::before {
+    content:"";
+    background-image: url("../img/Icon-App-72x72@1x.png");
+    background-size: 28px 28px;
+    background-position: left top;
+    background-repeat: no-repeat;
+    height: 28px;
+    display: block;
+}

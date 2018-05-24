@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+customize HR Employee form
+
+remarks:
+2018-05-24 KPO created    
+-->
+<odoo>
+    <data>
+        <record id="hr_employee_weladee_profile" model="ir.ui.view">
+            <field name="name">hr_employee_weladee_profile</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+               <xpath expr="//field[@name='show_leaves']" position="after">
+                   <button 
+                        icon="icon-weladee"
+                        name="open_weladee_employee" 
+                        string="Weladee profile" 
+                        class="oe_stat_button" 
+                        type="object"
+                        widget="url"
+                    />  
+                </xpath>
+                <xpath expr="//field[@name='address_id']" position="before">
+                    <field name="active_employee"/>
+                    <field name="weladee_profile" widget="url" readonly="1"/>
+                </xpath>
+                <xpath expr="//field[@name='department_id']" position="before">
+                    <field name="receive_check_notification"/>
+                    <field name="can_request_holiday" />
+                </xpath>
+                <xpath expr="//field[@name='category_ids']" position="after">
+                    <group>
+                        <field name="first_name_english"/>
+                        <field name="last_name_english"/>
+                        <field name="first_name_thai"/>
+                        <field name="last_name_thai"/>
+                        <field name="nick_name_english"/>
+                        <field name="nick_name_thai"/>
+                    </group>
+                </xpath>
+
+                
+            </field>
+        </record>
+    </data>
+</odoo>
