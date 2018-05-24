@@ -611,8 +611,9 @@ class weladee_attendance(models.TransientModel):
                                 if manager["odoo_id"] :
                                     emp_data = self.env['hr.employee'].browse( manager["odoo_id"] )
                                     if emp_data :
-                                            emp_data.write( {"weladee_id" : emp_data.weladee_id, "parent_id": manager_data.id } )
-                                            print("Updated manager id on employee : %s" % emp_data.id  )
+                                        print( "Update %s to employee id %s" %(manager_data.id,emp_data.weladee_id) )
+                                        emp_data.write( {"weladee_id" : emp_data.weladee_id, "parent_id": manager_data.id } )
+                                        print("Updated manager id on employee : %s" % emp_data.id  )
                                         
 
 
