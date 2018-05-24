@@ -49,7 +49,11 @@ change log:
                 
 requirement:
 ------------------------------------
-* none
+* grpc
+  
+  install: 
+    
+    pip3 install --upgrade grpcio==1.7.3
                 
 note:
 ------------------------------------
