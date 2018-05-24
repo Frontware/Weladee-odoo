@@ -21,6 +21,7 @@
 from odoo import osv
 from odoo import models, fields, api
 from datetime import datetime,date, timedelta
+from odoo import exceptions
 import grpc
 from . import odoo_pb2
 from . import odoo_pb2_grpc
@@ -87,7 +88,6 @@ channel = grpc.secure_channel(address, creds)
 myrequest = weladee_pb2.EmployeeRequest()
 #authorization = [("authorization", "fed4af9a-eaa0-4640-ac7e-50f7186ecd8c")]
 stub = odoo_pb2_grpc.OdooStub(channel)
-iteratorAttendance = []
 
 class weladee_attendance(models.TransientModel):
     _name="weladee_attendance.synchronous"
@@ -110,35 +110,42 @@ class weladee_attendance(models.TransientModel):
 
         
         if not holiday_status_id or not authorization :
-            raise osv.except_osv(('Error'), ('Must to be set Leave Type on Weladee setting'))
+            raise exceptions.UserError('Must to be set Leave Type on Weladee setting')
         else:
             print( "Authorization : %s" % authorization )
             #List all position
-            weladeePositions = {}
-            odooPositions = {}
-            weladeePositionName = {}
 
             print("-------------Positions")
             if True :
                 for position in stub.GetPositions(myrequest, metadata=authorization):
                     if position :
-                        if position.position.name_english :
-                            weladeePositions[ position.position.name_english ] = position.position.id
-                            weladeePositionName[ position.position.id ] = position.position.name_english
-                            chk_position = self.env['hr.job'].search([ ('name','=',position.position.name_english )])
-                            if not chk_position :
-                                data = {"name" : position.position.name_english,
-                                        "no_of_recruitment" : 1}
-                                odoo_id_position = self.env['hr.job'].create(data)
-                                print( "Insert position '%s' to odoo", position.position.name_english )
+                        if position.position.id :
+                            job_line_obj = self.env['hr.job']
+                            job_line_ids = job_line_obj.search([("weladee_id", "=", position.position.id)])
+                            if not job_line_ids :
+                                if position.position.name_english :
+                                    chk_position = self.env['hr.job'].search([ ('name','=',position.position.name_english )])
+                                    if not chk_position :
+                                        data = {"name" : position.position.name_english,
+                                                "weladee_id" : position.position.id,
+                                                "no_of_recruitment" : 1}
+                                        odoo_id_position = self.env['hr.job'].create(data)
+                                        print( "Insert position '%s' to odoo" % position.position.name_english )
+                            else :
+                                for position_id in job_line_ids :
+                                    position_data = job_line_obj.browse( position_id.id )
+                                    data = {"name" : position.position.name_english,
+                                            "weladee_id" : position.position.id,
+                                            "no_of_recruitment" : 1}
+                                    position_data.write( data )
+                                    print( "Updated position '%s' to odoo" % position.position.name_english )
 
                 position_line_obj = self.env['hr.job']
                 position_line_ids = position_line_obj.search([])
                 for posId in position_line_ids:
                     positionData = position_line_obj.browse(posId.id)
                     if positionData.name :
-                        odooPositions[ positionData.name ] = positionData.id
-                        if not positionData.name in weladeePositions :
+                        if not positionData["weladee_id"] :
                             newPosition = odoo_pb2.PositionOdoo()
                             newPosition.odoo.odoo_id = positionData.id
                             newPosition.odoo.odoo_created_on = int(time.time())
@@ -149,8 +156,6 @@ class weladee_attendance(models.TransientModel):
                             print(newPosition)
                             try:
                                 result = stub.AddPosition(newPosition, metadata=authorization)
-                                weladeePositions[ positionData.name ] = result
-                                weladeePositionName[ result ] = positionData.name
                                 print( result  )
                                 print ("Add position : %s" % positionData.name)
                             except Exception as e:
@@ -170,7 +175,8 @@ class weladee_attendance(models.TransientModel):
                                     if dept.department.name_english:
                                         departmentName = dept.department.name_english
                                         odoo_id_department = False
-                                        data = {"name" : departmentName
+                                        data = {"name" : departmentName,
+                                                "weladee_id" : dept.department.id
                                                 }
                                         odoo_id_department = self.env['hr.department'].create(data)
                                         
@@ -193,11 +199,19 @@ class weladee_attendance(models.TransientModel):
                                         print( updateDepartment )
                                         try :
                                             result = stub.UpdateDepartment(updateDepartment, metadata=authorization)
-                                            print ("Update odoo department id to Weladee : %s" % result.id)
+                                            print ("Created odoo department id to Weladee : %s" % result.id)
                                         except Exception as e:
-                                            print("Update odoo department id is failed",e)
+                                            print("Create odoo department id is failed",e)
                             else :
-                                sDepartment.append( dept.odoo.odoo_id )
+
+                                department_data = self.env['hr.department'].browse( dept.odoo.odoo_id )
+                                data = {"name" : dept.department.name_english,
+                                        "weladee_id" : dept.department.id
+                                        }
+                                try :
+                                    department_data.write( data )
+                                except Exception as e:
+                                    print("Error when update department to odoo : ",e)
 
                 # sync data from odoo to Weladee
                 if True :
@@ -207,7 +221,7 @@ class weladee_attendance(models.TransientModel):
                         deptData = department_line_obj.browse(deptId.id)
                         if deptData.name:
                             if deptData.id:
-                                if not deptData.id in sDepartment:
+                                if not deptData.weladee_id:
                                     print( "%s don't have on Weladee" % deptData.name )
                                     newDepartment = odoo_pb2.DepartmentOdoo()
                                     newDepartment.odoo.odoo_id = deptData.id
@@ -223,10 +237,16 @@ class weladee_attendance(models.TransientModel):
             print("Employees")
             sEmployees = {}
             wEidTooEid = {}
+            country = {}
+
+            country_line_obj = self.env['res.country']
+            country_line_ids = country_line_obj.search([])
+            for cu in country_line_ids:
+                if cu.name :
+                    country[ cu.name.lower() ] = cu.id
+
             if True :
                 odooIdEmps = []
-                employee_line_obj = self.env['hr.employee']
-                employee_line_ids = employee_line_obj.search([])
                 #check code Weladee on odoo
                 for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
                     if emp :
@@ -237,7 +257,6 @@ class weladee_attendance(models.TransientModel):
                                     if emp.employee.ID:
                                         photoBase64 = ''
                                         if emp.employee.photo:
-                                            print("photo url : %s" % emp.employee.photo)
                                             try :
                                                 photoBase64 = base64.b64encode(requests.get(emp.employee.photo).content)
                                             except Exception as e:
@@ -246,33 +265,57 @@ class weladee_attendance(models.TransientModel):
                                         data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
                                                 ,"identification_id" :(emp.employee.code or "" )
                                                 ,"notes": ( emp.employee.note or "" )
+                                                ,"weladee_profile" : "https://www.weladee.com/employee/" + str(emp.employee.ID)
                                                 ,"work_email":( emp.employee.email or "" )
+                                                ,"first_name_english":emp.employee.first_name_english
+                                                ,"last_name_english":emp.employee.last_name_english
+                                                ,"first_name_thai":emp.employee.last_name_thai
+                                                ,"nickname_english":emp.employee.nickname_english
+                                                ,"nickname_thai":emp.employee.nickname_thai
+                                                ,"active_employee": False
+                                                ,"receive_check_notification": False
+                                                ,"can_request_holiday": False
+                                                ,"weladee_id":emp.employee.ID
                                                 }
+                                        
+                                       
+                                        if emp.employee.active :
+                                            data["active_employee"] = True
+                                        if emp.employee.receiveCheckNotification :
+                                            data["receive_check_notification"] = True
+                                        if emp.employee.canRequestHoliday :
+                                            data["can_request_holiday"] = True
+                                            
                                         if emp.employee.positionid :
-                                            if weladeePositionName[ emp.employee.positionid ] :
-                                                posName = weladeePositionName[ emp.employee.positionid ]
-                                                if odooPositions[ posName ] :
-                                                    data[ "job_id" ] = odooPositions[ posName ]
+                                            job_datas = self.env['hr.job'].search( [ ("weladee_id","=", emp.employee.positionid ) ] )
+                                            if job_datas :
+                                                for jdatas in job_datas :
+                                                    data[ "job_id" ] = jdatas.id
                                         if photoBase64:
                                             data["image"] = photoBase64
 
                                         if emp.Badge:
                                             data["barcode"] = emp.Badge
 
-                                        odoo_employeeId = False
-                                        try :
-                                            odoo_employeeId = self.env["hr.employee"].create( data )
-                                        except Exception as e:
-                                            print("Error when create employee to odoo : ",e)
-                                        
-                                        if odoo_employeeId :
-                                            odooIdEmps.append( odoo_employeeId.id )
-                                            wEidTooEid[ emp.employee.ID ] = odoo_employeeId.id
+                                        if emp.employee.Nationality:
+                                            if emp.employee.Nationality.lower() in country :
+                                                data["country_id"] = country[ emp.employee.Nationality.lower() ]
 
-                                            if odoo_employeeId.id :
-                                                sEmployees[ odoo_employeeId.id ] = emp.employee
+                                        odoo_employee_id = False
+                                        try:
+                                            odoo_employee_id = self.env["hr.employee"].create( data )
+                                        except Exception as e:
+                                            print("photo url : %s" % emp.employee.photo)
+                                            print( 'Error when import employee : %s' % e )
+
+                                        if odoo_employee_id :
+                                            odooIdEmps.append( odoo_employee_id.id )
+                                            wEidTooEid[ emp.employee.ID ] = odoo_employee_id.id
+
+                                            if odoo_employee_id.id :
+                                                sEmployees[ odoo_employee_id.id ] = emp.employee
                                                 newEmployee = odoo_pb2.EmployeeOdoo()
-                                                newEmployee.odoo.odoo_id = odoo_employeeId.id
+                                                newEmployee.odoo.odoo_id = odoo_employee_id.id
                                                 newEmployee.odoo.odoo_created_on = int(time.time())
                                                 newEmployee.odoo.odoo_synced_on = int(time.time())
 
@@ -310,8 +353,6 @@ class weladee_attendance(models.TransientModel):
                                                     newEmployee.employee.created_by = emp.employee.created_by
                                                 if emp.employee.updated_by :
                                                     newEmployee.employee.updated_by = emp.employee.updated_by
-                                                if emp.employee.active :
-                                                    newEmployee.employee.active = emp.employee.active
                                                 if emp.employee.note :
                                                     newEmployee.employee.note = emp.employee.note
                                                 if emp.employee.photo :
@@ -330,27 +371,190 @@ class weladee_attendance(models.TransientModel):
                                                     newEmployee.employee.EmailValidated = emp.employee.EmailValidated
                                                 if emp.employee.teamid :
                                                     newEmployee.employee.teamid = emp.employee.teamid
+                                                if emp.employee.gender :
+                                                    newEmployee.employee.gender = emp.employee.gender
+                                                if emp.employee.hasToFillTimesheet :
+                                                    newEmployee.employee.hasToFillTimesheet = emp.employee.hasToFillTimesheet
+                                                if emp.employee.nationalID :
+                                                    newEmployee.employee.nationalID = emp.employee.nationalID
+                                                if emp.employee.taxID :
+                                                    newEmployee.employee.taxID = emp.employee.taxID
+                                                if emp.employee.passportNumber :
+                                                    newEmployee.employee.passportNumber = emp.employee.passportNumber
+                                                if emp.employee.token :
+                                                    newEmployee.employee.token = emp.employee.token
+                                                if emp.employee.CanCheckTeamMember :
+                                                    newEmployee.employee.CanCheckTeamMember = emp.employee.CanCheckTeamMember
+                                                if emp.employee.QRCode :
+                                                    newEmployee.employee.QRCode = emp.employee.QRCode
+                                                if emp.employee.Nationality :
+                                                    newEmployee.employee.Nationality = emp.employee.Nationality
                                                 print( newEmployee )
                                                 try:
                                                     result = stub.UpdateEmployee(newEmployee, metadata=authorization)
-                                                    print ("Update odoo employee id : %s" % result.id)
+                                                    print ("Created odoo employee to weladee")
                                                 except Exception as e:
-                                                    print("Update odoo employee id is failed",e)
+                                                    print("Created odoo employee id is failed",e)
                             else :
                                 odooIdEmps.append( emp.odoo.odoo_id )
                                 wEidTooEid[ emp.employee.ID ] = emp.odoo.odoo_id
                                 sEmployees[ emp.odoo.odoo_id ] = emp.employee
 
-                #add new employee on odoo to Weladee
-                if True :
+                                oEmployee = self.env["hr.employee"].browse( emp.odoo.odoo_id )
+                                if oEmployee :
+                                    print("------------------------------")
+                                    if emp.employee:
+                                        if emp.employee.ID:
+                                            photoBase64 = ''
+                                            if emp.employee.photo:
+                                                try :
+                                                    photoBase64 = base64.b64encode(requests.get(emp.employee.photo).content)
+                                                except Exception as e:
+                                                    print("Error when load image : ",e)
+
+                                            data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
+                                                ,"identification_id" :(emp.employee.code or "" )
+                                                ,"notes": ( emp.employee.note or "" )
+                                                ,"weladee_profile" : "https://www.weladee.com/employee/" + str(emp.employee.ID)
+                                                ,"work_email":( emp.employee.email or "" )
+                                                ,"first_name_english":emp.employee.first_name_english
+                                                ,"last_name_english":emp.employee.last_name_english
+                                                ,"first_name_thai":emp.employee.last_name_thai
+                                                ,"nickname_english":emp.employee.nickname_english
+                                                ,"nickname_thai":emp.employee.nickname_thai
+                                                ,"active_employee": False
+                                                ,"receive_check_notification": False
+                                                ,"can_request_holiday": False
+                                                ,"weladee_id":emp.employee.ID
+                                                }
+                                        
+                                       
+                                            if emp.employee.active :
+                                                data["active_employee"] = True
+                                            if emp.employee.receiveCheckNotification :
+                                                data["receive_check_notification"] = True
+                                            if emp.employee.canRequestHoliday :
+                                                data["can_request_holiday"] = True
+                                            if emp.employee.positionid :
+                                                job_datas = self.env['hr.job'].search( [ ("weladee_id","=", emp.employee.positionid ) ] )
+                                                if job_datas :
+                                                    for jdatas in job_datas :
+                                                        data[ "job_id" ] = jdatas.id
+                                            if photoBase64:
+                                                data["image"] = photoBase64
+
+                                            if emp.Badge:
+                                                data["barcode"] = emp.Badge
+
+                                            odoo_employee_id = False
+                                            try:
+                                                oEmployee.write( data )
+                                                print( 'Updated employee on odoo id %s' % oEmployee.id )
+                                            except Exception as e:
+                                                print( emp )
+                                                print("photo url : %s" % emp.employee.photo)
+                                                print( 'Error when update employee : %s' % e )
+                                                
+                                            newEmployee = odoo_pb2.EmployeeOdoo()
+                                            newEmployee.odoo.odoo_id = oEmployee.id
+                                            newEmployee.odoo.odoo_created_on = int(time.time())
+                                            newEmployee.odoo.odoo_synced_on = int(time.time())
+
+                                            if emp.employee.ID :
+                                                newEmployee.employee.ID = emp.employee.ID
+                                            if emp.employee.email :
+                                                newEmployee.employee.email = emp.employee.email
+                                            if emp.employee.user_name :
+                                                newEmployee.employee.user_name = emp.employee.user_name
+                                            if emp.employee.last_name_english :
+                                                newEmployee.employee.last_name_english = emp.employee.last_name_english
+                                            if emp.employee.first_name_english :
+                                                newEmployee.employee.first_name_english = emp.employee.first_name_english
+                                            if emp.employee.first_name_thai :
+                                                newEmployee.employee.first_name_thai = emp.employee.first_name_thai
+                                            if emp.employee.last_name_thai :
+                                                newEmployee.employee.last_name_thai = emp.employee.last_name_thai
+                                            if emp.employee.managerID :
+                                                newEmployee.employee.managerID = emp.employee.managerID
+                                            if emp.employee.lineID :
+                                                newEmployee.employee.lineID = emp.employee.lineID
+                                            if emp.employee.nickname_english :
+                                                newEmployee.employee.nickname_english = emp.employee.nickname_english
+                                            if emp.employee.nickname_thai :
+                                                newEmployee.employee.nickname_thai = emp.employee.nickname_thai
+                                            if emp.employee.FCMtoken :
+                                                newEmployee.employee.FCMtoken = emp.employee.FCMtoken
+                                            if emp.employee.phone_model :
+                                                newEmployee.employee.phone_model = emp.employee.phone_model
+                                            if emp.employee.phone_serial :
+                                                newEmployee.employee.phone_serial = emp.employee.phone_serial
+                                            if emp.employee.code :
+                                                newEmployee.employee.code = emp.employee.code
+                                            if emp.employee.created_by :
+                                                newEmployee.employee.created_by = emp.employee.created_by
+                                            if emp.employee.updated_by :
+                                                newEmployee.employee.updated_by = emp.employee.updated_by
+                                            if emp.employee.note :
+                                                newEmployee.employee.note = emp.employee.note
+                                            if emp.employee.photo :
+                                                newEmployee.employee.photo = emp.employee.photo
+                                            if emp.employee.lg :
+                                                newEmployee.employee.lg = emp.employee.lg
+                                            if emp.employee.application_level :
+                                                newEmployee.employee.application_level = emp.employee.application_level
+                                            if emp.employee.positionid :
+                                                newEmployee.employee.positionid = emp.employee.positionid
+                                            if emp.employee.Phones :
+                                                newEmployee.employee.Phones = emp.employee.Phones
+                                            if emp.employee.rfid :
+                                                newEmployee.employee.rfid = emp.employee.rfid
+                                            if emp.employee.EmailValidated :
+                                                newEmployee.employee.EmailValidated = emp.employee.EmailValidated
+                                            if emp.employee.teamid :
+                                                newEmployee.employee.teamid = emp.employee.teamid
+                                            if emp.employee.gender :
+                                                newEmployee.employee.gender = emp.employee.gender
+                                            if emp.employee.hasToFillTimesheet :
+                                                newEmployee.employee.hasToFillTimesheet = emp.employee.hasToFillTimesheet
+                                            if emp.employee.nationalID :
+                                                newEmployee.employee.nationalID = emp.employee.nationalID
+                                            if emp.employee.taxID :
+                                                newEmployee.employee.taxID = emp.employee.taxID
+                                            if emp.employee.passportNumber :
+                                                newEmployee.employee.passportNumber = emp.employee.passportNumber
+                                            if emp.employee.token :
+                                                newEmployee.employee.token = emp.employee.token
+                                            if emp.employee.CanCheckTeamMember :
+                                                newEmployee.employee.CanCheckTeamMember = emp.employee.CanCheckTeamMember
+                                            if emp.employee.QRCode :
+                                                newEmployee.employee.QRCode = emp.employee.QRCode
+                                            if emp.employee.Nationality :
+                                                newEmployee.employee.Nationality = emp.employee.Nationality
+                                            try:
+                                                result = stub.UpdateEmployee(newEmployee, metadata=authorization)
+                                                print ("Updated odoo employee to weladee")
+                                            except Exception as e:
+                                                print("Created odoo employee id is failed",e)
+
+
+
+
+                print("add new employee on odoo to Weladee")
+                print(odooIdEmps)
+                employee_line_obj = self.env['hr.employee']
+                employee_line_ids = employee_line_obj.search([])
+                if False :
                     for empId in employee_line_ids:
                         emp = employee_line_obj.browse(empId.id)
                         if emp.id:
-                            print("------------------------------")
+                            print("--------------[add new employee on odoo to Weladee]----------------")
                             pos = False
                             if emp.job_id :
-                                if emp.job_id.name :
-                                    pos = emp.job_id.name
+                                position_line_obj = self.env['hr.job']
+                                position_data = position_line_obj.browse( emp.job_id )
+                                if position_data :
+                                    if position_data["weladee_id"] :
+                                        pos = position_data["weladee_id"]
                             if not emp.id in odooIdEmps :
                                 print("Add new employee %s with odoo id %s" % (emp.name, emp.id))
                                 newEmployee = odoo_pb2.EmployeeOdoo()
@@ -368,8 +572,7 @@ class weladee_attendance(models.TransientModel):
                                     newEmployee.employee.lg = "en"
                                 newEmployee.employee.active = False
                                 if pos :
-                                    if weladeePositions[ pos ] :
-                                        newEmployee.employee.positionid = weladeePositions[ pos ]
+                                    newEmployee.employee.positionid = pos
                                 print(newEmployee)
                                 try:
                                     result = stub.AddEmployee(newEmployee, metadata=authorization)
@@ -379,7 +582,7 @@ class weladee_attendance(models.TransientModel):
 
 
             #List of Company holiday
-            print("Company Holiday")
+            print("Company Holiday And Employee holiday")
             if True :
                 for chol in stub.GetCompanyHolidays(weladee_pb2.Empty(), metadata=authorization):
                     if chol :
@@ -406,8 +609,10 @@ class weladee_attendance(models.TransientModel):
                                                 data["notes"] = "Import from weladee"
                                                 data["report_note"] = "Import from weladee"
                                                 data["department_id"] = False
-                                                if chol.Holiday.employeeid in wEidTooEid :
-                                                    empId = wEidTooEid[ chol.Holiday.employeeid ]
+                                                #if chol.Holiday.employeeid in wEidTooEid :
+                                                    #empId = wEidTooEid[ chol.Holiday.employeeid ]
+                                                if self.weladeeEmpIdToOdooId( chol.Holiday.employeeid  ) :
+                                                    empId =  self.weladeeEmpIdToOdooId( chol.Holiday.employeeid  )
                                                     data["employee_id"] = empId
                                                     dateid = self.env["hr.holidays"].create( data )
                                                     print("odoo id : %s" % dateid.id)
@@ -437,37 +642,174 @@ class weladee_attendance(models.TransientModel):
                                                 else :
                                                     print("** Don't have employee id **")
                                             else :
-                                                if False:
+                                                if True:
                                                     print("Company holiday")
+                                                    holiday_line_obj = self.env['weladee_attendance.company.holidays']
+                                                    holiday_line_ids = holiday_line_obj.search( [ ('company_holiday_date','=', fdte )] )
 
-                                                    data["enable"] = True
-                                                    data["datefrom"] = fdte
-                                                    data["dateto"] = fdte
-                                                    dateid = self.env["fw_company.holiday"].create( data )
-                                                    print("odoo id : %s" % dateid.id)
+                                                    if not holiday_line_ids :
+                                                        data = { 'company_holiday_description' :  chol.Holiday.name_english,
+                                                                'company_holiday_active' : True,
+                                                                'company_holiday_date' : fdte
+                                                         }
+                                                        dateid = self.env["weladee_attendance.company.holidays"].create( data )
+                                                        print("odoo id : %s" % dateid.id)
 
-                                                    newHoliday = odoo_pb2.HolidayOdoo()
-                                                    newHoliday.odoo.odoo_id = dateid.id
-                                                    newHoliday.odoo.odoo_created_on = int(time.time())
-                                                    newHoliday.odoo.odoo_synced_on = int(time.time())
+                                                        newHoliday = odoo_pb2.HolidayOdoo()
+                                                        newHoliday.odoo.odoo_id = dateid.id
+                                                        newHoliday.odoo.odoo_created_on = int(time.time())
+                                                        newHoliday.odoo.odoo_synced_on = int(time.time())
 
-                                                    newHoliday.Holiday.id = chol.Holiday.id
-                                                    newHoliday.Holiday.name_english = chol.Holiday.name_english
-                                                    newHoliday.Holiday.name_thai = chol.Holiday.name_english
-                                                    newHoliday.Holiday.date = chol.Holiday.date
-                                                    newHoliday.Holiday.active = True
+                                                        newHoliday.Holiday.id = chol.Holiday.id
+                                                        newHoliday.Holiday.name_english = chol.Holiday.name_english
+                                                        newHoliday.Holiday.name_thai = chol.Holiday.name_english
+                                                        newHoliday.Holiday.date = chol.Holiday.date
+                                                        newHoliday.Holiday.active = True
 
-                                                    newHoliday.Holiday.employeeid = 0
+                                                        newHoliday.Holiday.employeeid = 0
 
-                                                    print(newHoliday)
-                                                    try:
-                                                        result = stub.UpdateHoliday(newHoliday, metadata=authorization)
-                                                        print ("Created Company holiday" )
-                                                    except Exception as ee :
-                                                        print("Error when Create Company holiday : ",ee)
+                                                        print(newHoliday)
+                                                        try:
+                                                            result = stub.UpdateHoliday(newHoliday, metadata=authorization)
+                                                            print ("Created Company holiday" )
+                                                        except Exception as ee :
+                                                            print("Error when Create Company holiday : ",ee)
 
+            # List of Attendances
+            print("Attendances")
+            if True :
+                #self.manageAttendance(cr, uid, wEidTooEid)
+                self.manageAttendance( wEidTooEid, authorization )
+                
 
+    def generators(self, iteratorAttendance):
+          for i in iteratorAttendance :
+              yield i
 
+    def weladeeEmpIdToOdooId(self, weladeeId) :
+        odooid = False
+        line_obj = self.env['hr.employee']
+        line_ids = line_obj.search([("weladee_id", "=", weladeeId)])
+        for cu in line_ids:
+             employee_datas = line_obj.browse( cu )
+             if employee_datas :
+                 odooid = employee_datas.id
+        
+        return odooid.id
+
+    def manageAttendance(self, wEidTooEid, authorization):
+        iteratorAttendance = []
+        att_line_obj = self.env['hr.attendance']
+        testCount = 0
+        lastAttendance = False
+        for att in stub.GetNewAttendance(weladee_pb2.Empty(), metadata=authorization):
+            #if testCount <= 5 :
+                #testCount = testCount + 1
+                newAttendance = False
+                if att :
+                    if att.odoo :
+                        attendanceData = False
+                        if not att.odoo.odoo_id :
+                            newAttendance = True
+                        else :
+                            attendanceData = att_line_obj.browse( att.odoo.odoo_id )
+
+                        if att.logevent :
+                            try:
+                                print("------------[ logevent ]----------------")
+                                print(att.logevent)
+                                print("----------------------------")
+                                ac = False
+                                if att.logevent.action == "i" :
+                                    ac = "sign_in"
+                                if att.logevent.action == "o" :
+                                    ac = "sign_out"
+                                dte = datetime.datetime.fromtimestamp(
+                                    att.logevent.timestamp
+                                ).strftime('%Y-%m-%d %H:%M:%S')
+                                acEid = False
+                                #if att.logevent.employeeid in wEidTooEid :
+                                    #acEid = wEidTooEid[ att.logevent.employeeid ]
+                                if self.weladeeEmpIdToOdooId( att.logevent.employeeid ) :
+                                    acEid =  self.weladeeEmpIdToOdooId( att.logevent.employeeid )
+                                packet = {"employee_id" : acEid}
+                                if acEid :
+                                    if newAttendance :                 
+                                        aid = False
+                                        try :
+                                            attendace_odoo_id = False
+                                            if att.logevent.action == "i" :
+                                                packet["check_in"] = dte
+                                                print( packet )
+                                                check_dp = self.env['hr.attendance'].search( [ ('employee_id','=', acEid ),('check_in','=', dte ) ] )
+                                                if not check_dp :
+                                                    try :
+                                                        aid = self.env["hr.attendance"].create( packet )
+                                                        lastAttendance = aid
+                                                        attendace_odoo_id = aid.id
+                                                        print ("Created check in : %s" % aid.id)
+                                                    except Exception as e:
+                                                        print ("Error when create check in. : %s" %(e))
+                                                else :
+                                                    print ("Check in duplicate.")
+                                            else :
+                                                if lastAttendance :
+                                                    oldAttendance = self.env["hr.attendance"].browse( lastAttendance.id )
+                                                    if oldAttendance :
+                                                        packet = {"check_in" : oldAttendance.check_in,
+                                                                "check_out" : dte
+                                                        }
+                                                        try :
+                                                            print( packet )
+                                                            oldAttendance.write( packet )
+                                                            attendace_odoo_id = lastAttendance.id
+                                                            lastAttendance = False
+                                                            print ("Updated check out.")
+                                                        except Exception as e:
+                                                            print ("Error when fill check out. : %s" %(e) )
+                                                else :
+                                                    print ("Receive checkout with lastAttendance is False")
+
+                                            if attendace_odoo_id :
+                                                print("Update odoo id")
+                                                syncLogEvent = odoo_pb2.LogEventOdooSync()
+                                                syncLogEvent.odoo.odoo_id = attendace_odoo_id
+                                                syncLogEvent.odoo.odoo_created_on = int(time.time())
+                                                syncLogEvent.odoo.odoo_synced_on = int(time.time())
+                                                syncLogEvent.logid = att.logevent.id
+                                                iteratorAttendance.append(syncLogEvent)
+
+                                        except Exception as e:
+                                            print("Create log event is failed",e)
+
+                                    else :
+                                        if attendanceData :
+                                            if att.logevent.action == "i" :
+                                                attendanceData["check_in"] = dte
+                                            elif att.logevent.action == "o" :
+                                                attendanceData["check_out"] = dte
+                                            try :
+                                                attendanceData.write( attendanceData )
+                                                print ("Updated log event on odoo")
+                                            except Exception as e:
+                                                print("Updated log event is failed",e)
+
+                                            print("Update odoo id")
+                                            syncLogEvent = odoo_pb2.LogEventOdooSync()
+                                            syncLogEvent.odoo.odoo_id = attendanceData.id
+                                            syncLogEvent.odoo.odoo_created_on = int(time.time())
+                                            syncLogEvent.odoo.odoo_synced_on = int(time.time())
+                                            syncLogEvent.logid = att.logevent.id
+                                            iteratorAttendance.append(syncLogEvent)
+
+                            except Exception as e:
+                                print("Found problem when create attendance on odoo",e)
+
+        if len( iteratorAttendance ) > 0 :
+            #print("CKAA %s" % (iteratorAttendance))
+            ge = self.generators(iteratorAttendance)
+            a = stub.SyncAttendance( ge , metadata=authorization )
+            print(a)
     
 class weladee_settings(models.TransientModel):
     _name="weladee_attendance.synchronous.setting"
@@ -488,15 +830,34 @@ class weladee_settings(models.TransientModel):
             if dataSet.holiday_status_id :
                 holiday_status_id = dataSet.holiday_status_id
 
+        if not holiday_status_id :
+            holiday_status_id = self.env['hr.holidays.status'].create({ 'name' : 'Sync From Weladee',
+                                                                        'double_validation':False,
+                                                                        'limit':True,
+                                                                        'categ_id':False,
+                                                                        'color_name':'blue'})
+
+
         return holiday_status_id
+
+    def _get_api_key(self):
+        line_obj = self.env['weladee_attendance.synchronous.setting']
+        line_ids = line_obj.search([])
+        api_key = False
+
+        for sId in line_ids:
+            dataSet = line_obj.browse(sId.id)
+            if dataSet.api_key :
+                api_key = dataSet.api_key
+
+        return api_key
 
 
     holiday_status_id = fields.Many2one("hr.holidays.status", String="Leave Type",required=True,default=_get_holiday_status )
-    api_key = fields.Char(string="API Key", required=True)
+    api_key = fields.Char(string="API Key", required=True,default=_get_api_key )
 
     def saveBtn(self):
         print("--------Save-----------")
 
-     
+weladee_settings()
 weladee_attendance()
-#weladee_settings()
