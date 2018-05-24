@@ -98,13 +98,12 @@ class weladee_employee(models.Model):
   identification_id = fields.Char(string="Identification No", required=True)
   weladee_id = fields.Char(string="Weladee ID")
   country_id = fields.Many2one('res.country',string="Nationality (Country)", required=True)
-  first_name_english = fields.Char(string="First Name English")
-  last_name_english = fields.Char(string="Last Name English")
-  first_name_thai = fields.Char(string="First Name Thai")
-  last_name_thai = fields.Char(string="Last Name Thai")
-  nick_name_english = fields.Char(string="Nick Name English")
-  nick_name_thai = fields.Char(string="Nick Name Thai")
-  active_employee = fields.Boolean(string="Active Employee")
+  first_name_english = fields.Char(string="English First Name")
+  last_name_english = fields.Char(string="English Last Name ")
+  first_name_thai = fields.Char(string="Thai First Name")
+  last_name_thai = fields.Char(string="Thai Last Name")
+  nick_name_english = fields.Char(string="English Nick Name")
+  nick_name_thai = fields.Char(string="Thai Nick Name")
   receive_check_notification = fields.Boolean(string="Receive Check Notification")
   can_request_holiday = fields.Boolean(string="Can Request Holiday")
   
@@ -141,33 +140,59 @@ class weladee_employee(models.Model):
             newEmployee.odoo.odoo_created_on = int(time.time())
             newEmployee.odoo.odoo_synced_on = int(time.time())
 
-            newEmployee.employee.first_name_english = ( vals["name"] ).split(" ")[0]
-            if len( ( vals["name"] ).split(" ") ) > 1 :
-              newEmployee.employee.last_name_english = ( vals["name"] ).split(" ")[1]
-            else :
-              newEmployee.employee.last_name_english = " "
+            if "first_name_english" in vals :
+              newEmployee.employee.first_name_english = vals["first_name_english"]
+            if "last_name_english" in vals :
+              newEmployee.employee.last_name_english = vals["last_name_english"]
 
-            newEmployee.employee.lg = "en"
-            newEmployee.employee.active = False
+            if not "first_name_english" in vals and not "last_name_english" in vals :
+              newEmployee.employee.first_name_english = ( vals["name"] ).split(" ")[0]
+              if len( ( vals["name"] ).split(" ") ) > 1 :
+                newEmployee.employee.last_name_english = ( vals["name"] ).split(" ")[1]
+              else :
+                newEmployee.employee.last_name_english = " "
 
-            if vals["identification_id"] :
+            if "first_name_thai" in vals :
+              newEmployee.employee.first_name_thai = vals["first_name_thai"]
+            if "last_name_thai" in vals :
+              newEmployee.employee.last_name_thai = vals["last_name_thai"]
+
+            if "nick_name_english" in vals :
+              newEmployee.employee.nickname_english = vals["nick_name_english"]
+            if "nick_name_thai" in vals :
+              newEmployee.employee.nickname_thai = vals["nick_name_thai"]
+
+            if "identification_id" in vals :
               newEmployee.employee.code = vals["identification_id"]
+
             if vals["country_id"] :
               c_line_obj = self.env['res.country']
               cdata = c_line_obj.browse( vals["country_id"] )
               if cdata :
                 if cdata.name :
                   newEmployee.employee.Nationality = cdata.name
+
             if vals["notes"] :
               newEmployee.employee.note = vals["notes"]
+
             if vals["work_email"] :
               newEmployee.employee.email = vals["work_email"]
+            
+            if "parent_id" in vals :
+              manager = self.env['hr.employee'].browse( vals["parent_id"] )
+              if manager :
+                newEmployee.employee.managerID = int(manager.weladee_id)
+
             if vals["job_id"] :
               positionData = self.env['hr.job'].browse( vals["job_id"] )
               if positionData :
                 if positionData.weladee_id :
                   newEmployee.employee.positionid = int(positionData.weladee_id)
 
+            newEmployee.employee.lg = "en"
+            newEmployee.employee.active = vals["active"]
+            newEmployee.employee.receiveCheckNotification = vals["receive_check_notification"]
+            newEmployee.employee.canRequestHoliday = vals["can_request_holiday"]
 
 
             print(newEmployee)
@@ -206,18 +231,65 @@ class weladee_employee(models.Model):
             newEmployee.odoo.odoo_id = self.id
             newEmployee.odoo.odoo_created_on = int(time.time())
             newEmployee.odoo.odoo_synced_on = int(time.time())
-            if "name" in vals :
-              newEmployee.employee.first_name_english = ( vals["name"] ).split(" ")[0]
-              if len( ( vals["name"] ).split(" ") ) > 1 :
-                newEmployee.employee.last_name_english = ( vals["name"] ).split(" ")[1]
-              else :
-                newEmployee.employee.last_name_english = " "
+            
+            if "first_name_english" in vals :
+              newEmployee.employee.first_name_english = vals["first_name_english"]
+            elif self.first_name_english :
+              newEmployee.employee.first_name_english = self.first_name_english
             else :
-              newEmployee.employee.first_name_english = ( oldData["name"] ).split(" ")[0]
-              if len( ( oldData["name"] ).split(" ") ) > 1 :
-                newEmployee.employee.last_name_english = ( oldData["name"] ).split(" ")[1]
-              else :
-                newEmployee.employee.last_name_english = " "
+              newEmployee.employee.first_name_english = WeladeeData.first_name_english
+
+            if "last_name_english" in vals :
+              newEmployee.employee.last_name_english = vals["last_name_english"]
+            elif self.last_name_english :
+              newEmployee.employee.first_name_english = self.last_name_english
+            else :
+              newEmployee.employee.last_name_english = WeladeeData.last_name_english
+
+            if "first_name_thai" in vals :
+              newEmployee.employee.first_name_thai = vals["first_name_thai"]
+            elif self.first_name_thai :
+              newEmployee.employee.first_name_thai = self.first_name_thai
+            else :
+              newEmployee.employee.first_name_thai = WeladeeData.first_name_thai
+
+            if "last_name_thai" in vals :
+              newEmployee.employee.last_name_thai = vals["last_name_thai"]
+            elif self.last_name_thai :
+              newEmployee.employee.last_name_thai = self.last_name_thai
+            else :
+              newEmployee.employee.last_name_thai = WeladeeData.last_name_thai
+
+            if "nick_name_english" in vals :
+              newEmployee.employee.nickname_english = vals["nick_name_english"]
+            elif self.nick_name_english :
+              newEmployee.employee.nickname_english = self.nick_name_english
+            else :
+              newEmployee.employee.nickname_english = WeladeeData.nickname_english
+
+            if "nick_name_thai" in vals :
+              newEmployee.employee.nickname_thai = vals["nick_name_thai"]
+            elif self.nick_name_thai :
+              newEmployee.employee.nickname_thai = self.nick_name_thai
+            else :
+              newEmployee.employee.nickname_thai = WeladeeData.nickname_thai
+
+            if "active" in vals :
+              newEmployee.employee.active = vals["active"]
+            else :
+             newEmployee.employee.active = self.active or WeladeeData.active
+
+            print(vals)
+            if "receive_check_notification" in vals :
+               newEmployee.employee.receiveCheckNotification = vals["receive_check_notification"]
+            else :
+              newEmployee.employee.receiveCheckNotification = self.receive_check_notification or WeladeeData.receiveCheckNotification
+
+            if "can_request_holiday" in vals :
+              newEmployee.employee.canRequestHoliday = vals["can_request_holiday"]
+            else :
+              newEmployee.employee.canRequestHoliday = self.can_request_holiday or WeladeeData.canRequestHoliday
+            
 
             if "identification_id" in vals :
               newEmployee.employee.code = vals["identification_id"]
@@ -230,6 +302,17 @@ class weladee_employee(models.Model):
               newEmployee.employee.note = vals["notes"]
             elif self.notes :
               newEmployee.employee.note = self.notes
+            else :
+              newEmployee.employee.note = WeladeeData.note
+
+            if "parent_id" in vals :
+              manager = self.env['hr.employee'].browse( vals["parent_id"] )
+              if manager :
+                newEmployee.employee.managerID = int(manager.weladee_id)
+              else :
+                newEmployee.employee.managerID = WeladeeData.managerID
+            else : 
+              newEmployee.employee.managerID = WeladeeData.managerID
 
 
             if "work_email" in vals :
@@ -255,18 +338,8 @@ class weladee_employee(models.Model):
               newEmployee.employee.ID = WeladeeData.ID
             if WeladeeData.user_name :
               newEmployee.employee.user_name = WeladeeData.user_name
-            if WeladeeData.first_name_thai :
-              newEmployee.employee.first_name_thai = WeladeeData.first_name_thai
-            if WeladeeData.last_name_thai :
-              newEmployee.employee.last_name_thai = WeladeeData.last_name_thai
-            if WeladeeData.managerID :
-              newEmployee.employee.managerID = WeladeeData.managerID
             if WeladeeData.lineID :
               newEmployee.employee.lineID = WeladeeData.lineID
-            if WeladeeData.nickname_english :
-              newEmployee.employee.nickname_english = WeladeeData.nickname_english
-            if WeladeeData.nickname_thai :
-              newEmployee.employee.nickname_thai = WeladeeData.nickname_thai
             if WeladeeData.FCMtoken :
               newEmployee.employee.FCMtoken = WeladeeData.FCMtoken
             if WeladeeData.phone_model :
@@ -277,16 +350,12 @@ class weladee_employee(models.Model):
               newEmployee.employee.created_by = WeladeeData.created_by
             if WeladeeData.updated_by :
               newEmployee.employee.updated_by = WeladeeData.updated_by
-            if WeladeeData.active :
-              newEmployee.employee.active = WeladeeData.active
             if WeladeeData.photo :
               newEmployee.employee.photo = WeladeeData.photo
             if WeladeeData.lg :
               newEmployee.employee.lg = WeladeeData.lg
             if WeladeeData.application_level :
               newEmployee.employee.application_level = WeladeeData.application_level
-            #if WeladeeData.positionid :
-              #newEmployee.employee.positionid = WeladeeData.positionid
             if WeladeeData.Phones :
               newEmployee.employee.Phones = WeladeeData.Phones
             if WeladeeData.rfid :
@@ -299,10 +368,6 @@ class weladee_employee(models.Model):
               newEmployee.employee.gender = WeladeeData.gender
             if WeladeeData.hasToFillTimesheet :
                 newEmployee.employee.hasToFillTimesheet = WeladeeData.hasToFillTimesheet
-            if WeladeeData.receiveCheckNotification :
-                newEmployee.employee.receiveCheckNotification = WeladeeData.receiveCheckNotification
-            if WeladeeData.canRequestHoliday :
-                newEmployee.employee.canRequestHoliday = WeladeeData.canRequestHoliday
             if WeladeeData.nationalID :
                 newEmployee.employee.nationalID = WeladeeData.nationalID
             if WeladeeData.taxID :

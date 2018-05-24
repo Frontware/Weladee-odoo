@@ -96,7 +96,6 @@
                     />  
                 </xpath> -->
                 <xpath expr="//field[@name='address_id']" position="before">
-                    <field name="active_employee"/>
                     <field name="weladee_profile" widget="url" readonly="1"/>
                 </xpath>
                 <xpath expr="//field[@name='department_id']" position="before">

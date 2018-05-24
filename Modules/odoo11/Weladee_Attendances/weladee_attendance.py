@@ -115,6 +115,7 @@ class weladee_attendance(models.TransientModel):
             print( "Authorization : %s" % authorization )
             #List all position
 
+            
             print("-------------Positions")
             if True :
                 for position in stub.GetPositions(myrequest, metadata=authorization):
@@ -238,6 +239,7 @@ class weladee_attendance(models.TransientModel):
             sEmployees = {}
             wEidTooEid = {}
             country = {}
+            managers = []
 
             country_line_obj = self.env['res.country']
             country_line_ids = country_line_obj.search([])
@@ -246,7 +248,7 @@ class weladee_attendance(models.TransientModel):
                     country[ cu.name.lower() ] = cu.id
 
             if True :
-                odooIdEmps = []
+                
                 #check code Weladee on odoo
                 for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
                     if emp :
@@ -269,18 +271,18 @@ class weladee_attendance(models.TransientModel):
                                                 ,"work_email":( emp.employee.email or "" )
                                                 ,"first_name_english":emp.employee.first_name_english
                                                 ,"last_name_english":emp.employee.last_name_english
-                                                ,"first_name_thai":emp.employee.last_name_thai
-                                                ,"nickname_english":emp.employee.nickname_english
-                                                ,"nickname_thai":emp.employee.nickname_thai
-                                                ,"active_employee": False
+                                                ,"first_name_thai":emp.employee.first_name_thai
+                                                ,"last_name_thai":emp.employee.last_name_thai
+                                                ,"nick_name_english":emp.employee.nickname_english
+                                                ,"nick_name_thai":emp.employee.nickname_thai
+                                                ,"active": False
                                                 ,"receive_check_notification": False
                                                 ,"can_request_holiday": False
                                                 ,"weladee_id":emp.employee.ID
                                                 }
                                         
-                                       
                                         if emp.employee.active :
-                                            data["active_employee"] = True
+                                            data["active"] = True
                                         if emp.employee.receiveCheckNotification :
                                             data["receive_check_notification"] = True
                                         if emp.employee.canRequestHoliday :
@@ -291,6 +293,7 @@ class weladee_attendance(models.TransientModel):
                                             if job_datas :
                                                 for jdatas in job_datas :
                                                     data[ "job_id" ] = jdatas.id
+
                                         if photoBase64:
                                             data["image"] = photoBase64
 
@@ -304,12 +307,13 @@ class weladee_attendance(models.TransientModel):
                                         odoo_employee_id = False
                                         try:
                                             odoo_employee_id = self.env["hr.employee"].create( data )
+                                            if emp.employee.managerID :
+                                                managers.append( {"odoo_id":odoo_employee_id.id, "managerID": emp.employee.managerID } )
                                         except Exception as e:
                                             print("photo url : %s" % emp.employee.photo)
                                             print( 'Error when import employee : %s' % e )
 
                                         if odoo_employee_id :
-                                            odooIdEmps.append( odoo_employee_id.id )
                                             wEidTooEid[ emp.employee.ID ] = odoo_employee_id.id
 
                                             if odoo_employee_id.id :
@@ -389,6 +393,12 @@ class weladee_attendance(models.TransientModel):
                                                     newEmployee.employee.QRCode = emp.employee.QRCode
                                                 if emp.employee.Nationality :
                                                     newEmployee.employee.Nationality = emp.employee.Nationality
+                                                if emp.employee.active :
+                                                    newEmployee.employee.active = emp.employee.active
+                                                if emp.employee.canRequestHoliday :
+                                                    newEmployee.employee.canRequestHoliday = emp.employee.canRequestHoliday
+                                                if emp.employee.receiveCheckNotification :
+                                                    newEmployee.employee.receiveCheckNotification = emp.employee.receiveCheckNotification
                                                 print( newEmployee )
                                                 try:
                                                     result = stub.UpdateEmployee(newEmployee, metadata=authorization)
@@ -396,7 +406,6 @@ class weladee_attendance(models.TransientModel):
                                                 except Exception as e:
                                                     print("Created odoo employee id is failed",e)
                             else :
-                                odooIdEmps.append( emp.odoo.odoo_id )
                                 wEidTooEid[ emp.employee.ID ] = emp.odoo.odoo_id
                                 sEmployees[ emp.odoo.odoo_id ] = emp.employee
 
@@ -419,10 +428,11 @@ class weladee_attendance(models.TransientModel):
                                                 ,"work_email":( emp.employee.email or "" )
                                                 ,"first_name_english":emp.employee.first_name_english
                                                 ,"last_name_english":emp.employee.last_name_english
-                                                ,"first_name_thai":emp.employee.last_name_thai
-                                                ,"nickname_english":emp.employee.nickname_english
-                                                ,"nickname_thai":emp.employee.nickname_thai
-                                                ,"active_employee": False
+                                                ,"first_name_thai":emp.employee.first_name_thai
+                                                ,"last_name_thai":emp.employee.last_name_thai
+                                                ,"nick_name_english":emp.employee.nickname_english
+                                                ,"nick_name_thai":emp.employee.nickname_thai
+                                                ,"active": False
                                                 ,"receive_check_notification": False
                                                 ,"can_request_holiday": False
                                                 ,"weladee_id":emp.employee.ID
@@ -430,7 +440,7 @@ class weladee_attendance(models.TransientModel):
                                         
                                        
                                             if emp.employee.active :
-                                                data["active_employee"] = True
+                                                data["active"] = True
                                             if emp.employee.receiveCheckNotification :
                                                 data["receive_check_notification"] = True
                                             if emp.employee.canRequestHoliday :
@@ -447,11 +457,13 @@ class weladee_attendance(models.TransientModel):
                                                 data["barcode"] = emp.Badge
 
                                             odoo_employee_id = False
+                                            print( emp )
                                             try:
                                                 oEmployee.write( data )
+                                                if emp.employee.managerID :
+                                                    managers.append( {"odoo_id":oEmployee.id, "managerID": emp.employee.managerID } )
                                                 print( 'Updated employee on odoo id %s' % oEmployee.id )
                                             except Exception as e:
-                                                print( emp )
                                                 print("photo url : %s" % emp.employee.photo)
                                                 print( 'Error when update employee : %s' % e )
                                                 
@@ -530,6 +542,12 @@ class weladee_attendance(models.TransientModel):
                                                 newEmployee.employee.QRCode = emp.employee.QRCode
                                             if emp.employee.Nationality :
                                                 newEmployee.employee.Nationality = emp.employee.Nationality
+                                            if emp.employee.active :
+                                                newEmployee.employee.active = emp.employee.active
+                                            if emp.employee.canRequestHoliday :
+                                                newEmployee.employee.canRequestHoliday = emp.employee.canRequestHoliday
+                                            if emp.employee.receiveCheckNotification :
+                                                newEmployee.employee.receiveCheckNotification = emp.employee.receiveCheckNotification
                                             try:
                                                 result = stub.UpdateEmployee(newEmployee, metadata=authorization)
                                                 print ("Updated odoo employee to weladee")
@@ -540,7 +558,6 @@ class weladee_attendance(models.TransientModel):
 
 
                 print("add new employee on odoo to Weladee")
-                print(odooIdEmps)
                 employee_line_obj = self.env['hr.employee']
                 employee_line_ids = employee_line_obj.search([])
                 if False :
@@ -579,6 +596,24 @@ class weladee_attendance(models.TransientModel):
                                     print ("Weladee id : %s" % result.id)
                                 except Exception as e:
                                     print("Add employee failed",e)
+
+
+            # Update manager
+            print("Updating manager id")
+            print( managers )
+            if True :
+                for manager in managers :
+                    if manager["managerID"] :
+                        manager_datas = self.env['hr.employee'].search( [ ("weladee_id","=",  manager["managerID"] ) ] )
+                        for m in manager_datas :
+                            manager_data = self.env['hr.employee'].browse( m.id )
+                            if manager_data :
+                                if manager["odoo_id"] :
+                                    emp_data = self.env['hr.employee'].browse( manager["odoo_id"] )
+                                    if emp_data :
+                                            emp_data.write( {"weladee_id" : emp_data.weladee_id, "parent_id": manager_data.id } )
+                                            print("Updated manager id on employee : %s" % emp_data.id  )
+                                        
 
 
             #List of Company holiday
@@ -694,8 +729,10 @@ class weladee_attendance(models.TransientModel):
              employee_datas = line_obj.browse( cu )
              if employee_datas :
                  odooid = employee_datas.id
-        
-        return odooid.id
+        if odooid :
+            return odooid.id
+        else :
+            return odooid
 
     def manageAttendance(self, wEidTooEid, authorization):
         iteratorAttendance = []
