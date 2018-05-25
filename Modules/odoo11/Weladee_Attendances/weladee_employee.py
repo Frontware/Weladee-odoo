@@ -104,8 +104,11 @@ class weladee_employee(models.Model):
   last_name_thai = fields.Char(string="Thai Last Name")
   nick_name_english = fields.Char(string="English Nick Name")
   nick_name_thai = fields.Char(string="Thai Nick Name")
+  receive_check_notification = fields.Boolean(string="Receive Check Notification")
+  can_request_holiday = fields.Boolean(string="Can Request Holiday")
   active_employee = fields.Boolean(string="Active Employee")
   hasToFillTimesheet = fields.Boolean(string="Has To Fill Timesheet")
+  passportNumber = fields.Char(string="Passport Number")
   taxID = fields.Char(string="TaxID")
   nationalID = fields.Char(string="NationalID")
   
