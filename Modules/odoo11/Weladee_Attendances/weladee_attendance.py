@@ -23,6 +23,7 @@ from odoo import models, fields, api
 from datetime import datetime,date, timedelta
 from odoo import exceptions
 import grpc
+import odoo
 from . import odoo_pb2
 from . import odoo_pb2_grpc
 from . import weladee_pb2
@@ -94,8 +95,20 @@ class weladee_attendance(models.TransientModel):
     _description="synchronous Employee, Department, Holiday and attences"
 
     @api.multi
-    def synchronousBtn(self):
+    def auto_action(self):
+        print("auto_action1")
+        lines = self.env.ref('Weladee_Attendances.%s' % 'lunch_weladee_synchronous').read()
+        for line in lines :
+            if line :
+                print(line["id"])
+                ac = self.env['ir.actions.server'].browse( line["id"] )
+                if ac :
+                    print("auto_action")
+                    ac.run()
+        return {}
 
+    def synchronousBtn(self):
+        print("Start sync")
         line_obj = self.env['weladee_attendance.synchronous.setting']
         line_ids = line_obj.search([])
         holiday_status_id = False
@@ -136,7 +149,7 @@ class weladee_attendance(models.TransientModel):
                                 for position_id in job_line_ids :
                                     position_data = job_line_obj.browse( position_id.id )
                                     data = {"name" : position.position.name_english,
-                                            "weladee_id" : position.position.id,
+                                            "weladee_id" : position.position.ID,
                                             "no_of_recruitment" : 1}
                                     position_data.write( data )
                                     print( "Updated position '%s' to odoo" % position.position.name_english )
