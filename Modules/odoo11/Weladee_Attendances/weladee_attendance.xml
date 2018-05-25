@@ -6,14 +6,15 @@
 	2017-07-18 CKA add view synchronous menu For sync Employee, Department, Holiday and attences on Attendances menu
  -->
 <odoo>
-         <record id="lunch_weladee_synchronous" model="ir.actions.server">
+         <!--<record id="lunch_weladee_synchronous" model="ir.actions.server">
             <field name="name">lunch_weladee_synchronous</field>
             <field name="model_id" ref="Weladee_Attendances.model_weladee_attendance_synchronous"/>
             <field name="state">code</field>
             <field name="code">
                 action = model.synchronousBtn()
+
             </field>
-        </record>
+        </record> -->
 
         <record id="weladee_attendance_wizard" model="ir.ui.view">
             <field name="name">weladee_attendance_wizard</field>
@@ -28,7 +29,7 @@
                     <label string="   - Attendance" colspan="4" />
                     <footer>
                         <button icon="fa-close"  special="cancel"   string="Close"/>
-                        <button icon="fa-random" name="auto_action" string="Synchronize" class="oe_highlight" type="object"/>
+                        <button icon="fa-random" name="synchronousBtn" string="Synchronize" class="oe_highlight" type="object"/>
                     </footer>
                 </form>
             </field>

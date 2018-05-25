@@ -94,19 +94,25 @@ class weladee_attendance(models.TransientModel):
     _name="weladee_attendance.synchronous"
     _description="synchronous Employee, Department, Holiday and attences"
 
-    @api.multi
-    def auto_action(self):
-        print("auto_action1")
+    
+    '''def auto_action(self):
         lines = self.env.ref('Weladee_Attendances.%s' % 'lunch_weladee_synchronous').read()
         for line in lines :
             if line :
                 print(line["id"])
                 ac = self.env['ir.actions.server'].browse( line["id"] )
                 if ac :
-                    print("auto_action")
                     ac.run()
         return {}
 
+    def test_thread(self):
+        threading.current_thread().dbname = self._cr.dbname
+        thread_var = threading.Thread(target=self.synchronousBtn, args=())
+        thread_var.start()
+
+        return {} '''
+
+    @api.multi
     def synchronousBtn(self):
         print("Start sync")
         line_obj = self.env['weladee_attendance.synchronous.setting']
@@ -462,7 +468,7 @@ class weladee_attendance(models.TransientModel):
                                                 ,"weladee_id":emp.employee.ID
                                                 }
                                         
-                                       
+                                    
                                             if emp.employee.active :
                                                 data["active"] = True
                                             if emp.employee.receiveCheckNotification :
@@ -731,7 +737,7 @@ class weladee_attendance(models.TransientModel):
                                                         data = { 'company_holiday_description' :  chol.Holiday.name_english,
                                                                 'company_holiday_active' : True,
                                                                 'company_holiday_date' : fdte
-                                                         }
+                                                        }
                                                         dateid = self.env["weladee_attendance.company.holidays"].create( data )
                                                         print("odoo id : %s" % dateid.id)
 
