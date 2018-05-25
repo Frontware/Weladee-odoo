@@ -106,6 +106,10 @@ class weladee_employee(models.Model):
   nick_name_thai = fields.Char(string="Thai Nick Name")
   receive_check_notification = fields.Boolean(string="Receive Check Notification")
   can_request_holiday = fields.Boolean(string="Can Request Holiday")
+  hasToFillTimesheet = fields.Boolean(string="Has To Fill Timesheet")
+  passportNumber = fields.Char(string="Passport Number")
+  taxID = fields.Char(string="TaxID")
+  nationalID = fields.Char(string="NationalID")
   
 
   def get_api_key(self):
@@ -193,6 +197,16 @@ class weladee_employee(models.Model):
             newEmployee.employee.active = vals["active"]
             newEmployee.employee.receiveCheckNotification = vals["receive_check_notification"]
             newEmployee.employee.canRequestHoliday = vals["can_request_holiday"]
+            newEmployee.employee.hasToFillTimesheet = vals["hasToFillTimesheet"]
+
+            if vals["passportNumber"] :
+              newEmployee.employee.passportNumber = vals["passportNumber"]
+
+            if vals["taxID"] :
+              newEmployee.employee.taxID = vals["taxID"]
+            
+            if vals["nationalID"] :
+              newEmployee.employee.email = vals["nationalID"]
 
 
             print(newEmployee)
@@ -289,6 +303,26 @@ class weladee_employee(models.Model):
               newEmployee.employee.canRequestHoliday = vals["can_request_holiday"]
             else :
               newEmployee.employee.canRequestHoliday = self.can_request_holiday or WeladeeData.canRequestHoliday
+
+            if "hasToFillTimesheet" in vals :
+              newEmployee.employee.hasToFillTimesheet = vals["hasToFillTimesheet"]
+            else :
+              newEmployee.employee.hasToFillTimesheet = self.hasToFillTimesheet or WeladeeData.hasToFillTimesheet
+
+            if "passportNumber" in vals :
+              newEmployee.employee.passportNumber = vals["passportNumber"]
+            else :
+              newEmployee.employee.passportNumber = self.passportNumber or WeladeeData.passportNumber
+
+            if "taxID" in vals :
+              newEmployee.employee.taxID = vals["taxID"]
+            else :
+              newEmployee.employee.taxID = self.taxID or WeladeeData.taxID
+
+            if "nationalID" in vals :
+              newEmployee.employee.nationalID = vals["nationalID"]
+            else :
+              newEmployee.employee.nationalID = self.nationalID or WeladeeData.nationalID
             
 
             if "identification_id" in vals :
@@ -366,14 +400,6 @@ class weladee_employee(models.Model):
               newEmployee.employee.teamid = WeladeeData.teamid
             if WeladeeData.gender :
               newEmployee.employee.gender = WeladeeData.gender
-            if WeladeeData.hasToFillTimesheet :
-                newEmployee.employee.hasToFillTimesheet = WeladeeData.hasToFillTimesheet
-            if WeladeeData.nationalID :
-                newEmployee.employee.nationalID = WeladeeData.nationalID
-            if WeladeeData.taxID :
-                newEmployee.employee.taxID = WeladeeData.taxID
-            if WeladeeData.passportNumber :
-                newEmployee.employee.passportNumber = WeladeeData.passportNumber
             if WeladeeData.token :
                 newEmployee.employee.token = WeladeeData.token
             if WeladeeData.CanCheckTeamMember :

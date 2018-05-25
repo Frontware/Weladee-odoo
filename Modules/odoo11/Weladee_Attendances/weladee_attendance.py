@@ -239,7 +239,7 @@ class weladee_attendance(models.TransientModel):
             sEmployees = {}
             wEidTooEid = {}
             country = {}
-            managers = []
+            managers = {}
 
             country_line_obj = self.env['res.country']
             country_line_ids = country_line_obj.search([])
@@ -278,6 +278,7 @@ class weladee_attendance(models.TransientModel):
                                                 ,"active": False
                                                 ,"receive_check_notification": False
                                                 ,"can_request_holiday": False
+                                                ,"hasToFillTimesheet": False
                                                 ,"weladee_id":emp.employee.ID
                                                 }
                                         
@@ -287,6 +288,15 @@ class weladee_attendance(models.TransientModel):
                                             data["receive_check_notification"] = True
                                         if emp.employee.canRequestHoliday :
                                             data["can_request_holiday"] = True
+                                        if emp.employee.hasToFillTimesheet :
+                                            data["hasToFillTimesheet"] = True
+
+                                        if emp.employee.passportNumber :
+                                            data["passportNumber"] = emp.employee.passportNumber
+                                        if emp.employee.taxID :
+                                            data["taxID"] = emp.employee.taxID
+                                        if emp.employee.nationalID :
+                                            data["nationalID"] = emp.employee.nationalID
                                             
                                         if emp.employee.positionid :
                                             job_datas = self.env['hr.job'].search( [ ("weladee_id","=", emp.employee.positionid ) ] )
@@ -308,7 +318,7 @@ class weladee_attendance(models.TransientModel):
                                         try:
                                             odoo_employee_id = self.env["hr.employee"].create( data )
                                             if emp.employee.managerID :
-                                                managers.append( {"odoo_id":odoo_employee_id.id, "managerID": emp.employee.managerID } )
+                                                managers[ odoo_employee_id.id ] = emp.employee.managerID
                                         except Exception as e:
                                             print("photo url : %s" % emp.employee.photo)
                                             print( 'Error when import employee : %s' % e )
@@ -435,6 +445,7 @@ class weladee_attendance(models.TransientModel):
                                                 ,"active": False
                                                 ,"receive_check_notification": False
                                                 ,"can_request_holiday": False
+                                                ,"hasToFillTimesheet": False
                                                 ,"weladee_id":emp.employee.ID
                                                 }
                                         
@@ -445,6 +456,17 @@ class weladee_attendance(models.TransientModel):
                                                 data["receive_check_notification"] = True
                                             if emp.employee.canRequestHoliday :
                                                 data["can_request_holiday"] = True
+                                            if emp.employee.hasToFillTimesheet :
+                                                data["hasToFillTimesheet"] = True
+
+                                            if emp.employee.passportNumber :
+                                                data["passportNumber"] = emp.employee.passportNumber
+                                            if emp.employee.taxID :
+                                                data["taxID"] = emp.employee.taxID
+                                            if emp.employee.nationalID :
+                                                data["nationalID"] = emp.employee.nationalID
+
+
                                             if emp.employee.positionid :
                                                 job_datas = self.env['hr.job'].search( [ ("weladee_id","=", emp.employee.positionid ) ] )
                                                 if job_datas :
@@ -461,7 +483,7 @@ class weladee_attendance(models.TransientModel):
                                             try:
                                                 oEmployee.write( data )
                                                 if emp.employee.managerID :
-                                                    managers.append( {"odoo_id":oEmployee.id, "managerID": emp.employee.managerID } )
+                                                    managers[ oEmployee.id ] = emp.employee.managerID
                                                 print( 'Updated employee on odoo id %s' % oEmployee.id )
                                             except Exception as e:
                                                 print("photo url : %s" % emp.employee.photo)
@@ -602,18 +624,27 @@ class weladee_attendance(models.TransientModel):
             print("Updating manager id")
             print( managers )
             if True :
-                for manager in managers :
-                    if manager["managerID"] :
-                        manager_datas = self.env['hr.employee'].search( [ ("weladee_id","=",  manager["managerID"] ) ] )
-                        for m in manager_datas :
-                            manager_data = self.env['hr.employee'].browse( m.id )
-                            if manager_data :
-                                if manager["odoo_id"] :
-                                    emp_data = self.env['hr.employee'].browse( manager["odoo_id"] )
+                lines = self.env['hr.employee'].search( [] )
+                for e in lines :
+                    if e.id :
+                        if e.id in managers :
+                            manageridWeladee = managers[ e.id ]
+                            mdatas = self.env['hr.employee'].search( [("weladee_id","=", manageridWeladee )] )
+                            if mdatas :
+                                managerid = False
+                                for mdata in mdatas :
+                                    if mdata.id :
+                                        managerid = mdata.id
+                                if managerid :
+                                    emp_data =  self.env['hr.employee'].browse( e.id )
                                     if emp_data :
-                                        print( "Update %s to employee id %s" %(manager_data.id,emp_data.weladee_id) )
-                                        emp_data.write( {"weladee_id" : emp_data.weladee_id, "parent_id": manager_data.id } )
-                                        print("Updated manager id on employee : %s" % emp_data.id  )
+                                        if emp_data.weladee_id :
+                                            try:
+                                                print( "Update %s to employee id %s" %(managerid, e.id) )
+                                                result = emp_data.write( {"weladee_id" : emp_data.weladee_id, "parent_id": managerid } )
+                                                print("Updated manager id on employee : %s" % emp_data.id  )
+                                            except Exception as e:
+                                                print("Update manager id failed : ",e)
                                         
 
 

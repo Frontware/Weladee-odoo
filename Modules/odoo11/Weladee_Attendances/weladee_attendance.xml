@@ -101,6 +101,7 @@
                 <xpath expr="//field[@name='department_id']" position="before">
                     <field name="receive_check_notification"/>
                     <field name="can_request_holiday" />
+                    <field name="hasToFillTimesheet" />
                 </xpath>
                 <xpath expr="//field[@name='category_ids']" position="after">
                     <group>
@@ -111,6 +112,11 @@
                         <field name="nick_name_english"/>
                         <field name="nick_name_thai"/>
                     </group>
+                </xpath>
+                <xpath expr="//field[@name='work_phone']" position="after">
+                    <field name="passportNumber"/>
+                    <field name="taxID"/>
+                    <field name="nationalID"/>
                 </xpath>
 
                 

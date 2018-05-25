@@ -27,7 +27,8 @@ def main():
     # Connect from Odoo
     # Place here the token specific to each company. It's called api_key in table company
 
-    authorization = [("authorization", "fed4af9a-eaa0-4640-ac7e-50f7186ecd8c")]
+    #authorization = [("authorization", "fed4af9a-eaa0-4640-ac7e-50f7186ecd8c")]
+    authorization = [("authorization", "183df053-eebe-42af-b9e0-9397b52e04c3")]
 
     stub = odoo_pb2_grpc.OdooStub(channel)
     myrequest = weladee_pb2.EmployeeRequest()
@@ -40,19 +41,13 @@ def main():
         for dept in stub.GetDepartments(myrequest, metadata=authorization):
             print(dept)
 
-    if True:
-        xx = []
-        for i in range(0,1600):
-            xx.append({"weladee": i, "odoo": i+1})
-
-        for x in xx :
-            print( x )
     # List of employees
     print("Employees")
     counter = 0
-    if False :
-        print("Employees2")
-        for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
+    if True :
+        odooRequest = odoo_pb2.OdooRequest()
+        odooRequest.Force = False
+        for emp in stub.GetEmployees(odooRequest, metadata=authorization):
             counter = counter +1
             print("Employees3")
             print(emp)
