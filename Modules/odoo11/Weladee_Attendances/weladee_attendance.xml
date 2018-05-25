@@ -4,6 +4,7 @@
 
 	remarks :
 	2017-07-18 CKA add view synchronous menu For sync Employee, Department, Holiday and attences on Attendances menu
+    2018-05-24 KPO move hr_employee_weladee_profile to views/fw_hr_employee.xml
  -->
 <odoo>
          <!--<record id="lunch_weladee_synchronous" model="ir.actions.server">
