@@ -47,6 +47,7 @@ change log:
 * 2018-05-22 CKA fixed problem when sync position on odoo to weladee
 * 2018-05-23 CKA changed code for sync odoo to weladee
 * 2018-05-24 CKA fixed problem when sync, add new fields on employee
+* 2018-05-25 CKA add new fields for sync
                 
 requirement:
 ------------------------------------

@@ -27,8 +27,8 @@ def main():
     # Connect from Odoo
     # Place here the token specific to each company. It's called api_key in table company
 
-    authorization = [("authorization", "fed4af9a-eaa0-4640-ac7e-50f7186ecd8c")]
-    #authorization = [("authorization", "183df053-eebe-42af-b9e0-9397b52e04c3")]
+    #authorization = [("authorization", "fed4af9a-eaa0-4640-ac7e-50f7186ecd8c")]
+    authorization = [("authorization", "183df053-eebe-42af-b9e0-9397b52e04c3")]
 
     stub = odoo_pb2_grpc.OdooStub(channel)
     myrequest = weladee_pb2.EmployeeRequest()
