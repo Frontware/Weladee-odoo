@@ -133,11 +133,6 @@ class weladee_employee(models.Model):
       #print("API : %s" % authorization)
       if authorization :
         if True :
-            wPos = {}
-            for position in stub.GetPositions(myrequest, metadata=authorization):
-              if position :
-                if position.position.name_english :
-                  wPos[ position.position.name_english ] = position.position.id
 
             newEmployee = odoo_pb2.EmployeeOdoo()
             newEmployee.odoo.odoo_id = eid.id
@@ -228,6 +223,7 @@ class weladee_employee(models.Model):
       if authorization :
         if True :
           print("----------")
+
           oldData = self.env['hr.employee'].browse( self.id )
           WeladeeData = False
           odooRequest = odoo_pb2.OdooRequest()
@@ -457,7 +453,9 @@ class weladee_job(models.Model):
       if authorization :
         if True :
           weladeePositions = {}
-          for position in stub.GetPositions(myrequest, metadata=authorization):
+          odooRequest = odoo_pb2.OdooRequest()
+          odooRequest.Force = True
+          for position in stub.GetPositions(odooRequest, metadata=authorization):
             if position :
               if position.position.name_english :
                 weladeePositions[ position.position.name_english ] = position.position.id

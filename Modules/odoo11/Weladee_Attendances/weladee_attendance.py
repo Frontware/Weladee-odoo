@@ -120,15 +120,15 @@ class weladee_attendance(models.TransientModel):
             if True :
                 for position in stub.GetPositions(myrequest, metadata=authorization):
                     if position :
-                        if position.position.id :
+                        if position.position.ID :
                             job_line_obj = self.env['hr.job']
-                            job_line_ids = job_line_obj.search([("weladee_id", "=", position.position.id)])
+                            job_line_ids = job_line_obj.search([("weladee_id", "=", position.position.ID)])
                             if not job_line_ids :
                                 if position.position.name_english :
                                     chk_position = self.env['hr.job'].search([ ('name','=',position.position.name_english )])
                                     if not chk_position :
                                         data = {"name" : position.position.name_english,
-                                                "weladee_id" : position.position.id,
+                                                "weladee_id" : position.position.ID,
                                                 "no_of_recruitment" : 1}
                                         odoo_id_position = self.env['hr.job'].create(data)
                                         print( "Insert position '%s' to odoo" % position.position.name_english )
@@ -624,12 +624,12 @@ class weladee_attendance(models.TransientModel):
             print("Updating manager id")
             print( managers )
             if True :
-                lines = self.env['hr.employee'].search( [] )
+                lines = self.env['hr.employee'].search([("active","=",False) or ("active","=",True)])
                 for e in lines :
                     if e.id :
                         if e.id in managers :
                             manageridWeladee = managers[ e.id ]
-                            mdatas = self.env['hr.employee'].search( [("weladee_id","=", manageridWeladee )] )
+                            mdatas = self.env['hr.employee'].search( [("weladee_id","=", manageridWeladee ) and ( ("active","=",False) or ("active","=",True) ) ] )
                             if mdatas :
                                 managerid = False
                                 for mdata in mdatas :
