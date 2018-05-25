@@ -26,6 +26,7 @@
 "depends" : ['base', 'hr_attendance', 'hr', 'hr_holidays'],
 "data" :["weladee_attendance.xml",
          "views/asset_Weladee_Attendances.xml",
+         "views/fw_hr_attendances.xml",
          "views/fw_holiday.xml",
          "views/fw_hr_employee.xml"],
 "installable" : True,

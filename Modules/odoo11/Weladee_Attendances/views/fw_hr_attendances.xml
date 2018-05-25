@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+customize HR Attendance form
+
+remarks:
+2018-05-25 KPO created    
+-->
+<odoo>
+    <data>
+        <!-- hide kiosk mode menu-->
+        <delete id="hr_attendance.menu_hr_attendance_kiosk_mode" model="ir.ui.menu" />        
+
+        <record id="weladee_att_hr_att_list" model="ir.ui.view">
+            <field name="name">weladee_att_hr_att_list</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+            <field name="arch" type="xml">
+               <xpath expr="//tree" position="attributes">
+                    <attribute name="create">0</attribute>
+                    <attribute name="edit">0</attribute>
+                    <attribute name="delete">0</attribute>
+               </xpath>
+            </field>
+        </record>      
+
+        <record id="weladee_att_hr_att_form" model="ir.ui.view">
+            <field name="name">weladee_att_hr_att_form</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+            <field name="arch" type="xml">
+               <xpath expr="//form" position="attributes">
+                    <attribute name="create">0</attribute>
+                    <attribute name="edit">0</attribute>
+                    <attribute name="delete">0</attribute>
+               </xpath>
+            </field>
+        </record>      
+         
+    </data>
+</odoo>

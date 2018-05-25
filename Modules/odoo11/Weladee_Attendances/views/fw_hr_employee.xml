@@ -33,12 +33,18 @@ remarks:
                 </xpath>
                 <xpath expr="//field[@name='category_ids']" position="after">
                     <group>
-                        <field name="first_name_english"/>
-                        <field name="last_name_english"/>
-                        <field name="first_name_thai"/>
-                        <field name="last_name_thai"/>
-                        <field name="nick_name_english"/>
-                        <field name="nick_name_thai"/>
+                        <group>
+                            <field name="first_name_english"/>
+                            <field name="last_name_english"/>
+                        </group>
+                        <group>
+                            <field name="first_name_thai"/>
+                            <field name="last_name_thai"/>
+                        </group>
+                        <group>
+                            <field name="nick_name_english"/>
+                            <field name="nick_name_thai"/>
+                        </group>
                     </group>
                 </xpath>
 
