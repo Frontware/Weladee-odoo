@@ -106,72 +106,51 @@ def sync_department_data(dept):
 def sync_department(department_obj, myrequest, authorization):
     '''
     sync department with odoo and return the list
-    
+    '''    
     sDepartment = []
-    # sync data from Weladee to odoo if department don't have odoo id
-    for dept in stub.GetDepartments(myrequest, metadata=authorization):
-        if dept:
-            #print("------------------------------")
-            if dept.odoo :
-                if not dept.odoo.odoo_id :
-                    if dept.department :
-                        if dept.department.name_english:
-                            odoo_id_department = department_obj.create(sync_department_data(dept))
-                            
-                            print("Add department : %s to odoo the department id is %s" % (departmentName, odoo_id_department.id))
-                            #keep odoo id
-                            sDepartment.append( odoo_id_department )
-                            
-                            # update odoo id to weladee
-                            updateDepartment = odoo_pb2.DepartmentOdoo()
-                            updateDepartment.odoo.odoo_id = odoo_id_department.id
-                            updateDepartment.odoo.odoo_created_on = int(time.time())
-                            updateDepartment.odoo.odoo_synced_on = int(time.time())
-
-                            updateDepartment.department.id = dept.department.id
-                            updateDepartment.department.name_english = ( dept.department.name_english or "" )
-                            updateDepartment.department.name_thai = ( dept.department.name_thai or "" )
-                            if dept.department.managerid :
-                                updateDepartment.department.managerid = dept.department.managerid
-                            updateDepartment.department.active = ( dept.department.active or False )
-                            updateDepartment.department.code = ( dept.department.code or "" )
-                            updateDepartment.department.note = ( dept.department.note or "" )
-                            print( updateDepartment )
-                            try :
-                                result = stub.UpdateDepartment(updateDepartment, metadata=authorization)
-                                print ("Created odoo department id to Weladee : %s" % result.id)
-                            except Exception as e:
-                                print("Create odoo department id is failed",e)
+    #get change data from weladee
+    for weladee_dept in stub.GetDepartments(myrequest, metadata=authorization):
+        if weladee_dept :
+            if weladee_dept.department.id :
+                #search in odoo
+                odoo_department_ids = department_obj.search([("weladee_id", "=", weladee_dept.department.id)])
+                if not odoo_department_ids :
+                    if weladee_dept.department.name_english :
+                        odoo_department = department_obj.search([ ('name','=',weladee_dept.department.name_english )])
+                        if not odoo_department :
+                            _ = department_obj.create(sync_department_data(weladee_dept))
+                            _logger.info( "Insert department '%s' to odoo" % weladee_dept.department.name_english )
+                        else:
+                            odoo_department.write({"weladee_id" : weladee_dept.department.id})
+                    else:
+                        _logger.error( "Error while create department '%s' to odoo: there is no english name")
                 else :
+                    for odoo_department in odoo_department_ids :
+                        odoo_department.write( sync_department_data(weladee_dept) )
+                        _logger.info( "Updated department '%s' to odoo" % weladee_dept.department.name_english )
 
-                    department_data = department_obj.browse( dept.odoo.odoo_id )
-                    data = {"name" : dept.department.name_english,
-                            "weladee_id" : dept.department.id
-                            }
-                    try :
-                        department_data.write( data )
-                    except Exception as e:
-                        print("Error when update department to odoo : ",e)
+    #scan in odoo if there is record with no weladee_id
+    odoo_department_ids = department_obj.search([('weladee_id','=',False)])
+    for odoo_department in odoo_department_ids:
+        if odoo_department.name :
+            if not odoo_department["weladee_id"] :
+                newDepartment = odoo_pb2.DepartmentOdoo()
+                newDepartment.odoo.odoo_id = odoo_department.id
+                newDepartment.odoo.odoo_created_on = int(time.time())
+                newDepartment.odoo.odoo_synced_on = int(time.time())
 
-    # sync data from odoo to Weladee
-    department_line_ids = department_obj.search([])
-    for deptId in department_line_ids:
-        deptData = department_obj.browse(deptId.id)
-        if deptData.name:
-            if deptData.id:
-                if not deptData.weladee_id:
-                    print( "%s don't have on Weladee" % deptData.name )
-                    newDepartment = odoo_pb2.DepartmentOdoo()
-                    newDepartment.odoo.odoo_id = deptData.id
-                    newDepartment.department.name_english = deptData.name
-                    print(newDepartment)
-                    try:
-                        result = stub.AddDepartment(newDepartment, metadata=authorization)
-                        print ("Weladee department id : %s" % result.id)
-                    except Exception as e:
-                        print("Add department failed",e)
+                newDepartment.department.name_english = odoo_department.name
+                newDepartment.department.active = True
+                #print(newPosition)
+                try:
+                    returnobj = stub.AddDepartment(newDepartment, metadata=authorization)
+                    #print( result  )
+                    odoo_department.write({'weladee_id':returnobj.id})
+                    _logger.info("Added department to weladee : %s" % odoo_department.name)
+                except Exception as e:
+                    _logger.error("Add department '%s' failed : %s" % (odoo_department.name, e))
+
     return  sDepartment
-    '''
 
 def sync_employee(job_line_obj, employee_line_obj, country, authorization):
     '''
@@ -683,9 +662,12 @@ class weladee_attendance(models.TransientModel):
             _logger.info("Start sync...")
 
             _logger.info("Start sync...Positions")
-            job_line_obj = self.env['hr.job']    
-            sync_position(job_line_obj, myrequest, authorization)
+            job_obj = self.env['hr.job']    
+            sync_position(job_obj, myrequest, authorization)
 
+            _logger.info("Start sync...Departments")
+            department_obj = self.env['hr.department']    
+            sync_department(department_obj, myrequest, authorization)
 
     def generators(self, iteratorAttendance):
           for i in iteratorAttendance :
