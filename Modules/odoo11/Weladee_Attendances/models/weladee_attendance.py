@@ -55,31 +55,31 @@ def sync_position(job_line_obj, myrequest, authorization):
     sync all positions from weladee
 
     '''
-    #get data from weladee
-    for position in stub.GetPositions(myrequest, metadata=authorization):
-        if position :
-            if position.position.ID :                
-                job_line_ids = job_line_obj.search([("weladee_id", "=", position.position.ID)])
+    #get change data from weladee
+    for weladee_position in stub.GetPositions(myrequest, metadata=authorization):
+        if weladee_position :
+            if weladee_position.position.ID :
+                #search in odoo
+                job_line_ids = job_line_obj.search([("weladee_id", "=", weladee_position.position.ID)])
                 if not job_line_ids :
-                    if position.position.name_english :
-                        chk_position = job_line_obj.search([ ('name','=',position.position.name_english )])
-                        if not chk_position :
-                            _ = job_line_obj.create(sync_position_data(position))
-                            _logger.info( "Insert position '%s' to odoo" % position.position.name_english )
+                    if weladee_position.position.name_english :
+                        odoo_position = job_line_obj.search([ ('name','=',weladee_position.position.name_english )])
+                        #_logger.info( "check this position '%s' in odoo %s, %s" % (position.position.name_english, chk_position, position.position.ID) )
+                        if not odoo_position :
+                            _ = job_line_obj.create(sync_position_data(weladee_position))
+                            _logger.info( "Insert position '%s' to odoo" % weladee_position.position.name_english )
                         else:
-                            _logger.error( "Error while create position '%s' to odoo: duplicate name" % position.position.name_english )
+                            odoo_position.write({"weladee_id" : weladee_position.position.ID})
                     else:
                         _logger.error( "Error while create position '%s' to odoo: there is no english name")
                 else :
-                    for position_id in job_line_ids :
-                        position_data = job_line_obj.browse( position_id.id )
-                        position_data.write( sync_position_data(position) )
-                        _logger.info( "Updated position '%s' to odoo" % position.position.name_english )
+                    for odoo_position in job_line_ids :
+                        odoo_position.write( sync_position_data(weladee_position) )
+                        _logger.info( "Updated position '%s' to odoo" % weladee_position.position.name_english )
 
     #scan in odoo if there is record with no weladee_id
-    position_line_ids = job_line_obj.search([('weladee_id','=',False)])
-    for posId in position_line_ids:
-        positionData = job_line_obj.browse(posId.id)
+    odoo_position_line_ids = job_line_obj.search([('weladee_id','=',False)])
+    for positionData in odoo_position_line_ids:
         if positionData.name :
             if not positionData["weladee_id"] :
                 newPosition = odoo_pb2.PositionOdoo()
@@ -91,11 +91,12 @@ def sync_position(job_line_obj, myrequest, authorization):
                 newPosition.position.active = True
                 #print(newPosition)
                 try:
-                    _ = stub.AddPosition(newPosition, metadata=authorization)
+                    returnobj = stub.AddPosition(newPosition, metadata=authorization)
                     #print( result  )
-                    _logger.info("Add position to weladee : %s" % positionData.name)
+                    positionData.write({'weladee_id':returnobj.id})
+                    _logger.info("Added position to weladee : %s" % positionData.name)
                 except Exception as e:
-                    _logger.error("Add position failed : %s" % e)
+                    _logger.error("Add position '%s' failed : %s" % (positionData.name, e))
 
 def sync_department_data(dept):
     return {"name" : dept.department.name_english,
@@ -105,7 +106,7 @@ def sync_department_data(dept):
 def sync_department(department_obj, myrequest, authorization):
     '''
     sync department with odoo and return the list
-    '''
+    
     sDepartment = []
     # sync data from Weladee to odoo if department don't have odoo id
     for dept in stub.GetDepartments(myrequest, metadata=authorization):
@@ -170,9 +171,10 @@ def sync_department(department_obj, myrequest, authorization):
                     except Exception as e:
                         print("Add department failed",e)
     return  sDepartment
-
+    '''
 
 def sync_employee(job_line_obj, employee_line_obj, country, authorization):
+    '''
     #check code Weladee on odoo
     for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
         if emp :
@@ -189,7 +191,7 @@ def sync_employee(job_line_obj, employee_line_obj, country, authorization):
                                     print("Error when load image : ",e)
                                 
                             data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
-                                    ,"identification_id" :(emp.employee.code or "" )
+                                    ,"employee_code" :(emp.employee.code or "" )
                                     ,"notes": ( emp.employee.note or "" )
                                     ,"weladee_profile" : "https://www.weladee.com/employee/" + str(emp.employee.ID)
                                     ,"work_email":( emp.employee.email or "" )
@@ -216,7 +218,7 @@ def sync_employee(job_line_obj, employee_line_obj, country, authorization):
                                 data["hasToFillTimesheet"] = True
 
                             if emp.employee.passportNumber :
-                                data["passportNumber"] = emp.employee.passportNumber
+                                data["passport_id"] = emp.employee.passportNumber
                             if emp.employee.taxID :
                                 data["taxID"] = emp.employee.taxID
                             if emp.employee.nationalID :
@@ -356,7 +358,7 @@ def sync_employee(job_line_obj, employee_line_obj, country, authorization):
                                         print("Error when load image : ",e)
 
                                 data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
-                                    ,"identification_id" :(emp.employee.code or "" )
+                                    ,"employee_code" :(emp.employee.code or "" )
                                     ,"notes": ( emp.employee.note or "" )
                                     ,"weladee_profile" : "https://www.weladee.com/employee/" + str(emp.employee.ID)
                                     ,"work_email":( emp.employee.email or "" )
@@ -384,7 +386,7 @@ def sync_employee(job_line_obj, employee_line_obj, country, authorization):
                                     data["hasToFillTimesheet"] = True
 
                                 if emp.employee.passportNumber :
-                                    data["passportNumber"] = emp.employee.passportNumber
+                                    data["passport_id"] = emp.employee.passportNumber
                                 if emp.employee.taxID :
                                     data["taxID"] = emp.employee.taxID
                                 if emp.employee.nationalID :
@@ -540,8 +542,12 @@ def sync_employee(job_line_obj, employee_line_obj, country, authorization):
                         print ("Weladee id : %s" % result.id)
                     except Exception as e:
                         print("Add employee failed",e)
+    '''
+    pass
 
 def sync_manager(employee_line_obj, managers, authorization):
+    pass
+    '''
     lines = employee_line_obj.search([("active","=",False) or ("active","=",True)])
     for e in lines :
         if e.id :
@@ -659,7 +665,7 @@ if True :
                                                 print ("Created Company holiday" )
                                             except Exception as ee :
                                                 print("Error when Create Company holiday : ",ee)
-        
+'''
 
 class weladee_attendance(models.TransientModel):
     _name="weladee_attendance.synchronous"
@@ -669,53 +675,17 @@ class weladee_attendance(models.TransientModel):
     def synchronousBtn(self):
         _logger.info("Start sync..")
         authorization, holiday_status_id = weladee_employee.get_api_key(self)
-        
+                
         if not holiday_status_id or not authorization :
             raise exceptions.UserError('Must to be set Leave Type on Weladee setting')
         else:
-            #print( "Authorization : %s" % authorization )
+
             _logger.info("Start sync...")
-            #List all position
+
             _logger.info("Start sync...Positions")
-            job_line_obj = self.env['hr.job']
+            job_line_obj = self.env['hr.job']    
             sync_position(job_line_obj, myrequest, authorization)
-            _logger.info("------------------------------")
-                
-            # List all departments
-            _logger.info("Start sync...Departments")
-            department_obj = self.env['hr.department']
-            sDepartment = sync_department(department_obj, myrequest, authorization)
-            _logger.info("------------------------------")
 
-            # List of employees
-            print("Employees")
-            sEmployees = {}
-            wEidTooEid = {}
-            country = {}
-            managers = {}
-
-            country_line_obj = self.env['res.country']
-            country_line_ids = country_line_obj.search([])
-            for cu in country_line_ids:
-                if cu.name :
-                    country[ cu.name.lower() ] = cu.id
-
-            _logger.info("Start sync...Employee")
-            sync_employee()    
-            _logger.info("------------------------------")
-
-            # Update manager
-            _logger.info("Start sync...Managers")
-            print( managers )
-            sync_manager()
-            _logger.info("------------------------------")
-
-            # List of Attendances
-            _logger.info("Start sync...Attendances")            
-            self.manageAttendance( wEidTooEid, authorization )
-            _logger.info("------------------------------")
-            _logger.info("Finish")
-            _logger.info("------------------------------")
 
     def generators(self, iteratorAttendance):
           for i in iteratorAttendance :
