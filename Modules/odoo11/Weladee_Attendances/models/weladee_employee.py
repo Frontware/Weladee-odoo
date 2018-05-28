@@ -21,6 +21,8 @@
 ##############################################################################
 import grpc
 import logging
+_logger = logging.getLogger(__name__)
+
 import base64
 import requests
 import time
@@ -42,333 +44,327 @@ channel = grpc.secure_channel(weladee_grpc.weladee_address, creds)
 stub = odoo_pb2_grpc.OdooStub(channel)
 myrequest = weladee_pb2.EmployeeRequest()
 
+def get_api_key(self):
+  '''
+  get api key from settings
+
+  '''
+  line_obj = self.env['weladee_attendance.synchronous.setting']
+  line_ids = line_obj.search([])
+  authorization = False
+  holiday_status_id = False
+
+  for sId in line_ids:
+      dataSet = line_obj.browse(sId.id)
+      if dataSet.api_key :
+          authorization = [("authorization", dataSet.api_key)]
+      if dataSet.holiday_status_id :
+          holiday_status_id = dataSet.holiday_status_id
+  return authorization, holiday_status_id
+
 class weladee_employee(models.Model):
   _description="synchronous Employee to weladee"
   _inherit = 'hr.employee'
 
-  weladee_profile = fields.Char(string="Weladee Url",default="")
-  work_email = fields.Char(string="Work Email", required=True)
-  job_id = fields.Many2one('hr.job',string="Job Title", required=True)
-  identification_id = fields.Char(string="Identification No", required=True)
-  weladee_id = fields.Char(string="Weladee ID")
-  country_id = fields.Many2one('res.country',string="Nationality (Country)", required=True)
+  #contact info
+  work_email = fields.Char(required=True)
+
+  #position
+  job_id = fields.Many2one(required=True)
+
+  #citizenship
+  country_id = fields.Many2one(string="Nationality (Country)", required=True)
+  identification_id = fields.Char(required=True)
+  taxID = fields.Char(string="TaxID")
+  nationalID = fields.Char(string="NationalID")
+  
+  #main
   first_name_english = fields.Char(string="English First Name")
   last_name_english = fields.Char(string="English Last Name")
   first_name_thai = fields.Char(string="Thai First Name")
   last_name_thai = fields.Char(string="Thai Last Name")
   nick_name_english = fields.Char(string="English Nick Name")
   nick_name_thai = fields.Char(string="Thai Nick Name")
+
+  #weladee link
+  weladee_profile = fields.Char(string="Weladee Url",default="")
+  weladee_id = fields.Char(string="Weladee ID")
   receive_check_notification = fields.Boolean(string="Receive Check Notification")
   can_request_holiday = fields.Boolean(string="Can Request Holiday")
   active_employee = fields.Boolean(string="Active Employee")
   hasToFillTimesheet = fields.Boolean(string="Has To Fill Timesheet")
-  passportNumber = fields.Char(string="Passport Number")
-  taxID = fields.Char(string="TaxID")
-  nationalID = fields.Char(string="NationalID")
-  
 
-  def get_api_key(self):
-    line_obj = self.env['weladee_attendance.synchronous.setting']
-    line_ids = line_obj.search([])
-    authorization = False
-
-    for sId in line_ids:
-        dataSet = line_obj.browse(sId.id)
-        if dataSet.api_key :
-            authorization = [("authorization", dataSet.api_key)]
-    return authorization
+  #other 
+  employee_code = fields.Char(string='Employee Code')
 
   @api.model
   def create(self, vals):
-    eid = super(weladee_employee,self).create(vals)
+      '''
+      create employee (to sync back to weladee)
 
-    if not "weladee_id" in vals:
-      authorization = False
-      authorization = self.get_api_key()
-      #print("API : %s" % authorization)
-      if authorization :
-        if True :
+      remarks:
+      2018-05-28 KPO clean up
+      '''
+      eid = super(weladee_employee,self).create(vals)
 
-            newEmployee = odoo_pb2.EmployeeOdoo()
-            newEmployee.odoo.odoo_id = eid.id
-            newEmployee.odoo.odoo_created_on = int(time.time())
-            newEmployee.odoo.odoo_synced_on = int(time.time())
+      if not "weladee_id" in vals:
+         _logger.info("Create new request to weladee...")
+         authorization, _ = get_api_key(self)
+         if not authorization :
+            _logger.error("Your Odoo is not authroize to use weladee")
+
+         else:  
+
+            WeladeeData = odoo_pb2.EmployeeOdoo()
+            WeladeeData.odoo.odoo_id = eid.id
+            WeladeeData.odoo.odoo_created_on = int(time.time())
+            WeladeeData.odoo.odoo_synced_on = int(time.time())
 
             if "first_name_english" in vals :
-              newEmployee.employee.first_name_english = vals["first_name_english"]
+              WeladeeData.employee.first_name_english = vals["first_name_english"] or ''
             if "last_name_english" in vals :
-              newEmployee.employee.last_name_english = vals["last_name_english"]
+              WeladeeData.employee.last_name_english = vals["last_name_english"] or ''
 
+            # default from name
             if not "first_name_english" in vals and not "last_name_english" in vals :
-              newEmployee.employee.first_name_english = ( vals["name"] ).split(" ")[0]
-              if len( ( vals["name"] ).split(" ") ) > 1 :
-                newEmployee.employee.last_name_english = ( vals["name"] ).split(" ")[1]
-              else :
-                newEmployee.employee.last_name_english = " "
+               if vals["name"]:
+                  WeladeeData.employee.first_name_english = ( vals["name"] ).split(" ")[0]
+                  if len( ( vals["name"] ).split(" ") ) > 1 :
+                    WeladeeData.employee.last_name_english = ( vals["name"] ).split(" ")[1]
+                  else :
+                    WeladeeData.employee.last_name_english = " "
 
             if "first_name_thai" in vals :
-              newEmployee.employee.first_name_thai = vals["first_name_thai"]
+              WeladeeData.employee.first_name_thai = vals["first_name_thai"] or ''
             if "last_name_thai" in vals :
-              newEmployee.employee.last_name_thai = vals["last_name_thai"]
+              WeladeeData.employee.last_name_thai = vals["last_name_thai"] or ''
 
             if "nick_name_english" in vals :
-              newEmployee.employee.nickname_english = vals["nick_name_english"]
+              WeladeeData.employee.nickname_english = vals["nick_name_english"] or ''
             if "nick_name_thai" in vals :
-              newEmployee.employee.nickname_thai = vals["nick_name_thai"]
+              WeladeeData.employee.nickname_thai = vals["nick_name_thai"] or ''
 
-            if "identification_id" in vals :
-              newEmployee.employee.code = vals["identification_id"]
+            #2018-05-28 KPO change to employee_code
+            if "employee_code" in vals :
+              WeladeeData.employee.code = vals["employee_code"] or ''
 
             if vals["country_id"] :
               c_line_obj = self.env['res.country']
               cdata = c_line_obj.browse( vals["country_id"] )
               if cdata :
                 if cdata.name :
-                  newEmployee.employee.Nationality = cdata.name
+                  WeladeeData.employee.Nationality = cdata.name
 
             if vals["notes"] :
-              newEmployee.employee.note = vals["notes"]
+              WeladeeData.employee.note = vals["notes"] or ''
 
             if vals["work_email"] :
-              newEmployee.employee.email = vals["work_email"]
+              WeladeeData.employee.email = vals["work_email"] or ''
             
             if "parent_id" in vals :
               manager = self.env['hr.employee'].browse( vals["parent_id"] )
               if manager :
-                newEmployee.employee.managerID = int(manager.weladee_id)
+                WeladeeData.employee.managerID = int(manager.weladee_id)
 
             if vals["job_id"] :
               positionData = self.env['hr.job'].browse( vals["job_id"] )
               if positionData :
                 if positionData.weladee_id :
-                  newEmployee.employee.positionid = int(positionData.weladee_id)
+                  WeladeeData.employee.positionid = int(positionData.weladee_id)
 
-            newEmployee.employee.lg = "en"
-            newEmployee.employee.active = vals["active"]
-            newEmployee.employee.receiveCheckNotification = vals["receive_check_notification"]
-            newEmployee.employee.canRequestHoliday = vals["can_request_holiday"]
-            newEmployee.employee.hasToFillTimesheet = vals["hasToFillTimesheet"]
+            #language not sync yet
+            WeladeeData.employee.lg = "en"
+            WeladeeData.employee.active_employee = vals["active_employee"]
+            WeladeeData.employee.receiveCheckNotification = vals["receive_check_notification"]
+            WeladeeData.employee.canRequestHoliday = vals["can_request_holiday"]
+            WeladeeData.employee.hasToFillTimesheet = vals["hasToFillTimesheet"]
 
-            if vals["passportNumber"] :
-              newEmployee.employee.passportNumber = vals["passportNumber"]
+            #2018-05-28 KPO use field from odoo
+            if vals["passport_id"] :
+              WeladeeData.employee.passportNumber = vals["passport_id"] or ''
 
             if vals["taxID"] :
-              newEmployee.employee.taxID = vals["taxID"]
+              WeladeeData.employee.taxID = vals["taxID"] or ''
             
             if vals["nationalID"] :
-              newEmployee.employee.email = vals["nationalID"]
-
-
-            print(newEmployee)
+              WeladeeData.employee.nationalID = vals["nationalID"] or ''
 
             try:
-              result = stub.AddEmployee(newEmployee, metadata=authorization)
-              print ("Weladee id : %s" % result.id)
-              eid.write( {"weladee_id" : str(result.id) ,"weladee_profile" : "https://www.weladee.com/employee/" + str(result.id)  } )              
+              result = stub.AddEmployee(WeladeeData, metadata=authorization)
+              print ("New Weladee id : %s" % result.id)
+              eid.write( {"weladee_id" : str(result.id), "weladee_profile" : "https://www.weladee.com/employee/" + str(result.id)  } )              
+              _logger.info("Created new employee in weladee: %s" % result.id)
             except Exception as e:
-              print("Add employee failed",e)
+              print("Add employee failed", e)
+              _logger.error("Error while add employee to weladee: %s" % e)
 
-    return eid
+      return eid
 
   def write(self, vals):
-    authorization = False
-    authorization = self.get_api_key()
-    #print("API : %s" % authorization)
-    if not "weladee_id" in vals:
-      if authorization :
-        if True :
-          print("----------")
+      '''
+      update employee (to sync back to weladee)
 
-          oldData = self.env['hr.employee'].browse( self.id )
-          WeladeeData = False
-          odooRequest = odoo_pb2.OdooRequest()
-          odooRequest.odoo_id = int(self.id)
-          for emp in stub.GetEmployees(odooRequest, metadata=authorization):
-            print("----------")
+      remarks:
+      2018-05-28 KPO clean up
+      '''
+
+      #get record from weladee
+      WeladeeData = odoo_pb2.EmployeeOdoo()
+      authorization, _ = get_api_key(self)
+      if not authorization :
+         _logger.error("Your Odoo is not authroize to use weladee")
+      else:
+        odooRequest = odoo_pb2.OdooRequest()
+        odooRequest.odoo_id = int(self.id)
+        for emp in stub.GetEmployees(odooRequest, metadata=authorization):
+            
+            #print("----------")
             if emp :
-              if emp.employee :
-                  print( emp )
+                if emp.employee :
                   if str(emp.employee.ID) == self.weladee_id :
-                    WeladeeData = emp.employee
-                    
-          if WeladeeData :
-            newEmployee = odoo_pb2.EmployeeOdoo()
-            newEmployee.odoo.odoo_id = self.id
-            newEmployee.odoo.odoo_created_on = int(time.time())
-            newEmployee.odoo.odoo_synced_on = int(time.time())
+                      WeladeeData = emp.employee
+
+        #sync data
+        #if has in input, take it
+        #else if has in object, take it
+        #else use from grpc
+        if WeladeeData :
+
+          #record to send grpc  
+          WeladeeData.odoo.odoo_id = self.id
+          WeladeeData.odoo.odoo_created_on = int(time.time())
+          WeladeeData.odoo.odoo_synced_on = int(time.time())
+          
+          if "first_name_english" in vals :
+            WeladeeData.employee.first_name_english = vals["first_name_english"] or ''
+          else:
+            WeladeeData.employee.first_name_english = self.first_name_english or ''
+
+          if "last_name_english" in vals :
+            WeladeeData.employee.last_name_english = vals["last_name_english"] or ''
+          else:
+            WeladeeData.employee.first_name_english = self.last_name_english or ''
+
+          if "first_name_thai" in vals :
+            WeladeeData.employee.first_name_thai = vals["first_name_thai"] or ''
+          else:
+            WeladeeData.employee.first_name_thai = self.first_name_thai or ''
+
+          if "last_name_thai" in vals :
+            WeladeeData.employee.last_name_thai = vals["last_name_thai"] or ''
+          else:
+            WeladeeData.employee.last_name_thai = self.last_name_thai or ''
+
+          if "nick_name_english" in vals :
+            WeladeeData.employee.nickname_english = vals["nick_name_english"] or ''
+          else:
+            WeladeeData.employee.nickname_english = self.nick_name_english or ''
+
+          if "nick_name_thai" in vals :
+            WeladeeData.employee.nickname_thai = vals["nick_name_thai"] or ''
+          else:
+            WeladeeData.employee.nickname_thai = self.nick_name_thai or ''
+
+          if "active_employee" in vals :
+            WeladeeData.employee.active = vals["active_employee"]
+          else:
+            WeladeeData.employee.active = self.active_employee
+
+          #print(vals)
+          if "receive_check_notification" in vals :
+            WeladeeData.employee.receiveCheckNotification = vals["receive_check_notification"]
+          else :
+            WeladeeData.employee.receiveCheckNotification = self.receive_check_notification
+
+          if "can_request_holiday" in vals :
+            WeladeeData.employee.canRequestHoliday = vals["can_request_holiday"]
+          else :
+            WeladeeData.employee.canRequestHoliday = self.can_request_holiday
+
+          if "hasToFillTimesheet" in vals :
+            WeladeeData.employee.hasToFillTimesheet = vals["hasToFillTimesheet"]
+          else :
+            WeladeeData.employee.hasToFillTimesheet = self.hasToFillTimesheet
+
+          #2018-05-28 KPO use passport_id from odoo
+          if "passport_id" in vals :
+            WeladeeData.employee.passportNumber = vals["passport_id"] or ''
+          else :
+            WeladeeData.employee.passportNumber = self.passport_id or ''
+
+          if "taxID" in vals :
+            WeladeeData.employee.taxID = vals["taxID"] or ''
+          else :
+            WeladeeData.employee.taxID = self.taxID or ''
+
+          if "nationalID" in vals :
+            WeladeeData.employee.nationalID = vals["nationalID"] or ''
+          else :
+            WeladeeData.employee.nationalID = self.nationalID or ''
+          
+          #2018-05-28 KPO use employee_code
+          if "employee_code" in vals :
+            WeladeeData.employee.code = vals["employee_code"] or ''
+          else:
+            WeladeeData.employee.code = self.employee_code or ''
             
-            if "first_name_english" in vals :
-              newEmployee.employee.first_name_english = vals["first_name_english"]
-            elif self.first_name_english :
-              newEmployee.employee.first_name_english = self.first_name_english
-            else :
-              newEmployee.employee.first_name_english = WeladeeData.first_name_english
+          if "notes" in vals :
+            WeladeeData.employee.note = vals["notes"] or ''
+          else:
+            WeladeeData.employee.note = self.notes or ''
 
-            if "last_name_english" in vals :
-              newEmployee.employee.last_name_english = vals["last_name_english"]
-            elif self.last_name_english :
-              newEmployee.employee.first_name_english = self.last_name_english
-            else :
-              newEmployee.employee.last_name_english = WeladeeData.last_name_english
+          if "parent_id" in vals :
+            manager = self.env['hr.employee'].browse( vals["parent_id"] )
+            if manager :
+              WeladeeData.employee.managerID = int(manager.weladee_id)
+          else : 
+              if self.parent_id:
+                 WeladeeData.employee.managerID = self.parent_id.weladee_id
 
-            if "first_name_thai" in vals :
-              newEmployee.employee.first_name_thai = vals["first_name_thai"]
-            elif self.first_name_thai :
-              newEmployee.employee.first_name_thai = self.first_name_thai
-            else :
-              newEmployee.employee.first_name_thai = WeladeeData.first_name_thai
+          if "work_email" in vals :
+            WeladeeData.employee.email = vals["work_email"] or ''
+          else:
+            WeladeeData.employee.email = self.work_email or ''
 
-            if "last_name_thai" in vals :
-              newEmployee.employee.last_name_thai = vals["last_name_thai"]
-            elif self.last_name_thai :
-              newEmployee.employee.last_name_thai = self.last_name_thai
-            else :
-              newEmployee.employee.last_name_thai = WeladeeData.last_name_thai
+          if "job_id" in vals :
+            positionData = self.env['hr.job'].browse( vals["job_id"] )
+            if positionData :
+              if positionData.weladee_id :
+                WeladeeData.employee.positionid = int(positionData.weladee_id)
+          else :
+            if self.job_id:
+              WeladeeData.employee.positionid = self.job_id.weladee_id
 
-            if "nick_name_english" in vals :
-              newEmployee.employee.nickname_english = vals["nick_name_english"]
-            elif self.nick_name_english :
-              newEmployee.employee.nickname_english = self.nick_name_english
-            else :
-              newEmployee.employee.nickname_english = WeladeeData.nickname_english
+      is_has_weladee = (self.weladee_id or '') != ""
+      if "weladee_id" in vals:
+         is_has_weladee = True
 
-            if "nick_name_thai" in vals :
-              newEmployee.employee.nickname_thai = vals["nick_name_thai"]
-            elif self.nick_name_thai :
-              newEmployee.employee.nickname_thai = self.nick_name_thai
-            else :
-              newEmployee.employee.nickname_thai = WeladeeData.nickname_thai
+      print(self.weladee_id)
+      print(vals)
+      #update data in odoo
+      ret = super(weladee_employee, self).write( vals )
+      
+      if not is_has_weladee:
+          WeladeeData.employee.lg = "en"          
+          try:         
+            result = stub.AddEmployee(WeladeeData, metadata=authorization)
+            print ("New Weladee id : %s" % result.id)
+            ret.write( {"weladee_id" : str(result.id), "weladee_profile" : "https://www.weladee.com/employee/" + str(result.id)  } )              
+            _logger.info("Created new employee in weladee: %s" % result.id)
+          except Exception as e:
+            print("Add employee failed", e)
+            _logger.error("Error while add employee to weladee: %s" % e)
+      else:
+          #send to grpc      
+          try:
+            wid = stub.UpdateEmployee(WeladeeData, metadata=authorization)
+            print ("Updated Weladee Employee %s" % wid )
+            _logger.info("Updated Weladee Employee: %s" % wid)
+          except Exception as e:
+            print("Update Weladee employee failed ",e)
+            _logger.error("Failed update Weladee Employee: %s %s" % (self.weladee_id, e))
 
-            if "active" in vals :
-              newEmployee.employee.active = vals["active"]
-            else :
-             newEmployee.employee.active = self.active or WeladeeData.active
-
-            print(vals)
-            if "receive_check_notification" in vals :
-               newEmployee.employee.receiveCheckNotification = vals["receive_check_notification"]
-            else :
-              newEmployee.employee.receiveCheckNotification = self.receive_check_notification or WeladeeData.receiveCheckNotification
-
-            if "can_request_holiday" in vals :
-              newEmployee.employee.canRequestHoliday = vals["can_request_holiday"]
-            else :
-              newEmployee.employee.canRequestHoliday = self.can_request_holiday or WeladeeData.canRequestHoliday
-
-            if "hasToFillTimesheet" in vals :
-              newEmployee.employee.hasToFillTimesheet = vals["hasToFillTimesheet"]
-            else :
-              newEmployee.employee.hasToFillTimesheet = self.hasToFillTimesheet or WeladeeData.hasToFillTimesheet
-
-            if "passportNumber" in vals :
-              newEmployee.employee.passportNumber = vals["passportNumber"]
-            else :
-              newEmployee.employee.passportNumber = self.passportNumber or WeladeeData.passportNumber
-
-            if "taxID" in vals :
-              newEmployee.employee.taxID = vals["taxID"]
-            else :
-              newEmployee.employee.taxID = self.taxID or WeladeeData.taxID
-
-            if "nationalID" in vals :
-              newEmployee.employee.nationalID = vals["nationalID"]
-            else :
-              newEmployee.employee.nationalID = self.nationalID or WeladeeData.nationalID
-            
-
-            if "identification_id" in vals :
-              newEmployee.employee.code = vals["identification_id"]
-            elif self.identification_id :
-              newEmployee.employee.code = self.identification_id
-            else :
-              newEmployee.employee.code = WeladeeData.code
-              
-            if "notes" in vals :
-              newEmployee.employee.note = vals["notes"]
-            elif self.notes :
-              newEmployee.employee.note = self.notes
-            else :
-              newEmployee.employee.note = WeladeeData.note
-
-            if "parent_id" in vals :
-              manager = self.env['hr.employee'].browse( vals["parent_id"] )
-              if manager :
-                newEmployee.employee.managerID = int(manager.weladee_id)
-              else :
-                newEmployee.employee.managerID = WeladeeData.managerID
-            else : 
-              newEmployee.employee.managerID = WeladeeData.managerID
-
-
-            if "work_email" in vals :
-              newEmployee.employee.email = vals["work_email"]
-            elif self.work_email :
-              newEmployee.employee.email = self.work_email
-            else :
-              newEmployee.employee.email = WeladeeData.email
-
-            if "job_id" in vals :
-              positionData = self.env['hr.job'].browse( vals["job_id"] )
-              if positionData :
-                if positionData.weladee_id :
-                  newEmployee.employee.positionid = int(positionData.weladee_id)
-                else :
-                  newEmployee.employee.positionid = WeladeeData.positionid
-              else :
-                  newEmployee.employee.positionid = WeladeeData.positionid
-            else :
-              newEmployee.employee.positionid = WeladeeData.positionid
-
-            if WeladeeData.ID :
-              newEmployee.employee.ID = WeladeeData.ID
-            if WeladeeData.user_name :
-              newEmployee.employee.user_name = WeladeeData.user_name
-            if WeladeeData.lineID :
-              newEmployee.employee.lineID = WeladeeData.lineID
-            if WeladeeData.FCMtoken :
-              newEmployee.employee.FCMtoken = WeladeeData.FCMtoken
-            if WeladeeData.phone_model :
-              newEmployee.employee.phone_model = WeladeeData.phone_model
-            if WeladeeData.phone_serial :
-              newEmployee.employee.phone_serial = WeladeeData.phone_serial
-            if WeladeeData.created_by :
-              newEmployee.employee.created_by = WeladeeData.created_by
-            if WeladeeData.updated_by :
-              newEmployee.employee.updated_by = WeladeeData.updated_by
-            if WeladeeData.photo :
-              newEmployee.employee.photo = WeladeeData.photo
-            if WeladeeData.lg :
-              newEmployee.employee.lg = WeladeeData.lg
-            if WeladeeData.application_level :
-              newEmployee.employee.application_level = WeladeeData.application_level
-            if WeladeeData.Phones :
-              newEmployee.employee.Phones = WeladeeData.Phones
-            if WeladeeData.rfid :
-              newEmployee.employee.rfid = WeladeeData.rfid
-            if WeladeeData.EmailValidated :
-              newEmployee.employee.EmailValidated = WeladeeData.EmailValidated
-            if WeladeeData.teamid :
-              newEmployee.employee.teamid = WeladeeData.teamid
-            if WeladeeData.gender :
-              newEmployee.employee.gender = WeladeeData.gender
-            if WeladeeData.token :
-                newEmployee.employee.token = WeladeeData.token
-            if WeladeeData.CanCheckTeamMember :
-                newEmployee.employee.CanCheckTeamMember = WeladeeData.CanCheckTeamMember
-            if WeladeeData.QRCode :
-                newEmployee.employee.QRCode = WeladeeData.QRCode
-            if WeladeeData.Nationality :
-                newEmployee.employee.Nationality = WeladeeData.Nationality
-
-            print(newEmployee)
-
-            try:
-              wid = stub.UpdateEmployee(newEmployee, metadata=authorization)
-              print ("Updated Weladee Employee" )
-            except Exception as e:
-              print("Update employee failed",e)
-
-    return super(weladee_employee, self).write( vals )
+      return ret
   
   def open_weladee_employee(self):
     if self.weladee_profile :
@@ -402,8 +398,7 @@ class weladee_job(models.Model):
     
     if not "weladee_id" in vals:
 
-      authorization = False
-      authorization = self.get_api_key()
+      authorization = get_api_key(self)
       #print("API : %s" % authorization)
       if authorization :
         if True :
@@ -435,8 +430,7 @@ class weladee_job(models.Model):
 
   def write(self, vals):
     pid = super(weladee_job, self).write( vals )
-    authorization = False
-    authorization = self.get_api_key()
+    authorization = get_api_key(self)
     #print("API : %s" % authorization)
     if not "weladee_id" in vals :
       if authorization :
@@ -490,7 +484,7 @@ class weladee_department(models.Model):
     dId = super(weladee_department,self).create( vals )
     if not "weladee_id" in vals:
       authorization = False
-      authorization = self.get_api_key()
+      authorization = get_api_key(self)
       #print("API : %s" % authorization)
       if authorization :
         if True :
@@ -512,7 +506,7 @@ class weladee_department(models.Model):
   def write(self, vals ):
     oldData = self.env['hr.department'].browse( self.id )
     authorization = False
-    authorization = self.get_api_key()
+    authorization = self.get_api_key(self)
     #print("API : %s" % authorization)
     if not "weladee_id" in vals :
       
@@ -572,8 +566,7 @@ class weladee_holidays(models.Model):
   @api.multi
   def action_validate( self ):
     mainHol = False
-    authorization = False
-    authorization = self.get_api_key()
+    authorization = get_api_key(self)
     #print("API : %s" % authorization)
     if authorization :
       if True :

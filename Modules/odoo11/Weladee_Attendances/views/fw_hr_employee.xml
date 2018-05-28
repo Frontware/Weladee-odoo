@@ -11,8 +11,9 @@ remarks:
             <field name="name">hr_employee_weladee_profile</field>
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form"/>
-            <field name="arch" type="xml">
+            <field name="arch" type="xml">                
                <xpath expr="//field[@name='show_leaves']" position="after">
+                   <field name="weladee_profile" invisible="1" /> 
                    <button 
                         icon="icon-weladee"
                         name="open_weladee_employee" 
@@ -23,16 +24,7 @@ remarks:
                         attrs="{'invisible':[('weladee_profile','=',False)]}"
                     />  
                 </xpath>
-                <xpath expr="//field[@name='address_id']" position="before">
-                    <field name="active_employee"/>
-                    <field name="weladee_profile" widget="url" readonly="1"/>
-                </xpath>
-                <xpath expr="//field[@name='department_id']" position="before">
-                    <field name="receive_check_notification"/>
-                    <field name="can_request_holiday" />
-                    <field name="hasToFillTimesheet" />
-                </xpath>
-                
+
                 <xpath expr="//field[@name='category_ids']" position="after">
                     <group>
                         <group>
@@ -47,11 +39,38 @@ remarks:
                         </group>
                     </group>
                 </xpath>
+                
+                <xpath expr="//field[@name='resource_calendar_id']//.." position="after">
+                    <group string="Other">
+                        <field name="employee_code"/>
+                    </group>                        
+                </xpath>   
 
-                <xpath expr="//field[@name='work_phone']" position="after">
-                    <field name="passportNumber"/>
-                    <field name="taxID"/>
+                <xpath expr="//notebook[last()]" position="inside">
+                    <page string="Weladee">
+                        <group>
+                            <group string="Attendance">
+                                <field name="active_employee" />
+                                <field name="receive_check_notification" />
+                            </group>                        
+                            <group string="Holiday">
+                                <field name="can_request_holiday" />
+                            </group>                        
+                        </group>                        
+                        <group>
+                            <group string="Timesheet">
+                                <field name="hasToFillTimesheet" />
+                            </group>
+                        </group>                        
+                    </page>
+                </xpath>   
+
+                <xpath expr="//field[@name='country_id']" position="after">
                     <field name="nationalID"/>
+                </xpath>
+
+                <xpath expr="//field[@name='identification_id']" position="after">
+                    <field name="taxID"/>
                 </xpath>
                 
             </field>
