@@ -23,9 +23,14 @@
 "version" : "4.02",
 "author" : "Frontware International",
 "category" : "Generic Modules",
-"depends" : ['base', 'hr_attendance', 'hr', 'hr_holidays'],
-"data" :["weladee_attendance.xml",
+'summary': 'Weladee-Odoo attendances\'s module',
+"depends" : ['base', 'hr', 'hr_attendance', 'hr_holidays', 'hr_timesheet'],
+"data" :["security/security.xml",
+         "security/ir.model.access.csv",    
+         "views/weladee_attendance_settings.xml",
+         "views/weladee_attendance.xml",
          "views/asset_Weladee_Attendances.xml",
+         "views/fw_hr_timesheet.xml",
          "views/fw_hr_attendances.xml",
          "views/fw_holiday.xml",
          "views/fw_hr_employee.xml"],
@@ -33,7 +38,8 @@
 "active" : False,
 "website" : "https://www.weladee.com/",
 "description":"""
-
+Weladee attendances module
+==========================
 Module to manage synchronous Employee, Department, Holiday and attendances.
 
 It will synchronus employee, department, position, holidays and import attendances to odoo.
@@ -55,10 +61,12 @@ change log:
                 
 requirement:
 ------------------------------------
-* none
+* grpcio
+
+  pip3 install grpcio  
                 
 note:
 ------------------------------------
-* none                
+* you must have weladee's account to use this module.
 """
 }
