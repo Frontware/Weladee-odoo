@@ -50,7 +50,6 @@ remarks:
                     <page string="Weladee">
                         <group>
                             <group string="Attendance">
-                                <field name="active_employee" />
                                 <field name="receive_check_notification" />
                             </group>                        
                             <group string="Holiday">

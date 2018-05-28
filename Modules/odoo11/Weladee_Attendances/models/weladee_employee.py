@@ -92,7 +92,6 @@ class weladee_employee(models.Model):
   weladee_id = fields.Char(string="Weladee ID")
   receive_check_notification = fields.Boolean(string="Receive Check Notification")
   can_request_holiday = fields.Boolean(string="Can Request Holiday")
-  active_employee = fields.Boolean(string="Active Employee")
   hasToFillTimesheet = fields.Boolean(string="Has To Fill Timesheet")
 
   #other 

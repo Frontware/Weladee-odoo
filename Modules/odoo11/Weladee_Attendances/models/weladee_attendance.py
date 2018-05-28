@@ -199,7 +199,7 @@ def sync_employee_data(emp, job_obj, department_obj, country):
             for ddatas in dep_datas :
                 data[ "department_id" ] = ddatas.id
     '''
-    
+
     if photoBase64:
         data["image"] = photoBase64
 
@@ -248,7 +248,8 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization)
             newEmployee.employee.email = odoo_emp_id.work_email or ''
             newEmployee.employee.note = odoo_emp_id.notes or ''
             newEmployee.employee.lg = "en"
-            #newEmployee.employee.active = False            
+            newEmployee.employee.active = odoo_emp_id.active
+
             if odoo_emp_id.job_id and odoo_emp_id.job_id.weladee_id:
                 newEmployee.employee.positionid = int(odoo_emp_id.job_id.weladee_id or '0')
 
