@@ -152,377 +152,114 @@ def sync_department(department_obj, myrequest, authorization):
 
     return  sDepartment
 
-def sync_employee(job_line_obj, employee_line_obj, country, authorization):
+def sync_employee_data(emp, job_obj, department_obj, country):
+    
+    photoBase64 = ''
+    if emp.employee.photo:
+        try :
+            photoBase64 = base64.b64encode(requests.get(emp.employee.photo).content)
+        except Exception as e:
+            _logger.error("Error when load image : %s" % e)
+        
+    data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
+            ,"employee_code" :(emp.employee.code or "" )
+            ,"notes": ( emp.employee.note or "" )
+            ,"weladee_profile" : "https://www.weladee.com/employee/" + str(emp.employee.ID)
+            ,"work_email":( emp.employee.email or "" )
+            ,"first_name_english":emp.employee.first_name_english
+            ,"last_name_english":emp.employee.last_name_english
+            ,"first_name_thai":emp.employee.first_name_thai
+            ,"last_name_thai":emp.employee.last_name_thai
+            ,"nick_name_english":emp.employee.nickname_english
+            ,"nick_name_thai":emp.employee.nickname_thai
+            ,"active": emp.employee.active
+            ,"receive_check_notification": emp.employee.receiveCheckNotification
+            ,"can_request_holiday": emp.employee.canRequestHoliday
+            ,"hasToFillTimesheet": emp.employee.hasToFillTimesheet
+            ,"weladee_id":emp.employee.ID
+            }
+    
+    if emp.employee.passportNumber :
+        data["passport_id"] = emp.employee.passportNumber
+    if emp.employee.taxID :
+        data["taxID"] = emp.employee.taxID
+    if emp.employee.nationalID :
+        data["nationalID"] = emp.employee.nationalID
+        
+    if emp.employee.positionid :
+        job_datas = job_obj.search( [ ("weladee_id","=", emp.employee.positionid ) ] )
+        if job_datas :
+            for jdatas in job_datas :
+                data[ "job_id" ] = jdatas.id
+    
     '''
-    #check code Weladee on odoo
-    for emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
-        if emp :
-            if emp.odoo :
-                if not emp.odoo.odoo_id :
-                    print("------------------------------")
-                    if emp.employee:
-                        if emp.employee.ID:
-                            photoBase64 = ''
-                            if emp.employee.photo:
-                                try :
-                                    photoBase64 = base64.b64encode(requests.get(emp.employee.photo).content)
-                                except Exception as e:
-                                    print("Error when load image : ",e)
-                                
-                            data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
-                                    ,"employee_code" :(emp.employee.code or "" )
-                                    ,"notes": ( emp.employee.note or "" )
-                                    ,"weladee_profile" : "https://www.weladee.com/employee/" + str(emp.employee.ID)
-                                    ,"work_email":( emp.employee.email or "" )
-                                    ,"first_name_english":emp.employee.first_name_english
-                                    ,"last_name_english":emp.employee.last_name_english
-                                    ,"first_name_thai":emp.employee.first_name_thai
-                                    ,"last_name_thai":emp.employee.last_name_thai
-                                    ,"nick_name_english":emp.employee.nickname_english
-                                    ,"nick_name_thai":emp.employee.nickname_thai
-                                    ,"active": False
-                                    ,"receive_check_notification": False
-                                    ,"can_request_holiday": False
-                                    ,"hasToFillTimesheet": False
-                                    ,"weladee_id":emp.employee.ID
-                                    }
-                            
-                            if emp.employee.active :
-                                data["active"] = True
-                            if emp.employee.receiveCheckNotification :
-                                data["receive_check_notification"] = True
-                            if emp.employee.canRequestHoliday :
-                                data["can_request_holiday"] = True
-                            if emp.employee.hasToFillTimesheet :
-                                data["hasToFillTimesheet"] = True
-
-                            if emp.employee.passportNumber :
-                                data["passport_id"] = emp.employee.passportNumber
-                            if emp.employee.taxID :
-                                data["taxID"] = emp.employee.taxID
-                            if emp.employee.nationalID :
-                                data["nationalID"] = emp.employee.nationalID
-                                
-                            if emp.employee.positionid :
-                                job_datas = job_line_obj.search( [ ("weladee_id","=", emp.employee.positionid ) ] )
-                                if job_datas :
-                                    for jdatas in job_datas :
-                                        data[ "job_id" ] = jdatas.id
-
-                            if photoBase64:
-                                data["image"] = photoBase64
-
-                            if emp.Badge:
-                                data["barcode"] = emp.Badge
-
-                            if emp.employee.Nationality:
-                                if emp.employee.Nationality.lower() in country :
-                                    data["country_id"] = country[ emp.employee.Nationality.lower() ]
-
-                            odoo_employee_id = False
-                            try:
-                                odoo_employee_id = employee_line_obj.create( data )
-                                if emp.employee.managerID :
-                                    managers[ odoo_employee_id.id ] = emp.employee.managerID
-                            except Exception as e:
-                                print("photo url : %s" % emp.employee.photo)
-                                print( 'Error when import employee : %s' % e )
-
-                            if odoo_employee_id :
-                                wEidTooEid[ emp.employee.ID ] = odoo_employee_id.id
-
-                                if odoo_employee_id.id :
-                                    sEmployees[ odoo_employee_id.id ] = emp.employee
-                                    newEmployee = odoo_pb2.EmployeeOdoo()
-                                    newEmployee.odoo.odoo_id = odoo_employee_id.id
-                                    newEmployee.odoo.odoo_created_on = int(time.time())
-                                    newEmployee.odoo.odoo_synced_on = int(time.time())
-
-                                    if emp.employee.ID :
-                                        newEmployee.employee.ID = emp.employee.ID
-                                    if emp.employee.email :
-                                        newEmployee.employee.email = emp.employee.email
-                                    if emp.employee.user_name :
-                                        newEmployee.employee.user_name = emp.employee.user_name
-                                    if emp.employee.last_name_english :
-                                        newEmployee.employee.last_name_english = emp.employee.last_name_english
-                                    if emp.employee.first_name_english :
-                                        newEmployee.employee.first_name_english = emp.employee.first_name_english
-                                    if emp.employee.first_name_thai :
-                                        newEmployee.employee.first_name_thai = emp.employee.first_name_thai
-                                    if emp.employee.last_name_thai :
-                                        newEmployee.employee.last_name_thai = emp.employee.last_name_thai
-                                    if emp.employee.managerID :
-                                        newEmployee.employee.managerID = emp.employee.managerID
-                                    if emp.employee.lineID :
-                                        newEmployee.employee.lineID = emp.employee.lineID
-                                    if emp.employee.nickname_english :
-                                        newEmployee.employee.nickname_english = emp.employee.nickname_english
-                                    if emp.employee.nickname_thai :
-                                        newEmployee.employee.nickname_thai = emp.employee.nickname_thai
-                                    if emp.employee.FCMtoken :
-                                        newEmployee.employee.FCMtoken = emp.employee.FCMtoken
-                                    if emp.employee.phone_model :
-                                        newEmployee.employee.phone_model = emp.employee.phone_model
-                                    if emp.employee.phone_serial :
-                                        newEmployee.employee.phone_serial = emp.employee.phone_serial
-                                    if emp.employee.code :
-                                        newEmployee.employee.code = emp.employee.code
-                                    if emp.employee.created_by :
-                                        newEmployee.employee.created_by = emp.employee.created_by
-                                    if emp.employee.updated_by :
-                                        newEmployee.employee.updated_by = emp.employee.updated_by
-                                    if emp.employee.note :
-                                        newEmployee.employee.note = emp.employee.note
-                                    if emp.employee.photo :
-                                        newEmployee.employee.photo = emp.employee.photo
-                                    if emp.employee.lg :
-                                        newEmployee.employee.lg = emp.employee.lg
-                                    if emp.employee.application_level :
-                                        newEmployee.employee.application_level = emp.employee.application_level
-                                    if emp.employee.positionid :
-                                        newEmployee.employee.positionid = emp.employee.positionid
-                                    if emp.employee.Phones :
-                                        newEmployee.employee.Phones = emp.employee.Phones
-                                    if emp.employee.rfid :
-                                        newEmployee.employee.rfid = emp.employee.rfid
-                                    if emp.employee.EmailValidated :
-                                        newEmployee.employee.EmailValidated = emp.employee.EmailValidated
-                                    if emp.employee.teamid :
-                                        newEmployee.employee.teamid = emp.employee.teamid
-                                    if emp.employee.gender :
-                                        newEmployee.employee.gender = emp.employee.gender
-                                    if emp.employee.hasToFillTimesheet :
-                                        newEmployee.employee.hasToFillTimesheet = emp.employee.hasToFillTimesheet
-                                    if emp.employee.nationalID :
-                                        newEmployee.employee.nationalID = emp.employee.nationalID
-                                    if emp.employee.taxID :
-                                        newEmployee.employee.taxID = emp.employee.taxID
-                                    if emp.employee.passportNumber :
-                                        newEmployee.employee.passportNumber = emp.employee.passportNumber
-                                    if emp.employee.token :
-                                        newEmployee.employee.token = emp.employee.token
-                                    if emp.employee.CanCheckTeamMember :
-                                        newEmployee.employee.CanCheckTeamMember = emp.employee.CanCheckTeamMember
-                                    if emp.employee.QRCode :
-                                        newEmployee.employee.QRCode = emp.employee.QRCode
-                                    if emp.employee.Nationality :
-                                        newEmployee.employee.Nationality = emp.employee.Nationality
-                                    if emp.employee.active :
-                                        newEmployee.employee.active = emp.employee.active
-                                    if emp.employee.canRequestHoliday :
-                                        newEmployee.employee.canRequestHoliday = emp.employee.canRequestHoliday
-                                    if emp.employee.receiveCheckNotification :
-                                        newEmployee.employee.receiveCheckNotification = emp.employee.receiveCheckNotification
-                                    print( newEmployee )
-                                    try:
-                                        result = stub.UpdateEmployee(newEmployee, metadata=authorization)
-                                        print ("Created odoo employee to weladee")
-                                    except Exception as e:
-                                        print("Created odoo employee id is failed",e)
-                else :
-                    wEidTooEid[ emp.employee.ID ] = emp.odoo.odoo_id
-                    sEmployees[ emp.odoo.odoo_id ] = emp.employee
-
-                    oEmployee = employee_line_obj.browse( emp.odoo.odoo_id )
-                    if oEmployee :
-                        print("------------------------------")
-                        if emp.employee:
-                            if emp.employee.ID:
-                                photoBase64 = ''
-                                if emp.employee.photo:
-                                    try :
-                                        photoBase64 = base64.b64encode(requests.get(emp.employee.photo).content)
-                                    except Exception as e:
-                                        print("Error when load image : ",e)
-
-                                data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
-                                    ,"employee_code" :(emp.employee.code or "" )
-                                    ,"notes": ( emp.employee.note or "" )
-                                    ,"weladee_profile" : "https://www.weladee.com/employee/" + str(emp.employee.ID)
-                                    ,"work_email":( emp.employee.email or "" )
-                                    ,"first_name_english":emp.employee.first_name_english
-                                    ,"last_name_english":emp.employee.last_name_english
-                                    ,"first_name_thai":emp.employee.first_name_thai
-                                    ,"last_name_thai":emp.employee.last_name_thai
-                                    ,"nick_name_english":emp.employee.nickname_english
-                                    ,"nick_name_thai":emp.employee.nickname_thai
-                                    ,"active": False
-                                    ,"receive_check_notification": False
-                                    ,"can_request_holiday": False
-                                    ,"hasToFillTimesheet": False
-                                    ,"weladee_id":emp.employee.ID
-                                    }
-                            
-                        
-                                if emp.employee.active :
-                                    data["active"] = True
-                                if emp.employee.receiveCheckNotification :
-                                    data["receive_check_notification"] = True
-                                if emp.employee.canRequestHoliday :
-                                    data["can_request_holiday"] = True
-                                if emp.employee.hasToFillTimesheet :
-                                    data["hasToFillTimesheet"] = True
-
-                                if emp.employee.passportNumber :
-                                    data["passport_id"] = emp.employee.passportNumber
-                                if emp.employee.taxID :
-                                    data["taxID"] = emp.employee.taxID
-                                if emp.employee.nationalID :
-                                    data["nationalID"] = emp.employee.nationalID
-
-
-                                if emp.employee.positionid :
-                                    job_datas = job_line_obj.search( [ ("weladee_id","=", emp.employee.positionid ) ] )
-                                    if job_datas :
-                                        for jdatas in job_datas :
-                                            data[ "job_id" ] = jdatas.id
-                                if photoBase64:
-                                    data["image"] = photoBase64
-
-                                if emp.Badge:
-                                    data["barcode"] = emp.Badge
-
-                                odoo_employee_id = False
-                                print( emp )
-                                try:
-                                    oEmployee.write( data )
-                                    if emp.employee.managerID :
-                                        managers[ oEmployee.id ] = emp.employee.managerID
-                                    print( 'Updated employee on odoo id %s' % oEmployee.id )
-                                except Exception as e:
-                                    print("photo url : %s" % emp.employee.photo)
-                                    print( 'Error when update employee : %s' % e )
-                                    
-                                newEmployee = odoo_pb2.EmployeeOdoo()
-                                newEmployee.odoo.odoo_id = oEmployee.id
-                                newEmployee.odoo.odoo_created_on = int(time.time())
-                                newEmployee.odoo.odoo_synced_on = int(time.time())
-
-                                if emp.employee.ID :
-                                    newEmployee.employee.ID = emp.employee.ID
-                                if emp.employee.email :
-                                    newEmployee.employee.email = emp.employee.email
-                                if emp.employee.user_name :
-                                    newEmployee.employee.user_name = emp.employee.user_name
-                                if emp.employee.last_name_english :
-                                    newEmployee.employee.last_name_english = emp.employee.last_name_english
-                                if emp.employee.first_name_english :
-                                    newEmployee.employee.first_name_english = emp.employee.first_name_english
-                                if emp.employee.first_name_thai :
-                                    newEmployee.employee.first_name_thai = emp.employee.first_name_thai
-                                if emp.employee.last_name_thai :
-                                    newEmployee.employee.last_name_thai = emp.employee.last_name_thai
-                                if emp.employee.managerID :
-                                    newEmployee.employee.managerID = emp.employee.managerID
-                                if emp.employee.lineID :
-                                    newEmployee.employee.lineID = emp.employee.lineID
-                                if emp.employee.nickname_english :
-                                    newEmployee.employee.nickname_english = emp.employee.nickname_english
-                                if emp.employee.nickname_thai :
-                                    newEmployee.employee.nickname_thai = emp.employee.nickname_thai
-                                if emp.employee.FCMtoken :
-                                    newEmployee.employee.FCMtoken = emp.employee.FCMtoken
-                                if emp.employee.phone_model :
-                                    newEmployee.employee.phone_model = emp.employee.phone_model
-                                if emp.employee.phone_serial :
-                                    newEmployee.employee.phone_serial = emp.employee.phone_serial
-                                if emp.employee.code :
-                                    newEmployee.employee.code = emp.employee.code
-                                if emp.employee.created_by :
-                                    newEmployee.employee.created_by = emp.employee.created_by
-                                if emp.employee.updated_by :
-                                    newEmployee.employee.updated_by = emp.employee.updated_by
-                                if emp.employee.note :
-                                    newEmployee.employee.note = emp.employee.note
-                                if emp.employee.photo :
-                                    newEmployee.employee.photo = emp.employee.photo
-                                if emp.employee.lg :
-                                    newEmployee.employee.lg = emp.employee.lg
-                                if emp.employee.application_level :
-                                    newEmployee.employee.application_level = emp.employee.application_level
-                                if emp.employee.positionid :
-                                    newEmployee.employee.positionid = emp.employee.positionid
-                                if emp.employee.Phones :
-                                    newEmployee.employee.Phones = emp.employee.Phones
-                                if emp.employee.rfid :
-                                    newEmployee.employee.rfid = emp.employee.rfid
-                                if emp.employee.EmailValidated :
-                                    newEmployee.employee.EmailValidated = emp.employee.EmailValidated
-                                if emp.employee.teamid :
-                                    newEmployee.employee.teamid = emp.employee.teamid
-                                if emp.employee.gender :
-                                    newEmployee.employee.gender = emp.employee.gender
-                                if emp.employee.hasToFillTimesheet :
-                                    newEmployee.employee.hasToFillTimesheet = emp.employee.hasToFillTimesheet
-                                if emp.employee.nationalID :
-                                    newEmployee.employee.nationalID = emp.employee.nationalID
-                                if emp.employee.taxID :
-                                    newEmployee.employee.taxID = emp.employee.taxID
-                                if emp.employee.passportNumber :
-                                    newEmployee.employee.passportNumber = emp.employee.passportNumber
-                                if emp.employee.token :
-                                    newEmployee.employee.token = emp.employee.token
-                                if emp.employee.CanCheckTeamMember :
-                                    newEmployee.employee.CanCheckTeamMember = emp.employee.CanCheckTeamMember
-                                if emp.employee.QRCode :
-                                    newEmployee.employee.QRCode = emp.employee.QRCode
-                                if emp.employee.Nationality :
-                                    newEmployee.employee.Nationality = emp.employee.Nationality
-                                if emp.employee.active :
-                                    newEmployee.employee.active = emp.employee.active
-                                if emp.employee.canRequestHoliday :
-                                    newEmployee.employee.canRequestHoliday = emp.employee.canRequestHoliday
-                                if emp.employee.receiveCheckNotification :
-                                    newEmployee.employee.receiveCheckNotification = emp.employee.receiveCheckNotification
-                                try:
-                                    result = stub.UpdateEmployee(newEmployee, metadata=authorization)
-                                    print ("Updated odoo employee to weladee")
-                                except Exception as e:
-                                    print("Created odoo employee id is failed",e)
-
-
-
-
-    print("add new employee on odoo to Weladee")
-    employee_line_ids = employee_line_obj.search([])
-    if False :
-        for empId in employee_line_ids:
-            emp = employee_line_obj.browse(empId.id)
-            if emp.id:
-                print("--------------[add new employee on odoo to Weladee]----------------")
-                pos = False
-                if emp.job_id :
-                    position_data = job_line_obj.browse( emp.job_id )
-                    if position_data :
-                        if position_data["weladee_id"] :
-                            pos = position_data["weladee_id"]
-                if not emp.id in odooIdEmps :
-                    print("Add new employee %s with odoo id %s" % (emp.name, emp.id))
-                    newEmployee = odoo_pb2.EmployeeOdoo()
-                    newEmployee.odoo.odoo_id = emp.id
-                    newEmployee.employee.first_name_english = (emp.name).split(" ")[0]
-                    if len((emp.name).split(" ")) > 1 :
-                        newEmployee.employee.last_name_english = (emp.name).split(" ")[1]
-                    else :
-                        newEmployee.employee.last_name_english = ""
-                    if emp.work_email:
-                        newEmployee.employee.email = emp.work_email
-                    if emp.notes:
-                        newEmployee.employee.note = emp.notes
-                    if emp.work_email:
-                        newEmployee.employee.lg = "en"
-                    newEmployee.employee.active = False
-                    if pos :
-                        newEmployee.employee.positionid = pos
-                    print(newEmployee)
-                    try:
-                        result = stub.AddEmployee(newEmployee, metadata=authorization)
-                        print ("Weladee id : %s" % result.id)
-                    except Exception as e:
-                        print("Add employee failed",e)
+    if emp.employee.departmentid :
+        dep_datas = department_obj.search( [ ("weladee_id","=", emp.employee.departmentid ) ] )
+        if dep_datas :
+            for ddatas in dep_datas :
+                data[ "department_id" ] = ddatas.id
     '''
-    pass
+    
+    if photoBase64:
+        data["image"] = photoBase64
+
+    if emp.Badge:
+        data["barcode"] = emp.Badge
+
+    if emp.employee.Nationality:
+        if emp.employee.Nationality.lower() in country :
+            data["country_id"] = country[ emp.employee.Nationality.lower() ]
+
+    return data
+
+def sync_employee(job_obj, employee_obj, department_obj, country, authorization):
+    '''
+    sync data from employee
+    '''
+    #get change data from weladee
+    for weladee_emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
+        if weladee_emp and weladee_emp.employee:
+            if weladee_emp.employee.code != 'TCO-W01157': continue
+            #search in odoo
+            odoo_emp_ids = employee_obj.search([("weladee_id", "=", weladee_emp.employee.ID)])
+            if not odoo_emp_ids :
+                _ = employee_obj.create( sync_employee_data(weladee_emp, job_obj, department_obj, country) ) 
+                _logger.info( "Insert employee '%s' to odoo" % weladee_emp.employee.user_name )
+            else :
+                for odoo_emp_id in odoo_emp_ids :
+                    odoo_emp_id.write( sync_employee_data(weladee_emp, job_obj, department_obj, country) )
+                    _logger.info( "Updated employee '%s' to odoo" % weladee_emp.employee.user_name )
+
+    #scan in odoo if there is record with no weladee_id
+    odoo_emp_ids = employee_obj.search([('weladee_id','=',False)])
+    for odoo_emp_id in odoo_emp_ids:
+        if not odoo_emp_id["weladee_id"] :
+
+            newEmployee = odoo_pb2.EmployeeOdoo()
+            newEmployee.odoo.odoo_id = odoo_emp_id.id
+            newEmployee.odoo.odoo_created_on = int(time.time())
+            newEmployee.odoo.odoo_synced_on = int(time.time())
+
+            newEmployee.employee.first_name_english = odoo_emp_id.first_name_english or ''
+            newEmployee.employee.last_name_english = odoo_emp_id.last_name_english or ''
+            newEmployee.employee.first_name_thai = odoo_emp_id.first_name_thai or ''
+            newEmployee.employee.last_name_thai = odoo_emp_id.last_name_thai or ''
+            
+            newEmployee.employee.email = odoo_emp_id.work_email or ''
+            newEmployee.employee.note = odoo_emp_id.notes or ''
+            newEmployee.employee.lg = "en"
+            #newEmployee.employee.active = False            
+            if odoo_emp_id.job_id and odoo_emp_id.job_id.weladee_id:
+                newEmployee.employee.positionid = int(odoo_emp_id.job_id.weladee_id or '0')
+
+            try:
+                result = stub.AddEmployee(newEmployee, metadata=authorization)
+                
+                odoo_emp_id.write({'weladee_id':result.id})
+                _logger.info("Added employee to weladee : %s" % odoo_emp_id.name)
+            except Exception as e:
+                _logger.error("Add employee '%s' failed : %s" % (odoo_emp_id.name, e))
+    
 
 def sync_manager(employee_line_obj, managers, authorization):
     pass
@@ -669,6 +406,17 @@ class weladee_attendance(models.TransientModel):
             department_obj = self.env['hr.department']    
             sync_department(department_obj, myrequest, authorization)
 
+            _logger.info("Loading...Countries")
+            country = {}
+            country_line_ids = self.env['res.country'].search([])
+            for cu in country_line_ids:
+                if cu.name :
+                    country[ cu.name.lower() ] = cu.id
+
+            _logger.info("Start sync...Employee")
+            emp_obj = self.env['hr.employee']    
+            sync_employee(job_obj, emp_obj, department_obj, country, authorization)
+            
     def generators(self, iteratorAttendance):
           for i in iteratorAttendance :
               yield i

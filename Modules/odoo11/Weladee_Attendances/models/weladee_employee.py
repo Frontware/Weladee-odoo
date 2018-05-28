@@ -74,7 +74,8 @@ class weladee_employee(models.Model):
 
   #citizenship
   country_id = fields.Many2one(string="Nationality (Country)", required=True)
-  identification_id = fields.Char(required=True)
+  #TODO: to remove
+  identification_id = fields.Char(required=False)
   taxID = fields.Char(string="TaxID")
   nationalID = fields.Char(string="NationalID")
   
