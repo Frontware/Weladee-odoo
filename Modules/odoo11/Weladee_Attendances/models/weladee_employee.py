@@ -174,7 +174,7 @@ class weladee_employee(models.Model):
 
             #language not sync yet
             WeladeeData.employee.lg = "en"
-            WeladeeData.employee.active_employee = vals["active_employee"]
+            WeladeeData.employee.Active = vals["active"]
             WeladeeData.employee.receiveCheckNotification = vals["receive_check_notification"]
             WeladeeData.employee.canRequestHoliday = vals["can_request_holiday"]
             WeladeeData.employee.hasToFillTimesheet = vals["hasToFillTimesheet"]
@@ -223,7 +223,7 @@ class weladee_employee(models.Model):
                 if emp.employee :
                   if str(emp.employee.ID) == self.weladee_id :
                       WeladeeData = emp.employee
-
+        
         #sync data
         #if has in input, take it
         #else if has in object, take it
@@ -266,11 +266,10 @@ class weladee_employee(models.Model):
             WeladeeData.employee.nickname_thai = self.nick_name_thai or ''
 
           if "active_employee" in vals :
-            WeladeeData.employee.active = vals["active_employee"]
+            WeladeeData.employee.Active = vals["active"]
           else:
-            WeladeeData.employee.active = self.active
+            WeladeeData.employee.Active = self.active
 
-          #print(vals)
           if "receive_check_notification" in vals :
             WeladeeData.employee.receiveCheckNotification = vals["receive_check_notification"]
           else :
@@ -333,7 +332,9 @@ class weladee_employee(models.Model):
                 WeladeeData.employee.positionid = int(positionData.weladee_id)
           else :
             if self.job_id:
-              WeladeeData.employee.positionid = self.job_id.weladee_id
+              WeladeeData.employee.positionid = int(self.job_id.weladee_id)
+
+          #2018-10-29 KPO we don't sync department back to weladee    
 
       is_has_weladee = (self.weladee_id or '') != ""
       if "weladee_id" in vals:
@@ -341,6 +342,7 @@ class weladee_employee(models.Model):
 
       print(self.weladee_id)
       print(vals)
+      print (is_has_weladee)
       #update data in odoo
       ret = super(weladee_employee, self).write( vals )
       

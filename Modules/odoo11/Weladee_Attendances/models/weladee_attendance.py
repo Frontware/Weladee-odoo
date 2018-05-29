@@ -100,7 +100,7 @@ def sync_position(job_line_obj, myrequest, authorization):
 
 def sync_department_data(dept):
     return {"name" : dept.department.name_english,
-            "weladee_id" : dept.department.id
+            "weladee_id" : dept.department.ID
     }   
 
 def sync_department(department_obj, myrequest, authorization):
@@ -111,9 +111,9 @@ def sync_department(department_obj, myrequest, authorization):
     #get change data from weladee
     for weladee_dept in stub.GetDepartments(myrequest, metadata=authorization):
         if weladee_dept :
-            if weladee_dept.department.id :
+            if weladee_dept.department.ID :
                 #search in odoo
-                odoo_department_ids = department_obj.search([("weladee_id", "=", weladee_dept.department.id)])
+                odoo_department_ids = department_obj.search([("weladee_id", "=", weladee_dept.department.ID)])
                 if not odoo_department_ids :
                     if weladee_dept.department.name_english :
                         odoo_department = department_obj.search([ ('name','=',weladee_dept.department.name_english )])
@@ -172,7 +172,7 @@ def sync_employee_data(emp, job_obj, department_obj, country):
             ,"last_name_thai":emp.employee.last_name_thai
             ,"nick_name_english":emp.employee.nickname_english
             ,"nick_name_thai":emp.employee.nickname_thai
-            ,"active": emp.employee.active
+            ,"active": emp.employee.Active
             ,"receive_check_notification": emp.employee.receiveCheckNotification
             ,"can_request_holiday": emp.employee.canRequestHoliday
             ,"hasToFillTimesheet": emp.employee.hasToFillTimesheet
@@ -192,13 +192,11 @@ def sync_employee_data(emp, job_obj, department_obj, country):
             for jdatas in job_datas :
                 data[ "job_id" ] = jdatas.id
     
-    '''
-    if emp.employee.departmentid :
-        dep_datas = department_obj.search( [ ("weladee_id","=", emp.employee.departmentid ) ] )
+    if emp.DepartmentID :
+        dep_datas = department_obj.search( [ ("weladee_id","=", emp.DepartmentID ) ] )
         if dep_datas :
             for ddatas in dep_datas :
                 data[ "department_id" ] = ddatas.id
-    '''
 
     if photoBase64:
         data["image"] = photoBase64
@@ -219,6 +217,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
     #get change data from weladee
     for weladee_emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
         if weladee_emp and weladee_emp.employee:
+            #TODO: Debug
             if weladee_emp.employee.code != 'TCO-W01157': continue
 
             #search in odoo
@@ -252,7 +251,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
             newEmployee.employee.email = odoo_emp_id.work_email or ''
             newEmployee.employee.note = odoo_emp_id.notes or ''
             newEmployee.employee.lg = "en"
-            newEmployee.employee.active = odoo_emp_id.active
+            newEmployee.employee.Active = odoo_emp_id.active
 
             if odoo_emp_id.job_id and odoo_emp_id.job_id.weladee_id:
                 newEmployee.employee.positionid = int(odoo_emp_id.job_id.weladee_id or '0')
@@ -280,7 +279,7 @@ def sync_manager(employee_obj, weladee_managers, authorization):
             odoo_manager = employee_obj.search( [("weladee_id","=", weladee_managers[odoo_emp.id] ),'|',("active","=",False),("active","=",True)] )
 
             try:
-                _ = odoo_emp.write( {"parent_id": odoo_manager.id } )
+                _ = odoo_emp.write( {"parent_id": int(odoo_manager.id) } )
                 _logger.info("Updated manager of %s" % odoo_emp.name)
             except Exception as e:
                 _logger.error("Update manager of %s failed : %s" % (odoo_emp.name, e))
