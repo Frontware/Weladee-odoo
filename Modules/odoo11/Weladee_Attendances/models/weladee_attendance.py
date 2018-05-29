@@ -196,6 +196,9 @@ def sync_employee_data(emp, job_obj, department_obj, country):
     if emp.employee.Nationality:
         if emp.employee.Nationality.lower() in country :
             data["country_id"] = country[ emp.employee.Nationality.lower() ]
+    print (emp.employee)
+    if emp.employee.Phones:
+       data["work_phone"] = emp.employee.Phones
 
     return data
 

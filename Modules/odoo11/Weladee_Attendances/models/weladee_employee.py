@@ -178,6 +178,12 @@ class weladee_employee(models.Model):
             if vals["nationalID"] :
               WeladeeData.employee.nationalID = vals["nationalID"] or ''
 
+            if vals["image"] :
+              WeladeeData.employee.photo = vals["image"] or ''
+
+            if vals["work_phone"] :
+              WeladeeData.employee.Phones.extend([vals['work_phone']])
+
             try:
               result = stub.AddEmployee(WeladeeData, metadata=authorization)
               print ("New Weladee id : %s" % result.id)
@@ -323,6 +329,12 @@ class weladee_employee(models.Model):
             countryData = self.env['res.country'].browse( vals["country_id"] )
             if countryData :
                WeladeeData.employee.Nationality = countryData.name
+
+          if "image" in vals:
+              WeladeeData.employee.photo = vals["image"] or ''
+
+          if "work_phone" in vals:
+              WeladeeData.employee.Phones.extend([vals['work_phone']])
 
           #2018-10-29 KPO we don't sync 
           #  department
