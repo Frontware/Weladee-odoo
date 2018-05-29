@@ -186,7 +186,8 @@ class weladee_employee(models.Model):
 
             #language not sync yet
             WeladeeData.employee.lg = "en"
-            WeladeeData.employee.Active = vals["active"]
+            #2018-05-29 KPO when create weladee, employee can active only has password
+            #WeladeeData.employee.Active = vals["active"]
             WeladeeData.employee.receiveCheckNotification = vals["receive_check_notification"]
             WeladeeData.employee.canRequestHoliday = vals["can_request_holiday"]
             WeladeeData.employee.hasToFillTimesheet = vals["hasToFillTimesheet"]
@@ -271,7 +272,7 @@ class weladee_employee(models.Model):
           else:
             WeladeeData.employee.nickname_thai = self.nick_name_thai or ''
 
-          if "active_employee" in vals :
+          if "active" in vals :
             WeladeeData.employee.Active = vals["active"]
           else:
             WeladeeData.employee.Active = self.active
@@ -326,7 +327,7 @@ class weladee_employee(models.Model):
                  WeladeeData.employee.managerID = 0
           else : 
               if self.parent_id:
-                 WeladeeData.employee.managerID = self.parent_id.weladee_id
+                 WeladeeData.employee.managerID = int(self.parent_id.weladee_id)
 
           if "work_email" in vals :
             WeladeeData.employee.email = vals["work_email"] or ''
@@ -356,10 +357,6 @@ class weladee_employee(models.Model):
       if "weladee_id" in vals:
          is_has_weladee = True
 
-      print(WeladeeData)
-      print(self.weladee_id)
-      print(vals)
-      print (is_has_weladee)
       #update data in odoo
       ret = super(weladee_employee, self).write( vals )
       

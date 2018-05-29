@@ -204,6 +204,10 @@ def sync_employee_data(emp, job_obj, department_obj, country):
     if emp.Badge:
         data["barcode"] = emp.Badge
 
+    #2018-05-29 KPO if active = false set barcode to false
+    if not emp.employee.Active:
+       data["barcode"] = False 
+
     if emp.employee.Nationality:
         if emp.employee.Nationality.lower() in country :
             data["country_id"] = country[ emp.employee.Nationality.lower() ]
@@ -218,7 +222,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
     for weladee_emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
         if weladee_emp and weladee_emp.employee:
             #TODO: Debug
-            if weladee_emp.employee.code != 'TCO-W01157': continue
+            #if weladee_emp.employee.code != 'TCO-W01157': continue
 
             #search in odoo
             odoo_emp_ids = employee_obj.search([("weladee_id", "=", weladee_emp.employee.ID)])
@@ -251,7 +255,8 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
             newEmployee.employee.email = odoo_emp_id.work_email or ''
             newEmployee.employee.note = odoo_emp_id.notes or ''
             newEmployee.employee.lg = "en"
-            newEmployee.employee.Active = odoo_emp_id.active
+            #2018-05-29 KPO when create weladee, employee can active only has password
+            newEmployee.employee.Active = False
 
             if odoo_emp_id.job_id and odoo_emp_id.job_id.weladee_id:
                 newEmployee.employee.positionid = int(odoo_emp_id.job_id.weladee_id or '0')
