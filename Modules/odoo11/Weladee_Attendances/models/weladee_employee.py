@@ -268,7 +268,7 @@ class weladee_employee(models.Model):
           if "active_employee" in vals :
             WeladeeData.employee.active = vals["active_employee"]
           else:
-            WeladeeData.employee.active = self.active_employee
+            WeladeeData.employee.active = self.active
 
           #print(vals)
           if "receive_check_notification" in vals :

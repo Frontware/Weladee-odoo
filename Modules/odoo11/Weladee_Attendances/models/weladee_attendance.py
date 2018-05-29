@@ -212,7 +212,7 @@ def sync_employee_data(emp, job_obj, department_obj, country):
 
     return data
 
-def sync_employee(job_obj, employee_obj, department_obj, country, authorization):
+def sync_employee(job_obj, employee_obj, department_obj, country, authorization, return_managers):
     '''
     sync data from employee
     '''
@@ -220,14 +220,18 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization)
     for weladee_emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
         if weladee_emp and weladee_emp.employee:
             if weladee_emp.employee.code != 'TCO-W01157': continue
+
             #search in odoo
             odoo_emp_ids = employee_obj.search([("weladee_id", "=", weladee_emp.employee.ID)])
             if not odoo_emp_ids :
-                _ = employee_obj.create( sync_employee_data(weladee_emp, job_obj, department_obj, country) ) 
+                newid = employee_obj.create( sync_employee_data(weladee_emp, job_obj, department_obj, country) ) 
+                return_managers[ newid.id ] = weladee_emp.employee.managerID
+
                 _logger.info( "Insert employee '%s' to odoo" % weladee_emp.employee.user_name )
             else :
                 for odoo_emp_id in odoo_emp_ids :
                     odoo_emp_id.write( sync_employee_data(weladee_emp, job_obj, department_obj, country) )
+                    return_managers[ odoo_emp_id.id ] = weladee_emp.employee.managerID
                     _logger.info( "Updated employee '%s' to odoo" % weladee_emp.employee.user_name )
 
     #scan in odoo if there is record with no weladee_id
@@ -262,33 +266,29 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization)
                 _logger.error("Add employee '%s' failed : %s" % (odoo_emp_id.name, e))
     
 
-def sync_manager(employee_line_obj, managers, authorization):
-    pass
+def sync_manager(employee_obj, weladee_managers, authorization):
     '''
-    lines = employee_line_obj.search([("active","=",False) or ("active","=",True)])
-    for e in lines :
-        if e.id :
-            if e.id in managers :
-                manageridWeladee = managers[ e.id ]
-                mdatas = self.env['hr.employee'].search( [("weladee_id","=", manageridWeladee ) and ( ("active","=",False) or ("active","=",True) ) ] )
-                if mdatas :
-                    managerid = False
-                    for mdata in mdatas :
-                        if mdata.id :
-                            managerid = mdata.id
-                    if managerid :
-                        emp_data =  employee_line_obj.browse( e.id )
-                        if emp_data :
-                            if emp_data.weladee_id :
-                                try:
-                                    print( "Update %s to employee id %s" %(managerid, e.id) )
-                                    result = emp_data.write( {"weladee_id" : emp_data.weladee_id, "parent_id": managerid } )
-                                    print("Updated manager id on employee : %s" % emp_data.id  )
-                                except Exception as e:
-                                    print("Update manager id failed : ",e)
+    sync employee's manager
+    '''
+    #look only changed employees
+    odoo_emps_change = [x for x in weladee_managers]
+
+    odoo_emps = employee_obj.search(['|',("active","=",False),("active","=",True),('id','in',odoo_emps_change)])
+    for odoo_emp in odoo_emps :
+        if odoo_emp.id and odoo_emp.id in weladee_managers :
+
+            odoo_manager = employee_obj.search( [("weladee_id","=", weladee_managers[odoo_emp.id] ),'|',("active","=",False),("active","=",True)] )
+
+            try:
+                _ = odoo_emp.write( {"parent_id": odoo_manager.id } )
+                _logger.info("Updated manager of %s" % odoo_emp.name)
+            except Exception as e:
+                _logger.error("Update manager of %s failed : %s" % (odoo_emp.name, e))
                             
 
-
+def sync_holiday(employee_line_obj, managers, authorization):
+    pass
+'''
 #List of Company holiday
 print("Company Holiday And Employee holiday")
 if True :
@@ -415,8 +415,12 @@ class weladee_attendance(models.TransientModel):
                     country[ cu.name.lower() ] = cu.id
 
             _logger.info("Start sync...Employee")
+            return_managers = {}
             emp_obj = self.env['hr.employee']    
-            sync_employee(job_obj, emp_obj, department_obj, country, authorization)
+            sync_employee(job_obj, emp_obj, department_obj, country, authorization, return_managers)
+
+            _logger.info("Start sync...Manager")
+            sync_manager(emp_obj, return_managers, authorization)
             
     def generators(self, iteratorAttendance):
           for i in iteratorAttendance :
