@@ -198,7 +198,9 @@ def sync_employee_data(emp, job_obj, department_obj, country):
             data["country_id"] = country[ emp.employee.Nationality.lower() ]
     print (emp.employee)
     if emp.employee.Phones:
-       data["work_phone"] = emp.employee.Phones
+       data["work_phone"] = emp.employee.Phones[0]
+       print(emp.employee.Phones)
+       print(emp.employee.Phones[0])
 
     return data
 
@@ -244,6 +246,8 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
             newEmployee.employee.note = odoo_emp_id.notes or ''
             newEmployee.employee.lg = "en"
             newEmployee.employee.Active = odoo_emp_id.active
+            if odoo_emp_id.work_phone:
+               newEmployee.employee.Phones[:] = [odoo_emp_id.work_phone]
 
             if odoo_emp_id.job_id and odoo_emp_id.job_id.weladee_id:
                 newEmployee.employee.positionid = int(odoo_emp_id.job_id.weladee_id or '0')

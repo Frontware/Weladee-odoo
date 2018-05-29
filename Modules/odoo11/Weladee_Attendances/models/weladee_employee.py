@@ -182,7 +182,10 @@ class weladee_employee(models.Model):
               WeladeeData.employee.photo = vals["image"] or ''
 
             if vals["work_phone"] :
-              WeladeeData.employee.Phones.extend([vals['work_phone']])
+              if len(WeladeeData.employee.Phones) == 0:
+                 WeladeeData.employee.Phones[:] = [vals['work_phone']]
+              else:  
+                 WeladeeData.employee.Phones[0] = vals['work_phone']
 
             try:
               result = stub.AddEmployee(WeladeeData, metadata=authorization)
@@ -334,7 +337,10 @@ class weladee_employee(models.Model):
               WeladeeData.employee.photo = vals["image"] or ''
 
           if "work_phone" in vals:
-              WeladeeData.employee.Phones.extend([vals['work_phone']])
+              if len(WeladeeData.employee.Phones) == 0:
+                 WeladeeData.employee.Phones[:] = [vals['work_phone']]
+              else:  
+                 WeladeeData.employee.Phones[0] = vals['work_phone']
 
           #2018-10-29 KPO we don't sync 
           #  department
