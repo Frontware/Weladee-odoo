@@ -62,6 +62,18 @@ def get_api_key(self):
           holiday_status_id = dataSet.holiday_status_id
   return authorization, holiday_status_id
 
+def get_weladee_employee(weladee_id, authorization):
+    '''
+    get weladee employeeodoo from weladee_id
+    '''
+    odooRequest = odoo_pb2.OdooRequest()
+    odooRequest.ID = int(weladee_id or '0')
+    for emp in stub.GetEmployees(odooRequest, metadata=authorization):
+        if emp and emp.employee :
+           return emp
+
+    return False
+
 class weladee_employee(models.Model):
   _description="synchronous Employee to weladee"
   _inherit = 'hr.employee'
@@ -214,15 +226,9 @@ class weladee_employee(models.Model):
       if not authorization :
          _logger.error("Your Odoo is not authroize to use weladee")
       else:
-        odooRequest = odoo_pb2.OdooRequest()
-        odooRequest.odoo_id = int(self.id)
-        for emp in stub.GetEmployees(odooRequest, metadata=authorization):
-            
-            #print("----------")
-            if emp :
-                if emp.employee :
-                  if str(emp.employee.ID) == self.weladee_id :
-                      WeladeeData = emp.employee
+
+        if self.weladee_id:
+           WeladeeData = get_weladee_employee(self.weladee_id, authorization)
         
         #sync data
         #if has in input, take it
@@ -243,7 +249,7 @@ class weladee_employee(models.Model):
           if "last_name_english" in vals :
             WeladeeData.employee.last_name_english = vals["last_name_english"] or ''
           else:
-            WeladeeData.employee.first_name_english = self.last_name_english or ''
+            WeladeeData.employee.last_name_english = self.last_name_english or ''
 
           if "first_name_thai" in vals :
             WeladeeData.employee.first_name_thai = vals["first_name_thai"] or ''
@@ -313,9 +319,11 @@ class weladee_employee(models.Model):
             WeladeeData.employee.note = self.notes or ''
 
           if "parent_id" in vals :
-            manager = self.env['hr.employee'].browse( vals["parent_id"] )
-            if manager :
-              WeladeeData.employee.managerID = int(manager.weladee_id)
+              manager = self.env['hr.employee'].browse( vals["parent_id"] )
+              if manager:
+                 WeladeeData.employee.managerID = int(manager.weladee_id)
+              else:
+                 WeladeeData.employee.managerID = 0
           else : 
               if self.parent_id:
                  WeladeeData.employee.managerID = self.parent_id.weladee_id
@@ -334,12 +342,21 @@ class weladee_employee(models.Model):
             if self.job_id:
               WeladeeData.employee.positionid = int(self.job_id.weladee_id)
 
-          #2018-10-29 KPO we don't sync department back to weladee    
+          if "country_id" in vals :
+            countryData = self.env['res.country'].browse( vals["country_id"] )
+            if countryData :
+               WeladeeData.employee.Nationality = countryData.name
+
+          #2018-10-29 KPO we don't sync 
+          #  department
+          #  photo
+          # back to weladee    
 
       is_has_weladee = (self.weladee_id or '') != ""
       if "weladee_id" in vals:
          is_has_weladee = True
 
+      print(WeladeeData)
       print(self.weladee_id)
       print(vals)
       print (is_has_weladee)

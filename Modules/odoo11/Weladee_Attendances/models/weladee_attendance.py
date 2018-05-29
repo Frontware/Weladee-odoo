@@ -264,7 +264,6 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
             except Exception as e:
                 _logger.error("Add employee '%s' failed : %s" % (odoo_emp_id.name, e))
     
-
 def sync_manager(employee_obj, weladee_managers, authorization):
     '''
     sync employee's manager
