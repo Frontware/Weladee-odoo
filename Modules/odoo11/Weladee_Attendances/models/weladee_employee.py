@@ -186,8 +186,7 @@ class weladee_employee(models.Model):
 
             #language not sync yet
             WeladeeData.employee.lg = "en"
-            #2018-05-29 KPO when create weladee, employee can active only has password
-            #WeladeeData.employee.Active = vals["active"]
+            WeladeeData.employee.Active = vals["active"]
             WeladeeData.employee.receiveCheckNotification = vals["receive_check_notification"]
             WeladeeData.employee.canRequestHoliday = vals["can_request_holiday"]
             WeladeeData.employee.hasToFillTimesheet = vals["hasToFillTimesheet"]

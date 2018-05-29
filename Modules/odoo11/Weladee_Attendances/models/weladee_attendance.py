@@ -255,8 +255,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
             newEmployee.employee.email = odoo_emp_id.work_email or ''
             newEmployee.employee.note = odoo_emp_id.notes or ''
             newEmployee.employee.lg = "en"
-            #2018-05-29 KPO when create weladee, employee can active only has password
-            newEmployee.employee.Active = False
+            newEmployee.employee.Active = odoo_emp_id.active
 
             if odoo_emp_id.job_id and odoo_emp_id.job_id.weladee_id:
                 newEmployee.employee.positionid = int(odoo_emp_id.job_id.weladee_id or '0')
