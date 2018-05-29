@@ -1,24 +1,5 @@
-##############################################################################
-#
-#    OpenERP, Open Source Management Solution    
-#    Copyright (C) 2004-Now Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    d$
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
-import grpc
+# -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 import odoo
 import logging
 _logger = logging.getLogger(__name__)
@@ -39,16 +20,15 @@ from . import weladee_grpc
 from . import weladee_employee
 
 # Weladee grpc server address is hrpc.weladee.com:22443
-creds = grpc.ssl_channel_credentials(weladee_grpc.weladee_certificate)
-channel = grpc.secure_channel(weladee_grpc.weladee_address, creds)
-stub = odoo_pb2_grpc.OdooStub(channel)
+stub = weladee_grpc.weladee_grpc_ctrl()
 myrequest = weladee_pb2.EmployeeRequest()
 
-
-def sync_position_data(position):
-    return {"name" : position.position.name_english,
-            "weladee_id" : position.position.ID,
-            "no_of_recruitment" : 1}
+def sync_position_data(weladee_position):
+    '''
+    position data to sync
+    '''
+    return {"name" : weladee_position.position.name_english,
+            "weladee_id" : weladee_position.position.ID}
 
 def sync_position(job_line_obj, myrequest, authorization):
     '''
@@ -98,9 +78,12 @@ def sync_position(job_line_obj, myrequest, authorization):
                 except Exception as e:
                     _logger.error("Add position '%s' failed : %s" % (positionData.name, e))
 
-def sync_department_data(dept):
-    return {"name" : dept.department.name_english,
-            "weladee_id" : dept.department.ID
+def sync_department_data(weladee_dept):
+    '''
+    department data to sync
+    '''    
+    return {"name" : weladee_dept.department.name_english,
+            "weladee_id" : weladee_dept.department.ID
     }   
 
 def sync_department(department_obj, myrequest, authorization):
@@ -121,7 +104,7 @@ def sync_department(department_obj, myrequest, authorization):
                             _ = department_obj.create(sync_department_data(weladee_dept))
                             _logger.info( "Insert department '%s' to odoo" % weladee_dept.department.name_english )
                         else:
-                            odoo_department.write({"weladee_id" : weladee_dept.department.id})
+                            odoo_department.write({"weladee_id" : weladee_dept.department.ID})
                     else:
                         _logger.error( "Error while create department '%s' to odoo: there is no english name")
                 else :
@@ -153,7 +136,9 @@ def sync_department(department_obj, myrequest, authorization):
     return  sDepartment
 
 def sync_employee_data(emp, job_obj, department_obj, country):
-    
+    '''
+    employee data to sync
+    '''    
     photoBase64 = ''
     if emp.employee.photo:
         try :
