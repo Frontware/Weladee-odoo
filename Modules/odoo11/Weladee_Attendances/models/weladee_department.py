@@ -17,6 +17,7 @@ from .grpcproto import odoo_pb2
 from .grpcproto import odoo_pb2_grpc
 from .grpcproto import weladee_pb2
 from . import weladee_grpc
+from . import weladee_employee
 
 # Weladee grpc server address is hrpc.weladee.com:22443
 stub = weladee_grpc.weladee_grpc_ctrl()
@@ -33,7 +34,7 @@ class weladee_department(models.Model):
     dId = super(weladee_department,self).create( vals )
     if not "weladee_id" in vals:
       authorization = False
-      authorization = get_api_key(self)
+      authorization = weladee_employee.get_api_key(self)
       #print("API : %s" % authorization)
       if authorization :
         if True :
@@ -55,7 +56,7 @@ class weladee_department(models.Model):
   def write(self, vals ):
     oldData = self.env['hr.department'].browse( self.id )
     authorization = False
-    authorization = get_api_key(self)
+    authorization = weladee_employee.get_api_key(self)
     #print("API : %s" % authorization)
     if not "weladee_id" in vals :
       

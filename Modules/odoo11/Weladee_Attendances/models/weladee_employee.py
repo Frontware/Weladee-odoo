@@ -17,6 +17,7 @@ from .grpcproto import odoo_pb2
 from .grpcproto import odoo_pb2_grpc
 from .grpcproto import weladee_pb2
 from . import weladee_grpc
+from . import weladee_employee
 
 # Weladee grpc server address is hrpc.weladee.com:22443
 stub = weladee_grpc.weladee_grpc_ctrl()
