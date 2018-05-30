@@ -40,10 +40,11 @@ def sync_position(job_line_obj, myrequest, authorization):
         if weladee_position :
             if weladee_position.position.ID :
                 #search in odoo
+                #all active false,true and weladee match
                 job_line_ids = job_line_obj.search([("weladee_id", "=", weladee_position.position.ID)])
                 if not job_line_ids :
                     if weladee_position.position.name_english :
-                        odoo_position = job_line_obj.search([ ('name','=',weladee_position.position.name_english )])
+                        odoo_position = job_line_obj.search([('name','=',weladee_position.position.name_english )])
                         #_logger.info( "check this position '%s' in odoo %s, %s" % (position.position.name_english, chk_position, position.position.ID) )
                         if not odoo_position :
                             _ = job_line_obj.create(sync_position_data(weladee_position))
@@ -96,10 +97,10 @@ def sync_department(department_obj, myrequest, authorization):
         if weladee_dept :
             if weladee_dept.department.ID :
                 #search in odoo
-                odoo_department_ids = department_obj.search([("weladee_id", "=", weladee_dept.department.ID)])
+                odoo_department_ids = department_obj.search([("weladee_id", "=", weladee_dept.department.ID),'|',('active','=',False),('active','=',True)])
                 if not odoo_department_ids :
                     if weladee_dept.department.name_english :
-                        odoo_department = department_obj.search([ ('name','=',weladee_dept.department.name_english )])
+                        odoo_department = department_obj.search([('name','=',weladee_dept.department.name_english ),'|',('active','=',False),('active','=',True)])
                         if not odoo_department :
                             _ = department_obj.create(sync_department_data(weladee_dept))
                             _logger.info( "Insert department '%s' to odoo" % weladee_dept.department.name_english )
@@ -113,7 +114,7 @@ def sync_department(department_obj, myrequest, authorization):
                         _logger.info( "Updated department '%s' to odoo" % weladee_dept.department.name_english )
 
     #scan in odoo if there is record with no weladee_id
-    odoo_department_ids = department_obj.search([('weladee_id','=',False)])
+    odoo_department_ids = department_obj.search([('weladee_id','=',False),'|',('active','=',False),('active','=',True)])
     for odoo_department in odoo_department_ids:
         if odoo_department.name :
             if not odoo_department["weladee_id"] :
@@ -172,13 +173,13 @@ def sync_employee_data(emp, job_obj, department_obj, country):
         data["nationalID"] = emp.employee.nationalID
         
     if emp.employee.positionid :
-        job_datas = job_obj.search( [ ("weladee_id","=", emp.employee.positionid ) ] )
+        job_datas = job_obj.search( [("weladee_id","=", emp.employee.positionid )] )
         if job_datas :
             for jdatas in job_datas :
                 data[ "job_id" ] = jdatas.id
     
     if emp.DepartmentID :
-        dep_datas = department_obj.search( [ ("weladee_id","=", emp.DepartmentID ) ] )
+        dep_datas = department_obj.search( [("weladee_id","=", emp.DepartmentID ),'|',('active','=',False),('active','=',True)] )
         if dep_datas :
             for ddatas in dep_datas :
                 data[ "department_id" ] = ddatas.id
@@ -196,11 +197,11 @@ def sync_employee_data(emp, job_obj, department_obj, country):
     if emp.employee.Nationality:
         if emp.employee.Nationality.lower() in country :
             data["country_id"] = country[ emp.employee.Nationality.lower() ]
-    print (emp.employee)
+    #print (emp.employee)
     if emp.employee.Phones:
        data["work_phone"] = emp.employee.Phones[0]
-       print(emp.employee.Phones)
-       print(emp.employee.Phones[0])
+       #print(emp.employee.Phones)
+       #print(emp.employee.Phones[0])
 
     return data
 
@@ -215,7 +216,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
             #if weladee_emp.employee.code != 'TCO-W01157': continue
 
             #search in odoo
-            odoo_emp_ids = employee_obj.search([("weladee_id", "=", weladee_emp.employee.ID)])
+            odoo_emp_ids = employee_obj.search([("weladee_id", "=", weladee_emp.employee.ID),'|',('active','=',False),('active','=',True)])
             if not odoo_emp_ids :
                 newid = employee_obj.create( sync_employee_data(weladee_emp, job_obj, department_obj, country) ) 
                 return_managers[ newid.id ] = weladee_emp.employee.managerID
@@ -228,7 +229,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
                     _logger.info( "Updated employee '%s' to odoo" % weladee_emp.employee.user_name )
 
     #scan in odoo if there is record with no weladee_id
-    odoo_emp_ids = employee_obj.search([('weladee_id','=',False)])
+    odoo_emp_ids = employee_obj.search([('weladee_id','=',False),'|',('active','=',False),('active','=',True)])
     for odoo_emp_id in odoo_emp_ids:
         if not odoo_emp_id["weladee_id"] :
 
@@ -267,7 +268,7 @@ def sync_manager(employee_obj, weladee_managers, authorization):
     #look only changed employees
     odoo_emps_change = [x for x in weladee_managers]
 
-    odoo_emps = employee_obj.search(['|',("active","=",False),("active","=",True),('id','in',odoo_emps_change)])
+    odoo_emps = employee_obj.search(['|',('id','in',odoo_emps_change),('active','=',False),('active','=',True)])
     for odoo_emp in odoo_emps :
         if odoo_emp.id and odoo_emp.id in weladee_managers :
 

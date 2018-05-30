@@ -10,10 +10,10 @@ class hr_holidays(models.TransientModel):
     _name="weladee_attendance.company.holidays"
     _description="Weladee company holidays"
     
-    company_holiday_description = fields.Char(string='Description', required=True)
-    company_holiday_date = fields.Date(string='Date', required=True, default=fields.Date.today)
-    company_holiday_active = fields.Boolean("Active", default=False)
-    company_holiday_notes = fields.Text('Notes')
+    company_holiday_description = fields.Char(string='Description', required=True, track_visibility='always')
+    company_holiday_date = fields.Date(string='Date', required=True, default=fields.Date.today, track_visibility='always')
+    company_holiday_active = fields.Boolean("Active", default=False, track_visibility='always')
+    company_holiday_notes = fields.Text('Notes', track_visibility='always')
 
     @api.onchange('company_holiday_date')
     def _onchange_company_holiday_date(self):

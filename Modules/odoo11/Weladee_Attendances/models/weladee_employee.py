@@ -58,33 +58,33 @@ class weladee_employee(models.Model):
   _inherit = 'hr.employee'
 
   #contact info
-  work_email = fields.Char(required=True)
+  work_email = fields.Char(required=True, track_visibility='always')
 
   #position
-  job_id = fields.Many2one(required=True)
+  job_id = fields.Many2one(required=True, track_visibility='always')
 
   #citizenship
-  country_id = fields.Many2one(string="Nationality (Country)", required=True)
-  taxID = fields.Char(string="TaxID")
-  nationalID = fields.Char(string="NationalID")
+  country_id = fields.Many2one(string="Nationality (Country)", required=True, track_visibility='always')
+  taxID = fields.Char(string="TaxID", track_visibility='always')
+  nationalID = fields.Char(string="NationalID", track_visibility='always')
   
   #main
-  first_name_english = fields.Char(string="English First Name")
-  last_name_english = fields.Char(string="English Last Name")
-  first_name_thai = fields.Char(string="Thai First Name")
-  last_name_thai = fields.Char(string="Thai Last Name")
-  nick_name_english = fields.Char(string="English Nick Name")
-  nick_name_thai = fields.Char(string="Thai Nick Name")
+  first_name_english = fields.Char(string="English First Name", track_visibility='always')
+  last_name_english = fields.Char(string="English Last Name", track_visibility='always')
+  first_name_thai = fields.Char(string="Thai First Name", track_visibility='always')
+  last_name_thai = fields.Char(string="Thai Last Name", track_visibility='always')
+  nick_name_english = fields.Char(string="English Nick Name", track_visibility='always')
+  nick_name_thai = fields.Char(string="Thai Nick Name", track_visibility='always')
 
   #weladee link
-  weladee_profile = fields.Char(string="Weladee Url",default="")
+  weladee_profile = fields.Char(string="Weladee Url", default="")
   weladee_id = fields.Char(string="Weladee ID")
-  receive_check_notification = fields.Boolean(string="Receive Check Notification")
-  can_request_holiday = fields.Boolean(string="Can Request Holiday")
-  hasToFillTimesheet = fields.Boolean(string="Has To Fill Timesheet")
+  receive_check_notification = fields.Boolean(string="Receive Check Notification", track_visibility='always')
+  can_request_holiday = fields.Boolean(string="Can Request Holiday", track_visibility='always')
+  hasToFillTimesheet = fields.Boolean(string="Has To Fill Timesheet", track_visibility='always')
 
   #other 
-  employee_code = fields.Char(string='Employee Code')
+  employee_code = fields.Char(string='Employee Code', track_visibility='always')
 
   @api.model
   def create(self, vals):
