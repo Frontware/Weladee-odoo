@@ -10,8 +10,9 @@ import threading
 from datetime import datetime,date, timedelta
 
 from odoo import osv
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo import exceptions
+from odoo.exceptions import UserError, ValidationError
 
 from .grpcproto import odoo_pb2
 from .grpcproto import odoo_pb2_grpc
@@ -36,27 +37,30 @@ def sync_position(job_line_obj, myrequest, authorization):
 
     '''
     #get change data from weladee
-    for weladee_position in stub.GetPositions(myrequest, metadata=authorization):
-        if weladee_position :
-            if weladee_position.position.ID :
-                #search in odoo
-                #all active false,true and weladee match
-                job_line_ids = job_line_obj.search([("weladee_id", "=", weladee_position.position.ID)])
-                if not job_line_ids :
-                    if weladee_position.position.name_english :
-                        odoo_position = job_line_obj.search([('name','=',weladee_position.position.name_english )])
-                        #_logger.info( "check this position '%s' in odoo %s, %s" % (position.position.name_english, chk_position, position.position.ID) )
-                        if not odoo_position :
-                            _ = job_line_obj.create(sync_position_data(weladee_position))
-                            _logger.info( "Insert position '%s' to odoo" % weladee_position.position.name_english )
+    try:
+        for weladee_position in stub.GetPositions(myrequest, metadata=authorization):
+            if weladee_position :
+                if weladee_position.position.ID :
+                    #search in odoo
+                    #all active false,true and weladee match
+                    job_line_ids = job_line_obj.search([("weladee_id", "=", weladee_position.position.ID)])
+                    if not job_line_ids :
+                        if weladee_position.position.name_english :
+                            odoo_position = job_line_obj.search([('name','=',weladee_position.position.name_english )])
+                            #_logger.info( "check this position '%s' in odoo %s, %s" % (position.position.name_english, chk_position, position.position.ID) )
+                            if not odoo_position :
+                                tmp = job_line_obj.create(sync_position_data(weladee_position))
+                                _logger.info( "Insert position '%s' to odoo" % weladee_position.position.name_english )
+                            else:
+                                odoo_position.write({"weladee_id" : weladee_position.position.ID})
                         else:
-                            odoo_position.write({"weladee_id" : weladee_position.position.ID})
-                    else:
-                        _logger.error( "Error while create position '%s' to odoo: there is no english name")
-                else :
-                    for odoo_position in job_line_ids :
-                        odoo_position.write( sync_position_data(weladee_position) )
-                        _logger.info( "Updated position '%s' to odoo" % weladee_position.position.name_english )
+                            _logger.error( "Error while create position '%s' to odoo: there is no english name")
+                    else :
+                        for odoo_position in job_line_ids :
+                            odoo_position.write( sync_position_data(weladee_position) )
+                            _logger.info( "Updated position '%s' to odoo" % weladee_position.position.name_english )
+    except:
+        raise UserError(_('Error while connect to GRPC Server, please check your connection or your Weladee API Key'))
 
     #scan in odoo if there is record with no weladee_id
     odoo_position_line_ids = job_line_obj.search([('weladee_id','=',False)])
@@ -102,7 +106,7 @@ def sync_department(department_obj, myrequest, authorization):
                     if weladee_dept.department.name_english :
                         odoo_department = department_obj.search([('name','=',weladee_dept.department.name_english ),'|',('active','=',False),('active','=',True)])
                         if not odoo_department :
-                            _ = department_obj.create(sync_department_data(weladee_dept))
+                            tmp = department_obj.create(sync_department_data(weladee_dept))
                             _logger.info( "Insert department '%s' to odoo" % weladee_dept.department.name_english )
                         else:
                             odoo_department.write({"weladee_id" : weladee_dept.department.ID})
@@ -275,7 +279,7 @@ def sync_manager(employee_obj, weladee_managers, authorization):
             odoo_manager = employee_obj.search( [("weladee_id","=", weladee_managers[odoo_emp.id] ),'|',("active","=",False),("active","=",True)] )
 
             try:
-                _ = odoo_emp.write( {"parent_id": int(odoo_manager.id) } )
+                tmp = odoo_emp.write( {"parent_id": int(odoo_manager.id) } )
                 _logger.info("Updated manager of %s" % odoo_emp.name)
             except Exception as e:
                 _logger.error("Update manager of %s failed : %s" % (odoo_emp.name, e))

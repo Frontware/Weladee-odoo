@@ -98,7 +98,7 @@ class weladee_employee(models.Model):
 
       if not "weladee_id" in vals:
          _logger.info("Create new request to weladee...")
-         authorization, _ = get_api_key(self)
+         authorization, tmp = get_api_key(self)
          if not authorization :
             _logger.error("Your Odoo is not authroize to use weladee")
 
@@ -208,7 +208,7 @@ class weladee_employee(models.Model):
 
       #get record from weladee
       WeladeeData = odoo_pb2.EmployeeOdoo()
-      authorization, _ = get_api_key(self)
+      authorization, tmp = get_api_key(self)
       if not authorization :
          _logger.error("Your Odoo is not authroize to use weladee")
       else:
