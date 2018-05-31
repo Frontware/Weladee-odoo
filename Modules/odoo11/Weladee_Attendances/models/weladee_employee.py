@@ -183,9 +183,9 @@ class weladee_employee(models.Model):
 
             if vals["work_phone"] :
               if len(WeladeeData.employee.Phones) == 0:
-                 WeladeeData.employee.Phones[:] = [vals['work_phone']]
+                 WeladeeData.employee.Phones[:] = [vals['work_phone'] or '']
               else:  
-                 WeladeeData.employee.Phones[0] = vals['work_phone']
+                 WeladeeData.employee.Phones[0] = vals['work_phone'] or ''
 
             try:
               result = stub.AddEmployee(WeladeeData, metadata=authorization)
@@ -338,9 +338,9 @@ class weladee_employee(models.Model):
 
           if "work_phone" in vals:
               if len(WeladeeData.employee.Phones) == 0:
-                 WeladeeData.employee.Phones[:] = [vals['work_phone']]
+                 WeladeeData.employee.Phones[:] = [vals['work_phone'] or '']
               else:  
-                 WeladeeData.employee.Phones[0] = vals['work_phone']
+                 WeladeeData.employee.Phones[0] = vals['work_phone'] or ''
 
           #2018-10-29 KPO we don't sync 
           #  department
