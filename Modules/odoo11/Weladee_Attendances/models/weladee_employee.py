@@ -9,7 +9,7 @@ import time
 import webbrowser
 
 from odoo import osv
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from datetime import datetime,date, timedelta
 from odoo import exceptions
 
