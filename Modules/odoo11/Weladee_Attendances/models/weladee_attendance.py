@@ -206,6 +206,9 @@ def sync_employee_data(emp, job_obj, department_obj, country):
        data["work_phone"] = emp.employee.Phones[0]
        #print(emp.employee.Phones)
        #print(emp.employee.Phones[0])
+       
+    #2018-06-01 KPO if application level >=2 > manager   
+    data["manager"] = emp.employee.application_level >= 2
 
     return data
 
