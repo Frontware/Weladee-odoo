@@ -30,7 +30,7 @@ class weladee_holidays(models.Model):
   @api.multi
   def action_validate( self ):
     mainHol = False
-    authorization = weladee_employee.get_api_key(self)
+    authorization, holiday_status_id = weladee_employee.get_api_key(self)
     #print("API : %s" % authorization)
     if authorization :
       if True :

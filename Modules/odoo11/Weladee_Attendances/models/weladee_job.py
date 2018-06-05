@@ -35,7 +35,7 @@ class weladee_job(models.Model):
     
     if not "weladee_id" in vals:
 
-      authorization = weladee_employee.get_api_key(self)
+      authorization, holiday_status_id = weladee_employee.get_api_key(self)
       #print("API : %s" % authorization)
       if authorization :
         if True :
@@ -45,7 +45,7 @@ class weladee_job(models.Model):
           for position in stub.GetPositions(odooRequest, metadata=authorization):
             if position :
               if position.position.name_english :
-                weladeePositions[ position.position.name_english ] = position.position.id
+                weladeePositions[ position.position.name_english ] = position.position.ID
 
           if not vals["name"] in weladeePositions :
             newPosition = odoo_pb2.PositionOdoo()
@@ -67,7 +67,7 @@ class weladee_job(models.Model):
 
   def write(self, vals):
     pid = super(weladee_job, self).write( vals )
-    authorization = weladee_employee.get_api_key(self)
+    authorization, holiday_status_id = weladee_employee.get_api_key(self)
     #print("API : %s" % authorization)
     if not "weladee_id" in vals :
       if authorization :
@@ -77,7 +77,7 @@ class weladee_job(models.Model):
             for position in stub.GetPositions(myrequest, metadata=authorization):
               if position :
                 if position.position.name_english :
-                  weladeePositions[ position.position.name_english ] = position.position.id
+                  weladeePositions[ position.position.name_english ] = position.position.ID
 
             if not vals["name"] in weladeePositions :
               newPosition = odoo_pb2.PositionOdoo()

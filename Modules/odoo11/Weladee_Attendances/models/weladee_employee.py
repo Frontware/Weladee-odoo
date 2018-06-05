@@ -26,6 +26,7 @@ myrequest = weladee_pb2.EmployeeRequest()
 def get_api_key(self):
   '''
   get api key from settings
+  return authorization, holiday_status_id
 
   '''
   line_obj = self.env['weladee_attendance.synchronous.setting']
