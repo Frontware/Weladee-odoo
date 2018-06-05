@@ -1,6 +1,6 @@
 # Weladee - Odoo 
 
-
+[![Coverage Status](https://coveralls.io/repos/github/Frontware/Weladee-odoo/badge.svg?branch=odoo11)](https://coveralls.io/github/Frontware/Weladee-odoo?branch=odoo11)
 
 ![Weladee logo](https://vgy.me/jlVton.png)![odoo](https://goo.gl/D9uZDJ)
 
