@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 from odoo import api, fields, models, _
+from odoo.addons.Weladee_Attendances.models.weladee_employee import get_api_key, CONST_SETTING_APIKEY, CONST_SETTING_HOLIDAY_STATUS_ID 
 
 class weladee_settings(models.TransientModel):
     _name="weladee_attendance.synchronous.setting"
@@ -10,44 +11,39 @@ class weladee_settings(models.TransientModel):
     purpose : get default holiday_status_id
     remarks :
     2017-09-26 CKA created
+    2018-06-07 KPO save data
     '''
     def _get_holiday_status(self):
-        line_obj = self.env['weladee_attendance.synchronous.setting']
-        line_ids = line_obj.search([])
-        holiday_status_id = False
-
-        for sId in line_ids:
-            dataSet = line_obj.browse(sId.id)
-            if dataSet.holiday_status_id :
-                holiday_status_id = dataSet.holiday_status_id
-
-        if not holiday_status_id :
-            holiday_status_id = self.env['hr.holidays.status'].create({ 'name' : 'Sync From Weladee',
-                                                                        'double_validation':False,
-                                                                        'limit':True,
-                                                                        'categ_id':False,
-                                                                        'color_name':'blue'})
-
+        tmp, holiday_status_id = get_api_key(self)
 
         return holiday_status_id
 
     def _get_api_key(self):
-        line_obj = self.env['weladee_attendance.synchronous.setting']
-        line_ids = line_obj.search([])
-        api_key = False
-
-        for sId in line_ids:
-            dataSet = line_obj.browse(sId.id)
-            if dataSet.api_key :
-                api_key = dataSet.api_key
-
-        return api_key
+        api_key, tmp = get_api_key(self)
+        
+        return (api_key or [['','']])[0][1]
 
 
     holiday_status_id = fields.Many2one("hr.holidays.status", String="Leave Type",required=True,default=_get_holiday_status )
     api_key = fields.Char(string="API Key", required=True,default=_get_api_key )
 
     def saveBtn(self):
-        print("--------Save-----------")
+        '''
+        write back to parameter
+        '''
+        line_ids = self.env['ir.config_parameter'].search([('key','like','weladee-%')])
+
+        if len(line_ids) == 0:
+           self.env['ir.config_parameter'].create({'key':CONST_SETTING_APIKEY,
+                                                   'value': self.api_key}) 
+           self.env['ir.config_parameter'].create({'key':CONST_SETTING_HOLIDAY_STATUS_ID,
+                                                   'value': self.holiday_status_id.id}) 
+           return
+
+        for each in line_ids:
+            if each.key == CONST_SETTING_APIKEY:
+               each.write({'value':self.api_key}) 
+            elif each.key == CONST_SETTING_HOLIDAY_STATUS_ID:
+               each.write({'value':self.holiday_status_id.id})                
 
 weladee_settings()

@@ -23,23 +23,29 @@ from . import weladee_employee
 stub = weladee_grpc.weladee_grpc_ctrl()
 myrequest = weladee_pb2.EmployeeRequest()
 
+CONST_SETTING_APIKEY = 'weladee-api_key'
+CONST_SETTING_HOLIDAY_STATUS_ID = 'weladee-holiday_status_id'
+
 def get_api_key(self):
   '''
   get api key from settings
   return authorization, holiday_status_id
 
   '''
-  line_obj = self.env['weladee_attendance.synchronous.setting']
-  line_ids = line_obj.search([])
+  line_ids = self.env['ir.config_parameter'].search([('key','like','weladee-%')])
+  print(line_ids)
   authorization = False
   holiday_status_id = False
 
-  for sId in line_ids:
-      dataSet = line_obj.browse(sId.id)
-      if dataSet.api_key :
-          authorization = [("authorization", dataSet.api_key)]
-      if dataSet.holiday_status_id :
-          holiday_status_id = dataSet.holiday_status_id
+  for dataSet in line_ids:
+      if dataSet.key == CONST_SETTING_APIKEY :
+          authorization = [("authorization", dataSet.value)]
+      elif dataSet.key == CONST_SETTING_HOLIDAY_STATUS_ID:
+          try:
+            holiday_status_id = int(float(dataSet.value))
+          except:
+            pass  
+
   return authorization, holiday_status_id
 
 def get_weladee_employee(weladee_id, authorization):

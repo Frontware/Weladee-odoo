@@ -220,7 +220,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
     for weladee_emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
         if weladee_emp and weladee_emp.employee:
             #TODO: Debug
-            #if weladee_emp.employee.code != 'TCO-W01157': continue
+            if weladee_emp.employee.code != 'TCO-E0001': continue
 
             #search in odoo
             odoo_emp_ids = employee_obj.search([("weladee_id", "=", weladee_emp.employee.ID),'|',('active','=',False),('active','=',True)])
