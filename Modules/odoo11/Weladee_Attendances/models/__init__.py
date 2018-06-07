@@ -2,6 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 from . import grpcproto
 from . import fw_holiday
+from . import weladee_attendance_form
 from . import weladee_attendance
 from . import weladee_department
 from . import weladee_employee

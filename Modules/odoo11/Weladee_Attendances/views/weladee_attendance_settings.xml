@@ -14,6 +14,7 @@
                 <group>
                     <field name="api_key"/>
                     <field name="holiday_status_id"/>
+                    <field name="email" requird="1"/>
                 </group>
                 <footer>
                     <button icon="fa-close" special="cancel" string="Close"/>

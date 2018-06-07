@@ -1,27 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 
-	purpose : render synchronous
+	purpose : render synchronous info form
 
 	remarks :
 	2017-07-18 CKA add view synchronous menu For sync Employee, Department, Holiday and attences on Attendances menu
     2018-05-24 KPO move hr_employee_weladee_profile to views/fw_hr_employee.xml
  -->
 <odoo>
-         <!--<record id="lunch_weladee_synchronous" model="ir.actions.server">
-            <field name="name">lunch_weladee_synchronous</field>
-            <field name="model_id" ref="Weladee_Attendances.model_weladee_attendance_synchronous"/>
-            <field name="state">code</field>
-            <field name="code">
-                action = model.synchronousBtn()
-
-            </field>
-        </record> -->
-
-        <record id="weladee_attendance_wizard" model="ir.ui.view">
-            <field name="name">weladee_attendance_wizard</field>
-            <field name="model">weladee_attendance.synchronous</field>
+        <record id="weladee_attendance_wizard_frm" model="ir.ui.view">
+            <field name="name">weladee_attendance_wizard_frm</field>
+            <field name="model">weladee_attendance_form</field>
             <field name="arch" type="xml">
-               <form string="Synchronous">
+               <form string="Weladee Synchronization">
                     <label string="List" colspan="4" /><br />
                     <label string="   - Positions" colspan="4" /><br />
                     <label string="   - Departments" colspan="4" /><br />
@@ -36,12 +26,25 @@
             </field>
         </record>
 
+        <record id="weladee_attendance_wizard_frm_ok" model="ir.ui.view">
+            <field name="name">weladee_attendance_wizard_frm_ok</field>
+            <field name="model">weladee_attendance_form</field>
+            <field name="arch" type="xml">
+               <form string="Synchronous">
+                    <label string="Synchronous started, you will receive email once it's done." />
+                    <footer>
+                        <button icon="fa-close"  special="cancel"   string="Close"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
         <record model="ir.actions.act_window" id="action_weladee_attendance_synchronous_form">
-            <field name="name">Weladee synchronization</field>
-            <field name="res_model">weladee_attendance.synchronous</field>
+            <field name="name">Weladee Synchronization</field>
+            <field name="res_model">weladee_attendance_form</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="weladee_attendance_wizard"/>
+            <field name="view_id" ref="weladee_attendance_wizard_frm"/>
             <field name="target">new</field>
         </record>
  

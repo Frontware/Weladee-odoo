@@ -25,6 +25,7 @@ myrequest = weladee_pb2.EmployeeRequest()
 
 CONST_SETTING_APIKEY = 'weladee-api_key'
 CONST_SETTING_HOLIDAY_STATUS_ID = 'weladee-holiday_status_id'
+CONST_SETTING_SYNC_EMAIL = 'weladee-sync-email'
 
 def get_api_key(self):
   '''
