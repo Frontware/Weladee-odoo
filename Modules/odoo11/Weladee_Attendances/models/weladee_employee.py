@@ -145,8 +145,7 @@ class weladee_employee(models.Model):
                 if cdata.name :
                   WeladeeData.employee.Nationality = cdata.name
 
-            if vals["notes"] :
-              WeladeeData.employee.note = vals["notes"] or ''
+            #2018-06-07 KPO don't sync note back
 
             if vals["work_email"] :
               WeladeeData.employee.email = vals["work_email"] or ''
@@ -299,11 +298,8 @@ class weladee_employee(models.Model):
             WeladeeData.employee.code = vals["employee_code"] or ''
           else:
             WeladeeData.employee.code = self.employee_code or ''
-            
-          if "notes" in vals :
-            WeladeeData.employee.note = vals["notes"] or ''
-          else:
-            WeladeeData.employee.note = self.notes or ''
+
+          #2018-06-07 KPO don't sync note back
 
           if "parent_id" in vals :
               manager = self.env['hr.employee'].browse( vals["parent_id"] )

@@ -150,10 +150,10 @@ def sync_employee_data(emp, job_obj, department_obj, country):
             photoBase64 = base64.b64encode(requests.get(emp.employee.photo).content)
         except Exception as e:
             _logger.error("Error when load image : %s" % e)
-        
+    
+    #2018-06-07 KPO don't sync note back        
     data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
             ,"employee_code" :(emp.employee.code or "" )
-            ,"notes": ( emp.employee.note or "" )
             ,"weladee_profile" : "https://www.weladee.com/employee/" + str(emp.employee.ID)
             ,"work_email":( emp.employee.email or "" )
             ,"first_name_english":emp.employee.first_name_english
@@ -251,7 +251,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
             newEmployee.employee.last_name_thai = odoo_emp_id.last_name_thai or ''
             
             newEmployee.employee.email = odoo_emp_id.work_email or ''
-            newEmployee.employee.note = odoo_emp_id.notes or ''
+            #2018-06-07 KPO don't sync note back
             newEmployee.employee.lg = "en"
             newEmployee.employee.Active = odoo_emp_id.active
             if odoo_emp_id.work_phone:
