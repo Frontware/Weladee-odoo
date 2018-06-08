@@ -7,6 +7,7 @@
     2018-05-24 KPO move hr_employee_weladee_profile to views/fw_hr_employee.xml
  -->
 <odoo>
+    <data>
         <record id="weladee_attendance_wizard_frm" model="ir.ui.view">
             <field name="name">weladee_attendance_wizard_frm</field>
             <field name="model">weladee_attendance_form</field>
@@ -31,7 +32,8 @@
             <field name="model">weladee_attendance_form</field>
             <field name="arch" type="xml">
                <form string="Synchronous">
-                    <label string="Synchronous started, you will receive email once it's done." />
+                    <label string="Synchronous started, you will receive email at email address below once it's done." />
+                    <field name="email" readonly="1" />
                     <footer>
                         <button icon="fa-close"  special="cancel"   string="Close"/>
                     </footer>
@@ -55,4 +57,18 @@
                   parent="hr_attendance.menu_hr_attendance_root"
                   groups="hr_attendance.group_hr_attendance_manager"
         />
+    </data>
+
+    <data noupdate="1">
+        <record id="weladee_attendance_synchronous_cron" model="ir.cron">
+            <field name="name">Weladee Attendance: Synchronous task</field>
+            <field name="model_id" ref="model_weladee_attendance_synchronous"/>
+            <field name="state">code</field>
+            <field name="code">model.start_sync()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+        </record>
+    </data>
 </odoo>  

@@ -16,6 +16,9 @@
                     <field name="holiday_status_id"/>
                     <field name="email" requird="1"/>
                 </group>
+                <div colspan="4">
+                    <label string="*Note: you can separate each email by ;" />
+                </div>
                 <footer>
                     <button icon="fa-close" special="cancel" string="Close"/>
                     <button icon="fa-gear" name="saveBtn" string="Save" class="oe_highlight" type="object"/>

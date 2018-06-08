@@ -18,36 +18,11 @@ from .grpcproto import odoo_pb2_grpc
 from .grpcproto import weladee_pb2
 from . import weladee_grpc
 from . import weladee_employee
+from odoo.addons.Weladee_Attendances.models.weladee_settings import get_api_key 
 
 # Weladee grpc server address is hrpc.weladee.com:22443
 stub = weladee_grpc.weladee_grpc_ctrl()
 myrequest = weladee_pb2.EmployeeRequest()
-
-CONST_SETTING_APIKEY = 'weladee-api_key'
-CONST_SETTING_HOLIDAY_STATUS_ID = 'weladee-holiday_status_id'
-CONST_SETTING_SYNC_EMAIL = 'weladee-sync-email'
-
-def get_api_key(self):
-  '''
-  get api key from settings
-  return authorization, holiday_status_id
-
-  '''
-  line_ids = self.env['ir.config_parameter'].search([('key','like','weladee-%')])
-  print(line_ids)
-  authorization = False
-  holiday_status_id = False
-
-  for dataSet in line_ids:
-      if dataSet.key == CONST_SETTING_APIKEY :
-          authorization = [("authorization", dataSet.value)]
-      elif dataSet.key == CONST_SETTING_HOLIDAY_STATUS_ID:
-          try:
-            holiday_status_id = int(float(dataSet.value))
-          except:
-            pass  
-
-  return authorization, holiday_status_id
 
 def get_weladee_employee(weladee_id, authorization):
     '''

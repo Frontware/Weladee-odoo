@@ -12,7 +12,7 @@ from datetime import datetime,date, timedelta
 from odoo import osv
 from odoo import models, fields, api, _
 from odoo import exceptions
-from odoo.exceptions import UserError, ValidationError
+#from odoo.exceptions import UserError, ValidationError
 
 from .grpcproto import odoo_pb2
 from .grpcproto import odoo_pb2_grpc
@@ -60,7 +60,7 @@ def sync_position(job_line_obj, myrequest, authorization):
                             odoo_position.write( sync_position_data(weladee_position) )
                             _logger.info( "Updated position '%s' to odoo" % weladee_position.position.name_english )
     except:
-        raise UserError(_('Error while connect to GRPC Server, please check your connection or your Weladee API Key'))
+        print(_('Error while connect to GRPC Server, please check your connection or your Weladee API Key'))
 
     #scan in odoo if there is record with no weladee_id
     odoo_position_line_ids = job_line_obj.search([('weladee_id','=',False)])
@@ -391,12 +391,13 @@ class weladee_attendance(models.TransientModel):
     _description="synchronous Employee, Department, Holiday and attendance"
 
     @api.multi
-    def synchronousBtn(self):
+    def start_sync(self):
         _logger.info("Start sync..")
         authorization, holiday_status_id = weladee_employee.get_api_key(self)
                 
         if not holiday_status_id or not authorization :
-            raise exceptions.UserError('Must to be set Leave Type on Weladee setting')
+            #raise exceptions.UserError('Must to be set Leave Type on Weladee setting')
+            print('Must to be set Leave Type on Weladee setting')
         else:
 
             _logger.info("Start sync...")
