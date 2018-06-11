@@ -4,7 +4,7 @@ import time
 
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
-from .weladee_base import stub, sync_loginfo, sync_logerror  
+from .weladee_base import stub, sync_loginfo, sync_logerror, myrequest  
 
 def sync_department_data(weladee_dept):
     '''
@@ -14,25 +14,25 @@ def sync_department_data(weladee_dept):
             "weladee_id" : weladee_dept.department.ID
     }   
 
-def sync_department(department_obj, myrequest, authorization, context_sync):
+def sync_department(department_obj, authorization, context_sync):
     '''
     sync department with odoo and return the list
     '''    
     sDepartment = []
     try:
-        context_sync['request-synced'].append('updating changes from weladee-> odoo')
+        context_sync['request-logs'].append(['i','updating changes from weladee-> odoo'])
         #get change data from weladee
         for weladee_dept in stub.GetDepartments(myrequest, metadata=authorization):
             if not weladee_dept :
-               context_sync['request-debug'].append('>weladee department empty')
+               context_sync['request-logs'].append(['d','>weladee department empty'])
             else:
                 if not weladee_dept.department.ID :
-                   context_sync['request-debug'].append('>weladee department id empty')
+                   context_sync['request-logs'].append(['d','>weladee department id empty'])
                 else:
                     #search in odoo
                     odoo_department_ids = department_obj.search([("weladee_id", "=", weladee_dept.department.ID),'|',('active','=',False),('active','=',True)])
                     if not odoo_department_ids :
-                        context_sync['request-debug'].append('>not found weladee department id in odoo') 
+                        context_sync['request-logs'].append(['d','>not found weladee department id in odoo']) 
                         if weladee_dept.department.name_english :
                             odoo_department = department_obj.search([('name','=',weladee_dept.department.name_english ),'|',('active','=',False),('active','=',True)])
                             if not odoo_department :
@@ -48,20 +48,21 @@ def sync_department(department_obj, myrequest, authorization, context_sync):
                             odoo_department.write( sync_department_data(weladee_dept) )
                             sync_loginfo(context_sync,  "Updated department '%s' to odoo" % weladee_dept.department.name_english )
 
-    except:
+    except Exception as e:
         context_sync['request-error'] = True
+        context_sync['request-logs'].append(['d','(department) Error while connect to grpc %s' % e])
         sync_logerror(context_sync, 'Error while connect to GRPC Server, please check your connection or your Weladee API Key')
         return
 
     #scan in odoo if there is record with no weladee_id
-    context_sync['request-synced'].append('updating new changes from odoo -> weladee')
+    context_sync['request-logs'].append(['i','updating new changes from odoo -> weladee'])
     odoo_department_ids = department_obj.search([('weladee_id','=',False),'|',('active','=',False),('active','=',True)])
     for odoo_department in odoo_department_ids:
         if not odoo_department.name :
-           context_sync['request-debug'].append('>not found odoo department name')
+           context_sync['request-logs'].append(['d','>not found odoo department name'])
         else:    
             if odoo_department["weladee_id"] :
-               context_sync['request-debug'].append('>strange case, found odoo weladee-id %s' % odoo_department["weladee_id"]) 
+               context_sync['request-logs'].append(['d','>strange case, found odoo weladee-id %s' % odoo_department["weladee_id"]]) 
             else:    
                 newDepartment = odoo_pb2.DepartmentOdoo()
                 newDepartment.odoo.odoo_id = odoo_department.id

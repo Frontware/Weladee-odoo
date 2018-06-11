@@ -18,10 +18,7 @@ from .grpcproto import odoo_pb2_grpc
 from .grpcproto import weladee_pb2
 from . import weladee_grpc
 from . import weladee_employee
-
-# Weladee grpc server address is hrpc.weladee.com:22443
-stub = weladee_grpc.weladee_grpc_ctrl()
-myrequest = weladee_pb2.EmployeeRequest()
+from .sync.weladee_base import stub, myrequest
 
 class weladee_job(models.Model):
   _description="synchronous position to weladee"
@@ -67,14 +64,14 @@ class weladee_job(models.Model):
 
   def write(self, vals):
     pid = super(weladee_job, self).write( vals )
-    authorization, holiday_status_id = weladee_employee.get_api_key(self)
+    authorization, __ = weladee_employee.get_api_key(self)
     #print("API : %s" % authorization)
     if not "weladee_id" in vals :
       if authorization :
         if True :
           if "name" in vals:
             weladeePositions = {}
-            for position in stub.GetPositions(myrequest, metadata=authorization):
+            for position in stub.GetPositions(metadata=authorization):
               if position :
                 if position.position.name_english :
                   weladeePositions[ position.position.name_english ] = position.position.ID

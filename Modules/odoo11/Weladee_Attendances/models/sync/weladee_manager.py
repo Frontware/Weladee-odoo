@@ -6,7 +6,7 @@ def sync_manager(employee_obj, weladee_managers, authorization, context_sync):
     '''
     sync employee's manager
     '''
-    context_sync['request-synced'].append('updating manager''s changes from weladee-> odoo')
+    context_sync['request-logs'].append(['i','updating manager''s changes from weladee-> odoo'])
     #look only changed employees
     odoo_emps_change = [x for x in weladee_managers]
 

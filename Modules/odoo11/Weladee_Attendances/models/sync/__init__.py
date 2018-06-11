@@ -5,3 +5,4 @@ from . import weladee_position
 from . import weladee_department
 from . import weladee_employee
 from . import weladee_manager
+from . import weladee_log

@@ -15,12 +15,19 @@ def sync_loginfo(context_sync, log):
     write in context and log info
     '''
     _logger.info( log )
-    context_sync['request-debug'].append( log ) 
+    context_sync['request-logs'].append(['i', log]) 
+
+def sync_logdebug(context_sync, log):
+    '''
+    write in context and log info
+    '''
+    _logger.debug( log )
+    context_sync['request-logs'].append(['d', log]) 
 
 def sync_logerror(context_sync, log):
     '''
     write in context and log info
     '''
     _logger.error(log)
-    context_sync['request-errors'].append(log)
+    context_sync['request-logs'].append(['e', log])
 

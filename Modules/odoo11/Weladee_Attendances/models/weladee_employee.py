@@ -18,11 +18,8 @@ from .grpcproto import odoo_pb2_grpc
 from .grpcproto import weladee_pb2
 from . import weladee_grpc
 from . import weladee_employee
+from .sync.weladee_base import stub, myrequest
 from odoo.addons.Weladee_Attendances.models.weladee_settings import get_api_key 
-
-# Weladee grpc server address is hrpc.weladee.com:22443
-stub = weladee_grpc.weladee_grpc_ctrl()
-myrequest = weladee_pb2.EmployeeRequest()
 
 def get_weladee_employee(weladee_id, authorization):
     '''

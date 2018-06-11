@@ -88,8 +88,10 @@ Someone requested the Weladee Synchronization at ${ctx.get('request-date')}
 % if ctx.get('request-error',False):
     There is an error occured when run Synchronization:<BR />
     <ul>
-    % for err in ctx.get('request-errors'):
-      <li>${err}</li>
+    % for err in ctx.get('request-logs'):
+      % if err[0] == 'e'
+      <li>${err[1]}</li>
+      % endif
     % endfor
     </ul>
 % else:

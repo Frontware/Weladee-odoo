@@ -87,7 +87,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
     sync data from employee
     '''
     try:
-        context_sync['request-synced'].append('updating changes from weladee-> odoo')
+        context_sync['request-logs'].append(['i','updating changes from weladee-> odoo'])
         #get change data from weladee
         for weladee_emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
             if weladee_emp and weladee_emp.employee:
@@ -107,14 +107,15 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
                         return_managers[ odoo_emp_id.id ] = weladee_emp.employee.managerID
                         sync_loginfo(context_sync, "Updated employee '%s' to odoo" % weladee_emp.employee.user_name )
             else:
-                context_sync['request-debug'].append('>weladee employee empty')            
-    except:
+                context_sync['request-logs'].append(['d','>weladee employee empty'])            
+    except Exception as e:
         context_sync['request-error'] = True
+        context_sync['request-logs'].append(['d','(employee) Error while connect to grpc %s' % e])
         sync_logerror(context_sync, 'Error while connect to GRPC Server, please check your connection or your Weladee API Key')
         return
 
     #scan in odoo if there is record with no weladee_id
-    context_sync['request-synced'].append('updating new changes from odoo -> weladee')
+    context_sync['request-logs'].append(['i','updating new changes from odoo -> weladee'])
     odoo_emp_ids = employee_obj.search([('weladee_id','=',False),'|',('active','=',False),('active','=',True)])
     for odoo_emp_id in odoo_emp_ids:
         if not odoo_emp_id["weladee_id"] :
