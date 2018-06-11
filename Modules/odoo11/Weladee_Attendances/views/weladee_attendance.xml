@@ -82,11 +82,11 @@
             <field name="body_html" type="html">
 <div>
 <p>Hi,
-<BR>
+<BR />
 Someone requested the Weladee Synchronization at ${ctx.get('request-date')}
 </p>
 % if ctx.get('request-error',False):
-    There is an error occured when run Synchronization:<BR>
+    There is an error occured when run Synchronization:<BR />
     <ul>
     % for err in ctx.get('request-errors'):
       <li>${err}</li>

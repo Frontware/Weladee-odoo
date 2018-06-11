@@ -443,6 +443,11 @@ if True :
                                             except Exception as ee :
                                                 print("Error when Create Company holiday : ",ee)
 '''
+class weladee_attendance_working(models.TransientModel):
+      _name="weladee_attendance.working"  
+
+      last_run = fields.Datetime('Last run')
+
 
 class weladee_attendance(models.TransientModel):
     _name="weladee_attendance.synchronous"
@@ -508,7 +513,8 @@ class weladee_attendance(models.TransientModel):
 
         _logger.info('sending result to %s' % context_sync['request-email'])
         self.send_result_mail(context_sync)
-
+        works = self.env['weladee_attendance.working'].search([])
+        if works: works.unlink()
 
     def send_result_mail(self, ctx):
         '''
