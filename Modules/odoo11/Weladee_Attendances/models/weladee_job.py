@@ -35,7 +35,7 @@ class weladee_job(models.Model):
     
     if not "weladee_id" in vals:
 
-      authorization, holiday_status_id = weladee_employee.get_api_key(self)
+      authorization, __ = weladee_employee.get_api_key(self)
       #print("API : %s" % authorization)
       if authorization :
         if True :
