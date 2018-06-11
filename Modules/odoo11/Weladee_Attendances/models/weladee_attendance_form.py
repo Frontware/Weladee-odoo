@@ -12,12 +12,10 @@ class weladee_attendance_form(models.TransientModel):
 
     @api.model
     def _get_synchronous_email(self):
-        print('default=')
         return "get_synchronous_email(self)"
 
     @api.one
     def _get_synchronous_email(self):
-        print('compute=')
         self.email = get_synchronous_email(self)
 
     #fields
