@@ -3,6 +3,7 @@
 import threading
 import logging
 _logger = logging.getLogger(__name__)
+import datetime
 
 from odoo import models, fields, api, _
 from odoo.addons.Weladee_Attendances.models.weladee_settings import get_synchronous_email 
@@ -39,10 +40,12 @@ class weladee_attendance_form(models.TransientModel):
         '''
         click confirm to start synchronous
         '''
-        try:
-            self.env.ref('Weladee_Attendances.weladee_attendance_synchronous_cron').method_direct_trigger()
-        except:
-            pass
+
+        cron = self.env.ref('Weladee_Attendances.weladee_attendance_synchronous_cron')
+        #restart cron
+        newnextcall = datetime.datetime.strptime(cron.nextcall,'%Y-%m-%d %H:%M:%S')
+        newnextcall = newnextcall - datetime.timedelta(days=30)
+        cron.write({'nextcall': newnextcall})
 
         return {
             "name":"Weladee Synchronization",

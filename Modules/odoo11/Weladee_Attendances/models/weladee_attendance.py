@@ -7,6 +7,7 @@ import base64
 import requests
 import time
 import threading
+import pytz
 from datetime import datetime,date, timedelta
 
 from odoo import osv
@@ -19,10 +20,26 @@ from .grpcproto import odoo_pb2_grpc
 from .grpcproto import weladee_pb2
 from . import weladee_grpc
 from . import weladee_employee
+from odoo.addons.Weladee_Attendances.models.weladee_settings import get_synchronous_email 
 
 # Weladee grpc server address is hrpc.weladee.com:22443
 stub = weladee_grpc.weladee_grpc_ctrl()
 myrequest = weladee_pb2.EmployeeRequest()
+
+def sync_loginfo(context_sync, log):
+    '''
+    write in context and log info
+    '''
+    _logger.info( log )
+    context_sync['request-debug'].append( log ) 
+
+def sync_logerror(context_sync, log):
+    '''
+    write in context and log info
+    '''
+    _logger.error(log)
+    context_sync['request-errors'].append(log)
+
 
 def sync_position_data(weladee_position):
     '''
@@ -31,42 +48,56 @@ def sync_position_data(weladee_position):
     return {"name" : weladee_position.position.name_english,
             "weladee_id" : weladee_position.position.ID}
 
-def sync_position(job_line_obj, myrequest, authorization):
+def sync_position(job_line_obj, myrequest, authorization, context_sync):
     '''
     sync all positions from weladee
 
     '''
     #get change data from weladee
     try:
+        context_sync['request-synced'].append('updating changes from weladee-> odoo')
         for weladee_position in stub.GetPositions(myrequest, metadata=authorization):
-            if weladee_position :
+            if not weladee_position :
+               context_sync['request-debug'].append('>weladee position empty')
+            else:    
                 if weladee_position.position.ID :
+                   context_sync['request-debug'].append('>weladee position id empty') 
+                else:    
                     #search in odoo
                     #all active false,true and weladee match
                     job_line_ids = job_line_obj.search([("weladee_id", "=", weladee_position.position.ID)])
                     if not job_line_ids :
+                        context_sync['request-debug'].append('>not found weladee position id in odoo') 
                         if weladee_position.position.name_english :
                             odoo_position = job_line_obj.search([('name','=',weladee_position.position.name_english )])
                             #_logger.info( "check this position '%s' in odoo %s, %s" % (position.position.name_english, chk_position, position.position.ID) )
-                            if not odoo_position :
-                                tmp = job_line_obj.create(sync_position_data(weladee_position))
-                                _logger.info( "Insert position '%s' to odoo" % weladee_position.position.name_english )
+                            if not odoo_position :                                
+                                __ = job_line_obj.create(sync_position_data(weladee_position))
+                                sync_loginfo(context_sync, "Insert position '%s' to odoo" % weladee_position.position.name_english )
                             else:
                                 odoo_position.write({"weladee_id" : weladee_position.position.ID})
+                                sync_loginfo(context_sync, "update weladee id to position '%s'" % weladee_position.position.name_english )
                         else:
-                            _logger.error( "Error while create position '%s' to odoo: there is no english name")
+                            sync_logerror(context_sync, "Error while create position '%s' to odoo: there is no english name")
                     else :
                         for odoo_position in job_line_ids :
                             odoo_position.write( sync_position_data(weladee_position) )
-                            _logger.info( "Updated position '%s' to odoo" % weladee_position.position.name_english )
+                            sync_loginfo(context_sync, "Updated position '%s' to odoo" % weladee_position.position.name_english )
     except:
-        print(_('Error while connect to GRPC Server, please check your connection or your Weladee API Key'))
+        context_sync['request-error'] = True
+        sync_logerror(context_sync, 'Error while connect to GRPC Server, please check your connection or your Weladee API Key')
+        return
 
     #scan in odoo if there is record with no weladee_id
+    context_sync['request-synced'].append('updating new changes from odoo -> weladee')
     odoo_position_line_ids = job_line_obj.search([('weladee_id','=',False)])
     for positionData in odoo_position_line_ids:
-        if positionData.name :
-            if not positionData["weladee_id"] :
+        if not positionData.name :
+           context_sync['request-debug'].append('>not found odoo position name')             
+        else:            
+            if positionData["weladee_id"]:
+               context_sync['request-debug'].append('>strange case, found odoo weladee-id %s' % positionData["weladee_id"])
+            else:
                 newPosition = odoo_pb2.PositionOdoo()
                 newPosition.odoo.odoo_id = positionData.id
                 newPosition.odoo.odoo_created_on = int(time.time())
@@ -79,9 +110,9 @@ def sync_position(job_line_obj, myrequest, authorization):
                     returnobj = stub.AddPosition(newPosition, metadata=authorization)
                     #print( result  )
                     positionData.write({'weladee_id':returnobj.id})
-                    _logger.info("Added position to weladee : %s" % positionData.name)
+                    sync_loginfo(context_sync, "Added position to weladee : %s" % positionData.name)
                 except Exception as e:
-                    _logger.error("Add position '%s' failed : %s" % (positionData.name, e))
+                    sync_logerror(context_sync, "Add position '%s' failed : %s" % (positionData.name, e))
 
 def sync_department_data(weladee_dept):
     '''
@@ -91,37 +122,55 @@ def sync_department_data(weladee_dept):
             "weladee_id" : weladee_dept.department.ID
     }   
 
-def sync_department(department_obj, myrequest, authorization):
+def sync_department(department_obj, myrequest, authorization, context_sync):
     '''
     sync department with odoo and return the list
     '''    
     sDepartment = []
-    #get change data from weladee
-    for weladee_dept in stub.GetDepartments(myrequest, metadata=authorization):
-        if weladee_dept :
-            if weladee_dept.department.ID :
-                #search in odoo
-                odoo_department_ids = department_obj.search([("weladee_id", "=", weladee_dept.department.ID),'|',('active','=',False),('active','=',True)])
-                if not odoo_department_ids :
-                    if weladee_dept.department.name_english :
-                        odoo_department = department_obj.search([('name','=',weladee_dept.department.name_english ),'|',('active','=',False),('active','=',True)])
-                        if not odoo_department :
-                            tmp = department_obj.create(sync_department_data(weladee_dept))
-                            _logger.info( "Insert department '%s' to odoo" % weladee_dept.department.name_english )
+    try:
+        context_sync['request-synced'].append('updating changes from weladee-> odoo')
+        #get change data from weladee
+        for weladee_dept in stub.GetDepartments(myrequest, metadata=authorization):
+            if not weladee_dept :
+               context_sync['request-debug'].append('>weladee department empty')
+            else:
+                if not weladee_dept.department.ID :
+                   context_sync['request-debug'].append('>weladee department id empty')
+                else:
+                    #search in odoo
+                    odoo_department_ids = department_obj.search([("weladee_id", "=", weladee_dept.department.ID),'|',('active','=',False),('active','=',True)])
+                    if not odoo_department_ids :
+                        context_sync['request-debug'].append('>not found weladee department id in odoo') 
+                        if weladee_dept.department.name_english :
+                            odoo_department = department_obj.search([('name','=',weladee_dept.department.name_english ),'|',('active','=',False),('active','=',True)])
+                            if not odoo_department :
+                                __ = department_obj.create(sync_department_data(weladee_dept))
+                                sync_loginfo(context_sync, "Insert department '%s' to odoo" % weladee_dept.department.name_english )
+                            else:
+                                odoo_department.write({"weladee_id" : weladee_dept.department.ID})
+                                sync_loginfo(context_sync, "update weladee id to department '%s'" % weladee_dept.department.name_english )
                         else:
-                            odoo_department.write({"weladee_id" : weladee_dept.department.ID})
-                    else:
-                        _logger.error( "Error while create department '%s' to odoo: there is no english name")
-                else :
-                    for odoo_department in odoo_department_ids :
-                        odoo_department.write( sync_department_data(weladee_dept) )
-                        _logger.info( "Updated department '%s' to odoo" % weladee_dept.department.name_english )
+                            sync_logerror(context_sync,  "Error while create department '%s' to odoo: there is no english name")
+                    else :
+                        for odoo_department in odoo_department_ids :
+                            odoo_department.write( sync_department_data(weladee_dept) )
+                            sync_loginfo(context_sync,  "Updated department '%s' to odoo" % weladee_dept.department.name_english )
+
+    except:
+        context_sync['request-error'] = True
+        sync_logerror(context_sync, 'Error while connect to GRPC Server, please check your connection or your Weladee API Key')
+        return
 
     #scan in odoo if there is record with no weladee_id
+    context_sync['request-synced'].append('updating new changes from odoo -> weladee')
     odoo_department_ids = department_obj.search([('weladee_id','=',False),'|',('active','=',False),('active','=',True)])
     for odoo_department in odoo_department_ids:
-        if odoo_department.name :
-            if not odoo_department["weladee_id"] :
+        if not odoo_department.name :
+           context_sync['request-debug'].append('>not found odoo department name')
+        else:    
+            if odoo_department["weladee_id"] :
+               context_sync['request-debug'].append('>strange case, found odoo weladee-id %s' % odoo_department["weladee_id"]) 
+            else:    
                 newDepartment = odoo_pb2.DepartmentOdoo()
                 newDepartment.odoo.odoo_id = odoo_department.id
                 newDepartment.odoo.odoo_created_on = int(time.time())
@@ -134,9 +183,9 @@ def sync_department(department_obj, myrequest, authorization):
                     returnobj = stub.AddDepartment(newDepartment, metadata=authorization)
                     #print( result  )
                     odoo_department.write({'weladee_id':returnobj.id})
-                    _logger.info("Added department to weladee : %s" % odoo_department.name)
+                    sync_loginfo(context_sync, "Added department to weladee : %s" % odoo_department.name)
                 except Exception as e:
-                    _logger.error("Add department '%s' failed : %s" % (odoo_department.name, e))
+                    sync_logerror(context_sync, "Add department '%s' failed : %s" % (odoo_department.name, e))
 
     return  sDepartment
 
@@ -212,30 +261,39 @@ def sync_employee_data(emp, job_obj, department_obj, country):
 
     return data
 
-def sync_employee(job_obj, employee_obj, department_obj, country, authorization, return_managers):
+def sync_employee(job_obj, employee_obj, department_obj, country, authorization, return_managers, context_sync):
     '''
     sync data from employee
     '''
-    #get change data from weladee
-    for weladee_emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
-        if weladee_emp and weladee_emp.employee:
-            #TODO: Debug
-            #if weladee_emp.employee.code != 'TCO-E0001': continue
+    try:
+        context_sync['request-synced'].append('updating changes from weladee-> odoo')
+        #get change data from weladee
+        for weladee_emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
+            if weladee_emp and weladee_emp.employee:
+                #TODO: Debug
+                #if weladee_emp.employee.code != 'TCO-E0001': continue
 
-            #search in odoo
-            odoo_emp_ids = employee_obj.search([("weladee_id", "=", weladee_emp.employee.ID),'|',('active','=',False),('active','=',True)])
-            if not odoo_emp_ids :
-                newid = employee_obj.create( sync_employee_data(weladee_emp, job_obj, department_obj, country) ) 
-                return_managers[ newid.id ] = weladee_emp.employee.managerID
+                #search in odoo
+                odoo_emp_ids = employee_obj.search([("weladee_id", "=", weladee_emp.employee.ID),'|',('active','=',False),('active','=',True)])
+                if not odoo_emp_ids :
+                    newid = employee_obj.create( sync_employee_data(weladee_emp, job_obj, department_obj, country) ) 
+                    return_managers[ newid.id ] = weladee_emp.employee.managerID
 
-                _logger.info( "Insert employee '%s' to odoo" % weladee_emp.employee.user_name )
-            else :
-                for odoo_emp_id in odoo_emp_ids :
-                    odoo_emp_id.write( sync_employee_data(weladee_emp, job_obj, department_obj, country) )
-                    return_managers[ odoo_emp_id.id ] = weladee_emp.employee.managerID
-                    _logger.info( "Updated employee '%s' to odoo" % weladee_emp.employee.user_name )
+                    sync_loginfo(context_sync, "Insert employee '%s' to odoo" % weladee_emp.employee.user_name )
+                else :
+                    for odoo_emp_id in odoo_emp_ids :
+                        odoo_emp_id.write( sync_employee_data(weladee_emp, job_obj, department_obj, country) )
+                        return_managers[ odoo_emp_id.id ] = weladee_emp.employee.managerID
+                        sync_loginfo(context_sync, "Updated employee '%s' to odoo" % weladee_emp.employee.user_name )
+            else:
+                context_sync['request-debug'].append('>weladee employee empty')            
+    except:
+        context_sync['request-error'] = True
+        sync_logerror(context_sync, 'Error while connect to GRPC Server, please check your connection or your Weladee API Key')
+        return
 
     #scan in odoo if there is record with no weladee_id
+    context_sync['request-synced'].append('updating new changes from odoo -> weladee')
     odoo_emp_ids = employee_obj.search([('weladee_id','=',False),'|',('active','=',False),('active','=',True)])
     for odoo_emp_id in odoo_emp_ids:
         if not odoo_emp_id["weladee_id"] :
@@ -264,14 +322,15 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
                 result = stub.AddEmployee(newEmployee, metadata=authorization)
                 
                 odoo_emp_id.write({'weladee_id':result.id})
-                _logger.info("Added employee to weladee : %s" % odoo_emp_id.name)
+                sync_loginfo(context_sync, "Added employee to weladee : %s" % odoo_emp_id.name)
             except Exception as e:
-                _logger.error("Add employee '%s' failed : %s" % (odoo_emp_id.name, e))
+                sync_logerror(context_sync, "Add employee '%s' failed : %s" % (odoo_emp_id.name, e))
     
-def sync_manager(employee_obj, weladee_managers, authorization):
+def sync_manager(employee_obj, weladee_managers, authorization, context_sync):
     '''
     sync employee's manager
     '''
+    context_sync['request-synced'].append('updating manager''s changes from weladee-> odoo')
     #look only changed employees
     odoo_emps_change = [x for x in weladee_managers]
 
@@ -282,11 +341,10 @@ def sync_manager(employee_obj, weladee_managers, authorization):
             odoo_manager = employee_obj.search( [("weladee_id","=", weladee_managers[odoo_emp.id] ),'|',("active","=",False),("active","=",True)] )
 
             try:
-                tmp = odoo_emp.write( {"parent_id": int(odoo_manager.id) } )
-                _logger.info("Updated manager of %s" % odoo_emp.name)
+                __ = odoo_emp.write( {"parent_id": int(odoo_manager.id) } )
+                sync_loginfo(context_sync, "Updated manager of %s" % odoo_emp.name)
             except Exception as e:
-                _logger.error("Update manager of %s failed : %s" % (odoo_emp.name, e))
-                            
+                sync_logerror(context_sync, "Update manager of %s failed : %s" % (odoo_emp.name, e))                            
 
 def sync_holiday(employee_line_obj, managers, authorization):
     pass
@@ -390,41 +448,78 @@ class weladee_attendance(models.TransientModel):
     _name="weladee_attendance.synchronous"
     _description="synchronous Employee, Department, Holiday and attendance"
 
-    @api.multi
+    @api.model
     def start_sync(self):
-        _logger.info("Start sync..")
+        '''
+            request-date : date user request to sync
+            request-synced : text to display in email
+            request-error : if error and stop ?
+            request-errors : error details
+            request-debug : debug info
+            request-email : email recipient
+        '''
+        elapse_start = datetime.today()
+        user_tz = pytz.timezone(self.env.context.get('tz') or self.env.user.tz or 'UTC')
+        today = elapse_start.astimezone(user_tz)
+        context_sync = {
+            'request-date':today.strftime('%d/%m/%Y %H:%M'),
+            'request-synced':[],
+            'request-debug':[],
+            'request-error':False,
+            'request-errors':[],
+            'request-email':get_synchronous_email(self)
+        }
+        _logger.info("Starting sync..")
         authorization, holiday_status_id = weladee_employee.get_api_key(self)
                 
         if not holiday_status_id or not authorization :
             #raise exceptions.UserError('Must to be set Leave Type on Weladee setting')
             print('Must to be set Leave Type on Weladee setting')
+            context_sync['request-error'] = True
+            context_sync['request-errors'].append('You must setup API Key, Holiday Status on Attendances -> Weladee settings')
         else:
-
-            _logger.info("Start sync...")
 
             _logger.info("Start sync...Positions")
             job_obj = self.env['hr.job']    
-            sync_position(job_obj, myrequest, authorization)
+            sync_position(job_obj, myrequest, authorization, context_sync) 
 
-            _logger.info("Start sync...Departments")
-            department_obj = self.env['hr.department']    
-            sync_department(department_obj, myrequest, authorization)
+            if not context_sync['request-error']:
+               _logger.info("Start sync...Departments")
+               department_obj = self.env['hr.department']    
+               sync_department(department_obj, myrequest, authorization, context_sync)
 
-            _logger.info("Loading...Countries")
-            country = {}
-            country_line_ids = self.env['res.country'].search([])
-            for cu in country_line_ids:
-                if cu.name :
-                    country[ cu.name.lower() ] = cu.id
+            if not context_sync['request-error']:
+               _logger.info("Loading...Countries")
+               country = {}
+               country_line_ids = self.env['res.country'].search([])
+               for cu in country_line_ids:
+                   if cu.name :
+                      country[ cu.name.lower() ] = cu.id
 
-            _logger.info("Start sync...Employee")
-            return_managers = {}
-            emp_obj = self.env['hr.employee']    
-            sync_employee(job_obj, emp_obj, department_obj, country, authorization, return_managers)
+            if not context_sync['request-error']:
+               _logger.info("Start sync...Employee")
+               return_managers = {}
+               emp_obj = self.env['hr.employee']    
+               sync_employee(job_obj, emp_obj, department_obj, country, authorization, return_managers, context_sync)
 
-            _logger.info("Start sync...Manager")
-            sync_manager(emp_obj, return_managers, authorization)
-            
+            if not context_sync['request-error']:
+               _logger.info("Start sync...Manager")
+               sync_manager(emp_obj, return_managers, authorization, context_sync)
+
+        _logger.info('sending result to %s' % context_sync['request-email'])
+        self.send_result_mail(context_sync)
+
+
+    def send_result_mail(self, ctx):
+        '''
+        send result email to admin
+        '''
+        template = self.env.ref('Weladee_Attendances.weladee_attendance_synchronous_cron_mail', raise_if_not_found=False)
+        print(template)
+        if template:
+           template.with_context(ctx).send_mail(self.id)        
+
+
     def generators(self, iteratorAttendance):
           for i in iteratorAttendance :
               yield i
