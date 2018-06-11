@@ -12,14 +12,29 @@ class weladee_attendance_form(models.TransientModel):
 
     @api.model
     def _get_synchronous_email(self):
-        return get_synchronous_email(self)
+        print('default=')
+        return "get_synchronous_email(self)"
 
     @api.one
     def _get_synchronous_email(self):
+        print('compute=')
         self.email = get_synchronous_email(self)
 
     #fields
     email = fields.Text(compute='_get_synchronous_email',default=_get_synchronous_email)
+
+    @api.model
+    def open_sync_form(self):
+        return {
+            "name":"Weladee Synchronization",
+            "view_id": self.env.ref('Weladee_Attendances.weladee_attendance_wizard_frm').id,
+            "res_model": "weladee_attendance_form",
+            "res_id": self.create({}).id,
+            "view_type": "form",
+            "view_mode": "form",
+            "type":"ir.actions.act_window",
+            "target":"new"
+        } 
 
     @api.multi
     def synchronousBtn(self):
@@ -35,6 +50,7 @@ class weladee_attendance_form(models.TransientModel):
             "name":"Weladee Synchronization",
             "view_id": self.env.ref('Weladee_Attendances.weladee_attendance_wizard_frm_ok').id,
             "res_model": "weladee_attendance_form",
+            "res_id": self.create({}).id,
             "view_type": "form",
             "view_mode": "form",
             "type":"ir.actions.act_window",

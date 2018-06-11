@@ -19,6 +19,10 @@
                     <label string="   - Employees" colspan="4" /><br />
                     <label string="   - Holidays" colspan="4" /><br />
                     <label string="   - Attendance" colspan="4" />
+                    <br />
+                    <br />
+                    <label string="After synchronization, result will send to email address below" />
+                    <field name="email" readonly="1" />
                     <footer>
                         <button icon="fa-close"  special="cancel"   string="Close"/>
                         <button icon="fa-random" name="synchronousBtn" string="Synchronize" class="oe_highlight" type="object"/>
@@ -41,19 +45,17 @@
             </field>
         </record>
 
-        <record model="ir.actions.act_window" id="action_weladee_attendance_synchronous_form">
+        <record id="weladee_attendance_synchronous_act_server" model="ir.actions.server">
             <field name="name">Weladee Synchronization</field>
-            <field name="res_model">weladee_attendance_form</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="weladee_attendance_wizard_frm"/>
-            <field name="target">new</field>
+            <field name="model_id" ref="model_weladee_attendance_form"/>
+            <field name="state">code</field>
+            <field name="code">action = model.open_sync_form()</field>
         </record>
  
         <menuitem id="weladee_attendance_synchronous_menu"
                   name="Weladee Synchronization"
                   sequence="75"
-                  action="action_weladee_attendance_synchronous_form"
+                  action="weladee_attendance_synchronous_act_server"
                   parent="hr_attendance.menu_hr_attendance_root"
                   groups="hr_attendance.group_hr_attendance_manager"
         />

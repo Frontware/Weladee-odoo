@@ -32,6 +32,7 @@ def get_synchronous_email(self):
     get synchronous email setting    
     '''
     ret = self.env['ir.config_parameter'].search([('key','=',CONST_SETTING_SYNC_EMAIL)])
+    print(ret)
     if ret:
         return ret.value 
     else:
