@@ -72,6 +72,9 @@ remarks:
                     <field name="taxID"/>
                 </xpath>
                 
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="required">0</attribute>
+                </xpath>
             </field>
         </record>
     </data>

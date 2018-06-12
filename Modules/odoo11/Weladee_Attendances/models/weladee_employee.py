@@ -17,7 +17,7 @@ from .grpcproto import odoo_pb2
 from .grpcproto import odoo_pb2_grpc
 from .grpcproto import weladee_pb2
 from . import weladee_grpc
-from . import weladee_employee
+
 from .sync.weladee_base import stub, myrequest
 from odoo.addons.Weladee_Attendances.models.weladee_settings import get_api_key 
 
@@ -49,6 +49,7 @@ class weladee_employee(models.Model):
   nationalID = fields.Char(string="NationalID", track_visibility='always')
   
   #main
+  name = fields.Char(required=False)
   first_name_english = fields.Char(string="English First Name", track_visibility='always')
   last_name_english = fields.Char(string="English Last Name", track_visibility='always')
   first_name_thai = fields.Char(string="Thai First Name", track_visibility='always')
@@ -66,6 +67,10 @@ class weladee_employee(models.Model):
   #other 
   employee_code = fields.Char(string='Employee Code', track_visibility='always')
 
+  _sql_constraints = [
+    ('emp_code_uniq', 'unique(employee_code)', "Employee code can't duplicate !"),
+  ]
+
   @api.model
   def create(self, vals):
       '''
@@ -74,11 +79,13 @@ class weladee_employee(models.Model):
       remarks:
       2018-05-28 KPO clean up
       '''
+      if not vals.get('name', False):
+         vals['name'] = ' '.join([vals['first_name_english'] or '', vals['last_name_english'] or ''])
       eid = super(weladee_employee,self).create(vals)
 
       if not "weladee_id" in vals:
          _logger.info("Create new request to weladee...")
-         authorization, tmp = get_api_key(self)
+         authorization, __ = get_api_key(self)
          if not authorization :
             _logger.error("Your Odoo is not authroize to use weladee")
 
