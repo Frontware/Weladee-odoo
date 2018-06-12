@@ -20,7 +20,7 @@
 ##############################################################################
 {
 "name" : "Weladee attendances module",
-"version" : "4.02",
+"version" : "4.05",
 "author" : "Frontware International",
 "category" : "Generic Modules",
 'summary': 'Weladee-Odoo attendances\'s module',
@@ -44,10 +44,9 @@ Module to manage synchronous Employee, Department, Holiday and attendances.
 
 It will synchronus employee, department, position, holidays and import attendances to odoo.
 
-====================================
-
 change log:
 ------------------------------------
+* 2018-06-12 KPO fixed sync
 * 2017-07-18 CKA add view synchronous menu For sync Employee, Department, Holiday and attences on Attendances menu
 * 2018-05-15 CKA change code for support odoo 11
 * 2018-05-16 CKA add event sync odoo to weladee
@@ -64,6 +63,12 @@ requirement:
 * grpcio
 
   pip3 install grpcio  
+
+* grpc
+  
+  install: 
+    
+  pip3 install --upgrade grpcio==1.7.3
                 
 note:
 ------------------------------------
