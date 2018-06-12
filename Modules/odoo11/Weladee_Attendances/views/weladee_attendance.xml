@@ -101,6 +101,7 @@ Someone requested the Weladee Synchronization at ${ctx.get('request-date')}
         <li>Positon</li>
         <li>Department</li>
         <li>Employee</li>
+        <li>Attendances</li>
     </ul>
 % endif
 </div>

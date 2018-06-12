@@ -4,6 +4,7 @@ from . import grpcproto
 from . import fw_holiday
 from . import weladee_attendance_form
 from . import sync
+from . import weladee_attendance_sync
 from . import weladee_attendance
 from . import weladee_department
 from . import weladee_employee
