@@ -66,6 +66,7 @@ class weladee_employee(models.Model):
 
   #other 
   employee_code = fields.Char(string='Employee Code', track_visibility='always')
+  qr_code = fields.Char('QR Code')
 
   _sql_constraints = [
     ('emp_code_uniq', 'unique(employee_code)', "Employee code can't duplicate !"),

@@ -13,6 +13,10 @@ from .weladee_base import stub, sync_loginfo, sync_logerror
 def sync_employee_data(emp, job_obj, department_obj, country):
     '''
     employee data to sync
+
+    remarks:
+
+    2018-06-14 KPO sync qrcode from weladee
     '''    
     photoBase64 = ''
     if emp.employee.photo:
@@ -37,8 +41,9 @@ def sync_employee_data(emp, job_obj, department_obj, country):
             ,"can_request_holiday": emp.employee.canRequestHoliday
             ,"hasToFillTimesheet": emp.employee.hasToFillTimesheet
             ,"weladee_id":emp.employee.ID
+            ,"qr_code":emp.employee.QRCode
             }
-    
+    print(emp)
     if emp.employee.passportNumber :
         data["passport_id"] = emp.employee.passportNumber
     if emp.employee.taxID :

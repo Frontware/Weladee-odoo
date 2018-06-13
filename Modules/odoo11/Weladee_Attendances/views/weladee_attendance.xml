@@ -83,7 +83,7 @@
 <div>
 <p>Hi,
 <BR />
-Someone requested the Weladee Synchronization at ${ctx.get('request-date')}
+There is a request to do the Weladee Synchronization at ${ctx.get('request-date')}
 </p>
 % if ctx.get('request-error',False):
     There is an error occured when run Synchronization:<BR />
