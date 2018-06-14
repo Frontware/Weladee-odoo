@@ -70,6 +70,7 @@ class weladee_employee(models.Model):
 
   _sql_constraints = [
     ('emp_code_uniq', 'unique(employee_code)', "Employee code can't duplicate !"),
+    ('emp_first_last_name_uniq', 'unique(first_name_english,last_name_english)', "Employee name can't duplicate !"),
   ]
 
   @api.model
@@ -374,4 +375,11 @@ class weladee_employee(models.Model):
     else :
       raise exceptions.UserError("This employee don't have weladee url.")
 
-weladee_employee()
+  @api.one
+  @api.returns('self', lambda value: value.id)
+  def copy(self, default=None):
+      if not default:
+         default = {}
+      default['employee_code'] = False      
+      default['first_name_english'] = '%s-%s' % (self.first_name_english, len(self.search([('first_name_english','=', self.first_name_english)])))
+      return super(weladee_employee, self).copy(default)

@@ -4,6 +4,7 @@ import threading
 import logging
 _logger = logging.getLogger(__name__)
 import datetime
+import pytz
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
@@ -44,7 +45,11 @@ class weladee_attendance_form(models.TransientModel):
 
         works = self.env['weladee_attendance.working'].search([])
         if works and len(works) > 0:           
-           raise UserError('Caution, the task already started at %s. Please wait...' % works.last_run)      
+           user_tz = pytz.timezone(self.env.context.get('tz') or self.env.user.tz or 'UTC')
+           last_work = datetime.datetime.strptime(works.last_run,'%Y-%m-%d %H:%M:%S')
+           last_run = last_work.astimezone(user_tz)
+
+           raise UserError('Caution, the task already started at %s. Please wait...' % last_run.strftime('%d/%m/%Y %H:%M'))      
 
         cron = self.env.ref('Weladee_Attendances.weladee_attendance_synchronous_cron')
         #restart cron
