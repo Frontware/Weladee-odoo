@@ -20,6 +20,7 @@ from . import weladee_grpc
 
 from .sync.weladee_base import stub, myrequest
 from odoo.addons.Weladee_Attendances.models.weladee_settings import get_api_key 
+from odoo.addons.Weladee_Attendances.models.sync.weladee_employee import new_employee_data_gender
 
 def get_weladee_employee(weladee_id, authorization):
     '''
@@ -50,8 +51,8 @@ class weladee_employee(models.Model):
   
   #main
   name = fields.Char(required=False)
-  first_name_english = fields.Char(string="English First Name", track_visibility='always')
-  last_name_english = fields.Char(string="English Last Name", track_visibility='always')
+  first_name_english = fields.Char(string="English First Name", track_visibility='always',required=True)
+  last_name_english = fields.Char(string="English Last Name", track_visibility='always',required=True)
   first_name_thai = fields.Char(string="Thai First Name", track_visibility='always')
   last_name_thai = fields.Char(string="Thai Last Name", track_visibility='always')
   nick_name_english = fields.Char(string="English Nick Name", track_visibility='always')
@@ -71,6 +72,8 @@ class weladee_employee(models.Model):
   _sql_constraints = [
     ('emp_code_uniq', 'unique(employee_code)', "Employee code can't duplicate !"),
     ('emp_first_last_name_uniq', 'unique(first_name_english,last_name_english)', "Employee name can't duplicate !"),
+    ('emp_mail_uniq', 'unique(work_email)', "Employee working email can't duplicate !"),
+    ('emp_first_last_name_t_uniq', 'unique(first_name_thai,last_name_thai)', "Employee name can't duplicate !"),
   ]
 
   @api.model
@@ -110,12 +113,12 @@ class weladee_employee(models.Model):
                   if len( ( vals["name"] ).split(" ") ) > 1 :
                     WeladeeData.employee.last_name_english = ( vals["name"] ).split(" ")[1]
                   else :
-                    WeladeeData.employee.last_name_english = " "
+                    WeladeeData.employee.last_name_english = ""
 
-            if "first_name_thai" in vals :
-              WeladeeData.employee.first_name_thai = vals["first_name_thai"] or ''
-            if "last_name_thai" in vals :
-              WeladeeData.employee.last_name_thai = vals["last_name_thai"] or ''
+            if "first_name_thai" in vals and vals["first_name_thai"]:
+              WeladeeData.employee.first_name_thai = vals["first_name_thai"]
+            if "last_name_thai" in vals and vals["last_name_thai"]:
+              WeladeeData.employee.last_name_thai = vals["last_name_thai"]
 
             if "nick_name_english" in vals :
               WeladeeData.employee.nickname_english = vals["nick_name_english"] or ''
@@ -123,8 +126,8 @@ class weladee_employee(models.Model):
               WeladeeData.employee.nickname_thai = vals["nick_name_thai"] or ''
 
             #2018-05-28 KPO change to employee_code
-            if "employee_code" in vals :
-              WeladeeData.employee.code = vals["employee_code"] or ''
+            if "employee_code" in vals and vals["employee_code"] :
+              WeladeeData.employee.code = vals["employee_code"]
 
             if vals["country_id"] :
               c_line_obj = self.env['res.country']
@@ -175,13 +178,17 @@ class weladee_employee(models.Model):
               else:  
                  WeladeeData.employee.Phones[0] = vals['work_phone'] or ''
 
+            if 'gender' in vals:
+                WeladeeData.employee.gender = new_employee_data_gender(vals['gender'])     
+
             try:
               result = stub.AddEmployee(WeladeeData, metadata=authorization)
-              print ("New Weladee id : %s" % result.id)
+              print (">New Weladee id : %s" % result.id)
               eid.write( {"weladee_id" : str(result.id), "weladee_profile" : "https://www.weladee.com/employee/" + str(result.id)  } )              
               _logger.info("Created new employee in weladee: %s" % result.id)
             except Exception as e:
-              print("Add employee failed", e)
+              print(">Add employee failed:", e)
+              print('>%s' % WeladeeData)
               _logger.error("Error while add employee to weladee: %s" % e)
 
       return eid
@@ -196,13 +203,12 @@ class weladee_employee(models.Model):
 
       #get record from weladee
       WeladeeData = odoo_pb2.EmployeeOdoo()
-      authorization, tmp = get_api_key(self)
+      authorization, __ = get_api_key(self)
       if not authorization :
          _logger.error("Your Odoo is not authroize to use weladee")
       else:
-
-        if self.weladee_id:
-           WeladeeData = get_weladee_employee(self.weladee_id, authorization)
+        if vals.get('weladee_id',self.weladee_id):
+           WeladeeData = get_weladee_employee(vals.get('weladee_id',self.weladee_id), authorization)
         
         #sync data
         #if has in input, take it
@@ -225,10 +231,13 @@ class weladee_employee(models.Model):
           else:
             WeladeeData.employee.last_name_english = self.last_name_english or ''
 
-          if "first_name_thai" in vals :
-            WeladeeData.employee.first_name_thai = vals["first_name_thai"] or ''
+          if "first_name_thai" in vals:
+            if vals["first_name_thai"]:
+               WeladeeData.employee.first_name_thai = vals["first_name_thai"]
+            else:
+               WeladeeData.employee.first_name_thai = ''
           else:
-            WeladeeData.employee.first_name_thai = self.first_name_thai or ''
+            WeladeeData.employee.first_name_thai = self.first_name_thai
 
           if "last_name_thai" in vals :
             WeladeeData.employee.last_name_thai = vals["last_name_thai"] or ''
@@ -282,10 +291,11 @@ class weladee_employee(models.Model):
             WeladeeData.employee.nationalID = self.nationalID or ''
           
           #2018-05-28 KPO use employee_code
-          if "employee_code" in vals :
+          if "employee_code" in vals and vals["employee_code"]:
             WeladeeData.employee.code = vals["employee_code"] or ''
           else:
-            WeladeeData.employee.code = self.employee_code or ''
+            if self.employee_code:
+               WeladeeData.employee.code = self.employee_code or ''
 
           #2018-06-07 KPO don't sync note back
 
@@ -326,7 +336,8 @@ class weladee_employee(models.Model):
                  WeladeeData.employee.Phones[:] = [vals['work_phone'] or '']
               else:  
                  WeladeeData.employee.Phones[0] = vals['work_phone'] or ''
-
+          if 'gender' in vals:
+              WeladeeData.employee.gender = new_employee_data_gender(vals['gender'])     
           #2018-10-29 KPO we don't sync 
           #  department
           #  photo
@@ -343,20 +354,22 @@ class weladee_employee(models.Model):
           WeladeeData.employee.lg = "en"          
           try:         
             result = stub.AddEmployee(WeladeeData, metadata=authorization)
-            print ("New Weladee id : %s" % result.id)
+            print (">New Weladee id : %s" % result.id)
             ret.write( {"weladee_id" : str(result.id), "weladee_profile" : "https://www.weladee.com/employee/" + str(result.id)  } )              
             _logger.info("Created new employee in weladee: %s" % result.id)
           except Exception as e:
-            print("Add employee failed", e)
+            print(">Add employee failed:", e)
+            print(">%s" % WeladeeData)
             _logger.error("Error while add employee to weladee: %s" % e)
       else:
           #send to grpc      
           try:
             wid = stub.UpdateEmployee(WeladeeData, metadata=authorization)
-            print ("Updated Weladee Employee %s" % wid )
+            print (">Updated Weladee Employee %s" % wid )
             _logger.info("Updated Weladee Employee: %s" % wid)
           except Exception as e:
-            print("Update Weladee employee failed ",e)
+            print(">Update Weladee employee failed ",e)
+            print(">%s" % WeladeeData)
             _logger.error("Failed update Weladee Employee: %s %s" % (self.weladee_id, e))
 
       return ret

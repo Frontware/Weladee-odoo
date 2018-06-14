@@ -21,13 +21,13 @@ def sync_employee_data_gender(weladee_emp):
     else:
         return 'other'
 
-def new_employee_data_gender(weladee_odoo):
+def new_employee_data_gender(gender):
     '''
     convert odoo employee gender to weladee
     '''
-    if weladee_odoo.gender == 'male':
+    if gender == 'male':
         return 'm'
-    elif weladee_odoo.gender == 'female':
+    elif gender == 'female':
         return 'f'
     else:
         return 'u'
@@ -64,7 +64,7 @@ def sync_employee_data(emp, job_obj, department_obj, country):
             ,"hasToFillTimesheet": emp.employee.hasToFillTimesheet
             ,"weladee_id":emp.employee.ID
             ,"qr_code":emp.employee.QRCode
-            ,"gender": sync_employee_data_gender(emp).
+            ,"gender": sync_employee_data_gender(emp)
             }
     
     if emp.employee.passportNumber :
@@ -185,6 +185,9 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
 
             if odoo_emp_id.job_id and odoo_emp_id.job_id.weladee_id:
                 newEmployee.employee.positionid = int(odoo_emp_id.job_id.weladee_id or '0')
+
+            if odoo_emp_id.parent_id:
+               newEmployee.employee.managerID = odoo_emp_id.parent_id.weladee_id.id
 
             try:
                 result = stub.AddEmployee(newEmployee, metadata=authorization)
