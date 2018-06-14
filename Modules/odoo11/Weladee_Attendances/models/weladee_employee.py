@@ -101,19 +101,19 @@ class weladee_employee(models.Model):
             WeladeeData.odoo.odoo_created_on = int(time.time())
             WeladeeData.odoo.odoo_synced_on = int(time.time())
 
-            if "first_name_english" in vals :
-              WeladeeData.employee.first_name_english = vals["first_name_english"] or ''
-            if "last_name_english" in vals :
-              WeladeeData.employee.last_name_english = vals["last_name_english"] or ''
+            if "first_name_english" in vals and vals["first_name_english"]:
+              WeladeeData.employee.first_name_english = vals["first_name_english"]
+            if "last_name_english" in vals and vals["last_name_english"]:
+              WeladeeData.employee.last_name_english = vals["last_name_english"]
 
             # default from name
             if not "first_name_english" in vals and not "last_name_english" in vals :
                if vals["name"]:
-                  WeladeeData.employee.first_name_english = ( vals["name"] ).split(" ")[0]
-                  if len( ( vals["name"] ).split(" ") ) > 1 :
-                    WeladeeData.employee.last_name_english = ( vals["name"] ).split(" ")[1]
-                  else :
-                    WeladeeData.employee.last_name_english = ""
+                  defs = vals["name"].split(" ")
+                  if len(defs) > 0:                  
+                     WeladeeData.employee.first_name_english = defs[0]
+                  if len(defs) > 1:
+                    WeladeeData.employee.last_name_english = defs[0]
 
             if "first_name_thai" in vals and vals["first_name_thai"]:
               WeladeeData.employee.first_name_thai = vals["first_name_thai"]
@@ -127,7 +127,7 @@ class weladee_employee(models.Model):
 
             #2018-05-28 KPO change to employee_code
             if "employee_code" in vals and vals["employee_code"] :
-              WeladeeData.employee.code = vals["employee_code"]
+               WeladeeData.employee.code = vals["employee_code"]
 
             if vals["country_id"] :
               c_line_obj = self.env['res.country']
@@ -180,7 +180,7 @@ class weladee_employee(models.Model):
 
             if 'gender' in vals:
                 WeladeeData.employee.gender = new_employee_data_gender(vals['gender'])     
-
+            
             try:
               result = stub.AddEmployee(WeladeeData, metadata=authorization)
               print (">New Weladee id : %s" % result.id)
@@ -221,28 +221,25 @@ class weladee_employee(models.Model):
           WeladeeData.odoo.odoo_created_on = int(time.time())
           WeladeeData.odoo.odoo_synced_on = int(time.time())
           
-          if "first_name_english" in vals :
-            WeladeeData.employee.first_name_english = vals["first_name_english"] or ''
+          if "first_name_english" in vals:
+            WeladeeData.employee.first_name_english = vals["first_name_english"] or bytes()
           else:
-            WeladeeData.employee.first_name_english = self.first_name_english or ''
+            WeladeeData.employee.first_name_english = self.first_name_english or bytes()
 
           if "last_name_english" in vals :
-            WeladeeData.employee.last_name_english = vals["last_name_english"] or ''
+            WeladeeData.employee.last_name_english = vals["last_name_english"] or bytes()
           else:
-            WeladeeData.employee.last_name_english = self.last_name_english or ''
+            WeladeeData.employee.last_name_english = self.last_name_english or bytes()
 
           if "first_name_thai" in vals:
-            if vals["first_name_thai"]:
-               WeladeeData.employee.first_name_thai = vals["first_name_thai"]
-            else:
-               WeladeeData.employee.first_name_thai = ''
+             WeladeeData.employee.first_name_thai = vals["first_name_thai"] or bytes()
           else:
-            WeladeeData.employee.first_name_thai = self.first_name_thai
+            WeladeeData.employee.first_name_thai = self.first_name_thai or bytes()
 
           if "last_name_thai" in vals :
-            WeladeeData.employee.last_name_thai = vals["last_name_thai"] or ''
+             WeladeeData.employee.last_name_thai = vals["last_name_thai"] or bytes()
           else:
-            WeladeeData.employee.last_name_thai = self.last_name_thai or ''
+             WeladeeData.employee.last_name_thai = self.last_name_thai or bytes()
 
           if "nick_name_english" in vals :
             WeladeeData.employee.nickname_english = vals["nick_name_english"] or ''
@@ -291,11 +288,10 @@ class weladee_employee(models.Model):
             WeladeeData.employee.nationalID = self.nationalID or ''
           
           #2018-05-28 KPO use employee_code
-          if "employee_code" in vals and vals["employee_code"]:
-            WeladeeData.employee.code = vals["employee_code"] or ''
+          if "employee_code" in vals:
+            WeladeeData.employee.code = vals["employee_code"] or bytes()
           else:
-            if self.employee_code:
-               WeladeeData.employee.code = self.employee_code or ''
+             WeladeeData.employee.code = self.employee_code or bytes()
 
           #2018-06-07 KPO don't sync note back
 
@@ -346,7 +342,7 @@ class weladee_employee(models.Model):
       is_has_weladee = (self.weladee_id or '') != ""
       if "weladee_id" in vals:
          is_has_weladee = True
-
+      print('>%s' % WeladeeData)
       #update data in odoo
       ret = super(weladee_employee, self).write( vals )
       
