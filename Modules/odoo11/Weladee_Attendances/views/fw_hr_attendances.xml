@@ -13,9 +13,6 @@ remarks:
         <!-- hide checkin/out menu-->
         <delete id="hr_attendance.menu_hr_attendance_my_attendances" model="ir.ui.menu" />        
 
-        <!-- hide print badge -->
-        <delete id="hr_attendance.hr_employee_print_badge" model="ir.actions.report" />
-
         <record id="weladee_att_hr_att_list" model="ir.ui.view">
             <field name="name">weladee_att_hr_att_list</field>
             <field name="model">hr.attendance</field>
