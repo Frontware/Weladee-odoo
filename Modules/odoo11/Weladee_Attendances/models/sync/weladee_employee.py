@@ -10,6 +10,28 @@ from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from .weladee_base import stub, sync_loginfo, sync_logerror 
 
+def sync_employee_data_gender(weladee_emp):
+    '''
+    convert weladee employee gender to odoo
+    '''
+    if weladee_emp.employee.gender == '':
+        return 'male'
+    elif weladee_emp.employee.gender == '':        
+        return 'female'
+    else:
+        return 'other'
+
+def new_employee_data_gender(weladee_odoo):
+    '''
+    convert odoo employee gender to weladee
+    '''
+    if weladee_odoo.gender == 'male':
+        return 'm'
+    elif weladee_odoo.gender == 'female':
+        return 'f'
+    else:
+        return 'u'
+
 def sync_employee_data(emp, job_obj, department_obj, country):
     '''
     employee data to sync
@@ -42,8 +64,9 @@ def sync_employee_data(emp, job_obj, department_obj, country):
             ,"hasToFillTimesheet": emp.employee.hasToFillTimesheet
             ,"weladee_id":emp.employee.ID
             ,"qr_code":emp.employee.QRCode
+            ,"gender": sync_employee_data_gender(emp).
             }
-    print(emp)
+    
     if emp.employee.passportNumber :
         data["passport_id"] = emp.employee.passportNumber
     if emp.employee.taxID :
@@ -134,11 +157,29 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
             newEmployee.employee.last_name_english = odoo_emp_id.last_name_english or ''
             newEmployee.employee.first_name_thai = odoo_emp_id.first_name_thai or ''
             newEmployee.employee.last_name_thai = odoo_emp_id.last_name_thai or ''
-            
+            newEmployee.employee.gender = new_employee_data_gender(odoo_emp_id.gender)
             newEmployee.employee.email = odoo_emp_id.work_email or ''
+            newEmployee.employee.code = odoo_emp_id.employee_code or ''
+            newEmployee.employee.nickname_english = odoo_emp_id.nick_name_english or ''
+            newEmployee.employee.nickname_thai = odoo_emp_id.nick_name_thai or ''
             #2018-06-07 KPO don't sync note back
             newEmployee.employee.lg = "en"
             newEmployee.employee.Active = odoo_emp_id.active
+            newEmployee.employee.receiveCheckNotification = odoo_emp_id.receive_check_notification
+            newEmployee.employee.canRequestHoliday = odoo_emp_id.can_request_holiday
+            newEmployee.employee.hasToFillTimesheet = odoo_emp_id.hasToFillTimesheet
+
+            newEmployee.employee.passportNumber = odoo_emp_id.passport_id or ''
+            newEmployee.employee.taxID = odoo_emp_id.taxID or ''
+            newEmployee.employee.nationalID = odoo_emp_id.nationalID or ''
+            newEmployee.employee.Badge = odoo_emp_id.barcode or ''
+
+            if odoo_emp_id.country_id:
+               newEmployee.employee.Nationality = odoo_emp_id.country_id.name 
+
+            if odoo_emp_id.image:
+               newEmployee.employee.photo = odoo_emp_id.image
+
             if odoo_emp_id.work_phone:
                newEmployee.employee.Phones[:] = [odoo_emp_id.work_phone]
 
