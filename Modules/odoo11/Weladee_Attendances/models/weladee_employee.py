@@ -200,173 +200,174 @@ class weladee_employee(models.Model):
       remarks:
       2018-05-28 KPO clean up
       '''
-
-      #get record from weladee
-      WeladeeData = odoo_pb2.EmployeeOdoo()
-      authorization, __ = get_api_key(self)
-      if not authorization :
-         _logger.error("Your Odoo is not authroize to use weladee")
-      else:
-        if vals.get('weladee_id',self.weladee_id):
-           WeladeeData = get_weladee_employee(vals.get('weladee_id',self.weladee_id), authorization)
+      for each in self:
         
-        #sync data
-        #if has in input, take it
-        #else if has in object, take it
-        #else use from grpc
-        if WeladeeData :
-
-          #record to send grpc  
-          WeladeeData.odoo.odoo_id = self.id
-          WeladeeData.odoo.odoo_created_on = int(time.time())
-          WeladeeData.odoo.odoo_synced_on = int(time.time())
+        #get record from weladee
+        WeladeeData = odoo_pb2.EmployeeOdoo()
+        authorization, __ = get_api_key(self)
+        if not authorization :
+          _logger.error("Your Odoo is not authroize to use weladee")
+        else:
+          if vals.get('weladee_id',each.weladee_id):
+            WeladeeData = get_weladee_employee(vals.get('weladee_id',each.weladee_id), authorization)
           
-          if "first_name_english" in vals:
-            WeladeeData.employee.first_name_english = vals["first_name_english"] or bytes()
-          else:
-            WeladeeData.employee.first_name_english = self.first_name_english or bytes()
+          #sync data
+          #if has in input, take it
+          #else if has in object, take it
+          #else use from grpc
+          if WeladeeData :
 
-          if "last_name_english" in vals :
-            WeladeeData.employee.last_name_english = vals["last_name_english"] or bytes()
-          else:
-            WeladeeData.employee.last_name_english = self.last_name_english or bytes()
+            #record to send grpc  
+            WeladeeData.odoo.odoo_id = each.id
+            WeladeeData.odoo.odoo_created_on = int(time.time())
+            WeladeeData.odoo.odoo_synced_on = int(time.time())
+            
+            if "first_name_english" in vals:
+              WeladeeData.employee.first_name_english = vals["first_name_english"] or bytes()
+            else:
+              WeladeeData.employee.first_name_english = each.first_name_english or bytes()
 
-          if "first_name_thai" in vals:
-             WeladeeData.employee.first_name_thai = vals["first_name_thai"] or bytes()
-          else:
-            WeladeeData.employee.first_name_thai = self.first_name_thai or bytes()
+            if "last_name_english" in vals :
+              WeladeeData.employee.last_name_english = vals["last_name_english"] or bytes()
+            else:
+              WeladeeData.employee.last_name_english = each.last_name_english or bytes()
 
-          if "last_name_thai" in vals :
-             WeladeeData.employee.last_name_thai = vals["last_name_thai"] or bytes()
-          else:
-             WeladeeData.employee.last_name_thai = self.last_name_thai or bytes()
+            if "first_name_thai" in vals:
+              WeladeeData.employee.first_name_thai = vals["first_name_thai"] or bytes()
+            else:
+              WeladeeData.employee.first_name_thai = each.first_name_thai or bytes()
 
-          if "nick_name_english" in vals :
-            WeladeeData.employee.nickname_english = vals["nick_name_english"] or ''
-          else:
-            WeladeeData.employee.nickname_english = self.nick_name_english or ''
+            if "last_name_thai" in vals :
+              WeladeeData.employee.last_name_thai = vals["last_name_thai"] or bytes()
+            else:
+              WeladeeData.employee.last_name_thai = each.last_name_thai or bytes()
 
-          if "nick_name_thai" in vals :
-            WeladeeData.employee.nickname_thai = vals["nick_name_thai"] or ''
-          else:
-            WeladeeData.employee.nickname_thai = self.nick_name_thai or ''
+            if "nick_name_english" in vals :
+              WeladeeData.employee.nickname_english = vals["nick_name_english"] or ''
+            else:
+              WeladeeData.employee.nickname_english = each.nick_name_english or ''
 
-          if "active" in vals :
-            WeladeeData.employee.Active = vals["active"]
-          else:
-            WeladeeData.employee.Active = self.active
+            if "nick_name_thai" in vals :
+              WeladeeData.employee.nickname_thai = vals["nick_name_thai"] or ''
+            else:
+              WeladeeData.employee.nickname_thai = each.nick_name_thai or ''
 
-          if "receive_check_notification" in vals :
-            WeladeeData.employee.receiveCheckNotification = vals["receive_check_notification"]
-          else :
-            WeladeeData.employee.receiveCheckNotification = self.receive_check_notification
+            if "active" in vals :
+              WeladeeData.employee.Active = vals["active"]
+            else:
+              WeladeeData.employee.Active = each.active
 
-          if "can_request_holiday" in vals :
-            WeladeeData.employee.canRequestHoliday = vals["can_request_holiday"]
-          else :
-            WeladeeData.employee.canRequestHoliday = self.can_request_holiday
+            if "receive_check_notification" in vals :
+              WeladeeData.employee.receiveCheckNotification = vals["receive_check_notification"]
+            else :
+              WeladeeData.employee.receiveCheckNotification = each.receive_check_notification
 
-          if "hasToFillTimesheet" in vals :
-            WeladeeData.employee.hasToFillTimesheet = vals["hasToFillTimesheet"]
-          else :
-            WeladeeData.employee.hasToFillTimesheet = self.hasToFillTimesheet
+            if "can_request_holiday" in vals :
+              WeladeeData.employee.canRequestHoliday = vals["can_request_holiday"]
+            else :
+              WeladeeData.employee.canRequestHoliday = each.can_request_holiday
 
-          #2018-05-28 KPO use passport_id from odoo
-          if "passport_id" in vals :
-            WeladeeData.employee.passportNumber = vals["passport_id"] or ''
-          else :
-            WeladeeData.employee.passportNumber = self.passport_id or ''
+            if "hasToFillTimesheet" in vals :
+              WeladeeData.employee.hasToFillTimesheet = vals["hasToFillTimesheet"]
+            else :
+              WeladeeData.employee.hasToFillTimesheet = each.hasToFillTimesheet
 
-          if "taxID" in vals :
-            WeladeeData.employee.taxID = vals["taxID"] or ''
-          else :
-            WeladeeData.employee.taxID = self.taxID or ''
+            #2018-05-28 KPO use passport_id from odoo
+            if "passport_id" in vals :
+              WeladeeData.employee.passportNumber = vals["passport_id"] or ''
+            else :
+              WeladeeData.employee.passportNumber = each.passport_id or ''
 
-          if "nationalID" in vals :
-            WeladeeData.employee.nationalID = vals["nationalID"] or ''
-          else :
-            WeladeeData.employee.nationalID = self.nationalID or ''
-          
-          #2018-05-28 KPO use employee_code
-          if "employee_code" in vals:
-            WeladeeData.employee.code = vals["employee_code"] or bytes()
-          else:
-             WeladeeData.employee.code = self.employee_code or bytes()
+            if "taxID" in vals :
+              WeladeeData.employee.taxID = vals["taxID"] or ''
+            else :
+              WeladeeData.employee.taxID = each.taxID or ''
 
-          #2018-06-07 KPO don't sync note back
+            if "nationalID" in vals :
+              WeladeeData.employee.nationalID = vals["nationalID"] or ''
+            else :
+              WeladeeData.employee.nationalID = each.nationalID or ''
+            
+            #2018-05-28 KPO use employee_code
+            if "employee_code" in vals:
+              WeladeeData.employee.code = vals["employee_code"] or bytes()
+            else:
+              WeladeeData.employee.code = each.employee_code or bytes()
 
-          if "parent_id" in vals :
-              manager = self.env['hr.employee'].browse( vals["parent_id"] )
-              if manager:
-                 WeladeeData.employee.managerID = int(manager.weladee_id)
-              else:
-                 WeladeeData.employee.managerID = 0
-          else : 
-              if self.parent_id:
-                 WeladeeData.employee.managerID = int(self.parent_id.weladee_id)
+            #2018-06-07 KPO don't sync note back
 
-          if "work_email" in vals :
-            WeladeeData.employee.email = vals["work_email"] or ''
-          else:
-            WeladeeData.employee.email = self.work_email or ''
+            if "parent_id" in vals :
+                manager = self.env['hr.employee'].browse( vals["parent_id"] )
+                if manager:
+                  WeladeeData.employee.managerID = int(manager.weladee_id)
+                else:
+                  WeladeeData.employee.managerID = 0
+            else : 
+                if each.parent_id:
+                  WeladeeData.employee.managerID = int(each.parent_id.weladee_id)
 
-          if "job_id" in vals :
-            positionData = self.env['hr.job'].browse( vals["job_id"] )
-            if positionData :
-              if positionData.weladee_id :
-                WeladeeData.employee.positionid = int(positionData.weladee_id)
-          else :
-            if self.job_id:
-              WeladeeData.employee.positionid = int(self.job_id.weladee_id)
+            if "work_email" in vals :
+              WeladeeData.employee.email = vals["work_email"] or ''
+            else:
+              WeladeeData.employee.email = each.work_email or ''
 
-          if "country_id" in vals :
-            countryData = self.env['res.country'].browse( vals["country_id"] )
-            if countryData :
-               WeladeeData.employee.Nationality = countryData.name
+            if "job_id" in vals :
+              positionData = self.env['hr.job'].browse( vals["job_id"] )
+              if positionData :
+                if positionData.weladee_id :
+                  WeladeeData.employee.positionid = int(positionData.weladee_id)
+            else :
+              if each.job_id:
+                WeladeeData.employee.positionid = int(each.job_id.weladee_id)
 
-          if "image" in vals:
-              WeladeeData.employee.photo = vals["image"] or ''
+            if "country_id" in vals :
+              countryData = self.env['res.country'].browse( vals["country_id"] )
+              if countryData :
+                WeladeeData.employee.Nationality = countryData.name
 
-          if "work_phone" in vals:
-              if len(WeladeeData.employee.Phones) == 0:
-                 WeladeeData.employee.Phones[:] = [vals['work_phone'] or '']
-              else:  
-                 WeladeeData.employee.Phones[0] = vals['work_phone'] or ''
-          if 'gender' in vals:
-              WeladeeData.employee.gender = new_employee_data_gender(vals['gender'])     
-          #2018-10-29 KPO we don't sync 
-          #  department
-          #  photo
-          # back to weladee    
+            if "image" in vals:
+                WeladeeData.employee.photo = vals["image"] or ''
 
-      is_has_weladee = (self.weladee_id or '') != ""
-      if "weladee_id" in vals:
-         is_has_weladee = True
-      #print('>%s' % WeladeeData)
-      #update data in odoo
-      ret = super(weladee_employee, self).write( vals )
-      
-      if not is_has_weladee:
-          WeladeeData.employee.lg = "en"          
-          try:         
-            result = stub.AddEmployee(WeladeeData, metadata=authorization)
-            print (">New Weladee id : %s" % result.id)
-            ret.write( {"weladee_id" : str(result.id), "weladee_profile" : "https://www.weladee.com/employee/" + str(result.id)  } )              
-            _logger.info("Created new employee in weladee: %s" % result.id)
-          except Exception as e:
-            print(">Add employee failed:", e)
-            print(">%s" % WeladeeData)
-            _logger.error("Error while add employee to weladee: %s" % e)
-      else:
-          #send to grpc      
-          try:
-            wid = stub.UpdateEmployee(WeladeeData, metadata=authorization)
-            print (">Updated Weladee Employee %s" % wid )
-            _logger.info("Updated Weladee Employee: %s" % wid)
-          except Exception as e:
-            print(">Update Weladee employee failed ",e)
-            print(">%s" % WeladeeData)
-            _logger.error("Failed update Weladee Employee: %s %s" % (self.weladee_id, e))
+            if "work_phone" in vals:
+                if len(WeladeeData.employee.Phones) == 0:
+                  WeladeeData.employee.Phones[:] = [vals['work_phone'] or '']
+                else:  
+                  WeladeeData.employee.Phones[0] = vals['work_phone'] or ''
+            if 'gender' in vals:
+                WeladeeData.employee.gender = new_employee_data_gender(vals['gender'])     
+            #2018-10-29 KPO we don't sync 
+            #  department
+            #  photo
+            # back to weladee    
+
+        is_has_weladee = (each.weladee_id or '') != ""
+        if "weladee_id" in vals:
+          is_has_weladee = True
+        #print('>%s' % WeladeeData)
+        #update data in odoo
+        ret = super(weladee_employee, each).write( vals )
+        
+        if not is_has_weladee:
+            WeladeeData.employee.lg = "en"          
+            try:         
+              result = stub.AddEmployee(WeladeeData, metadata=authorization)
+              print (">New Weladee id : %s" % result.id)
+              ret.write( {"weladee_id" : str(result.id), "weladee_profile" : "https://www.weladee.com/employee/" + str(result.id)  } )              
+              _logger.info("Created new employee in weladee: %s" % result.id)
+            except Exception as e:
+              print(">Add employee failed:", e)
+              print(">%s" % WeladeeData)
+              _logger.error("Error while add employee to weladee: %s" % e)
+        else:
+            #send to grpc      
+            try:
+              wid = stub.UpdateEmployee(WeladeeData, metadata=authorization)
+              print (">Updated Weladee Employee %s" % wid )
+              _logger.info("Updated Weladee Employee: %s" % wid)
+            except Exception as e:
+              print(">Update Weladee employee failed ",e)
+              print(">%s" % WeladeeData)
+              _logger.error("Failed update Weladee Employee: %s %s" % (each.weladee_id, e))
 
       return ret
   
