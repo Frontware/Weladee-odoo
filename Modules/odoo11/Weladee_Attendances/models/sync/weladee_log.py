@@ -80,31 +80,34 @@ def sync_log(emp_obj, att_line_obj, authorization, context_sync):
 
                if odoo_log and odoo_log['mode'] == 'create':
                   attendace_odoo_id = att_line_obj.create(odoo_log) 
-                  #update record to weladee
-                  syncLogEvent = odoo_pb2.LogEventOdooSync()
-                  syncLogEvent.odoo.odoo_id = attendace_odoo_id.id
-                  syncLogEvent.odoo.odoo_created_on = int(time.time())
-                  syncLogEvent.odoo.odoo_synced_on = int(time.time())
-                  syncLogEvent.logid = att.logevent.id
-                  iteratorAttendance.append(syncLogEvent)
-
-               elif odoo_log and odoo_log['mode'] == 'update':
-                  oldrec = att_line_obj.browse(odoo_log['res-id'])
-                  if oldrec:
-                     oldrec.write(odoo_log)
+                  if attendace_odoo_id:
                      #update record to weladee
                      syncLogEvent = odoo_pb2.LogEventOdooSync()
-                     syncLogEvent.odoo.odoo_id = oldrec.id
+                     syncLogEvent.odoo.odoo_id = attendace_odoo_id.id
                      syncLogEvent.odoo.odoo_created_on = int(time.time())
                      syncLogEvent.odoo.odoo_synced_on = int(time.time())
                      syncLogEvent.logid = att.logevent.id
                      iteratorAttendance.append(syncLogEvent)
+
+               elif odoo_log and odoo_log['mode'] == 'update':
+                  oldrec = att_line_obj.browse(odoo_log['res-id'])
+                  if att_line_obj.search([('id','=',odoo_log['res-id'])]):
+                     if oldrec.write(odoo_log):
+                        #update record to weladee
+                        syncLogEvent = odoo_pb2.LogEventOdooSync()
+                        syncLogEvent.odoo.odoo_id = oldrec.id
+                        syncLogEvent.odoo.odoo_created_on = int(time.time())
+                        syncLogEvent.odoo.odoo_synced_on = int(time.time())
+                        syncLogEvent.logid = att.logevent.id
+                        iteratorAttendance.append(syncLogEvent)
                   else:
                     sync_logerror(context_sync, 'Not found this id %s in odoo' % odoo_log['res-id'])
             else:
                 sync_logdebug(context_sync, 'no log event') 
 
     except Exception as e:
+        print(att)
+        print(odoo_log)
         sync_logerror(context_sync, 'error while updating log %s' % e)
 
     if len( iteratorAttendance ) > 0 :

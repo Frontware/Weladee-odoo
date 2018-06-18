@@ -172,7 +172,8 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
             newEmployee.employee.passportNumber = odoo_emp_id.passport_id or ''
             newEmployee.employee.taxID = odoo_emp_id.taxID or ''
             newEmployee.employee.nationalID = odoo_emp_id.nationalID or ''
-            newEmployee.employee.Badge = odoo_emp_id.barcode or ''
+            #2018-06-15 KPO don't sync badge
+            #newEmployee.employee.Badge = odoo_emp_id.barcode or ''
 
             if odoo_emp_id.country_id:
                newEmployee.employee.Nationality = odoo_emp_id.country_id.name 
@@ -186,8 +187,8 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
             if odoo_emp_id.job_id and odoo_emp_id.job_id.weladee_id:
                 newEmployee.employee.positionid = int(odoo_emp_id.job_id.weladee_id or '0')
 
-            if odoo_emp_id.parent_id:
-               newEmployee.employee.managerID = odoo_emp_id.parent_id.weladee_id.id
+            if odoo_emp_id.parent_id and odoo_emp_id.parent_id.weladee_id:
+               newEmployee.employee.managerID = int(odoo_emp_id.parent_id.weladee_id or '0')
 
             try:
                 result = stub.AddEmployee(newEmployee, metadata=authorization)

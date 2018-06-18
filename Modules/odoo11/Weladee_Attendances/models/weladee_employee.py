@@ -342,7 +342,7 @@ class weladee_employee(models.Model):
       is_has_weladee = (self.weladee_id or '') != ""
       if "weladee_id" in vals:
          is_has_weladee = True
-      print('>%s' % WeladeeData)
+      #print('>%s' % WeladeeData)
       #update data in odoo
       ret = super(weladee_employee, self).write( vals )
       
