@@ -29,5 +29,6 @@ def sync_logerror(context_sync, log):
     write in context and log info
     '''
     _logger.error(log)
+    context_sync['request-logs-y'] = 'Y'
     context_sync['request-logs'].append(['e', log])
 

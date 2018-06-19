@@ -114,7 +114,7 @@ def sync_log(emp_obj, att_line_obj, authorization, context_sync):
         ge = generators(iteratorAttendance)
         __ = stub.SyncAttendance( ge , metadata=authorization )
     else:
-        sync_logerror(context_sync, 'No data to sent')
+        sync_loginfo(context_sync, 'No data to sent')
 
 def generators(iteratorAttendance):
     for i in iteratorAttendance :

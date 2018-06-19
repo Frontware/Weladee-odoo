@@ -32,7 +32,7 @@ class weladee_job(models.Model):
     
     if not "weladee_id" in vals:
 
-      authorization, __ = weladee_employee.get_api_key(self)
+      authorization, __, __ = weladee_employee.get_api_key(self)
       #print("API : %s" % authorization)
       if authorization :
         if True :
@@ -64,7 +64,7 @@ class weladee_job(models.Model):
 
   def write(self, vals):
     pid = super(weladee_job, self).write( vals )
-    authorization, __ = weladee_employee.get_api_key(self)
+    authorization, __, __ = weladee_employee.get_api_key(self)
     #print("API : %s" % authorization)
     if not "weladee_id" in vals :
       if authorization :

@@ -95,16 +95,32 @@ There is a request to do the Weladee Synchronization at ${ctx.get('request-date'
     % endfor
     </ul>
 % else:
+    % if ctx.get('request-logs-y',False) == 'Y':
 
-    These data are successfully sync with Weladee:
-    <ul>
-        <li>Positon</li>
-        <li>Department</li>
-        <li>Employee</li>
-        <li>Attendances</li>
-    </ul>
+        There is an error occured when run Synchronization:<BR />
+        <ul>
+            % for err in ctx.get('request-logs'):
+            % if err[0] == 'e'
+            <li>${err[1]}</li>
+            % endif
+            % endfor
+        </ul>
+
+    % else:
+
+        These data are successfully sync with Weladee:
+        <ul>
+            <li>Positon</li>
+            <li>Department</li>
+            <li>Employee</li>
+            <li>Attendances</li>
+        </ul>
+    % endif
 % endif
 </div>
+<p>
+*This email is generated on database = ${user.env.cr.dbname}
+</p>
 </field>
         </record>
     </data>

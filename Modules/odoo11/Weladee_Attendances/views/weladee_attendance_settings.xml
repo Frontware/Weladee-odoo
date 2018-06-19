@@ -12,6 +12,7 @@
         <field name="arch" type="xml">
             <form string="Setting">
                 <group>
+                    <field name="api_database" readonly="1" />
                     <field name="api_key"/>
                     <field name="holiday_status_id"/>
                     <field name="email" requird="1"/>

@@ -48,7 +48,11 @@ class weladee_attendance(models.TransientModel):
             'request-email':get_synchronous_email(self)
         }
         _logger.info("Starting sync..")
-        authorization, holiday_status_id = weladee_employee.get_api_key(self)
+        authorization, holiday_status_id, api_db = weladee_employee.get_api_key(self)
+
+        if api_db != self.env.cr.dbname:
+           context_sync['request-error'] = True 
+           context_sync['request-logs'].append(['e','Warning this api may not match with current database'])
                 
         if not holiday_status_id or not authorization :
             #raise exceptions.UserError('Must to be set Leave Type on Weladee setting')
@@ -88,17 +92,6 @@ class weladee_attendance(models.TransientModel):
                _logger.info("Start sync...Log")
                att_obj = self.env['hr.attendance']
                sync_log(emp_obj, att_obj, authorization, context_sync)
-
-        '''
-        if context_sync['request-logs']:           
-           for each in context_sync['request-logs']:
-               if each[0] == 'e': 
-                  _logger.error(each[1])
-               elif each[0] == 'i': 
-                  _logger.info(each[1])              
-               elif each[0] == 'd': 
-                  _logger.debug(each[1])                
-        '''
 
         _logger.info('sending result to %s' % context_sync['request-email'])
         self.send_result_mail(context_sync)

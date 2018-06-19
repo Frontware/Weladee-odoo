@@ -31,7 +31,7 @@ class weladee_department(models.Model):
     dId = super(weladee_department,self).create( vals )
     if not "weladee_id" in vals:
       authorization = False
-      authorization, holiday_status_id = weladee_employee.get_api_key(self)
+      authorization, holiday_status_id, __ = weladee_employee.get_api_key(self)
       #print("API : %s" % authorization)
       if authorization :
         if True :
@@ -53,7 +53,7 @@ class weladee_department(models.Model):
   def write(self, vals ):
     oldData = self.env['hr.department'].browse( self.id )
     authorization = False
-    authorization, holiday_status_id = weladee_employee.get_api_key(self)
+    authorization, holiday_status_id, __ = weladee_employee.get_api_key(self)
     #print("API : %s" % authorization)
     if not "weladee_id" in vals :
       
