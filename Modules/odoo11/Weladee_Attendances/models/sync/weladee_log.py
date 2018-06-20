@@ -28,7 +28,7 @@ def sync_log_data(emp_obj, att_line_obj, weladee_att, odoo_weladee_ids, context_
           ret['res-id'] = weladee_att.odoo.odoo_id
 
        else:
-          sync_logerror(context_sync, 'Not found this id %s in odoo' % weladee_att.odoo.odoo_id)
+          sync_logerror(context_sync, 'Not found this log id %s in odoo' % weladee_att.odoo.odoo_id)
     else:
        #new link
        ret['mode'] = 'create'
@@ -39,13 +39,19 @@ def sync_log_data(emp_obj, att_line_obj, weladee_att, odoo_weladee_ids, context_
 
     elif weladee_att.logevent.action == "o" :
         ret["check_out"] = date
-        prev_rec = att_line_obj.search( [ ('employee_id','=', ret['employee_id'] ), ('check_out','=', False)] )
-        if prev_rec:
-           ret['mode'] = 'update' 
-           ret['res-id'] = prev_rec.id
-        elif ret['mode'] == 'create':
-          ret['mode'] = ''
-          sync_logerror(context_sync, 'check in of employee %s not found' % ret['employee_id'])
+        if weladee_att.odoo.odoo_id:
+            # case update log
+            ret['mode'] = 'update' 
+            ret['res-id'] = weladee_att.odoo.odoo_id 
+        else:
+            # this weladee record has no odoo-id yet, find the missing checkout
+            prev_rec = att_line_obj.search( [ ('employee_id','=', ret['employee_id'] ), ('check_out','=', False)] )
+            if prev_rec:
+               ret['mode'] = 'update' 
+               ret['res-id'] = prev_rec.id
+            elif ret['mode'] == 'create':
+               ret['mode'] = ''
+               sync_logerror(context_sync, 'check in of employee %s not found' % ret['employee_id'])
 
     return ret      
 
@@ -59,13 +65,12 @@ def get_emp_odoo_weladee_ids(emp_obj, odoo_weladee_ids):
 
     return odoo_weladee_ids    
 
-def sync_log(emp_obj, att_line_obj, authorization, context_sync):
+def sync_log(emp_obj, att_line_obj, authorization, context_sync, odoo_weladee_ids):
     '''
     sync all log from weladee
 
     '''
     iteratorAttendance = []
-    odoo_weladee_ids = {}
     try:
         sync_loginfo(context_sync, 'updating changes from weladee-> odoo')
         for att in stub.GetNewAttendance(weladee_pb2.Empty(), metadata=authorization):
@@ -101,7 +106,7 @@ def sync_log(emp_obj, att_line_obj, authorization, context_sync):
                         syncLogEvent.logid = att.logevent.id
                         iteratorAttendance.append(syncLogEvent)
                   else:
-                    sync_logerror(context_sync, 'Not found this id %s in odoo' % odoo_log['res-id'])
+                    sync_logerror(context_sync, 'Not found this log id %s in odoo' % odoo_log['res-id'])
             else:
                 sync_logdebug(context_sync, 'no log event') 
 

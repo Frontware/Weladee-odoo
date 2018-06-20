@@ -4,102 +4,65 @@ import time
 
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
-from .weladee_base import stub, sync_loginfo, sync_logerror 
+from .weladee_base import stub, sync_loginfo, sync_logerror, sync_logdebug 
+from odoo.addons.Weladee_Attendances.models.sync.weladee_log import get_emp_odoo_weladee_ids
 
-def sync_holiday(employee_line_obj, managers, authorization):
-    pass
-'''
-#List of Company holiday
-print("Company Holiday And Employee holiday")
-if True :
-    for chol in stub.GetCompanyHolidays(weladee_pb2.Empty(), metadata=authorization):
-        if chol :
-            if chol.odoo :
-                if not chol.odoo.odoo_id :
-                    if chol.Holiday :
-                        print("----------------------------------")
-                        print(chol.Holiday)
-                        if chol.Holiday.date :
-                            if len( str (chol.Holiday.date ) ) == 8 :
-                                dte = str( chol.Holiday.date )
-                                fdte = dte[:4] + "-" + dte[4:6] + "-" + dte[6:8]
-                                data = { "name" : chol.Holiday.name_english }
-                                if chol.Holiday.employeeid :
-                                    print("Employee holiday")
-                                    data["holiday_status_id"] = holiday_status_id.id
-                                    data["holiday_type"] = "employee"
-                                    data["date_from"] = fdte
-                                    data["date_to"] = fdte
-                                    data["message_follower_ids"] = []
-                                    data["message_ids"] = []
-                                    data["number_of_days_temp"] = 1.0
-                                    data["payslip_status"] = False
-                                    data["notes"] = "Import from weladee"
-                                    data["report_note"] = "Import from weladee"
-                                    data["department_id"] = False
-                                    #if chol.Holiday.employeeid in wEidTooEid :
-                                        #empId = wEidTooEid[ chol.Holiday.employeeid ]
-                                    if self.weladeeEmpIdToOdooId( chol.Holiday.employeeid  ) :
-                                        empId =  self.weladeeEmpIdToOdooId( chol.Holiday.employeeid  )
-                                        data["employee_id"] = empId
-                                        dateid = self.env["hr.holidays"].create( data )
-                                        print("odoo id : %s" % dateid.id)
+def sync_holiday_data(weladee_holiday, odoo_weladee_ids, context_sync):
+    '''
+    holiday data to sync
+    '''
+    return {}
 
-                                        newHoliday = odoo_pb2.HolidayOdoo()
-                                        newHoliday.odoo.odoo_id = dateid.id
-                                        newHoliday.odoo.odoo_created_on = int(time.time())
-                                        newHoliday.odoo.odoo_synced_on = int(time.time())
+def sync_holiday(emp_obj, holiday_obj, authorization, context_sync, odoo_weladee_ids):
+    '''
+    sync all holiday from weladee (1 way from weladee)
 
-                                        newHoliday.Holiday.id = chol.Holiday.id
-                                        newHoliday.Holiday.name_english = chol.Holiday.name_english
-                                        newHoliday.Holiday.name_thai = chol.Holiday.name_english
-                                        newHoliday.Holiday.date = chol.Holiday.date
-                                        newHoliday.Holiday.active = True
+    '''
+    #get change data from weladee
+    odoo_weladee_ids = {}
+    try:
+        sync_loginfo(context_sync, 'updating changes from weladee-> odoo')
+        for weladee_holiday in stub.GetCompanyHolidays(weladee_pb2.Empty(), metadata=authorization):
+            sync_logdebug(context_sync, weladee_holiday)
+            if weladee_holiday and weladee_holiday.Holiday:
+               #if empty, create one 
+               if not odoo_weladee_ids: 
+                  sync_logdebug(context_sync, 'getting all employee-weladee link') 
+                  odoo_weladee_ids = get_emp_odoo_weladee_ids(emp_obj, odoo_weladee_ids)
 
-                                        newHoliday.Holiday.employeeid = chol.Holiday.employeeid
+               odoo_hol = sync_holiday_data(weladee_holiday, odoo_weladee_ids, context_sync)
 
-                                        print(newHoliday)
-                                        try:
-                                            result = stub.UpdateHoliday(newHoliday, metadata=authorization)
-                                            print ("Created Employee holiday" )
-                                        except Exception as ee :
-                                            print("Error when Create Employee holiday : ",ee)
+               if odoo_hol and odoo_hol['mode'] == 'create':
+                  holiday_odoo_id = holiday_obj.create(odoo_hol) 
+                  if holiday_odoo_id:
+                     #update record to weladee
+                     newHoliday = odoo_pb2.HolidayOdoo()
+                     newHoliday.odoo.odoo_id = holiday_odoo_id.id
+                     newHoliday.odoo.odoo_created_on = int(time.time())
+                     newHoliday.odoo.odoo_synced_on = int(time.time())
 
+                     try:
+                        __ = stub.UpdateHoliday(newHoliday, metadata=authorization)
+                        sync_logdebug(context_sync, 'Updated this holiday id %s in weladee' % odoo_hol['res-id'])
+                     except Exception as e :
+                        sync_logerror(context_sync, 'Error while update this holiday id %s in weladee' % odoo_hol['res-id'])        
+                  else:
+                     sync_logerror(context_sync, 'Error while create this holiday %s in odoo' % odoo_hol['res-id'])
 
+               elif odoo_hol and odoo_hol['mode'] == 'update':
+                  oldrec = holiday_obj.browse(odoo_hol['res-id'])
+                  if holiday_obj.search([('id','=',odoo_hol['res-id'])]):
+                     if oldrec.write(odoo_hol):
+                        #update record to weladee
+                        sync_logdebug(context_sync, 'Updated this holiday id %s in odoo' % odoo_hol['res-id'])
+                     else:
+                        sync_logerror(context_sync, 'Error while update this holiday id %s in odoo' % odoo_hol['res-id'])        
+                  else:
+                    sync_logerror(context_sync, 'Not found this holiday id %s in odoo' % odoo_hol['res-id'])
+            else:
+                sync_logdebug(context_sync, 'no holiday found')
 
-                                    else :
-                                        print("** Don't have employee id **")
-                                else :
-                                    if True:
-                                        print("Company holiday")
-                                        holiday_line_obj = self.env['weladee_attendance.company.holidays']
-                                        holiday_line_ids = holiday_line_obj.search( [ ('company_holiday_date','=', fdte )] )
-
-                                        if not holiday_line_ids :
-                                            data = { 'company_holiday_description' :  chol.Holiday.name_english,
-                                                    'company_holiday_active' : True,
-                                                    'company_holiday_date' : fdte
-                                            }
-                                            dateid = self.env["weladee_attendance.company.holidays"].create( data )
-                                            print("odoo id : %s" % dateid.id)
-
-                                            newHoliday = odoo_pb2.HolidayOdoo()
-                                            newHoliday.odoo.odoo_id = dateid.id
-                                            newHoliday.odoo.odoo_created_on = int(time.time())
-                                            newHoliday.odoo.odoo_synced_on = int(time.time())
-
-                                            newHoliday.Holiday.id = chol.Holiday.id
-                                            newHoliday.Holiday.name_english = chol.Holiday.name_english
-                                            newHoliday.Holiday.name_thai = chol.Holiday.name_english
-                                            newHoliday.Holiday.date = chol.Holiday.date
-                                            newHoliday.Holiday.active = True
-
-                                            newHoliday.Holiday.employeeid = 0
-
-                                            print(newHoliday)
-                                            try:
-                                                result = stub.UpdateHoliday(newHoliday, metadata=authorization)
-                                                print ("Created Company holiday" )
-                                            except Exception as ee :
-                                                print("Error when Create Company holiday : ",ee)
-'''
+    except Exception as e:
+        sync_logdebug(context_sync, weladee_holiday)
+        sync_logerror(context_sync, 'error while updating log %s' % e)
+            

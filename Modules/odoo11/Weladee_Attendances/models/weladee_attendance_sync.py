@@ -20,6 +20,7 @@ from odoo.addons.Weladee_Attendances.models.sync.weladee_department import sync_
 from odoo.addons.Weladee_Attendances.models.sync.weladee_employee import sync_employee_data, sync_employee
 from odoo.addons.Weladee_Attendances.models.sync.weladee_manager import sync_manager
 from odoo.addons.Weladee_Attendances.models.sync.weladee_log import sync_log
+from odoo.addons.Weladee_Attendances.models.sync.weladee_holiday import sync_holiday
 
 class weladee_attendance_working(models.TransientModel):
       _name="weladee_attendance.working"  
@@ -88,10 +89,16 @@ class weladee_attendance(models.TransientModel):
                _logger.info("Start sync...Manager")
                sync_manager(emp_obj, return_managers, authorization, context_sync)
 
+            odoo_weladee_ids = {}
             if not context_sync['request-error']:
                _logger.info("Start sync...Log")
                att_obj = self.env['hr.attendance']
-               sync_log(emp_obj, att_obj, authorization, context_sync)
+               sync_log(emp_obj, att_obj, authorization, context_sync, odoo_weladee_ids)
+
+            if not context_sync['request-error']:
+               _logger.info("Start sync...Holiday")
+               hr_obj = self.env['hr.holidays']
+               sync_holiday(emp_obj, hr_obj, authorization, context_sync, odoo_weladee_ids)
 
         _logger.info('sending result to %s' % context_sync['request-email'])
         self.send_result_mail(context_sync)
