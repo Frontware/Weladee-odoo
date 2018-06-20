@@ -32,13 +32,13 @@ class OdooStub(object):
         request_serializer=odoo__pb2.EmployeeOdoo.SerializeToString,
         response_deserializer=weladee__pb2.AddResult.FromString,
         )
-    self.GetHolidays = channel.unary_stream(
-        '/grpc.weladee.com.Odoo/GetHolidays',
+    self.GetEmployeeHolidays = channel.unary_stream(
+        '/grpc.weladee.com.Odoo/GetEmployeeHolidays',
         request_serializer=odoo__pb2.OdooRequest.SerializeToString,
         response_deserializer=odoo__pb2.HolidayOdoo.FromString,
         )
-    self.GetCompanyHolidays = channel.unary_stream(
-        '/grpc.weladee.com.Odoo/GetCompanyHolidays',
+    self.GetHolidays = channel.unary_stream(
+        '/grpc.weladee.com.Odoo/GetHolidays',
         request_serializer=weladee__pb2.Empty.SerializeToString,
         response_deserializer=odoo__pb2.HolidayOdoo.FromString,
         )
@@ -122,16 +122,16 @@ class OdooServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def GetHolidays(self, request, context):
+  def GetEmployeeHolidays(self, request, context):
     """/ Holiday
-    / Stream of holidays for 1 employee
+    / Stream of holidays for 1 specific employee
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def GetCompanyHolidays(self, request, context):
-    """/ Stream of holidays for the company
+  def GetHolidays(self, request, context):
+    """/ Stream of holidays for the company + employees
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -228,13 +228,13 @@ def add_OdooServicer_to_server(servicer, server):
           request_deserializer=odoo__pb2.EmployeeOdoo.FromString,
           response_serializer=weladee__pb2.AddResult.SerializeToString,
       ),
-      'GetHolidays': grpc.unary_stream_rpc_method_handler(
-          servicer.GetHolidays,
+      'GetEmployeeHolidays': grpc.unary_stream_rpc_method_handler(
+          servicer.GetEmployeeHolidays,
           request_deserializer=odoo__pb2.OdooRequest.FromString,
           response_serializer=odoo__pb2.HolidayOdoo.SerializeToString,
       ),
-      'GetCompanyHolidays': grpc.unary_stream_rpc_method_handler(
-          servicer.GetCompanyHolidays,
+      'GetHolidays': grpc.unary_stream_rpc_method_handler(
+          servicer.GetHolidays,
           request_deserializer=weladee__pb2.Empty.FromString,
           response_serializer=odoo__pb2.HolidayOdoo.SerializeToString,
       ),

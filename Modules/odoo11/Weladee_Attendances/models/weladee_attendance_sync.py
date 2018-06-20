@@ -98,7 +98,7 @@ class weladee_attendance(models.TransientModel):
             if not context_sync['request-error']:
                _logger.info("Start sync...Holiday")
                hr_obj = self.env['hr.holidays']
-               sync_holiday(emp_obj, hr_obj, authorization, context_sync, odoo_weladee_ids)
+               sync_holiday(emp_obj, hr_obj, authorization, context_sync, odoo_weladee_ids, holiday_status_id)
 
         _logger.info('sending result to %s' % context_sync['request-email'])
         self.send_result_mail(context_sync)
