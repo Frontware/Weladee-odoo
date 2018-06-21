@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
+'''
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -27,7 +28,7 @@ class weladee_holidays(models.Model):
   @api.multi
   def action_validate( self ):
     mainHol = False
-    authorization, holiday_status_id, __ = weladee_employee.get_api_key(self)
+    authorization, __, __ = weladee_employee.get_api_key(self)
     #print("API : %s" % authorization)
     if authorization :
       if True :
@@ -187,3 +188,4 @@ class weladee_holidays(models.Model):
 
         return mainHol
 weladee_holidays()
+'''

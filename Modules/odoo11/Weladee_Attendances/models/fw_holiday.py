@@ -19,19 +19,4 @@ class hr_holidays(models.TransientModel):
     def _onchange_company_holiday_date(self):
          holiday = self.search([('company_holiday_date','=',self.company_holiday_date)])
          if holiday:
-            raise exceptions.UserError('This Date already company holiday.')
-
-    @api.model
-    def create(self, vals):
-        print(vals["company_holiday_date"])
-        holiday_line_obj = self.env['weladee_attendance.company.holidays']
-        holiday_line_ids = holiday_line_obj.search( [ ('company_holiday_date','=', vals["company_holiday_date"] )] )
-
-        if holiday_line_ids :
-            raise exceptions.UserError('This Date already company holiday.')
-        else:
-            holiday = super(hr_holidays,self).create(vals)
-            return holiday
-   
-                 
-hr_holidays()
+            raise exceptions.UserError('%s is already a company holiday.' % self.company_holiday_date)

@@ -42,7 +42,8 @@ remarks:
                 
                 <xpath expr="//field[@name='resource_calendar_id']//.." position="after">
                     <group string="Other">
-                        <field name="employee_code"/>
+                        <field name="employee_team" readonly="1"/>
+                        <field name="employee_code"/>                        
                     </group>                        
                 </xpath>   
 

@@ -47,7 +47,8 @@ def sync_employee_data(emp, job_obj, department_obj, country):
         except Exception as e:
             _logger.error("Error when load image : %s" % e)
     
-    #2018-06-07 KPO don't sync note back        
+    #2018-06-07 KPO don't sync note back   
+    #2018-06-21 KPO get team but don't sync back     
     data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
             ,"employee_code" :(emp.employee.code or "" )
             ,"weladee_profile" : "https://www.weladee.com/employee/" + str(emp.employee.ID)
@@ -65,6 +66,7 @@ def sync_employee_data(emp, job_obj, department_obj, country):
             ,"weladee_id":emp.employee.ID
             ,"qr_code":emp.employee.QRCode
             ,"gender": sync_employee_data_gender(emp)
+            ,"employee_team":emp.employee.TeamName
             }
     
     if emp.employee.passportNumber :

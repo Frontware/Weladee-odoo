@@ -98,7 +98,8 @@ class weladee_attendance(models.TransientModel):
             if not context_sync['request-error']:
                _logger.info("Start sync...Holiday")
                hr_obj = self.env['hr.holidays']
-               sync_holiday(emp_obj, hr_obj, authorization, context_sync, odoo_weladee_ids, holiday_status_id)
+               com_hr_obj = self.env['weladee_attendance.company.holidays']
+               sync_holiday(emp_obj, hr_obj, com_hr_obj, authorization, context_sync, odoo_weladee_ids, holiday_status_id)
 
         _logger.info('sending result to %s' % context_sync['request-email'])
         self.send_result_mail(context_sync)
@@ -114,4 +115,4 @@ class weladee_attendance(models.TransientModel):
         if template:
            template.with_context(ctx).send_mail(self.id)        
         else:
-           _logger.error('sending result to %s failed, no template found' % context_sync['request-email'])            
+           _logger.error('sending result to %s failed, no template found' % ctx['request-email'])            
