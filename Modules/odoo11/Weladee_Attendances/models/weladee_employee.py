@@ -185,8 +185,18 @@ class weladee_employee(models.Model):
             try:
               result = stub.AddEmployee(WeladeeData, metadata=authorization)
               print (">New Weladee id : %s" % result.id)
-              eid.write( {"weladee_id" : str(result.id), "weladee_profile" : "https://www.weladee.com/employee/" + str(result.id)  } )              
+              towrite = {"weladee_id" : str(result.id), "weladee_profile" : "https://www.weladee.com/employee/" + str(result.id)  }
               _logger.info("Created new employee in weladee: %s" % result.id)
+
+              #get qrcode back
+              odooRequest = odoo_pb2.OdooRequest()
+              odooRequest.odoo_id = eid.id
+              for weladee_emp in stub.GetEmployees(odooRequest, metadata=authorization):
+                  if weladee_emp and weladee_emp.employee:
+                     towrite['qr_code'] = weladee_emp.employee.QRCode
+
+              eid.write( towrite )              
+
             except Exception as e:
               print(">Add employee failed:", e)
               print('>%s' % WeladeeData)
