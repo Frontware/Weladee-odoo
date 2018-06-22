@@ -6,7 +6,7 @@ from odoo import exceptions
 import datetime
 import time
 
-class hr_holidays(models.TransientModel):
+class weladee_company_holidays(models.TransientModel):
     _name="weladee_attendance.company.holidays"
     _description="Weladee company holidays"
     

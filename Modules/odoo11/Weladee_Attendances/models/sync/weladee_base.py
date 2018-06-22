@@ -14,21 +14,31 @@ def sync_loginfo(context_sync, log):
     '''
     write in context and log info
     '''
-    _logger.info( log )
+    _logger.info('%s' % log )
     context_sync['request-logs'].append(['i', log]) 
 
 def sync_logdebug(context_sync, log):
     '''
-    write in context and log info
+    write in context and log debug
     '''
-    _logger.debug( log )
+    _logger.debug('%s' % log )
+    print('[DEBUG]>%s' % log )
     context_sync['request-logs'].append(['d', log]) 
 
 def sync_logerror(context_sync, log):
     '''
-    write in context and log info
+    write in context and log error
     '''
-    _logger.error(log)
+    _logger.error('%s' % log )
     context_sync['request-logs-y'] = 'Y'
     context_sync['request-logs'].append(['e', log])
 
+def sync_logwarn(context_sync, log):
+    '''
+    write in context and log warn
+    '''
+    _logger.warn('%s' % log )
+    context_sync['request-logs'].append(['w', log])
+
+def sync_stop(context_sync):
+    context_sync['request-error'] = True

@@ -2,11 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import logging
 _logger = logging.getLogger(__name__)
-
-import base64
-import requests
 import time
-import webbrowser
 
 from odoo import osv
 from odoo import models, fields, api
@@ -14,83 +10,86 @@ from datetime import datetime,date, timedelta
 from odoo import exceptions
 
 from .grpcproto import odoo_pb2
-from .grpcproto import odoo_pb2_grpc
-from .grpcproto import weladee_pb2
-from . import weladee_grpc
 from . import weladee_employee
 from .sync.weladee_base import stub, myrequest
-
 class weladee_job(models.Model):
-  _description="synchronous position to weladee"
-  _inherit = 'hr.job'
+    _inherit = 'hr.job'
 
-  weladee_id = fields.Char(string="Weladee ID")
+    weladee_id = fields.Char(string="Weladee ID")
 
-  @api.model
-  def create(self, vals) :
-    pid = super(weladee_job,self).create( vals )
-    
-    if not "weladee_id" in vals:
+    @api.model
+    def create(self, vals) :
+        pid = super(weladee_job,self).create( vals )
 
-      authorization, __, __ = weladee_employee.get_api_key(self)
-      #print("API : %s" % authorization)
-      if authorization :
-        if True :
-          weladeePositions = {}
-          odooRequest = odoo_pb2.OdooRequest()
-          odooRequest.Force = True
-          for position in stub.GetPositions(odooRequest, metadata=authorization):
-            if position :
-              if position.position.NameEnglish :
-                weladeePositions[ position.position.NameEnglish ] = position.position.ID
+        # only when user create from odoo, always send
+        # record from sync will not send to weladee again
+        if not "weladee_id" in vals:
+            self._create_in_weladee(pid, vals)
 
-          if not vals["name"] in weladeePositions :
+        return pid
+
+    def _create_in_weladee(self, position_odoo, vals):
+        '''
+        create new record in weladee
+        '''
+        authorization, __, __ = weladee_employee.get_api_key(self)      
+        
+        if authorization:
             newPosition = odoo_pb2.PositionOdoo()
-            newPosition.odoo.odoo_id = pid.id
+            newPosition.odoo.odoo_id = position_odoo.id
             newPosition.odoo.odoo_created_on = int(time.time())
             newPosition.odoo.odoo_synced_on = int(time.time())
 
             newPosition.position.NameEnglish = vals["name"]
             newPosition.position.active = True
 
-            print(newPosition)
             try:
               result = stub.AddPosition(newPosition, metadata=authorization)
-              print ("Added position on Weladee : %s" % result.id)
+              _logger.info("Added position on Weladee : %s" % result.id)
             except Exception as e:
-              print("Add position failed",e)
+              _logger.error("Error while add position on Weladee : %s" % e)
+        else:
+          _logger.error("Error while add position on Weladee : No authroized")
 
-    return pid
+    def _update_in_weladee(self, position_odoo, vals):
+        '''
+        create new record in weladee
+        '''
+        authorization, __, __ = weladee_employee.get_api_key(self)      
+        
+        if authorization:
 
-  def write(self, vals):
-    pid = super(weladee_job, self).write( vals )
-    authorization, __, __ = weladee_employee.get_api_key(self)
-    #print("API : %s" % authorization)
-    if not "weladee_id" in vals :
-      if authorization :
-        if True :
-          if "name" in vals:
-            weladeePositions = {}
-            for position in stub.GetPositions(metadata=authorization):
-              if position :
-                if position.position.NameEnglish :
-                  weladeePositions[ position.position.NameEnglish ] = position.position.ID
 
-            if not vals["name"] in weladeePositions :
-              newPosition = odoo_pb2.PositionOdoo()
-              newPosition.odoo.odoo_id = self.id
-              newPosition.odoo.odoo_created_on = int(time.time())
-              newPosition.odoo.odoo_synced_on = int(time.time())
+            newPosition = odoo_pb2.PositionOdoo()
+            newPosition.odoo.odoo_id = position_odoo.id
+            newPosition.odoo.odoo_created_on = int(time.time())
+            newPosition.odoo.odoo_synced_on = int(time.time())
 
-              newPosition.position.NameEnglish = vals["name"]
-              newPosition.position.active = True
+            newPosition.position.NameEnglish = vals["name"]
+            newPosition.position.active = True
 
-              print(newPosition)
-              try:
-                result = stub.AddPosition(newPosition, metadata=authorization)
-                print ("Added position on Weladee")
-              except Exception as e:
-                print("Add position failed",e)
+            try:
+              result = stub.UpdatePosition(newPosition, metadata=authorization)
+              _logger.info("updated position on Weladee : %s" % result.id)
+            except Exception as e:
+              _logger.error("Error while update position on Weladee : %s" % e)
+        else:
+          _logger.error("Error while update position on Weladee : No authroized")
 
-    return pid
-weladee_job()
+    @api.multi
+    def write(self, vals):
+        pid = super(weladee_job, self).write( vals )
+        # if don't need to sync when there is weladee-id in vals
+        # case we don't need to send to weladee, like just update weladee-id in odoo
+        
+        # created, updated from odoo, always send
+        # when create didn't success sync to weladee
+        # next update, try create again
+        if not "weladee_id" in vals:
+           for each in self:
+               if each.weladee_id:
+                  each._update_in_weladee(pid, vals)
+               else:
+                  each._create_in_weladee(pid, vals)
+
+        return pid
