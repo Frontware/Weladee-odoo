@@ -41,8 +41,8 @@ class weladee_job(models.Model):
           odooRequest.Force = True
           for position in stub.GetPositions(odooRequest, metadata=authorization):
             if position :
-              if position.position.name_english :
-                weladeePositions[ position.position.name_english ] = position.position.ID
+              if position.position.NameEnglish :
+                weladeePositions[ position.position.NameEnglish ] = position.position.ID
 
           if not vals["name"] in weladeePositions :
             newPosition = odoo_pb2.PositionOdoo()
@@ -50,7 +50,7 @@ class weladee_job(models.Model):
             newPosition.odoo.odoo_created_on = int(time.time())
             newPosition.odoo.odoo_synced_on = int(time.time())
 
-            newPosition.position.name_english = vals["name"]
+            newPosition.position.NameEnglish = vals["name"]
             newPosition.position.active = True
 
             print(newPosition)
@@ -73,8 +73,8 @@ class weladee_job(models.Model):
             weladeePositions = {}
             for position in stub.GetPositions(metadata=authorization):
               if position :
-                if position.position.name_english :
-                  weladeePositions[ position.position.name_english ] = position.position.ID
+                if position.position.NameEnglish :
+                  weladeePositions[ position.position.NameEnglish ] = position.position.ID
 
             if not vals["name"] in weladeePositions :
               newPosition = odoo_pb2.PositionOdoo()
@@ -82,7 +82,7 @@ class weladee_job(models.Model):
               newPosition.odoo.odoo_created_on = int(time.time())
               newPosition.odoo.odoo_synced_on = int(time.time())
 
-              newPosition.position.name_english = vals["name"]
+              newPosition.position.NameEnglish = vals["name"]
               newPosition.position.active = True
 
               print(newPosition)

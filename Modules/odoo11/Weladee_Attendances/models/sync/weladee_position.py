@@ -10,7 +10,7 @@ def sync_position_data(weladee_position):
     '''
     position data to sync
     '''
-    return {"name" : weladee_position.position.name_english,
+    return {"name" : weladee_position.position.NameEnglish,
             "weladee_id" : weladee_position.position.ID}
 
 def sync_position(job_line_obj, authorization, context_sync):
@@ -33,21 +33,21 @@ def sync_position(job_line_obj, authorization, context_sync):
                     job_line_ids = job_line_obj.search([("weladee_id", "=", weladee_position.position.ID)])
                     if not job_line_ids :
                         context_sync['request-logs'].append(['d','>not found weladee position id in odoo']) 
-                        if weladee_position.position.name_english :
-                            odoo_position = job_line_obj.search([('name','=',weladee_position.position.name_english )])
+                        if weladee_position.position.NameEnglish :
+                            odoo_position = job_line_obj.search([('name','=',weladee_position.position.NameEnglish )])
                             #_logger.info( "check this position '%s' in odoo %s, %s" % (position.position.name_english, chk_position, position.position.ID) )
                             if not odoo_position :                                
                                 __ = job_line_obj.create(sync_position_data(weladee_position))
-                                sync_loginfo(context_sync, "Insert position '%s' to odoo" % weladee_position.position.name_english )
+                                sync_loginfo(context_sync, "Insert position '%s' to odoo" % weladee_position.position.NameEnglish )
                             else:
                                 odoo_position.write({"weladee_id" : weladee_position.position.ID})
-                                sync_loginfo(context_sync, "update weladee id to position '%s'" % weladee_position.position.name_english )
+                                sync_loginfo(context_sync, "update weladee id to position '%s'" % weladee_position.position.NameEnglish )
                         else:
                             sync_logerror(context_sync, "Error while create position '%s' to odoo: there is no english name")
                     else :
                         for odoo_position in job_line_ids :
                             odoo_position.write( sync_position_data(weladee_position) )
-                            sync_loginfo(context_sync, "Updated position '%s' to odoo" % weladee_position.position.name_english )
+                            sync_loginfo(context_sync, "Updated position '%s' to odoo" % weladee_position.position.NameEnglish )
     except Exception as e:
         context_sync['request-error'] = True
         context_sync['request-logs'].append(['d','(position) Error while connect to grpc %s' % e])
@@ -69,7 +69,7 @@ def sync_position(job_line_obj, authorization, context_sync):
                 newPosition.odoo.odoo_created_on = int(time.time())
                 newPosition.odoo.odoo_synced_on = int(time.time())
 
-                newPosition.position.name_english = positionData.name
+                newPosition.position.NameEnglish = positionData.name
                 newPosition.position.active = True
                 #print(newPosition)
                 try:

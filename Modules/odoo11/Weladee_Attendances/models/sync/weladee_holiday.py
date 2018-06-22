@@ -30,7 +30,7 @@ def sync_company_holiday_data(weladee_holiday, odoo_weladee_ids, context_sync, c
           hol['mode'] = 'create' 
           hol['res-id'] = ''
     
-    hol['type'] = 'company'
+    hol['res-type'] = 'company'
     print(hol)
     return hol
 
@@ -64,7 +64,7 @@ def sync_holiday_data(weladee_holiday, odoo_weladee_ids, context_sync, holiday_s
           hol['mode'] = 'create' 
           hol['res-id'] = ''
     
-    hol['type'] = 'employee'
+    hol['res-type'] = 'employee'
     print(hol)
     return hol
 
@@ -91,9 +91,9 @@ def sync_holiday(emp_obj, holiday_obj, com_holiday_obj, authorization, context_s
                odoo_hol = sync_holiday_data(weladee_holiday, odoo_weladee_ids, context_sync, holiday_status_id, holiday_obj, com_holiday_obj)
 
                if odoo_hol and odoo_hol['mode'] == 'create':
-                  if odoo_hol['type']  == 'employee':
+                  if odoo_hol['res-type']  == 'employee':
                      holiday_odoo_id = holiday_obj.create(odoo_hol) 
-                  elif odoo_hol['type']  == 'company':
+                  elif odoo_hol['res-type']  == 'company':
                      holiday_odoo_id = com_holiday_obj.create(odoo_hol)  
                   if holiday_odoo_id:
                      #update record to weladee
@@ -112,10 +112,10 @@ def sync_holiday(emp_obj, holiday_obj, com_holiday_obj, authorization, context_s
 
                elif odoo_hol and odoo_hol['mode'] == 'update':
                   oldrec_look = False 
-                  if odoo_hol['type']  == 'employee': 
+                  if odoo_hol['res-type']  == 'employee': 
                      oldrec = holiday_obj.browse(odoo_hol['res-id'])
                      oldrec_look = holiday_obj.search([('id','=',odoo_hol['res-id'])])
-                  elif odoo_hol['type']  == 'company':
+                  elif odoo_hol['res-type']  == 'company':
                      oldrec = com_holiday_obj.browse(odoo_hol['res-id'])
                      oldrec_look = com_holiday_obj.search([('id','=',odoo_hol['res-id'])])
 
