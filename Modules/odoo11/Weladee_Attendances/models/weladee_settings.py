@@ -74,29 +74,19 @@ class weladee_settings(models.TransientModel):
     email = fields.Text('Email', required=True, default=_get_email )
     api_database = fields.Char('API Database',default=lambda s: s.env.cr.dbname)
 
+    def _save_setting(self, pool, key, value):
+        line_ids = pool.search([('key','=',key)])
+        if len(line_ids) == 0:
+           line_ids.create({'key':key, 'value': value}) 
+        else:
+          line_ids.write({'value': value})   
+
     def saveBtn(self):
         '''
         write back to parameter
         '''
-        line_ids = self.env['ir.config_parameter'].search([('key','like','weladee-%')])
-
-        if len(line_ids) == 0:
-           self.env['ir.config_parameter'].create({'key':CONST_SETTING_APIKEY,
-                                                   'value': self.api_key}) 
-           self.env['ir.config_parameter'].create({'key':CONST_SETTING_HOLIDAY_STATUS_ID,
-                                                   'value': self.holiday_status_id.id}) 
-           self.env['ir.config_parameter'].create({'key':CONST_SETTING_SYNC_EMAIL,
-                                                   'value': self.email}) 
-           self.env['ir.config_parameter'].create({'key':CONST_SETTING_APIDB,
-                                                   'value': self.api_database}) 
-           return
-
-        for each in line_ids:
-            if each.key == CONST_SETTING_APIKEY:
-               each.write({'value':self.api_key}) 
-            elif each.key == CONST_SETTING_HOLIDAY_STATUS_ID:
-               each.write({'value':self.holiday_status_id.id})                
-            elif each.key == CONST_SETTING_SYNC_EMAIL:
-               each.write({'value':self.email})                
-
-weladee_settings()
+        config_pool = self.env['ir.config_parameter']
+        self._save_setting(config_pool, CONST_SETTING_APIKEY, self.api_key)
+        self._save_setting(config_pool, CONST_SETTING_HOLIDAY_STATUS_ID, self.holiday_status_id.id)
+        self._save_setting(config_pool, CONST_SETTING_SYNC_EMAIL, self.email)
+        self._save_setting(config_pool, CONST_SETTING_APIDB, self.api_database)

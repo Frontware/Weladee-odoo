@@ -51,11 +51,11 @@ class weladee_attendance(models.TransientModel):
         _logger.info("Starting sync..")
         authorization, holiday_status_id, api_db = weladee_employee.get_api_key(self)
 
-        if api_db != self.env.cr.dbname:
+        if api_db and (api_db != self.env.cr.dbname):
            context_sync['request-error'] = True 
-           context_sync['request-logs'].append(['e','Warning this api may not match with current database'])
-                
-        if not holiday_status_id or not authorization :
+           context_sync['request-logs'].append(['e','Warning this api key of (%s) is not match with current database' % api_db])
+        
+        if (not holiday_status_id) or (not authorization) and (api_db == self.env.cr.dbname):
             #raise exceptions.UserError('Must to be set Leave Type on Weladee setting')
             print('Must to be set Leave Type on Weladee setting')
             context_sync['request-error'] = True
