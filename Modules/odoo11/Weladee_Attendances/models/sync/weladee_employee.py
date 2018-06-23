@@ -90,6 +90,8 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
 
     if photoBase64:
         data["image"] = photoBase64
+        data["image_medium"] = photoBase64
+        data["image_small"] = photoBase64
 
     if weladee_employee.Badge:
         data["barcode"] = weladee_employee.Badge
