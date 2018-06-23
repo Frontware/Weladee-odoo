@@ -12,9 +12,9 @@ from odoo import models, fields, api, _
 from .grpcproto import odoo_pb2
 from .grpcproto import weladee_pb2
 from . import weladee_employee
-from .sync.weladee_base import myrequest
+from .sync.weladee_base import myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_has_error
 
-from odoo.addons.Weladee_Attendances.models.weladee_settings import get_synchronous_email 
+from odoo.addons.Weladee_Attendances.models.weladee_settings import get_synchronous_email, get_synchronous_debug 
 from odoo.addons.Weladee_Attendances.models.sync.weladee_position import sync_position_data, sync_position 
 from odoo.addons.Weladee_Attendances.models.sync.weladee_department import sync_department_data, sync_department
 from odoo.addons.Weladee_Attendances.models.sync.weladee_employee import sync_employee_data, sync_employee
@@ -38,6 +38,7 @@ class weladee_attendance(models.TransientModel):
             request-error : if error and stop ?
             request-logs : logs info
             request-email : email recipient
+            request-debug : display debug log
         '''
         elapse_start = datetime.today()
         user_tz = pytz.timezone(self.env.context.get('tz') or self.env.user.tz or 'UTC')
@@ -46,32 +47,32 @@ class weladee_attendance(models.TransientModel):
             'request-date':today.strftime('%d/%m/%Y %H:%M'),
             'request-logs':[],
             'request-error':False,
-            'request-email':get_synchronous_email(self)
+            'request-email':get_synchronous_email(self),
+            'request-debug':get_synchronous_debug(self)
         }
-        _logger.info("Starting sync..")
+        sync_loginfo(context_sync,"Starting sync..")
         authorization, holiday_status_id, api_db = weladee_employee.get_api_key(self)
 
         if api_db and (api_db != self.env.cr.dbname):
-           context_sync['request-error'] = True 
-           context_sync['request-logs'].append(['e','Warning this api key of (%s) is not match with current database' % api_db])
+           sync_stop(context_sync)
+           sync_logerror(context_sync,'Warning this api key of (%s) is not match with current database' % api_db)
         
         if (not holiday_status_id) or (not authorization) and (api_db == self.env.cr.dbname):
             #raise exceptions.UserError('Must to be set Leave Type on Weladee setting')
-            print('Must to be set Leave Type on Weladee setting')
-            context_sync['request-error'] = True
-            context_sync['request-logs'].append(['e','You must setup API Key, Holiday Status on Attendances -> Weladee settings'])
-        else:
-
-            _logger.info("Start sync...Positions")
+            sync_stop(context_sync)
+            sync_logerror(context_sync,'You must setup API Key, Holiday Status at Attendances -> Weladee settings')
+        
+        if not sync_has_error(context_sync):
+            sync_logdebug(context_sync,"Start sync...Positions")
             job_obj = self.env['hr.job']    
             sync_position(job_obj, authorization, context_sync) 
 
-            '''
-            if not context_sync['request-error']:
-               _logger.info("Start sync...Departments")
-               department_obj = self.env['hr.department']    
-               sync_department(department_obj, authorization, context_sync)
+        if not sync_has_error(context_sync):
+            sync_logdebug(context_sync,"Start sync...Departments")
+            department_obj = self.env['hr.department']    
+            sync_department(department_obj, authorization, context_sync)
 
+            '''
             if not context_sync['request-error']:
                _logger.info("Loading...Countries")
                country = {}
@@ -103,7 +104,7 @@ class weladee_attendance(models.TransientModel):
                sync_holiday(emp_obj, hr_obj, com_hr_obj, authorization, context_sync, odoo_weladee_ids, holiday_status_id)
             '''
 
-        _logger.info('sending result to %s' % context_sync['request-email'])
+        sync_loginfo(context_sync,'sending result to %s' % context_sync['request-email'])
         self.send_result_mail(context_sync)
         works = self.env['weladee_attendance.working'].search([])
         if works: works.unlink()

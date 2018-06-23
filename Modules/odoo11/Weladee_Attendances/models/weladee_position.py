@@ -10,7 +10,7 @@ from datetime import datetime,date, timedelta
 from odoo import exceptions
 
 from .grpcproto import odoo_pb2
-from . import weladee_employee
+from . import weladee_settings
 from .sync.weladee_base import stub, myrequest, sync_clean_up
 
 class weladee_job(models.Model):
@@ -24,8 +24,8 @@ class weladee_job(models.Model):
 
     @api.model
     def create(self, vals) :
-        vals = sync_clean_up(vals)
-        pid = super(weladee_job,self).create( vals )
+        odoovals = sync_clean_up(vals)
+        pid = super(weladee_job,self).create( odoovals )
 
         # only when user create from odoo, always send
         # record from sync will not send to weladee again
@@ -38,7 +38,7 @@ class weladee_job(models.Model):
         '''
         create new record in weladee
         '''
-        authorization, __, __ = weladee_employee.get_api_key(self)      
+        authorization, __, __ = weladee_settings.get_api_key(self)      
         
         if authorization:
             newPosition = odoo_pb2.PositionOdoo()
@@ -62,15 +62,15 @@ class weladee_job(models.Model):
         '''
         create new record in weladee
         '''
-        authorization, __, __ = weladee_employee.get_api_key(self)      
+        authorization, __, __ = weladee_settings.get_api_key(self)      
         
         if authorization:
             newPosition = False
             newPosition_mode = 'create'
             odooRequest = odoo_pb2.OdooRequest()
-            odooRequest.ID = int(self.weladee_id or '0')
+            odooRequest.ID = int(position_odoo.weladee_id or '0')
             for weladee_position in stub.GetPositions(odooRequest, metadata=authorization):
-                if weladee_position and weladee_position.position and weladee_position.position.ID == int(self.weladee_id or '0'):
+                if weladee_position and weladee_position.position and weladee_position.position.ID == int(position_odoo.weladee_id or '0'):
                    newPosition = weladee_position
                    newPosition_mode = 'update'                    
 
@@ -84,7 +84,7 @@ class weladee_job(models.Model):
             if 'name' in vals:
                 newPosition.position.NameEnglish = vals["name"]
             else:
-                newPosition.position.NameEnglish = self.name
+                newPosition.position.NameEnglish = position_odoo.name
             
             if newPosition_mode == 'create':
                 try:
@@ -96,6 +96,8 @@ class weladee_job(models.Model):
                     _logger.error("Error while create position on Weladee : %s" % e)
 
             elif newPosition_mode == 'update':
+                _logger.warn("No update position available from odoo -> Weladee")
+                '''
                 if newPosition:
                     try:
                         result = stub.UpdatePosition(newPosition, metadata=authorization)
@@ -106,20 +108,21 @@ class weladee_job(models.Model):
                 else:
                     # not found this weladee id anymore, probably deleted on weladee., still keep in odoo without sync.
                     _logger.error("Error while update position on Weladee : can't find this weladee id %s" % self.weladee_id)
+                '''
         else:
           _logger.error("Error while update position on Weladee : No authroized")
 
     @api.multi
     def write(self, vals):
-        vals = sync_clean_up(vals)
-        ret = super(weladee_job, self).write( vals )
+        odoovals = sync_clean_up(vals)
+        ret = super(weladee_job, self).write( odoovals )
         # if don't need to sync when there is weladee-id in vals
         # case we don't need to send to weladee, like just update weladee-id in odoo
         
         # created, updated from odoo, always send
         # when create didn't success sync to weladeec
         # next update, try create again
-        if not "weladee_id" in vals:
+        if vals.get('send2-weladee',True):
            for each in self:
                if each.weladee_id:
                   # no update back from odoo -> weladee                  

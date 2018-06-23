@@ -82,27 +82,28 @@
             <field name="body_html" type="html">
 <div>
 <p>Hi,
-<BR />
-There is a request to do the Weladee Synchronization at ${ctx.get('request-date')}
+<br>
+There is a request to do Weladee Synchronization at ${ctx.get('request-date')}
 </p>
 % if ctx.get('request-error',False):
-    There is an error occured when run Synchronization:<BR />
+    There is an error occured when run Synchronization:<br>
     <ul>
     % for err in ctx.get('request-logs'):
       % if err[0] == 'e'
-      <li>${err[1]}</li>
+        <li>${err[1]}</li>
       % endif
     % endfor
     </ul>
 % else:
+
     % if ctx.get('request-logs-y',False) == 'Y':
 
-        There is an error occured when run Synchronization:<BR />
+        There is an error occured when run Synchronization:<br>
         <ul>
             % for err in ctx.get('request-logs'):
-            % if err[0] == 'e'
-            <li>${err[1]}</li>
-            % endif
+                % if err[0] == 'e'
+                <li>${err[1]}</li>
+                % endif
             % endfor
         </ul>
 
@@ -114,8 +115,32 @@ There is a request to do the Weladee Synchronization at ${ctx.get('request-date'
             <li>Department</li>
             <li>Employee</li>
             <li>Attendances</li>
+            <li>Holidays</li>
         </ul>
+
     % endif
+
+% endif
+
+% if ctx.get('request-debug',''):
+    <br>
+    log info:<br>
+    <ul>
+        % for err in ctx.get('request-logs'):
+            % if err[0] == 'e'
+                <li><b>${err[1]}</b></li>
+            % endif
+            % if err[0] == 'w'
+                <li><i>${err[1]}</i></li>
+            % endif
+            % if err[0] == 'd' and ctx.get('request-debug','') == 'Y':
+                <li>${err[1]}</li>
+            % endif
+            % if err[0] == 'i'
+                <li>${err[1]}</li>
+            % endif
+        % endfor
+    </ul>
 % endif
 </div>
 <p>

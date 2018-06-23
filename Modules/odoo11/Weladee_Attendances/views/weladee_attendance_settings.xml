@@ -16,6 +16,11 @@
                     <field name="api_key"/>
                     <field name="holiday_status_id"/>
                     <field name="email" requird="1"/>
+                    <label for="id" string=""/>
+                    <div>
+                        <field name="api_debug" nolabel="1" class="oe_inline"/>
+                        <label for="api_debug" />
+                    </div>
                 </group>
                 <div colspan="4">
                     <label string="*Note: you can separate each email by ;" />

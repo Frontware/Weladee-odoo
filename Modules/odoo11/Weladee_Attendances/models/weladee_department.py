@@ -2,11 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import logging
 _logger = logging.getLogger(__name__)
-
-import base64
-import requests
 import time
-import webbrowser
 
 from odoo import osv
 from odoo import models, fields, api
@@ -14,82 +10,145 @@ from datetime import datetime,date, timedelta
 from odoo import exceptions
 
 from .grpcproto import odoo_pb2
-from .grpcproto import odoo_pb2_grpc
-from .grpcproto import weladee_pb2
-from . import weladee_grpc
-from . import weladee_employee
-from .sync.weladee_base import stub, myrequest
+from . import weladee_settings
+from .sync.weladee_base import stub, myrequest, sync_clean_up
 
 class weladee_department(models.Model):
-  _description="synchronous department to weladee"
-  _inherit = 'hr.department'
+    _inherit = 'hr.department'
 
-  weladee_id = fields.Char(string="Weladee ID")
-
-  @api.model
-  def create(self, vals ) :
-    dId = super(weladee_department,self).create( vals )
-    if not "weladee_id" in vals:
-      authorization = False
-      authorization, holiday_status_id, __ = weladee_employee.get_api_key(self)
-      #print("API : %s" % authorization)
-      if authorization :
-        if True :
-          newDepartment = odoo_pb2.DepartmentOdoo()
-          newDepartment.odoo.odoo_id = dId.id
-          newDepartment.odoo.odoo_created_on = int(time.time())
-          newDepartment.odoo.odoo_synced_on = int(time.time())
-          newDepartment.department.name_english = vals["name"]
-          newDepartment.department.name_thai = vals["name"]
-          print(newDepartment)
-          try:
-            result = stub.AddDepartment(newDepartment, metadata=authorization)
-            print ("Create Weladee department id : %s" % result.id)
-            dId.write( {"weladee_id" : str( result.id )} )
-          except Exception as e:
-            print("Create department failed",e)
-    return dId
-
-  def write(self, vals ):
-    oldData = self.env['hr.department'].browse( self.id )
-    authorization = False
-    authorization, holiday_status_id, __ = weladee_employee.get_api_key(self)
-    #print("API : %s" % authorization)
-    if not "weladee_id" in vals :
-      
-      if authorization :
-        if True :
-          dept = False
-          odooRequest = odoo_pb2.OdooRequest()
-          odooRequest.odoo_id = int(self.id)
-          for dpm in stub.GetDepartments(odooRequest, metadata=authorization):
-            if dpm :
-              if dpm.odoo :
-                if dpm.odoo.odoo_id :
-                  if dpm.odoo.odoo_id ==  self.id :
-                    dept = dpm
-          if dept :
-            updateDepartment = odoo_pb2.DepartmentOdoo()
-            updateDepartment.odoo.odoo_id = self.id
-            updateDepartment.odoo.odoo_created_on = int(time.time())
-            updateDepartment.odoo.odoo_synced_on = int(time.time())
-          if "name" in vals :
-            updateDepartment.department.name_english = vals["name"]
-          else :
-            updateDepartment.department.name_english = oldData["name"]
-          updateDepartment.department.id = dept.department.id
-          updateDepartment.department.name_thai = updateDepartment.department.name_english
-          if dept.department.managerid :
-            updateDepartment.department.managerid = dept.department.managerid
-          updateDepartment.department.active = ( dept.department.active or False )
-          updateDepartment.department.code = ( dept.department.code or "" )
-          updateDepartment.department.note = ( dept.department.note or "" )
-          print( updateDepartment )
-          try :
-            result = stub.UpdateDepartment(updateDepartment, metadata=authorization)
-            print ("Updated odoo department id to Weladee")
-          except Exception as e:
-            print("Update odoo department id is failed",e)
+    weladee_id = fields.Char(string="Weladee ID",copy=False)
     
-    return super(weladee_department, self).write( vals )
-weladee_department()
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', "Name can't duplicate !"),
+    ]
+
+    @api.model
+    def create(self, vals) :
+        odoovals = sync_clean_up(vals)
+        pid = super(weladee_department,self).create( odoovals )
+
+        # only when user create from odoo, always send
+        # record from sync will not send to weladee again
+        if not "weladee_id" in vals:
+            self._create_in_weladee(pid, vals)
+
+        return pid
+
+    def _create_in_weladee(self, department_odoo, vals):
+        '''
+        create new record in weladee
+        '''
+        authorization, __, __ = weladee_settings.get_api_key(self)      
+        
+        if authorization:
+            newDepartment = odoo_pb2.DepartmentOdoo()
+            newDepartment.odoo.odoo_id = department_odoo.id
+            newDepartment.odoo.odoo_created_on = int(time.time())
+            newDepartment.odoo.odoo_synced_on = int(time.time())
+
+            newDepartment.department.name_english = vals["name"]
+            newDepartment.department.name_thai = vals["name"]
+            newDepartment.department.active = True
+
+            if "manager_id" in vals:
+                sel_man = self.env['hr.employee'].search([('id','=',vals['manager_id'])])
+                if sel_man.id and sel_man.weladee_id:
+                   newDepartment.department.managerid = sel_man.weladee_id
+
+            try:
+              result = stub.AddDepartment(newDepartment, metadata=authorization)
+              _logger.info("Added department on Weladee : %s" % result.id)
+            except Exception as e:
+              _logger.debug("odoo > %s" % vals)
+              _logger.error("Error while add department on Weladee : %s" % e)
+        else:
+          _logger.error("Error while add department on Weladee : No authroized")
+
+    def _update_in_weladee(self, department_odoo, vals):
+        '''
+        create new record in weladee
+        '''
+        authorization, __, __ = weladee_settings.get_api_key(self)      
+        
+        if authorization:
+            newDepartment = False
+            newDepartment_mode = 'create'
+            odooRequest = odoo_pb2.OdooRequest()
+            odooRequest.ID = int(department_odoo.weladee_id or '0')
+            for weladee_department in stub.GetDepartments(odooRequest, metadata=authorization):
+                if weladee_department and weladee_department.department and weladee_department.department.ID > 0 and weladee_department.department.ID == int(department_odoo.weladee_id or '0'):
+                   newDepartment = weladee_department
+                   newDepartment_mode = 'update'                    
+
+            if not newDepartment:
+               newDepartment = odoo_pb2.DepartmentOdoo()  
+
+            newDepartment.odoo.odoo_id = department_odoo.id
+            newDepartment.odoo.odoo_created_on = int(time.time())
+            newDepartment.odoo.odoo_synced_on = int(time.time())
+
+            if 'name' in vals:
+                newDepartment.department.name_english = vals["name"]
+            else:
+                newDepartment.department.name_english = department_odoo.name
+            
+            if 'active' in vals:
+              newDepartment.department.active = vals['active']
+            else:
+              newDepartment.department.active = department_odoo.active
+
+            if "manager_id" in vals:
+                sel_man = self.env['hr.employee'].search([('id','=',vals['manager_id'])])
+                if sel_man.id and sel_man.weladee_id:
+                   newDepartment.department.managerid = sel_man.weladee_id
+            else:
+                if department_odoo.manager_id.weladee_id:
+                    newDepartment.department.managerid = department_odoo.manager_id.weladee_id
+            
+            if newDepartment_mode == 'create':
+                if department_odoo.weladee_id:
+                    _logger.debug("[department] odoo > %s" % vals)
+                    _logger.warn("don't find this id on Weladee : %s" % e)
+                else:
+                    try:
+                        newDepartment.department.active = True
+                        newDepartment.department.name_thai = newDepartment.department.name_english
+
+                        result = stub.AddDepartment(newDepartment, metadata=authorization)
+                        _logger.info("created department on Weladee : %s" % result.id)
+                    except Exception as e:
+                        _logger.debug("[department] odoo > %s" % vals)
+                        _logger.error("Error while create department on Weladee : %s" % e)
+
+            elif newDepartment_mode == 'update':
+                if newDepartment:
+                    try:
+                        result = stub.UpdateDepartment(newDepartment, metadata=authorization)
+                        _logger.info("updated department on Weladee : %s" % result)
+                    except Exception as e:
+                        _logger.debug("[department] odoo > %s" % vals)
+                        _logger.error("Error while update department on Weladee : %s" % e)
+                else:
+                    # not found this weladee id anymore, probably deleted on weladee., still keep in odoo without sync.
+                    _logger.error("Error while update department on Weladee : can't find this weladee id %s" % department_odoo.weladee_id)
+        else:
+          _logger.error("Error while update department on Weladee : No authroized")
+
+    @api.multi
+    def write(self, vals):
+        odoovals = sync_clean_up(vals)
+        ret = super(weladee_department, self).write( odoovals )
+        # if don't need to sync when there is weladee-id in vals
+        # case we don't need to send to weladee, like just update weladee-id in odoo
+        
+        # created, updated from odoo, always send
+        # when create didn't success sync to weladeec
+        # next update, try create again
+        if vals.get('send2-weladee',True):
+           for each in self:
+               if each.weladee_id:
+                  self._update_in_weladee(each, vals) 
+               else:
+                  self._update_in_weladee(each, vals)
+
+        return ret

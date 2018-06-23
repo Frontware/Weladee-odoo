@@ -5,13 +5,15 @@ import time
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from .weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
+from .weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info
 
 def sync_position_data(weladee_position, job_line_obj, context_sync):
     '''
     position data to sync
     '''
     pos = {"name" : weladee_position.position.NameEnglish,
-           "weladee_id" : weladee_position.position.ID}
+           "weladee_id" : weladee_position.position.ID,
+           'send2-weladee':False}
 
     # look if there is odoo record with same weladee-id
     # if not found then create else update    
@@ -21,6 +23,8 @@ def sync_position_data(weladee_position, job_line_obj, context_sync):
     else:
        pos['res-mode'] = 'update'  
        pos['res-id'] = odoo_position.id
+       if not weladee_position.odoo.odoo_id:
+          pos['send2-weladee'] = True
 
     if pos['res-mode'] == 'create':
        # check if there is same name
@@ -44,38 +48,47 @@ def sync_position(job_line_obj, authorization, context_sync):
     sync all positions from weladee
 
     '''
+    context_sync['stat-position'] = {'to-sync':0, "create":0, "update": 0, "error":0}
+    context_sync['stat-w-position'] = {'to-sync':0, "create":0, "update": 0, "error":0}
     #get change data from weladee
     try:
         weladee_position = False
         sync_loginfo(context_sync,'[position] updating changes from weladee-> odoo')
         for weladee_position in stub.GetPositions(myrequest, metadata=authorization):
+            sync_stat_to_sync(context_sync['stat-position'], 1)
             if not weladee_position :
                sync_logwarn(context_sync,'weladee position is empty')
-               return
+               continue
 
             odoo_pos = sync_position_data(weladee_position, job_line_obj, context_sync)
 
             if odoo_pos and odoo_pos['res-mode'] == 'create':
                job_line_obj.create(odoo_pos)
-               sync_loginfo(context_sync, "Insert position '%s' to odoo" % odoo_pos['name'] )
+               sync_logdebug(context_sync, "Insert position '%s' to odoo" % odoo_pos['name'] )
+               sync_stat_create(context_sync['stat-position'], 1)
 
             elif odoo_pos and odoo_pos['res-mode'] == 'update':
                 odoo_id = job_line_obj.search([('id','=',odoo_pos['res-id'])])
                 if odoo_id.id:
                    odoo_id.write(odoo_pos)
-                   sync_loginfo(context_sync, "Updated position '%s' to odoo" % odoo_pos['name'] )
+                   sync_logdebug(context_sync, "Updated position '%s' to odoo" % odoo_pos['name'] )
+                   sync_stat_update(context_sync['stat-position'], 1)
                 else:
                    sync_logdebug(context_sync, 'weladee > %s' % weladee_position) 
                    sync_logerror(context_sync, "Not found this odoo position id %s of '%s' in odoo" % (odoo_pos['res-id'], odoo_pos['name']) ) 
+                   sync_stat_error(context_sync['stat-position'], 1)
 
     except Exception as e:
         if sync_weladee_error(weladee_position, 'position', e, context_sync):
            return
+    #stat
+    sync_stat_info(context_sync,'stat-position','[position] updating changes from weladee-> odoo')
 
     #scan in odoo if there is record with no weladee_id
     sync_loginfo(context_sync, '[position] updating new changes from odoo -> weladee')
     odoo_position_line_ids = job_line_obj.search([('weladee_id','=',False)])
     for positionData in odoo_position_line_ids:
+        sync_stat_to_sync(context_sync['stat-w-position'], 1)
         if not positionData.name :
            sync_logdebug(context_sync, 'odoo > %s' % positionData) 
            sync_logwarn(context_sync, 'do not send empty odoo position name')
@@ -92,7 +105,11 @@ def sync_position(job_line_obj, authorization, context_sync):
             returnobj = stub.AddPosition(newPosition, metadata=authorization)
             #print( result  )
             positionData.write({'weladee_id':returnobj.id})
-            sync_loginfo(context_sync, "Added position to weladee : %s" % positionData.name)
+            sync_logdebug(context_sync, "Added position to weladee : %s" % positionData.name)
+            sync_stat_create(context_sync['stat-w-position'], 1)
         except Exception as e:
             sync_logdebug(context_sync, 'odoo > %s' % positionData)
             sync_logerror(context_sync, "Add position '%s' failed : %s" % (positionData.name, e))
+            sync_stat_error(context_sync['stat-w-position'], 1)
+    #stat
+    sync_stat_info(context_sync,'stat-w-position','[position] updating new changes from odoo -> weladee',newline=True)

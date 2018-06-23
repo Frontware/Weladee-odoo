@@ -44,6 +44,9 @@ def sync_logwarn(context_sync, log):
 def sync_stop(context_sync):
     context_sync['request-error'] = True
 
+def sync_has_error(context_sync):
+    return context_sync.get('request-error',False)
+
 def sync_weladee_error(weladee_obj, weladee_type, e, context_sync, stop_if_connection_error=False):
     sync_stop(context_sync)
     if weladee_obj:
@@ -58,8 +61,25 @@ def sync_weladee_error(weladee_obj, weladee_type, e, context_sync, stop_if_conne
 
     return False 
 
-
 def sync_clean_up(vals):
     if 'res-mode' in vals: del vals['res-mode']
     if 'res-id' in vals: del vals['res-id']
+    if 'send2-weladee' in vals: del vals['send2-weladee']
     return vals    
+
+def sync_stat_to_sync(context_sync, value):
+    context_sync['to-sync'] += value
+def sync_stat_create(context_sync, value):
+    context_sync['create'] += value
+def sync_stat_update(context_sync, value):
+    context_sync['update'] += value
+def sync_stat_error(context_sync, value):
+    context_sync['error'] += value
+
+def sync_stat_info(context_sync, key, keyname, newline=False):
+    sync_loginfo(context_sync, '%s receive from sync %s item(s): %s created, %s updated, %s error' % (keyname,\
+                                                                                             context_sync.get(key,{}).get('to-sync',0),\
+                                                                                             context_sync.get(key,{}).get('create',0),\
+                                                                                             context_sync.get(key,{}).get('update',0),\
+                                                                                             context_sync.get(key,{}).get('error',0)))
+    if newline: sync_loginfo(context_sync, ' ')                                                                                         
