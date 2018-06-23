@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import time
-import base64
 import requests
-import logging
-_logger = logging.getLogger(__name__)
+import base64
 
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
-from .weladee_base import stub, sync_loginfo, sync_logerror 
+from .weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
+from .weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info 
 
 def sync_employee_data_gender(weladee_emp):
     '''
@@ -32,7 +31,7 @@ def new_employee_data_gender(gender):
     else:
         return 'u'
 
-def sync_employee_data(emp, job_obj, department_obj, country):
+def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, country, context_sync):
     '''
     employee data to sync
 
@@ -41,49 +40,50 @@ def sync_employee_data(emp, job_obj, department_obj, country):
     2018-06-14 KPO sync qrcode from weladee
     '''    
     photoBase64 = ''
-    if emp.employee.photo:
+    if weladee_employee.employee.photo:
         try :
-            photoBase64 = base64.b64encode(requests.get(emp.employee.photo).content)
+            photoBase64 = base64.b64encode(requests.get(weladee_employee.employee.photo).content)
         except Exception as e:
-            _logger.error("Error when load image : %s" % e)
+            sync_logdebug(context_sync, "image : %s" % weladee_employee.employee.photo)
+            sync_logerror(context_sync, "Error when load image : %s" % e)
     
     #2018-06-07 KPO don't sync note back   
     #2018-06-21 KPO get team but don't sync back     
-    data = { "name" : ( emp.employee.first_name_english or "" ) + " " + ( emp.employee.last_name_english or "" )
-            ,"employee_code" :(emp.employee.code or "" )
-            ,"weladee_profile" : "https://www.weladee.com/employee/" + str(emp.employee.ID)
-            ,"work_email":( emp.employee.email or "" )
-            ,"first_name_english":emp.employee.first_name_english
-            ,"last_name_english":emp.employee.last_name_english
-            ,"first_name_thai":emp.employee.first_name_thai
-            ,"last_name_thai":emp.employee.last_name_thai
-            ,"nick_name_english":emp.employee.nickname_english
-            ,"nick_name_thai":emp.employee.nickname_thai
-            ,"active": emp.employee.Active
-            ,"receive_check_notification": emp.employee.receiveCheckNotification
-            ,"can_request_holiday": emp.employee.canRequestHoliday
-            ,"hasToFillTimesheet": emp.employee.hasToFillTimesheet
-            ,"weladee_id":emp.employee.ID
-            ,"qr_code":emp.employee.QRCode
-            ,"gender": sync_employee_data_gender(emp)
-            ,"employee_team":emp.employee.TeamName
-            }
-    
-    if emp.employee.passportNumber :
-        data["passport_id"] = emp.employee.passportNumber
-    if emp.employee.taxID :
-        data["taxID"] = emp.employee.taxID
-    if emp.employee.nationalID :
-        data["nationalID"] = emp.employee.nationalID
+    data = { "name" : " ".join([weladee_employee.employee.first_name_english or '', weladee_employee.employee.last_name_english or "" ])
+            ,"employee_code" :(weladee_employee.employee.code or "" )
+            ,"weladee_profile" : "https://www.weladee.com/employee/%s" % weladee_employee.employee.ID
+            ,"work_email":( weladee_employee.employee.email or "" )
+            ,"first_name_english":weladee_employee.employee.first_name_english
+            ,"last_name_english":weladee_employee.employee.last_name_english
+            ,"first_name_thai":weladee_employee.employee.first_name_thai
+            ,"last_name_thai":weladee_employee.employee.last_name_thai
+            ,"nick_name_english":weladee_employee.employee.nickname_english
+            ,"nick_name_thai":weladee_employee.employee.nickname_thai
+            ,"active": weladee_employee.employee.Active
+            ,"receive_check_notification": weladee_employee.employee.receiveCheckNotification
+            ,"can_request_holiday": weladee_employee.employee.canRequestHoliday
+            ,"hasToFillTimesheet": weladee_employee.employee.hasToFillTimesheet
+            ,"weladee_id":weladee_employee.employee.ID
+            ,"qr_code":weladee_employee.employee.QRCode
+            ,"gender": sync_employee_data_gender(weladee_employee)
+            ,"employee_team":weladee_employee.employee.TeamName
+            ,'send2-weladee':False}
+
+    if weladee_employee.employee.passportNumber :
+        data["passport_id"] = weladee_employee.employee.passportNumber
+    if weladee_employee.employee.taxID :
+        data["taxID"] = weladee_employee.employee.taxID
+    if weladee_employee.employee.nationalID :
+        data["nationalID"] = weladee_employee.employee.nationalID
         
-    if emp.employee.positionid :
-        job_datas = job_obj.search( [("weladee_id","=", emp.employee.positionid )] )
+    if weladee_employee.employee.positionid :
+        job_datas = job_obj.search( [("weladee_id","=", weladee_employee.employee.positionid )] )
         if job_datas :
             for jdatas in job_datas :
                 data[ "job_id" ] = jdatas.id
     
-    if emp.DepartmentID :
-        dep_datas = department_obj.search( [("weladee_id","=", emp.DepartmentID ),'|',('active','=',False),('active','=',True)] )
+    if weladee_employee.DepartmentID :
+        dep_datas = department_obj.search( [("weladee_id","=", weladee_employee.DepartmentID ),'|',('active','=',False),('active','=',True)] )
         if dep_datas :
             for ddatas in dep_datas :
                 data[ "department_id" ] = ddatas.id
@@ -91,112 +91,151 @@ def sync_employee_data(emp, job_obj, department_obj, country):
     if photoBase64:
         data["image"] = photoBase64
 
-    if emp.Badge:
-        data["barcode"] = emp.Badge
+    if weladee_employee.Badge:
+        data["barcode"] = weladee_employee.Badge
 
     #2018-05-29 KPO if active = false set barcode to false
-    if not emp.employee.Active:
+    if not weladee_employee.employee.Active:
        data["barcode"] = False 
 
-    if emp.employee.Nationality:
-        if emp.employee.Nationality.lower() in country :
-            data["country_id"] = country[ emp.employee.Nationality.lower() ]
-    #print (emp.employee)
-    if emp.employee.Phones:
-       data["work_phone"] = emp.employee.Phones[0]
-       #print(emp.employee.Phones)
-       #print(emp.employee.Phones[0])
+    if weladee_employee.employee.Nationality:
+        if weladee_employee.employee.Nationality.lower() in country :
+            data["country_id"] = country[ weladee_employee.employee.Nationality.lower() ]
+     
+    if weladee_employee.employee.Phones:
+       data["work_phone"] = weladee_employee.employee.Phones[0]
        
     #2018-06-01 KPO if application level >=2 > manager   
-    data["manager"] = emp.employee.application_level >= 2
+    data["manager"] = weladee_employee.employee.application_level >= 2
 
-    return data
+    # look if there is odoo record with same weladee-id
+    # if not found then create else update    
+    odoo_employee = emp_obj.search([("weladee_id", "=", weladee_employee.employee.ID)])
+    if not odoo_employee.id:
+       data['res-mode'] = 'create'
+    else:
+       data['res-mode'] = 'update'  
+       data['res-id'] = odoo_employee.id
+       if not weladee_employee.odoo.odoo_id:
+          data['send2-weladee'] = True
+
+    if data['res-mode'] == 'create':
+       # check if there is same name
+       # consider it same record 
+       odoo_employee = emp_obj.search([('work_email','=',data['work_email']),'|',('active','=',False),('active','=',True)])
+       if odoo_employee.id:
+          #if there is weladee id, will update it 
+          sync_logdebug(context_sync, 'odoo > %s' % odoo_employee)
+          sync_logdebug(context_sync, 'weladee > %s' % weladee_employee)
+          if odoo_employee.weladee_id:
+             sync_logwarn(context_sync,'will replace old weladee id %s with new one %s' % (odoo_employee.weladee_id, weladee_employee.employee.ID))      
+          else:
+             sync_logdebug(context_sync,'missing weladee link, will update with new one %s' % weladee_employee.employee.ID)      
+          data['res-mode'] = 'update'
+          data['res-id'] = odoo_employee.id
+
+    return data   
 
 def sync_employee(job_obj, employee_obj, department_obj, country, authorization, return_managers, context_sync):
     '''
     sync data from employee
     '''
+    context_sync['stat-employee'] = {'to-sync':0, "create":0, "update": 0, "error":0}
+    context_sync['stat-w-employee'] = {'to-sync':0, "create":0, "update": 0, "error":0}
     try:
-        context_sync['request-logs'].append(['i','updating changes from weladee-> odoo'])
-        #get change data from weladee
-        for weladee_emp in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
-            if weladee_emp and weladee_emp.employee:
-                #TODO: Debug
-                #if weladee_emp.employee.code != 'TCO-E0001': continue
+        weladee_employee = False
+        sync_loginfo(context_sync,'[employee] updating changes from weladee-> odoo')
+        for weladee_employee in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
+            sync_stat_to_sync(context_sync['stat-employee'], 1)
+            if not weladee_employee :
+               sync_logwarn(context_sync,'weladee employee is empty')
+               continue
 
-                #search in odoo
-                odoo_emp_ids = employee_obj.search([("weladee_id", "=", weladee_emp.employee.ID),'|',('active','=',False),('active','=',True)])
-                if not odoo_emp_ids :
-                    newid = employee_obj.create( sync_employee_data(weladee_emp, job_obj, department_obj, country) ) 
-                    return_managers[ newid.id ] = weladee_emp.employee.managerID
+            odoo_emp = sync_employee_data(weladee_employee, employee_obj, job_obj, department_obj, country, context_sync)
 
-                    sync_loginfo(context_sync, "Insert employee '%s' to odoo" % weladee_emp.employee.user_name )
-                else :
-                    for odoo_emp_id in odoo_emp_ids :
-                        odoo_emp_id.write( sync_employee_data(weladee_emp, job_obj, department_obj, country) )
-                        return_managers[ odoo_emp_id.id ] = weladee_emp.employee.managerID
-                        sync_loginfo(context_sync, "Updated employee '%s' to odoo" % weladee_emp.employee.user_name )
-            else:
-                context_sync['request-logs'].append(['d','>weladee employee empty'])            
+            if odoo_emp and odoo_emp['res-mode'] == 'create':
+               employee_obj.create(odoo_emp)
+               sync_logdebug(context_sync, "Insert employee '%s' to odoo" % odoo_emp['name'] )
+               sync_stat_create(context_sync['stat-employee'], 1)
+
+            elif odoo_emp and odoo_emp['res-mode'] == 'update':
+                odoo_id = employee_obj.search([('id','=',odoo_emp['res-id'])])
+                if odoo_id.id:
+                   odoo_id.write(odoo_emp)
+                   sync_logdebug(context_sync, "Updated employee '%s' to odoo" % odoo_emp['name'] )
+                   sync_stat_update(context_sync['stat-employee'], 1)
+                else:
+                   sync_logdebug(context_sync, 'weladee > %s' % weladee_employee) 
+                   sync_logerror(context_sync, "Not found this odoo employee id %s of '%s' in odoo" % (odoo_emp['res-id'], odoo_emp['name']) ) 
+                   sync_stat_error(context_sync['stat-employee'], 1)
+
     except Exception as e:
-        context_sync['request-error'] = True
-        context_sync['request-logs'].append(['d','(employee) Error while connect to grpc %s' % e])
-        sync_logerror(context_sync, 'Error while connect to GRPC Server, please check your connection or your Weladee API Key')
-        return
+        if sync_weladee_error(weladee_employee, 'employee', e, context_sync):
+           return
+    
+    #stat
+    sync_stat_info(context_sync,'stat-employee','[employee] updating changes from weladee-> odoo')
 
     #scan in odoo if there is record with no weladee_id
-    context_sync['request-logs'].append(['i','updating new changes from odoo -> weladee'])
-    odoo_emp_ids = employee_obj.search([('weladee_id','=',False),'|',('active','=',False),('active','=',True)])
-    for odoo_emp_id in odoo_emp_ids:
-        if not odoo_emp_id["weladee_id"] :
+    sync_loginfo(context_sync, '[employee] updating new changes from odoo -> weladee')
+    odoo_employee_ids = employee_obj.search([('weladee_id','=',False),'|',('active','=',False),('active','=',True)])
+    for odoo_employee in odoo_employee_ids:
+        sync_stat_to_sync(context_sync['stat-w-employee'], 1)
+        if not odoo_employee.name :
+           sync_logdebug(context_sync, 'odoo > %s' % odoo_employee) 
+           sync_logwarn(context_sync, 'do not send empty odoo employee name')
+           continue
+        
+        newEmployee = odoo_pb2.EmployeeOdoo()
+        newEmployee.odoo.odoo_id = odoo_employee.id
+        newEmployee.odoo.odoo_created_on = int(time.time())
+        newEmployee.odoo.odoo_synced_on = int(time.time())
 
-            newEmployee = odoo_pb2.EmployeeOdoo()
-            newEmployee.odoo.odoo_id = odoo_emp_id.id
-            newEmployee.odoo.odoo_created_on = int(time.time())
-            newEmployee.odoo.odoo_synced_on = int(time.time())
+        newEmployee.employee.first_name_english = odoo_employee.first_name_english or ''
+        newEmployee.employee.last_name_english = odoo_employee.last_name_english or ''
+        newEmployee.employee.first_name_thai = odoo_employee.first_name_thai or ''
+        newEmployee.employee.last_name_thai = odoo_employee.last_name_thai or ''
+        newEmployee.employee.gender = new_employee_data_gender(odoo_employee.gender)
+        newEmployee.employee.email = odoo_employee.work_email or ''
+        newEmployee.employee.code = odoo_employee.employee_code or ''
+        newEmployee.employee.nickname_english = odoo_employee.nick_name_english or ''
+        newEmployee.employee.nickname_thai = odoo_employee.nick_name_thai or ''
+        #2018-06-07 KPO don't sync note back
+        newEmployee.employee.lg = "en"
+        newEmployee.employee.Active = odoo_employee.active
+        newEmployee.employee.receiveCheckNotification = odoo_employee.receive_check_notification
+        newEmployee.employee.canRequestHoliday = odoo_employee.can_request_holiday
+        newEmployee.employee.hasToFillTimesheet = odoo_employee.hasToFillTimesheet
 
-            newEmployee.employee.first_name_english = odoo_emp_id.first_name_english or ''
-            newEmployee.employee.last_name_english = odoo_emp_id.last_name_english or ''
-            newEmployee.employee.first_name_thai = odoo_emp_id.first_name_thai or ''
-            newEmployee.employee.last_name_thai = odoo_emp_id.last_name_thai or ''
-            newEmployee.employee.gender = new_employee_data_gender(odoo_emp_id.gender)
-            newEmployee.employee.email = odoo_emp_id.work_email or ''
-            newEmployee.employee.code = odoo_emp_id.employee_code or ''
-            newEmployee.employee.nickname_english = odoo_emp_id.nick_name_english or ''
-            newEmployee.employee.nickname_thai = odoo_emp_id.nick_name_thai or ''
-            #2018-06-07 KPO don't sync note back
-            newEmployee.employee.lg = "en"
-            newEmployee.employee.Active = odoo_emp_id.active
-            newEmployee.employee.receiveCheckNotification = odoo_emp_id.receive_check_notification
-            newEmployee.employee.canRequestHoliday = odoo_emp_id.can_request_holiday
-            newEmployee.employee.hasToFillTimesheet = odoo_emp_id.hasToFillTimesheet
+        newEmployee.employee.passportNumber = odoo_employee.passport_id or ''
+        newEmployee.employee.taxID = odoo_employee.taxID or ''
+        newEmployee.employee.nationalID = odoo_employee.nationalID or ''
+        #2018-06-15 KPO don't sync badge
 
-            newEmployee.employee.passportNumber = odoo_emp_id.passport_id or ''
-            newEmployee.employee.taxID = odoo_emp_id.taxID or ''
-            newEmployee.employee.nationalID = odoo_emp_id.nationalID or ''
-            #2018-06-15 KPO don't sync badge
-            #newEmployee.employee.Badge = odoo_emp_id.barcode or ''
+        if odoo_employee.country_id:
+            newEmployee.employee.Nationality = odoo_employee.country_id.name 
 
-            if odoo_emp_id.country_id:
-               newEmployee.employee.Nationality = odoo_emp_id.country_id.name 
+        if odoo_employee.image:
+            newEmployee.employee.photo = odoo_employee.image
 
-            if odoo_emp_id.image:
-               newEmployee.employee.photo = odoo_emp_id.image
+        if odoo_employee.work_phone:
+            newEmployee.employee.Phones[:] = [odoo_employee.work_phone]
 
-            if odoo_emp_id.work_phone:
-               newEmployee.employee.Phones[:] = [odoo_emp_id.work_phone]
+        if odoo_employee.job_id and odoo_employee.job_id.weladee_id:
+            newEmployee.employee.positionid = int(odoo_employee.job_id.weladee_id or '0')
 
-            if odoo_emp_id.job_id and odoo_emp_id.job_id.weladee_id:
-                newEmployee.employee.positionid = int(odoo_emp_id.job_id.weladee_id or '0')
-
-            if odoo_emp_id.parent_id and odoo_emp_id.parent_id.weladee_id:
-               newEmployee.employee.managerID = int(odoo_emp_id.parent_id.weladee_id or '0')
-
-            try:
-                result = stub.AddEmployee(newEmployee, metadata=authorization)
-                
-                odoo_emp_id.write({'weladee_id':result.id})
-                sync_loginfo(context_sync, "Added employee to weladee : %s" % odoo_emp_id.name)
-            except Exception as e:
-                sync_logerror(context_sync, "Add employee '%s' failed : %s" % (odoo_emp_id.name, e))
-    
+        if odoo_employee.parent_id and odoo_employee.parent_id.weladee_id:
+            newEmployee.employee.managerID = int(odoo_employee.parent_id.weladee_id or '0')
+          
+        try:
+            returnobj = stub.AddEmployee(newEmployee, metadata=authorization)
+            #print( result  )
+            odoo_employee.write({'weladee_id':returnobj.id})
+            sync_logdebug(context_sync, "Added employee to weladee : %s" % odoo_employee.name)
+            sync_stat_create(context_sync['stat-w-employee'], 1)
+        except Exception as e:
+            sync_logdebug(context_sync, 'odoo > %s' % odoo_employee)
+            sync_logerror(context_sync, "Add employee '%s' failed : %s" % (odoo_employee.name, e))
+            sync_stat_error(context_sync['stat-w-employee'], 1)
+    #stat
+    sync_stat_info(context_sync,'stat-w-employee','[employee] updating new changes from odoo -> weladee',newline=True)

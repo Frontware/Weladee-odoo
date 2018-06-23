@@ -11,7 +11,7 @@ from odoo import models, fields, api, _
 
 from .grpcproto import odoo_pb2
 from .grpcproto import weladee_pb2
-from . import weladee_employee
+from . import weladee_settings
 from .sync.weladee_base import myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_has_error
 
 from odoo.addons.Weladee_Attendances.models.weladee_settings import get_synchronous_email, get_synchronous_debug 
@@ -51,7 +51,7 @@ class weladee_attendance(models.TransientModel):
             'request-debug':get_synchronous_debug(self)
         }
         sync_loginfo(context_sync,"Starting sync..")
-        authorization, holiday_status_id, api_db = weladee_employee.get_api_key(self)
+        authorization, holiday_status_id, api_db = weladee_settings.get_api_key(self)
 
         if api_db and (api_db != self.env.cr.dbname):
            sync_stop(context_sync)
@@ -62,31 +62,34 @@ class weladee_attendance(models.TransientModel):
             sync_stop(context_sync)
             sync_logerror(context_sync,'You must setup API Key, Holiday Status at Attendances -> Weladee settings')
         
+        job_obj = False
         if not sync_has_error(context_sync):
             sync_logdebug(context_sync,"Start sync...Positions")
             job_obj = self.env['hr.job']    
             sync_position(job_obj, authorization, context_sync) 
 
+        department_obj = False
         if not sync_has_error(context_sync):
             sync_logdebug(context_sync,"Start sync...Departments")
             department_obj = self.env['hr.department']    
             sync_department(department_obj, authorization, context_sync)
+        
+        country = {}
+        if not sync_has_error(context_sync):
+            sync_logdebug(context_sync,"Loading...Countries")            
+            country_line_ids = self.env['res.country'].search([])
+            for cu in country_line_ids:
+                if cu.name : country[ cu.name.lower() ] = cu.id
+        
+        return_managers = {}
+        emp_obj = False
+        if not sync_has_error(context_sync):
+            sync_logdebug(context_sync,"Start sync...Employee")
+               
+            emp_obj = self.env['hr.employee']    
+            sync_employee(job_obj, emp_obj, department_obj, country, authorization, return_managers, context_sync)
 
-            '''
-            if not context_sync['request-error']:
-               _logger.info("Loading...Countries")
-               country = {}
-               country_line_ids = self.env['res.country'].search([])
-               for cu in country_line_ids:
-                   if cu.name :
-                      country[ cu.name.lower() ] = cu.id
-
-            if not context_sync['request-error']:
-               _logger.info("Start sync...Employee")
-               return_managers = {}
-               emp_obj = self.env['hr.employee']    
-               sync_employee(job_obj, emp_obj, department_obj, country, authorization, return_managers, context_sync)
-
+        '''
             if not context_sync['request-error']:
                _logger.info("Start sync...Manager")
                sync_manager(emp_obj, return_managers, authorization, context_sync)

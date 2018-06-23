@@ -53,10 +53,11 @@ def sync_weladee_error(weladee_obj, weladee_type, e, context_sync, stop_if_conne
        sync_logdebug(context_sync, 'weladee >> %s' % weladee_obj)   
 
     sync_logdebug(context_sync, '[%s] Error while update data from grpc %s' % (weladee_type, e))
-    sync_logerror(context_sync, '[%s] %s' % (weladee_type, grpc_error))
     if 'connection refused' in ('%s' % e):
+       sync_logerror(context_sync, '[%s] %s' % (weladee_type, grpc_error))
        return True
     if 'Endpoint read failed' in ('%s' % e):
+       sync_logerror(context_sync, '[%s] %s' % (weladee_type, grpc_error))
        return True 
 
     return False 
@@ -82,4 +83,5 @@ def sync_stat_info(context_sync, key, keyname, newline=False):
                                                                                              context_sync.get(key,{}).get('create',0),\
                                                                                              context_sync.get(key,{}).get('update',0),\
                                                                                              context_sync.get(key,{}).get('error',0)))
-    if newline: sync_loginfo(context_sync, ' ')                                                                                         
+    if newline: sync_loginfo(context_sync, ' ') 
+    del context_sync[key]                                                                                            
