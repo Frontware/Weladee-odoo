@@ -393,5 +393,5 @@ class weladee_employee(models.Model):
         if not default:
           default = {}
         default['employee_code'] = False      
-        default['first_name_english'] = '%s-%s' % (self.first_name_english, len(self.search([('first_name_english','=', self.first_name_english)])))
+        default['first_name_english'] = '%s-%s' % (self.first_name_english, len(self.search([('first_name_english','=', self.first_name_english),'|',('active','=',False),('active','=',True)])))
         return super(weladee_employee, self).copy(default)

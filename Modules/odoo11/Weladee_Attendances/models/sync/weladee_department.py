@@ -17,7 +17,7 @@ def sync_department_data(weladee_department, dept_obj, context_sync):
 
     # look if there is odoo record with same weladee-id
     # if not found then create else update    
-    odoo_department = dept_obj.search([("weladee_id", "=", weladee_department.department.ID)])
+    odoo_department = dept_obj.search([("weladee_id", "=", weladee_department.department.ID),'|',('active','=',False),('active','=',True)])
     if not odoo_department.id:
        dept['res-mode'] = 'create'
     else:
@@ -25,7 +25,7 @@ def sync_department_data(weladee_department, dept_obj, context_sync):
        dept['res-id'] = odoo_department.id
        if not weladee_department.odoo.odoo_id:
           dept['send2-weladee'] = True
-
+    
     if dept['res-mode'] == 'create':
        # check if there is same name
        # consider it same record 
@@ -49,6 +49,7 @@ def sync_department(department_obj, authorization, context_sync):
     '''
     context_sync['stat-department'] = {'to-sync':0, "create":0, "update": 0, "error":0}
     context_sync['stat-w-department'] = {'to-sync':0, "create":0, "update": 0, "error":0}
+    odoo_dept = False
     try:
         weladee_department = False
         sync_loginfo(context_sync,'[department] updating changes from weladee-> odoo')
@@ -57,16 +58,16 @@ def sync_department(department_obj, authorization, context_sync):
             if not weladee_department :
                sync_logwarn(context_sync,'weladee department is empty')
                continue
-
+            
             odoo_dept = sync_department_data(weladee_department, department_obj, context_sync)
-
+            
             if odoo_dept and odoo_dept['res-mode'] == 'create':
                department_obj.create(odoo_dept)
                sync_logdebug(context_sync, "Insert department '%s' to odoo" % odoo_dept['name'] )
                sync_stat_create(context_sync['stat-department'], 1)
 
             elif odoo_dept and odoo_dept['res-mode'] == 'update':
-                odoo_id = department_obj.search([('id','=',odoo_dept['res-id'])])
+                odoo_id = department_obj.search([('id','=',odoo_dept['res-id']),'|',('active','=',False),('active','=',True)])
                 if odoo_id.id:
                    odoo_id.write(odoo_dept)
                    sync_logdebug(context_sync, "Updated department '%s' to odoo" % odoo_dept['name'] )
@@ -77,6 +78,7 @@ def sync_department(department_obj, authorization, context_sync):
                    sync_stat_error(context_sync['stat-department'], 1)
 
     except Exception as e:
+        sync_logdebug(context_sync, 'odoo >> %s' % odoo_dept) 
         if sync_weladee_error(weladee_department, 'department', e, context_sync):
            return
     
@@ -102,7 +104,7 @@ def sync_department(department_obj, authorization, context_sync):
         newDepartment.department.name_thai = odoo_department.name
         newDepartment.department.active = True
         if odoo_department.manager_id:
-            newDepartment.department.managerID = odoo_department.manager_id.weladee_id
+            newDepartment.department.managerID = odoo_department.manager_id.weladee_id or bytes()
           
         try:
             returnobj = stub.AddDepartment(newDepartment, metadata=authorization)

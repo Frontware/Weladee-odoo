@@ -53,7 +53,7 @@ class weladee_department(models.Model):
             if "manager_id" in vals:
                 sel_man = self.env['hr.employee'].search([('id','=',vals['manager_id'])])
                 if sel_man.id and sel_man.weladee_id:
-                   newDepartment.department.managerid = sel_man.weladee_id
+                   newDepartment.department.managerID= sel_man.weladee_id
 
             try:
               result = stub.AddDepartment(newDepartment, metadata=authorization)
@@ -100,10 +100,10 @@ class weladee_department(models.Model):
             if "manager_id" in vals:
                 sel_man = self.env['hr.employee'].search([('id','=',vals['manager_id'])])
                 if sel_man.id and sel_man.weladee_id:
-                   newDepartment.department.managerid = sel_man.weladee_id
+                   newDepartment.department.managerID = sel_man.weladee_id or bytes()
             else:
                 if department_odoo.manager_id.weladee_id:
-                    newDepartment.department.managerid = department_odoo.manager_id.weladee_id
+                    newDepartment.department.managerID = department_odoo.manager_id.weladee_id or bytes()
             
             if newDepartment_mode == 'create':
                 if department_odoo.weladee_id:

@@ -86,7 +86,7 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
                 data[ "job_id" ] = jdatas.id
     
     if weladee_employee.DepartmentID :
-        dep_datas = department_obj.search( [("weladee_id","=", weladee_employee.DepartmentID ),'|',('active','=',False),('active','=',True)] )
+        dep_datas = department_obj.search( [("weladee_id","=", weladee_employee.DepartmentID )] )
         if dep_datas :
             for ddatas in dep_datas :
                 data[ "department_id" ] = ddatas.id
@@ -115,7 +115,7 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
 
     # look if there is odoo record with same weladee-id
     # if not found then create else update    
-    odoo_employee = emp_obj.search([("weladee_id", "=", weladee_employee.employee.ID)])
+    odoo_employee = emp_obj.search([("weladee_id", "=", weladee_employee.employee.ID),'|',('active','=',False),('active','=',True)])
     if not odoo_employee.id:
        data['res-mode'] = 'create'
     else:
@@ -172,7 +172,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
                sync_stat_create(context_sync['stat-employee'], 1)
 
             elif odoo_emp and odoo_emp['res-mode'] == 'update':
-                odoo_id = employee_obj.search([('id','=',odoo_emp['res-id'])])
+                odoo_id = employee_obj.search([('id','=',odoo_emp['res-id']),'|',('active','=',False),('active','=',True)])
                 if odoo_id.id:
                    odoo_id.write(odoo_emp)
                    sync_logdebug(context_sync, "Updated employee '%s' to odoo" % odoo_emp['name'] )
