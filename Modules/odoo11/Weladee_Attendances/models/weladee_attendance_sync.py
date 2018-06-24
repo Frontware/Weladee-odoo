@@ -18,7 +18,7 @@ from odoo.addons.Weladee_Attendances.models.weladee_settings import get_synchron
 from odoo.addons.Weladee_Attendances.models.sync.weladee_position import sync_position_data, sync_position 
 from odoo.addons.Weladee_Attendances.models.sync.weladee_department import sync_department_data, sync_department
 from odoo.addons.Weladee_Attendances.models.sync.weladee_employee import sync_employee_data, sync_employee
-from odoo.addons.Weladee_Attendances.models.sync.weladee_manager import sync_manager
+from odoo.addons.Weladee_Attendances.models.sync.weladee_manager import sync_manager_dep,sync_manager_emp
 from odoo.addons.Weladee_Attendances.models.sync.weladee_log import sync_log
 from odoo.addons.Weladee_Attendances.models.sync.weladee_holiday import sync_holiday
 
@@ -69,10 +69,11 @@ class weladee_attendance(models.TransientModel):
             sync_position(job_obj, authorization, context_sync) 
 
         department_obj = False
+        dep_managers = {}
         if not sync_has_error(context_sync):
             sync_logdebug(context_sync,"Start sync...Departments")
             department_obj = self.env['hr.department']    
-            sync_department(department_obj, authorization, context_sync)
+            sync_department(department_obj, authorization, dep_managers, context_sync)
         
         country = {}
         if not sync_has_error(context_sync):
@@ -81,19 +82,20 @@ class weladee_attendance(models.TransientModel):
             for cu in country_line_ids:
                 if cu.name : country[ cu.name.lower() ] = cu.id
         
-        return_managers = {}
+        emp_managers = {}
         emp_obj = False
         if not sync_has_error(context_sync):
             sync_logdebug(context_sync,"Start sync...Employee")
                
             emp_obj = self.env['hr.employee']    
-            sync_employee(job_obj, emp_obj, department_obj, country, authorization, return_managers, context_sync)
+            sync_employee(job_obj, emp_obj, department_obj, country, authorization, emp_managers, context_sync)
 
+        if not sync_has_error(context_sync):
+            sync_logdebug(context_sync,"Start sync...Manager")
+
+            sync_manager_dep(department_obj, dep_managers, authorization, context_sync)
+            sync_manager_emp(emp_obj, emp_managers, authorization, context_sync)
         '''
-            if not context_sync['request-error']:
-               _logger.info("Start sync...Manager")
-               sync_manager(emp_obj, return_managers, authorization, context_sync)
-
             odoo_weladee_ids = {}
             if not context_sync['request-error']:
                _logger.info("Start sync...Log")

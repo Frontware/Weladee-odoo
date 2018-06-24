@@ -43,7 +43,7 @@ def sync_department_data(weladee_department, dept_obj, context_sync):
     
     return dept
 
-def sync_department(department_obj, authorization, context_sync):
+def sync_department(department_obj, authorization, dep_managers, context_sync):
     '''
     sync department with odoo and return the list
     '''
@@ -58,13 +58,16 @@ def sync_department(department_obj, authorization, context_sync):
             if not weladee_department :
                sync_logwarn(context_sync,'weladee department is empty')
                continue
-            
+           
             odoo_dept = sync_department_data(weladee_department, department_obj, context_sync)
             
             if odoo_dept and odoo_dept['res-mode'] == 'create':
-               department_obj.create(odoo_dept)
+               newid = department_obj.create(odoo_dept)
                sync_logdebug(context_sync, "Insert department '%s' to odoo" % odoo_dept['name'] )
                sync_stat_create(context_sync['stat-department'], 1)
+               #check manager
+               if newid.id:
+                  dep_managers[ newid.id ] = weladee_department.department.managerID
 
             elif odoo_dept and odoo_dept['res-mode'] == 'update':
                 odoo_id = department_obj.search([('id','=',odoo_dept['res-id']),'|',('active','=',False),('active','=',True)])
@@ -72,6 +75,11 @@ def sync_department(department_obj, authorization, context_sync):
                    odoo_id.write(odoo_dept)
                    sync_logdebug(context_sync, "Updated department '%s' to odoo" % odoo_dept['name'] )
                    sync_stat_update(context_sync['stat-department'], 1)
+                   #check manager
+                   if not odoo_id.manager_id: dep_managers[ odoo_id.id ] = weladee_department.department.managerID
+                   if odoo_id.manager_id and odoo_id.manager_id.weladee_id != weladee_department.department.managerID: 
+                       dep_managers[ odoo_id.id ] = weladee_department.department.managerID     
+
                 else:
                    sync_logdebug(context_sync, 'weladee > %s' % weladee_department) 
                    sync_logerror(context_sync, "Not found this odoo department id %s of '%s' in odoo" % (odoo_dept['res-id'], odoo_dept['name']) ) 
