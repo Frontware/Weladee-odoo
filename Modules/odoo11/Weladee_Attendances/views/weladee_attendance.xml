@@ -144,7 +144,7 @@ There is a request to do Weladee Synchronization at ${ctx.get('request-date')}
 % endif
 </div>
 <p>
-*This email is generated on database = ${user.env.cr.dbname}
+*This request and email are generated on database = ${user.env.cr.dbname} within ${ctx.get('request-elapse')}
 </p>
 </field>
         </record>

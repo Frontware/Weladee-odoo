@@ -50,9 +50,9 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
     #2018-06-07 KPO don't sync note back   
     #2018-06-21 KPO get team but don't sync back     
     data = { "name" : " ".join([weladee_employee.employee.first_name_english or '', weladee_employee.employee.last_name_english or "" ])
-            ,"employee_code" :(weladee_employee.employee.code or "" )
+            ,"employee_code" : weladee_employee.employee.code
             ,"weladee_profile" : "https://www.weladee.com/employee/%s" % weladee_employee.employee.ID
-            ,"work_email":( weladee_employee.employee.email or "" )
+            ,"work_email":( weladee_employee.employee.email or weladee_employee.employee.user_name )
             ,"first_name_english":weladee_employee.employee.first_name_english
             ,"last_name_english":weladee_employee.employee.last_name_english
             ,"first_name_thai":weladee_employee.employee.first_name_thai
@@ -68,6 +68,9 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
             ,"gender": sync_employee_data_gender(weladee_employee)
             ,"employee_team":weladee_employee.employee.TeamName
             ,'send2-weladee':False}
+    #fixed contraint problem when empty
+    if data['employee_code'] == '': data['employee_code'] = False
+    if data['work_email'] == '': data['work_email'] = False
 
     if weladee_employee.employee.passportNumber :
         data["passport_id"] = weladee_employee.employee.passportNumber
@@ -122,17 +125,22 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
           data['send2-weladee'] = True
 
     if data['res-mode'] == 'create':
-       # check if there is same name
+       # check if there is same name, email
        # consider it same record 
-       odoo_employee = emp_obj.search([('work_email','=',data['work_email']),'|',('active','=',False),('active','=',True)])
+       if data['work_email']:
+          odoo_employee = emp_obj.search([('work_email','=',data['work_email']),'|',('active','=',False),('active','=',True)])
+       else:
+          odoo_employee = emp_obj.search([('last_name_english','=',data['last_name_english']),\
+                                          ('first_name_english','=',data['first_name_english']),\
+                                          '|',('active','=',False),('active','=',True)]) 
        if odoo_employee.id:
           #if there is weladee id, will update it 
           sync_logdebug(context_sync, 'odoo > %s' % odoo_employee)
           sync_logdebug(context_sync, 'weladee > %s' % weladee_employee)
           if odoo_employee.weladee_id:
-             sync_logwarn(context_sync,'will replace old weladee id %s with new one %s' % (odoo_employee.weladee_id, weladee_employee.employee.ID))      
+             sync_logwarn(context_sync,'weladee id change for this employee %s, will replace old weladee id %s with new one %s' % (data['work_email'] or data['name'],odoo_employee.weladee_id, weladee_employee.employee.ID))      
           else:
-             sync_logdebug(context_sync,'missing weladee link, will update with new one %s' % weladee_employee.employee.ID)      
+             sync_logdebug(context_sync,'this employee %s is missing weladee link, will update with new one %s' % (data['work_email'] or data['name'],weladee_employee.employee.ID))      
           data['res-mode'] = 'update'
           data['res-id'] = odoo_employee.id
 
@@ -156,7 +164,10 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
             odoo_emp = sync_employee_data(weladee_employee, employee_obj, job_obj, department_obj, country, context_sync)
 
             if odoo_emp and odoo_emp['res-mode'] == 'create':
-               employee_obj.create(odoo_emp)
+               newid = employee_obj.create(odoo_emp)
+               # link weladee-manager and odoo employee
+               if newid.id:
+                  return_managers[ newid.id ] = weladee_employee.employee.managerID
                sync_logdebug(context_sync, "Insert employee '%s' to odoo" % odoo_emp['name'] )
                sync_stat_create(context_sync['stat-employee'], 1)
 
@@ -181,6 +192,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
     #scan in odoo if there is record with no weladee_id
     sync_loginfo(context_sync, '[employee] updating new changes from odoo -> weladee')
     odoo_employee_ids = employee_obj.search([('weladee_id','=',False),'|',('active','=',False),('active','=',True)])
+    context_sync['stat-w-employee']['to-sync'] = len(odoo_employee_ids)
     for odoo_employee in odoo_employee_ids:
         sync_stat_to_sync(context_sync['stat-w-employee'], 1)
         if not odoo_employee.name :
@@ -193,13 +205,13 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
         newEmployee.odoo.odoo_created_on = int(time.time())
         newEmployee.odoo.odoo_synced_on = int(time.time())
 
-        newEmployee.employee.first_name_english = odoo_employee.first_name_english or ''
-        newEmployee.employee.last_name_english = odoo_employee.last_name_english or ''
+        newEmployee.employee.first_name_english = odoo_employee.first_name_english
+        newEmployee.employee.last_name_english = odoo_employee.last_name_english
         newEmployee.employee.first_name_thai = odoo_employee.first_name_thai or ''
         newEmployee.employee.last_name_thai = odoo_employee.last_name_thai or ''
         newEmployee.employee.gender = new_employee_data_gender(odoo_employee.gender)
-        newEmployee.employee.email = odoo_employee.work_email or ''
-        newEmployee.employee.code = odoo_employee.employee_code or ''
+        newEmployee.employee.email = odoo_employee.work_email
+        newEmployee.employee.code = odoo_employee.employee_code or bytes()
         newEmployee.employee.nickname_english = odoo_employee.nick_name_english or ''
         newEmployee.employee.nickname_thai = odoo_employee.nick_name_thai or ''
         #2018-06-07 KPO don't sync note back
@@ -235,6 +247,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
             odoo_employee.write({'weladee_id':returnobj.id})
             sync_logdebug(context_sync, "Added employee to weladee : %s" % odoo_employee.name)
             sync_stat_create(context_sync['stat-w-employee'], 1)
+
         except Exception as e:
             sync_logdebug(context_sync, 'odoo > %s' % odoo_employee)
             sync_logerror(context_sync, "Add employee '%s' failed : %s" % (odoo_employee.name, e))

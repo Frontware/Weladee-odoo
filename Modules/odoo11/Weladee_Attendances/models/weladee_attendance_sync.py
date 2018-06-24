@@ -108,6 +108,7 @@ class weladee_attendance(models.TransientModel):
             '''
 
         sync_loginfo(context_sync,'sending result to %s' % context_sync['request-email'])
+        context_sync['request-elapse'] = str(datetime.today() - elapse_start)
         self.send_result_mail(context_sync)
         works = self.env['weladee_attendance.working'].search([])
         if works: works.unlink()
