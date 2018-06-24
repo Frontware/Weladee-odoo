@@ -137,10 +137,14 @@ class weladee_employee(models.Model):
             WeladeeData.employee.hasToFillTimesheet = vals["hasToFillTimesheet"]
 
             #2018-05-28 KPO use field from odoo
-            WeladeeData.employee.passportNumber = vals.get("passport_id",'')
-            WeladeeData.employee.taxID = vals.get("taxID",'')
-            WeladeeData.employee.nationalID = vals.get("nationalID",'')
-            WeladeeData.employee.photo = vals.get("image",'')
+            if vals["passport_id"]:
+                WeladeeData.employee.passportNumber = vals["passport_id"]
+            if vals["taxID"]:
+                WeladeeData.employee.taxID = vals["taxID"]
+            if vals["nationalID"]:
+                WeladeeData.employee.nationalID = vals["nationalID"]
+            if vals["image"]:
+                WeladeeData.employee.photo = vals["image"]
 
             if "work_phone" in vals:
               if len(WeladeeData.employee.Phones) == 0:
@@ -338,6 +342,8 @@ class weladee_employee(models.Model):
     @api.model
     def create(self, vals):
         odoovals = sync_clean_up(vals)
+        if not odoovals.get('name',False):
+           odoovals['name'] = " ".join([vals['first_name_english'] or '', vals['last_name_english'] or '']) 
         pid = super(weladee_employee,self).create( odoovals )
 
         # only when user create from odoo, always send
@@ -358,7 +364,7 @@ class weladee_employee(models.Model):
         # when create didn't success sync to weladeec
         # next update, try create again
         if vals.get('send2-weladee',True):
-           for each in self:
+            for each in self:
                if each.weladee_id:
                   self._update_in_weladee(each, vals) 
                else:

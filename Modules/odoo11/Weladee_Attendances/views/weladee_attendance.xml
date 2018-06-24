@@ -82,11 +82,11 @@
             <field name="body_html" type="html">
 <div>
 <p>Hi,
-<br>
+<br/>
 There is a request to do Weladee Synchronization at ${ctx.get('request-date')}
 </p>
 % if ctx.get('request-error',False):
-    There is an error occured when run Synchronization:<br>
+    There is an error occured when run Synchronization:<br/>
     <ul>
     % for err in ctx.get('request-logs'):
       % if err[0] == 'e'
@@ -98,7 +98,7 @@ There is a request to do Weladee Synchronization at ${ctx.get('request-date')}
 
     % if ctx.get('request-logs-y',False) == 'Y':
 
-        There is an error occured when run Synchronization:<br>
+        There is an error occured when run Synchronization:<br/>
         <ul>
             % for err in ctx.get('request-logs'):
                 % if err[0] == 'e'
@@ -123,8 +123,8 @@ There is a request to do Weladee Synchronization at ${ctx.get('request-date')}
 % endif
 
 % if ctx.get('request-debug',''):
-    <br>
-    log info:<br>
+    <br/>
+    log info:<br/>
     <ul>
         % for err in ctx.get('request-logs'):
             % if err[0] == 'e'
