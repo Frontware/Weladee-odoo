@@ -314,7 +314,8 @@ class weladee_employee(models.Model):
             if WeladeeData_mode == 'create':
                 if employee_odoo.weladee_id:
                     _logger.debug("[employee] odoo > %s" % vals)
-                    _logger.warn("don't find this id on Weladee : %s" % e)
+                    _logger.debug("[employee] weladee > %s" % employee_odoo)
+                    _logger.warn("don't find this id %s on Weladee" % employee_odoo.weladee_id)
                 else:
                     try:
                         WeladeeData.employee.lg = "en" 
