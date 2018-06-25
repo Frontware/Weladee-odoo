@@ -95,13 +95,14 @@ class weladee_attendance(models.TransientModel):
 
             sync_manager_dep(emp_obj, department_obj, dep_managers, authorization, context_sync)
             sync_manager_emp(emp_obj, emp_managers, authorization, context_sync)
-        '''
-            odoo_weladee_ids = {}
-            if not context_sync['request-error']:
-               _logger.info("Start sync...Log")
-               att_obj = self.env['hr.attendance']
-               sync_log(emp_obj, att_obj, authorization, context_sync, odoo_weladee_ids)
+        
+        odoo_weladee_ids = {}
+        if not sync_has_error(context_sync):
+            sync_logdebug(context_sync,"Start sync...Log")
+            att_obj = self.env['hr.attendance']
+            sync_log(emp_obj, att_obj, authorization, context_sync, odoo_weladee_ids)
 
+        '''
             if not context_sync['request-error']:
                _logger.info("Start sync...Holiday")
                hr_obj = self.env['hr.holidays']

@@ -52,7 +52,6 @@ def sync_weladee_error(weladee_obj, weladee_type, e, context_sync, stop_if_conne
     if weladee_obj:
        sync_logdebug(context_sync, 'weladee >> %s' % weladee_obj)   
 
-    sync_logdebug(context_sync, '[%s] Error while update data from grpc %s' % (weladee_type, e))
     if 'connection refused' in ('%s' % e):
        sync_logerror(context_sync, '[%s] %s' % (weladee_type, grpc_error))
        return True
@@ -60,6 +59,7 @@ def sync_weladee_error(weladee_obj, weladee_type, e, context_sync, stop_if_conne
        sync_logerror(context_sync, '[%s] %s' % (weladee_type, grpc_error))
        return True 
 
+    sync_logerror(context_sync, '[%s] Error while update data from grpc %s' % (weladee_type, e))
     return False 
 
 def sync_clean_up(in_vals):
