@@ -93,7 +93,7 @@ class weladee_attendance(models.TransientModel):
         if not sync_has_error(context_sync):
             sync_logdebug(context_sync,"Start sync...Manager")
 
-            sync_manager_dep(department_obj, dep_managers, authorization, context_sync)
+            sync_manager_dep(emp_obj, department_obj, dep_managers, authorization, context_sync)
             sync_manager_emp(emp_obj, emp_managers, authorization, context_sync)
         '''
             odoo_weladee_ids = {}

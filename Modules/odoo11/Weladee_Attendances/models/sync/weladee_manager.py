@@ -3,7 +3,7 @@
 from .weladee_base import sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
 from .weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info
 
-def sync_manager_dep(dep_obj, weladee_managers, authorization, context_sync):
+def sync_manager_dep(emp_obj, dep_obj, weladee_managers, authorization, context_sync):
     '''
     sync department's manager
     '''
@@ -18,7 +18,7 @@ def sync_manager_dep(dep_obj, weladee_managers, authorization, context_sync):
         sync_stat_to_sync(context_sync['stat-d-manager'], 1)
         if odoo_dep.id and odoo_dep.id in weladee_managers :
 
-            odoo_manager = dep_obj.search( [("weladee_id","=", weladee_managers[odoo_dep.id] ),\
+            odoo_manager = emp_obj.search( [("weladee_id","=", weladee_managers[odoo_dep.id] ),\
                                                 '|',("active","=",False),("active","=",True)] )
 
             try:
@@ -41,7 +41,7 @@ def sync_manager_emp(employee_obj, weladee_managers, authorization, context_sync
     sync_loginfo(context_sync,'[employee-manager] updating manager''s changes from weladee-> odoo')
     #look only changed employees
     odoo_emps_change = [x for x in weladee_managers]
-
+    
     odoo_emps = employee_obj.search([('id','in',odoo_emps_change),'|',('active','=',False),('active','=',True)])
     for odoo_emp in odoo_emps :
         sync_stat_to_sync(context_sync['stat-e-manager'], 1)

@@ -146,7 +146,7 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
 
     return data   
 
-def sync_employee(job_obj, employee_obj, department_obj, country, authorization, return_managers, context_sync):
+def sync_employee(job_obj, employee_obj, department_obj, country, authorization, emp_managers, context_sync):
     '''
     sync data from employee
     '''
@@ -167,7 +167,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
                newid = employee_obj.create(odoo_emp)
                # link weladee-manager and odoo employee
                if newid.id:
-                  return_managers[ newid.id ] = weladee_employee.employee.managerID
+                  emp_managers[ newid.id ] = weladee_employee.employee.managerID
                sync_logdebug(context_sync, "Insert employee '%s' to odoo" % odoo_emp['name'] )
                sync_stat_create(context_sync['stat-employee'], 1)
 
@@ -177,6 +177,8 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
                    odoo_id.write(odoo_emp)
                    sync_logdebug(context_sync, "Updated employee '%s' to odoo" % odoo_emp['name'] )
                    sync_stat_update(context_sync['stat-employee'], 1)
+                   # link weladee-manager and odoo employee
+                   emp_managers[ odoo_id.id ] = weladee_employee.employee.managerID
                 else:
                    sync_logdebug(context_sync, 'weladee > %s' % weladee_employee) 
                    sync_logerror(context_sync, "Not found this odoo employee id %s of '%s' in odoo" % (odoo_emp['res-id'], odoo_emp['name']) ) 
