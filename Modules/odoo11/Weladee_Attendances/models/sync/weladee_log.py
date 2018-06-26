@@ -47,12 +47,16 @@ def sync_log_data(emp_obj, att_obj, weladee_att, odoo_weladee_ids, context_sync)
 
     # there is previous link
     if weladee_att.odoo and weladee_att.odoo.odoo_id:
+        sync_logdebug(context_sync, 'has link to odoo.. ')
         oldid = att_obj.search( [ ('id','=', weladee_att.odoo.odoo_id)] )
+        sync_logdebug(context_sync, 'has link to odoo.. %s' % oldid)
         if oldid.id:
             #update link
             if check_field == 'check_in':
                 if oldid.check_out and _compare_2_date(oldid.check_out,data['check_in'],'<'):
                     data['check_out'] = False
+                    data['res-id'] = oldid.id
+                    data['res-mode'] = 'update'
                     sync_logdebug(context_sync, 'weladee > %s ' % weladee_att)
                     sync_logdebug(context_sync, 'odoo > %s ' % {'check_in':oldid.check_in, 'check_out':oldid.check_out,'employee_id':oldid.employee_id})
                     sync_logwarn(context_sync, 'change check in of employee %s bigger than old check out %s, reset old checkout' % (data['check_in'],oldid.check_out))
@@ -62,6 +66,9 @@ def sync_log_data(emp_obj, att_obj, weladee_att, odoo_weladee_ids, context_sync)
                     sync_logdebug(context_sync, 'weladee > %s ' % weladee_att)
                     sync_logdebug(context_sync, 'odoo > %s ' % {'check_in':oldid.check_in, 'check_out':oldid.check_out,'employee_id':oldid.employee_id})
                     sync_logwarn(context_sync, 'change check out of employee %s less than old check in %s, do not update' % (data['check_out'],oldid.check_in))
+                else:
+                    data['res-id'] = oldid.id
+                    data['res-mode'] = 'update'
         else:
             sync_logdebug(context_sync, 'weladee > %s ' % weladee_att)
             sync_logwarn(context_sync, 'can''t find this odoo-id %s of this weladee log' % weladee_att.odoo.odoo_id)
