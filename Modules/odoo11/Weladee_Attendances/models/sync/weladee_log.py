@@ -47,9 +47,6 @@ def sync_log_data(emp_obj, att_obj, weladee_att, odoo_weladee_ids, context_sync)
 
     # there is previous link
     if weladee_att.odoo and weladee_att.odoo.odoo_id:
-        sync_logdebug(context_sync, 'has link to odoo.. ')
-        oldid = att_obj.search( [ ('id','=', weladee_att.odoo.odoo_id)] )
-        sync_logdebug(context_sync, 'has link to odoo.. %s' % oldid)
         if oldid.id:
             #update link
             if check_field == 'check_in':
@@ -132,9 +129,9 @@ def sync_log(self, emp_obj, att_obj, authorization, context_sync, odoo_weladee_i
     '''
     context_sync['stat-log'] = {'to-sync':0, "create":0, "update": 0, "error":0}
     odoo_att = False
+    weladee_att = False
     iteratorAttendance = []
     try:
-        weladee_att = False
         sync_loginfo(context_sync,'[log] updating changes from weladee-> odoo')
         for weladee_att in stub.GetNewAttendance(weladee_pb2.Empty(), metadata=authorization):
             sync_stat_to_sync(context_sync['stat-log'], 1)
