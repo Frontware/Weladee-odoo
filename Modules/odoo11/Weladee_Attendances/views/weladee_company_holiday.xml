@@ -6,7 +6,7 @@
             <field name="model">weladee_attendance.company.holidays</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Company holidays">
+                <tree string="Company holidays" edit="0" create="0" delete="0">
                     <field name="company_holiday_description"/>
                     <field name="company_holiday_date"/>
                     <field name="company_holiday_notes"/>
@@ -19,7 +19,7 @@
             <field name="model">weladee_attendance.company.holidays</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Company holidays">
+                <form string="Company holidays" edit="0" create="0" delete="0">
                     <sheet>
                         <group>
                             <field name="company_holiday_description"/>   
@@ -47,9 +47,9 @@
         <menuitem
             name="Company Holidays"
             action="action_company_holidays"
-            parent="hr_holidays.menu_hr_holidays_report"
+            parent="hr_holidays.menu_hr_holidays_root"
             groups="hr_holidays.group_hr_holidays_manager"
-            sequence="7"
+            sequence="80"
             id="menu_company_holidays"/>
 
 </odoo>
