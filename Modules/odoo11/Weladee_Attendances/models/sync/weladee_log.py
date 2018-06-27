@@ -60,6 +60,10 @@ def sync_log_data(emp_obj, att_obj, weladee_att, odoo_weladee_ids, context_sync)
                     sync_logdebug(context_sync, 'weladee > %s ' % weladee_att)
                     sync_logdebug(context_sync, 'odoo > %s ' % {'check_in':oldid.check_in, 'check_out':oldid.check_out,'employee_id':oldid.employee_id})
                     sync_logwarn(context_sync, 'change check in of employee %s bigger than old check out %s, reset old checkout' % (data['check_in'],oldid.check_out))
+                else:
+                    data['res-id'] = oldid.id
+                    data['res-mode'] = 'update'
+
             elif check_field == 'check_out':
                 if oldid.check_in and _compare_2_date(oldid.check_in,data['check_out'],'>'):
                     data['res-mode'] = ''
@@ -69,6 +73,21 @@ def sync_log_data(emp_obj, att_obj, weladee_att, odoo_weladee_ids, context_sync)
                 else:
                     data['res-id'] = oldid.id
                     data['res-mode'] = 'update'
+            
+            # in case if we already have both check in, out execute directly
+            if oldid.check_in and oldid.check_out:
+               data['res-mode'] = 'update-sql' 
+               sync_logdebug(context_sync, 'odoo > %s ' % {'check_in':oldid.check_in, 'check_out':oldid.check_out,'employee_id':oldid.employee_id})
+               if check_field == 'check_in' and oldid.check_in == data[check_field]:
+                  data['res-mode'] = 'no-update'
+                  sync_logdebug(context_sync, 'weladee > %s ' % weladee_att)
+                  sync_logdebug(context_sync, 'odoo > %s ' % {'check_in':oldid.check_in, 'check_out':oldid.check_out,'employee_id':oldid.employee_id})
+                  sync_logwarn(context_sync, 'no change in check in of this employee, do not update')
+               elif check_field == 'check_out' and oldid.check_out == data[check_field]:
+                  data['res-mode'] = 'no-update'
+                  sync_logdebug(context_sync, 'weladee > %s ' % weladee_att)
+                  sync_logdebug(context_sync, 'odoo > %s ' % {'check_in':oldid.check_in, 'check_out':oldid.check_out,'employee_id':oldid.employee_id})
+                  sync_logwarn(context_sync, 'no change in check out of this employee, do not update') 
         else:
             sync_logdebug(context_sync, 'weladee > %s ' % weladee_att)
             sync_logwarn(context_sync, 'can''t find this odoo-id %s of this weladee log' % weladee_att.odoo.odoo_id)
@@ -94,7 +113,19 @@ def get_emp_odoo_weladee_ids(emp_obj, odoo_weladee_ids):
 
     return odoo_weladee_ids    
 
-def sync_log(emp_obj, att_obj, authorization, context_sync, odoo_weladee_ids):
+def _add_weladee_log_back(odoo_id, weladee_att, iteratorAttendance):
+    '''
+    create log and add for send to weladee
+    '''
+    #update record to weladee
+    syncLogEvent = odoo_pb2.LogEventOdooSync()
+    syncLogEvent.odoo.odoo_id = odoo_id
+    syncLogEvent.odoo.odoo_created_on = int(time.time())
+    syncLogEvent.odoo.odoo_synced_on = int(time.time())
+    syncLogEvent.logid = weladee_att.logevent.id
+    iteratorAttendance.append(syncLogEvent)
+
+def sync_log(self, emp_obj, att_obj, authorization, context_sync, odoo_weladee_ids):
     '''
     sync all log from weladee
 
@@ -123,13 +154,8 @@ def sync_log(emp_obj, att_obj, authorization, context_sync, odoo_weladee_ids):
                 if newid.id:
                     sync_logdebug(context_sync, "Insert log '%s' to odoo" % odoo_att )
                     sync_stat_create(context_sync['stat-log'], 1)
-                    #update record to weladee
-                    syncLogEvent = odoo_pb2.LogEventOdooSync()
-                    syncLogEvent.odoo.odoo_id = newid.id
-                    syncLogEvent.odoo.odoo_created_on = int(time.time())
-                    syncLogEvent.odoo.odoo_synced_on = int(time.time())
-                    syncLogEvent.logid = weladee_att.logevent.id
-                    iteratorAttendance.append(syncLogEvent)
+
+                    _add_weladee_log_back(newid.id,weladee_att,iteratorAttendance)
                 else:
                     sync_logdebug(context_sync, 'weladee > %s' % weladee_att) 
                     sync_logerror(context_sync, "error while create odoo log id %s of '%s' in odoo" % (odoo_att['res-id'], odoo_att) ) 
@@ -141,13 +167,8 @@ def sync_log(emp_obj, att_obj, authorization, context_sync, odoo_weladee_ids):
                     if odoo_id.write(odoo_att):
                         sync_logdebug(context_sync, "Updated log '%s' to odoo" % odoo_att )
                         sync_stat_update(context_sync['stat-log'], 1)
-                        #update record to weladee
-                        syncLogEvent = odoo_pb2.LogEventOdooSync()
-                        syncLogEvent.odoo.odoo_id = odoo_id.id
-                        syncLogEvent.odoo.odoo_created_on = int(time.time())
-                        syncLogEvent.odoo.odoo_synced_on = int(time.time())
-                        syncLogEvent.logid = weladee_att.logevent.id
-                        iteratorAttendance.append(syncLogEvent)
+
+                        _add_weladee_log_back(odoo_id.id,weladee_att,iteratorAttendance)                         
                     else:
                         sync_logdebug(context_sync, 'odoo > %s' % odoo_att) 
                         sync_logerror(context_sync, "error found while update this odoo log id %s" % odoo_att['res-id']) 
@@ -157,6 +178,35 @@ def sync_log(emp_obj, att_obj, authorization, context_sync, odoo_weladee_ids):
                    sync_logdebug(context_sync, 'weladee > %s' % weladee_att) 
                    sync_logerror(context_sync, "Not found this odoo log id %s of '%s' in odoo" % (odoo_att['res-id'], odoo_att) ) 
                    sync_stat_error(context_sync['stat-log'], 1)
+
+            elif odoo_att and odoo_att['res-mode'] == 'update-sql':
+                sync_logdebug(context_sync, 'odoo > %s' % odoo_att) 
+                sync_logdebug(context_sync, 'weladee > %s' % weladee_att) 
+
+                # update with query
+                update_sql = ''
+                if 'check_in' in odoo_att:
+                    update_sql = "check_in = '%s'" % odoo_att['check_in']
+                elif 'check_out' in odoo_att:
+                    update_sql = "check_out = '%s'" % odoo_att['check_out']                
+
+                if update_sql:
+                   try:
+                       self.env.cr.execute('''
+                        update hr_attendance set %s where id = %s
+                   ''' % (update_sql, odoo_att['res-id'])) 
+
+                       _add_weladee_log_back(odoo_att['res-id'],weladee_att,iteratorAttendance)
+                       sync_stat_update(context_sync['stat-log'], 1)
+
+                   except Exception as e:
+                       sync_logerror(context_sync, "Error while update attendance of odoo log id %s : %s" % (odoo_att['res-id'], e) ) 
+                
+                sync_logwarn(context_sync, 'Found update on odoo record %s, update without ORM' % odoo_att['res-id'])
+            
+            elif odoo_att and odoo_att['res-mode'] == 'no-update':
+                #update record to weladee
+                _add_weladee_log_back(odoo_att['res-id'],weladee_att,iteratorAttendance)
 
     except Exception as e:
         sync_logdebug(context_sync, 'odoo >> %s' % odoo_att) 

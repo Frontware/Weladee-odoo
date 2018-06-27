@@ -100,7 +100,7 @@ class weladee_attendance(models.TransientModel):
         if not sync_has_error(context_sync):
             sync_logdebug(context_sync,"Start sync...Log")
             att_obj = self.env['hr.attendance']
-            sync_log(emp_obj, att_obj, authorization, context_sync, odoo_weladee_ids)
+            sync_log(self, emp_obj, att_obj, authorization, context_sync, odoo_weladee_ids)
 
         '''
             if not context_sync['request-error']:
