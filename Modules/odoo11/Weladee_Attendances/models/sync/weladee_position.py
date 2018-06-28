@@ -17,7 +17,7 @@ def sync_position_data(weladee_position, job_line_obj, context_sync):
 
     # look if there is odoo record with same weladee-id
     # if not found then create else update    
-    odoo_position = job_line_obj.search([("weladee_id", "=", weladee_position.position.ID)])
+    odoo_position = job_line_obj.search([("weladee_id", "=", weladee_position.position.ID)],limit=1) 
     if not odoo_position.id:
        pos['res-mode'] = 'create'
     else:
@@ -29,7 +29,7 @@ def sync_position_data(weladee_position, job_line_obj, context_sync):
     if pos['res-mode'] == 'create':
        # check if there is same name
        # consider it same record 
-       odoo_position = job_line_obj.search([('name','=',pos['name'] )]) 
+       odoo_position = job_line_obj.search([('name','=',pos['name'] )],limit=1) 
        if odoo_position.id:
           #if there is weladee id, will update it 
           sync_logdebug(context_sync, 'odoo > %s' % odoo_position)

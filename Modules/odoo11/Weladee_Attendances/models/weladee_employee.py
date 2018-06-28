@@ -291,7 +291,7 @@ class weladee_employee(models.Model):
 
             if "country_id" in vals :
                 countryData = self.env['res.country'].browse( vals["country_id"] )
-                if countryData :
+                if countryData.id :
                     WeladeeData.employee.Nationality = countryData.name
 
             if "image" in vals:

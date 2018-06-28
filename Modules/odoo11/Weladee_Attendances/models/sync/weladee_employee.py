@@ -197,9 +197,13 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
     context_sync['stat-w-employee']['to-sync'] = len(odoo_employee_ids)
     for odoo_employee in odoo_employee_ids:
         sync_stat_to_sync(context_sync['stat-w-employee'], 1)
-        if not odoo_employee.name :
+        if not odoo_employee.name:
            sync_logdebug(context_sync, 'odoo > %s' % odoo_employee) 
            sync_logwarn(context_sync, 'do not send empty odoo employee name')
+           continue
+        if not odoo_employee.work_email:
+           sync_logdebug(context_sync, 'odoo > %s' % odoo_employee) 
+           sync_logwarn(context_sync, 'do not send empty odoo employee email')
            continue
         
         newEmployee = odoo_pb2.EmployeeOdoo()
@@ -207,8 +211,8 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
         newEmployee.odoo.odoo_created_on = int(time.time())
         newEmployee.odoo.odoo_synced_on = int(time.time())
 
-        newEmployee.employee.first_name_english = odoo_employee.first_name_english
-        newEmployee.employee.last_name_english = odoo_employee.last_name_english
+        newEmployee.employee.first_name_english = odoo_employee.first_name_english or odoo_employee.name
+        newEmployee.employee.last_name_english = odoo_employee.last_name_english or bytes()
         newEmployee.employee.first_name_thai = odoo_employee.first_name_thai or ''
         newEmployee.employee.last_name_thai = odoo_employee.last_name_thai or ''
         newEmployee.employee.gender = new_employee_data_gender(odoo_employee.gender)

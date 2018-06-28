@@ -17,7 +17,7 @@ def sync_department_data(weladee_department, dept_obj, context_sync):
 
     # look if there is odoo record with same weladee-id
     # if not found then create else update    
-    odoo_department = dept_obj.search([("weladee_id", "=", weladee_department.department.ID),'|',('active','=',False),('active','=',True)])
+    odoo_department = dept_obj.search([("weladee_id", "=", weladee_department.department.ID),'|',('active','=',False),('active','=',True)],limit=1) 
     if not odoo_department.id:
        dept['res-mode'] = 'create'
     else:
@@ -29,7 +29,7 @@ def sync_department_data(weladee_department, dept_obj, context_sync):
     if dept['res-mode'] == 'create':
        # check if there is same name
        # consider it same record 
-       odoo_department = dept_obj.search([('name','=',weladee_department.department.name_english ),'|',('active','=',False),('active','=',True)])
+       odoo_department = dept_obj.search([('name','=',weladee_department.department.name_english ),'|',('active','=',False),('active','=',True)],limit=1) 
        if odoo_department.id:
           #if there is weladee id, will update it 
           sync_logdebug(context_sync, 'odoo > %s' % odoo_department)
