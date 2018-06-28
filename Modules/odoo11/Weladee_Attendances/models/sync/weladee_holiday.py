@@ -7,7 +7,7 @@ import pytz
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from .weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
-from .weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info
+from .weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
 from .weladee_log import get_emp_odoo_weladee_ids
 
 def sync_company_holiday_data(weladee_holiday, odoo_weladee_ids, context_sync, com_holiday_obj):
@@ -86,7 +86,8 @@ def sync_holiday_data(self, weladee_holiday, odoo_weladee_ids, context_sync, hol
 
         else:
             sync_logdebug(context_sync, 'weladee > %s ' % weladee_holiday)
-            sync_logwarn(context_sync, 'can''t find this odoo-id %s in odoo holiday' % weladee_holiday.odoo.odoo_id)
+            sync_logwarn(context_sync, 'can''t find this odoo-id %s in odoo holiday, will skip and not update' % weladee_holiday.odoo.odoo_id)
+            data['res-mode'] = ''
 
     return data   
 
@@ -131,7 +132,7 @@ def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, con
                 if odoo_hol['res-type']  == 'employee':
                      newid = holiday_obj.create(odoo_hol) 
                 elif odoo_hol['res-type']  == 'company':
-                     newid = com_holiday_obj.create(odoo_hol)                  
+                     newid = com_holiday_obj.create(sync_clean_up(odoo_hol))
                 if newid and newid.id:
                     sync_logdebug(context_sync, "Insert holiday '%s' to odoo" % odoo_hol )
                     sync_stat_create(context_sync['stat-hol'], 1)
@@ -150,7 +151,7 @@ def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, con
                      odoo_id = com_holiday_obj.search([('id','=',odoo_hol['res-id']),'|',('company_holiday_active','=',True),('company_holiday_active','=',False)])
                 
                 if odoo_id and odoo_id.id:
-                    if odoo_id.write(odoo_hol):
+                    if odoo_id.write(sync_clean_up(odoo_hol)):
                         sync_logdebug(context_sync, "Updated holiday '%s' to odoo" % odoo_hol )
                         sync_stat_update(context_sync['stat-hol'], 1)
 
