@@ -63,10 +63,16 @@ def sync_weladee_error(weladee_obj, weladee_type, e, context_sync, stop_if_conne
     return False 
 
 def sync_clean_up(in_vals):
+    '''
+    remove res-mode,res-id, send2-weladee
+    lower case work_email
+    '''
     vals = in_vals.copy()
     if 'res-mode' in vals: del vals['res-mode']
     if 'res-id' in vals: del vals['res-id']
     if 'send2-weladee' in vals: del vals['send2-weladee']
+    if 'work_email' in vals: vals['work_email'] = (vals['work_email'] or '').lower()
+
     return vals    
 
 def sync_stat_to_sync(context_sync, value):
