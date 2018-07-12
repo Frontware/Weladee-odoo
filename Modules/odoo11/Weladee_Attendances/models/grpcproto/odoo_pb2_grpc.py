@@ -101,8 +101,7 @@ class OdooServicer(object):
   """
 
   def UpdateEmployee(self, request, context):
-    """/ Employee
-    / Update employee
+    """/ Update employee
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -123,15 +122,14 @@ class OdooServicer(object):
     raise NotImplementedError('Method not implemented!')
 
   def GetEmployeeHolidays(self, request, context):
-    """/ Holiday
-    / Stream of holidays for 1 specific employee
+    """/ Stream of holidays for 1 specific employee
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def GetHolidays(self, request, context):
-    """/ Stream of holidays for the company + employees
+    """/ Stream of holidays for the company + employees that need to be synchronized with Odoo
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -159,8 +157,7 @@ class OdooServicer(object):
     raise NotImplementedError('Method not implemented!')
 
   def GetDepartments(self, request, context):
-    """/ Department
-    / return a stream of departments
+    """/ return a stream of departments
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -181,8 +178,7 @@ class OdooServicer(object):
     raise NotImplementedError('Method not implemented!')
 
   def GetNewAttendance(self, request, context):
-    """/ Attendance
-    / return a stream of attendance record + odoo employee id that have not yet been synchronized with Odoo or that need to be synchronized again.
+    """/ return a stream of attendance record + odoo employee id that have not yet been synchronized with Odoo or that need to be synchronized again.
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -196,8 +192,7 @@ class OdooServicer(object):
     raise NotImplementedError('Method not implemented!')
 
   def GetPositions(self, request, context):
-    """/ Position
-    / return a stream of positions. Called "job title" in odoo
+    """/ return a stream of positions. Called "job title" in odoo
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')

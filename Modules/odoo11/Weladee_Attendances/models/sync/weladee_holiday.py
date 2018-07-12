@@ -64,6 +64,7 @@ def sync_holiday_data(self, weladee_holiday, odoo_weladee_ids, context_sync, hol
             'holiday_status_id': holiday_status_id,
             'number_of_days_temp': 1,
             'holiday_type':'employee',
+            'weladee_code': weladee_holiday.Holiday.code,
             'state':'validate'}
    
     # look if there is odoo record with same time

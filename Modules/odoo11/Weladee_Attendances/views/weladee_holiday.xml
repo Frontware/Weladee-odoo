@@ -82,6 +82,10 @@ remarks:
             <xpath expr="//header//button[@name='action_draft']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="weladee_code" />
+                <div></div>
+            </xpath>
         </field>
     </record>
 
@@ -110,4 +114,15 @@ remarks:
             </xpath>
         </field>
     </record>
+
+    <record id="weladee_att_hr_leave_search" model="ir.ui.view">
+        <field name="name">weladee_att_hr_leave_search</field>
+        <field name="model">hr.holidays</field>
+        <field name="inherit_id" ref="hr_holidays.view_hr_holidays_filter" />            
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='group_name']" position="after">
+                <filter name="group_code" string="Weladee Code" context="{'group_by':'weladee_code'}"/>
+            </xpath>
+        </field>
+    </record>        
 </odoo>
