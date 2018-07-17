@@ -36,7 +36,9 @@ class weladee_attendance(models.TransientModel):
         '''
             request-date : date user request to sync
             request-error : if error and stop ?
+            request-logs-y : if any error ?
             request-logs : logs info
+            request-logs-key: internal use for prevent write duplicate log
             request-email : email recipient
             request-debug : display debug log
         '''
@@ -46,7 +48,9 @@ class weladee_attendance(models.TransientModel):
         context_sync = {
             'request-date':today.strftime('%d/%m/%Y %H:%M'),
             'request-logs':[],
+            'request-logs-key':{},
             'request-error':False,
+            'request-logs-y':False,
             'request-email':get_synchronous_email(self),
             'request-debug':get_synchronous_debug(self)
         }
@@ -110,6 +114,14 @@ class weladee_attendance(models.TransientModel):
 
         sync_loginfo(context_sync,'sending result to %s' % context_sync['request-email'])
         context_sync['request-elapse'] = str(datetime.today() - elapse_start)
+        # send email status
+        context_sync['request-status'] = 'Success'
+        # check failed, first
+        if context_sync['request-logs-y']=='Y':context_sync['request-status'] = 'Not OK'
+        if context_sync['request-error']:context_sync['request-status'] = 'Failed'
+
+        # removed temporary    
+        del context_sync['request-logs-key']
         self.send_result_mail(context_sync)
         works = self.env['weladee_attendance.working'].search([])
         if works: works.unlink()

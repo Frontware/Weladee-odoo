@@ -16,30 +16,42 @@ def sync_loginfo(context_sync, log):
     write in context and log info
     '''
     _logger.info('%s' % log )
+    #if log in context_sync['request-logs-key']: return
+
     context_sync['request-logs'].append(['i', log]) 
+    #context_sync['request-logs-key'][log] = 1
 
 def sync_logdebug(context_sync, log):
     '''
     write in context and log debug
     '''
     _logger.debug('%s' % log )
+    #if log in context_sync['request-logs-key']: return
+
     print('[DEBUG]>%s' % log )
     context_sync['request-logs'].append(['d', log]) 
+    #context_sync['request-logs-key'][log] = 1
 
 def sync_logerror(context_sync, log):
     '''
     write in context and log error
     '''
     _logger.error('%s' % log )
+    if log in context_sync['request-logs-key']: return
+
     context_sync['request-logs-y'] = 'Y'
     context_sync['request-logs'].append(['e', log])
+    context_sync['request-logs-key'][log] = 1
 
 def sync_logwarn(context_sync, log):
     '''
     write in context and log warn
     '''
     _logger.warn('%s' % log )
+    if log in context_sync['request-logs-key']: return
+
     context_sync['request-logs'].append(['w', log])
+    context_sync['request-logs-key'][log] = 1
 
 def sync_stop(context_sync):
     context_sync['request-error'] = True

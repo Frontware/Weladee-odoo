@@ -77,7 +77,7 @@
             <field name="name">Weladee Attendance: Synchronous task</field>
             <field name="email_from"></field>
             <field name="email_to">${ctx.get('request-email','')}</field>
-            <field name="subject">Weladee Attendance: Synchronous task's result from request at ${ctx.get('request-date','')}</field>
+            <field name="subject">Weladee Attendance Synchronous [${ctx.get('request-status','')}]: Synchronous task's result from request at ${ctx.get('request-date','')}</field>
             <field name="model_id" ref="model_weladee_attendance_synchronous"/>
             <field name="body_html" type="html">
 <div>
@@ -90,7 +90,7 @@ There is a request to do Weladee Synchronization at ${ctx.get('request-date')}
     <ul>
     % for err in ctx.get('request-logs'):
       % if err[0] == 'e'
-        <li>${err[1]}</li>
+        <li style="color:red">${err[1]}</li>
       % endif
     % endfor
     </ul>
@@ -102,7 +102,7 @@ There is a request to do Weladee Synchronization at ${ctx.get('request-date')}
         <ul>
             % for err in ctx.get('request-logs'):
                 % if err[0] == 'e'
-                <li>${err[1]}</li>
+                <li style="color:red">${err[1]}</li>
                 % endif
             % endfor
         </ul>
@@ -128,13 +128,13 @@ There is a request to do Weladee Synchronization at ${ctx.get('request-date')}
     <ul>
         % for err in ctx.get('request-logs'):
             % if err[0] == 'e'
-                <li><b>${err[1]}</b></li>
+                <li style="color:red"><b>${err[1]}</b></li>
             % endif
             % if err[0] == 'w'
-                <li><i>${err[1]}</i></li>
+                <li style="color:orange"><i>${err[1]}</i></li>
             % endif
             % if err[0] == 'd' and ctx.get('request-debug','') == 'Y':
-                <li>${err[1]}</li>
+                <li>---${err[1]}</li>
             % endif
             % if err[0] == 'i'
                 <li>${err[1]}</li>

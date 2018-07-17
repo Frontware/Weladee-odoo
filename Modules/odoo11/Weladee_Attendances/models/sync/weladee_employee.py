@@ -13,9 +13,9 @@ def sync_employee_data_gender(weladee_emp):
     '''
     convert weladee employee gender to odoo
     '''
-    if weladee_emp.employee.gender == '':
+    if weladee_emp.employee.gender == 'm':
         return 'male'
-    elif weladee_emp.employee.gender == '':        
+    elif weladee_emp.employee.gender == 'f':        
         return 'female'
     else:
         return 'other'
