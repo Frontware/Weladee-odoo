@@ -133,7 +133,7 @@ There is a request to do Weladee Synchronization at ${ctx.get('request-date')}
             % if err[0] == 'w'
                 <li style="color:orange"><i>${err[1]}</i></li>
             % endif
-            % if err[0] == 'd' and ctx.get('request-debug','') == 'Y':
+            % if err[0] == 'd':
                 <li>---${err[1]}</li>
             % endif
             % if err[0] == 'i'

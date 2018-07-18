@@ -11,20 +11,42 @@
         <field name="model">weladee_attendance.synchronous.setting</field>
         <field name="arch" type="xml">
             <form string="Setting">
-                <group>
-                    <field name="api_database" readonly="1" />
-                    <field name="api_key"/>
-                    <field name="holiday_status_id"/>
-                    <field name="email" requird="1"/>
-                    <label for="id" string=""/>
-                    <div>
-                        <field name="api_debug" nolabel="1" class="oe_inline"/>
-                        <label for="api_debug" />
-                    </div>
-                </group>
-                <div colspan="4">
-                    <label string="*Note: you can separate each email by ;" />
-                </div>
+                <notebook>
+                    <page string="API">
+                        <group>
+                            <field name="api_database" readonly="1" />
+                            <field name="api_key"/>
+                        </group>
+                    </page>
+                    <page string="Attendance">
+                        <group>
+                            <label for="log_period"/>
+                            <div>
+                                <field attrs="{'invisible':[('log_period','=','all')]}" name="log_period_unit" class="oe_inline" />
+                                <span attrs="{'invisible':[('log_period','=','all')]}">&amp;nbsp;</span>
+                                <field name="log_period" style="height:24px" class="oe_inline" />
+                            </div>
+                        </group>
+                    </page>
+                    <page string="Holiday">
+                        <group>
+                            <field name="holiday_status_id"/>
+                        </group>
+                    </page>
+                    <page string="Notification">
+                        <group>
+                            <field name="email" requird="1"/>
+                            <label for="id" string=""/>
+                            <div>
+                                <field name="api_debug" nolabel="1" class="oe_inline"/>
+                                <label for="api_debug" />
+                            </div>
+                        </group>
+                        <div colspan="4">
+                            <label string="*Note: you can separate each email by ;" />
+                        </div>
+                    </page>
+                </notebook>
                 <footer>
                     <button icon="fa-close" special="cancel" string="Close"/>
                     <button icon="fa-gear" name="saveBtn" string="Save" class="oe_highlight" type="object"/>

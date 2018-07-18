@@ -37,21 +37,21 @@ def sync_logerror(context_sync, log):
     write in context and log error
     '''
     _logger.error('%s' % log )
-    if log in context_sync['request-logs-key']: return
+    #if log in context_sync['request-logs-key']: return
 
     context_sync['request-logs-y'] = 'Y'
     context_sync['request-logs'].append(['e', log])
-    context_sync['request-logs-key'][log] = 1
+    #context_sync['request-logs-key'][log] = 1
 
 def sync_logwarn(context_sync, log):
     '''
     write in context and log warn
     '''
     _logger.warn('%s' % log )
-    if log in context_sync['request-logs-key']: return
+    #if log in context_sync['request-logs-key']: return
 
     context_sync['request-logs'].append(['w', log])
-    context_sync['request-logs-key'][log] = 1
+    #context_sync['request-logs-key'][log] = 1
 
 def sync_stop(context_sync):
     context_sync['request-error'] = True

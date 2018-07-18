@@ -14,7 +14,7 @@ from .grpcproto import weladee_pb2
 from . import weladee_settings
 from .sync.weladee_base import myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_has_error
 
-from odoo.addons.Weladee_Attendances.models.weladee_settings import get_synchronous_email, get_synchronous_debug 
+from odoo.addons.Weladee_Attendances.models.weladee_settings import get_synchronous_email, get_synchronous_debug,get_synchronous_period 
 from odoo.addons.Weladee_Attendances.models.sync.weladee_position import sync_position_data, sync_position 
 from odoo.addons.Weladee_Attendances.models.sync.weladee_department import sync_department_data, sync_department
 from odoo.addons.Weladee_Attendances.models.sync.weladee_employee import sync_employee_data, sync_employee
@@ -104,7 +104,7 @@ class weladee_attendance(models.TransientModel):
         if not sync_has_error(context_sync):
             sync_logdebug(context_sync,"Start sync...Log")
             att_obj = self.env['hr.attendance']
-            sync_log(self, emp_obj, att_obj, authorization, context_sync, odoo_weladee_ids)
+            sync_log(self, emp_obj, att_obj, authorization, context_sync, odoo_weladee_ids, get_synchronous_period(self))
 
         if not sync_has_error(context_sync):
             sync_logdebug(context_sync,"Start sync...Holiday")

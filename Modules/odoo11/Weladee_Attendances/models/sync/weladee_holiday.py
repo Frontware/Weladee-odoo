@@ -9,6 +9,7 @@ from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from .weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
 from .weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
 from .weladee_log import get_emp_odoo_weladee_ids
+from odoo.addons.Weladee_Attendances.library.weladee_lib import _convert_to_tz_time
 
 def sync_company_holiday_data(weladee_holiday, odoo_weladee_ids, context_sync, com_holiday_obj):
     '''
@@ -42,12 +43,6 @@ def sync_company_holiday_data(weladee_holiday, odoo_weladee_ids, context_sync, c
             sync_logwarn(context_sync, 'can''t find this odoo-id %s in company holiday' % weladee_holiday.odoo.odoo_id)
 
     return data      
-
-def _convert_to_tz_time(self, date_string_with_time):
-    date_v = datetime.datetime.strptime(date_string_with_time,'%Y-%m-%d %H:%M:%S')
-    user_tz = pytz.timezone(self.env.context.get('tz') or self.env.user.tz or 'UTC')
-    date_tz = user_tz.localize(date_v)  # Add "+hh:mm" timezone
-    return date_tz.astimezone(pytz.utc)  # Convert to UTC
 
 def sync_holiday_data(self, weladee_holiday, odoo_weladee_ids, context_sync, holiday_status_id, holiday_obj, com_holiday_obj):
     '''

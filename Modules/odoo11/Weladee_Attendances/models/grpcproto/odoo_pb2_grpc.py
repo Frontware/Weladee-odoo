@@ -77,11 +77,6 @@ class OdooStub(object):
         request_serializer=odoo__pb2.AttendanceRequest.SerializeToString,
         response_deserializer=odoo__pb2.LogEventOdoo.FromString,
         )
-    self.SyncAttendance = channel.stream_unary(
-        '/grpc.weladee.com.Odoo/SyncAttendance',
-        request_serializer=odoo__pb2.LogEventOdooSync.SerializeToString,
-        response_deserializer=weladee__pb2.Empty.FromString,
-        )
     self.GetPositions = channel.unary_stream(
         '/grpc.weladee.com.Odoo/GetPositions',
         request_serializer=weladee__pb2.Empty.SerializeToString,
@@ -184,15 +179,10 @@ class OdooServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def SyncAttendance(self, request_iterator, context):
-    """/ Send a stream of LogEventSync to confirm the log entries have been synchronized with Odoo. This funciton use a stream in order to synchronize a large bunch of records very quickly. Odoo can not update or create or delete LogEvent record in Weladee.
-    """
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
-
   def GetPositions(self, request, context):
-    """/ return a stream of positions. Called "job title" in odoo
+    """rpc SyncAttendance (stream LogEventOdooSync) returns (Empty); /// Send a stream of LogEventSync to confirm the log entries have been synchronized with Odoo. This funciton use a stream in order to synchronize a large bunch of records very quickly. Odoo can not update or create or delete LogEvent record in Weladee.
+
+    / return a stream of positions. Called "job title" in odoo
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -267,11 +257,6 @@ def add_OdooServicer_to_server(servicer, server):
           servicer.GetNewAttendance,
           request_deserializer=odoo__pb2.AttendanceRequest.FromString,
           response_serializer=odoo__pb2.LogEventOdoo.SerializeToString,
-      ),
-      'SyncAttendance': grpc.stream_unary_rpc_method_handler(
-          servicer.SyncAttendance,
-          request_deserializer=odoo__pb2.LogEventOdooSync.FromString,
-          response_serializer=weladee__pb2.Empty.SerializeToString,
       ),
       'GetPositions': grpc.unary_stream_rpc_method_handler(
           servicer.GetPositions,
