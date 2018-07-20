@@ -289,8 +289,9 @@ def sync_log(self, emp_obj, att_obj, authorization, context_sync, odoo_weladee_i
     try:
         sync_loginfo(context_sync,'[log] updating changes from weladee-> odoo')
         req = odoo_pb2.AttendanceRequest()
-        req.From = int(dt_from_utc.timestamp())
-        print(req)
+        if dt_from_utc:
+           req.From = int(dt_from_utc.timestamp())
+        #print(req)
         ireq = 0
         for weladee_att in stub.GetNewAttendance(req, metadata=authorization):
             ireq +=1
