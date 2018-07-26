@@ -53,7 +53,7 @@ class weladee_department(models.Model):
             if "manager_id" in vals:
                 sel_man = self.env['hr.employee'].search([('id','=',vals['manager_id'])])
                 if sel_man.id and sel_man.weladee_id:
-                   newDepartment.department.managerID= sel_man.weladee_id
+                   newDepartment.department.managerID= int(sel_man.weladee_id)
 
             try:
               result = stub.AddDepartment(newDepartment, metadata=authorization)
