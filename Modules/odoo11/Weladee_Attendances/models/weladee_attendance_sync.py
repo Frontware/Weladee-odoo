@@ -93,6 +93,8 @@ class weladee_attendance(models.TransientModel):
                
             emp_obj = self.env['hr.employee']    
             sync_employee(job_obj, emp_obj, department_obj, country, authorization, emp_managers, context_sync)
+        
+        exit(1)
 
         if not sync_has_error(context_sync):
             sync_logdebug(context_sync,"Start sync...Manager")
