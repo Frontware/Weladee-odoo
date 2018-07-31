@@ -144,6 +144,8 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
           data['res-mode'] = 'update'
           data['res-id'] = odoo_employee.id
 
+    print(data['gender'])
+    print(weladee_employee)
     return data   
 
 def sync_employee(job_obj, employee_obj, department_obj, country, authorization, emp_managers, context_sync):
