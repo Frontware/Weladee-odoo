@@ -19,7 +19,11 @@ def get_weladee_employee(weladee_id, authorization):
     get weladee employeeodoo from weladee_id
     '''
     odooRequest = odoo_pb2.OdooRequest()
-    odooRequest.ID = int(weladee_id or '0')
+    try:
+        odooRequest.ID = int(weladee_id or '0')
+    except:
+        return False
+        
     for emp in stub.GetEmployees(odooRequest, metadata=authorization):
         if emp and emp.employee :
            return emp
