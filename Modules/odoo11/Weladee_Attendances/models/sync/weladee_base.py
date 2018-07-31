@@ -28,7 +28,7 @@ def sync_logdebug(context_sync, log):
     _logger.debug('%s' % log )
     #if log in context_sync['request-logs-key']: return
 
-    print('[DEBUG]>%s' % log )
+    #print('[DEBUG]>%s' % log )
     context_sync['request-logs'].append(['d', log]) 
     #context_sync['request-logs-key'][log] = 1
 

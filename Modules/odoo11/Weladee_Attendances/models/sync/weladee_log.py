@@ -188,7 +188,7 @@ def create_odoo_log(self, data, context_sync,weladee_log):
         sync_logdebug(context_sync, 'odoo > %s' % data)         
         sync_logerror(context_sync,'error when created in odoo: %s' % e)
     '''
-    ret = self.env['hr.attendance'].create(data)
+    ret = self.env['hr.attendance'].create(sync_clean_up(data))
     return ret
 
 def update_odoo_log(self, odoo_log, data, context_sync,weladee_log):    
@@ -216,7 +216,7 @@ def update_odoo_log(self, odoo_log, data, context_sync,weladee_log):
         sync_logdebug(context_sync, 'new odoo > %s' % data)         
         sync_logerror(context_sync,'error when updated in odoo: %s' % e)
     '''
-    return self.env['hr.attendance'].browse(odoo_log.id).write(data)
+    return self.env['hr.attendance'].browse(odoo_log.id).write(sync_clean_up(data))
 
 def update_odoo_orm_log(self, id, sql, context_sync):    
     '''
@@ -295,7 +295,7 @@ def sync_log(self, emp_obj, att_obj, authorization, context_sync, odoo_weladee_i
         ireq = 0
         for weladee_att in stub.GetNewAttendance(req, metadata=authorization):
             ireq +=1
-            print('%s %s'% (ireq, weladee_att))
+            #print('%s %s'% (ireq, weladee_att))
             sync_stat_to_sync(context_sync['stat-log'], 1)
             if not weladee_att :
                 sync_logwarn(context_sync,'weladee attendance is empty')
