@@ -188,7 +188,11 @@ def create_odoo_log(self, data, context_sync,weladee_log):
         sync_logdebug(context_sync, 'odoo > %s' % data)         
         sync_logerror(context_sync,'error when created in odoo: %s' % e)
     '''
-    ret = self.env['hr.attendance'].create(sync_clean_up(data))
+    ret = False
+    try:
+        ret = self.env['hr.attendance'].create(sync_clean_up(data))
+    except Exception as e:
+        pass
     return ret
 
 def update_odoo_log(self, odoo_log, data, context_sync,weladee_log):    
@@ -216,7 +220,10 @@ def update_odoo_log(self, odoo_log, data, context_sync,weladee_log):
         sync_logdebug(context_sync, 'new odoo > %s' % data)         
         sync_logerror(context_sync,'error when updated in odoo: %s' % e)
     '''
-    return self.env['hr.attendance'].browse(odoo_log.id).write(sync_clean_up(data))
+    try:
+        return self.env['hr.attendance'].browse(odoo_log.id).write(sync_clean_up(data))
+    except Exception as e:
+        return False
 
 def update_odoo_orm_log(self, id, sql, context_sync):    
     '''
