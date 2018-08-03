@@ -23,7 +23,7 @@ def get_weladee_employee(weladee_id, authorization):
         odooRequest.ID = int(weladee_id or '0')
     except:
         return False
-        
+
     for emp in stub.GetEmployees(odooRequest, metadata=authorization):
         if emp and emp.employee :
            return emp
@@ -344,9 +344,24 @@ class weladee_employee(models.Model):
         else:
           _logger.error("Error while update employee on Weladee : No authroized")
 
+    def clean_up_space(self, vals):
+        if "employee_code" in vals and vals["employee_code"]:
+           vals["employee_code"] = (vals["employee_code"] or '').strip(' ')
+        if "first_name_english" in vals and vals["first_name_english"]:
+           vals["first_name_english"] = (vals["first_name_english"] or '').strip(' ')
+        if "last_name_english" in vals and vals["last_name_english"]:
+           vals["last_name_english"] = (vals["last_name_english"] or '').strip(' ')
+        if "work_email" in vals and vals["work_email"]:
+           vals["work_email"] = (vals["work_email"] or '').strip(' ')
+        if "first_name_thai" in vals and vals["first_name_thai"]:
+           vals["first_name_thai"] = (vals["first_name_thai"] or '').strip(' ')
+        if "last_name_thai" in vals and vals["last_name_thai"]:
+           vals["last_name_thai"] = (vals["last_name_thai"] or '').strip(' ')
+
     @api.model
     def create(self, vals):
         odoovals = sync_clean_up(vals)
+        self.clean_up_space(odoovals)
         if not odoovals.get('name',False):
            odoovals['name'] = " ".join([vals['first_name_english'] or '', vals['last_name_english'] or '']) 
         pid = super(weladee_employee,self).create( odoovals )
@@ -361,6 +376,7 @@ class weladee_employee(models.Model):
     @api.multi
     def write(self, vals):
         odoovals = sync_clean_up(vals)
+        self.clean_up_space(odoovals)
         ret = super(weladee_employee, self).write( odoovals )
         # if don't need to sync when there is weladee-id in vals
         # case we don't need to send to weladee, like just update weladee-id in odoo
