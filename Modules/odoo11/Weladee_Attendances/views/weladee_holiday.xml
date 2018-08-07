@@ -16,6 +16,7 @@ remarks:
                 <attribute name="edit">0</attribute>
                 <attribute name="delete">0</attribute>
             </xpath>
+            <xpath expr="//field[@name='holiday_status_id']" position="replace" />
         </field>
     </record>
 
@@ -29,6 +30,7 @@ remarks:
                 <attribute name="edit">0</attribute>
                 <attribute name="delete">0</attribute>
             </xpath>
+            <xpath expr="//field[@name='holiday_status_id']" position="replace" />
         </field>
     </record>
 
@@ -42,6 +44,7 @@ remarks:
                 <attribute name="edit">0</attribute>
                 <attribute name="delete">0</attribute>
             </xpath>
+            <xpath expr="//field[@name='holiday_status_id']" position="replace" />
         </field>
     </record>
      <record id="weladee_att_hr_leave_list_emp" model="ir.ui.view">
@@ -54,6 +57,7 @@ remarks:
                 <attribute name="edit">0</attribute>
                 <attribute name="delete">0</attribute>
             </xpath>
+            <xpath expr="//field[@name='holiday_status_id']" position="replace" />
         </field>
     </record>
 
@@ -83,7 +87,8 @@ remarks:
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//field[@name='name']" position="after">
-                <field name="weladee_code" />
+                <field name="weladee_code" attrs="{'invisible':[('weladee_sick','=',True)]}"/>
+                <field name="weladee_sick" attrs="{'invisible':[('weladee_sick','=',False)]}"/>
                 <div></div>
             </xpath>
         </field>

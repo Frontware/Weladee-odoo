@@ -22,7 +22,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='odoo.proto',
   package='grpc.weladee.com',
   syntax='proto3',
-  serialized_pb=_b('\n\nodoo.proto\x12\x10grpc.weladee.com\x1a\rweladee.proto\"0\n\x11\x41ttendanceRequest\x12\r\n\x05\x66orce\x18\x01 \x01(\x08\x12\x0c\n\x04\x46rom\x18\x02 \x01(\x03\"G\n\x10LogEventOdooSync\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12\r\n\x05logid\x18\x02 \x01(\x03\"_\n\x0bHolidayOdoo\x12*\n\x07Holiday\x18\x01 \x01(\x0b\x32\x19.grpc.weladee.com.Holiday\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"V\n\x0cLogEventOdoo\x12,\n\x08logevent\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.LogEvent\x12\x18\n\x10\x65mployee_odoo_id\x18\x03 \x01(\x03\"S\n\x0bOdooRequest\x12\x10\n\x02ID\x18\x01 \x01(\x03H\x00R\x02id\x12\x1a\n\x07odoo_id\x18\x02 \x01(\x03H\x00R\x07odoo_id\x12\r\n\x05\x46orce\x18\x03 \x01(\x08\x42\x07\n\x05query\"\x87\x01\n\x0c\x45mployeeOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12,\n\x08\x65mployee\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.Employee\x12\r\n\x05\x42\x61\x64ge\x18\x03 \x01(\t\x12\x14\n\x0c\x44\x65partmentID\x18\x04 \x01(\x03\"h\n\x0e\x44\x65partmentOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12\x30\n\ndepartment\x18\x02 \x01(\x0b\x32\x1c.grpc.weladee.com.Department\"r\n\x0cPositionOdoo\x12*\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odooR\x04odoo\x12\x36\n\x08position\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.PositionR\x08position\"\x90\x01\n\x04odoo\x12\x18\n\x07odoo_id\x18\x01 \x01(\x03R\x07odoo_id\x12(\n\x0fodoo_created_on\x18\x02 \x01(\x03R\x0fodoo_created_on\x12&\n\x0eodoo_synced_on\x18\x03 \x01(\x03R\x0eodoo_synced_on\x12\x1c\n\todoo_note\x18\x04 \x01(\tR\todoo_note2\xce\x08\n\x04Odoo\x12I\n\x0eUpdateEmployee\x12\x1e.grpc.weladee.com.EmployeeOdoo\x1a\x17.grpc.weladee.com.Empty\x12O\n\x0cGetEmployees\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x1e.grpc.weladee.com.EmployeeOdoo0\x01\x12J\n\x0b\x41\x64\x64\x45mployee\x12\x1e.grpc.weladee.com.EmployeeOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12U\n\x13GetEmployeeHolidays\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x1d.grpc.weladee.com.HolidayOdoo0\x01\x12G\n\x0bGetHolidays\x12\x17.grpc.weladee.com.Empty\x1a\x1d.grpc.weladee.com.HolidayOdoo0\x01\x12H\n\nAddHoliday\x12\x1d.grpc.weladee.com.HolidayOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12\x45\n\x0b\x44ropHoliday\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x17.grpc.weladee.com.Empty\x12G\n\rUpdateHoliday\x12\x1d.grpc.weladee.com.HolidayOdoo\x1a\x17.grpc.weladee.com.Empty\x12S\n\x0eGetDepartments\x12\x1d.grpc.weladee.com.OdooRequest\x1a .grpc.weladee.com.DepartmentOdoo0\x01\x12N\n\rAddDepartment\x12 .grpc.weladee.com.DepartmentOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12M\n\x10UpdateDepartment\x12 .grpc.weladee.com.DepartmentOdoo\x1a\x17.grpc.weladee.com.Empty\x12Y\n\x10GetNewAttendance\x12#.grpc.weladee.com.AttendanceRequest\x1a\x1e.grpc.weladee.com.LogEventOdoo0\x01\x12I\n\x0cGetPositions\x12\x17.grpc.weladee.com.Empty\x1a\x1e.grpc.weladee.com.PositionOdoo0\x01\x12J\n\x0b\x41\x64\x64Position\x12\x1e.grpc.weladee.com.PositionOdoo\x1a\x1b.grpc.weladee.com.AddResultB0\n\x1a\x63om.frontware.weladee_odooB\x0bWeladeeGRPCH\x03P\x01\x90\x01\x01\x62\x06proto3')
+  serialized_pb=_b('\n\nodoo.proto\x12\x10grpc.weladee.com\x1a\rweladee.proto\"5\n\x11\x41ttendanceRequest\x12\x0c\n\x04\x46rom\x18\x02 \x01(\x03\x12\x12\n\nEmployeeID\x18\x03 \x01(\x03\"_\n\x0bHolidayOdoo\x12*\n\x07Holiday\x18\x01 \x01(\x0b\x32\x19.grpc.weladee.com.Holiday\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"V\n\x0cLogEventOdoo\x12,\n\x08logevent\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.LogEvent\x12\x18\n\x10\x65mployee_odoo_id\x18\x03 \x01(\x03\"S\n\x0bOdooRequest\x12\x10\n\x02ID\x18\x01 \x01(\x03H\x00R\x02id\x12\x1a\n\x07odoo_id\x18\x02 \x01(\x03H\x00R\x07odoo_id\x12\r\n\x05\x46orce\x18\x03 \x01(\x08\x42\x07\n\x05query\"\x87\x01\n\x0c\x45mployeeOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12,\n\x08\x65mployee\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.Employee\x12\r\n\x05\x42\x61\x64ge\x18\x03 \x01(\t\x12\x14\n\x0c\x44\x65partmentID\x18\x04 \x01(\x03\"h\n\x0e\x44\x65partmentOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12\x30\n\ndepartment\x18\x02 \x01(\x0b\x32\x1c.grpc.weladee.com.Department\"r\n\x0cPositionOdoo\x12*\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odooR\x04odoo\x12\x36\n\x08position\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.PositionR\x08position\"\x90\x01\n\x04odoo\x12\x18\n\x07odoo_id\x18\x01 \x01(\x03R\x07odoo_id\x12(\n\x0fodoo_created_on\x18\x02 \x01(\x03R\x0fodoo_created_on\x12&\n\x0eodoo_synced_on\x18\x03 \x01(\x03R\x0eodoo_synced_on\x12\x1c\n\todoo_note\x18\x04 \x01(\tR\todoo_note2\xce\x08\n\x04Odoo\x12I\n\x0eUpdateEmployee\x12\x1e.grpc.weladee.com.EmployeeOdoo\x1a\x17.grpc.weladee.com.Empty\x12O\n\x0cGetEmployees\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x1e.grpc.weladee.com.EmployeeOdoo0\x01\x12J\n\x0b\x41\x64\x64\x45mployee\x12\x1e.grpc.weladee.com.EmployeeOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12U\n\x13GetEmployeeHolidays\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x1d.grpc.weladee.com.HolidayOdoo0\x01\x12G\n\x0bGetHolidays\x12\x17.grpc.weladee.com.Empty\x1a\x1d.grpc.weladee.com.HolidayOdoo0\x01\x12H\n\nAddHoliday\x12\x1d.grpc.weladee.com.HolidayOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12\x45\n\x0b\x44ropHoliday\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x17.grpc.weladee.com.Empty\x12G\n\rUpdateHoliday\x12\x1d.grpc.weladee.com.HolidayOdoo\x1a\x17.grpc.weladee.com.Empty\x12S\n\x0eGetDepartments\x12\x1d.grpc.weladee.com.OdooRequest\x1a .grpc.weladee.com.DepartmentOdoo0\x01\x12N\n\rAddDepartment\x12 .grpc.weladee.com.DepartmentOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12M\n\x10UpdateDepartment\x12 .grpc.weladee.com.DepartmentOdoo\x1a\x17.grpc.weladee.com.Empty\x12Y\n\x10GetNewAttendance\x12#.grpc.weladee.com.AttendanceRequest\x1a\x1e.grpc.weladee.com.LogEventOdoo0\x01\x12I\n\x0cGetPositions\x12\x17.grpc.weladee.com.Empty\x1a\x1e.grpc.weladee.com.PositionOdoo0\x01\x12J\n\x0b\x41\x64\x64Position\x12\x1e.grpc.weladee.com.PositionOdoo\x1a\x1b.grpc.weladee.com.AddResultB0\n\x1a\x63om.frontware.weladee_odooB\x0bWeladeeGRPCH\x03P\x01\x90\x01\x01\x62\x06proto3')
   ,
   dependencies=[weladee__pb2.DESCRIPTOR,])
 
@@ -37,15 +37,15 @@ _ATTENDANCEREQUEST = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='force', full_name='grpc.weladee.com.AttendanceRequest.force', index=0,
-      number=1, type=8, cpp_type=7, label=1,
-      has_default_value=False, default_value=False,
+      name='From', full_name='grpc.weladee.com.AttendanceRequest.From', index=0,
+      number=2, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='From', full_name='grpc.weladee.com.AttendanceRequest.From', index=1,
-      number=2, type=3, cpp_type=2, label=1,
+      name='EmployeeID', full_name='grpc.weladee.com.AttendanceRequest.EmployeeID', index=1,
+      number=3, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -63,45 +63,7 @@ _ATTENDANCEREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=47,
-  serialized_end=95,
-)
-
-
-_LOGEVENTODOOSYNC = _descriptor.Descriptor(
-  name='LogEventOdooSync',
-  full_name='grpc.weladee.com.LogEventOdooSync',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='odoo', full_name='grpc.weladee.com.LogEventOdooSync.odoo', index=0,
-      number=1, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='logid', full_name='grpc.weladee.com.LogEventOdooSync.logid', index=1,
-      number=2, type=3, cpp_type=2, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=97,
-  serialized_end=168,
+  serialized_end=100,
 )
 
 
@@ -138,8 +100,8 @@ _HOLIDAYODOO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=170,
-  serialized_end=265,
+  serialized_start=102,
+  serialized_end=197,
 )
 
 
@@ -176,8 +138,8 @@ _LOGEVENTODOO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=267,
-  serialized_end=353,
+  serialized_start=199,
+  serialized_end=285,
 )
 
 
@@ -224,8 +186,8 @@ _ODOOREQUEST = _descriptor.Descriptor(
       name='query', full_name='grpc.weladee.com.OdooRequest.query',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=355,
-  serialized_end=438,
+  serialized_start=287,
+  serialized_end=370,
 )
 
 
@@ -276,8 +238,8 @@ _EMPLOYEEODOO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=441,
-  serialized_end=576,
+  serialized_start=373,
+  serialized_end=508,
 )
 
 
@@ -314,8 +276,8 @@ _DEPARTMENTODOO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=578,
-  serialized_end=682,
+  serialized_start=510,
+  serialized_end=614,
 )
 
 
@@ -352,8 +314,8 @@ _POSITIONODOO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=684,
-  serialized_end=798,
+  serialized_start=616,
+  serialized_end=730,
 )
 
 
@@ -404,11 +366,10 @@ _ODOO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=801,
-  serialized_end=945,
+  serialized_start=733,
+  serialized_end=877,
 )
 
-_LOGEVENTODOOSYNC.fields_by_name['odoo'].message_type = _ODOO
 _HOLIDAYODOO.fields_by_name['Holiday'].message_type = weladee__pb2._HOLIDAY
 _HOLIDAYODOO.fields_by_name['odoo'].message_type = _ODOO
 _LOGEVENTODOO.fields_by_name['logevent'].message_type = weladee__pb2._LOGEVENT
@@ -425,7 +386,6 @@ _DEPARTMENTODOO.fields_by_name['department'].message_type = weladee__pb2._DEPART
 _POSITIONODOO.fields_by_name['odoo'].message_type = _ODOO
 _POSITIONODOO.fields_by_name['position'].message_type = weladee__pb2._POSITION
 DESCRIPTOR.message_types_by_name['AttendanceRequest'] = _ATTENDANCEREQUEST
-DESCRIPTOR.message_types_by_name['LogEventOdooSync'] = _LOGEVENTODOOSYNC
 DESCRIPTOR.message_types_by_name['HolidayOdoo'] = _HOLIDAYODOO
 DESCRIPTOR.message_types_by_name['LogEventOdoo'] = _LOGEVENTODOO
 DESCRIPTOR.message_types_by_name['OdooRequest'] = _ODOOREQUEST
@@ -441,13 +401,6 @@ AttendanceRequest = _reflection.GeneratedProtocolMessageType('AttendanceRequest'
   # @@protoc_insertion_point(class_scope:grpc.weladee.com.AttendanceRequest)
   ))
 _sym_db.RegisterMessage(AttendanceRequest)
-
-LogEventOdooSync = _reflection.GeneratedProtocolMessageType('LogEventOdooSync', (_message.Message,), dict(
-  DESCRIPTOR = _LOGEVENTODOOSYNC,
-  __module__ = 'odoo_pb2'
-  # @@protoc_insertion_point(class_scope:grpc.weladee.com.LogEventOdooSync)
-  ))
-_sym_db.RegisterMessage(LogEventOdooSync)
 
 HolidayOdoo = _reflection.GeneratedProtocolMessageType('HolidayOdoo', (_message.Message,), dict(
   DESCRIPTOR = _HOLIDAYODOO,
@@ -508,8 +461,8 @@ _ODOO = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   options=None,
-  serialized_start=948,
-  serialized_end=2050,
+  serialized_start=880,
+  serialized_end=1982,
   methods=[
   _descriptor.MethodDescriptor(
     name='UpdateEmployee',

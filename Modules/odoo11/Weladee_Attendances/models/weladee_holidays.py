@@ -26,3 +26,4 @@ class weladee_holidays(models.Model):
     _inherit = 'hr.holidays'
 
     weladee_code = fields.Char('Weladee Code')
+    weladee_sick = fields.Boolean('Sick')

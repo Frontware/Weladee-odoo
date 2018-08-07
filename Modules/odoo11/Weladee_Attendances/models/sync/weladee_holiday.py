@@ -52,7 +52,7 @@ def sync_holiday_data(self, weladee_holiday, odoo_weladee_ids, context_sync, hol
        return sync_company_holiday_data(weladee_holiday, odoo_weladee_ids, context_sync, com_holiday_obj)
 
     date = datetime.datetime.strptime(str(weladee_holiday.Holiday.date),'%Y%m%d')
-    data = {'name': weladee_holiday.Holiday.NameEnglish or weladee_holiday.Holiday.NameThai,
+    data = {'name': (weladee_holiday.Holiday.NameEnglish or weladee_holiday.Holiday.NameThai or '').strip(' '),
             'date_from': _convert_to_tz_time(self, date.strftime('%Y-%m-%d') + ' 00:00:00'),
             'date_to': _convert_to_tz_time(self, date.strftime('%Y-%m-%d') + ' 23:59:59'),
             'employee_id':odoo_weladee_ids.get('%s' % weladee_holiday.Holiday.EmployeeID,False),
@@ -60,6 +60,7 @@ def sync_holiday_data(self, weladee_holiday, odoo_weladee_ids, context_sync, hol
             'number_of_days_temp': 1,
             'holiday_type':'employee',
             'weladee_code': weladee_holiday.Holiday.code,
+            'weladee_sick': weladee_holiday.Holiday.sickLeave,
             'state':'validate'}
    
     # look if there is odoo record with same time
