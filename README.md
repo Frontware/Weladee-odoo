@@ -4,6 +4,8 @@
 
 ![Weladee logo](https://vgy.me/jlVton.png)![odoo](https://goo.gl/D9uZDJ)
 
+[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/weladee)
+
 ## What is Weladee?
 
 Weladee is a "In The Cloud" service to manage employee attendance.
