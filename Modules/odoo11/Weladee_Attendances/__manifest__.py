@@ -71,7 +71,13 @@ requirement:
   install: 
     
   pip3 install --upgrade grpcio==1.7.3
-                
+
+* imagemagick
+  
+  install:
+  
+  sudo apt install imagemagick-6.q16 
+
 note:
 ------------------------------------
 * you must have weladee's account to use this module.

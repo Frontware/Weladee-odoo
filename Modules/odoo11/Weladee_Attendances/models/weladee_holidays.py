@@ -3,7 +3,7 @@
 import logging
 _logger = logging.getLogger(__name__)
 
-from odoo import osv
+from odoo import osv,api
 from odoo import models, fields
 from odoo import exceptions
 '''
@@ -27,3 +27,8 @@ class weladee_holidays(models.Model):
 
     weladee_code = fields.Char('Weladee Code')
     weladee_sick = fields.Boolean('Sick')
+
+    @api.multi
+    def action_allocated(self):
+        for each in self:
+            each.write({'state':'validate'})

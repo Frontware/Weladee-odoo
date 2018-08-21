@@ -39,11 +39,6 @@ remarks:
         <field name="model">hr.holidays</field>
         <field name="inherit_id" ref="hr_holidays.view_holiday_allocation_tree"/>
         <field name="arch" type="xml">
-            <xpath expr="//tree" position="attributes">
-                <attribute name="create">0</attribute>
-                <attribute name="edit">0</attribute>
-                <attribute name="delete">0</attribute>
-            </xpath>
             <xpath expr="//field[@name='holiday_status_id']" position="replace" />
         </field>
     </record>
@@ -70,6 +65,9 @@ remarks:
                 <attribute name="create">0</attribute>
                 <attribute name="edit">0</attribute>
                 <attribute name="delete">0</attribute>
+            </xpath>
+            <xpath expr="//header//button[@name='action_confirm']" position="before">
+                <button string="Allocate Approved" name="action_allocated" states="confirm" type="object" class="oe_highlight" groups="Weladee_Attendances.group_weladee_leave_allocation"/>
             </xpath>
             <xpath expr="//header//button[@name='action_confirm']" position="attributes">
                 <attribute name="invisible">1</attribute>
@@ -130,4 +128,12 @@ remarks:
             </xpath>
         </field>
     </record>        
+
+    <record id="hr_holidays.menu_open_department_leave_allocation_approve" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('Weladee_Attendances.group_weladee_leave_allocation'))]"/>
+    </record>
+
+    <record id="hr_holidays.menu_open_department_leave_approve" model="ir.ui.menu">
+        <field name="active">False</field>
+    </record>
 </odoo>
