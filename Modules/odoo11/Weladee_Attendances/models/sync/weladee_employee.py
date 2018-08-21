@@ -3,6 +3,8 @@
 import time
 import requests
 import base64
+from PIL import Image
+from io import BytesIO
 
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
@@ -42,7 +44,14 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
     photoBase64 = ''
     if weladee_employee.employee.photo:
         try :
-            photoBase64 = base64.b64encode(requests.get(weladee_employee.employee.photo).content)
+            img_content = requests.get(weladee_employee.employee.photo).content    
+            img_pil = Image.open(BytesIO(img_content)).convert("RGB")
+            img_buff = BytesIO()
+            img_pil.save(img_buff,format="JPEG")
+            #print('/home/kpo/Downloads/%s.jpg' % weladee_employee.employee.id)
+            #img_pil.save('/home/kpo/Downloads/%s.jpg' % weladee_employee.employee.id)
+            #exit(1)
+            photoBase64 = base64.b64encode(img_buff.getvalue())
         except Exception as e:
             sync_logdebug(context_sync, "image : %s" % weladee_employee.employee.photo)
             sync_logerror(context_sync, "Error when load image : %s" % e)

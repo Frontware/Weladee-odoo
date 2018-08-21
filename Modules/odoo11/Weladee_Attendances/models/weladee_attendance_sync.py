@@ -94,11 +94,11 @@ class weladee_attendance(models.TransientModel):
             emp_obj = self.env['hr.employee']    
             sync_employee(job_obj, emp_obj, department_obj, country, authorization, emp_managers, context_sync)
 
-        #if not sync_has_error(context_sync):
-        #    sync_logdebug(context_sync,"Start sync...Manager")
+        if not sync_has_error(context_sync):
+            sync_logdebug(context_sync,"Start sync...Manager")
 
-        #    sync_manager_dep(emp_obj, department_obj, dep_managers, authorization, context_sync)
-        #    sync_manager_emp(emp_obj, emp_managers, authorization, context_sync)
+            sync_manager_dep(emp_obj, department_obj, dep_managers, authorization, context_sync)
+            sync_manager_emp(emp_obj, emp_managers, authorization, context_sync)
         
         odoo_weladee_ids = {}
         if not sync_has_error(context_sync):
