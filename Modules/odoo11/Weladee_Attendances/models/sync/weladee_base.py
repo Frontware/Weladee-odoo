@@ -9,13 +9,10 @@ from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 
 stub = weladee_grpc.weladee_grpc_ctrl()
 myrequest = weladee_pb2.EmployeeRequest()
-grpc_error = '''Error while connect to GRPC Server, please check if:<BR/>
-<ul>
-<li>your connection available</li>
-<li>your Weladee API Key is valid</li>
-<li>temporary connection problem, please try again</li>
-</ul>
-'''
+grpc_error_1 = 'Error while connect to GRPC Server, please check if:'
+grpc_error_2 = '- your connection available'
+grpc_error_3 = '- your Weladee API Key is valid'
+grpc_error_4 = 'or just temporary connection problem, please try again'
 
 def sync_loginfo(context_sync, log):
     '''
@@ -71,10 +68,16 @@ def sync_weladee_error(weladee_obj, weladee_type, e, context_sync, stop_if_conne
        sync_logdebug(context_sync, 'weladee >> %s' % weladee_obj)   
 
     if 'connection refused' in ('%s' % e):
-       sync_logerror(context_sync, '[%s] %s' % (weladee_type, grpc_error))
+       sync_logerror(context_sync, '[%s] %s' % (weladee_type, grpc_error_1))
+       sync_logerror(context_sync, '     %s' % (grpc_error_2))
+       sync_logerror(context_sync, '     %s' % (grpc_error_3))
+       sync_logerror(context_sync, '     %s' % (grpc_error_4))
        return True
     if 'Endpoint read failed' in ('%s' % e):
-       sync_logerror(context_sync, '[%s] %s' % (weladee_type, grpc_error))
+       sync_logerror(context_sync, '[%s] %s' % (weladee_type, grpc_error_1))
+       sync_logerror(context_sync, '     %s' % (grpc_error_2))
+       sync_logerror(context_sync, '     %s' % (grpc_error_3))
+       sync_logerror(context_sync, '     %s' % (grpc_error_4))
        return True 
 
     sync_logerror(context_sync, '[%s] Error while update data from grpc %s' % (weladee_type, e))
