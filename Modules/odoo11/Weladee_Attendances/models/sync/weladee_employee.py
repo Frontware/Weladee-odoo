@@ -3,8 +3,9 @@
 import time
 import requests
 import base64
-from PIL import Image
-from io import BytesIO
+import uuid
+import subprocess
+import io
 
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
@@ -33,7 +34,7 @@ def new_employee_data_gender(gender):
     else:
         return 'u'
 
-def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, country, context_sync):
+def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, country, context_sync,pdf_path):
     '''
     employee data to sync
 
@@ -44,14 +45,17 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
     photoBase64 = ''
     if weladee_employee.employee.photo:
         try :
-            img_content = requests.get(weladee_employee.employee.photo).content    
-            img_pil = Image.open(BytesIO(img_content)).convert("RGB")
-            img_buff = BytesIO()
-            img_pil.save(img_buff,format="JPEG")
-            #print('/home/kpo/Downloads/%s.jpg' % weladee_employee.employee.id)
-            #img_pil.save('/home/kpo/Downloads/%s.jpg' % weladee_employee.employee.id)
-            #exit(1)
-            photoBase64 = base64.b64encode(img_buff.getvalue())
+            print('photo step 1')
+            webpfile = pdf_path + '%s-%s.' % (weladee_employee.employee.ID,uuid.uuid4())
+
+            process = subprocess.Popen(' '.join(['convert',
+                                                 '-',
+                                                 webpfile+'png']), 
+                                        stdin=subprocess.PIPE,
+                                        stdout=subprocess.PIPE, 
+                                        shell=True)
+            __, __ = process.communicate(input=requests.get(weladee_employee.employee.photo).content)
+            photoBase64 = base64.b64encode(open(webpfile+'png','rb').read())                 
         except Exception as e:
             sync_logdebug(context_sync, "image : %s" % weladee_employee.employee.photo)
             sync_logerror(context_sync, "Error when load image : %s" % e)
@@ -157,7 +161,7 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
     print(weladee_employee)
     return data   
 
-def sync_employee(job_obj, employee_obj, department_obj, country, authorization, emp_managers, context_sync):
+def sync_employee(job_obj, employee_obj, department_obj, country, authorization, emp_managers, context_sync, pdf_path):
     '''
     sync data from employee
     '''
@@ -172,7 +176,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
                sync_logwarn(context_sync,'weladee employee is empty')
                continue
 
-            odoo_emp = sync_employee_data(weladee_employee, employee_obj, job_obj, department_obj, country, context_sync)
+            odoo_emp = sync_employee_data(weladee_employee, employee_obj, job_obj, department_obj, country, context_sync, pdf_path)
 
             if odoo_emp and odoo_emp['res-mode'] == 'create':
                newid = employee_obj.create(odoo_emp)

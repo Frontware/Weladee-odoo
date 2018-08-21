@@ -77,7 +77,7 @@ class weladee_attendance(models.TransientModel):
         if not sync_has_error(context_sync):
             sync_logdebug(context_sync,"Start sync...Departments")
             department_obj = self.env['hr.department']    
-            sync_department(department_obj, authorization, dep_managers, context_sync)
+            #sync_department(department_obj, authorization, dep_managers, context_sync)
         
         country = {}
         if not sync_has_error(context_sync):
@@ -92,7 +92,8 @@ class weladee_attendance(models.TransientModel):
             sync_logdebug(context_sync,"Start sync...Employee")
                
             emp_obj = self.env['hr.employee']    
-            sync_employee(job_obj, emp_obj, department_obj, country, authorization, emp_managers, context_sync)
+            pdf_path = self.env['ir.config_parameter'].search([('key','=','tmppath')]).value
+            sync_employee(job_obj, emp_obj, department_obj, country, authorization, emp_managers, context_sync, pdf_path)
 
         if not sync_has_error(context_sync):
             sync_logdebug(context_sync,"Start sync...Manager")
