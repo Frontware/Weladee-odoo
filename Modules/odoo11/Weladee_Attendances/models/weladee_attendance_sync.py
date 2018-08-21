@@ -77,7 +77,7 @@ class weladee_attendance(models.TransientModel):
         if not sync_has_error(context_sync):
             sync_logdebug(context_sync,"Start sync...Departments")
             department_obj = self.env['hr.department']    
-            #sync_department(department_obj, authorization, dep_managers, context_sync)
+            sync_department(department_obj, authorization, dep_managers, context_sync)
         
         country = {}
         if not sync_has_error(context_sync):
