@@ -12,5 +12,8 @@ remarks:
             <field name="name">for hidden purpose</field>
         </record>
 
+        <record id="group_weladee_leave_allocation" model="res.groups">
+            <field name="name">for allocate leave</field>
+        </record>
     </data>
 </odoo>

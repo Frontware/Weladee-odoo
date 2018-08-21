@@ -1,1 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+group_weladee_leave_allocation_all,group_weladee_leave_allocation_all,hr_holidays.model_hr_holidays,Weladee_Attendances.group_weladee_leave_allocation,1,1,1,1
