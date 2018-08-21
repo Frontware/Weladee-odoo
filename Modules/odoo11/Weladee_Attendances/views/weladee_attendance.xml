@@ -36,7 +36,7 @@
             <field name="model">weladee_attendance_form</field>
             <field name="arch" type="xml">
                <form string="Synchronous">
-                    <label string="Synchronous started, you will receive email at email address below once it's done." />
+                    <label string="Synchronization started, you will receive email at email address below once it's done." />
                     <field name="email" readonly="1" />
                     <footer>
                         <button icon="fa-close"  special="cancel"   string="Close"/>
@@ -74,10 +74,10 @@
         </record>
 
         <record id="weladee_attendance_synchronous_cron_mail" model="mail.template">
-            <field name="name">Weladee Attendance: Synchronous task</field>
+            <field name="name">Weladee Attendance: Synchronization task</field>
             <field name="email_from"></field>
             <field name="email_to">${ctx.get('request-email','')}</field>
-            <field name="subject">Weladee Attendance Synchronous [${ctx.get('request-status','')}]: Synchronous task's result from request at ${ctx.get('request-date','')}</field>
+            <field name="subject">Weladee Attendance Synchronization [${ctx.get('request-status','')}]: Synchronous task's result from request at ${ctx.get('request-date','')}</field>
             <field name="model_id" ref="model_weladee_attendance_synchronous"/>
             <field name="body_html" type="html">
 <div>

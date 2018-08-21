@@ -9,7 +9,13 @@ from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 
 stub = weladee_grpc.weladee_grpc_ctrl()
 myrequest = weladee_pb2.EmployeeRequest()
-grpc_error = 'Error while connect to GRPC Server, please check if your connection available or your Weladee API Key is valid.'
+grpc_error = '''Error while connect to GRPC Server, please check if:<BR/>
+<ul>
+<li>your connection available</li>
+<li>your Weladee API Key is valid</li>
+<li>temporary connection problem, please try again</li>
+</ul>
+'''
 
 def sync_loginfo(context_sync, log):
     '''

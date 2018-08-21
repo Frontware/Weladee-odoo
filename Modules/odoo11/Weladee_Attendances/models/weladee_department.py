@@ -17,6 +17,8 @@ class weladee_department(models.Model):
     _inherit = 'hr.department'
 
     weladee_id = fields.Char(string="Weladee ID",copy=False)
+    code = fields.Char('Code')
+    email = fields.Char('Email')
     
     _sql_constraints = [
         ('name_uniq', 'unique(name)', "Name can't duplicate !"),
@@ -48,6 +50,8 @@ class weladee_department(models.Model):
 
             newDepartment.department.name_english = vals["name"]
             newDepartment.department.name_thai = vals["name"]
+            newDepartment.department.code = vals["code"]
+            newDepartment.department.email = vals["email"]
             newDepartment.department.active = True
 
             if "manager_id" in vals:
@@ -91,7 +95,17 @@ class weladee_department(models.Model):
                 newDepartment.department.name_english = vals["name"]
             else:
                 newDepartment.department.name_english = department_odoo.name
-            
+
+            if 'code' in vals:
+                newDepartment.department.code = vals["code"]
+            else:
+                newDepartment.department.code = department_odoo.code
+
+            if 'email' in vals:
+                newDepartment.department.email = vals["email"]
+            else:
+                newDepartment.department.email = department_odoo.email
+
             if 'active' in vals:
               newDepartment.department.active = vals['active']
             else:
@@ -126,7 +140,8 @@ class weladee_department(models.Model):
                         result = stub.UpdateDepartment(newDepartment, metadata=authorization)
                         _logger.info("updated department on Weladee : %s" % result)
                     except Exception as e:
-                        _logger.debug("[department] odoo > %s" % vals)
+                        print("[department] odoo > %s" % vals)
+                        print("[department] weladee > %s" % newDepartment)
                         _logger.error("Error while update department on Weladee : %s" % e)
                 else:
                     # not found this weladee id anymore, probably deleted on weladee., still keep in odoo without sync.

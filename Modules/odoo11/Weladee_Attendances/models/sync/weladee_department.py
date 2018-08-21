@@ -13,6 +13,8 @@ def sync_department_data(weladee_department, dept_obj, context_sync):
     '''
     dept = {"name" : weladee_department.department.name_english,
             "weladee_id" : weladee_department.department.ID,
+            'code':weladee_department.department.code,
+            'email':weladee_department.department.email,
             'send2-weladee':False}
 
     # look if there is odoo record with same weladee-id
@@ -54,6 +56,7 @@ def sync_department(department_obj, authorization, dep_managers, context_sync):
         weladee_department = False
         sync_loginfo(context_sync,'[department] updating changes from weladee-> odoo')
         for weladee_department in stub.GetDepartments(myrequest, metadata=authorization):
+            print(weladee_department)
             sync_stat_to_sync(context_sync['stat-department'], 1)
             if not weladee_department :
                sync_logwarn(context_sync,'weladee department is empty')

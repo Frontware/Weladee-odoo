@@ -112,6 +112,8 @@ class weladee_employee(models.Model):
             #2018-05-28 KPO change to employee_code
             if "employee_code" in vals and vals["employee_code"] :
                 WeladeeData.employee.code = vals["employee_code"]
+            elif "employee_code_hidden" in vals and vals["employee_code_hidden"] :
+                WeladeeData.employee.code = vals["employee_code_hidden"]
 
             if vals["country_id"] :
                 c_line_obj = self.env['res.country']

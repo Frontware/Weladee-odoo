@@ -31,6 +31,7 @@
          "views/weladee_attendance.xml",
          "views/asset_Weladee_Attendances.xml",
          "views/fw_hr_timesheet.xml",
+         "views/fw_hr_department.xml",
          "views/fw_hr_attendances.xml",
          "views/weladee_holiday.xml",
          "views/weladee_company_holiday.xml",
