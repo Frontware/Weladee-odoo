@@ -77,7 +77,7 @@
             <field name="name">Weladee Attendance: Synchronization task</field>
             <field name="email_from"></field>
             <field name="email_to">${ctx.get('request-email','')}</field>
-            <field name="subject">Weladee Attendance Synchronization [${ctx.get('request-status','')}]: Synchronous task's result from request at ${ctx.get('request-date','')}</field>
+            <field name="subject">Weladee Attendance Synchronization [${ctx.get('request-status','')}]: Synchronization task's result from request at ${ctx.get('request-date','')}</field>
             <field name="model_id" ref="model_weladee_attendance_synchronous"/>
             <field name="body_html" type="html">
 <div>

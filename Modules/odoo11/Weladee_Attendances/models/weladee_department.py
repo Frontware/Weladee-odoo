@@ -64,6 +64,7 @@ class weladee_department(models.Model):
               _logger.info("Added department on Weladee : %s" % result.id)
             except Exception as e:
               _logger.debug("odoo > %s" % vals)
+              _logger.error("weladee > %s" % newDepartment)
               _logger.error("Error while add department on Weladee : %s" % e)
         else:
           _logger.error("Error while add department on Weladee : No authroized")
@@ -140,8 +141,9 @@ class weladee_department(models.Model):
                         result = stub.UpdateDepartment(newDepartment, metadata=authorization)
                         _logger.info("updated department on Weladee : %s" % result)
                     except Exception as e:
-                        print("[department] odoo > %s" % vals)
-                        print("[department] weladee > %s" % newDepartment)
+                        #print("[department] odoo > %s" % vals)
+                        #print("[department] weladee > %s" % newDepartment)
+                        _logger.error("weladee > %s" % newDepartment)
                         _logger.error("Error while update department on Weladee : %s" % e)
                 else:
                     # not found this weladee id anymore, probably deleted on weladee., still keep in odoo without sync.
