@@ -10,6 +10,9 @@ CONST_SETTING_API_DEBUG = 'weladee-api_debug'
 CONST_SETTING_LOG_PERIOD = 'weladee-log_period'
 CONST_SETTING_LOG_PERIOD_UNIT = 'weladee-log_period_unit'
 
+CONST_SETTING_HOLIDAY_NOTICE = 'weladee-holiday-notify'
+CONST_SETTING_HOLIDAY_NOTICE_EMAIL = 'weladee-holiday-notify-email'
+
 def get_api_key(self):
   '''
   get api key from settings
@@ -76,6 +79,28 @@ def get_synchronous_debug(self):
     if ret:
         return ret.value == 'Y'     
 
+def get_holiday_notify(self):
+    '''
+    get notify holiday setting    
+    '''
+    ret = self.env['ir.config_parameter'].search([('key','=',CONST_SETTING_HOLIDAY_NOTICE)])
+    if ret:
+        return ret.value == 'Y'        
+    else:
+        self.env['ir.config_parameter'].create({'key':CONST_SETTING_HOLIDAY_NOTICE,'value':''}) 
+        return ""
+
+def get_holiday_notify_email(self):
+    '''
+    get notify holiday email setting    
+    '''
+    ret = self.env['ir.config_parameter'].search([('key','=',CONST_SETTING_HOLIDAY_NOTICE_EMAIL)])
+    if ret:
+        return ret.value
+    else:
+        self.env['ir.config_parameter'].create({'key':CONST_SETTING_HOLIDAY_NOTICE_EMAIL,'value':''}) 
+        return ""
+
 class weladee_settings(models.TransientModel):
     _name="weladee_attendance.synchronous.setting"
     _description="Weladee settings"
@@ -109,8 +134,18 @@ class weladee_settings(models.TransientModel):
     def _get_log_period(self):
         ret = get_synchronous_period(self)['period']    
         return ret
+    
+    def _get_holiday_notify_leave_req(self):
+        return get_holiday_notify(self)
+
+    def _get_holiday_notify_leave_req_email(self):
+        return get_holiday_notify_email(self)
+        
 
     holiday_status_id = fields.Many2one("hr.holidays.status", String="Leave Type",required=True,default=_get_holiday_status )
+    holiday_notify_leave_req = fields.Boolean('Notify if there is not enough allocated leave request', default=_get_holiday_notify_leave_req )
+    holiday_notify_leave_req_email = fields.Text('Notified Email', default=_get_holiday_notify_leave_req_email)
+
     api_key = fields.Char(string="API Key", required=True,default=_get_api_key )
     email = fields.Text('Email', required=True, default=_get_email )
     api_database = fields.Char('API Database',default=lambda s: s.env.cr.dbname)
@@ -143,3 +178,7 @@ class weladee_settings(models.TransientModel):
         self._save_setting(config_pool, CONST_SETTING_API_DEBUG, _api_debug)
         self._save_setting(config_pool, CONST_SETTING_LOG_PERIOD_UNIT, self.log_period_unit)
         self._save_setting(config_pool, CONST_SETTING_LOG_PERIOD, self.log_period)
+
+        self._save_setting(config_pool, CONST_SETTING_HOLIDAY_NOTICE, "Y" if self.holiday_notify_leave_req else "N")
+        self._save_setting(config_pool, CONST_SETTING_HOLIDAY_NOTICE_EMAIL, self.holiday_notify_leave_req_email)
+        

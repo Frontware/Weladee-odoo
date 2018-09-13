@@ -113,7 +113,7 @@ class weladee_attendance(models.TransientModel):
             sync_logdebug(context_sync,"Start sync...Holiday")
             hr_obj = self.env['hr.holidays']
             com_hr_obj = self.env['weladee_attendance.company.holidays']
-            sync_holiday(self, emp_obj, hr_obj, com_hr_obj, authorization, context_sync, odoo_weladee_ids, holiday_status_id)
+            sync_holiday(self, emp_obj, hr_obj, com_hr_obj, authorization, context_sync, odoo_weladee_ids, holiday_status_id, to_email)
 
         sync_loginfo(context_sync,'sending result to %s' % context_sync['request-email'])
         context_sync['request-elapse'] = str(datetime.today() - elapse_start)

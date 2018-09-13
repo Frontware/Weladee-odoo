@@ -27,6 +27,8 @@
 "depends" : ['base', 'hr', 'hr_attendance', 'hr_holidays', 'hr_timesheet'],
 "data" :["security/security.xml",
          "security/ir.model.access.csv",    
+         "views/emails/weladee_attendance.xml",
+         "views/emails/weladee_allocate_error.xml",
          "views/weladee_attendance_settings.xml",
          "views/weladee_attendance.xml",
          "views/asset_Weladee_Attendances.xml",

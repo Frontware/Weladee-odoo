@@ -45,7 +45,6 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
     photoBase64 = ''
     if weladee_employee.employee.photo:
         try :
-            #photoBase64 = base64.b64encode(requests.get(weladee_employee.employee.photo).content)
             process = subprocess.Popen(['convert',
                                         '-',
                                         'png:-'],

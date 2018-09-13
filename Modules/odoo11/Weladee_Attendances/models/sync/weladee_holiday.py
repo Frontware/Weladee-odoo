@@ -10,6 +10,7 @@ from .weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_log
 from .weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
 from .weladee_log import get_emp_odoo_weladee_ids
 from odoo.addons.Weladee_Attendances.library.weladee_lib import _convert_to_tz_time
+from odoo.addons.Weladee_Attendances.models.weladee_settings import get_holiday_notify, get_holiday_notify_email
 
 def sync_company_holiday_data(weladee_holiday, odoo_weladee_ids, context_sync, com_holiday_obj):
     '''
@@ -101,7 +102,7 @@ def _update_weladee_holiday_back(weladee_holiday, holiday_odoo, context_sync, st
         sync_logerror(context_sync, e)         
         sync_logerror(context_sync, 'Error while update this holiday id %s in weladee' % holiday_odoo.id) 
 
-def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, context_sync, odoo_weladee_ids, holiday_status_id):
+def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, context_sync, odoo_weladee_ids, holiday_status_id, to_email):
     '''
     sync all holiday from weladee (1 way from weladee)
 
@@ -165,7 +166,27 @@ def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, con
 
     except Exception as e:
         sync_logdebug(context_sync, 'odoo >> %s' % odoo_hol) 
+
+        # extra options
+        if to_email and get_holiday_notify(self) and get_holiday_notify_email(self):
+            if ("%s" % e).index('The number of remaining leaves is not sufficient for this leave type') >=0:
+                
+                emp_name = ''
+                emp = self.env['hr.employee'].search([('weladee_id','=',weladee_holiday.Holiday.EmployeeID)])
+                if emp: emp_name = emp.name or 'employee (weladee id) %s' % weladee_holiday.Holiday.EmployeeID
+
+                template = self.env.ref('Weladee_Attendances.weladee_attendance_allocate_emp_mail', raise_if_not_found=False)
+                if template:
+                    allocation_url='%s/web#view_type=list&model=hr.holidays&menu_id=%s&action=%s' % (
+                        self.env['ir.config_parameter'].search([('key','=','web.base.url')]).value,
+                        self.env.ref('hr_holidays.menu_open_department_leave_allocation_approve').id,
+                        self.env.ref('hr_holidays.open_department_holidays_allocation_approve').id)
+                    template.with_context({'email-to':get_holiday_notify_email(self),
+                                           'employee': emp_name,
+                                           'url':allocation_url}).send_mail(self.id)        
+
+
         if sync_weladee_error(weladee_holiday, 'holiday', e, context_sync):
-           return
+            return
     #stat
     sync_stat_info(context_sync,'stat-hol','[log] updating changes from weladee-> odoo')

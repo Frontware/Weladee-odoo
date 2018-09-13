@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+	purpose : email template for sync
+ -->
+<odoo>
+    <data noupdate="1">
+
+        <record id="weladee_attendance_allocate_emp_mail" model="mail.template">
+            <field name="name">Weladee Attendance: Employee's Leaves Allocation Request not enough</field>
+            <field name="email_from"></field>
+            <field name="email_to">${ctx.get('email-to','')}</field>
+            <field name="subject">Weladee Attendance: this employee ${ctx.get('employee','')} has not enough Leaves Allocation Request</field>
+            <field name="model_id" ref="model_weladee_attendance_synchronous"/>
+            <field name="body_html" type="html">
+<div>
+<p>Hi,
+<br/><br/>
+This employee ${ctx.get('employee','')} has not enough Leaves Allocation Request, which makes current synchronization stopped.<br/>
+<br/>
+Please go to Leaves -> Leaves to Approve -> <a href="${ctx.get('url','#')|safe}">Leaves Allocation</a> to define
+</p>
+<p>
+*This request and email are generated on database = ${user.env.cr.dbname}
+</p>
+</div>
+</field>
+        </record>
+    </data>
+</odoo>  

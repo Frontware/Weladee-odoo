@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+	purpose : email template for sync
+ -->
+<odoo>
+    <data noupdate="1">
+
+        <record id="weladee_attendance_synchronous_cron_mail" model="mail.template">
+            <field name="name">Weladee Attendance: Synchronization task</field>
+            <field name="email_from"></field>
+            <field name="email_to">${ctx.get('request-email','')}</field>
+            <field name="subject">Weladee Attendance Synchronization [${ctx.get('request-status','')}]: Synchronization task's result from request at ${ctx.get('request-date','')}</field>
+            <field name="model_id" ref="model_weladee_attendance_synchronous"/>
+            <field name="body_html" type="html">
+<div>
+<p>Hi,
+<br/>
+There is a request to do Weladee Synchronization at ${ctx.get('request-date')}
+</p>
+% if ctx.get('request-error',False):
+    There is an error occured when run Synchronization:<br/>
+    <ul>
+    % for err in ctx.get('request-logs'):
+      % if err[0] == 'e'
+        <li style="color:red">${err[1]}</li>
+      % endif
+    % endfor
+    </ul>
+% else:
+
+    % if ctx.get('request-logs-y',False) == 'Y':
+
+        There is an error occured when run Synchronization:<br/>
+        <ul>
+            % for err in ctx.get('request-logs'):
+                % if err[0] == 'e'
+                <li style="color:red">${err[1]}</li>
+                % endif
+            % endfor
+        </ul>
+
+    % else:
+
+        These data are successfully sync with Weladee:
+        <ul>
+            <li>Positon</li>
+            <li>Department</li>
+            <li>Employee</li>
+            <li>Attendances</li>
+            <li>Holidays</li>
+        </ul>
+
+    % endif
+
+% endif
+</div>
+<p>
+*This request and email are generated on database = ${user.env.cr.dbname} within ${ctx.get('request-elapse')}
+</p>
+</field>
+        </record>
+
+        <record id="weladee_attendance_synchronous_cron_mail_debug" model="mail.template">
+            <field name="name">Weladee Attendance: Synchronization task (debug)</field>
+            <field name="email_from"></field>
+            <field name="email_to"></field>
+            <field name="subject">Weladee Attendance Synchronization [${ctx.get('request-status','')}]: Synchronization task's result from request at ${ctx.get('request-date','')}</field>
+            <field name="model_id" ref="model_weladee_attendance_synchronous"/>
+            <field name="body_html" type="html">
+<div>
+<p>Hi,
+<br/>
+There is a request to do Weladee Synchronization at ${ctx.get('request-date')}
+</p>
+% if ctx.get('request-error',False):
+    There is an error occured when run Synchronization:<br/>
+    <ul>
+    % for err in ctx.get('request-logs'):
+      % if err[0] == 'e'
+        <li style="color:red">${err[1]}</li>
+      % endif
+    % endfor
+    </ul>
+% else:
+
+    % if ctx.get('request-logs-y',False) == 'Y':
+
+        There is an error occured when run Synchronization:<br/>
+        <ul>
+            % for err in ctx.get('request-logs'):
+                % if err[0] == 'e'
+                <li style="color:red">${err[1]}</li>
+                % endif
+            % endfor
+        </ul>
+
+    % else:
+
+        These data are successfully sync with Weladee:
+        <ul>
+            <li>Positon</li>
+            <li>Department</li>
+            <li>Employee</li>
+            <li>Attendances</li>
+            <li>Holidays</li>
+        </ul>
+
+    % endif
+
+% endif
+
+% if ctx.get('request-debug',''):
+    <br/>
+    log info:<br/>
+    <ul>
+        % for err in ctx.get('request-logs'):
+            % if err[0] == 'e'
+                <li style="color:red"><b>${err[1]}</b></li>
+            % endif
+            % if err[0] == 'w'
+                <li style="color:orange"><i>${err[1]}</i></li>
+            % endif
+            % if err[0] == 'd':
+                <li>---${err[1]}</li>
+            % endif
+            % if err[0] == 'i'
+                <li>${err[1]}</li>
+            % endif
+        % endfor
+    </ul>
+% endif
+</div>
+<p>
+*This request and email are generated on database = ${user.env.cr.dbname} within ${ctx.get('request-elapse')}
+</p>
+</field>
+        </record>
+    </data>
+</odoo>  

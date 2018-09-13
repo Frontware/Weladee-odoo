@@ -31,6 +31,16 @@
                     <page string="Holiday">
                         <group>
                             <field name="holiday_status_id"/>
+                            <label for="id" string=" "/>
+                            <div>
+                                <field name="holiday_notify_leave_req"/>
+                                <label for="holiday_notify_leave_req"/>
+                                <div attrs="{'invisible':[('holiday_notify_leave_req','=',False)]}">
+                                    <label for="holiday_notify_leave_req_email"/>
+                                    <field name="holiday_notify_leave_req_email" attrs="{'required':[('holiday_notify_leave_req','=',True)]}"/>
+                                </div>
+                                <label string="*Note: you can separate each email by ;" />
+                            </div>
                         </group>
                     </page>
                     <page string="Notification">
