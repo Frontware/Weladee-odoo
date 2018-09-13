@@ -80,7 +80,13 @@ def sync_weladee_error(weladee_obj, weladee_type, e, context_sync, stop_if_conne
        sync_logerror(context_sync, '     %s' % (grpc_error_4))
        return True 
 
-    sync_logerror(context_sync, '[%s] Error while update data from grpc %s' % (weladee_type, e))
+    # manage display
+    _extra_detail = ''
+    if weladee_obj:
+        _extra_detail = 'record data: %s' % weladee_obj
+
+    sync_logerror(context_sync, '[%s] Error while update data from grpc %s %s' % (weladee_type, e, _extra_detail or ''))
+
     return False 
 
 def sync_clean_up(in_vals):

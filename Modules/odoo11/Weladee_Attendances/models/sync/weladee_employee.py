@@ -45,17 +45,7 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
     photoBase64 = ''
     if weladee_employee.employee.photo:
         try :
-            print('photo step 1')
-            webpfile = pdf_path + '%s-%s.' % (weladee_employee.employee.ID,uuid.uuid4())
-
-            process = subprocess.Popen(' '.join(['convert',
-                                                 '-',
-                                                 webpfile+'png']), 
-                                        stdin=subprocess.PIPE,
-                                        stdout=subprocess.PIPE, 
-                                        shell=True)
-            __, __ = process.communicate(input=requests.get(weladee_employee.employee.photo).content)
-            photoBase64 = base64.b64encode(open(webpfile+'png','rb').read())                 
+            photoBase64 = base64.b64encode(requests.get(weladee_employee.employee.photo).content)
         except Exception as e:
             sync_logdebug(context_sync, "image : %s" % weladee_employee.employee.photo)
             sync_logerror(context_sync, "Error when load image : %s" % e)

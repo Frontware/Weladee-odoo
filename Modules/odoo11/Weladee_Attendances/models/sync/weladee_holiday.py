@@ -165,7 +165,7 @@ def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, con
 
     except Exception as e:
         sync_logdebug(context_sync, 'odoo >> %s' % odoo_hol) 
-        if sync_weladee_error(weladee_holiday, 'log', e, context_sync):
+        if sync_weladee_error(weladee_holiday, 'holiday', e, context_sync):
            return
     #stat
     sync_stat_info(context_sync,'stat-hol','[log] updating changes from weladee-> odoo')

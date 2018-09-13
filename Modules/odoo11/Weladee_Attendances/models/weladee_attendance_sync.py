@@ -145,3 +145,13 @@ class weladee_attendance(models.TransientModel):
            template.with_context(ctx).send_mail(self.id)        
         else:
            _logger.error('sending result to %s failed, no template found' % ctx['request-email'])            
+
+        # send debug mail        
+        if ctx.get('request-debug',False):
+            template = self.env.ref('Weladee_Attendances.weladee_attendance_synchronous_cron_mail_debug', raise_if_not_found=False)
+            
+            if template:
+                template.with_context(ctx).send_mail(self.id)        
+            else:
+                _logger.error('sending result to %s failed, no template found' % ctx['request-email'])            
+
