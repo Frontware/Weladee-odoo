@@ -57,9 +57,11 @@ class weladee_attendance(models.TransientModel):
         sync_loginfo(context_sync,"Starting sync..")
         authorization, holiday_status_id, api_db = weladee_settings.get_api_key(self)
 
+        to_email = True
         if api_db and (api_db != self.env.cr.dbname):
            sync_stop(context_sync)
            sync_logerror(context_sync,'Warning this api key of (%s) is not match with current database' % api_db)
+           to_email = False
         
         if (not holiday_status_id) or (not authorization) and (api_db == self.env.cr.dbname):
             #raise exceptions.UserError('Must to be set Leave Type on Weladee setting')
@@ -123,7 +125,13 @@ class weladee_attendance(models.TransientModel):
 
         # removed temporary    
         del context_sync['request-logs-key']
-        self.send_result_mail(context_sync)
+        # send email if need
+        # will not send if db not match
+        if to_email: 
+            self.send_result_mail(context_sync)
+        else:
+            _logger.warn("!!! email will not sent, because consider it as error from restored db.")
+
         works = self.env['weladee_attendance.working'].search([])
         if works: works.unlink()
 
