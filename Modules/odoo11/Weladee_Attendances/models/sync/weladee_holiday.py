@@ -169,7 +169,7 @@ def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, con
 
         # extra options
         if to_email and get_holiday_notify(self) and get_holiday_notify_email(self):
-            if 'The number of remaining leaves is not sufficient for this leave type' in "%s":
+            if 'The number of remaining leaves is not sufficient for this leave type' in ("%s" % e):
                 
                 emp_name = ''
                 emp = self.env['hr.employee'].search([('weladee_id','=',weladee_holiday.Holiday.EmployeeID)])

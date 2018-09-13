@@ -9,7 +9,7 @@
             <field name="name">Weladee Attendance: Employee's Leaves Allocation Request not enough</field>
             <field name="email_from"></field>
             <field name="email_to">${ctx.get('email-to','')}</field>
-            <field name="subject">Weladee Attendance: this employee ${ctx.get('employee','')} has not enough Leaves Allocation Request</field>
+            <field name="subject">Weladee Attendance: this employee ${ctx.get('employee','')} has not enough Leaves Allocation Request in Odoo</field>
             <field name="model_id" ref="model_weladee_attendance_synchronous"/>
             <field name="body_html" type="html">
 <div>
