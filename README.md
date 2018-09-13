@@ -1,14 +1,15 @@
-# Weladee - Odoo 
+# Weladee - Odoo
 
+[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/weladee)
 [![Coverage Status](https://coveralls.io/repos/github/Frontware/Weladee-odoo/badge.svg?branch=odoo11)](https://coveralls.io/github/Frontware/Weladee-odoo?branch=odoo11)
 
 ![Weladee logo](https://vgy.me/jlVton.png)![odoo](https://goo.gl/D9uZDJ)
 
 ## What is Weladee?
 
-Weladee is a "In The Cloud" service to manage employee attendance.
+Weladee is a service "In The Cloud" to manage employee attendance.
 It's developed to be **simple**, **fast** and **cheap** to use for any small company (or even big ones).
-The primary market of this service is **Thailand** for now (2018), we started to deploy customers in Cambodia.
+The primary market of this service is **Thailand** for now (2018), we started to deploy customers in Cambodia too.
 
 Take a look at https://www.weladee.com
 
@@ -23,7 +24,7 @@ See how much lateness costs you with our simulation page: https://www.weladee.co
 
 [Odoo](https://www.odoo.co.th) module for Weladee
 
-This Odoo module create the link between Weladee and your Odoo instance.
+This Odoo module create the link between Weladee and your Odoo 11.0 instance.
 
 You will be able to synchronize departments, employees and attendance.
 
