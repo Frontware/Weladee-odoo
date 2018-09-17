@@ -67,7 +67,7 @@ def sync_holiday_data(self, weladee_holiday, odoo_weladee_ids, context_sync, hol
     # look if there is odoo record with same time
     # if not found then create else update    
     oldid = holiday_obj.search([('employee_id','=',odoo_weladee_ids.get('%s' % weladee_holiday.Holiday.EmployeeID,False)),
-                                ('date_from','=', _convert_to_tz_time(self, date.strftime('%Y-%m-%d') + ' 00:00:00'))])
+                                ('date_from','=', _convert_to_tz_time(self, date.strftime('%Y-%m-%d') + ' 00:00:00').strftime('%Y-%m-%d 00:00:00'))])
     if not oldid.id:
        data['res-mode'] = 'create'
     else:
