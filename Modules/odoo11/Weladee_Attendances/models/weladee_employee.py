@@ -153,7 +153,7 @@ class weladee_employee(models.Model):
                 WeladeeData.employee.photo = vals["image"]
 
             if "work_phone" in vals:
-              if len(WeladeeData.employee.Phones) == 0:
+              if not WeladeeData.employee.Phones:
                  WeladeeData.employee.Phones[:] = [vals['work_phone'] or '']
               else:  
                  WeladeeData.employee.Phones[0] = vals['work_phone'] or ''
