@@ -6,21 +6,9 @@ _logger = logging.getLogger(__name__)
 from odoo import osv,api
 from odoo import models, fields
 from odoo import exceptions
-'''
-import base64
-import requests
-import time
-import webbrowser
+from odoo.tools.translate import _
 
-from datetime import datetime,date, timedelta
-
-from .grpcproto import odoo_pb2
-from .grpcproto import odoo_pb2_grpc
-from .grpcproto import weladee_pb2
-from . import weladee_grpc
-from . import weladee_employee
-from .sync.weladee_base import stub, myrequest
-'''
+from odoo.addons.Weladee_Attendances.library.weladee_translation import allocate_holiday_tag
 
 class weladee_holidays(models.Model):
     _inherit = 'hr.holidays'
@@ -32,3 +20,24 @@ class weladee_holidays(models.Model):
     def action_allocated(self):
         for each in self:
             each.write({'state':'validate'})
+
+    @api.multi
+    def name_get(self):
+        res = super(weladee_holidays, self).name_get()
+        # fixed allocate by tag name
+        fixed_res = {}
+        for leave in self:
+            if leave.type != 'remove':
+                fixed_res[leave.id] = _("Allocation of %s : %.2f day(s) To %s") % \
+                (leave.holiday_status_id.name, 
+                leave.number_of_days_temp,
+                leave.employee_id.name if leave.employee_id else allocate_holiday_tag() % leave.category_id.name)
+        
+        newres = []
+        for leave in res:
+            if leave[0] in fixed_res:
+                newres.append((leave[0],fixed_res[leave[0]]))
+            else:
+                newres.append(leave)
+
+        return newres
