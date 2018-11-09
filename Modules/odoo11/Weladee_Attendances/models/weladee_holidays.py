@@ -2,6 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import logging
 _logger = logging.getLogger(__name__)
+from lxml import etree
 
 from odoo import osv,api
 from odoo import models, fields
