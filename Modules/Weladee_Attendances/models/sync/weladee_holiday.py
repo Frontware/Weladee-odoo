@@ -105,7 +105,7 @@ def _update_weladee_holiday_back(weladee_holiday, holiday_odoo, context_sync, st
 def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, context_sync, odoo_weladee_ids, holiday_status_id, to_email):
     '''
     sync all holiday from weladee (1 way from weladee)
-
+    2018-11-14 KPO change hr.holidays to hr.leave
     '''
     context_sync['stat-hol'] = {'to-sync':0, "create":0, "update": 0, "error":0}
     odoo_hol = False
@@ -177,7 +177,7 @@ def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, con
 
                 template = self.env.ref('Weladee_Attendances.weladee_attendance_allocate_emp_mail', raise_if_not_found=False)
                 if template:
-                    allocation_url='%s/web#view_type=list&model=hr.holidays&menu_id=%s&action=%s' % (
+                    allocation_url='%s/web#view_type=list&model=hr.leave&menu_id=%s&action=%s' % (
                         self.env['ir.config_parameter'].search([('key','=','web.base.url')]).value,
                         self.env.ref('hr_holidays.menu_open_department_leave_allocation_approve').id,
                         self.env.ref('hr_holidays.open_department_holidays_allocation_approve').id)

@@ -41,6 +41,9 @@ class weladee_attendance(models.TransientModel):
             request-logs-key: internal use for prevent write duplicate log
             request-email : email recipient
             request-debug : display debug log
+
+            remarks:
+            2018-11-14 KPO change hr.holidays to hr.leave
         '''
         elapse_start = datetime.today()
         user_tz = pytz.timezone(self.env.context.get('tz') or self.env.user.tz or 'UTC')
@@ -111,7 +114,7 @@ class weladee_attendance(models.TransientModel):
 
         if not sync_has_error(context_sync):
             sync_logdebug(context_sync,"Start sync...Holiday")
-            hr_obj = self.env['hr.holidays']
+            hr_obj = self.env['hr.leave']
             com_hr_obj = self.env['weladee_attendance.company.holidays']
             sync_holiday(self, emp_obj, hr_obj, com_hr_obj, authorization, context_sync, odoo_weladee_ids, holiday_status_id, to_email)
 

@@ -1,7 +1,7 @@
 # Weladee - Odoo
 
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/weladee)
-[![Coverage Status](https://coveralls.io/repos/github/Frontware/Weladee-odoo/badge.svg?branch=odoo11)](https://coveralls.io/github/Frontware/Weladee-odoo?branch=odoo11)
+[![Coverage Status](https://coveralls.io/repos/github/Frontware/Weladee-odoo/badge.svg?branch=odoo12)](https://coveralls.io/github/Frontware/Weladee-odoo?branch=odoo12)
 
 ![Weladee logo](https://vgy.me/jlVton.png)![odoo](https://goo.gl/D9uZDJ)
 
@@ -24,7 +24,7 @@ See how much lateness costs you with our simulation page: https://www.weladee.co
 
 [Odoo](https://www.odoo.co.th) module for Weladee
 
-This Odoo module create the link between Weladee and your Odoo 11.0 instance.
+This Odoo module create the link between Weladee and your Odoo 12.0 instance.
 
 You will be able to synchronize departments, employees and attendance.
 
@@ -49,7 +49,7 @@ Weladee is free to subscribe with 3 months trial period or even 100% free for co
 
 ## Sample Code for gRPC API
 
-It's ready for Odoo 11. gRPC code is compatible python 2 & 3.
+It's ready for Odoo 12. gRPC code is compatible python 2 & 3.
 
 ### Connect to server
 

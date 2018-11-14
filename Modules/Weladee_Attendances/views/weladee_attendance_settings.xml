@@ -39,7 +39,7 @@
                                     <label for="holiday_notify_leave_req_email"/>
                                     <field name="holiday_notify_leave_req_email" attrs="{'required':[('holiday_notify_leave_req','=',True)]}"/>
                                 </div>
-                                <label string="*Note: you can separate each email by ;" />
+                                <label for="id" string="*Note: you can separate each email by ;" />
                             </div>
                         </group>
                     </page>
@@ -53,7 +53,7 @@
                             </div>
                         </group>
                         <div colspan="4">
-                            <label string="*Note: you can separate each email by ;" />
+                            <label for="id" string="*Note: you can separate each email by ;" />
                         </div>
                     </page>
                 </notebook>
