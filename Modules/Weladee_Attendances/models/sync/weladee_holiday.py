@@ -58,11 +58,14 @@ def sync_holiday_data(self, weladee_holiday, odoo_weladee_ids, context_sync, hol
             'date_to': _convert_to_tz_time(self, date.strftime('%Y-%m-%d') + ' 23:59:59'),
             'employee_id':odoo_weladee_ids.get('%s' % weladee_holiday.Holiday.EmployeeID,False),
             'holiday_status_id': holiday_status_id,
-            'number_of_days_temp': 1,
+            'number_of_days': 1,
             'holiday_type':'employee',
             'weladee_code': weladee_holiday.Holiday.code,
             'weladee_sick': weladee_holiday.Holiday.sickLeave,
             'state':'validate'}
+    
+    data['request_date_from'] = data['date_from']
+    data['request_date_to'] = data['date_to']
    
     # look if there is odoo record with same time
     # if not found then create else update    
