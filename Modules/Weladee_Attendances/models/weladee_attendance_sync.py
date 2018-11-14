@@ -24,6 +24,7 @@ from odoo.addons.Weladee_Attendances.models.sync.weladee_holiday import sync_hol
 
 class weladee_attendance_working(models.TransientModel):
       _name="weladee_attendance.working"  
+      _description="Weladee schedule last run"  
 
       last_run = fields.Datetime('Last run')
 

@@ -366,6 +366,7 @@ class weladee_employee(models.Model):
         self.clean_up_space(odoovals)
         if not odoovals.get('name',False):
            odoovals['name'] = " ".join([vals['first_name_english'] or '', vals['last_name_english'] or '']) 
+        if "manager" in odoovals: del odoovals['manager']   
         pid = super(weladee_employee,self).create( odoovals )
 
         # only when user create from odoo, always send
@@ -379,6 +380,7 @@ class weladee_employee(models.Model):
     def write(self, vals):
         odoovals = sync_clean_up(vals)
         self.clean_up_space(odoovals)
+        if "manager" in odoovals: del odoovals['manager']
         ret = super(weladee_employee, self).write( odoovals )
         # if don't need to sync when there is weladee-id in vals
         # case we don't need to send to weladee, like just update weladee-id in odoo

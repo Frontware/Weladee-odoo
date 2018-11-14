@@ -132,7 +132,7 @@ def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, con
 
             # collect leave type
             leaves_types = {}
-            for t in self.env['hr.holidays.status'].search([('weladee_code','!=',False)]):
+            for t in self.env['hr.leave.type'].search([('weladee_code','!=',False)]):
                 if not t.weladee_code in leaves_types:
                    leaves_types[t.weladee_code] = t.id 
             
@@ -141,8 +141,10 @@ def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, con
             if odoo_hol and odoo_hol['res-mode'] == 'create':
                 newid = False
                 if odoo_hol['res-type']  == 'employee':
+                     del odoo_hol['res-type']
                      newid = holiday_obj.create(odoo_hol) 
                 elif odoo_hol['res-type']  == 'company':
+                     del odoo_hol['res-type']
                      newid = com_holiday_obj.create(sync_clean_up(odoo_hol))
                 if newid and newid.id:
                     sync_logdebug(context_sync, "Insert holiday '%s' to odoo" % odoo_hol )
@@ -162,6 +164,7 @@ def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, con
                      odoo_id = com_holiday_obj.search([('id','=',odoo_hol['res-id']),'|',('company_holiday_active','=',True),('company_holiday_active','=',False)])
                 
                 if odoo_id and odoo_id.id:
+                    del odoo_hol['res-type']
                     if odoo_id.write(sync_clean_up(odoo_hol)):
                         sync_logdebug(context_sync, "Updated holiday '%s' to odoo" % odoo_hol )
                         sync_stat_update(context_sync['stat-hol'], 1)

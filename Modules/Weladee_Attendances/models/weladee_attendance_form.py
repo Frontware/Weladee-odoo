@@ -12,6 +12,7 @@ from odoo.addons.Weladee_Attendances.models.weladee_settings import get_synchron
 
 class weladee_attendance_form(models.TransientModel):
     _name="weladee_attendance_form"
+    _description="Weladee settings form"
 
     @api.model
     def _get_synchronous_email(self):
