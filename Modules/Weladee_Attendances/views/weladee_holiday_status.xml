@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+customize HR leave status form
+
+remarks:
+2018-11-14 KPO created    
+-->
+<odoo>
+    <record id="weladee_att_hr_leave_status_form" model="ir.ui.view">
+        <field name="name">weladee_att_hr_leave_status_form</field>
+        <field name="model">hr.holidays.status</field>
+        <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group name="options" string="Weladee">
+                    <field name="weladee_code"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
