@@ -30,3 +30,110 @@ msgstr ""
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_holidays_status_weladee_code
 msgid "Weladee Code"
 msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_department_code
+msgid "Code"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_form_email
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_department_email
+msgid "Email"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: code:addons/Weladee_Attendances/library/weladee_translation.py:5
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm_ok
+#: model_terms:ir.actions.act_window,name:Weladee_Attendances.weladee_attendance_synchronous_act_server
+#: model:ir.ui.menu,name:Weladee_Attendances.weladee_attendance_synchronous_menu
+#, python-format
+msgid "Weladee Synchronization"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm
+msgid "List"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm
+msgid "   - Positions"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm
+msgid "   - Departments"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm
+msgid "   - Employees"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm
+msgid "   - Holidays"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm
+msgid "   - Attendance"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm
+msgid "After synchronization, result will send to email address below"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm_ok
+msgid "Close"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm
+msgid "Synchronize"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm
+msgid "Synchronization started, you will receive email at email address below once it's done."
+msgstr ""
+
+#. module: Weladee_Attendances
+#: sql_constraint:Weladee_Attendances.hr.attendance.unique_empin_timestamp:0
+msgid "Employee checkin record must not duplicate"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: sql_constraint:Weladee_Attendances.hr.attendance.unique_empin_timestamp:1
+msgid "Employee checkout record must not duplicate"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_company_holidays_company_holiday_description
+msgid "Description"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_company_holidays_company_holiday_date
+msgid "Date"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_company_holidays_company_holiday_active
+msgid "Active"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_company_holidays_company_holiday_notes
+msgid "Notes"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: sql_constraint:Weladee_Attendances.hr.department.name_uniq:0
+msgid "Department Name can't duplicate !"
+msgstr ""

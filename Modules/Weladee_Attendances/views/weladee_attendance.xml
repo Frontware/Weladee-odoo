@@ -35,7 +35,7 @@
             <field name="name">weladee_attendance_wizard_frm_ok</field>
             <field name="model">weladee_attendance_form</field>
             <field name="arch" type="xml">
-               <form string="Synchronous">
+               <form string="Weladee Synchronization">
                     <label for="id" string="Synchronization started, you will receive email at email address below once it's done." />
                     <field name="email" readonly="1" />
                     <footer>

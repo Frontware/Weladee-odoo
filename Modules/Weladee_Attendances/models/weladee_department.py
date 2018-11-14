@@ -21,7 +21,7 @@ class weladee_department(models.Model):
     email = fields.Char('Email')
     
     _sql_constraints = [
-        ('name_uniq', 'unique(name)', "Name can't duplicate !"),
+        ('name_uniq', 'unique(name)', "Department Name can't duplicate !"),
     ]
 
     @api.model

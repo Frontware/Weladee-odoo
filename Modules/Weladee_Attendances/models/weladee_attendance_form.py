@@ -9,6 +9,7 @@ import pytz
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.addons.Weladee_Attendances.models.weladee_settings import get_synchronous_email 
+from odoo.addons.Weladee_Attendances.library.weladee_translation import sync_form_title, sync_error1_title
 
 class weladee_attendance_form(models.TransientModel):
     _name="weladee_attendance_form"
@@ -23,12 +24,12 @@ class weladee_attendance_form(models.TransientModel):
         self.email = get_synchronous_email(self)
 
     #fields
-    email = fields.Text(compute='_get_synchronous_email',default=_get_synchronous_email)
+    email = fields.Text(compute='_get_synchronous_email',default=_get_synchronous_email,string='Email')
 
     @api.model
     def open_sync_form(self):
         return {
-            "name":"Weladee Synchronization",
+            "name":sync_form_title(),
             "view_id": self.env.ref('Weladee_Attendances.weladee_attendance_wizard_frm').id,
             "res_model": "weladee_attendance_form",
             "res_id": self.create({}).id,
@@ -50,7 +51,7 @@ class weladee_attendance_form(models.TransientModel):
            last_work = datetime.datetime.strptime(works.last_run,'%Y-%m-%d %H:%M:%S')
            last_run = last_work.astimezone(user_tz)
 
-           raise UserError('Caution, the task already started at %s. Please wait...' % last_run.strftime('%d/%m/%Y %H:%M'))      
+           raise UserError(sync_error1_title() % last_run.strftime('%d/%m/%Y %H:%M'))      
 
         cron = self.env.ref('Weladee_Attendances.weladee_attendance_synchronous_cron')
         #restart cron
@@ -62,7 +63,7 @@ class weladee_attendance_form(models.TransientModel):
         self.env['weladee_attendance.working'].create({'last_run':elapse_start})
 
         return {
-            "name":"Weladee Synchronization",
+            "name":sync_form_title(),
             "view_id": self.env.ref('Weladee_Attendances.weladee_attendance_wizard_frm_ok').id,
             "res_model": "weladee_attendance_form",
             "res_id": self.create({}).id,
