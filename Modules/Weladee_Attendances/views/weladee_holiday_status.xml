@@ -8,10 +8,10 @@ remarks:
 <odoo>
     <record id="weladee_att_hr_leave_status_form" model="ir.ui.view">
         <field name="name">weladee_att_hr_leave_status_form</field>
-        <field name="model">hr.holidays.status</field>
+        <field name="model">hr.leave.type</field>
         <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//sheet" position="inside">
+            <xpath expr="//field[@name='company_id']//.." position="after">
                 <group name="options" string="Weladee">
                     <field name="weladee_code"/>
                 </group>

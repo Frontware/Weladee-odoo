@@ -8,7 +8,7 @@ from odoo import models, fields
 from odoo import exceptions
 
 class weladee_holiday_status(models.Model):
-    _inherit = 'hr.holidays.status'
+    _inherit = 'hr.leave.type'
 
     weladee_code = fields.Char('Weladee Code')
 
