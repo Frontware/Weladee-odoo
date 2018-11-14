@@ -45,7 +45,7 @@ def sync_company_holiday_data(weladee_holiday, odoo_weladee_ids, context_sync, c
 
     return data      
 
-def sync_holiday_data(self, weladee_holiday, odoo_weladee_ids, context_sync, holiday_status_id, holiday_obj, com_holiday_obj):
+def sync_holiday_data(self, weladee_holiday, odoo_weladee_ids, context_sync, holiday_status_id, holiday_obj, com_holiday_obj,leaves_types):
     '''
     holiday data to sync
     '''
@@ -63,7 +63,11 @@ def sync_holiday_data(self, weladee_holiday, odoo_weladee_ids, context_sync, hol
             'weladee_code': weladee_holiday.Holiday.code,
             'weladee_sick': weladee_holiday.Holiday.sickLeave,
             'state':'validate'}
-   
+    
+    # 2018-11-14 KPO allow multiple type, but default come from setting
+    if weladee_holiday.Holiday.code in leaves_types:
+        data['holiday_status_id'] = leaves_types[weladee_holiday.Holiday.code] or holiday_status_id
+
     # look if there is odoo record with same time
     # if not found then create else update    
     oldid = holiday_obj.search([('employee_id','=',odoo_weladee_ids.get('%s' % weladee_holiday.Holiday.EmployeeID,False)),
@@ -122,8 +126,14 @@ def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, con
             if not odoo_weladee_ids: 
                 sync_logdebug(context_sync, 'getting all employee-weladee link') 
                 odoo_weladee_ids = get_emp_odoo_weladee_ids(emp_obj, odoo_weladee_ids)
+
+            # collect leave type
+            leaves_types = {}
+            for t in self.env['hr.holidays.status'].search([('weladee_code','!=',False)]):
+                if not t.weladee_code in leaves_types:
+                   leaves_types[t.weladee_code] = t.id 
             
-            odoo_hol = sync_holiday_data(self, weladee_holiday, odoo_weladee_ids, context_sync, holiday_status_id, holiday_obj, com_holiday_obj)
+            odoo_hol = sync_holiday_data(self, weladee_holiday, odoo_weladee_ids, context_sync, holiday_status_id, holiday_obj, com_holiday_obj,leaves_types)
             
             if odoo_hol and odoo_hol['res-mode'] == 'create':
                 newid = False

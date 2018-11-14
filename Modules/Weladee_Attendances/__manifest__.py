@@ -20,7 +20,7 @@
 ##############################################################################
 {
 "name" : "Weladee attendances module",
-"version" : "4.05",
+"version" : "4.06",
 "author" : "Frontware International",
 "category" : "Generic Modules",
 'summary': 'Weladee-Odoo attendances\'s module',
@@ -35,6 +35,7 @@
          "views/fw_hr_timesheet.xml",
          "views/fw_hr_department.xml",
          "views/fw_hr_attendances.xml",
+         'views/weladee_holiday_status.xml',
          "views/weladee_holiday.xml",
          "views/weladee_company_holiday.xml",
          "views/fw_hr_employee.xml"],
@@ -50,6 +51,7 @@ It will synchronus employee, department, position, holidays and import attendanc
 
 change log:
 ------------------------------------
+* 2018-11-14 KPO allow to sync with multiple leave type
 * 2018-06-12 KPO fixed sync
 * 2017-07-18 CKA add view synchronous menu For sync Employee, Department, Holiday and attences on Attendances menu
 * 2018-05-15 CKA change code for support odoo 11

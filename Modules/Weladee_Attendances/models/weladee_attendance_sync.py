@@ -66,7 +66,7 @@ class weladee_attendance(models.TransientModel):
         if (not holiday_status_id) or (not authorization) and (api_db == self.env.cr.dbname):
             #raise exceptions.UserError('Must to be set Leave Type on Weladee setting')
             sync_stop(context_sync)
-            sync_logerror(context_sync,'You must setup API Key, Holiday Status at Attendances -> Weladee settings')
+            sync_logerror(context_sync,'You must setup API Key, Default Holiday Status at Attendances -> Weladee settings')
         
         job_obj = False
         if not sync_has_error(context_sync):
