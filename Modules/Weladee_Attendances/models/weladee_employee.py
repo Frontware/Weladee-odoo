@@ -13,6 +13,7 @@ from .grpcproto import odoo_pb2
 from . import weladee_settings
 from .sync.weladee_base import stub, myrequest, sync_clean_up 
 from .sync.weladee_employee import new_employee_data_gender
+from odoo.addons.Weladee_Attendances.library.weladee_translation import weladee_profile_title, msg_error_weladee_profile
 
 def get_weladee_employee(weladee_id, authorization):
     '''
@@ -404,13 +405,13 @@ class weladee_employee(models.Model):
       '''
       if self.weladee_profile :
         return {
-              'name': _("Weladee Profile"),
+              'name': weladee_profile_title(),
               'type': 'ir.actions.act_url',
               'url': self.weladee_profile,
               'target': 'new'
           }
       else :
-        raise exceptions.UserError("This employee don't have weladee url.")
+        raise exceptions.UserError(msg_error_weladee_profile())
 
     @api.one
     @api.returns('self', lambda value: value.id)

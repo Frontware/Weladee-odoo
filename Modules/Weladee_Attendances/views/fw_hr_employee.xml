@@ -14,15 +14,12 @@ remarks:
             <field name="arch" type="xml">                
                <xpath expr="//field[@name='show_leaves']" position="after">
                    <field name="weladee_profile" invisible="1" /> 
-                   <button 
-                        name="open_weladee_employee" 
-                        class="oe_stat_button" 
-                        type="object"
-                        widget="url"
-                        attrs="{'invisible':[('weladee_profile','=',False)]}"
-                    >  
-                    <i class="o_button_icon icon-weladee"></i>
-                    <div class="o_stat_info"><span class="o_stat_text">Weladee profile</span></div>
+                   <button name="open_weladee_employee" 
+                    class="oe_stat_button" type="object" widget="url" attrs="{'invisible':[('weladee_profile','=',False)]}">
+                        <i class="o_button_icon icon-weladee"></i>
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Weladee Profile</span>
+                        </div>
                     </button>
                 </xpath>
 

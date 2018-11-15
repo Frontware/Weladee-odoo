@@ -23,11 +23,14 @@ msgstr ""
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_att_hr_leave_status_form
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
 msgid "Weladee"
 msgstr ""
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_holidays_status_weladee_code
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_leave_weladee_code
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_att_hr_leave_search
 msgid "Weladee Code"
 msgstr ""
 
@@ -90,6 +93,7 @@ msgstr ""
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm_ok
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
 msgid "Close"
 msgstr ""
 
@@ -104,12 +108,12 @@ msgid "Synchronization started, you will receive email at email address below on
 msgstr ""
 
 #. module: Weladee_Attendances
-#: sql_constraint:Weladee_Attendances.hr.attendance.unique_empin_timestamp:0
+#: sql_constraint:Weladee_Attendances.hr.attendance:0
 msgid "Employee checkin record must not duplicate"
 msgstr ""
 
 #. module: Weladee_Attendances
-#: sql_constraint:Weladee_Attendances.hr.attendance.unique_empin_timestamp:1
+#: sql_constraint:Weladee_Attendances.hr.attendance:1
 msgid "Employee checkout record must not duplicate"
 msgstr ""
 
@@ -134,6 +138,277 @@ msgid "Notes"
 msgstr ""
 
 #. module: Weladee_Attendances
-#: sql_constraint:Weladee_Attendances.hr.department.name_uniq:0
+#: sql_constraint:Weladee_Attendances.hr.department:0
 msgid "Department Name can't duplicate !"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee_taxID
+msgid "TaxID"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee_nationalID
+msgid "NationalID"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee_first_name_english
+msgid "English First Name"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee_last_name_english
+msgid "English Last Name"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee_first_name_thai
+msgid "Thai First Name"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee_last_name_thai
+msgid "Thai Last Name"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee_nick_name_english
+msgid "English Nick Name"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee_nick_name_thai
+msgid "Thai Nick Name"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee_weladee_profile
+msgid "Weladee Url"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee_weladee_id
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_job_weladee_id
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_department_weladee_id
+msgid "Weladee ID"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee_receive_check_notification
+msgid "Receive Check Notification"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee_can_request_holiday
+msgid "Can Request Holiday"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee_hasToFillTimesheet
+msgid "Has To Fill Timesheet", track_visibility='always')
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee_employee_code
+msgid "Employee Code"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee_qr_code
+msgid "QR Code"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee_employee_team
+msgid "Team"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: sql_constraint:Weladee_Attendances.hr.attendance:0
+msgid "Employee code can't duplicate !"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: sql_constraint:Weladee_Attendances.hr.attendance:1
+msgid "Employee name can't duplicate !"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: sql_constraint:Weladee_Attendances.hr.attendance:2
+msgid "Employee working email can't duplicate !"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: sql_constraint:Weladee_Attendances.hr.attendance:3
+msgid "Employee name can't duplicate !"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
+#: code:addons/Weladee_Attendances/library/weladee_translation.py:8
+#, python-format
+msgid "Weladee Profile"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: code:addons/Weladee_Attendances/library/weladee_translation.py:9
+#, python-format
+msgid "This employee don't have weladee url."
+msgstr ""
+
+#. module: Weladee_Attendances
+#: sql_constraint:Weladee_Attendances.hr.leave.type:0
+msgid "Weladee Holiday Type can't duplicate !"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_leave_weladee_sick
+msgid "Sick"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: sql_constraint:Weladee_Attendances.hr.job:0
+msgid "Name can't duplicate !"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting_holiday_status_id
+msgid "Default Leave Type"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_holiday_notify_leave_req
+msgid "Notify if there is not enough allocated leave request"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_holiday_notify_leave_req_email
+msgid "Notified Email"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_api_key
+msgid "API Key"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_email
+msgid "Email"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_api_database
+msgid "API Database"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_api_debug
+msgid "Show debug info"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_log_period_unit
+msgid "Period unit"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_log_period
+msgid "Since"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: selection:Weladee_Attendances.weladee_attendance.synchronous.setting,log_period:0
+msgid "week(s) ago"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: selection:Weladee_Attendances.weladee_attendance.synchronous.setting,log_period:1
+msgid "month(s) ago"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: selection:Weladee_Attendances.weladee_attendance.synchronous.setting,log_period:2
+msgid "year(s) ago"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: selection:Weladee_Attendances.weladee_attendance.synchronous.setting,log_period:3
+msgid "All"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
+msgid "Other"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
+msgid "Attendance"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
+msgid "Holiday"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
+msgid "Timesheet"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
+msgid "API"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
+msgid "*Note: you can separate each email by ;"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
+msgid "Notification"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
+msgid "Save"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.actions.act_window,name:Weladee_Attendances.action_weladee_setting_form
+#: model:ir.ui.menu,name:Weladee_Attendances.weladee_setting_menu
+msgid "Weladee Settings"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.view_company_holidays_tree
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.view_company_holidays_form
+#: model_terms:ir.actions.act_window,name:Weladee_Attendances.action_company_holidays
+#: model:ir.ui.menu,name:Weladee_Attendances.menu_company_holidays
+msgid "Company holidays"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.actions.act_window,help:Weladee_Attendances.action_company_holidays
+msgid "Click here to create a new company holiday"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_att_hr_leave_form
+msgid "Allocate Approved"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_att_hr_leave_form_err
+msgid "Sorry, please use Weladee to change the holiday"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_att_hr_leave_cal
+msgid "Leave Request"
 msgstr ""
