@@ -72,7 +72,7 @@ def sync_holiday_data(self, weladee_holiday, odoo_weladee_ids, context_sync, hol
     # look if there is odoo record with same time
     # if not found then create else update    
     oldid = holiday_obj.search([('employee_id','=',odoo_weladee_ids.get('%s' % weladee_holiday.Holiday.EmployeeID,False)),
-                                ('date_from','=', _convert_to_tz_time(self, date.strftime('%Y-%m-%d') + ' 00:00:00').strftime('%Y-%m-%d 00:00:00'))])
+                                ('date_from','=', _convert_to_tz_time(self, date.strftime('%Y-%m-%d') + ' 00:00:00').strftime('%Y-%m-%d %H:%M:%S'))])
     if not oldid.id:
        data['res-mode'] = 'create'
     else:
@@ -182,6 +182,13 @@ def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, con
         if to_email and get_holiday_notify(self) and get_holiday_notify_email(self):
             if 'The number of remaining leaves is not sufficient for this leave type' in ("%s" % e):
                 
+                date = datetime.datetime.strptime(str(weladee_holiday.Holiday.date),'%Y%m%d')
+                newid = holiday_obj.search([('employee_id','=',odoo_weladee_ids.get('%s' % weladee_holiday.Holiday.EmployeeID,False)),
+                                ('date_from','=', _convert_to_tz_time(self, date.strftime('%Y-%m-%d') + ' 00:00:00').strftime('%Y-%m-%d %H:%M:%S'))])
+                # 2018-11-20 KPO if not sufficient leave, update link back to weladee
+                if newid:
+                    _update_weladee_holiday_back(weladee_holiday, newid, context_sync, stub, authorization)
+
                 emp_name = ''
                 emp = self.env['hr.employee'].search([('weladee_id','=',weladee_holiday.Holiday.EmployeeID)])
                 if emp: emp_name = emp.name or 'employee (weladee id) %s' % weladee_holiday.Holiday.EmployeeID
