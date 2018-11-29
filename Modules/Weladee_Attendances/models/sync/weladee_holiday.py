@@ -203,8 +203,8 @@ def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, con
                 if template:
                     allocation_url='%s/web#view_type=list&model=hr.leave&menu_id=%s&action=%s' % (
                         self.env['ir.config_parameter'].search([('key','=','web.base.url')]).value,
-                        self.env.ref('hr_holidays.menu_open_department_leave_allocation_approve').id,
-                        self.env.ref('hr_holidays.open_department_holidays_allocation_approve').id)
+                        self.env.ref('hr_holidays.hr_holidays_menu_manager_all_allocations').id,
+                        self.env.ref('hr_holidays.hr_leave_allocation_action_all').id)
                     template.with_context({'email-to':get_holiday_notify_email(self),
                                            'employee': emp_name,
                                            'url':allocation_url}).send_mail(self.id)        
