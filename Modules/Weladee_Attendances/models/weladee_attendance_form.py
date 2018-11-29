@@ -55,8 +55,7 @@ class weladee_attendance_form(models.TransientModel):
 
         cron = self.env.ref('Weladee_Attendances.weladee_attendance_synchronous_cron')
         #restart cron
-        newnextcall = datetime.datetime.strptime(cron.nextcall,'%Y-%m-%d %H:%M:%S')
-        newnextcall = newnextcall - datetime.timedelta(days=30)
+        newnextcall = cron.nextcall - datetime.timedelta(days=30)
         cron.write({'nextcall': newnextcall})
 
         elapse_start = datetime.datetime.today()
