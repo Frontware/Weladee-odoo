@@ -46,6 +46,7 @@ def sync_position_data(weladee_position, job_line_obj, context_sync):
 def resync_position(job_line_obj, authorization, context_sync):
     sync_logdebug(context_sync, "we are detected that current connect is not valid or failed")
     sync_logdebug(context_sync, "we are reconnecting and try again..")
+    context_sync['request-logs-y'] = ''
     renew_connection()
     sync_position(job_line_obj, authorization, context_sync)
 
