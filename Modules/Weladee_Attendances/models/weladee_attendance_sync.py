@@ -15,7 +15,7 @@ from . import weladee_settings
 from .sync.weladee_base import myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_has_error
 
 from odoo.addons.Weladee_Attendances.models.weladee_settings import get_synchronous_email, get_synchronous_debug,get_synchronous_period 
-from odoo.addons.Weladee_Attendances.models.sync.weladee_position import sync_position_data, sync_position 
+from odoo.addons.Weladee_Attendances.models.sync.weladee_position import sync_position_data, sync_position, resync_position 
 from odoo.addons.Weladee_Attendances.models.sync.weladee_department import sync_department_data, sync_department
 from odoo.addons.Weladee_Attendances.models.sync.weladee_employee import sync_employee_data, sync_employee
 from odoo.addons.Weladee_Attendances.models.sync.weladee_manager import sync_manager_dep,sync_manager_emp
@@ -77,6 +77,11 @@ class weladee_attendance(models.TransientModel):
             sync_logdebug(context_sync,"Start sync...Positions")
             job_obj = self.env['hr.job']    
             sync_position(job_obj, authorization, context_sync) 
+            if context_sync.get('connection-error',False) == True:
+               # re create connection
+               context_sync['connection-error-count'] = context_sync.get('connection-error-count',0) + 1
+               context_sync['connection-error'] = False
+               resync_position(job_obj, authorization, context_sync) 
 
         department_obj = False
         dep_managers = {}

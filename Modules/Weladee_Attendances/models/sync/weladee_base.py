@@ -14,6 +14,12 @@ grpc_error_2 = '- your connection available'
 grpc_error_3 = '- your Weladee API Key is valid'
 grpc_error_4 = 'or just temporary connection problem, please try again'
 
+def renew_connection():
+    global stub, myrequest
+    
+    stub = weladee_grpc.weladee_grpc_ctrl()
+    myrequest = weladee_pb2.EmployeeRequest()
+
 def sync_loginfo(context_sync, log):
     '''
     write in context and log info
@@ -67,19 +73,21 @@ def sync_weladee_error(weladee_obj, weladee_type, e, context_sync, stop_if_conne
     if weladee_obj:
        sync_logdebug(context_sync, 'weladee >> %s' % weladee_obj)   
 
-    if 'connection refused' in ('%s' % e):
-       sync_logerror(context_sync, '[%s] %s' % (weladee_type, grpc_error_1))
-       sync_logerror(context_sync, '     %s' % (grpc_error_2))
-       sync_logerror(context_sync, '     %s' % (grpc_error_3))
-       sync_logerror(context_sync, '     %s' % (grpc_error_4))
-       return True
-    if 'Endpoint read failed' in ('%s' % e):
-       sync_logerror(context_sync, '[%s] %s' % (weladee_type, grpc_error_1))
-       sync_logerror(context_sync, '     %s' % (grpc_error_2))
-       sync_logerror(context_sync, '     %s' % (grpc_error_3))
-       sync_logerror(context_sync, '     %s' % (grpc_error_4))
-       return True 
-
+    if context_sync.get('connection-error-count',0) < 2:
+       ee = ['Connect Failed','connection refused','Endpoint read failed','Deadline Exceeded']  
+       for e0 in ee:
+          if e0 in ('%s' % e):
+             if context_sync.get('connection-error-count',0) > 0:
+                sync_logerror(context_sync, '[%s] %s' % (weladee_type, grpc_error_1))
+                sync_logerror(context_sync, '     %s' % (grpc_error_2))
+                sync_logerror(context_sync, '     %s' % (grpc_error_3))
+                sync_logerror(context_sync, '     %s' % (grpc_error_4))
+                #sync_logerror(context_sync, '     %s' % (context_sync.get('connection-error-count',0)))
+             context_sync['connection-error'] = True
+             return True
+    else:
+       sync_logdebug(context_sync, 'Error while connect to grpc: exceed maximum retry ****')
+    
     # manage display
     _extra_detail = ''
     if weladee_obj:

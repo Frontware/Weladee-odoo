@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
 "name" : "Weladee attendances module",
-"version" : "5.00",
+"version" : "5.01",
 "author" : "Frontware International",
 "category" : "Generic Modules",
 'summary': 'Weladee-Odoo attendances\'s module',
@@ -32,6 +32,7 @@ It will synchronus employee, department, position, holidays and import attendanc
 
 change log:
 ------------------------------------
+* 2019-02-18 KPO allow to resync if 1st connection failed.
 * 2018-11-14 KPO compatible with odoo12
 * 2018-11-14 KPO allow to sync with multiple leave type
 * 2018-06-12 KPO fixed sync

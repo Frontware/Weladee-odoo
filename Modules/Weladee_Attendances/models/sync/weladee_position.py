@@ -4,7 +4,7 @@ import time
 
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
-from .weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
+from .weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error, renew_connection
 from .weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info
 
 def sync_position_data(weladee_position, job_line_obj, context_sync):
@@ -43,6 +43,14 @@ def sync_position_data(weladee_position, job_line_obj, context_sync):
 
     return pos          
 
+def resync_position(job_line_obj, authorization, context_sync):
+    sync_logdebug(context_sync, "we are detected that current connect is not valid or failed")
+    sync_logdebug(context_sync, "we are reconnecting and try again..")
+    context_sync['request-logs-y'] = False
+    context_sync['request-error'] = False
+    renew_connection()
+    sync_position(job_line_obj, authorization, context_sync)
+
 def sync_position(job_line_obj, authorization, context_sync):
     '''
     sync all positions from weladee
@@ -54,7 +62,7 @@ def sync_position(job_line_obj, authorization, context_sync):
     try:
         weladee_position = False
         sync_loginfo(context_sync,'[position] updating changes from weladee-> odoo')
-        for weladee_position in stub.GetPositions(myrequest, metadata=authorization):
+        for weladee_position in stub.GetPositions(myrequest, metadata=authorization,timeout=5):
             sync_stat_to_sync(context_sync['stat-position'], 1)
             if not weladee_position :
                sync_logwarn(context_sync,'weladee position is empty')
