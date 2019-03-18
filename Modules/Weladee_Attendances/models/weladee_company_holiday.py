@@ -7,7 +7,7 @@ import datetime
 import time
 
 from odoo.addons.Weladee_Attendances.library.weladee_translation import msg_error_company_holiday
-class weladee_company_holidays(models.TransientModel):
+class weladee_company_holidays(models.Model):
     _name="weladee_attendance.company.holidays"
     _description="Weladee company holidays"
     
