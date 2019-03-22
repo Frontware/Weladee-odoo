@@ -87,6 +87,11 @@ class OdooStub(object):
         request_serializer=odoo__pb2.PositionOdoo.SerializeToString,
         response_deserializer=weladee__pb2.AddResult.FromString,
         )
+    self.GetProjects = channel.unary_stream(
+        '/grpc.weladee.com.Odoo/GetProjects',
+        request_serializer=weladee__pb2.Empty.SerializeToString,
+        response_deserializer=odoo__pb2.ProjectOdoo.FromString,
+        )
 
 
 class OdooServicer(object):
@@ -181,7 +186,6 @@ class OdooServicer(object):
 
   def GetPositions(self, request, context):
     """rpc SyncAttendance (stream LogEventOdooSync) returns (Empty); /// Send a stream of LogEventSync to confirm the log entries have been synchronized with Odoo. This funciton use a stream in order to synchronize a large bunch of records very quickly. Odoo can not update or create or delete LogEvent record in Weladee.
-
     / return a stream of positions. Called "job title" in odoo
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -190,6 +194,13 @@ class OdooServicer(object):
 
   def AddPosition(self, request, context):
     """/ Add position, get the id as return.
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def GetProjects(self, request, context):
+    """/ return stream of timesheet project
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -267,6 +278,11 @@ def add_OdooServicer_to_server(servicer, server):
           servicer.AddPosition,
           request_deserializer=odoo__pb2.PositionOdoo.FromString,
           response_serializer=weladee__pb2.AddResult.SerializeToString,
+      ),
+      'GetProjects': grpc.unary_stream_rpc_method_handler(
+          servicer.GetProjects,
+          request_deserializer=weladee__pb2.Empty.FromString,
+          response_serializer=odoo__pb2.ProjectOdoo.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
