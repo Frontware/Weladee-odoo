@@ -3,7 +3,7 @@
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/weladee)
 [![Coverage Status](https://coveralls.io/repos/github/Frontware/Weladee-odoo/badge.svg?branch=odoo11)](https://coveralls.io/github/Frontware/Weladee-odoo?branch=odoo11)
 
-![Weladee logo](https://vgy.me/jlVton.png)![odoo](https://goo.gl/D9uZDJ)
+![Weladee logo](https://vgy.me/jlVton.png)![odoo](https://vgy.me/5KoRp0.png)
 
 ## What is Weladee?
 
@@ -112,4 +112,4 @@ Simple code parsing a stream of log events that need to be synchronized with Odo
 ```
 
 --------------------------------------------------------------
-(c) 2018 [Frontware International Co,Ltd.](https://www.frontware.co.th)
+(c) 2019 [Frontware International Co,Ltd.](https://www.frontware.co.th)
