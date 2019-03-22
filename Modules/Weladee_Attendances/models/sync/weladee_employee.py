@@ -6,7 +6,7 @@ import base64
 import uuid
 import subprocess
 import io
-
+from datetime import datetime
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from .weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
@@ -84,13 +84,16 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
 
     if weladee_employee.employee.passportNumber :
         data["passport_id"] = weladee_employee.employee.passportNumber
-    if weladee_employee.employee.taxID :
-        data["taxID"] = weladee_employee.employee.taxID
-    if weladee_employee.employee.nationalID :
-        data["nationalID"] = weladee_employee.employee.nationalID
-        
-    if weladee_employee.employee.positionid :
-        job_datas = job_obj.search( [("weladee_id","=", weladee_employee.employee.positionid )] )
+    if weladee_employee.employee.TaxID :
+        data["taxID"] = weladee_employee.employee.TaxID
+    if weladee_employee.employee.NationalID :
+        data["nationalID"] = weladee_employee.employee.NationalID
+
+    if weladee_employee.employee.Birthday > 0:
+        data["birthday"] = datetime.fromtimestamp( weladee_employee.employee.Birthday )
+
+    if weladee_employee.employee.PositionID :
+        job_datas = job_obj.search( [("weladee_id","=", weladee_employee.employee.PositionID )] )
         if job_datas :
             for jdatas in job_datas :
                 data[ "job_id" ] = jdatas.id
@@ -154,8 +157,8 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
           data['res-mode'] = 'update'
           data['res-id'] = odoo_employee.id
 
-    print(data['gender'])
-    print(weladee_employee)
+    #print(data['gender'])
+    #print(weladee_employee)
     return data   
 
 def sync_employee(job_obj, employee_obj, department_obj, country, authorization, emp_managers, context_sync, pdf_path):
@@ -184,6 +187,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
                sync_stat_create(context_sync['stat-employee'], 1)
 
             elif odoo_emp and odoo_emp['res-mode'] == 'update':
+                
                 odoo_id = employee_obj.search([('id','=',odoo_emp['res-id']),'|',('active','=',False),('active','=',True)])
                 if odoo_id.id:
                    odoo_id.write(odoo_emp)
@@ -240,8 +244,8 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
         newEmployee.employee.hasToFillTimesheet = odoo_employee.hasToFillTimesheet
 
         newEmployee.employee.passportNumber = odoo_employee.passport_id or ''
-        newEmployee.employee.taxID = odoo_employee.taxID or ''
-        newEmployee.employee.nationalID = odoo_employee.nationalID or ''
+        newEmployee.employee.TaxID = odoo_employee.taxID or ''
+        newEmployee.employee.NationalID = odoo_employee.nationalID or ''
         #2018-06-15 KPO don't sync badge
 
         if odoo_employee.country_id:
@@ -252,9 +256,12 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
 
         if odoo_employee.work_phone:
             newEmployee.employee.Phones[:] = [odoo_employee.work_phone]
+        
+        if odoo_employee.birthday:
+            newEmployee.employee.Birthday = datetime.strptime(odoo_employee.birthday,'%Y-%m-%d').timestamp()
 
         if odoo_employee.job_id and odoo_employee.job_id.weladee_id:
-            newEmployee.employee.positionid = int(odoo_employee.job_id.weladee_id or '0')
+            newEmployee.employee.PositionID = int(odoo_employee.job_id.weladee_id or '0')
 
         if odoo_employee.parent_id and odoo_employee.parent_id.weladee_id:
             newEmployee.employee.managerID = int(odoo_employee.parent_id.weladee_id or '0')

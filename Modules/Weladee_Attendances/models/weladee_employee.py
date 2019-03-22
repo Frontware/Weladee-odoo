@@ -134,7 +134,10 @@ class weladee_employee(models.Model):
             if vals["job_id"] :
                 positionData = self.env['hr.job'].browse( vals["job_id"] )
                 if positionData and positionData.weladee_id :
-                    WeladeeData.employee.positionid = int(positionData.weladee_id)
+                    WeladeeData.employee.PositionID = int(positionData.weladee_id)
+
+            if vals["birthday"] :
+                WeladeeData.employee.Birthday = int(datetime.strptime(vals["birthday"],'%Y-%m-%d').timestamp())
 
             #language not sync yet
             WeladeeData.employee.lg = "en"
@@ -147,9 +150,9 @@ class weladee_employee(models.Model):
             if vals["passport_id"]:
                 WeladeeData.employee.passportNumber = vals["passport_id"]
             if vals["taxID"]:
-                WeladeeData.employee.taxID = vals["taxID"]
+                WeladeeData.employee.TaxID = vals["taxID"]
             if vals["nationalID"]:
-                WeladeeData.employee.nationalID = vals["nationalID"]
+                WeladeeData.employee.NationalID = vals["nationalID"]
             if vals["image"]:
                 WeladeeData.employee.photo = vals["image"]
 
@@ -260,14 +263,14 @@ class weladee_employee(models.Model):
               WeladeeData.employee.passportNumber = employee_odoo.passport_id or ''
 
             if "taxID" in vals :
-              WeladeeData.employee.taxID = vals["taxID"] or ''
+              WeladeeData.employee.TaxID = vals["taxID"] or ''
             else :
-              WeladeeData.employee.taxID = employee_odoo.taxID or ''
+              WeladeeData.employee.TaxID = employee_odoo.taxID or ''
 
             if "nationalID" in vals :
-              WeladeeData.employee.nationalID = vals["nationalID"] or ''
+              WeladeeData.employee.NationalID = vals["nationalID"] or ''
             else :
-              WeladeeData.employee.nationalID = employee_odoo.nationalID or ''
+              WeladeeData.employee.NationalID = employee_odoo.nationalID or ''
             
             #2018-05-28 KPO use employee_code
             #2018-06-23 KPO don't update employee code after create
@@ -291,10 +294,10 @@ class weladee_employee(models.Model):
             if "job_id" in vals :
                 positionData = self.env['hr.job'].browse( vals["job_id"] )
                 if positionData and positionData.weladee_id :
-                    WeladeeData.employee.positionid = int(positionData.weladee_id)
+                    WeladeeData.employee.PositionID = int(positionData.weladee_id)
             else :
               if employee_odoo.job_id:
-                  WeladeeData.employee.positionid = int(employee_odoo.job_id.weladee_id)
+                  WeladeeData.employee.PositionID = int(employee_odoo.job_id.weladee_id)
 
             if "country_id" in vals :
                 countryData = self.env['res.country'].browse( vals["country_id"] )
@@ -312,6 +315,9 @@ class weladee_employee(models.Model):
 
             if 'gender' in vals:
                 WeladeeData.employee.gender = new_employee_data_gender(vals['gender'])   
+
+            if 'birthday' in vals:
+                WeladeeData.employee.Birthday = int(datetime.strptime(vals["birthday"],'%Y-%m-%d').timestamp())
                   
             #2018-10-29 KPO we don't sync 
             #  department

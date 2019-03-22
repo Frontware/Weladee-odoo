@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,7 +19,8 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='weladee.proto',
   package='grpc.weladee.com',
   syntax='proto3',
-  serialized_pb=_b('\n\rweladee.proto\x12\x10grpc.weladee.com\"\x17\n\tAddResult\x12\n\n\x02id\x18\x02 \x01(\x03\"\xff\x04\n\x07\x43ompany\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12!\n\x0bNameEnglish\x18\x02 \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x03 \x01(\tR\tname_thai\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x1c\n\ttimesheet\x18\x06 \x01(\x08R\ttimesheet\x12\x12\n\x04note\x18\t \x01(\tR\x04note\x12\x18\n\x07\x61\x64\x64ress\x18\n \x01(\tR\x07\x61\x64\x64ress\x12\x12\n\x04\x63ity\x18\x0b \x01(\tR\x04\x63ity\x12\x1a\n\x08postcode\x18\x0c \x01(\tR\x08postcode\x12\x18\n\x07\x63ountry\x18\r \x01(\tR\x07\x63ountry\x12\x18\n\x07twitter\x18\x0e \x01(\tR\x07twitter\x12\x1a\n\x08\x66\x61\x63\x65\x62ook\x18\x07 \x01(\tR\x08\x66\x61\x63\x65\x62ook\x12\x17\n\x06\x41PIKey\x18\x0f \x01(\tR\x07\x61pi_key\x12\x14\n\x05TaxID\x18\x10 \x01(\tR\x05taxid\x12\x1a\n\x08\x42ranchID\x18\x11 \x01(\tR\x08\x62ranchid\x12\x10\n\x03URL\x18\x12 \x01(\tR\x03url\x12\x12\n\x04Logo\x18\x13 \x01(\tR\x04logo\x12\x1f\n\nThemeColor\x18\x14 \x01(\tR\x0btheme_color\x12#\n\x0c\x43ustomerType\x18\x15 \x01(\tR\rcustomer_type\x12\x16\n\x06Radius\x18\x16 \x01(\rR\x06radius\x12\x10\n\x08latitude\x18\x17 \x01(\x01\x12\x11\n\tlongitude\x18\x18 \x01(\x01\x12\x0e\n\x02TZ\x18\x19 \x01(\tR\x02tz\x12\x16\n\x06Phones\x18\x1a \x03(\tR\x06phones\x12$\n\rProximityUUID\x18\x1b \x01(\tR\rproximityuuid\"\x07\n\x05\x45mpty\"\x82\x02\n\x07Holiday\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12!\n\x0bNameEnglish\x18\x02 \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x03 \x01(\tR\tname_thai\x12\x12\n\x04\x64\x61te\x18\x04 \x01(\x05R\x04\x64\x61te\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04\x63ode\x18\x06 \x01(\tR\x04\x63ode\x12\x14\n\x05\x63olor\x18\x07 \x01(\tR\x05\x63olor\x12\x1e\n\nEmployeeID\x18\x08 \x01(\x03R\nemployeeid\x12\x12\n\x04note\x18\t \x01(\tR\x04note\x12\x1d\n\tsickLeave\x18\n \x01(\x08R\nsick_leave\"\x1d\n\x0cHolidayCodes\x12\r\n\x05\x43odes\x18\x01 \x03(\t\"\x8f\x01\n\x08Position\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12!\n\x0bNameEnglish\x18\x02 \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x03 \x01(\tR\tname_thai\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\r\n\x05level\x18\x07 \x01(\x05\x12\x0c\n\x04note\x18\t \x01(\t\"\xbf\x04\n\x04Team\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x12\n\x04Name\x18\x03 \x01(\tR\x04name\x12-\n\x0eMaxTimePerWeek\x18\x04 \x01(\x05R\x15maximum_time_per_week\x12+\n\rMaxTimePerDay\x18\x05 \x01(\x05R\x14maximum_time_per_day\x12-\n\x0eMinTimePerWeek\x18\x06 \x01(\x05R\x15minimum_time_per_week\x12+\n\rMinTimePerDay\x18\x07 \x01(\x05R\x14minimum_time_per_day\x12;\n\x17MinimumDayBeforeHoliday\x18\x08 \x01(\x05R\x1aminimum_day_before_holiday\x12!\n\x0bNameEnglish\x18\n \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x0b \x01(\tR\tname_thai\x12\x16\n\x06\x61\x63tive\x18\x0c \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04note\x18\t \x01(\tR\x04note\x12\x14\n\x05\x65mail\x18\r \x01(\tR\x05\x65mail\x12\x1c\n\tManagerID\x18\x0e \x01(\x03R\tmanagerid\x12!\n\x0bManagerName\x18\x0f \x01(\tR\x0cmanager_name\x12\x45\n\x0cworkingHours\x18\x11 \x03(\x0b\x32 .grpc.weladee.com.OpenHourMobileR\rworking_hours\x12\x14\n\x05Gates\x18\x12 \x03(\x03R\x05gates\"\xfa\x03\n\x04Gate\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\"\n\x0cname_english\x18\x02 \x01(\tR\x0cname_english\x12\x1c\n\tname_thai\x18\x03 \x01(\tR\tname_thai\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x0e\n\x06\x61\x63tion\x18\x07 \x03(\t\x12\x16\n\x06QRCode\x18\x08 \x01(\tR\x06qrcode\x12\x12\n\x04note\x18\t \x01(\tR\x04note\x12\x1a\n\x08latitude\x18\n \x01(\x01R\x08latitude\x12\x1c\n\tlongitude\x18\x0b \x01(\x01R\tlongitude\x12\x16\n\x06radius\x18\x0c \x01(\x05R\x06radius\x12\x18\n\x07\x61\x64\x64ress\x18\r \x01(\tR\x07\x61\x64\x64ress\x12\x12\n\x04\x63ity\x18\x0e \x01(\tR\x04\x63ity\x12\x1a\n\x08postCode\x18\x0f \x01(\tR\x08postcode\x12\x18\n\x07\x63ountry\x18\x10 \x01(\tR\x07\x63ountry\x12>\n\topenHours\x18\x11 \x03(\x0b\x32 .grpc.weladee.com.OpenHourMobileR\topenhours\x12,\n\x05teams\x18\x13 \x03(\x0b\x32\x16.grpc.weladee.com.TeamR\x05teams\x12(\n\x0e\x41llowFreeCheck\x18\x12 \x01(\x08R\x10\x61llow_free_check\"\xc9\x01\n\nDepartment\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x14\n\x0cname_english\x18\x02 \x01(\t\x12\x11\n\tname_thai\x18\x03 \x01(\t\x12\x1c\n\tmanagerID\x18\x04 \x01(\x03R\tmanagerid\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x0c\n\x04\x63ode\x18\x06 \x01(\t\x12\r\n\x05\x65mail\x18\x07 \x01(\t\x12\x0c\n\x04note\x18\t \x01(\t\x12!\n\x0bManagerName\x18\n \x01(\tR\x0cmanager_name\"\xc8\x01\n\x08LogEvent\x12\x1e\n\nemployeeid\x18\x01 \x01(\x03R\nemployeeid\x12\x16\n\x06\x61\x63tion\x18\x02 \x01(\tR\x06\x61\x63tion\x12\x1c\n\ttimestamp\x18\x03 \x01(\x03R\ttimestamp\x12\x16\n\x06teamid\x18\x04 \x01(\x03R\x06teamid\x12\x12\n\x04late\x18\x05 \x01(\x05R\x04late\x12\x0e\n\x02id\x18\x06 \x01(\x03R\x02id\x12\x16\n\x06gateid\x18\x07 \x01(\x03R\x06gateid\x12\x12\n\x04note\x18\x08 \x01(\tR\x04note\"9\n\rRefuseRequest\x12\n\n\x02ID\x18\x01 \x01(\x03\x12\x0e\n\x06reason\x18\x05 \x01(\t\x12\x0c\n\x04note\x18\x06 \x01(\t\"N\n\x0f\x45mployeeRequest\x12\x13\n\tuser_name\x18\x01 \x01(\tH\x00\x12\x0f\n\x05\x65mail\x18\x02 \x01(\tH\x00\x12\x0c\n\x02ID\x18\x03 \x01(\x03H\x00\x42\x07\n\x05query\"\x1e\n\rEmployeeStats\x12\r\n\x05stats\x18\x01 \x01(\x0c\"\xb8\x04\n\x10\x45mployeesRequest\x12\x1e\n\nEmployeeID\x18\x01 \x01(\x03R\nemployeeid\x12\x16\n\x06Teamid\x18\x02 \x01(\x03R\x06teamid\x12\x1c\n\tManagerID\x18\x03 \x01(\x03R\tmanagerid\x12\"\n\x0c\x44\x65partmentID\x18\x04 \x01(\x03R\x0c\x64\x65partmentid\x12\x1f\n\tProjectID\x18\x05 \x01(\x03R\x0c\x64\x65partmentid\x12\x16\n\x06TaskID\x18\x06 \x01(\x03R\x06taskid\x12\x10\n\x03Tag\x18\x11 \x01(\tR\x03tag\x12\x16\n\x06GateID\x18\x08 \x01(\x03R\x06gateid\x12\x31\n\x06\x41\x63tive\x18\t \x01(\x0e\x32\x19.grpc.weladee.com.TrinaryR\x06\x61\x63tive\x12\x1e\n\nPositionID\x18\x14 \x01(\x03R\npositionid\x12\x0e\n\x06Offset\x18\x1e \x01(\x03\x12\r\n\x05Limit\x18\x1f \x01(\x03\x12\x14\n\x0c\x45mployeeName\x18( \x01(\t\x12\x10\n\x08TeamName\x18) \x01(\t\x12\x16\n\x0e\x44\x65partmentName\x18* \x01(\t\x12\x13\n\x0bProjectName\x18+ \x01(\t\x12\x0c\n\x04\x43ode\x18, \x01(\t\x12\x14\n\x0cPositionName\x18- \x01(\t\x12\r\n\x05\x45mail\x18. \x01(\t\x12,\n\tIsManager\x18\x30 \x01(\x0e\x32\x19.grpc.weladee.com.Trinary\x12\x0c\n\x04RFID\x18\x32 \x01(\x03\x12\x11\n\tRFIDToken\x18\x33 \x01(\t\"\x17\n\tRequestID\x12\n\n\x02ID\x18\x01 \x01(\x03\"\xeb\x0c\n\x08\x45mployee\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x14\n\x05\x65mail\x18\x02 \x01(\tR\x05\x65mail\x12\x1c\n\tuser_name\x18\x03 \x01(\tR\tuser_name\x12,\n\x11last_name_english\x18\x04 \x01(\tR\x11last_name_english\x12.\n\x12\x66irst_name_english\x18\x05 \x01(\tR\x12\x66irst_name_english\x12(\n\x0f\x66irst_name_thai\x18\x06 \x01(\tR\x0f\x66irst_name_thai\x12&\n\x0elast_name_thai\x18\x07 \x01(\tR\x0elast_name_thai\x12\x1c\n\tmanagerID\x18\x08 \x01(\x03R\tmanagerid\x12\x16\n\x06lineID\x18\t \x01(\tR\x06lineid\x12\x1e\n\ntelegramID\x18\x33 \x01(\x03R\ntelegramid\x12*\n\x10nickname_english\x18\n \x01(\tR\x10nickname_english\x12$\n\rnickname_thai\x18\x0b \x01(\tR\rnickname_thai\x12\x1b\n\x08\x46\x43Mtoken\x18\x12 \x03(\tR\tfcm_token\x12 \n\x0bphone_model\x18\x13 \x01(\tR\x0bphone_model\x12\"\n\x0cphone_serial\x18\x14 \x01(\tR\x0cphone_serial\x12\x12\n\x04\x63ode\x18\x15 \x01(\tR\x04\x63ode\x12\x1e\n\ncreated_by\x18\x0e \x01(\x03R\ncreated_by\x12\x1e\n\nupdated_by\x18\x0f \x01(\x03R\nupdated_by\x12\x16\n\x06\x41\x63tive\x18\x10 \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04note\x18\x11 \x01(\tR\x04note\x12\x1e\n\ncreated_on\x18\x16 \x01(\x03R\ncreated_on\x12\x1e\n\nupdated_on\x18\x17 \x01(\x03R\nupdated_on\x12\x14\n\x05photo\x18\x18 \x01(\tR\x05photo\x12\x0e\n\x02lg\x18\x19 \x01(\tR\x02lg\x12P\n\x11\x61pplication_level\x18\x1a \x01(\x0e\x32\".grpc.weladee.com.ApplicationLevelR\x11\x61pplication_level\x12\x1e\n\npositionid\x18\x1b \x01(\x03R\npositionid\x12\x16\n\x06Phones\x18\x1c \x03(\tR\x06phones\x12\x12\n\x04rfid\x18\x1d \x01(\x03R\x04rfid\x12\'\n\x0e\x45mailValidated\x18\" \x01(\x08R\x0f\x65mail_validated\x12\x16\n\x06teamid\x18# \x01(\x03R\x06teamid\x12\x16\n\x06gender\x18$ \x01(\tR\x06gender\x12\x31\n\x12hasToFillTimesheet\x18% \x01(\x08R\x15has_to_fill_timesheet\x12<\n\x18receiveCheckNotification\x18& \x01(\x08R\x1areceive_check_notification\x12.\n\x11\x63\x61nRequestHoliday\x18\' \x01(\x08R\x13\x63\x61n_request_holiday\x12\x12\n\x04Tags\x18? \x03(\tR\x04tags\x12\x1e\n\nnationalID\x18( \x01(\tR\nnationalid\x12\x14\n\x05taxID\x18) \x01(\tR\x05taxid\x12\'\n\x0epassportNumber\x18* \x01(\tR\x0fpassport_number\x12\x14\n\x05token\x18\x32 \x01(\tR\x05token\x12\x31\n\x12\x43\x61nCheckTeamMember\x18\x34 \x01(\x08R\x15\x63\x61n_check_team_member\x12\x16\n\x06QRCode\x18\x35 \x01(\tR\x06qrcode\x12 \n\x0bNationality\x18\x36 \x01(\tR\x0bnationality\x12)\n\x0f\x44\x65partmentNames\x18< \x03(\tR\x10\x64\x65partment_names\x12\x1b\n\x08TeamName\x18= \x01(\tR\tteam_name\x12#\n\x0cPositionName\x18> \x01(\tR\rposition_name\x12 \n\x0b\x44\x65partments\x18\x45 \x03(\x03R\x0b\x64\x65partments\x12\x1a\n\x08Password\x18\x46 \x01(\tR\x08password\x12\x1c\n\tCompanyID\x18P \x01(\x03R\tcompanyid\x12#\n\x0bhasToUse2FA\x18Q \x01(\x08R\x0ehas_to_use_2fa\"\xba\x01\n\x0eOpenHourMobile\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x12\n\x04Name\x18\x03 \x01(\tR\x04name\x12\x18\n\x07WeekDay\x18\x04 \x01(\rR\x07weekday\x12\x12\n\x04\x46rom\x18\x05 \x01(\tR\x04\x66rom\x12\x0e\n\x02To\x18\x06 \x01(\tR\x02to\x12\x1c\n\tDetailsID\x18\t \x01(\x03R\tdetailsid\x12(\n\x0eMinPauseBefore\x18\x0c \x01(\x03R\x10min_pause_before\"\xca\t\n\x0bGateStation\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x1c\n\tCompanyID\x18\x02 \x01(\x03R\tcompanyid\x12\x10\n\x03MAC\x18\x03 \x01(\tR\x03mac\x12\x14\n\x05Major\x18\x04 \x01(\rR\x05major\x12\x14\n\x05Minor\x18\x05 \x01(\rR\x05minor\x12\x14\n\x05Token\x18\x07 \x01(\tR\x05token\x12\x12\n\x04Note\x18\x08 \x01(\tR\x04note\x12\x0e\n\x02IP\x18\t \x01(\tR\x02ip\x12\x16\n\x06\x41\x63tive\x18\x0b \x01(\x08R\x06\x61\x63tive\x12\x16\n\x06GateID\x18\x0c \x01(\x03R\x06gateid\x12\x18\n\x07ModelID\x18\r \x01(\x03R\x07modelid\x12\x16\n\x06Serial\x18\x0e \x01(\tR\x06serial\x12$\n\x0cShowLatestIn\x18\x0f \x01(\x08R\x0eshow_latest_in\x12&\n\rShowLatestOut\x18\x10 \x01(\x08R\x0fshow_latest_out\x12$\n\x0cShowMostLate\x18\x11 \x01(\x08R\x0eshow_most_late\x12\x1f\n\nHasDisplay\x18\x12 \x01(\x08R\x0bhas_display\x12\x1b\n\x08PlayBeep\x18\x13 \x01(\x08R\tplay_beep\x12\x1d\n\tHDMISound\x18- \x01(\x08R\nhdmi_sound\x12#\n\x0c\x42\x65\x61\x63onActive\x18\x14 \x01(\x08R\rbeacon_active\x12&\n\rHasOnboardLCD\x18\x15 \x01(\x08R\x0fhas_onboard_lcd\x12!\n\x0bShowTwitter\x18\x16 \x01(\x08R\x0cshow_twitter\x12\x1d\n\tPlayVoice\x18\x17 \x01(\x08R\nplay_voice\x12,\n\x10ShowWorkingHours\x18\x18 \x01(\x08R\x12show_working_hours\x12\x38\n\x16ShowBackgroundPictures\x18\x19 \x01(\x08R\x18show_background_pictures\x12#\n\x0cShowFacebook\x18\x1a \x01(\x08R\rshow_facebook\x12\x1b\n\x08WifiSSID\x18\x1e \x01(\tR\twifi_ssid\x12\x19\n\x07WifiPwd\x18\x1f \x01(\tR\x08wifi_pwd\x12%\n\rRefreshScreen\x18  \x01(\rR\x0erefresh_screen\x12\x12\n\x04URLs\x18! \x03(\tR\x04urls\x12\x19\n\x07SSHPort\x18\" \x01(\rR\x08ssh_port\x12$\n\rProximityUUID\x18# \x01(\tR\rproximityuuid\x12!\n\x0b\x43ompanyName\x18$ \x01(\tR\x0c\x63ompany_name\x12\x1d\n\tModelName\x18% \x01(\tR\nmodel_name\x12\x1b\n\x08GateName\x18& \x01(\tR\tgate_name\x12\x12\n\x04MACs\x18( \x03(\tR\x04macs\x12-\n\x11RefreshBackground\x18) \x01(\rR\x12refresh_background\x12\x14\n\x05\x43olor\x18* \x01(\tR\x05\x63olor\x12(\n\x0eLastTimeOnline\x18+ \x01(\x03R\x10last_time_online\x12\x30\n\x12ScreenSaverTimeout\x18. \x01(\rR\x14screen_saver_timeout\"\xcd\x03\n\nWebStation\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x1c\n\tCompanyID\x18\x02 \x01(\x03R\tcompanyid\x12\x10\n\x03MAC\x18\x03 \x01(\tR\x03mac\x12\x14\n\x05Token\x18\x07 \x01(\tR\x05token\x12\x12\n\x04Note\x18\x08 \x01(\tR\x04note\x12\x0e\n\x02IP\x18\t \x01(\tR\x02ip\x12\x16\n\x06\x41\x63tive\x18\x0b \x01(\x08R\x06\x61\x63tive\x12\x18\n\x07ModelID\x18\r \x01(\x03R\x07modelid\x12\x16\n\x06Serial\x18\x0e \x01(\tR\x06serial\x12\x1b\n\x08WifiSSID\x18\x1e \x01(\tR\twifi_ssid\x12\x19\n\x07WifiPwd\x18\x1f \x01(\tR\x08wifi_pwd\x12\x12\n\x04URLs\x18! \x03(\tR\x04urls\x12\x19\n\x07SSHPort\x18\" \x01(\rR\x08ssh_port\x12!\n\x0b\x43ompanyName\x18$ \x01(\tR\x0c\x63ompany_name\x12\x1d\n\tModelName\x18% \x01(\tR\nmodel_name\x12\x12\n\x04MACs\x18( \x03(\tR\x04macs\x12\x14\n\x05\x43olor\x18* \x01(\tR\x05\x63olor\x12(\n\x0eLastTimeOnline\x18+ \x01(\x03R\x10last_time_online*\xa3\x01\n\x10\x41pplicationLevel\x12\x13\n\x0fSimple_Employee\x10\x00\x12\x0f\n\x0bHR_Operator\x10\x01\x12\x0e\n\nHR_Manager\x10\x02\x12\x10\n\x0cTeam_Manager\x10\x03\x12\x16\n\x12\x44\x65partment_Manager\x10\x04\x12\x0c\n\x08\x44irector\x10\x05\x12\x11\n\rAdministrator\x10\x06\x12\x0e\n\nSupervisor\x10\t*@\n\x14HolidayRequestStatus\x12\r\n\tRequested\x10\x00\x12\x0c\n\x08\x41pproved\x10\x01\x12\x0b\n\x07Refused\x10\x02*3\n\x07Trinary\x12\r\n\tTriIgnore\x10\x00\x12\x0b\n\x07TriTrue\x10\x01\x12\x0c\n\x08TriFalse\x10\x02\x42+\n\x15\x63om.frontware.weladeeB\x0bWeladeeGRPCH\x03P\x01\x90\x01\x01\x62\x06proto3')
+  serialized_options=_b('\n\025com.frontware.weladeeB\013WeladeeGRPCH\003P\001\220\001\001\252\002\021Frontware.Weladee'),
+  serialized_pb=_b('\n\rweladee.proto\x12\x10grpc.weladee.com\"\x17\n\tAddResult\x12\n\n\x02ID\x18\x02 \x01(\x03\"\x83\x06\n\x07\x43ompany\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12!\n\x0bNameEnglish\x18\x02 \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x03 \x01(\tR\tname_thai\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x1c\n\ttimesheet\x18\x06 \x01(\x08R\ttimesheet\x12\x1a\n\x08Resource\x18\x08 \x01(\x08R\x08resource\x12\x30\n\x12ShowGettingStarted\x18\x1c \x01(\x08R\x14show_getting_started\x12\x12\n\x04note\x18\t \x01(\tR\x04note\x12\x18\n\x07\x61\x64\x64ress\x18\n \x01(\tR\x07\x61\x64\x64ress\x12\x12\n\x04\x63ity\x18\x0b \x01(\tR\x04\x63ity\x12\x1a\n\x08postcode\x18\x0c \x01(\tR\x08postcode\x12\x18\n\x07\x63ountry\x18\r \x01(\tR\x07\x63ountry\x12\x18\n\x07twitter\x18\x0e \x01(\tR\x07twitter\x12\x1a\n\x08\x66\x61\x63\x65\x62ook\x18\x07 \x01(\tR\x08\x66\x61\x63\x65\x62ook\x12\x17\n\x06\x41PIKey\x18\x0f \x01(\tR\x07\x61pi_key\x12\x14\n\x05TaxID\x18\x10 \x01(\tR\x05taxid\x12\x1a\n\x08\x42ranchID\x18\x11 \x01(\tR\x08\x62ranchid\x12\x10\n\x03URL\x18\x12 \x01(\tR\x03url\x12\x12\n\x04Logo\x18\x13 \x01(\tR\x04logo\x12\x1f\n\nThemeColor\x18\x14 \x01(\tR\x0btheme_color\x12#\n\x0c\x43ustomerType\x18\x15 \x01(\tR\rcustomer_type\x12\x16\n\x06Radius\x18\x16 \x01(\rR\x06radius\x12\x10\n\x08latitude\x18\x17 \x01(\x01\x12\x11\n\tlongitude\x18\x18 \x01(\x01\x12\x0e\n\x02TZ\x18\x19 \x01(\tR\x02tz\x12\x16\n\x06Phones\x18\x1a \x03(\tR\x06phones\x12$\n\rProximityUUID\x18\x1b \x01(\tR\rproximityuuid\x12\x15\n\x05\x43RMID\x18\x1e \x01(\x03R\x06\x63rm_id\x12\x1d\n\tPaidUntil\x18\x1f \x01(\x03R\npaid_until\"\x07\n\x05\x45mpty\"\xf9\x02\n\x07Holiday\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12!\n\x0bNameEnglish\x18\x02 \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x03 \x01(\tR\tname_thai\x12\x12\n\x04\x64\x61te\x18\x04 \x01(\x05R\x04\x64\x61te\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04\x63ode\x18\x06 \x01(\tR\x04\x63ode\x12\x14\n\x05\x63olor\x18\x07 \x01(\tR\x05\x63olor\x12\x1e\n\nEmployeeID\x18\x08 \x01(\x03R\nemployeeid\x12\x12\n\x04note\x18\t \x01(\tR\x04note\x12\x1d\n\tsickLeave\x18\n \x01(\x08R\nsick_leave\x12\x38\n\x07\x44\x61yPart\x18\x0b \x01(\x0e\x32\x1d.grpc.weladee.com.HolidayTimeR\x08\x64\x61y_part\x12\x16\n\x06\x43odeID\x18\x14 \x01(\x03R\x06\x63odeid\x12#\n\x0c\x45mployeeName\x18\x19 \x01(\tR\remployee_name\"\xc4\x01\n\x11HolidayAllocation\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x1e\n\nEmployeeID\x18\x02 \x01(\x03R\nemployeeid\x12\x1e\n\x06\x43odeID\x18\x03 \x01(\x03R\x0eholiday_codeid\x12\x12\n\x04\x44\x61ys\x18\x04 \x01(\x02R\x04\x64\x61ys\x12\x12\n\x04Note\x18\n \x01(\tR\x04note\x12\x1a\n\x04\x43ode\x18\x0b \x01(\tR\x0choliday_code\x12\x1b\n\x08\x43odeName\x18\x0c \x01(\tR\tcode_name\";\n\tRectangle\x12\n\n\x02X1\x18\x01 \x01(\x05\x12\n\n\x02X2\x18\x02 \x01(\x05\x12\n\n\x02Y1\x18\x03 \x01(\x05\x12\n\n\x02Y2\x18\x04 \x01(\x05\"\xea\x02\n\x08LogPhoto\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x1c\n\tTimeStamp\x18\x02 \x01(\x03R\ttimestamp\x12\x1e\n\nEmployeeID\x18\x05 \x01(\x03R\nemployeeid\x12\x16\n\x06GateID\x18\x06 \x01(\x03R\x06gateid\x12%\n\rGateStationID\x18\x07 \x01(\x03R\x0egate_stationid\x12\x16\n\x06\x61\x63tive\x18\t \x01(\x08R\x06\x61\x63tive\x12\x42\n\rFaceRectangle\x18\n \x01(\x0b\x32\x1b.grpc.weladee.com.RectangleR\x0e\x66\x61\x63\x65_rectangle\x12\x0b\n\x03URL\x18\x0b \x01(\t\x12\x12\n\x04note\x18\x0c \x01(\tR\x04note\x12\x12\n\x04IPFS\x18\r \x01(\tR\x04ipfs\x12#\n\x0c\x45mployeeName\x18\x14 \x01(\tR\remployee_name\x12\x1b\n\x08GateName\x18\x15 \x01(\tR\tgate_name\"\x89\x01\n\x08NewPhoto\x12,\n\x08LogPhoto\x18\x01 \x01(\x0b\x32\x1a.grpc.weladee.com.LogPhoto\x12\r\n\x05Photo\x18\x02 \x01(\x0c\x12.\n\tPhototype\x18\x03 \x01(\x0e\x32\x1b.grpc.weladee.com.PhotoType\x12\x10\n\x08HashIPFS\x18\x04 \x01(\t\"\x1d\n\x0cHolidayCodes\x12\r\n\x05\x43odes\x18\x01 \x03(\t\"\x8f\x01\n\x08Position\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12!\n\x0bNameEnglish\x18\x02 \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x03 \x01(\tR\tname_thai\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\r\n\x05level\x18\x07 \x01(\x05\x12\x0c\n\x04note\x18\t \x01(\t\"\xd6\x04\n\x04Team\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x12\n\x04Name\x18\x03 \x01(\tR\x04name\x12-\n\x0eMaxTimePerWeek\x18\x04 \x01(\x05R\x15maximum_time_per_week\x12+\n\rMaxTimePerDay\x18\x05 \x01(\x05R\x14maximum_time_per_day\x12-\n\x0eMinTimePerWeek\x18\x06 \x01(\x05R\x15minimum_time_per_week\x12+\n\rMinTimePerDay\x18\x07 \x01(\x05R\x14minimum_time_per_day\x12;\n\x17MinimumDayBeforeHoliday\x18\x08 \x01(\x05R\x1aminimum_day_before_holiday\x12!\n\x0bNameEnglish\x18\n \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x0b \x01(\tR\tname_thai\x12\x16\n\x06\x61\x63tive\x18\x0c \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04note\x18\t \x01(\tR\x04note\x12\x14\n\x05\x65mail\x18\r \x01(\tR\x05\x65mail\x12\x1c\n\tManagerID\x18\x0e \x01(\x03R\tmanagerid\x12!\n\x0bManagerName\x18\x0f \x01(\tR\x0cmanager_name\x12\x45\n\x0cworkingHours\x18\x11 \x03(\x0b\x32 .grpc.weladee.com.OpenHourMobileR\rworking_hours\x12\x14\n\x05Gates\x18\x12 \x03(\x03R\x05gates\x12\x15\n\x05shift\x18\x13 \x01(\x08R\x06\x61\x63tive\"\xfa\x03\n\x04Gate\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\"\n\x0cname_english\x18\x02 \x01(\tR\x0cname_english\x12\x1c\n\tname_thai\x18\x03 \x01(\tR\tname_thai\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x0e\n\x06\x61\x63tion\x18\x07 \x03(\t\x12\x16\n\x06QRCode\x18\x08 \x01(\tR\x06qrcode\x12\x12\n\x04note\x18\t \x01(\tR\x04note\x12\x1a\n\x08latitude\x18\n \x01(\x01R\x08latitude\x12\x1c\n\tlongitude\x18\x0b \x01(\x01R\tlongitude\x12\x16\n\x06radius\x18\x0c \x01(\x05R\x06radius\x12\x18\n\x07\x61\x64\x64ress\x18\r \x01(\tR\x07\x61\x64\x64ress\x12\x12\n\x04\x63ity\x18\x0e \x01(\tR\x04\x63ity\x12\x1a\n\x08postCode\x18\x0f \x01(\tR\x08postcode\x12\x18\n\x07\x63ountry\x18\x10 \x01(\tR\x07\x63ountry\x12>\n\topenHours\x18\x11 \x03(\x0b\x32 .grpc.weladee.com.OpenHourMobileR\topenhours\x12,\n\x05teams\x18\x13 \x03(\x0b\x32\x16.grpc.weladee.com.TeamR\x05teams\x12(\n\x0e\x41llowFreeCheck\x18\x12 \x01(\x08R\x10\x61llow_free_check\"\xc9\x01\n\nDepartment\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x14\n\x0cname_english\x18\x02 \x01(\t\x12\x11\n\tname_thai\x18\x03 \x01(\t\x12\x1c\n\tmanagerID\x18\x04 \x01(\x03R\tmanagerid\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x0c\n\x04\x63ode\x18\x06 \x01(\t\x12\r\n\x05\x65mail\x18\x07 \x01(\t\x12\x0c\n\x04note\x18\t \x01(\t\x12!\n\x0bManagerName\x18\n \x01(\tR\x0cmanager_name\"\xc8\x01\n\x08LogEvent\x12\x1e\n\nemployeeid\x18\x01 \x01(\x03R\nemployeeid\x12\x16\n\x06\x61\x63tion\x18\x02 \x01(\tR\x06\x61\x63tion\x12\x1c\n\ttimestamp\x18\x03 \x01(\x03R\ttimestamp\x12\x16\n\x06teamid\x18\x04 \x01(\x03R\x06teamid\x12\x12\n\x04late\x18\x05 \x01(\x05R\x04late\x12\x0e\n\x02id\x18\x06 \x01(\x03R\x02id\x12\x16\n\x06gateid\x18\x07 \x01(\x03R\x06gateid\x12\x12\n\x04note\x18\x08 \x01(\tR\x04note\"9\n\rRefuseRequest\x12\n\n\x02ID\x18\x01 \x01(\x03\x12\x0e\n\x06reason\x18\x05 \x01(\t\x12\x0c\n\x04note\x18\x06 \x01(\t\"N\n\x0f\x45mployeeRequest\x12\x13\n\tuser_name\x18\x01 \x01(\tH\x00\x12\x0f\n\x05\x65mail\x18\x02 \x01(\tH\x00\x12\x0c\n\x02ID\x18\x03 \x01(\x03H\x00\x42\x07\n\x05query\"\x1e\n\rEmployeeStats\x12\r\n\x05stats\x18\x01 \x01(\x0c\"\xff\x04\n\x10\x45mployeesRequest\x12\x1e\n\nEmployeeID\x18\x01 \x01(\x03R\nemployeeid\x12\x16\n\x06Teamid\x18\x02 \x01(\x03R\x06teamid\x12\x1c\n\tManagerID\x18\x03 \x01(\x03R\tmanagerid\x12\"\n\x0c\x44\x65partmentID\x18\x04 \x01(\x03R\x0c\x64\x65partmentid\x12\x1f\n\tProjectID\x18\x05 \x01(\x03R\x0c\x64\x65partmentid\x12\x16\n\x06TaskID\x18\x06 \x01(\x03R\x06taskid\x12\x10\n\x03Tag\x18\x11 \x01(\tR\x03tag\x12\x16\n\x06GateID\x18\x08 \x01(\x03R\x06gateid\x12\x31\n\x06\x41\x63tive\x18\t \x01(\x0e\x32\x19.grpc.weladee.com.TrinaryR\x06\x61\x63tive\x12\x37\n\tTimesheet\x18\n \x01(\x0e\x32\x19.grpc.weladee.com.TrinaryR\ttimesheet\x12\x1e\n\nPositionID\x18\x14 \x01(\x03R\npositionid\x12\x0e\n\x06Offset\x18\x1e \x01(\x03\x12\r\n\x05Limit\x18\x1f \x01(\x03\x12\x14\n\x0c\x45mployeeName\x18( \x01(\t\x12\x10\n\x08TeamName\x18) \x01(\t\x12\x16\n\x0e\x44\x65partmentName\x18* \x01(\t\x12\x13\n\x0bProjectName\x18+ \x01(\t\x12\x0c\n\x04\x43ode\x18, \x01(\t\x12\x14\n\x0cPositionName\x18- \x01(\t\x12\r\n\x05\x45mail\x18. \x01(\t\x12,\n\tIsManager\x18\x30 \x01(\x0e\x32\x19.grpc.weladee.com.Trinary\x12\x0c\n\x04RFID\x18\x32 \x01(\x03\x12\x11\n\tRFIDToken\x18\x33 \x01(\t\x12\x0c\n\x04Text\x18< \x01(\t\"\x17\n\tRequestID\x12\n\n\x02ID\x18\x01 \x01(\x03\"\xe6\r\n\x08\x45mployee\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x14\n\x05\x65mail\x18\x02 \x01(\tR\x05\x65mail\x12\x1c\n\tuser_name\x18\x03 \x01(\tR\tuser_name\x12,\n\x11last_name_english\x18\x04 \x01(\tR\x11last_name_english\x12.\n\x12\x66irst_name_english\x18\x05 \x01(\tR\x12\x66irst_name_english\x12(\n\x0f\x66irst_name_thai\x18\x06 \x01(\tR\x0f\x66irst_name_thai\x12&\n\x0elast_name_thai\x18\x07 \x01(\tR\x0elast_name_thai\x12\x1c\n\tmanagerID\x18\x08 \x01(\x03R\tmanagerid\x12\x16\n\x06lineID\x18\t \x01(\tR\x06lineid\x12\x1a\n\x08\x42irthday\x18\r \x01(\x03R\x08\x62irthday\x12\x1e\n\ntelegramID\x18\x33 \x01(\x03R\ntelegramid\x12*\n\x10nickname_english\x18\n \x01(\tR\x10nickname_english\x12$\n\rnickname_thai\x18\x0b \x01(\tR\rnickname_thai\x12\x1b\n\x08\x46\x43Mtoken\x18\x12 \x03(\tR\tfcm_token\x12 \n\x0bphone_model\x18\x13 \x01(\tR\x0bphone_model\x12\"\n\x0cphone_serial\x18\x14 \x01(\tR\x0cphone_serial\x12\x12\n\x04\x63ode\x18\x15 \x01(\tR\x04\x63ode\x12\x1e\n\ncreated_by\x18\x0e \x01(\x03R\ncreated_by\x12\x1e\n\nupdated_by\x18\x0f \x01(\x03R\nupdated_by\x12\x16\n\x06\x41\x63tive\x18\x10 \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04note\x18\x11 \x01(\tR\x04note\x12\x1e\n\ncreated_on\x18\x16 \x01(\x03R\ncreated_on\x12\x1e\n\nupdated_on\x18\x17 \x01(\x03R\nupdated_on\x12\x14\n\x05photo\x18\x18 \x01(\tR\x05photo\x12\x0e\n\x02lg\x18\x19 \x01(\tR\x02lg\x12P\n\x11\x61pplication_level\x18\x1a \x01(\x0e\x32\".grpc.weladee.com.ApplicationLevelR\x11\x61pplication_level\x12\x1e\n\nPositionID\x18\x1b \x01(\x03R\npositionid\x12\x16\n\x06Phones\x18\x1c \x03(\tR\x06phones\x12\x12\n\x04rfid\x18\x1d \x01(\x03R\x04rfid\x12\'\n\x0e\x45mailValidated\x18\" \x01(\x08R\x0f\x65mail_validated\x12\x16\n\x06teamID\x18# \x01(\x03R\x06teamid\x12\x16\n\x06gender\x18$ \x01(\tR\x06gender\x12\x31\n\x12hasToFillTimesheet\x18% \x01(\x08R\x15has_to_fill_timesheet\x12<\n\x18receiveCheckNotification\x18& \x01(\x08R\x1areceive_check_notification\x12.\n\x11\x63\x61nRequestHoliday\x18\' \x01(\x08R\x13\x63\x61n_request_holiday\x12\x12\n\x04Tags\x18? \x03(\tR\x04tags\x12\x1e\n\nNationalID\x18( \x01(\tR\nnationalid\x12\x14\n\x05TaxID\x18) \x01(\tR\x05taxid\x12\'\n\x0epassportNumber\x18* \x01(\tR\x0fpassport_number\x12\x14\n\x05token\x18\x32 \x01(\tR\x05token\x12\x31\n\x12\x43\x61nCheckTeamMember\x18\x34 \x01(\x08R\x15\x63\x61n_check_team_member\x12\x16\n\x06QRCode\x18\x35 \x01(\tR\x06qrcode\x12 \n\x0bNationality\x18\x36 \x01(\tR\x0bnationality\x12\x1d\n\tFreeCheck\x18\x37 \x01(\x08R\nfree_check\x12\x1f\n\nHourlyCost\x18\x38 \x01(\x01R\x0bhourly_cost\x12)\n\x0f\x44\x65partmentNames\x18< \x03(\tR\x10\x64\x65partment_names\x12\x1b\n\x08TeamName\x18= \x01(\tR\tteam_name\x12#\n\x0cPositionName\x18> \x01(\tR\rposition_name\x12 \n\x0b\x44\x65partments\x18\x45 \x03(\x03R\x0b\x64\x65partments\x12\x1a\n\x08Password\x18\x46 \x01(\tR\x08password\x12\x1c\n\tCompanyID\x18P \x01(\x03R\tcompanyid\x12#\n\x0bhasToUse2FA\x18Q \x01(\x08R\x0ehas_to_use_2fa\x12\x1d\n\tOTPMobile\x18R \x01(\x08R\notp_mobile\"\xb5\x02\n\x08Openhour\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x18\n\x07WeekDay\x18\x04 \x01(\rR\x07weekday\x12\x0c\n\x04\x46rom\x18\x05 \x01(\t\x12\n\n\x02To\x18\x06 \x01(\t\x12!\n\x0bNameEnglish\x18\x07 \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x08 \x01(\tR\tname_thai\x12\x1c\n\tDetailsID\x18\t \x01(\x03R\tdetailsid\x12\x16\n\x06\x41\x63tive\x18\n \x01(\x08R\x06\x61\x63tive\x12\x1d\n\tLateAfter\x18\x0b \x01(\tR\nlate_after\x12(\n\x0eMinPauseBefore\x18\x0c \x01(\x03R\x10min_pause_before\x12\x12\n\x04note\x18\r \x01(\tR\x04note\x12\x12\n\x04Type\x18\x0f \x01(\tR\x04type\"\xad\x01\n\x0eOpenHourDetail\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x18\n\x07WeekDay\x18\x04 \x01(\rR\x07weekday\x12\x0c\n\x04\x46rom\x18\x05 \x01(\t\x12\n\n\x02To\x18\x06 \x01(\t\x12\x1d\n\tLateAfter\x18\x0b \x01(\tR\nlate_after\x12(\n\x0eMinPauseBefore\x18\x0c \x01(\x03R\x10min_pause_before\x12\x0e\n\x02TZ\x18\x19 \x01(\tR\x02tz\"\xba\x01\n\x0eOpenHourMobile\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x12\n\x04Name\x18\x03 \x01(\tR\x04name\x12\x18\n\x07WeekDay\x18\x04 \x01(\rR\x07weekday\x12\x12\n\x04\x46rom\x18\x05 \x01(\tR\x04\x66rom\x12\x0e\n\x02To\x18\x06 \x01(\tR\x02to\x12\x1c\n\tDetailsID\x18\t \x01(\x03R\tdetailsid\x12(\n\x0eMinPauseBefore\x18\x0c \x01(\x03R\x10min_pause_before\"\xef\t\n\x0bGateStation\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x1c\n\tCompanyID\x18\x02 \x01(\x03R\tcompanyid\x12\x10\n\x03MAC\x18\x03 \x01(\tR\x03mac\x12\x14\n\x05Major\x18\x04 \x01(\rR\x05major\x12\x14\n\x05Minor\x18\x05 \x01(\rR\x05minor\x12\x14\n\x05Token\x18\x07 \x01(\tR\x05token\x12\x12\n\x04Note\x18\x08 \x01(\tR\x04note\x12\x0e\n\x02IP\x18\t \x01(\tR\x02ip\x12\x16\n\x06\x41\x63tive\x18\x0b \x01(\x08R\x06\x61\x63tive\x12\x16\n\x06GateID\x18\x0c \x01(\x03R\x06gateid\x12\x18\n\x07ModelID\x18\r \x01(\x03R\x07modelid\x12\x16\n\x06Serial\x18\x0e \x01(\tR\x06serial\x12$\n\x0cShowLatestIn\x18\x0f \x01(\x08R\x0eshow_latest_in\x12&\n\rShowLatestOut\x18\x10 \x01(\x08R\x0fshow_latest_out\x12$\n\x0cShowMostLate\x18\x11 \x01(\x08R\x0eshow_most_late\x12\x1f\n\nHasDisplay\x18\x12 \x01(\x08R\x0bhas_display\x12\x1b\n\x08PlayBeep\x18\x13 \x01(\x08R\tplay_beep\x12\x1d\n\tHDMISound\x18- \x01(\x08R\nhdmi_sound\x12#\n\x0c\x42\x65\x61\x63onActive\x18\x14 \x01(\x08R\rbeacon_active\x12&\n\rHasOnboardLCD\x18\x15 \x01(\x08R\x0fhas_onboard_lcd\x12!\n\x0bShowTwitter\x18\x16 \x01(\x08R\x0cshow_twitter\x12\x1d\n\tPlayVoice\x18\x17 \x01(\x08R\nplay_voice\x12,\n\x10ShowWorkingHours\x18\x18 \x01(\x08R\x12show_working_hours\x12\x38\n\x16ShowBackgroundPictures\x18\x19 \x01(\x08R\x18show_background_pictures\x12#\n\x0cShowFacebook\x18\x1a \x01(\x08R\rshow_facebook\x12#\n\x0cScanResource\x18\x1b \x01(\x08R\rscan_resource\x12\x1b\n\x08WifiSSID\x18\x1e \x01(\tR\twifi_ssid\x12\x19\n\x07WifiPwd\x18\x1f \x01(\tR\x08wifi_pwd\x12%\n\rRefreshScreen\x18  \x01(\rR\x0erefresh_screen\x12\x12\n\x04URLs\x18! \x03(\tR\x04urls\x12\x19\n\x07SSHPort\x18\" \x01(\rR\x08ssh_port\x12$\n\rProximityUUID\x18# \x01(\tR\rproximityuuid\x12!\n\x0b\x43ompanyName\x18$ \x01(\tR\x0c\x63ompany_name\x12\x1d\n\tModelName\x18% \x01(\tR\nmodel_name\x12\x1b\n\x08GateName\x18& \x01(\tR\tgate_name\x12\x12\n\x04MACs\x18( \x03(\tR\x04macs\x12-\n\x11RefreshBackground\x18) \x01(\rR\x12refresh_background\x12\x14\n\x05\x43olor\x18* \x01(\tR\x05\x63olor\x12(\n\x0eLastTimeOnline\x18+ \x01(\x03R\x10last_time_online\x12\x30\n\x12ScreenSaverTimeout\x18. \x01(\rR\x14screen_saver_timeout\"\xcd\x03\n\nWebStation\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x1c\n\tCompanyID\x18\x02 \x01(\x03R\tcompanyid\x12\x10\n\x03MAC\x18\x03 \x01(\tR\x03mac\x12\x14\n\x05Token\x18\x07 \x01(\tR\x05token\x12\x12\n\x04Note\x18\x08 \x01(\tR\x04note\x12\x0e\n\x02IP\x18\t \x01(\tR\x02ip\x12\x16\n\x06\x41\x63tive\x18\x0b \x01(\x08R\x06\x61\x63tive\x12\x18\n\x07ModelID\x18\r \x01(\x03R\x07modelid\x12\x16\n\x06Serial\x18\x0e \x01(\tR\x06serial\x12\x1b\n\x08WifiSSID\x18\x1e \x01(\tR\twifi_ssid\x12\x19\n\x07WifiPwd\x18\x1f \x01(\tR\x08wifi_pwd\x12\x12\n\x04URLs\x18! \x03(\tR\x04urls\x12\x19\n\x07SSHPort\x18\" \x01(\rR\x08ssh_port\x12!\n\x0b\x43ompanyName\x18$ \x01(\tR\x0c\x63ompany_name\x12\x1d\n\tModelName\x18% \x01(\tR\nmodel_name\x12\x12\n\x04MACs\x18( \x03(\tR\x04macs\x12\x14\n\x05\x43olor\x18* \x01(\tR\x05\x63olor\x12(\n\x0eLastTimeOnline\x18+ \x01(\x03R\x10last_time_online\";\n\x0fHolidayRequests\x12\x10\n\x03IDs\x18\x01 \x03(\x03R\x03ids\x12\x16\n\x06Reason\x18\x02 \x01(\tR\x06reason\"\x9f\x01\n\x0b\x43odeHoliday\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x12\n\x04\x43ode\x18\x02 \x01(\tR\x04\x63ode\x12\"\n\x0cName_english\x18\x03 \x01(\tR\x0cname_english\x12\x1c\n\tName_thai\x18\x04 \x01(\tR\tname_thai\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04Note\x18\n \x01(\tR\x04note\"\xa9\x03\n\x0c\x41nnouncement\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12#\n\x0cTitleEnglish\x18\x02 \x01(\tR\rtitle_english\x12\x1d\n\tTitleThai\x18\x03 \x01(\tR\ntitle_thai\x12\'\n\x0eMessageEnglish\x18\x04 \x01(\tR\x0fmessage_english\x12!\n\x0bMessageThai\x18\x05 \x01(\tR\x0cmessage_thai\x12!\n\x0b\x44isplayFrom\x18\x06 \x01(\x03R\x0c\x64isplay_from\x12\x1d\n\tDisplayTo\x18\x07 \x01(\x03R\ndisplay_to\x12\x16\n\x06TeamID\x18\x08 \x01(\x03R\x06teamid\x12\"\n\x0c\x44\x65partmentID\x18\t \x01(\x03R\x0c\x64\x65partmentid\x12\x36\n\x08Priority\x18\n \x01(\x0e\x32\x1a.grpc.weladee.com.PriorityR\x08priority\x12\x16\n\x06\x41\x63tive\x18\x0f \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04Note\x18\x10 \x01(\tR\x04note\x12\x17\n\x06ReadON\x18\x14 \x01(\x03R\x07read_on*\xa3\x01\n\x10\x41pplicationLevel\x12\x13\n\x0fSimple_Employee\x10\x00\x12\x0f\n\x0bHR_Operator\x10\x01\x12\x0e\n\nHR_Manager\x10\x02\x12\x10\n\x0cTeam_Manager\x10\x03\x12\x16\n\x12\x44\x65partment_Manager\x10\x04\x12\x0c\n\x08\x44irector\x10\x05\x12\x11\n\rAdministrator\x10\x06\x12\x0e\n\nSupervisor\x10\t*@\n\x14HolidayRequestStatus\x12\r\n\tRequested\x10\x00\x12\x0c\n\x08\x41pproved\x10\x01\x12\x0b\n\x07Refused\x10\x02*6\n\x0bHolidayTime\x12\x0b\n\x07\x46ullDay\x10\x00\x12\x0b\n\x07Morning\x10\x01\x12\r\n\tAfterNoon\x10\x02*\'\n\tPhotoType\x12\x07\n\x03JPG\x10\x00\x12\x08\n\x04WEBP\x10\x01\x12\x07\n\x03PNG\x10\x02*3\n\x07Trinary\x12\r\n\tTriIgnore\x10\x00\x12\x0b\n\x07TriTrue\x10\x01\x12\x0c\n\x08TriFalse\x10\x02*5\n\x08Priority\x12\n\n\x06Normal\x10\x00\x12\x07\n\x03Low\x10\x01\x12\x08\n\x04High\x10\x02\x12\n\n\x06Urgent\x10\x03\x42?\n\x15\x63om.frontware.weladeeB\x0bWeladeeGRPCH\x03P\x01\x90\x01\x01\xaa\x02\x11\x46rontware.Weladeeb\x06proto3')
 )
 
 _APPLICATIONLEVEL = _descriptor.EnumDescriptor(
@@ -31,41 +31,41 @@ _APPLICATIONLEVEL = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='Simple_Employee', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='HR_Operator', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='HR_Manager', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='Team_Manager', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='Department_Manager', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='Director', index=5, number=5,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='Administrator', index=6, number=6,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='Supervisor', index=7, number=9,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
-  serialized_start=6939,
-  serialized_end=7102,
+  serialized_options=None,
+  serialized_start=9348,
+  serialized_end=9511,
 )
 _sym_db.RegisterEnumDescriptor(_APPLICATIONLEVEL)
 
@@ -78,25 +78,79 @@ _HOLIDAYREQUESTSTATUS = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='Requested', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='Approved', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='Refused', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
-  serialized_start=7104,
-  serialized_end=7168,
+  serialized_options=None,
+  serialized_start=9513,
+  serialized_end=9577,
 )
 _sym_db.RegisterEnumDescriptor(_HOLIDAYREQUESTSTATUS)
 
 HolidayRequestStatus = enum_type_wrapper.EnumTypeWrapper(_HOLIDAYREQUESTSTATUS)
+_HOLIDAYTIME = _descriptor.EnumDescriptor(
+  name='HolidayTime',
+  full_name='grpc.weladee.com.HolidayTime',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='FullDay', index=0, number=0,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='Morning', index=1, number=1,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='AfterNoon', index=2, number=2,
+      serialized_options=None,
+      type=None),
+  ],
+  containing_type=None,
+  serialized_options=None,
+  serialized_start=9579,
+  serialized_end=9633,
+)
+_sym_db.RegisterEnumDescriptor(_HOLIDAYTIME)
+
+HolidayTime = enum_type_wrapper.EnumTypeWrapper(_HOLIDAYTIME)
+_PHOTOTYPE = _descriptor.EnumDescriptor(
+  name='PhotoType',
+  full_name='grpc.weladee.com.PhotoType',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='JPG', index=0, number=0,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='WEBP', index=1, number=1,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='PNG', index=2, number=2,
+      serialized_options=None,
+      type=None),
+  ],
+  containing_type=None,
+  serialized_options=None,
+  serialized_start=9635,
+  serialized_end=9674,
+)
+_sym_db.RegisterEnumDescriptor(_PHOTOTYPE)
+
+PhotoType = enum_type_wrapper.EnumTypeWrapper(_PHOTOTYPE)
 _TRINARY = _descriptor.EnumDescriptor(
   name='Trinary',
   full_name='grpc.weladee.com.Trinary',
@@ -105,25 +159,56 @@ _TRINARY = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='TriIgnore', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='TriTrue', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='TriFalse', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
-  serialized_start=7170,
-  serialized_end=7221,
+  serialized_options=None,
+  serialized_start=9676,
+  serialized_end=9727,
 )
 _sym_db.RegisterEnumDescriptor(_TRINARY)
 
 Trinary = enum_type_wrapper.EnumTypeWrapper(_TRINARY)
+_PRIORITY = _descriptor.EnumDescriptor(
+  name='Priority',
+  full_name='grpc.weladee.com.Priority',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='Normal', index=0, number=0,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='Low', index=1, number=1,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='High', index=2, number=2,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='Urgent', index=3, number=3,
+      serialized_options=None,
+      type=None),
+  ],
+  containing_type=None,
+  serialized_options=None,
+  serialized_start=9729,
+  serialized_end=9782,
+)
+_sym_db.RegisterEnumDescriptor(_PRIORITY)
+
+Priority = enum_type_wrapper.EnumTypeWrapper(_PRIORITY)
 Simple_Employee = 0
 HR_Operator = 1
 HR_Manager = 2
@@ -135,9 +220,19 @@ Supervisor = 9
 Requested = 0
 Approved = 1
 Refused = 2
+FullDay = 0
+Morning = 1
+AfterNoon = 2
+JPG = 0
+WEBP = 1
+PNG = 2
 TriIgnore = 0
 TriTrue = 1
 TriFalse = 2
+Normal = 0
+Low = 1
+High = 2
+Urgent = 3
 
 
 
@@ -149,19 +244,19 @@ _ADDRESULT = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='id', full_name='grpc.weladee.com.AddResult.id', index=0,
+      name='ID', full_name='grpc.weladee.com.AddResult.ID', index=0,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -185,189 +280,217 @@ _COMPANY = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='id'),
+      serialized_options=None, json_name='id', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='NameEnglish', full_name='grpc.weladee.com.Company.NameEnglish', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='name_english'),
+      serialized_options=None, json_name='name_english', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='NameThai', full_name='grpc.weladee.com.Company.NameThai', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='name_thai'),
+      serialized_options=None, json_name='name_thai', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='active', full_name='grpc.weladee.com.Company.active', index=3,
       number=5, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='active'),
+      serialized_options=None, json_name='active', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='timesheet', full_name='grpc.weladee.com.Company.timesheet', index=4,
       number=6, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='timesheet'),
+      serialized_options=None, json_name='timesheet', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='note', full_name='grpc.weladee.com.Company.note', index=5,
+      name='Resource', full_name='grpc.weladee.com.Company.Resource', index=5,
+      number=8, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='resource', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='ShowGettingStarted', full_name='grpc.weladee.com.Company.ShowGettingStarted', index=6,
+      number=28, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='show_getting_started', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='note', full_name='grpc.weladee.com.Company.note', index=7,
       number=9, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='note'),
+      serialized_options=None, json_name='note', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='address', full_name='grpc.weladee.com.Company.address', index=6,
+      name='address', full_name='grpc.weladee.com.Company.address', index=8,
       number=10, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='address'),
+      serialized_options=None, json_name='address', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='city', full_name='grpc.weladee.com.Company.city', index=7,
+      name='city', full_name='grpc.weladee.com.Company.city', index=9,
       number=11, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='city'),
+      serialized_options=None, json_name='city', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='postcode', full_name='grpc.weladee.com.Company.postcode', index=8,
+      name='postcode', full_name='grpc.weladee.com.Company.postcode', index=10,
       number=12, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='postcode'),
+      serialized_options=None, json_name='postcode', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='country', full_name='grpc.weladee.com.Company.country', index=9,
+      name='country', full_name='grpc.weladee.com.Company.country', index=11,
       number=13, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='country'),
+      serialized_options=None, json_name='country', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='twitter', full_name='grpc.weladee.com.Company.twitter', index=10,
+      name='twitter', full_name='grpc.weladee.com.Company.twitter', index=12,
       number=14, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='twitter'),
+      serialized_options=None, json_name='twitter', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='facebook', full_name='grpc.weladee.com.Company.facebook', index=11,
+      name='facebook', full_name='grpc.weladee.com.Company.facebook', index=13,
       number=7, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='facebook'),
+      serialized_options=None, json_name='facebook', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='APIKey', full_name='grpc.weladee.com.Company.APIKey', index=12,
+      name='APIKey', full_name='grpc.weladee.com.Company.APIKey', index=14,
       number=15, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='api_key'),
+      serialized_options=None, json_name='api_key', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='TaxID', full_name='grpc.weladee.com.Company.TaxID', index=13,
+      name='TaxID', full_name='grpc.weladee.com.Company.TaxID', index=15,
       number=16, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='taxid'),
+      serialized_options=None, json_name='taxid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='BranchID', full_name='grpc.weladee.com.Company.BranchID', index=14,
+      name='BranchID', full_name='grpc.weladee.com.Company.BranchID', index=16,
       number=17, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='branchid'),
+      serialized_options=None, json_name='branchid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='URL', full_name='grpc.weladee.com.Company.URL', index=15,
+      name='URL', full_name='grpc.weladee.com.Company.URL', index=17,
       number=18, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='url'),
+      serialized_options=None, json_name='url', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='Logo', full_name='grpc.weladee.com.Company.Logo', index=16,
+      name='Logo', full_name='grpc.weladee.com.Company.Logo', index=18,
       number=19, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='logo'),
+      serialized_options=None, json_name='logo', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ThemeColor', full_name='grpc.weladee.com.Company.ThemeColor', index=17,
+      name='ThemeColor', full_name='grpc.weladee.com.Company.ThemeColor', index=19,
       number=20, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='theme_color'),
+      serialized_options=None, json_name='theme_color', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='CustomerType', full_name='grpc.weladee.com.Company.CustomerType', index=18,
+      name='CustomerType', full_name='grpc.weladee.com.Company.CustomerType', index=20,
       number=21, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='customer_type'),
+      serialized_options=None, json_name='customer_type', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='Radius', full_name='grpc.weladee.com.Company.Radius', index=19,
+      name='Radius', full_name='grpc.weladee.com.Company.Radius', index=21,
       number=22, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='radius'),
+      serialized_options=None, json_name='radius', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='latitude', full_name='grpc.weladee.com.Company.latitude', index=20,
+      name='latitude', full_name='grpc.weladee.com.Company.latitude', index=22,
       number=23, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='longitude', full_name='grpc.weladee.com.Company.longitude', index=21,
+      name='longitude', full_name='grpc.weladee.com.Company.longitude', index=23,
       number=24, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='TZ', full_name='grpc.weladee.com.Company.TZ', index=22,
+      name='TZ', full_name='grpc.weladee.com.Company.TZ', index=24,
       number=25, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='tz'),
+      serialized_options=None, json_name='tz', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='Phones', full_name='grpc.weladee.com.Company.Phones', index=23,
+      name='Phones', full_name='grpc.weladee.com.Company.Phones', index=25,
       number=26, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='phones'),
+      serialized_options=None, json_name='phones', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ProximityUUID', full_name='grpc.weladee.com.Company.ProximityUUID', index=24,
+      name='ProximityUUID', full_name='grpc.weladee.com.Company.ProximityUUID', index=26,
       number=27, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='proximityuuid'),
+      serialized_options=None, json_name='proximityuuid', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='CRMID', full_name='grpc.weladee.com.Company.CRMID', index=27,
+      number=30, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='crm_id', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='PaidUntil', full_name='grpc.weladee.com.Company.PaidUntil', index=28,
+      number=31, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='paid_until', file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
   serialized_start=61,
-  serialized_end=700,
+  serialized_end=832,
 )
 
 
@@ -384,14 +507,14 @@ _EMPTY = _descriptor.Descriptor(
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=702,
-  serialized_end=709,
+  serialized_start=834,
+  serialized_end=841,
 )
 
 
@@ -408,84 +531,390 @@ _HOLIDAY = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='id'),
+      serialized_options=None, json_name='id', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='NameEnglish', full_name='grpc.weladee.com.Holiday.NameEnglish', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='name_english'),
+      serialized_options=None, json_name='name_english', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='NameThai', full_name='grpc.weladee.com.Holiday.NameThai', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='name_thai'),
+      serialized_options=None, json_name='name_thai', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='date', full_name='grpc.weladee.com.Holiday.date', index=3,
       number=4, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='date'),
+      serialized_options=None, json_name='date', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='active', full_name='grpc.weladee.com.Holiday.active', index=4,
       number=5, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='active'),
+      serialized_options=None, json_name='active', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='code', full_name='grpc.weladee.com.Holiday.code', index=5,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='code'),
+      serialized_options=None, json_name='code', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='color', full_name='grpc.weladee.com.Holiday.color', index=6,
       number=7, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='color'),
+      serialized_options=None, json_name='color', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='EmployeeID', full_name='grpc.weladee.com.Holiday.EmployeeID', index=7,
       number=8, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='employeeid'),
+      serialized_options=None, json_name='employeeid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='note', full_name='grpc.weladee.com.Holiday.note', index=8,
       number=9, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='note'),
+      serialized_options=None, json_name='note', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='sickLeave', full_name='grpc.weladee.com.Holiday.sickLeave', index=9,
       number=10, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='sick_leave'),
+      serialized_options=None, json_name='sick_leave', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='DayPart', full_name='grpc.weladee.com.Holiday.DayPart', index=10,
+      number=11, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='day_part', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='CodeID', full_name='grpc.weladee.com.Holiday.CodeID', index=11,
+      number=20, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='codeid', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='EmployeeName', full_name='grpc.weladee.com.Holiday.EmployeeName', index=12,
+      number=25, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='employee_name', file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=712,
-  serialized_end=970,
+  serialized_start=844,
+  serialized_end=1221,
+)
+
+
+_HOLIDAYALLOCATION = _descriptor.Descriptor(
+  name='HolidayAllocation',
+  full_name='grpc.weladee.com.HolidayAllocation',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='ID', full_name='grpc.weladee.com.HolidayAllocation.ID', index=0,
+      number=1, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='id', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='EmployeeID', full_name='grpc.weladee.com.HolidayAllocation.EmployeeID', index=1,
+      number=2, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='employeeid', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='CodeID', full_name='grpc.weladee.com.HolidayAllocation.CodeID', index=2,
+      number=3, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='holiday_codeid', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Days', full_name='grpc.weladee.com.HolidayAllocation.Days', index=3,
+      number=4, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='days', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Note', full_name='grpc.weladee.com.HolidayAllocation.Note', index=4,
+      number=10, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='note', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Code', full_name='grpc.weladee.com.HolidayAllocation.Code', index=5,
+      number=11, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='holiday_code', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='CodeName', full_name='grpc.weladee.com.HolidayAllocation.CodeName', index=6,
+      number=12, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='code_name', file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1224,
+  serialized_end=1420,
+)
+
+
+_RECTANGLE = _descriptor.Descriptor(
+  name='Rectangle',
+  full_name='grpc.weladee.com.Rectangle',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='X1', full_name='grpc.weladee.com.Rectangle.X1', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='X2', full_name='grpc.weladee.com.Rectangle.X2', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Y1', full_name='grpc.weladee.com.Rectangle.Y1', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Y2', full_name='grpc.weladee.com.Rectangle.Y2', index=3,
+      number=4, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1422,
+  serialized_end=1481,
+)
+
+
+_LOGPHOTO = _descriptor.Descriptor(
+  name='LogPhoto',
+  full_name='grpc.weladee.com.LogPhoto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='ID', full_name='grpc.weladee.com.LogPhoto.ID', index=0,
+      number=1, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='id', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='TimeStamp', full_name='grpc.weladee.com.LogPhoto.TimeStamp', index=1,
+      number=2, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='timestamp', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='EmployeeID', full_name='grpc.weladee.com.LogPhoto.EmployeeID', index=2,
+      number=5, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='employeeid', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='GateID', full_name='grpc.weladee.com.LogPhoto.GateID', index=3,
+      number=6, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='gateid', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='GateStationID', full_name='grpc.weladee.com.LogPhoto.GateStationID', index=4,
+      number=7, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='gate_stationid', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='active', full_name='grpc.weladee.com.LogPhoto.active', index=5,
+      number=9, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='active', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='FaceRectangle', full_name='grpc.weladee.com.LogPhoto.FaceRectangle', index=6,
+      number=10, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='face_rectangle', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='URL', full_name='grpc.weladee.com.LogPhoto.URL', index=7,
+      number=11, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='note', full_name='grpc.weladee.com.LogPhoto.note', index=8,
+      number=12, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='note', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='IPFS', full_name='grpc.weladee.com.LogPhoto.IPFS', index=9,
+      number=13, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='ipfs', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='EmployeeName', full_name='grpc.weladee.com.LogPhoto.EmployeeName', index=10,
+      number=20, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='employee_name', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='GateName', full_name='grpc.weladee.com.LogPhoto.GateName', index=11,
+      number=21, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='gate_name', file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1484,
+  serialized_end=1846,
+)
+
+
+_NEWPHOTO = _descriptor.Descriptor(
+  name='NewPhoto',
+  full_name='grpc.weladee.com.NewPhoto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='LogPhoto', full_name='grpc.weladee.com.NewPhoto.LogPhoto', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Photo', full_name='grpc.weladee.com.NewPhoto.Photo', index=1,
+      number=2, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Phototype', full_name='grpc.weladee.com.NewPhoto.Phototype', index=2,
+      number=3, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='HashIPFS', full_name='grpc.weladee.com.NewPhoto.HashIPFS', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1849,
+  serialized_end=1986,
 )
 
 
@@ -502,21 +931,21 @@ _HOLIDAYCODES = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=972,
-  serialized_end=1001,
+  serialized_start=1988,
+  serialized_end=2017,
 )
 
 
@@ -533,56 +962,56 @@ _POSITION = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='id'),
+      serialized_options=None, json_name='id', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='NameEnglish', full_name='grpc.weladee.com.Position.NameEnglish', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='name_english'),
+      serialized_options=None, json_name='name_english', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='NameThai', full_name='grpc.weladee.com.Position.NameThai', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='name_thai'),
+      serialized_options=None, json_name='name_thai', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='active', full_name='grpc.weladee.com.Position.active', index=3,
       number=5, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='active'),
+      serialized_options=None, json_name='active', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='level', full_name='grpc.weladee.com.Position.level', index=4,
       number=7, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='note', full_name='grpc.weladee.com.Position.note', index=5,
       number=9, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1004,
-  serialized_end=1147,
+  serialized_start=2020,
+  serialized_end=2163,
 )
 
 
@@ -599,126 +1028,133 @@ _TEAM = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='id'),
+      serialized_options=None, json_name='id', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='Name', full_name='grpc.weladee.com.Team.Name', index=1,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='name'),
+      serialized_options=None, json_name='name', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='MaxTimePerWeek', full_name='grpc.weladee.com.Team.MaxTimePerWeek', index=2,
       number=4, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='maximum_time_per_week'),
+      serialized_options=None, json_name='maximum_time_per_week', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='MaxTimePerDay', full_name='grpc.weladee.com.Team.MaxTimePerDay', index=3,
       number=5, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='maximum_time_per_day'),
+      serialized_options=None, json_name='maximum_time_per_day', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='MinTimePerWeek', full_name='grpc.weladee.com.Team.MinTimePerWeek', index=4,
       number=6, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='minimum_time_per_week'),
+      serialized_options=None, json_name='minimum_time_per_week', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='MinTimePerDay', full_name='grpc.weladee.com.Team.MinTimePerDay', index=5,
       number=7, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='minimum_time_per_day'),
+      serialized_options=None, json_name='minimum_time_per_day', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='MinimumDayBeforeHoliday', full_name='grpc.weladee.com.Team.MinimumDayBeforeHoliday', index=6,
       number=8, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='minimum_day_before_holiday'),
+      serialized_options=None, json_name='minimum_day_before_holiday', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='NameEnglish', full_name='grpc.weladee.com.Team.NameEnglish', index=7,
       number=10, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='name_english'),
+      serialized_options=None, json_name='name_english', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='NameThai', full_name='grpc.weladee.com.Team.NameThai', index=8,
       number=11, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='name_thai'),
+      serialized_options=None, json_name='name_thai', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='active', full_name='grpc.weladee.com.Team.active', index=9,
       number=12, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='active'),
+      serialized_options=None, json_name='active', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='note', full_name='grpc.weladee.com.Team.note', index=10,
       number=9, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='note'),
+      serialized_options=None, json_name='note', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='email', full_name='grpc.weladee.com.Team.email', index=11,
       number=13, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='email'),
+      serialized_options=None, json_name='email', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='ManagerID', full_name='grpc.weladee.com.Team.ManagerID', index=12,
       number=14, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='managerid'),
+      serialized_options=None, json_name='managerid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='ManagerName', full_name='grpc.weladee.com.Team.ManagerName', index=13,
       number=15, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='manager_name'),
+      serialized_options=None, json_name='manager_name', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='workingHours', full_name='grpc.weladee.com.Team.workingHours', index=14,
       number=17, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='working_hours'),
+      serialized_options=None, json_name='working_hours', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='Gates', full_name='grpc.weladee.com.Team.Gates', index=15,
       number=18, type=3, cpp_type=2, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='gates'),
+      serialized_options=None, json_name='gates', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='shift', full_name='grpc.weladee.com.Team.shift', index=16,
+      number=19, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='active', file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1150,
-  serialized_end=1725,
+  serialized_start=2166,
+  serialized_end=2764,
 )
 
 
@@ -735,133 +1171,133 @@ _GATE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='id'),
+      serialized_options=None, json_name='id', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='name_english', full_name='grpc.weladee.com.Gate.name_english', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='name_english'),
+      serialized_options=None, json_name='name_english', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='name_thai', full_name='grpc.weladee.com.Gate.name_thai', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='name_thai'),
+      serialized_options=None, json_name='name_thai', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='active', full_name='grpc.weladee.com.Gate.active', index=3,
       number=5, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='active'),
+      serialized_options=None, json_name='active', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='action', full_name='grpc.weladee.com.Gate.action', index=4,
       number=7, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='QRCode', full_name='grpc.weladee.com.Gate.QRCode', index=5,
       number=8, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='qrcode'),
+      serialized_options=None, json_name='qrcode', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='note', full_name='grpc.weladee.com.Gate.note', index=6,
       number=9, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='note'),
+      serialized_options=None, json_name='note', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='latitude', full_name='grpc.weladee.com.Gate.latitude', index=7,
       number=10, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='latitude'),
+      serialized_options=None, json_name='latitude', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='longitude', full_name='grpc.weladee.com.Gate.longitude', index=8,
       number=11, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='longitude'),
+      serialized_options=None, json_name='longitude', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='radius', full_name='grpc.weladee.com.Gate.radius', index=9,
       number=12, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='radius'),
+      serialized_options=None, json_name='radius', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='address', full_name='grpc.weladee.com.Gate.address', index=10,
       number=13, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='address'),
+      serialized_options=None, json_name='address', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='city', full_name='grpc.weladee.com.Gate.city', index=11,
       number=14, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='city'),
+      serialized_options=None, json_name='city', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='postCode', full_name='grpc.weladee.com.Gate.postCode', index=12,
       number=15, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='postcode'),
+      serialized_options=None, json_name='postcode', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='country', full_name='grpc.weladee.com.Gate.country', index=13,
       number=16, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='country'),
+      serialized_options=None, json_name='country', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='openHours', full_name='grpc.weladee.com.Gate.openHours', index=14,
       number=17, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='openhours'),
+      serialized_options=None, json_name='openhours', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='teams', full_name='grpc.weladee.com.Gate.teams', index=15,
       number=19, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='teams'),
+      serialized_options=None, json_name='teams', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='AllowFreeCheck', full_name='grpc.weladee.com.Gate.AllowFreeCheck', index=16,
       number=18, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='allow_free_check'),
+      serialized_options=None, json_name='allow_free_check', file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1728,
-  serialized_end=2234,
+  serialized_start=2767,
+  serialized_end=3273,
 )
 
 
@@ -878,77 +1314,77 @@ _DEPARTMENT = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='id'),
+      serialized_options=None, json_name='id', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='name_english', full_name='grpc.weladee.com.Department.name_english', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='name_thai', full_name='grpc.weladee.com.Department.name_thai', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='managerID', full_name='grpc.weladee.com.Department.managerID', index=3,
       number=4, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='managerid'),
+      serialized_options=None, json_name='managerid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='active', full_name='grpc.weladee.com.Department.active', index=4,
       number=5, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='active'),
+      serialized_options=None, json_name='active', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='code', full_name='grpc.weladee.com.Department.code', index=5,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='email', full_name='grpc.weladee.com.Department.email', index=6,
       number=7, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='note', full_name='grpc.weladee.com.Department.note', index=7,
       number=9, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='ManagerName', full_name='grpc.weladee.com.Department.ManagerName', index=8,
       number=10, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='manager_name'),
+      serialized_options=None, json_name='manager_name', file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2237,
-  serialized_end=2438,
+  serialized_start=3276,
+  serialized_end=3477,
 )
 
 
@@ -965,70 +1401,70 @@ _LOGEVENT = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='employeeid'),
+      serialized_options=None, json_name='employeeid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='action', full_name='grpc.weladee.com.LogEvent.action', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='action'),
+      serialized_options=None, json_name='action', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='timestamp', full_name='grpc.weladee.com.LogEvent.timestamp', index=2,
       number=3, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='timestamp'),
+      serialized_options=None, json_name='timestamp', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='teamid', full_name='grpc.weladee.com.LogEvent.teamid', index=3,
       number=4, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='teamid'),
+      serialized_options=None, json_name='teamid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='late', full_name='grpc.weladee.com.LogEvent.late', index=4,
       number=5, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='late'),
+      serialized_options=None, json_name='late', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='id', full_name='grpc.weladee.com.LogEvent.id', index=5,
       number=6, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='id'),
+      serialized_options=None, json_name='id', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='gateid', full_name='grpc.weladee.com.LogEvent.gateid', index=6,
       number=7, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='gateid'),
+      serialized_options=None, json_name='gateid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='note', full_name='grpc.weladee.com.LogEvent.note', index=7,
       number=8, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='note'),
+      serialized_options=None, json_name='note', file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2441,
-  serialized_end=2641,
+  serialized_start=3480,
+  serialized_end=3680,
 )
 
 
@@ -1045,35 +1481,35 @@ _REFUSEREQUEST = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='reason', full_name='grpc.weladee.com.RefuseRequest.reason', index=1,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='note', full_name='grpc.weladee.com.RefuseRequest.note', index=2,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2643,
-  serialized_end=2700,
+  serialized_start=3682,
+  serialized_end=3739,
 )
 
 
@@ -1090,28 +1526,28 @@ _EMPLOYEEREQUEST = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='email', full_name='grpc.weladee.com.EmployeeRequest.email', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='ID', full_name='grpc.weladee.com.EmployeeRequest.ID', index=2,
       number=3, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -1120,8 +1556,8 @@ _EMPLOYEEREQUEST = _descriptor.Descriptor(
       name='query', full_name='grpc.weladee.com.EmployeeRequest.query',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=2702,
-  serialized_end=2780,
+  serialized_start=3741,
+  serialized_end=3819,
 )
 
 
@@ -1138,21 +1574,21 @@ _EMPLOYEESTATS = _descriptor.Descriptor(
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2782,
-  serialized_end=2812,
+  serialized_start=3821,
+  serialized_end=3851,
 )
 
 
@@ -1169,168 +1605,182 @@ _EMPLOYEESREQUEST = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='employeeid'),
+      serialized_options=None, json_name='employeeid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='Teamid', full_name='grpc.weladee.com.EmployeesRequest.Teamid', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='teamid'),
+      serialized_options=None, json_name='teamid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='ManagerID', full_name='grpc.weladee.com.EmployeesRequest.ManagerID', index=2,
       number=3, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='managerid'),
+      serialized_options=None, json_name='managerid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='DepartmentID', full_name='grpc.weladee.com.EmployeesRequest.DepartmentID', index=3,
       number=4, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='departmentid'),
+      serialized_options=None, json_name='departmentid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='ProjectID', full_name='grpc.weladee.com.EmployeesRequest.ProjectID', index=4,
       number=5, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='departmentid'),
+      serialized_options=None, json_name='departmentid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='TaskID', full_name='grpc.weladee.com.EmployeesRequest.TaskID', index=5,
       number=6, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='taskid'),
+      serialized_options=None, json_name='taskid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='Tag', full_name='grpc.weladee.com.EmployeesRequest.Tag', index=6,
       number=17, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='tag'),
+      serialized_options=None, json_name='tag', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='GateID', full_name='grpc.weladee.com.EmployeesRequest.GateID', index=7,
       number=8, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='gateid'),
+      serialized_options=None, json_name='gateid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='Active', full_name='grpc.weladee.com.EmployeesRequest.Active', index=8,
       number=9, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='active'),
+      serialized_options=None, json_name='active', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='PositionID', full_name='grpc.weladee.com.EmployeesRequest.PositionID', index=9,
+      name='Timesheet', full_name='grpc.weladee.com.EmployeesRequest.Timesheet', index=9,
+      number=10, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='timesheet', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='PositionID', full_name='grpc.weladee.com.EmployeesRequest.PositionID', index=10,
       number=20, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='positionid'),
+      serialized_options=None, json_name='positionid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='Offset', full_name='grpc.weladee.com.EmployeesRequest.Offset', index=10,
+      name='Offset', full_name='grpc.weladee.com.EmployeesRequest.Offset', index=11,
       number=30, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='Limit', full_name='grpc.weladee.com.EmployeesRequest.Limit', index=11,
+      name='Limit', full_name='grpc.weladee.com.EmployeesRequest.Limit', index=12,
       number=31, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='EmployeeName', full_name='grpc.weladee.com.EmployeesRequest.EmployeeName', index=12,
+      name='EmployeeName', full_name='grpc.weladee.com.EmployeesRequest.EmployeeName', index=13,
       number=40, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='TeamName', full_name='grpc.weladee.com.EmployeesRequest.TeamName', index=13,
+      name='TeamName', full_name='grpc.weladee.com.EmployeesRequest.TeamName', index=14,
       number=41, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='DepartmentName', full_name='grpc.weladee.com.EmployeesRequest.DepartmentName', index=14,
+      name='DepartmentName', full_name='grpc.weladee.com.EmployeesRequest.DepartmentName', index=15,
       number=42, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ProjectName', full_name='grpc.weladee.com.EmployeesRequest.ProjectName', index=15,
+      name='ProjectName', full_name='grpc.weladee.com.EmployeesRequest.ProjectName', index=16,
       number=43, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='Code', full_name='grpc.weladee.com.EmployeesRequest.Code', index=16,
+      name='Code', full_name='grpc.weladee.com.EmployeesRequest.Code', index=17,
       number=44, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='PositionName', full_name='grpc.weladee.com.EmployeesRequest.PositionName', index=17,
+      name='PositionName', full_name='grpc.weladee.com.EmployeesRequest.PositionName', index=18,
       number=45, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='Email', full_name='grpc.weladee.com.EmployeesRequest.Email', index=18,
+      name='Email', full_name='grpc.weladee.com.EmployeesRequest.Email', index=19,
       number=46, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='IsManager', full_name='grpc.weladee.com.EmployeesRequest.IsManager', index=19,
+      name='IsManager', full_name='grpc.weladee.com.EmployeesRequest.IsManager', index=20,
       number=48, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='RFID', full_name='grpc.weladee.com.EmployeesRequest.RFID', index=20,
+      name='RFID', full_name='grpc.weladee.com.EmployeesRequest.RFID', index=21,
       number=50, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='RFIDToken', full_name='grpc.weladee.com.EmployeesRequest.RFIDToken', index=21,
+      name='RFIDToken', full_name='grpc.weladee.com.EmployeesRequest.RFIDToken', index=22,
       number=51, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Text', full_name='grpc.weladee.com.EmployeesRequest.Text', index=23,
+      number=60, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2815,
-  serialized_end=3383,
+  serialized_start=3854,
+  serialized_end=4493,
 )
 
 
@@ -1347,21 +1797,21 @@ _REQUESTID = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3385,
-  serialized_end=3408,
+  serialized_start=4495,
+  serialized_end=4518,
 )
 
 
@@ -1378,357 +1828,566 @@ _EMPLOYEE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='id'),
+      serialized_options=None, json_name='id', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='email', full_name='grpc.weladee.com.Employee.email', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='email'),
+      serialized_options=None, json_name='email', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='user_name', full_name='grpc.weladee.com.Employee.user_name', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='user_name'),
+      serialized_options=None, json_name='user_name', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='last_name_english', full_name='grpc.weladee.com.Employee.last_name_english', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='last_name_english'),
+      serialized_options=None, json_name='last_name_english', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='first_name_english', full_name='grpc.weladee.com.Employee.first_name_english', index=4,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='first_name_english'),
+      serialized_options=None, json_name='first_name_english', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='first_name_thai', full_name='grpc.weladee.com.Employee.first_name_thai', index=5,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='first_name_thai'),
+      serialized_options=None, json_name='first_name_thai', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='last_name_thai', full_name='grpc.weladee.com.Employee.last_name_thai', index=6,
       number=7, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='last_name_thai'),
+      serialized_options=None, json_name='last_name_thai', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='managerID', full_name='grpc.weladee.com.Employee.managerID', index=7,
       number=8, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='managerid'),
+      serialized_options=None, json_name='managerid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='lineID', full_name='grpc.weladee.com.Employee.lineID', index=8,
       number=9, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='lineid'),
+      serialized_options=None, json_name='lineid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='telegramID', full_name='grpc.weladee.com.Employee.telegramID', index=9,
+      name='Birthday', full_name='grpc.weladee.com.Employee.Birthday', index=9,
+      number=13, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='birthday', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='telegramID', full_name='grpc.weladee.com.Employee.telegramID', index=10,
       number=51, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='telegramid'),
+      serialized_options=None, json_name='telegramid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='nickname_english', full_name='grpc.weladee.com.Employee.nickname_english', index=10,
+      name='nickname_english', full_name='grpc.weladee.com.Employee.nickname_english', index=11,
       number=10, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='nickname_english'),
+      serialized_options=None, json_name='nickname_english', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='nickname_thai', full_name='grpc.weladee.com.Employee.nickname_thai', index=11,
+      name='nickname_thai', full_name='grpc.weladee.com.Employee.nickname_thai', index=12,
       number=11, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='nickname_thai'),
+      serialized_options=None, json_name='nickname_thai', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='FCMtoken', full_name='grpc.weladee.com.Employee.FCMtoken', index=12,
+      name='FCMtoken', full_name='grpc.weladee.com.Employee.FCMtoken', index=13,
       number=18, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='fcm_token'),
+      serialized_options=None, json_name='fcm_token', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='phone_model', full_name='grpc.weladee.com.Employee.phone_model', index=13,
+      name='phone_model', full_name='grpc.weladee.com.Employee.phone_model', index=14,
       number=19, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='phone_model'),
+      serialized_options=None, json_name='phone_model', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='phone_serial', full_name='grpc.weladee.com.Employee.phone_serial', index=14,
+      name='phone_serial', full_name='grpc.weladee.com.Employee.phone_serial', index=15,
       number=20, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='phone_serial'),
+      serialized_options=None, json_name='phone_serial', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='code', full_name='grpc.weladee.com.Employee.code', index=15,
+      name='code', full_name='grpc.weladee.com.Employee.code', index=16,
       number=21, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='code'),
+      serialized_options=None, json_name='code', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='created_by', full_name='grpc.weladee.com.Employee.created_by', index=16,
+      name='created_by', full_name='grpc.weladee.com.Employee.created_by', index=17,
       number=14, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='created_by'),
+      serialized_options=None, json_name='created_by', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='updated_by', full_name='grpc.weladee.com.Employee.updated_by', index=17,
+      name='updated_by', full_name='grpc.weladee.com.Employee.updated_by', index=18,
       number=15, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='updated_by'),
+      serialized_options=None, json_name='updated_by', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='Active', full_name='grpc.weladee.com.Employee.Active', index=18,
+      name='Active', full_name='grpc.weladee.com.Employee.Active', index=19,
       number=16, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='active'),
+      serialized_options=None, json_name='active', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='note', full_name='grpc.weladee.com.Employee.note', index=19,
+      name='note', full_name='grpc.weladee.com.Employee.note', index=20,
       number=17, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='note'),
+      serialized_options=None, json_name='note', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='created_on', full_name='grpc.weladee.com.Employee.created_on', index=20,
+      name='created_on', full_name='grpc.weladee.com.Employee.created_on', index=21,
       number=22, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='created_on'),
+      serialized_options=None, json_name='created_on', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='updated_on', full_name='grpc.weladee.com.Employee.updated_on', index=21,
+      name='updated_on', full_name='grpc.weladee.com.Employee.updated_on', index=22,
       number=23, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='updated_on'),
+      serialized_options=None, json_name='updated_on', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='photo', full_name='grpc.weladee.com.Employee.photo', index=22,
+      name='photo', full_name='grpc.weladee.com.Employee.photo', index=23,
       number=24, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='photo'),
+      serialized_options=None, json_name='photo', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='lg', full_name='grpc.weladee.com.Employee.lg', index=23,
+      name='lg', full_name='grpc.weladee.com.Employee.lg', index=24,
       number=25, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='lg'),
+      serialized_options=None, json_name='lg', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='application_level', full_name='grpc.weladee.com.Employee.application_level', index=24,
+      name='application_level', full_name='grpc.weladee.com.Employee.application_level', index=25,
       number=26, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='application_level'),
+      serialized_options=None, json_name='application_level', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='positionid', full_name='grpc.weladee.com.Employee.positionid', index=25,
+      name='PositionID', full_name='grpc.weladee.com.Employee.PositionID', index=26,
       number=27, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='positionid'),
+      serialized_options=None, json_name='positionid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='Phones', full_name='grpc.weladee.com.Employee.Phones', index=26,
+      name='Phones', full_name='grpc.weladee.com.Employee.Phones', index=27,
       number=28, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='phones'),
+      serialized_options=None, json_name='phones', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='rfid', full_name='grpc.weladee.com.Employee.rfid', index=27,
+      name='rfid', full_name='grpc.weladee.com.Employee.rfid', index=28,
       number=29, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='rfid'),
+      serialized_options=None, json_name='rfid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='EmailValidated', full_name='grpc.weladee.com.Employee.EmailValidated', index=28,
+      name='EmailValidated', full_name='grpc.weladee.com.Employee.EmailValidated', index=29,
       number=34, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='email_validated'),
+      serialized_options=None, json_name='email_validated', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='teamid', full_name='grpc.weladee.com.Employee.teamid', index=29,
+      name='teamID', full_name='grpc.weladee.com.Employee.teamID', index=30,
       number=35, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='teamid'),
+      serialized_options=None, json_name='teamid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='gender', full_name='grpc.weladee.com.Employee.gender', index=30,
+      name='gender', full_name='grpc.weladee.com.Employee.gender', index=31,
       number=36, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='gender'),
+      serialized_options=None, json_name='gender', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='hasToFillTimesheet', full_name='grpc.weladee.com.Employee.hasToFillTimesheet', index=31,
+      name='hasToFillTimesheet', full_name='grpc.weladee.com.Employee.hasToFillTimesheet', index=32,
       number=37, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='has_to_fill_timesheet'),
+      serialized_options=None, json_name='has_to_fill_timesheet', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='receiveCheckNotification', full_name='grpc.weladee.com.Employee.receiveCheckNotification', index=32,
+      name='receiveCheckNotification', full_name='grpc.weladee.com.Employee.receiveCheckNotification', index=33,
       number=38, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='receive_check_notification'),
+      serialized_options=None, json_name='receive_check_notification', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='canRequestHoliday', full_name='grpc.weladee.com.Employee.canRequestHoliday', index=33,
+      name='canRequestHoliday', full_name='grpc.weladee.com.Employee.canRequestHoliday', index=34,
       number=39, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='can_request_holiday'),
+      serialized_options=None, json_name='can_request_holiday', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='Tags', full_name='grpc.weladee.com.Employee.Tags', index=34,
+      name='Tags', full_name='grpc.weladee.com.Employee.Tags', index=35,
       number=63, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='tags'),
+      serialized_options=None, json_name='tags', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='nationalID', full_name='grpc.weladee.com.Employee.nationalID', index=35,
+      name='NationalID', full_name='grpc.weladee.com.Employee.NationalID', index=36,
       number=40, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='nationalid'),
+      serialized_options=None, json_name='nationalid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='taxID', full_name='grpc.weladee.com.Employee.taxID', index=36,
+      name='TaxID', full_name='grpc.weladee.com.Employee.TaxID', index=37,
       number=41, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='taxid'),
+      serialized_options=None, json_name='taxid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='passportNumber', full_name='grpc.weladee.com.Employee.passportNumber', index=37,
+      name='passportNumber', full_name='grpc.weladee.com.Employee.passportNumber', index=38,
       number=42, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='passport_number'),
+      serialized_options=None, json_name='passport_number', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='token', full_name='grpc.weladee.com.Employee.token', index=38,
+      name='token', full_name='grpc.weladee.com.Employee.token', index=39,
       number=50, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='token'),
+      serialized_options=None, json_name='token', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='CanCheckTeamMember', full_name='grpc.weladee.com.Employee.CanCheckTeamMember', index=39,
+      name='CanCheckTeamMember', full_name='grpc.weladee.com.Employee.CanCheckTeamMember', index=40,
       number=52, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='can_check_team_member'),
+      serialized_options=None, json_name='can_check_team_member', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='QRCode', full_name='grpc.weladee.com.Employee.QRCode', index=40,
+      name='QRCode', full_name='grpc.weladee.com.Employee.QRCode', index=41,
       number=53, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='qrcode'),
+      serialized_options=None, json_name='qrcode', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='Nationality', full_name='grpc.weladee.com.Employee.Nationality', index=41,
+      name='Nationality', full_name='grpc.weladee.com.Employee.Nationality', index=42,
       number=54, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='nationality'),
+      serialized_options=None, json_name='nationality', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='DepartmentNames', full_name='grpc.weladee.com.Employee.DepartmentNames', index=42,
+      name='FreeCheck', full_name='grpc.weladee.com.Employee.FreeCheck', index=43,
+      number=55, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='free_check', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='HourlyCost', full_name='grpc.weladee.com.Employee.HourlyCost', index=44,
+      number=56, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='hourly_cost', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='DepartmentNames', full_name='grpc.weladee.com.Employee.DepartmentNames', index=45,
       number=60, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='department_names'),
+      serialized_options=None, json_name='department_names', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='TeamName', full_name='grpc.weladee.com.Employee.TeamName', index=43,
+      name='TeamName', full_name='grpc.weladee.com.Employee.TeamName', index=46,
       number=61, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='team_name'),
+      serialized_options=None, json_name='team_name', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='PositionName', full_name='grpc.weladee.com.Employee.PositionName', index=44,
+      name='PositionName', full_name='grpc.weladee.com.Employee.PositionName', index=47,
       number=62, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='position_name'),
+      serialized_options=None, json_name='position_name', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='Departments', full_name='grpc.weladee.com.Employee.Departments', index=45,
+      name='Departments', full_name='grpc.weladee.com.Employee.Departments', index=48,
       number=69, type=3, cpp_type=2, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='departments'),
+      serialized_options=None, json_name='departments', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='Password', full_name='grpc.weladee.com.Employee.Password', index=46,
+      name='Password', full_name='grpc.weladee.com.Employee.Password', index=49,
       number=70, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='password'),
+      serialized_options=None, json_name='password', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='CompanyID', full_name='grpc.weladee.com.Employee.CompanyID', index=47,
+      name='CompanyID', full_name='grpc.weladee.com.Employee.CompanyID', index=50,
       number=80, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='companyid'),
+      serialized_options=None, json_name='companyid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='hasToUse2FA', full_name='grpc.weladee.com.Employee.hasToUse2FA', index=48,
+      name='hasToUse2FA', full_name='grpc.weladee.com.Employee.hasToUse2FA', index=51,
       number=81, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='has_to_use_2fa'),
+      serialized_options=None, json_name='has_to_use_2fa', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='OTPMobile', full_name='grpc.weladee.com.Employee.OTPMobile', index=52,
+      number=82, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='otp_mobile', file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3411,
-  serialized_end=5054,
+  serialized_start=4521,
+  serialized_end=6287,
+)
+
+
+_OPENHOUR = _descriptor.Descriptor(
+  name='Openhour',
+  full_name='grpc.weladee.com.Openhour',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='ID', full_name='grpc.weladee.com.Openhour.ID', index=0,
+      number=1, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='id', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='WeekDay', full_name='grpc.weladee.com.Openhour.WeekDay', index=1,
+      number=4, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='weekday', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='From', full_name='grpc.weladee.com.Openhour.From', index=2,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='To', full_name='grpc.weladee.com.Openhour.To', index=3,
+      number=6, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='NameEnglish', full_name='grpc.weladee.com.Openhour.NameEnglish', index=4,
+      number=7, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='name_english', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='NameThai', full_name='grpc.weladee.com.Openhour.NameThai', index=5,
+      number=8, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='name_thai', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='DetailsID', full_name='grpc.weladee.com.Openhour.DetailsID', index=6,
+      number=9, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='detailsid', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Active', full_name='grpc.weladee.com.Openhour.Active', index=7,
+      number=10, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='active', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='LateAfter', full_name='grpc.weladee.com.Openhour.LateAfter', index=8,
+      number=11, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='late_after', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='MinPauseBefore', full_name='grpc.weladee.com.Openhour.MinPauseBefore', index=9,
+      number=12, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='min_pause_before', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='note', full_name='grpc.weladee.com.Openhour.note', index=10,
+      number=13, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='note', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Type', full_name='grpc.weladee.com.Openhour.Type', index=11,
+      number=15, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='type', file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=6290,
+  serialized_end=6599,
+)
+
+
+_OPENHOURDETAIL = _descriptor.Descriptor(
+  name='OpenHourDetail',
+  full_name='grpc.weladee.com.OpenHourDetail',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='ID', full_name='grpc.weladee.com.OpenHourDetail.ID', index=0,
+      number=1, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='id', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='WeekDay', full_name='grpc.weladee.com.OpenHourDetail.WeekDay', index=1,
+      number=4, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='weekday', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='From', full_name='grpc.weladee.com.OpenHourDetail.From', index=2,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='To', full_name='grpc.weladee.com.OpenHourDetail.To', index=3,
+      number=6, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='LateAfter', full_name='grpc.weladee.com.OpenHourDetail.LateAfter', index=4,
+      number=11, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='late_after', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='MinPauseBefore', full_name='grpc.weladee.com.OpenHourDetail.MinPauseBefore', index=5,
+      number=12, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='min_pause_before', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='TZ', full_name='grpc.weladee.com.OpenHourDetail.TZ', index=6,
+      number=25, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='tz', file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=6602,
+  serialized_end=6775,
 )
 
 
@@ -1745,63 +2404,63 @@ _OPENHOURMOBILE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='id'),
+      serialized_options=None, json_name='id', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='Name', full_name='grpc.weladee.com.OpenHourMobile.Name', index=1,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='name'),
+      serialized_options=None, json_name='name', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='WeekDay', full_name='grpc.weladee.com.OpenHourMobile.WeekDay', index=2,
       number=4, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='weekday'),
+      serialized_options=None, json_name='weekday', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='From', full_name='grpc.weladee.com.OpenHourMobile.From', index=3,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='from'),
+      serialized_options=None, json_name='from', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='To', full_name='grpc.weladee.com.OpenHourMobile.To', index=4,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='to'),
+      serialized_options=None, json_name='to', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='DetailsID', full_name='grpc.weladee.com.OpenHourMobile.DetailsID', index=5,
       number=9, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='detailsid'),
+      serialized_options=None, json_name='detailsid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='MinPauseBefore', full_name='grpc.weladee.com.OpenHourMobile.MinPauseBefore', index=6,
       number=12, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='min_pause_before'),
+      serialized_options=None, json_name='min_pause_before', file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5057,
-  serialized_end=5243,
+  serialized_start=6778,
+  serialized_end=6964,
 )
 
 
@@ -1818,287 +2477,294 @@ _GATESTATION = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='id'),
+      serialized_options=None, json_name='id', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='CompanyID', full_name='grpc.weladee.com.GateStation.CompanyID', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='companyid'),
+      serialized_options=None, json_name='companyid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='MAC', full_name='grpc.weladee.com.GateStation.MAC', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='mac'),
+      serialized_options=None, json_name='mac', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='Major', full_name='grpc.weladee.com.GateStation.Major', index=3,
       number=4, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='major'),
+      serialized_options=None, json_name='major', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='Minor', full_name='grpc.weladee.com.GateStation.Minor', index=4,
       number=5, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='minor'),
+      serialized_options=None, json_name='minor', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='Token', full_name='grpc.weladee.com.GateStation.Token', index=5,
       number=7, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='token'),
+      serialized_options=None, json_name='token', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='Note', full_name='grpc.weladee.com.GateStation.Note', index=6,
       number=8, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='note'),
+      serialized_options=None, json_name='note', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='IP', full_name='grpc.weladee.com.GateStation.IP', index=7,
       number=9, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='ip'),
+      serialized_options=None, json_name='ip', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='Active', full_name='grpc.weladee.com.GateStation.Active', index=8,
       number=11, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='active'),
+      serialized_options=None, json_name='active', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='GateID', full_name='grpc.weladee.com.GateStation.GateID', index=9,
       number=12, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='gateid'),
+      serialized_options=None, json_name='gateid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='ModelID', full_name='grpc.weladee.com.GateStation.ModelID', index=10,
       number=13, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='modelid'),
+      serialized_options=None, json_name='modelid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='Serial', full_name='grpc.weladee.com.GateStation.Serial', index=11,
       number=14, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='serial'),
+      serialized_options=None, json_name='serial', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='ShowLatestIn', full_name='grpc.weladee.com.GateStation.ShowLatestIn', index=12,
       number=15, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='show_latest_in'),
+      serialized_options=None, json_name='show_latest_in', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='ShowLatestOut', full_name='grpc.weladee.com.GateStation.ShowLatestOut', index=13,
       number=16, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='show_latest_out'),
+      serialized_options=None, json_name='show_latest_out', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='ShowMostLate', full_name='grpc.weladee.com.GateStation.ShowMostLate', index=14,
       number=17, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='show_most_late'),
+      serialized_options=None, json_name='show_most_late', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='HasDisplay', full_name='grpc.weladee.com.GateStation.HasDisplay', index=15,
       number=18, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='has_display'),
+      serialized_options=None, json_name='has_display', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='PlayBeep', full_name='grpc.weladee.com.GateStation.PlayBeep', index=16,
       number=19, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='play_beep'),
+      serialized_options=None, json_name='play_beep', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='HDMISound', full_name='grpc.weladee.com.GateStation.HDMISound', index=17,
       number=45, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='hdmi_sound'),
+      serialized_options=None, json_name='hdmi_sound', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='BeaconActive', full_name='grpc.weladee.com.GateStation.BeaconActive', index=18,
       number=20, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='beacon_active'),
+      serialized_options=None, json_name='beacon_active', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='HasOnboardLCD', full_name='grpc.weladee.com.GateStation.HasOnboardLCD', index=19,
       number=21, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='has_onboard_lcd'),
+      serialized_options=None, json_name='has_onboard_lcd', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='ShowTwitter', full_name='grpc.weladee.com.GateStation.ShowTwitter', index=20,
       number=22, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='show_twitter'),
+      serialized_options=None, json_name='show_twitter', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='PlayVoice', full_name='grpc.weladee.com.GateStation.PlayVoice', index=21,
       number=23, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='play_voice'),
+      serialized_options=None, json_name='play_voice', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='ShowWorkingHours', full_name='grpc.weladee.com.GateStation.ShowWorkingHours', index=22,
       number=24, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='show_working_hours'),
+      serialized_options=None, json_name='show_working_hours', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='ShowBackgroundPictures', full_name='grpc.weladee.com.GateStation.ShowBackgroundPictures', index=23,
       number=25, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='show_background_pictures'),
+      serialized_options=None, json_name='show_background_pictures', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='ShowFacebook', full_name='grpc.weladee.com.GateStation.ShowFacebook', index=24,
       number=26, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='show_facebook'),
+      serialized_options=None, json_name='show_facebook', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='WifiSSID', full_name='grpc.weladee.com.GateStation.WifiSSID', index=25,
+      name='ScanResource', full_name='grpc.weladee.com.GateStation.ScanResource', index=25,
+      number=27, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='scan_resource', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='WifiSSID', full_name='grpc.weladee.com.GateStation.WifiSSID', index=26,
       number=30, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='wifi_ssid'),
+      serialized_options=None, json_name='wifi_ssid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='WifiPwd', full_name='grpc.weladee.com.GateStation.WifiPwd', index=26,
+      name='WifiPwd', full_name='grpc.weladee.com.GateStation.WifiPwd', index=27,
       number=31, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='wifi_pwd'),
+      serialized_options=None, json_name='wifi_pwd', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='RefreshScreen', full_name='grpc.weladee.com.GateStation.RefreshScreen', index=27,
+      name='RefreshScreen', full_name='grpc.weladee.com.GateStation.RefreshScreen', index=28,
       number=32, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='refresh_screen'),
+      serialized_options=None, json_name='refresh_screen', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='URLs', full_name='grpc.weladee.com.GateStation.URLs', index=28,
+      name='URLs', full_name='grpc.weladee.com.GateStation.URLs', index=29,
       number=33, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='urls'),
+      serialized_options=None, json_name='urls', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='SSHPort', full_name='grpc.weladee.com.GateStation.SSHPort', index=29,
+      name='SSHPort', full_name='grpc.weladee.com.GateStation.SSHPort', index=30,
       number=34, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='ssh_port'),
+      serialized_options=None, json_name='ssh_port', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ProximityUUID', full_name='grpc.weladee.com.GateStation.ProximityUUID', index=30,
+      name='ProximityUUID', full_name='grpc.weladee.com.GateStation.ProximityUUID', index=31,
       number=35, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='proximityuuid'),
+      serialized_options=None, json_name='proximityuuid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='CompanyName', full_name='grpc.weladee.com.GateStation.CompanyName', index=31,
+      name='CompanyName', full_name='grpc.weladee.com.GateStation.CompanyName', index=32,
       number=36, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='company_name'),
+      serialized_options=None, json_name='company_name', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ModelName', full_name='grpc.weladee.com.GateStation.ModelName', index=32,
+      name='ModelName', full_name='grpc.weladee.com.GateStation.ModelName', index=33,
       number=37, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='model_name'),
+      serialized_options=None, json_name='model_name', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='GateName', full_name='grpc.weladee.com.GateStation.GateName', index=33,
+      name='GateName', full_name='grpc.weladee.com.GateStation.GateName', index=34,
       number=38, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='gate_name'),
+      serialized_options=None, json_name='gate_name', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='MACs', full_name='grpc.weladee.com.GateStation.MACs', index=34,
+      name='MACs', full_name='grpc.weladee.com.GateStation.MACs', index=35,
       number=40, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='macs'),
+      serialized_options=None, json_name='macs', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='RefreshBackground', full_name='grpc.weladee.com.GateStation.RefreshBackground', index=35,
+      name='RefreshBackground', full_name='grpc.weladee.com.GateStation.RefreshBackground', index=36,
       number=41, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='refresh_background'),
+      serialized_options=None, json_name='refresh_background', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='Color', full_name='grpc.weladee.com.GateStation.Color', index=36,
+      name='Color', full_name='grpc.weladee.com.GateStation.Color', index=37,
       number=42, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='color'),
+      serialized_options=None, json_name='color', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='LastTimeOnline', full_name='grpc.weladee.com.GateStation.LastTimeOnline', index=37,
+      name='LastTimeOnline', full_name='grpc.weladee.com.GateStation.LastTimeOnline', index=38,
       number=43, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='last_time_online'),
+      serialized_options=None, json_name='last_time_online', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='ScreenSaverTimeout', full_name='grpc.weladee.com.GateStation.ScreenSaverTimeout', index=38,
+      name='ScreenSaverTimeout', full_name='grpc.weladee.com.GateStation.ScreenSaverTimeout', index=39,
       number=46, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='screen_saver_timeout'),
+      serialized_options=None, json_name='screen_saver_timeout', file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5246,
-  serialized_end=6472,
+  serialized_start=6967,
+  serialized_end=8230,
 )
 
 
@@ -2115,142 +2781,365 @@ _WEBSTATION = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='id'),
+      serialized_options=None, json_name='id', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='CompanyID', full_name='grpc.weladee.com.WebStation.CompanyID', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='companyid'),
+      serialized_options=None, json_name='companyid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='MAC', full_name='grpc.weladee.com.WebStation.MAC', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='mac'),
+      serialized_options=None, json_name='mac', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='Token', full_name='grpc.weladee.com.WebStation.Token', index=3,
       number=7, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='token'),
+      serialized_options=None, json_name='token', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='Note', full_name='grpc.weladee.com.WebStation.Note', index=4,
       number=8, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='note'),
+      serialized_options=None, json_name='note', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='IP', full_name='grpc.weladee.com.WebStation.IP', index=5,
       number=9, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='ip'),
+      serialized_options=None, json_name='ip', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='Active', full_name='grpc.weladee.com.WebStation.Active', index=6,
       number=11, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='active'),
+      serialized_options=None, json_name='active', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='ModelID', full_name='grpc.weladee.com.WebStation.ModelID', index=7,
       number=13, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='modelid'),
+      serialized_options=None, json_name='modelid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='Serial', full_name='grpc.weladee.com.WebStation.Serial', index=8,
       number=14, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='serial'),
+      serialized_options=None, json_name='serial', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='WifiSSID', full_name='grpc.weladee.com.WebStation.WifiSSID', index=9,
       number=30, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='wifi_ssid'),
+      serialized_options=None, json_name='wifi_ssid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='WifiPwd', full_name='grpc.weladee.com.WebStation.WifiPwd', index=10,
       number=31, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='wifi_pwd'),
+      serialized_options=None, json_name='wifi_pwd', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='URLs', full_name='grpc.weladee.com.WebStation.URLs', index=11,
       number=33, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='urls'),
+      serialized_options=None, json_name='urls', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='SSHPort', full_name='grpc.weladee.com.WebStation.SSHPort', index=12,
       number=34, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='ssh_port'),
+      serialized_options=None, json_name='ssh_port', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='CompanyName', full_name='grpc.weladee.com.WebStation.CompanyName', index=13,
       number=36, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='company_name'),
+      serialized_options=None, json_name='company_name', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='ModelName', full_name='grpc.weladee.com.WebStation.ModelName', index=14,
       number=37, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='model_name'),
+      serialized_options=None, json_name='model_name', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='MACs', full_name='grpc.weladee.com.WebStation.MACs', index=15,
       number=40, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='macs'),
+      serialized_options=None, json_name='macs', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='Color', full_name='grpc.weladee.com.WebStation.Color', index=16,
       number=42, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='color'),
+      serialized_options=None, json_name='color', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='LastTimeOnline', full_name='grpc.weladee.com.WebStation.LastTimeOnline', index=17,
       number=43, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, json_name='last_time_online'),
+      serialized_options=None, json_name='last_time_online', file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=6475,
-  serialized_end=6936,
+  serialized_start=8233,
+  serialized_end=8694,
 )
 
+
+_HOLIDAYREQUESTS = _descriptor.Descriptor(
+  name='HolidayRequests',
+  full_name='grpc.weladee.com.HolidayRequests',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='IDs', full_name='grpc.weladee.com.HolidayRequests.IDs', index=0,
+      number=1, type=3, cpp_type=2, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='ids', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Reason', full_name='grpc.weladee.com.HolidayRequests.Reason', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='reason', file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=8696,
+  serialized_end=8755,
+)
+
+
+_CODEHOLIDAY = _descriptor.Descriptor(
+  name='CodeHoliday',
+  full_name='grpc.weladee.com.CodeHoliday',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='ID', full_name='grpc.weladee.com.CodeHoliday.ID', index=0,
+      number=1, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='id', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Code', full_name='grpc.weladee.com.CodeHoliday.Code', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='code', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Name_english', full_name='grpc.weladee.com.CodeHoliday.Name_english', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='name_english', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Name_thai', full_name='grpc.weladee.com.CodeHoliday.Name_thai', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='name_thai', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='active', full_name='grpc.weladee.com.CodeHoliday.active', index=4,
+      number=5, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='active', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Note', full_name='grpc.weladee.com.CodeHoliday.Note', index=5,
+      number=10, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='note', file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=8758,
+  serialized_end=8917,
+)
+
+
+_ANNOUNCEMENT = _descriptor.Descriptor(
+  name='Announcement',
+  full_name='grpc.weladee.com.Announcement',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='ID', full_name='grpc.weladee.com.Announcement.ID', index=0,
+      number=1, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='id', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='TitleEnglish', full_name='grpc.weladee.com.Announcement.TitleEnglish', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='title_english', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='TitleThai', full_name='grpc.weladee.com.Announcement.TitleThai', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='title_thai', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='MessageEnglish', full_name='grpc.weladee.com.Announcement.MessageEnglish', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='message_english', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='MessageThai', full_name='grpc.weladee.com.Announcement.MessageThai', index=4,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='message_thai', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='DisplayFrom', full_name='grpc.weladee.com.Announcement.DisplayFrom', index=5,
+      number=6, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='display_from', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='DisplayTo', full_name='grpc.weladee.com.Announcement.DisplayTo', index=6,
+      number=7, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='display_to', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='TeamID', full_name='grpc.weladee.com.Announcement.TeamID', index=7,
+      number=8, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='teamid', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='DepartmentID', full_name='grpc.weladee.com.Announcement.DepartmentID', index=8,
+      number=9, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='departmentid', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Priority', full_name='grpc.weladee.com.Announcement.Priority', index=9,
+      number=10, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='priority', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Active', full_name='grpc.weladee.com.Announcement.Active', index=10,
+      number=15, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='active', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='Note', full_name='grpc.weladee.com.Announcement.Note', index=11,
+      number=16, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='note', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='ReadON', full_name='grpc.weladee.com.Announcement.ReadON', index=12,
+      number=20, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='read_on', file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=8920,
+  serialized_end=9345,
+)
+
+_HOLIDAY.fields_by_name['DayPart'].enum_type = _HOLIDAYTIME
+_LOGPHOTO.fields_by_name['FaceRectangle'].message_type = _RECTANGLE
+_NEWPHOTO.fields_by_name['LogPhoto'].message_type = _LOGPHOTO
+_NEWPHOTO.fields_by_name['Phototype'].enum_type = _PHOTOTYPE
 _TEAM.fields_by_name['workingHours'].message_type = _OPENHOURMOBILE
 _GATE.fields_by_name['openHours'].message_type = _OPENHOURMOBILE
 _GATE.fields_by_name['teams'].message_type = _TEAM
@@ -2264,12 +3153,18 @@ _EMPLOYEEREQUEST.oneofs_by_name['query'].fields.append(
   _EMPLOYEEREQUEST.fields_by_name['ID'])
 _EMPLOYEEREQUEST.fields_by_name['ID'].containing_oneof = _EMPLOYEEREQUEST.oneofs_by_name['query']
 _EMPLOYEESREQUEST.fields_by_name['Active'].enum_type = _TRINARY
+_EMPLOYEESREQUEST.fields_by_name['Timesheet'].enum_type = _TRINARY
 _EMPLOYEESREQUEST.fields_by_name['IsManager'].enum_type = _TRINARY
 _EMPLOYEE.fields_by_name['application_level'].enum_type = _APPLICATIONLEVEL
+_ANNOUNCEMENT.fields_by_name['Priority'].enum_type = _PRIORITY
 DESCRIPTOR.message_types_by_name['AddResult'] = _ADDRESULT
 DESCRIPTOR.message_types_by_name['Company'] = _COMPANY
 DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
 DESCRIPTOR.message_types_by_name['Holiday'] = _HOLIDAY
+DESCRIPTOR.message_types_by_name['HolidayAllocation'] = _HOLIDAYALLOCATION
+DESCRIPTOR.message_types_by_name['Rectangle'] = _RECTANGLE
+DESCRIPTOR.message_types_by_name['LogPhoto'] = _LOGPHOTO
+DESCRIPTOR.message_types_by_name['NewPhoto'] = _NEWPHOTO
 DESCRIPTOR.message_types_by_name['HolidayCodes'] = _HOLIDAYCODES
 DESCRIPTOR.message_types_by_name['Position'] = _POSITION
 DESCRIPTOR.message_types_by_name['Team'] = _TEAM
@@ -2282,12 +3177,20 @@ DESCRIPTOR.message_types_by_name['EmployeeStats'] = _EMPLOYEESTATS
 DESCRIPTOR.message_types_by_name['EmployeesRequest'] = _EMPLOYEESREQUEST
 DESCRIPTOR.message_types_by_name['RequestID'] = _REQUESTID
 DESCRIPTOR.message_types_by_name['Employee'] = _EMPLOYEE
+DESCRIPTOR.message_types_by_name['Openhour'] = _OPENHOUR
+DESCRIPTOR.message_types_by_name['OpenHourDetail'] = _OPENHOURDETAIL
 DESCRIPTOR.message_types_by_name['OpenHourMobile'] = _OPENHOURMOBILE
 DESCRIPTOR.message_types_by_name['GateStation'] = _GATESTATION
 DESCRIPTOR.message_types_by_name['WebStation'] = _WEBSTATION
+DESCRIPTOR.message_types_by_name['HolidayRequests'] = _HOLIDAYREQUESTS
+DESCRIPTOR.message_types_by_name['CodeHoliday'] = _CODEHOLIDAY
+DESCRIPTOR.message_types_by_name['Announcement'] = _ANNOUNCEMENT
 DESCRIPTOR.enum_types_by_name['ApplicationLevel'] = _APPLICATIONLEVEL
 DESCRIPTOR.enum_types_by_name['HolidayRequestStatus'] = _HOLIDAYREQUESTSTATUS
+DESCRIPTOR.enum_types_by_name['HolidayTime'] = _HOLIDAYTIME
+DESCRIPTOR.enum_types_by_name['PhotoType'] = _PHOTOTYPE
 DESCRIPTOR.enum_types_by_name['Trinary'] = _TRINARY
+DESCRIPTOR.enum_types_by_name['Priority'] = _PRIORITY
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 AddResult = _reflection.GeneratedProtocolMessageType('AddResult', (_message.Message,), dict(
@@ -2317,6 +3220,34 @@ Holiday = _reflection.GeneratedProtocolMessageType('Holiday', (_message.Message,
   # @@protoc_insertion_point(class_scope:grpc.weladee.com.Holiday)
   ))
 _sym_db.RegisterMessage(Holiday)
+
+HolidayAllocation = _reflection.GeneratedProtocolMessageType('HolidayAllocation', (_message.Message,), dict(
+  DESCRIPTOR = _HOLIDAYALLOCATION,
+  __module__ = 'weladee_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.weladee.com.HolidayAllocation)
+  ))
+_sym_db.RegisterMessage(HolidayAllocation)
+
+Rectangle = _reflection.GeneratedProtocolMessageType('Rectangle', (_message.Message,), dict(
+  DESCRIPTOR = _RECTANGLE,
+  __module__ = 'weladee_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.weladee.com.Rectangle)
+  ))
+_sym_db.RegisterMessage(Rectangle)
+
+LogPhoto = _reflection.GeneratedProtocolMessageType('LogPhoto', (_message.Message,), dict(
+  DESCRIPTOR = _LOGPHOTO,
+  __module__ = 'weladee_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.weladee.com.LogPhoto)
+  ))
+_sym_db.RegisterMessage(LogPhoto)
+
+NewPhoto = _reflection.GeneratedProtocolMessageType('NewPhoto', (_message.Message,), dict(
+  DESCRIPTOR = _NEWPHOTO,
+  __module__ = 'weladee_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.weladee.com.NewPhoto)
+  ))
+_sym_db.RegisterMessage(NewPhoto)
 
 HolidayCodes = _reflection.GeneratedProtocolMessageType('HolidayCodes', (_message.Message,), dict(
   DESCRIPTOR = _HOLIDAYCODES,
@@ -2402,6 +3333,20 @@ Employee = _reflection.GeneratedProtocolMessageType('Employee', (_message.Messag
   ))
 _sym_db.RegisterMessage(Employee)
 
+Openhour = _reflection.GeneratedProtocolMessageType('Openhour', (_message.Message,), dict(
+  DESCRIPTOR = _OPENHOUR,
+  __module__ = 'weladee_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.weladee.com.Openhour)
+  ))
+_sym_db.RegisterMessage(Openhour)
+
+OpenHourDetail = _reflection.GeneratedProtocolMessageType('OpenHourDetail', (_message.Message,), dict(
+  DESCRIPTOR = _OPENHOURDETAIL,
+  __module__ = 'weladee_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.weladee.com.OpenHourDetail)
+  ))
+_sym_db.RegisterMessage(OpenHourDetail)
+
 OpenHourMobile = _reflection.GeneratedProtocolMessageType('OpenHourMobile', (_message.Message,), dict(
   DESCRIPTOR = _OPENHOURMOBILE,
   __module__ = 'weladee_pb2'
@@ -2423,7 +3368,27 @@ WebStation = _reflection.GeneratedProtocolMessageType('WebStation', (_message.Me
   ))
 _sym_db.RegisterMessage(WebStation)
 
+HolidayRequests = _reflection.GeneratedProtocolMessageType('HolidayRequests', (_message.Message,), dict(
+  DESCRIPTOR = _HOLIDAYREQUESTS,
+  __module__ = 'weladee_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.weladee.com.HolidayRequests)
+  ))
+_sym_db.RegisterMessage(HolidayRequests)
 
-DESCRIPTOR.has_options = True
-DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\n\025com.frontware.weladeeB\013WeladeeGRPCH\003P\001\220\001\001'))
+CodeHoliday = _reflection.GeneratedProtocolMessageType('CodeHoliday', (_message.Message,), dict(
+  DESCRIPTOR = _CODEHOLIDAY,
+  __module__ = 'weladee_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.weladee.com.CodeHoliday)
+  ))
+_sym_db.RegisterMessage(CodeHoliday)
+
+Announcement = _reflection.GeneratedProtocolMessageType('Announcement', (_message.Message,), dict(
+  DESCRIPTOR = _ANNOUNCEMENT,
+  __module__ = 'weladee_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.weladee.com.Announcement)
+  ))
+_sym_db.RegisterMessage(Announcement)
+
+
+DESCRIPTOR._options = None
 # @@protoc_insertion_point(module_scope)
