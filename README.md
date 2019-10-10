@@ -37,7 +37,51 @@ The communication between Odoo & Weladee is encrypted with SSL3 and TLS 1.3 cert
 
 Sample calls:
 
-![uml](https://goo.gl/AFpwfs)
+```plantuml
+# Don't forget to update the image in README.md if you do any change in this file
+
+@startuml
+
+title Weladee/Odoo Sequence Diagram - Samples Cases\n
+
+note right Odoo
+    All communication is encrypted
+    by modern TLS 3 certificate.
+end note
+Odoo -> Weladee: Request list of employees
+alt failure
+    note right Odoo
+        For each call you provide api-key in meta
+        API key is private and unique per company
+        You can get it when you register to  **Weladee**
+    end note
+    Weladee -> Odoo: Authentication failed
+    note right Weladee #FFAAAA
+        The key is incorrect
+        No data is sent from **Weladee**
+    end note
+    note right Odoo #FFAAAA
+        Got an authentification error
+        Need to check the api key
+    end note
+end
+alt successfull
+    Weladee --> Odoo: Return each employee in a stream
+    note right Odoo
+        **Odoo** can take action as soon the 1st stream is received.
+        Streaming with http2 is a very big advantage,
+        it reduces a lot latency between client and server
+    end note
+    Odoo -> Weladee: Add a holiday
+    Odoo <- Weladee: Returns the holiday id for weladee
+end
+footer
+
+2017 Frontware International ... www.weladee.com
+end footer
+
+@enduml
+```
 
 
 ### API Key
