@@ -44,7 +44,10 @@ class weladee_attendance(models.TransientModel):
         '''
         elapse_start = datetime.today()
         user_tz = pytz.timezone(self.env.context.get('tz') or self.env.user.tz or 'UTC')
-        today = elapse_start.astimezone(user_tz)
+        try: 
+            today = elapse_start.astimezone(user_tz)
+        except:
+            today = user_tz.localize(elapse_start)
         context_sync = {
             'request-date':today.strftime('%d/%m/%Y %H:%M'),
             'request-logs':[],
