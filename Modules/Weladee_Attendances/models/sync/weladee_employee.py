@@ -44,6 +44,8 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
     '''    
     photoBase64 = ''
     if weladee_employee.employee.photo:
+        bytese = False
+        bytesa = False
         try :
             process = subprocess.Popen(['convert',
                                         '-',
@@ -55,7 +57,7 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
 
         except Exception as e:
             sync_logdebug(context_sync, "image : %s" % weladee_employee.employee.photo)
-            sync_logerror(context_sync, "Error when load image : %s" % bytese or e)
+            sync_logerror(context_sync, "Error when load image %s : %s" % (weladee_employee.employee.photo,bytese or e or 'undefined'))
     
     #2018-06-07 KPO don't sync note back   
     #2018-06-21 KPO get team but don't sync back     
