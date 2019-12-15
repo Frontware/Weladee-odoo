@@ -112,6 +112,8 @@ Simple code parsing a stream of log events that need to be synchronized with Odo
         logging.log(i,att)
 ```
       
+[![codecov](https://codecov.io/gh/Frontware/Weladee-odoo/branch/develop/graph/badge.svg)](https://codecov.io/gh/Frontware/Weladee-odoo)
 
 --------------------------------------------------------------
-(c) 2018 [Frontware International Co,Ltd.](https://www.frontware.co.th)
+(c) 2019 [Frontware International Co,Ltd.](https://www.frontware.co.th)
+
