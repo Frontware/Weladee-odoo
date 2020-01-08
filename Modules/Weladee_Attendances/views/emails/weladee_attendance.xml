@@ -43,7 +43,7 @@ There is a request to do Weladee Synchronization at ${ctx.get('request-date')}
 
         These data are successfully sync with Weladee:
         <ul>
-            <li>Positon</li>
+            <li>Position</li>
             <li>Department</li>
             <li>Employee</li>
             <li>Attendances</li>
