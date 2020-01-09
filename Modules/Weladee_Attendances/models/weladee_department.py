@@ -61,7 +61,8 @@ class weladee_department(models.Model):
 
             try:
               result = stub.AddDepartment(newDepartment, metadata=authorization)
-              _logger.info("Added department on Weladee : %s" % result.id)
+              department_odoo.write({'weladee_id':result.ID,'send2-weladee':False})
+              _logger.info("Added department on Weladee : %s" % result.ID)
             except Exception as e:
               _logger.debug("odoo > %s" % vals)
               _logger.error("weladee > %s" % newDepartment)
@@ -130,7 +131,8 @@ class weladee_department(models.Model):
                         newDepartment.department.name_thai = newDepartment.department.name_english
 
                         result = stub.AddDepartment(newDepartment, metadata=authorization)
-                        _logger.info("created department on Weladee : %s" % result.id)
+                        department_odoo.write({'weladee_id':result.ID,'send2-weladee':False})
+                        _logger.info("created department on Weladee : %s" % result.ID)
                     except Exception as e:
                         _logger.debug("[department] odoo > %s" % vals)
                         _logger.error("Error while create department on Weladee : %s" % e)
