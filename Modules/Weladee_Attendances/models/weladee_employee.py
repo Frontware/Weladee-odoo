@@ -166,7 +166,7 @@ class weladee_employee(models.Model):
 
             try:
               result = stub.AddEmployee(WeladeeData, metadata=authorization)
-              _logger.info("Added employee on Weladee : %s" % result.id)
+              _logger.info("Added employee on Weladee : %s" % result.ID)
 
               #get qrcode back
               towrite={'send2-weladee':False}
@@ -175,7 +175,7 @@ class weladee_employee(models.Model):
               for weladee_emp in stub.GetEmployees(odooRequest, metadata=authorization):
                   if weladee_emp and weladee_emp.employee:
                      towrite['qr_code'] = weladee_emp.employee.QRCode
-
+              towrite['weladee-id'] = result.ID
               employee_odoo.write( towrite )
 
             except Exception as e:
@@ -333,7 +333,8 @@ class weladee_employee(models.Model):
                         WeladeeData.employee.lg = "en" 
 
                         result = stub.AddEmployee(WeladeeData, metadata=authorization)
-                        _logger.info("created employee on Weladee : %s" % result.id)
+                        employee_odoo.write({'weladee_id':result.ID,'send2-weladee':False})
+                        _logger.info("created employee on Weladee : %s" % result.ID)
                     except Exception as e:
                         _logger.debug("[employee] odoo > %s" % vals)
                         _logger.error("Error while create employee on Weladee : %s" % e)

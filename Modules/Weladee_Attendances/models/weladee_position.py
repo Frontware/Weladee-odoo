@@ -51,9 +51,11 @@ class weladee_job(models.Model):
 
             try:
               result = stub.AddPosition(newPosition, metadata=authorization)
-              _logger.info("Added position on Weladee : %s" % result.id)
+              position_odoo.write({'weladee_id':result.ID,'send2-weladee':False})
+              _logger.info("Added position on Weladee : %s %s" % (result, type(result)))
             except Exception as e:
-              _logger.debug("odoo > %s" % vals)
+              _logger.error("odoo > %s" % vals)
+              _logger.error("weladee > %s" % result)
               _logger.error("Error while add position on Weladee : %s" % e)
         else:
           _logger.error("Error while add position on Weladee : No authroized")
@@ -90,7 +92,7 @@ class weladee_job(models.Model):
                 try:
                     newPosition.position.active = True
                     result = stub.AddPosition(newPosition, metadata=authorization)
-                    _logger.info("created position on Weladee : %s" % result.id)
+                    _logger.info("created position on Weladee : %s" % result)
                 except Exception as e:
                     _logger.debug("[position] odoo > %s" % vals)
                     _logger.error("Error while create position on Weladee : %s" % e)
