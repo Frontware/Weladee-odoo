@@ -50,8 +50,10 @@ class weladee_department(models.Model):
 
             newDepartment.department.name_english = vals["name"]
             newDepartment.department.name_thai = vals["name"]
-            newDepartment.department.code = vals["code"]
-            newDepartment.department.email = vals["email"]
+            if vals.get('code',False):
+               newDepartment.department.code = vals["code"]
+            if vals.get('email',False):
+               newDepartment.department.email = vals["email"]
             newDepartment.department.active = True
 
             if "manager_id" in vals:
