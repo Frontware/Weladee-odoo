@@ -122,6 +122,7 @@ def sync_expense(self, emp_obj, exp_obj, authorization, context_sync, odoo_welad
         else:
            has_error = True
 
+    # stop if sync type has error.
     if has_error:
        return
 

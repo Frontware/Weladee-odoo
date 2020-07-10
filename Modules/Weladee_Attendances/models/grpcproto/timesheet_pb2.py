@@ -11,6 +11,8 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
+# INSERTED CODE -- DO NOT EDIT
+# timestamp : Fri Jul 10 2020 16:53:00 GMT+0700 (Indochina Time)
 from . import weladee_pb2 as weladee__pb2
 
 

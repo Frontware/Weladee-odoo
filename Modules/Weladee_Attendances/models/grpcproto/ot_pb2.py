@@ -12,6 +12,8 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
+# INSERTED CODE -- DO NOT EDIT
+# timestamp : Fri Jul 10 2020 16:53:00 GMT+0700 (Indochina Time)
 from . import weladee_pb2 as weladee__pb2
 
 
@@ -20,7 +22,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='grpc.weladee.com',
   syntax='proto3',
   serialized_options=b'\n\030com.frontware.weladee_otB\013WeladeeGRPCH\003P\000',
-  serialized_pb=b'\n\x08ot.proto\x12\x10grpc.weladee.com\x1a\rweladee.proto\"\x8a\x04\n\tOTRequest\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x12\n\x04\x44\x61te\x18\x02 \x01(\x05R\x04\x64\x61te\x12 \n\x0b\x44\x65scription\x18\x03 \x01(\tR\x0b\x64\x65scription\x12\x16\n\x06Reason\x18\x04 \x01(\tR\x06reason\x12\x1e\n\nEmployeeID\x18\x05 \x01(\x03R\nemployeeid\x12\x12\n\x04\x46rom\x18\x14 \x01(\tR\x04\x66rom\x12\x0e\n\x02To\x18\x15 \x01(\tR\x02to\x12\x1a\n\x08\x44uration\x18\x16 \x01(\x05R\x08\x64uration\x12\x16\n\x06TypeID\x18\x19 \x01(\x03R\x06typeid\x12\x39\n\x06Status\x18\x06 \x01(\x0e\x32!.grpc.weladee.com.OTRequestStatusR\x06status\x12\x1d\n\tTreatedBy\x18\x07 \x01(\x03R\ntreated_by\x12\x1d\n\tTreatedOn\x18\x08 \x01(\x03R\ntreated_on\x12\x12\n\x04\x43ode\x18\x1e \x01(\tR\x04\x63ode\x12#\n\x0c\x45mployeeName\x18\x1f \x01(\tR\remployee_name\x12&\n\rTreatedByName\x18  \x01(\tR\x0ftreated_by_name\x12#\n\x0c\x45mployeeCode\x18! \x01(\tR\remployee_code\x12\x14\n\x05Photo\x18\" \x01(\tR\x05photo\x12\x12\n\x04\x43ost\x18( \x01(\x03R\x04\x63ost\"\xa8\x01\n\x07OTQuery\x12\n\n\x02ID\x18\x01 \x01(\x03\x12\x0e\n\x06TypeID\x18\x19 \x01(\x03\x12\x31\n\x06Status\x18\x06 \x01(\x0e\x32!.grpc.weladee.com.OTRequestStatus\x12\x12\n\nEmployeeID\x18\x05 \x01(\x03\x12\x0e\n\x06TeamID\x18\x08 \x01(\x03\x12\x0c\n\x04\x46rom\x18\n \x01(\x03\x12\n\n\x02To\x18\x0b \x01(\x03\x12\x10\n\x03XLS\x18\x13 \x01(\x08R\x03xls\"\xc0\x01\n\x06OTType\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12!\n\x0bNameEnglish\x18\x03 \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x04 \x01(\tR\tname_thai\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04\x43ode\x18\x08 \x01(\tR\x04\x63ode\x12\x12\n\x04Note\x18\x06 \x01(\tR\x04note\x12&\n\rHourlyRatePct\x18\x14 \x01(\rR\x0fhourly_rate_pct\"b\n\rOTTypeRequest\x12\n\n\x02ID\x18\x01 \x01(\x03\x12\x0c\n\x04Name\x18\x03 \x01(\t\x12)\n\x06\x61\x63tive\x18\x05 \x01(\x0e\x32\x19.grpc.weladee.com.Trinary\x12\x0c\n\x04\x43ode\x18\x08 \x01(\t\"\xcb\x02\n\rOTPreferences\x12,\n\x10\x41pproveByManager\x18\x01 \x01(\x08R\x12\x61pprove_by_manager\x12\x35\n\x14\x41pproveByTeamManager\x18\x02 \x01(\x08R\x17\x61pprove_by_team_manager\x12\x31\n\x12\x41pproveByHRManager\x18\x03 \x01(\x08R\x15\x61pprove_by_hr_manager\x12*\n\x0fMustDefineRange\x18\x04 \x01(\x08R\x11must_define_range\x12\x36\n\x15MustDefineDescription\x18\x05 \x01(\x08R\x17must_define_description\x12\x1d\n\tDateAfter\x18\x1e \x01(\rR\ndate_after\x12\x1f\n\nDateBefore\x18( \x01(\rR\x0b\x64\x61te_before*M\n\x0fOTRequestStatus\x12\x0f\n\x0bOTStatusNew\x10\x00\x12\x14\n\x10OTStatusApproved\x10\x01\x12\x13\n\x0fOTStatusRefused\x10\x02\x42+\n\x18\x63om.frontware.weladee_otB\x0bWeladeeGRPCH\x03P\x00\x62\x06proto3'
+  serialized_pb=b'\n\x08ot.proto\x12\x10grpc.weladee.com\x1a\rweladee.proto\"\x8a\x04\n\tOTRequest\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x12\n\x04\x44\x61te\x18\x02 \x01(\x05R\x04\x64\x61te\x12 \n\x0b\x44\x65scription\x18\x03 \x01(\tR\x0b\x64\x65scription\x12\x16\n\x06Reason\x18\x04 \x01(\tR\x06reason\x12\x1e\n\nEmployeeID\x18\x05 \x01(\x03R\nemployeeid\x12\x12\n\x04\x46rom\x18\x14 \x01(\tR\x04\x66rom\x12\x0e\n\x02To\x18\x15 \x01(\tR\x02to\x12\x1a\n\x08\x44uration\x18\x16 \x01(\x05R\x08\x64uration\x12\x16\n\x06TypeID\x18\x19 \x01(\x03R\x06typeid\x12\x39\n\x06Status\x18\x06 \x01(\x0e\x32!.grpc.weladee.com.OTRequestStatusR\x06status\x12\x1d\n\tTreatedBy\x18\x07 \x01(\x03R\ntreated_by\x12\x1d\n\tTreatedOn\x18\x08 \x01(\x03R\ntreated_on\x12\x12\n\x04\x43ode\x18\x1e \x01(\tR\x04\x63ode\x12#\n\x0c\x45mployeeName\x18\x1f \x01(\tR\remployee_name\x12&\n\rTreatedByName\x18  \x01(\tR\x0ftreated_by_name\x12#\n\x0c\x45mployeeCode\x18! \x01(\tR\remployee_code\x12\x14\n\x05Photo\x18\" \x01(\tR\x05photo\x12\x12\n\x04\x43ost\x18( \x01(\x03R\x04\x63ost\"\xa8\x01\n\x07OTQuery\x12\n\n\x02ID\x18\x01 \x01(\x03\x12\x0e\n\x06TypeID\x18\x19 \x01(\x03\x12\x31\n\x06Status\x18\x06 \x01(\x0e\x32!.grpc.weladee.com.OTRequestStatus\x12\x12\n\nEmployeeID\x18\x05 \x01(\x03\x12\x0e\n\x06TeamID\x18\x08 \x01(\x03\x12\x0c\n\x04\x46rom\x18\n \x01(\x03\x12\n\n\x02To\x18\x0b \x01(\x03\x12\x10\n\x03XLS\x18\x13 \x01(\x08R\x03xls\"\xc0\x01\n\x06OTType\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12!\n\x0bNameEnglish\x18\x03 \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x04 \x01(\tR\tname_thai\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04\x43ode\x18\x08 \x01(\tR\x04\x63ode\x12\x12\n\x04Note\x18\x06 \x01(\tR\x04note\x12&\n\rHourlyRatePct\x18\x14 \x01(\rR\x0fhourly_rate_pct\"b\n\rOTTypeRequest\x12\n\n\x02ID\x18\x01 \x01(\x03\x12\x0c\n\x04Name\x18\x03 \x01(\t\x12)\n\x06\x61\x63tive\x18\x05 \x01(\x0e\x32\x19.grpc.weladee.com.Trinary\x12\x0c\n\x04\x43ode\x18\x08 \x01(\t\"\x82\x03\n\rOTPreferences\x12,\n\x10\x41pproveByManager\x18\x01 \x01(\x08R\x12\x61pprove_by_manager\x12\x35\n\x14\x41pproveByTeamManager\x18\x02 \x01(\x08R\x17\x61pprove_by_team_manager\x12\x31\n\x12\x41pproveByHRManager\x18\x03 \x01(\x08R\x15\x61pprove_by_hr_manager\x12\x35\n\x14\x41pproveByDeptManager\x18\x06 \x01(\x08R\x17\x61pprove_by_dept_manager\x12*\n\x0fMustDefineRange\x18\x04 \x01(\x08R\x11must_define_range\x12\x36\n\x15MustDefineDescription\x18\x05 \x01(\x08R\x17must_define_description\x12\x1d\n\tDateAfter\x18\x1e \x01(\rR\ndate_after\x12\x1f\n\nDateBefore\x18( \x01(\rR\x0b\x64\x61te_before*M\n\x0fOTRequestStatus\x12\x0f\n\x0bOTStatusNew\x10\x00\x12\x14\n\x10OTStatusApproved\x10\x01\x12\x13\n\x0fOTStatusRefused\x10\x02\x42+\n\x18\x63om.frontware.weladee_otB\x0bWeladeeGRPCH\x03P\x00\x62\x06proto3'
   ,
   dependencies=[weladee__pb2.DESCRIPTOR,])
 
@@ -45,8 +47,8 @@ _OTREQUESTSTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1370,
-  serialized_end=1447,
+  serialized_start=1425,
+  serialized_end=1502,
 )
 _sym_db.RegisterEnumDescriptor(_OTREQUESTSTATUS)
 
@@ -441,28 +443,35 @@ _OTPREFERENCES = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='approve_by_hr_manager', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='MustDefineRange', full_name='grpc.weladee.com.OTPreferences.MustDefineRange', index=3,
+      name='ApproveByDeptManager', full_name='grpc.weladee.com.OTPreferences.ApproveByDeptManager', index=3,
+      number=6, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='approve_by_dept_manager', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='MustDefineRange', full_name='grpc.weladee.com.OTPreferences.MustDefineRange', index=4,
       number=4, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='must_define_range', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='MustDefineDescription', full_name='grpc.weladee.com.OTPreferences.MustDefineDescription', index=4,
+      name='MustDefineDescription', full_name='grpc.weladee.com.OTPreferences.MustDefineDescription', index=5,
       number=5, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='must_define_description', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='DateAfter', full_name='grpc.weladee.com.OTPreferences.DateAfter', index=5,
+      name='DateAfter', full_name='grpc.weladee.com.OTPreferences.DateAfter', index=6,
       number=30, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='date_after', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='DateBefore', full_name='grpc.weladee.com.OTPreferences.DateBefore', index=6,
+      name='DateBefore', full_name='grpc.weladee.com.OTPreferences.DateBefore', index=7,
       number=40, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -481,7 +490,7 @@ _OTPREFERENCES = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=1037,
-  serialized_end=1368,
+  serialized_end=1423,
 )
 
 _OTREQUEST.fields_by_name['Status'].enum_type = _OTREQUESTSTATUS

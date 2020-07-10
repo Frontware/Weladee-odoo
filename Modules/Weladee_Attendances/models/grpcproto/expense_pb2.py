@@ -12,6 +12,8 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
+# INSERTED CODE -- DO NOT EDIT
+# timestamp : Fri Jul 10 2020 16:53:00 GMT+0700 (Indochina Time)
 from . import weladee_pb2 as weladee__pb2
 
 
@@ -20,7 +22,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='grpc.weladee.com',
   syntax='proto3',
   serialized_options=b'\n\035com.frontware.weladee_expenseB\013WeladeeGRPCH\003P\001\220\001\001',
-  serialized_pb=b'\n\rexpense.proto\x12\x10grpc.weladee.com\x1a\rweladee.proto\"\x9d\x01\n\x0b\x45xpenseType\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x16\n\x06\x41\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12!\n\x0bNameEnglish\x18\x03 \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x04 \x01(\tR\tname_thai\x12\x12\n\x04\x43ode\x18\x08 \x01(\tR\x04\x63ode\x12\x12\n\x04Note\x18\x06 \x01(\tR\x04note\"\x1e\n\x0eRecognizedText\x12\x0c\n\x04Text\x18\x01 \x01(\t\"#\n\x07Vendors\x12\x18\n\x07Vendors\x18\x01 \x03(\tR\x07vendors\"\xae\x07\n\x07\x45xpense\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x1e\n\nEmployeeID\x18\n \x01(\x03R\nemployeeid\x12\x16\n\x06Vendor\x18\x0f \x01(\tR\x06vendor\x12 \n\x0b\x44\x65scription\x18\x14 \x01(\tR\x0b\x64\x65scription\x12\x16\n\x06Reason\x18\x15 \x01(\tR\x06reason\x12\x12\n\x04Note\x18\x16 \x01(\tR\x04note\x12@\n\x0bPaymentType\x18\x1e \x01(\x0e\x32\x1d.grpc.weladee.com.PaymentTypeR\x0cpayment_type\x12\x16\n\x06\x41mount\x18( \x01(\x03R\x06\x61mount\x12\x36\n\x08\x43urrency\x18- \x01(\x0e\x32\x1a.grpc.weladee.com.CurrencyR\x08\x63urrency\x12\x12\n\x04\x44\x61te\x18\x32 \x01(\x03R\x04\x64\x61te\x12\x12\n\x04IPFS\x18< \x01(\tR\x04ipfs\x12\x14\n\x05TaxID\x18= \x01(\tR\x05taxid\x12\x10\n\x03Ref\x18> \x01(\tR\x03ref\x12\x34\n\x07\x44ocType\x18? \x01(\x0e\x32\x19.grpc.weladee.com.DocTypeR\x08\x64oc_type\x12\x30\n\x06Status\x18\x46 \x01(\x0e\x32\x18.grpc.weladee.com.StatusR\x06status\x12\x18\n\x08\x45xTypeID\x18\x19 \x01(\x03R\x06typeid\x12\x1e\n\nCustomerID\x18\x64 \x01(\x03R\ncustomerid\x12\x1c\n\tProjectID\x18n \x01(\x03R\tprojectid\x12\x1d\n\tTreatedBy\x18\x07 \x01(\x03R\ntreated_by\x12\x1d\n\tTreatedOn\x18\x08 \x01(\x03R\ntreated_on\x12\x13\n\x04\x43ode\x18\x82\x01 \x01(\tR\x04\x63ode\x12$\n\x0c\x45mployeeName\x18\x83\x01 \x01(\tR\remployee_name\x12\'\n\rTreatedByName\x18\x84\x01 \x01(\tR\x0ftreated_by_name\x12$\n\x0c\x45mployeeCode\x18\x85\x01 \x01(\tR\remployee_code\x12\"\n\x0bProjectName\x18\x86\x01 \x01(\tR\x0cproject_name\x12$\n\x0c\x43ustomerName\x18\x87\x01 \x01(\tR\rcustomer_name\x12\x1c\n\x08TypeName\x18\x88\x01 \x01(\tR\ttype_name\x12\x11\n\x08\x44ocument\x18\x96\x01 \x01(\x0c\x12(\n\x0eRecognizedText\x18\x97\x01 \x01(\tR\x0frecognized_text\"\x98\x02\n\x0e\x45xpenseRequest\x12\n\n\x02ID\x18\x01 \x01(\x03\x12\x0e\n\x06TypeID\x18\x19 \x01(\x03\x12(\n\x06Status\x18\x06 \x01(\x0e\x32\x18.grpc.weladee.com.Status\x12\x12\n\nEmployeeID\x18\x05 \x01(\x03\x12\x0e\n\x06TeamID\x18\x08 \x01(\x03\x12\x13\n\x0b\x44\x65scription\x18\t \x01(\t\x12\x0c\n\x04\x46rom\x18\n \x01(\x03\x12\n\n\x02To\x18\x0b \x01(\x03\x12\x1e\n\nCustomerID\x18\x0f \x01(\x03R\ncustomerid\x12\x1c\n\tProjectID\x18\x10 \x01(\x03R\tprojectid\x12\x0e\n\x06Offset\x18\x1d \x01(\x03\x12\r\n\x05Limit\x18\x1e \x01(\x03\x12\x10\n\x03XLS\x18\x13 \x01(\x08R\x03xls\"y\n\x12\x45xpenseTypeRequest\x12\n\n\x02ID\x18\x01 \x01(\x03\x12\x0c\n\x04Name\x18\x03 \x01(\t\x12)\n\x06\x61\x63tive\x18\x05 \x01(\x0e\x32\x19.grpc.weladee.com.Trinary\x12\x0c\n\x04\x43ode\x18\x08 \x01(\t\x12\x10\n\x03XLS\x18\x13 \x01(\x08R\x03xls\"\xa4\x03\n\x12\x45xpensePreferences\x12\x45\n\x0f\x44\x65\x66\x61ultCurrency\x18\x01 \x01(\x0e\x32\x1a.grpc.weladee.com.CurrencyR\x10\x64\x65\x66\x61ult_currency\x12\x30\n\x12\x41llowMultiCurrency\x18\x02 \x01(\x08R\x14\x61llow_multi_currency\x12&\n\rLinkToProject\x18\x04 \x01(\x08R\x0flink_to_project\x12\x36\n\x15MustDefineDescription\x18\x05 \x01(\x08R\x17must_define_description\x12\x1d\n\tDateAfter\x18\x07 \x01(\rR\ndate_after\x12,\n\x10\x41pproveByManager\x18\x0b \x01(\x08R\x12\x61pprove_by_manager\x12\x35\n\x14\x41pproveByTeamManager\x18\x0c \x01(\x08R\x17\x61pprove_by_team_manager\x12\x31\n\x12\x41pproveByHRManager\x18\r \x01(\x08R\x15\x61pprove_by_hr_manager*\x1d\n\x07\x44ocType\x12\t\n\x05Photo\x10\x00\x12\x07\n\x03PDF\x10\x01*h\n\x0bPaymentType\x12\x08\n\x04\x43\x61sh\x10\x00\x12\x0e\n\nCreditCard\x10\x01\x12\t\n\x05\x43heck\x10\x02\x12\r\n\tPromptPay\x10\x03\x12\x10\n\x0c\x42\x61nkTransfer\x10\x04\x12\x08\n\x04None\x10\x05\x12\t\n\x05Other\x10\x06*n\n\x06Status\x12\x14\n\x10\x45xpenseStatusNew\x10\x00\x12\x19\n\x15\x45xpenseStatusApproved\x10\x01\x12\x18\n\x14\x45xpenseStatusRefused\x10\x02\x12\x19\n\x15\x45xpenseStatusRefunded\x10\x03*.\n\x08\x43urrency\x12\x07\n\x03THB\x10\x00\x12\x07\n\x03\x45UR\x10\x01\x12\x07\n\x03USD\x10\x02\x12\x07\n\x03SGD\x10\x03\x42\x33\n\x1d\x63om.frontware.weladee_expenseB\x0bWeladeeGRPCH\x03P\x01\x90\x01\x01\x62\x06proto3'
+  serialized_pb=b'\n\rexpense.proto\x12\x10grpc.weladee.com\x1a\rweladee.proto\"\x9d\x01\n\x0b\x45xpenseType\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x16\n\x06\x41\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12!\n\x0bNameEnglish\x18\x03 \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x04 \x01(\tR\tname_thai\x12\x12\n\x04\x43ode\x18\x08 \x01(\tR\x04\x63ode\x12\x12\n\x04Note\x18\x06 \x01(\tR\x04note\"\x1e\n\x0eRecognizedText\x12\x0c\n\x04Text\x18\x01 \x01(\t\"#\n\x07Vendors\x12\x18\n\x07Vendors\x18\x01 \x03(\tR\x07vendors\"\xb1\x07\n\x07\x45xpense\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x1e\n\nEmployeeID\x18\n \x01(\x03R\nemployeeid\x12\x16\n\x06Vendor\x18\x0f \x01(\tR\x06vendor\x12 \n\x0b\x44\x65scription\x18\x14 \x01(\tR\x0b\x64\x65scription\x12\x16\n\x06Reason\x18\x15 \x01(\tR\x06reason\x12\x12\n\x04Note\x18\x16 \x01(\tR\x04note\x12@\n\x0bPaymentType\x18\x1e \x01(\x0e\x32\x1d.grpc.weladee.com.PaymentTypeR\x0cpayment_type\x12\x16\n\x06\x41mount\x18( \x01(\x03R\x06\x61mount\x12\x36\n\x08\x43urrency\x18- \x01(\x0e\x32\x1a.grpc.weladee.com.CurrencyR\x08\x63urrency\x12\x12\n\x04\x44\x61te\x18\x32 \x01(\x03R\x04\x64\x61te\x12\x12\n\x04IPFS\x18< \x01(\tR\x04ipfs\x12\x14\n\x05TaxID\x18= \x01(\tR\x05taxid\x12\x10\n\x03Ref\x18> \x01(\tR\x03ref\x12\x34\n\x07\x44ocType\x18? \x01(\x0e\x32\x19.grpc.weladee.com.DocTypeR\x08\x64oc_type\x12\x30\n\x06Status\x18\x46 \x01(\x0e\x32\x18.grpc.weladee.com.StatusR\x06status\x12\x18\n\x08\x45xTypeID\x18\x19 \x01(\x03R\x06typeid\x12\x1e\n\nCustomerID\x18\x64 \x01(\x03R\ncustomerid\x12\x1c\n\tProjectID\x18n \x01(\x03R\tprojectid\x12\x13\n\x04\x43ode\x18\x82\x01 \x01(\tR\x04\x63ode\x12\x1d\n\tTreatedBy\x18\x07 \x01(\x03R\ntreated_by\x12\x1d\n\tTreatedOn\x18\x08 \x01(\x03R\ntreated_on\x12$\n\x0c\x45mployeeName\x18\x83\x01 \x01(\tR\remployee_name\x12\'\n\rTreatedByName\x18\x84\x01 \x01(\tR\x0ftreated_by_name\x12$\n\x0c\x45mployeeCode\x18\x85\x01 \x01(\tR\remployee_code\x12\"\n\x0bProjectName\x18\x86\x01 \x01(\tR\x0cproject_name\x12$\n\x0c\x43ustomerName\x18\x87\x01 \x01(\tR\rcustomer_name\x12\x1c\n\x08TypeName\x18\x88\x01 \x01(\tR\ttype_name\x12\x14\n\x08\x44ocument\x18\x96\x01 \x01(\x0cR\x01-\x12(\n\x0eRecognizedText\x18\x97\x01 \x01(\tR\x0frecognized_text\"\xb2\x02\n\x0e\x45xpenseRequest\x12\n\n\x02ID\x18\x01 \x01(\x03\x12\x0e\n\x06TypeID\x18\x19 \x01(\x03\x12(\n\x06Status\x18\x06 \x01(\x0e\x32\x18.grpc.weladee.com.Status\x12\x12\n\nEmployeeID\x18\x05 \x01(\x03\x12\x0e\n\x06TeamID\x18\x08 \x01(\x03\x12\x13\n\x0b\x44\x65scription\x18\t \x01(\t\x12\x0c\n\x04\x46rom\x18\n \x01(\x03\x12\n\n\x02To\x18\x0b \x01(\x03\x12\x1e\n\nCustomerID\x18\x0f \x01(\x03R\ncustomerid\x12\x1c\n\tProjectID\x18\x10 \x01(\x03R\tprojectid\x12\x0e\n\x06Offset\x18\x1d \x01(\x03\x12\r\n\x05Limit\x18\x1e \x01(\x03\x12\x18\n\x10\x43\x61nApproveRefuse\x18\x14 \x01(\x08\x12\x10\n\x03XLS\x18\x13 \x01(\x08R\x03xls\"y\n\x12\x45xpenseTypeRequest\x12\n\n\x02ID\x18\x01 \x01(\x03\x12\x0c\n\x04Name\x18\x03 \x01(\t\x12)\n\x06\x61\x63tive\x18\x05 \x01(\x0e\x32\x19.grpc.weladee.com.Trinary\x12\x0c\n\x04\x43ode\x18\x08 \x01(\t\x12\x10\n\x03XLS\x18\x13 \x01(\x08R\x03xls\"\xdb\x03\n\x12\x45xpensePreferences\x12\x45\n\x0f\x44\x65\x66\x61ultCurrency\x18\x01 \x01(\x0e\x32\x1a.grpc.weladee.com.CurrencyR\x10\x64\x65\x66\x61ult_currency\x12\x30\n\x12\x41llowMultiCurrency\x18\x02 \x01(\x08R\x14\x61llow_multi_currency\x12&\n\rLinkToProject\x18\x04 \x01(\x08R\x0flink_to_project\x12\x36\n\x15MustDefineDescription\x18\x05 \x01(\x08R\x17must_define_description\x12\x1d\n\tDateAfter\x18\x07 \x01(\rR\ndate_after\x12,\n\x10\x41pproveByManager\x18\x0b \x01(\x08R\x12\x61pprove_by_manager\x12\x35\n\x14\x41pproveByTeamManager\x18\x0c \x01(\x08R\x17\x61pprove_by_team_manager\x12\x31\n\x12\x41pproveByHRManager\x18\r \x01(\x08R\x15\x61pprove_by_hr_manager\x12\x35\n\x14\x41pproveByDeptManager\x18\x0e \x01(\x08R\x17\x61pprove_by_dept_manager*\x1d\n\x07\x44ocType\x12\t\n\x05Photo\x10\x00\x12\x07\n\x03PDF\x10\x01*h\n\x0bPaymentType\x12\x08\n\x04\x43\x61sh\x10\x00\x12\x0e\n\nCreditCard\x10\x01\x12\t\n\x05\x43heck\x10\x02\x12\r\n\tPromptPay\x10\x03\x12\x10\n\x0c\x42\x61nkTransfer\x10\x04\x12\x08\n\x04None\x10\x05\x12\t\n\x05Other\x10\x06*n\n\x06Status\x12\x14\n\x10\x45xpenseStatusNew\x10\x00\x12\x19\n\x15\x45xpenseStatusApproved\x10\x01\x12\x18\n\x14\x45xpenseStatusRefused\x10\x02\x12\x19\n\x15\x45xpenseStatusRefunded\x10\x03*.\n\x08\x43urrency\x12\x07\n\x03THB\x10\x00\x12\x07\n\x03\x45UR\x10\x01\x12\x07\n\x03USD\x10\x02\x12\x07\n\x03SGD\x10\x03\x42\x33\n\x1d\x63om.frontware.weladee_expenseB\x0bWeladeeGRPCH\x03P\x01\x90\x01\x01\x62\x06proto3'
   ,
   dependencies=[weladee__pb2.DESCRIPTOR,])
 
@@ -41,8 +43,8 @@ _DOCTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2053,
-  serialized_end=2082,
+  serialized_start=2137,
+  serialized_end=2166,
 )
 _sym_db.RegisterEnumDescriptor(_DOCTYPE)
 
@@ -84,8 +86,8 @@ _PAYMENTTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2084,
-  serialized_end=2188,
+  serialized_start=2168,
+  serialized_end=2272,
 )
 _sym_db.RegisterEnumDescriptor(_PAYMENTTYPE)
 
@@ -115,8 +117,8 @@ _STATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2190,
-  serialized_end=2300,
+  serialized_start=2274,
+  serialized_end=2384,
 )
 _sym_db.RegisterEnumDescriptor(_STATUS)
 
@@ -146,8 +148,8 @@ _CURRENCY = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2302,
-  serialized_end=2348,
+  serialized_start=2386,
+  serialized_end=2432,
 )
 _sym_db.RegisterEnumDescriptor(_CURRENCY)
 
@@ -434,26 +436,26 @@ _EXPENSE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='projectid', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='TreatedBy', full_name='grpc.weladee.com.Expense.TreatedBy', index=18,
+      name='Code', full_name='grpc.weladee.com.Expense.Code', index=18,
+      number=130, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='code', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='TreatedBy', full_name='grpc.weladee.com.Expense.TreatedBy', index=19,
       number=7, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='treated_by', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='TreatedOn', full_name='grpc.weladee.com.Expense.TreatedOn', index=19,
+      name='TreatedOn', full_name='grpc.weladee.com.Expense.TreatedOn', index=20,
       number=8, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='treated_on', file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='Code', full_name='grpc.weladee.com.Expense.Code', index=20,
-      number=130, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, json_name='code', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='EmployeeName', full_name='grpc.weladee.com.Expense.EmployeeName', index=21,
       number=131, type=9, cpp_type=9, label=1,
@@ -502,7 +504,7 @@ _EXPENSE = _descriptor.Descriptor(
       has_default_value=False, default_value=b"",
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
+      serialized_options=None, json_name='-', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='RecognizedText', full_name='grpc.weladee.com.Expense.RecognizedText', index=28,
       number=151, type=9, cpp_type=9, label=1,
@@ -523,7 +525,7 @@ _EXPENSE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=280,
-  serialized_end=1222,
+  serialized_end=1225,
 )
 
 
@@ -619,7 +621,14 @@ _EXPENSEREQUEST = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='XLS', full_name='grpc.weladee.com.ExpenseRequest.XLS', index=12,
+      name='CanApproveRefuse', full_name='grpc.weladee.com.ExpenseRequest.CanApproveRefuse', index=12,
+      number=20, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='XLS', full_name='grpc.weladee.com.ExpenseRequest.XLS', index=13,
       number=19, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
@@ -637,8 +646,8 @@ _EXPENSEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1225,
-  serialized_end=1505,
+  serialized_start=1228,
+  serialized_end=1534,
 )
 
 
@@ -696,8 +705,8 @@ _EXPENSETYPEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1507,
-  serialized_end=1628,
+  serialized_start=1536,
+  serialized_end=1657,
 )
 
 
@@ -764,6 +773,13 @@ _EXPENSEPREFERENCES = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='approve_by_hr_manager', file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='ApproveByDeptManager', full_name='grpc.weladee.com.ExpensePreferences.ApproveByDeptManager', index=8,
+      number=14, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='approve_by_dept_manager', file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -776,8 +792,8 @@ _EXPENSEPREFERENCES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1631,
-  serialized_end=2051,
+  serialized_start=1660,
+  serialized_end=2135,
 )
 
 _EXPENSE.fields_by_name['PaymentType'].enum_type = _PAYMENTTYPE

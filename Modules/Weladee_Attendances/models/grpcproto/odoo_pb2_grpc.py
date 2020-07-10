@@ -2,6 +2,8 @@
 import grpc
 
 from . import odoo_pb2 as odoo__pb2
+# INSERTED CODE -- DO NOT EDIT
+# timestamp : Fri Jul 10 2020 16:53:00 GMT+0700 (Indochina Time)
 from . import weladee_pb2 as weladee__pb2
 
 
