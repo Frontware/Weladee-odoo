@@ -16,9 +16,9 @@ def sync_employee_data_gender(weladee_emp):
     '''
     convert weladee employee gender to odoo
     '''
-    if weladee_emp.employee.gender == 'm':
+    if weladee_emp.employee.Gender == 'm':
         return 'male'
-    elif weladee_emp.employee.gender == 'f':        
+    elif weladee_emp.employee.Gender == 'f':        
         return 'female'
     else:
         return 'other'
@@ -73,8 +73,8 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
             ,"nick_name_thai":weladee_employee.employee.nickname_thai
             ,"active": weladee_employee.employee.Active
             ,"receive_check_notification": weladee_employee.employee.receiveCheckNotification
-            ,"can_request_holiday": weladee_employee.employee.canRequestHoliday
-            ,"hasToFillTimesheet": weladee_employee.employee.hasToFillTimesheet
+            ,"can_request_holiday": weladee_employee.employee.CanRequestHoliday
+            ,"hasToFillTimesheet": weladee_employee.employee.HasToFillTimesheet
             ,"weladee_id":weladee_employee.employee.ID
             ,"qr_code":weladee_employee.employee.QRCode
             ,"gender": sync_employee_data_gender(weladee_employee)
@@ -233,7 +233,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
         newEmployee.employee.last_name_english = odoo_employee.last_name_english or bytes()
         newEmployee.employee.first_name_thai = odoo_employee.first_name_thai or ''
         newEmployee.employee.last_name_thai = odoo_employee.last_name_thai or ''
-        newEmployee.employee.gender = new_employee_data_gender(odoo_employee.gender)
+        newEmployee.employee.Gender = new_employee_data_gender(odoo_employee.gender)
         newEmployee.employee.email = odoo_employee.work_email
         newEmployee.employee.code = odoo_employee.employee_code or bytes()
         newEmployee.employee.nickname_english = odoo_employee.nick_name_english or ''
@@ -242,8 +242,8 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
         newEmployee.employee.lg = "en"
         newEmployee.employee.Active = odoo_employee.active
         newEmployee.employee.receiveCheckNotification = odoo_employee.receive_check_notification
-        newEmployee.employee.canRequestHoliday = odoo_employee.can_request_holiday
-        newEmployee.employee.hasToFillTimesheet = odoo_employee.hasToFillTimesheet
+        newEmployee.employee.CanRequestHoliday = odoo_employee.can_request_holiday
+        newEmployee.employee.HasToFillTimesheet = odoo_employee.hasToFillTimesheet
 
         newEmployee.employee.passportNumber = odoo_employee.passport_id or ''
         newEmployee.employee.TaxID = odoo_employee.taxID or ''
@@ -274,8 +274,17 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
             odoo_employee.write({'weladee_id':returnobj.id})
             sync_logdebug(context_sync, "Added employee to weladee : %s" % odoo_employee.name)
             sync_stat_create(context_sync['stat-w-employee'], 1)
-
         except Exception as e:
+            '''
+            if try to add Administrator back to weladee, set it to ignore by weladee-id = 0
+            '''
+            e_st = str(e)
+            if e_st.index('duplicate') >= 0 and e_st.index('uniqueUserName') >= 0:                
+               sync_loginfo(context_sync, 'xx duplicate xxx')
+               if  odoo_employee.name == 'Administrator':
+                   sync_loginfo(context_sync, 'xx admin xxx')
+                   odoo_employee.update({'weladee_id': 0})
+                   
             sync_logdebug(context_sync, 'odoo > %s' % odoo_employee)
             sync_logerror(context_sync, "Add employee '%s' failed : %s" % (odoo_employee.name, e))
             sync_stat_error(context_sync['stat-w-employee'], 1)

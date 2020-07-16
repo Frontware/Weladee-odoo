@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 {
 "name" : "Weladee attendances module",
-"version" : "5.01",
+"version" : "5.02",
 "author" : "Frontware International",
 "category" : "Generic Modules",
 'summary': 'Weladee-Odoo attendances\'s module',
-"depends" : ['base', 'hr', 'hr_attendance', 'hr_holidays', 'hr_timesheet'],
+"depends" : ['base', 'hr', 'hr_attendance', 'hr_holidays', 'hr_timesheet', 'hr_expense'],
 "data" :["security/security.xml",
          "security/ir.model.access.csv",    
          "views/emails/weladee_attendance.xml",
@@ -19,6 +19,7 @@
          'views/weladee_holiday_status.xml',
          "views/weladee_holiday.xml",
          "views/weladee_company_holiday.xml",
+         "views/weladee_expense.xml",
          "views/fw_hr_employee.xml"],
 "installable" : True,
 "active" : False,
@@ -32,6 +33,7 @@ It will synchronus employee, department, position, holidays and import attendanc
 
 change log:
 ------------------------------------
+* 2020-07-01 KPO sync approved expense
 * 2019-02-18 KPO allow to resync if 1st connection failed.
 * 2018-11-14 KPO compatible with odoo12
 * 2018-11-14 KPO allow to sync with multiple leave type
