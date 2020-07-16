@@ -103,10 +103,9 @@ def sync_expense(self, emp_obj, exp_obj, authorization, context_sync, odoo_welad
                 continue
             
             odoo_type = {
-                'weladee_code': weladee_type.ExpenseTypeOdoo.Code,
-                'name_english': weladee_type.ExpenseTypeOdoo.NameEnglish,
-                'name_thai': weladee_type.ExpenseTypeOdoo.NameThai,
-                'note': weladee_type.ExpenseTypeOdoo.Note,
+                'weladee_code': weladee_type.ExpenseType.Code,
+                'name_english': weladee_type.ExpenseType.NameEnglish,
+                'name_thai': weladee_type.ExpenseType.NameEnglish
             }
 
             newid = create_odoo_type(self, odoo_type, context_sync)                
