@@ -13,6 +13,8 @@ CONST_SETTING_LOG_PERIOD_UNIT = 'weladee-log_period_unit'
 CONST_SETTING_HOLIDAY_NOTICE = 'weladee-holiday-notify'
 CONST_SETTING_HOLIDAY_NOTICE_EMAIL = 'weladee-holiday-notify-email'
 
+CONST_SETTING_EXP_PRODUCT = 'weladee-exp_product'
+
 def get_api_key(self):
   '''
   get api key from settings
@@ -40,23 +42,26 @@ def get_api_key(self):
 
   return authorization, holiday_status_id, api_db
 
-def get_synchronous_period(self):
+def get_synchronous_exp_period(self, typeObj=""):
+    return get_synchronous_period(self, '-exp')
+
+def get_synchronous_period(self, typeObj=""):
     '''
     get synchronous log period
     '''
     rets = {'period':'w','unit':'1'}
     config_pool = self.env['ir.config_parameter']
-    ret = config_pool.search([('key','=',CONST_SETTING_LOG_PERIOD)])
+    ret = config_pool.search([('key','=',CONST_SETTING_LOG_PERIOD + typeObj)])
     if ret:
        rets['period'] = ret.value
     else:
-        config_pool.create({'key':CONST_SETTING_LOG_PERIOD,'value':'w'}) 
+        config_pool.create({'key':CONST_SETTING_LOG_PERIOD + typeObj,'value':'w'}) 
 
-    ret = config_pool.search([('key','=',CONST_SETTING_LOG_PERIOD_UNIT)])
+    ret = config_pool.search([('key','=',CONST_SETTING_LOG_PERIOD_UNIT + typeObj)])
     if ret:
        rets['unit'] = ret.value
     else:
-        config_pool.create({'key':CONST_SETTING_LOG_PERIOD_UNIT,'value':'1'}) 
+        config_pool.create({'key':CONST_SETTING_LOG_PERIOD_UNIT + typeObj,'value':'1'}) 
 
     return rets
 
@@ -101,6 +106,17 @@ def get_holiday_notify_email(self):
         self.env['ir.config_parameter'].create({'key':CONST_SETTING_HOLIDAY_NOTICE_EMAIL,'value':''}) 
         return ""
 
+def get_expense_product(self):
+    '''
+    get expense product
+    '''
+    ret = self.env['ir.config_parameter'].search([('key','=',CONST_SETTING_EXP_PRODUCT)])
+    if ret:
+        return int(ret.value)
+    else:
+        self.env['ir.config_parameter'].create({'key':CONST_SETTING_EXP_PRODUCT,'value':0}) 
+        return 0
+
 class weladee_settings(models.TransientModel):
     _name="weladee_attendance.synchronous.setting"
     _description="Weladee settings"
@@ -141,6 +157,16 @@ class weladee_settings(models.TransientModel):
     def _get_holiday_notify_leave_req_email(self):
         return get_holiday_notify_email(self)
         
+    def _get_expense_period_unit(self):
+        ret = int(get_synchronous_exp_period(self)['unit'])
+        return ret
+
+    def _get_expense_period(self):
+        ret = get_synchronous_exp_period(self)['period']    
+        return ret
+
+    def _get_expense_product(self):
+        return get_expense_product(self)
 
     holiday_status_id = fields.Many2one("hr.holidays.status", String="Default Leave Type",required=True,default=_get_holiday_status )
     holiday_notify_leave_req = fields.Boolean('Notify if there is not enough allocated leave request', default=_get_holiday_notify_leave_req )
@@ -156,6 +182,13 @@ class weladee_settings(models.TransientModel):
                                    ('m','month(s) ago'),
                                    ('y','year(s) ago'),
                                    ('all','All')],string='Since',default=_get_log_period,required=True)
+
+    expense_product_id = fields.Many2one('product.product', string="Product",default=_get_expense_product)
+    expense_period_unit = fields.Integer('Period unit',default=_get_expense_period_unit)
+    expense_period = fields.Selection([('w','week(s) ago'),
+                                   ('m','month(s) ago'),
+                                   ('y','year(s) ago'),
+                                   ('all','All')],string='Since',default=_get_expense_period)
 
     def _save_setting(self, pool, key, value):
         line_ids = pool.search([('key','=',key)])
@@ -181,4 +214,7 @@ class weladee_settings(models.TransientModel):
 
         self._save_setting(config_pool, CONST_SETTING_HOLIDAY_NOTICE, "Y" if self.holiday_notify_leave_req else "N")
         self._save_setting(config_pool, CONST_SETTING_HOLIDAY_NOTICE_EMAIL, self.holiday_notify_leave_req_email)
-        
+
+        self._save_setting(config_pool, CONST_SETTING_LOG_PERIOD_UNIT + '-exp', self.expense_period_unit)
+        self._save_setting(config_pool, CONST_SETTING_LOG_PERIOD + '-exp', self.expense_period)
+        self._save_setting(config_pool, CONST_SETTING_EXP_PRODUCT, self.expense_product_id.id)

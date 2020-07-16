@@ -11,6 +11,7 @@ from .weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_log
 from .weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
 from .weladee_log import get_emp_odoo_weladee_ids
 from odoo.addons.Weladee_Attendances.library.weladee_lib import _convert_to_tz_time
+from odoo.addons.Weladee_Attendances.models.weladee_settings import get_expense_product
 
 def create_odoo_type(self, data, context_sync):    
     '''
@@ -34,6 +35,17 @@ def create_odoo_exp(self, data, context_sync):
         pass
     return ret
 
+def create_odoo_exp_sheet(self, data, context_sync):    
+    '''
+    create odoo with new connection to be able to continue
+    '''
+    ret = False
+    try:
+        ret = self.env['hr.expense.sheet'].create(sync_clean_up(data))
+    except Exception as e:
+        pass
+    return ret    
+
 def sync_delete_type(self, context_sync):
     '''
     delete the hr attendance according filter
@@ -42,7 +54,6 @@ def sync_delete_type(self, context_sync):
     dt_delete_msg = 'remove all %s expense type from all records' % len(del_ids)
     if del_ids: 
        del_ids.unlink()
-       sync_logwarn(context_sync, dt_delete_msg)
 
 def sync_delete_expense(self, context_sync, period_settings):
     '''
@@ -69,7 +80,13 @@ def sync_delete_expense(self, context_sync, period_settings):
        dt_delete_msg = 'remove all %s expense after this period (%s)' % (len(del_ids),dt_from.strftime('%Y-%m-%d 00:00:00'))
 
     if del_ids: 
+       # removed sheet
+       sh = []       
+       for each in del_ids:           
+           if each.sheet_id and each.sheet_id.id: sh.append(each.sheet_id.id)
+       
        del_ids.unlink()
+       self.env['hr.expense.sheet'].browse(sh).unlink()
        sync_logwarn(context_sync, dt_delete_msg)
 
     return dt_from_utc 
@@ -142,15 +159,38 @@ def sync_expense(self, emp_obj, exp_obj, authorization, context_sync, odoo_welad
             if not weladee_ex :
                 sync_logwarn(context_sync,'weladee expense is empty')
                 continue
-            
-            odoo_ex = {
-                "name" : weladee_ex.ExpenseOdoo.NameThai or weladee_ex.ExpenseOdoo.NameEnglish
-            }
 
-            newid = create_odoo_exp(self, odoo_ex, context_sync)                
-            if newid and newid.id:
-               sync_logdebug(context_sync, "Insert expense '%s' to odoo" % odoo_ex )
+            if not odoo_weladee_ids: 
+                sync_logdebug(context_sync, 'getting all employee-weladee link') 
+                odoo_weladee_ids = get_emp_odoo_weladee_ids(emp_obj, odoo_weladee_ids)
+
+            date = datetime.datetime.fromtimestamp(weladee_ex.Expense.Date)
+            odoo_ex = {
+                "name" : weladee_ex.Expense.Vendor,
+                "quantity": 1,
+                "employee_id": odoo_weladee_ids.get('%s' % weladee_ex.Expense.EmployeeID,False),
+                "unit_amount": weladee_ex.Expense.Amount,
+                "product_id": get_expense_product(self),
+                "date": _convert_to_tz_time(self, date.strftime('%Y-%m-%d') + ' 23:59:59'),
+            }
+            sync_logwarn(context_sync, 'weladee >> %s' % weladee_ex or '-') 
+            sync_logwarn(context_sync, 'odoo >> %s' % odoo_ex or '-') 
+            #newid = create_odoo_exp(self, odoo_ex, context_sync)                
+            #if newid and newid.id:
+            #   sync_logdebug(context_sync, "Insert expense '%s' to odoo" % odoo_ex )
+            #   sync_stat_create(context_sync['stat-log'], 1)
+
+            # create expense.sheet
+            sheetid = create_odoo_exp_sheet(self, {
+                "name" : weladee_ex.Expense.Vendor,
+                "employee_id": odoo_weladee_ids.get('%s' % weladee_ex.Expense.EmployeeID,False),
+            }, context_sync)
+            if sheetid and sheetid.id:
+               sync_logdebug(context_sync, "Insert expense sheet to odoo" )
                sync_stat_create(context_sync['stat-log'], 1)
+            # updated   
+            sheetid.expense_line_ids += sheetid.expense_line_ids.new( odoo_ex )
+            sheetid.approve_expense_sheets()
 
     except Exception as e:
         sync_logdebug(context_sync, 'weladee >> %s' % weladee_ex or '-') 

@@ -14,7 +14,7 @@ from .grpcproto import weladee_pb2
 from . import weladee_settings
 from .sync.weladee_base import myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_has_error
 
-from odoo.addons.Weladee_Attendances.models.weladee_settings import get_synchronous_email, get_synchronous_debug,get_synchronous_period 
+from odoo.addons.Weladee_Attendances.models.weladee_settings import get_synchronous_email, get_synchronous_debug,get_synchronous_period, get_synchronous_exp_period 
 from odoo.addons.Weladee_Attendances.models.sync.weladee_position import sync_position_data, sync_position, resync_position 
 from odoo.addons.Weladee_Attendances.models.sync.weladee_department import sync_department_data, sync_department
 from odoo.addons.Weladee_Attendances.models.sync.weladee_employee import sync_employee_data, sync_employee
@@ -127,7 +127,7 @@ class weladee_attendance(models.TransientModel):
         if not sync_has_error(context_sync):
             sync_logdebug(context_sync,"Start sync...Expense")
             ex_obj = self.env['hr.expense']
-            sync_expense(self, emp_obj, ex_obj, authorization, context_sync, odoo_weladee_ids, {'period': 'all' ,'unit': 0})
+            sync_expense(self, emp_obj, ex_obj, authorization, context_sync, odoo_weladee_ids, get_synchronous_exp_period(self))
 
         sync_loginfo(context_sync,'sending result to %s' % context_sync['request-email'])
         context_sync['request-elapse'] = str(datetime.today() - elapse_start)
