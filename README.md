@@ -100,8 +100,8 @@ It's ready for Odoo 11. gRPC code is compatible python 2 & 3.
 
 ```python
     import grpc
-    import weladee_pb2
-    import weladee_pb2_grpc
+    import . from weladee_pb2
+    import . from weladee_pb2_grpc
   
    
     # Weladee grpc server address is grpc.weladee.com:22443
@@ -156,6 +156,8 @@ Simple code parsing a stream of log events that need to be synchronized with Odo
         logging.log(i,att)
 ```
       
+[![codecov](https://codecov.io/gh/Frontware/Weladee-odoo/branch/develop/graph/badge.svg)](https://codecov.io/gh/Frontware/Weladee-odoo)
 
 --------------------------------------------------------------
-(c) 2017 [Frontware International Co,Ltd.](https://www.frontware.co.th)
+(c) 2019 [Frontware International Co,Ltd.](https://www.frontware.co.th)
+
