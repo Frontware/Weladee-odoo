@@ -56,7 +56,7 @@ requirement:
   
   install: 
     
-  pip3 install --upgrade grpcio==1.7.3
+  pip3 install grpcio
 
 * imagemagick
   
