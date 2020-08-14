@@ -3,7 +3,7 @@
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/weladee)
 [![Coverage Status](https://coveralls.io/repos/github/Frontware/Weladee-odoo/badge.svg?branch=odoo12)](https://coveralls.io/github/Frontware/Weladee-odoo?branch=odoo12)
 
-![Weladee logo](https://vgy.me/jlVton.png)![odoo](https://vgy.me/5KoRp0.png)
+![Weladee logo](https://avatars-05.gitter.im/group/iv/1/5b6a384dd73408ce4fa3dbcb?s=72)![odoo](https://www.shareicon.net/data/512x512/2015/10/06/112722_development_512x512.png)
 
 ## What is Weladee?
 
