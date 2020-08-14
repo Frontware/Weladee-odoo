@@ -143,8 +143,8 @@ class weladee_employee(models.Model):
             WeladeeData.employee.lg = "en"
             WeladeeData.employee.Active = vals.get("active",False)
             WeladeeData.employee.receiveCheckNotification = vals["receive_check_notification"]
-            WeladeeData.employee.canRequestHoliday = vals["can_request_holiday"]
-            WeladeeData.employee.hasToFillTimesheet = vals["hasToFillTimesheet"]
+            WeladeeData.employee.CanRequestHoliday = vals["can_request_holiday"]
+            WeladeeData.employee.HasToFillTimesheet = vals["hasToFillTimesheet"]
 
             #2018-05-28 KPO use field from odoo
             if vals["passport_id"]:
@@ -163,7 +163,7 @@ class weladee_employee(models.Model):
                  WeladeeData.employee.Phones[0] = vals['work_phone'] or ''
 
             if 'gender' in vals:
-                WeladeeData.employee.gender = new_employee_data_gender(vals['gender']) 
+                WeladeeData.employee.Gender = new_employee_data_gender(vals['gender']) 
 
             try:
               result = stub.AddEmployee(WeladeeData, metadata=authorization)
@@ -247,14 +247,14 @@ class weladee_employee(models.Model):
               WeladeeData.employee.receiveCheckNotification = employee_odoo.receive_check_notification
 
             if "can_request_holiday" in vals :
-              WeladeeData.employee.canRequestHoliday = vals["can_request_holiday"]
+              WeladeeData.employee.CanRequestHoliday = vals["can_request_holiday"]
             else :
-              WeladeeData.employee.canRequestHoliday = employee_odoo.can_request_holiday
+              WeladeeData.employee.CanRequestHoliday = employee_odoo.can_request_holiday
 
             if "hasToFillTimesheet" in vals :
-              WeladeeData.employee.hasToFillTimesheet = vals["hasToFillTimesheet"]
+              WeladeeData.employee.HasToFillTimesheet = vals["hasToFillTimesheet"]
             else :
-              WeladeeData.employee.hasToFillTimesheet = employee_odoo.hasToFillTimesheet
+              WeladeeData.employee.HasToFillTimesheet = employee_odoo.hasToFillTimesheet
 
             #2018-05-28 KPO use passport_id from odoo
             if "passport_id" in vals :
@@ -314,7 +314,7 @@ class weladee_employee(models.Model):
                   WeladeeData.employee.Phones[0] = vals['work_phone'] or ''
 
             if 'gender' in vals:
-                WeladeeData.employee.gender = new_employee_data_gender(vals['gender'])   
+                WeladeeData.employee.Gender = new_employee_data_gender(vals['gender'])   
 
             if 'birthday' in vals:
                 WeladeeData.employee.Birthday = int(datetime.strptime(vals["birthday"],'%Y-%m-%d').timestamp())

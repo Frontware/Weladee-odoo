@@ -8,3 +8,5 @@ from . import resource_pb2_grpc
 from . import resource_pb2
 from . import timesheet_pb2_grpc
 from . import timesheet_pb2
+from . import expense_pb2_grpc
+from . import expense_pb2
