@@ -2,7 +2,7 @@
 
 
 
-![Weladee logo](https://vgy.me/jlVton.png)![odoo](https://goo.gl/D9uZDJ)
+![Weladee logo](https://lh3.googleusercontent.com/j-Rkw0T-xF2rqNV2p28hMNQnxWzS1M5yO2JoOI8a-sgxOWwRkJZ7TrKJmyErOSjykJVw)![odoo](https://seeklogo.com/images/O/odoo-logo-62B6A3D625-seeklogo.com.png)
 
 ## What is Weladee?
 
