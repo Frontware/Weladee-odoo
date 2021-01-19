@@ -7,11 +7,14 @@ from odoo import osv,api
 from odoo import models, fields
 from odoo import exceptions
 
-class weladee_holiday_status(models.Model):
-    _inherit = 'hr.leave.type'
+class weladee_expense_type(models.Model):
+    _name = 'weladee_expense_type'
 
     weladee_code = fields.Char('Weladee Code')
+    name_english = fields.Char('Name english')
+    name_thai = fields.Char('Name english')
+    note = fields.Text('Note')
 
     _sql_constraints = [
-      ('weladee_code_uniq', 'unique(weladee_code)', "Weladee Holiday Type can't duplicate !"),
+      ('weladee_code_uniq', 'unique(weladee_code)', "Weladee Expense type Code can't duplicate !"),
     ]

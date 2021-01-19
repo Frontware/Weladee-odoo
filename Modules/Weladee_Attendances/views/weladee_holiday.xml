@@ -4,48 +4,13 @@ customize HR leave form
 
 remarks:
 2018-06-27 KPO created    
+2018-11-14 KPO change from hr.holidays to hr.leave
 -->
 <odoo>
     <record id="weladee_att_hr_leave_list" model="ir.ui.view">
         <field name="name">weladee_att_hr_leave_list</field>
-        <field name="model">hr.holidays</field>
-        <field name="inherit_id" ref="hr_holidays.view_holiday"/>
-        <field name="arch" type="xml">
-            <xpath expr="//tree" position="attributes">
-                <attribute name="create">0</attribute>
-                <attribute name="edit">0</attribute>
-                <attribute name="delete">0</attribute>
-            </xpath>
-            <xpath expr="//field[@name='holiday_status_id']" position="replace" />
-        </field>
-    </record>
-
-    <record id="weladee_att_hr_leave_list_simp" model="ir.ui.view">
-        <field name="name">weladee_att_hr_leave_list_simp</field>
-        <field name="model">hr.holidays</field>
-        <field name="inherit_id" ref="hr_holidays.view_holiday_simple"/>
-        <field name="arch" type="xml">
-            <xpath expr="//tree" position="attributes">
-                <attribute name="create">0</attribute>
-                <attribute name="edit">0</attribute>
-                <attribute name="delete">0</attribute>
-            </xpath>
-            <xpath expr="//field[@name='holiday_status_id']" position="replace" />
-        </field>
-    </record>
-
-    <record id="weladee_att_hr_leave_list_alloc" model="ir.ui.view">
-        <field name="name">weladee_att_hr_leave_list_alloc</field>
-        <field name="model">hr.holidays</field>
-        <field name="inherit_id" ref="hr_holidays.view_holiday_allocation_tree"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='holiday_status_id']" position="replace" />
-        </field>
-    </record>
-     <record id="weladee_att_hr_leave_list_emp" model="ir.ui.view">
-        <field name="name">weladee_att_hr_leave_list_emp</field>
-        <field name="model">hr.holidays</field>
-        <field name="inherit_id" ref="hr_holidays.view_holiday_employee"/>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_tree"/>
         <field name="arch" type="xml">
             <xpath expr="//tree" position="attributes">
                 <attribute name="create">0</attribute>
@@ -58,8 +23,8 @@ remarks:
 
     <record id="weladee_att_hr_leave_form" model="ir.ui.view">
         <field name="name">weladee_att_hr_leave_form</field>
-        <field name="model">hr.holidays</field>
-        <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//form" position="attributes">
                 <attribute name="create">0</attribute>
@@ -92,89 +57,9 @@ remarks:
         </field>
     </record>
 
-    <!-- Holidays: Allocation Request -->
-    <record id="weladee_att_hr_leave_alloc_form" model="ir.ui.view">
-        <field name="name">weladee_att_hr_leave_alloc_form</field>
-        <field name="model">hr.holidays</field>
-        <field name="arch" type="xml">
-            <form string="Leave Request">
-            <field name="can_reset" invisible="1"/>
-            <field name="type" invisible="1"/>
-            <header>
-                <button string="Confirm" name="action_confirm" states="draft" type="object" class="oe_highlight"/>
-                <button string="Approve" name="action_approve" states="confirm" type="object" groups="hr_holidays.group_hr_holidays_user" class="oe_highlight"/>
-                <button string="Validate" name="action_validate" states="validate1" type="object" groups="hr_holidays.group_hr_holidays_manager" class="oe_highlight"/>
-                <button string="Refuse" name="action_refuse" states="confirm,validate,validate1" type="object" groups="hr_holidays.group_hr_holidays_user"/>
-                <button string="Reset to Draft" name="action_draft" type="object"
-                        attrs="{'invisible': ['|', ('can_reset', '=', False), ('state', 'not in', ['confirm', 'refuse'])]}"/>
-                <field name="state" widget="statusbar" statusbar_visible="draft,confirm,validate"/>
-            </header>
-            <sheet>
-                <div class="oe_title">
-                    <h1><field name="display_name"/></h1>
-                </div>
-                <group>
-                    <group>
-                        <field name="name" attrs="{'readonly':[('state','!=','draft'),('state','!=','confirm')]}"/>
-                        <field name="holiday_status_id" context="{'employee_id':employee_id}"/>
-                        <label for="number_of_days_temp" string="Duration"/>
-                        <div>
-                            <div attrs="{'invisible': [('type', '=', 'add')]}">
-                                <field name="date_from" attrs="{'required':[('type', '=', 'remove')]}" class="oe_inline"/>
-                                <label string="-" class="oe_inline"/>
-                                <field name="date_to"  attrs="{'required':[('type', '=', 'remove')]}" class="oe_inline"/>
-                            </div>
-                            <div>
-                                <field name="number_of_days_temp" class="oe_inline"/> days
-                            </div>
-                        </div>
-                    </group>
-                    <group>
-                        <field name="holiday_type" attrs="{'readonly':[('type', '=', 'remove'),('state','!=','draft')]}" string="Mode" groups="hr_holidays.group_hr_holidays_user" context="{'employee_id':employee_id}" />
-                        <field name="employee_id" attrs="{'required':[('holiday_type','=','employee')],'invisible':[('holiday_type','=','category')]}" groups="hr_holidays.group_hr_holidays_user"/>
-                        <field name="category_id" attrs="{'required':[('holiday_type','=','category')], 'readonly': [('type', '=', 'remove'),('state','!=','draft'), ('state','!=','confirm')], 'invisible':[('holiday_type','=','employee')]}"/>
-                        <field name="department_id" groups="hr_holidays.group_hr_holidays_user" attrs="{'readonly':['|','|' ,('type','=','add'),('holiday_type','=','category'),('state','=', 'validate')],'invisible':[('holiday_type','=','category')]}"/>
-                        <field name="payslip_status" groups="hr_holidays.group_hr_holidays_manager" attrs="{'invisible':[('type','=','add')]}" widget="toggle_button"/>
-                    </group>
-                    <field name="notes" nolabel="1" colspan="4" placeholder="Add a reason..." attrs="{'invisible': [('type', '=', 'remove')]}"/>
-                    <div groups="hr_holidays.group_hr_holidays_manager" attrs="{'invisible':[('type','=','add')]}">
-                        <separator string="Comment by Manager"/>
-                        <field name="report_note" placeholder="e.g. Report to the next month..."/>
-                    </div>
-                </group>
-            </sheet>
-            <div class="oe_chatter">
-                <field name="message_follower_ids" widget="mail_followers"/>
-                <field name="message_ids" widget="mail_thread"/>
-            </div>
-            </form>
-        </field>
-    </record>
-
-    <record id="weladee_att_hr_leave_alloc_act_view" model="ir.actions.act_window.view">
-        <field name="sequence" eval="2"/>
-        <field name="view_mode">form</field>
-        <field name="view_id" ref="weladee_att_hr_leave_alloc_form" />
-        <field name="act_window_id" ref="hr_holidays.open_department_holidays_allocation_approve"/>
-    </record>
-
-    <record id="weladee_att_hr_leave_alloc_act1_view" model="ir.actions.act_window.view">
-        <field name="sequence" eval="1"/>
-        <field name="view_mode">tree</field>
-        <field name="view_id" ref="hr_holidays.view_holiday_employee" />
-        <field name="act_window_id" ref="hr_holidays.open_department_holidays_allocation_approve"/>
-    </record>
-
-    <record id="hr_holidays.action_open_allocation_holidays_form" model="ir.actions.act_window.view">
-        <field name="sequence" eval="2"/>
-        <field name="view_mode">form</field>
-        <field name="view_id" ref="weladee_att_hr_leave_alloc_form"/>
-        <field name="act_window_id" ref="hr_holidays.open_allocation_holidays"/>
-    </record>
-
     <record id="weladee_att_hr_leave_form_err" model="ir.ui.view">
         <field name="name">weladee_att_hr_leave_form_err</field>
-        <field name="model">hr.holidays</field>
+        <field name="model">hr.leave</field>
         <field name="arch" type="xml">
             <form edit="0" create="0" delete="0">
             <h2>Sorry, please use Weladee to change the holiday</h2>
@@ -187,8 +72,8 @@ remarks:
 
     <record id="weladee_att_hr_leave_cal" model="ir.ui.view">
         <field name="name">weladee_att_hr_leave_cal</field>
-        <field name="model">hr.holidays</field>
-        <field name="inherit_id" ref="hr_holidays.view_holiday_new_calendar"/>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_calendar"/>
         <field name="arch" type="xml">
             <xpath expr="//calendar" position="replace">
                 <calendar string="Leave Request" form_view_id="%(weladee_att_hr_leave_form_err)d" date_start="date_from" date_stop="date_to" mode="month" quick_add="False" color="employee_id">
@@ -200,7 +85,7 @@ remarks:
 
     <record id="weladee_att_hr_leave_search" model="ir.ui.view">
         <field name="name">weladee_att_hr_leave_search</field>
-        <field name="model">hr.holidays</field>
+        <field name="model">hr.leave</field>
         <field name="inherit_id" ref="hr_holidays.view_hr_holidays_filter" />            
         <field name="arch" type="xml">
             <xpath expr="//filter[@name='group_name']" position="after">
@@ -208,12 +93,4 @@ remarks:
             </xpath>
         </field>
     </record>        
-
-    <record id="hr_holidays.menu_open_department_leave_allocation_approve" model="ir.ui.menu">
-        <field name="groups_id" eval="[(4, ref('Weladee_Attendances.group_weladee_leave_allocation'))]"/>
-    </record>
-
-    <record id="hr_holidays.menu_open_department_leave_approve" model="ir.ui.menu">
-        <field name="active">False</field>
-    </record>
 </odoo>

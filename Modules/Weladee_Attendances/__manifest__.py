@@ -1,30 +1,11 @@
-##############################################################################
-#
-#    OpenERP, Open Source Management Solution    
-#    Copyright (C) 2004-Now Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    d$
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
 {
 "name" : "Weladee attendances module",
-"version" : "4.07",
+"version" : "5.02",
 "author" : "Frontware International",
 "category" : "Generic Modules",
 'summary': 'Weladee-Odoo attendances\'s module',
-"depends" : ['base', 'hr', 'hr_attendance', 'hr_holidays', 'hr_timesheet'],
+"depends" : ['base', 'hr', 'hr_attendance', 'hr_holidays', 'hr_timesheet', 'hr_expense'],
 "data" :["security/security.xml",
          "security/ir.model.access.csv",    
          "views/emails/weladee_attendance.xml",
@@ -38,10 +19,11 @@
          'views/weladee_holiday_status.xml',
          "views/weladee_holiday.xml",
          "views/weladee_company_holiday.xml",
+         "views/weladee_expense.xml",
          "views/fw_hr_employee.xml"],
 "installable" : True,
 "active" : False,
-"website" : "https://www.weladee.com/",
+"website" : "https://github.com/Frontware/Weladee-odoo",
 "description":"""
 Weladee attendances module
 ==========================
@@ -51,7 +33,9 @@ It will synchronus employee, department, position, holidays and import attendanc
 
 change log:
 ------------------------------------
+* 2020-07-01 KPO sync approved expense
 * 2019-02-18 KPO allow to resync if 1st connection failed.
+* 2018-11-14 KPO compatible with odoo12
 * 2018-11-14 KPO allow to sync with multiple leave type
 * 2018-06-12 KPO fixed sync
 * 2017-07-18 CKA add view synchronous menu For sync Employee, Department, Holiday and attences on Attendances menu
@@ -67,15 +51,12 @@ change log:
                 
 requirement:
 ------------------------------------
-* grpcio
-
-  pip3 install grpcio  
 
 * grpc
   
   install: 
     
-  pip3 install --upgrade grpcio==1.7.3
+  pip3 install grpcio
 
 * imagemagick
   

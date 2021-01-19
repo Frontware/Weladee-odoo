@@ -12,7 +12,7 @@ def weladee_grpc_ctrl():
 
     return: stub    
     '''
-    creds = grpc.ssl_channel_credentials(weladee_certificate)
+    creds = grpc.ssl_channel_credentials(weladee_certificate.encode())
     channel = grpc.secure_channel(weladee_address, creds)
     return odoo_pb2_grpc.OdooStub(channel)
 

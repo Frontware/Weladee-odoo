@@ -21,9 +21,11 @@ from odoo.addons.Weladee_Attendances.models.sync.weladee_employee import sync_em
 from odoo.addons.Weladee_Attendances.models.sync.weladee_manager import sync_manager_dep,sync_manager_emp
 from odoo.addons.Weladee_Attendances.models.sync.weladee_log import sync_log
 from odoo.addons.Weladee_Attendances.models.sync.weladee_holiday import sync_holiday
+from odoo.addons.Weladee_Attendances.models.sync.weladee_expense import sync_expense
 
 class weladee_attendance_working(models.TransientModel):
       _name="weladee_attendance.working"  
+      _description="Weladee schedule last run"  
 
       last_run = fields.Datetime('Last run')
 
@@ -41,6 +43,9 @@ class weladee_attendance(models.TransientModel):
             request-logs-key: internal use for prevent write duplicate log
             request-email : email recipient
             request-debug : display debug log
+
+            remarks:
+            2018-11-14 KPO change hr.holidays to hr.leave
         '''
         elapse_start = datetime.today()
         user_tz = pytz.timezone(self.env.context.get('tz') or self.env.user.tz or 'UTC')
@@ -119,9 +124,14 @@ class weladee_attendance(models.TransientModel):
 
         if not sync_has_error(context_sync):
             sync_logdebug(context_sync,"Start sync...Holiday")
-            hr_obj = self.env['hr.holidays']
+            hr_obj = self.env['hr.leave']
             com_hr_obj = self.env['weladee_attendance.company.holidays']
             sync_holiday(self, emp_obj, hr_obj, com_hr_obj, authorization, context_sync, odoo_weladee_ids, holiday_status_id, to_email)
+
+        if not sync_has_error(context_sync):
+            sync_logdebug(context_sync,"Start sync...Expense")
+            ex_obj = self.env['hr.expense']
+            sync_expense(self, emp_obj, ex_obj, authorization, context_sync, odoo_weladee_ids, {'period': 'all' ,'unit': 0})
 
         sync_loginfo(context_sync,'sending result to %s' % context_sync['request-email'])
         context_sync['request-elapse'] = str(datetime.today() - elapse_start)

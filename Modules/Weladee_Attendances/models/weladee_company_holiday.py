@@ -6,6 +6,7 @@ from odoo import exceptions
 import datetime
 import time
 
+from odoo.addons.Weladee_Attendances.library.weladee_translation import msg_error_company_holiday
 class weladee_company_holidays(models.Model):
     _name="weladee_attendance.company.holidays"
     _description="Weladee company holidays"
@@ -19,4 +20,4 @@ class weladee_company_holidays(models.Model):
     def _onchange_company_holiday_date(self):
          holiday = self.search([('company_holiday_date','=',self.company_holiday_date)])
          if holiday:
-            raise exceptions.UserError('%s is already a company holiday.' % self.company_holiday_date)
+            raise exceptions.UserError(msg_error_company_holiday() % self.company_holiday_date)

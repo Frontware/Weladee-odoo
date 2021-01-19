@@ -13,6 +13,7 @@ from .grpcproto import odoo_pb2
 from . import weladee_settings
 from .sync.weladee_base import stub, myrequest, sync_clean_up 
 from .sync.weladee_employee import new_employee_data_gender
+from odoo.addons.Weladee_Attendances.library.weladee_translation import weladee_profile_title, msg_error_weladee_profile
 
 def get_weladee_employee(weladee_id, authorization):
     '''
@@ -142,8 +143,8 @@ class weladee_employee(models.Model):
             WeladeeData.employee.lg = "en"
             WeladeeData.employee.Active = vals.get("active",False)
             WeladeeData.employee.receiveCheckNotification = vals["receive_check_notification"]
-            WeladeeData.employee.canRequestHoliday = vals["can_request_holiday"]
-            WeladeeData.employee.hasToFillTimesheet = vals["hasToFillTimesheet"]
+            WeladeeData.employee.CanRequestHoliday = vals["can_request_holiday"]
+            WeladeeData.employee.HasToFillTimesheet = vals["hasToFillTimesheet"]
 
             #2018-05-28 KPO use field from odoo
             if vals["passport_id"]:
@@ -162,7 +163,7 @@ class weladee_employee(models.Model):
                  WeladeeData.employee.Phones[0] = vals['work_phone'] or ''
 
             if 'gender' in vals:
-                WeladeeData.employee.gender = new_employee_data_gender(vals['gender']) 
+                WeladeeData.employee.Gender = new_employee_data_gender(vals['gender']) 
 
             try:
               result = stub.AddEmployee(WeladeeData, metadata=authorization)
@@ -246,14 +247,14 @@ class weladee_employee(models.Model):
               WeladeeData.employee.receiveCheckNotification = employee_odoo.receive_check_notification
 
             if "can_request_holiday" in vals :
-              WeladeeData.employee.canRequestHoliday = vals["can_request_holiday"]
+              WeladeeData.employee.CanRequestHoliday = vals["can_request_holiday"]
             else :
-              WeladeeData.employee.canRequestHoliday = employee_odoo.can_request_holiday
+              WeladeeData.employee.CanRequestHoliday = employee_odoo.can_request_holiday
 
             if "hasToFillTimesheet" in vals :
-              WeladeeData.employee.hasToFillTimesheet = vals["hasToFillTimesheet"]
+              WeladeeData.employee.HasToFillTimesheet = vals["hasToFillTimesheet"]
             else :
-              WeladeeData.employee.hasToFillTimesheet = employee_odoo.hasToFillTimesheet
+              WeladeeData.employee.HasToFillTimesheet = employee_odoo.hasToFillTimesheet
 
             #2018-05-28 KPO use passport_id from odoo
             if "passport_id" in vals :
@@ -313,7 +314,7 @@ class weladee_employee(models.Model):
                   WeladeeData.employee.Phones[0] = vals['work_phone'] or ''
 
             if 'gender' in vals:
-                WeladeeData.employee.gender = new_employee_data_gender(vals['gender'])   
+                WeladeeData.employee.Gender = new_employee_data_gender(vals['gender'])   
 
             if 'birthday' in vals:
                 WeladeeData.employee.Birthday = int(datetime.strptime(vals["birthday"],'%Y-%m-%d').timestamp())
@@ -373,6 +374,7 @@ class weladee_employee(models.Model):
         self.clean_up_space(odoovals)
         if not odoovals.get('name',False):
            odoovals['name'] = " ".join([vals['first_name_english'] or '', vals['last_name_english'] or '']) 
+        if "manager" in odoovals: del odoovals['manager']   
         pid = super(weladee_employee,self).create( odoovals )
 
         # only when user create from odoo, always send
@@ -386,6 +388,7 @@ class weladee_employee(models.Model):
     def write(self, vals):
         odoovals = sync_clean_up(vals)
         self.clean_up_space(odoovals)
+        if "manager" in odoovals: del odoovals['manager']
         ret = super(weladee_employee, self).write( odoovals )
         # if don't need to sync when there is weladee-id in vals
         # case we don't need to send to weladee, like just update weladee-id in odoo
@@ -409,13 +412,13 @@ class weladee_employee(models.Model):
       '''
       if self.weladee_profile :
         return {
-              'name': _("Weladee Profile"),
+              'name': weladee_profile_title(),
               'type': 'ir.actions.act_url',
               'url': self.weladee_profile,
               'target': 'new'
           }
       else :
-        raise exceptions.UserError("This employee don't have weladee url.")
+        raise exceptions.UserError(msg_error_weladee_profile())
 
     @api.one
     @api.returns('self', lambda value: value.id)

@@ -1,9 +1,9 @@
 # Weladee - Odoo
 
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/weladee)
-[![Coverage Status](https://coveralls.io/repos/github/Frontware/Weladee-odoo/badge.svg?branch=odoo11)](https://coveralls.io/github/Frontware/Weladee-odoo?branch=odoo11)
+[![Coverage Status](https://coveralls.io/repos/github/Frontware/Weladee-odoo/badge.svg?branch=odoo12)](https://coveralls.io/github/Frontware/Weladee-odoo?branch=odoo12)
 
-![Weladee logo](https://vgy.me/jlVton.png)![odoo](https://vgy.me/5KoRp0.png)
+![Weladee logo](https://avatars-05.gitter.im/group/iv/1/5b6a384dd73408ce4fa3dbcb?s=72)![odoo](https://www.shareicon.net/data/512x512/2015/10/06/112722_development_512x512.png)
 
 ## What is Weladee?
 
@@ -24,7 +24,7 @@ See how much lateness costs you with our simulation page: https://www.weladee.co
 
 [Odoo](https://www.odoo.co.th) module for Weladee
 
-This Odoo module create the link between Weladee and your Odoo 11.0 instance.
+This Odoo module create the link between Weladee and your Odoo 12.0 instance.
 
 You will be able to synchronize departments, employees and attendance.
 
@@ -38,7 +38,51 @@ The communication between Odoo & Weladee is encrypted with SSL3 and TLS 1.3 cert
 
 Sample calls:
 
-![uml](https://goo.gl/AFpwfs)
+```plantuml
+# Don't forget to update the image in README.md if you do any change in this file
+
+@startuml
+
+title Weladee/Odoo Sequence Diagram - Samples Cases\n
+
+note right Odoo
+    All communication is encrypted
+    by modern TLS 3 certificate.
+end note
+Odoo -> Weladee: Request list of employees
+alt failure
+    note right Odoo
+        For each call you provide api-key in meta
+        API key is private and unique per company
+        You can get it when you register to  **Weladee**
+    end note
+    Weladee -> Odoo: Authentication failed
+    note right Weladee #FFAAAA
+        The key is incorrect
+        No data is sent from **Weladee**
+    end note
+    note right Odoo #FFAAAA
+        Got an authentification error
+        Need to check the api key
+    end note
+end
+alt successfull
+    Weladee --> Odoo: Return each employee in a stream
+    note right Odoo
+        **Odoo** can take action as soon the 1st stream is received.
+        Streaming with http2 is a very big advantage,
+        it reduces a lot latency between client and server
+    end note
+    Odoo -> Weladee: Add a holiday
+    Odoo <- Weladee: Returns the holiday id for weladee
+end
+footer
+
+2017 Frontware International ... www.weladee.com
+end footer
+
+@enduml
+```
 
 ### API Key
 
@@ -49,7 +93,7 @@ Weladee is free to subscribe with 3 months trial period or even 100% free for co
 
 ## Sample Code for gRPC API
 
-It's ready for Odoo 11. gRPC code is compatible python 2 & 3.
+It's ready for Odoo 12. gRPC code is compatible python 2 & 3.
 
 ### Connect to server
 
@@ -111,5 +155,7 @@ Simple code parsing a stream of log events that need to be synchronized with Odo
         logging.log(i,att)
 ```
 
+[![codecov](https://codecov.io/gh/Frontware/Weladee-odoo/branch/develop/graph/badge.svg)](https://codecov.io/gh/Frontware/Weladee-odoo)
+
 --------------------------------------------------------------
-(c) 2019 [Frontware International Co,Ltd.](https://www.frontware.co.th)
+(c) 2020 [Frontware International Co,Ltd.](https://www.frontware.co.th)

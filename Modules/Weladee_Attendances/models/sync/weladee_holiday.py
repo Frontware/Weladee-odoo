@@ -58,13 +58,16 @@ def sync_holiday_data(self, weladee_holiday, odoo_weladee_ids, context_sync, hol
             'date_to': _convert_to_tz_time(self, date.strftime('%Y-%m-%d') + ' 23:59:59'),
             'employee_id':odoo_weladee_ids.get('%s' % weladee_holiday.Holiday.EmployeeID,False),
             'holiday_status_id': holiday_status_id,
-            'number_of_days_temp': 1,
+            'number_of_days': 1,
             'holiday_type':'employee',
             'weladee_id': weladee_holiday.Holiday.ID,
             'weladee_code': weladee_holiday.Holiday.code,
             'weladee_sick': weladee_holiday.Holiday.sickLeave,
             'state':'validate'}
     
+    data['request_date_from'] = data['date_from']
+    data['request_date_to'] = data['date_to']
+   
     # 2018-11-14 KPO allow multiple type, but default come from setting
     if weladee_holiday.Holiday.code in leaves_types:
         data['holiday_status_id'] = leaves_types[weladee_holiday.Holiday.code] or holiday_status_id
@@ -110,7 +113,7 @@ def _update_weladee_holiday_back(weladee_holiday, holiday_odoo, context_sync, st
 def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, context_sync, odoo_weladee_ids, holiday_status_id, to_email):
     '''
     sync all holiday from weladee (1 way from weladee)
-
+    2018-11-14 KPO change hr.holidays to hr.leave
     '''
     context_sync['stat-hol'] = {'to-sync':0, "create":0, "update": 0, "error":0}
     odoo_hol = False
@@ -130,7 +133,7 @@ def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, con
 
             # collect leave type
             leaves_types = {}
-            for t in self.env['hr.holidays.status'].search([('weladee_code','!=',False)]):
+            for t in self.env['hr.leave.type'].search([('weladee_code','!=',False)]):
                 if not t.weladee_code in leaves_types:
                    leaves_types[t.weladee_code] = t.id 
             
@@ -139,8 +142,10 @@ def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, con
             if odoo_hol and odoo_hol['res-mode'] == 'create':
                 newid = False
                 if odoo_hol['res-type']  == 'employee':
+                     del odoo_hol['res-type']
                      newid = holiday_obj.create(odoo_hol) 
                 elif odoo_hol['res-type']  == 'company':
+                     del odoo_hol['res-type']
                      newid = com_holiday_obj.create(sync_clean_up(odoo_hol))
                 if newid and newid.id:
                     sync_logdebug(context_sync, "Insert holiday '%s' to odoo" % odoo_hol )
@@ -160,6 +165,7 @@ def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, con
                      odoo_id = com_holiday_obj.search([('id','=',odoo_hol['res-id']),'|',('company_holiday_active','=',True),('company_holiday_active','=',False)])
                 
                 if odoo_id and odoo_id.id:
+                    del odoo_hol['res-type']
                     if odoo_id.write(sync_clean_up(odoo_hol)):
                         sync_logdebug(context_sync, "Updated holiday '%s' to odoo" % odoo_hol )
                         sync_stat_update(context_sync['stat-hol'], 1)
@@ -195,10 +201,10 @@ def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, con
 
                 template = self.env.ref('Weladee_Attendances.weladee_attendance_allocate_emp_mail', raise_if_not_found=False)
                 if template:
-                    allocation_url='%s/web#view_type=list&model=hr.holidays&menu_id=%s&action=%s' % (
+                    allocation_url='%s/web#view_type=list&model=hr.leave&menu_id=%s&action=%s' % (
                         self.env['ir.config_parameter'].search([('key','=','web.base.url')]).value,
-                        self.env.ref('hr_holidays.menu_open_department_leave_allocation_approve').id,
-                        self.env.ref('hr_holidays.open_department_holidays_allocation_approve').id)
+                        self.env.ref('hr_holidays.hr_holidays_menu_manager_all_allocations').id,
+                        self.env.ref('hr_holidays.hr_leave_allocation_action_all').id)
                     template.with_context({'email-to':get_holiday_notify_email(self),
                                            'employee': emp_name,
                                            'url':allocation_url}).send_mail(self.id)        

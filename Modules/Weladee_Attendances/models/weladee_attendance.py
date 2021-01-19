@@ -10,6 +10,6 @@ class weladee_attendance(models.Model):
     _inherit = 'hr.attendance'
 
     _sql_constraints = [
-        ('unique_empin_timestamp', 'unique (employee_id, check_in)', 'employee checkin record'),
-        ('unique_empout_timestamp', 'unique (employee_id, check_out)', 'employee checkout record'),
+        ('unique_empin_timestamp', 'unique (employee_id, check_in)', 'Employee checkin record must not duplicate'),
+        ('unique_empout_timestamp', 'unique (employee_id, check_out)', 'Employee checkout record must not duplicate'),
     ]
