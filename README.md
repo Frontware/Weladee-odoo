@@ -3,7 +3,7 @@
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/weladee)
 [![Coverage Status](https://coveralls.io/repos/github/Frontware/Weladee-odoo/badge.svg?branch=odoo12)](https://coveralls.io/github/Frontware/Weladee-odoo?branch=odoo12)
 
-![Weladee logo](https://avatars-05.gitter.im/group/iv/1/5b6a384dd73408ce4fa3dbcb?s=72)![odoo](https://www.shareicon.net/data/512x512/2015/10/06/112722_development_512x512.png)
+![Weladee logo](https://weladee.com/images/weladee_ticon.png)![odoo](https://www.shareicon.net/data/512x512/2015/10/06/112722_development_512x512.png)
 
 ## What is Weladee?
 
@@ -11,7 +11,7 @@ Weladee is a service "In The Cloud" to manage employee attendance.
 It's developed to be **simple**, **fast** and **cheap** to use for any small company (or even big ones).
 The primary market of this service is **Thailand** for now (2018), we started to deploy customers in Cambodia too.
 
-Take a look at https://www.weladee.com
+Take a look at https://weladee.com
 
 ### Why using Weladee?
 
@@ -78,7 +78,7 @@ alt successfull
 end
 footer
 
-2017 Frontware International ... www.weladee.com
+2021 Frontware International ... www.weladee.com
 end footer
 
 @enduml
