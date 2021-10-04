@@ -176,9 +176,11 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
             sync_stat_to_sync(context_sync['stat-employee'], 1)
             if not weladee_employee :
                sync_logwarn(context_sync,'weladee employee is empty')
+               sync_logdebug(context_sync, "weladee employee is empty '%s'" % weladee_employee )
                continue
 
             odoo_emp = sync_employee_data(weladee_employee, employee_obj, job_obj, department_obj, country, context_sync, pdf_path)
+            sync_logdebug(context_sync, "weladee employee mode '%s'" % odoo_emp )
 
             if odoo_emp and odoo_emp['res-mode'] == 'create':
                newid = employee_obj.create(odoo_emp)
