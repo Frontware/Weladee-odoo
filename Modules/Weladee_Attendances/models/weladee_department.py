@@ -145,8 +145,6 @@ class weladee_department(models.Model):
                         result = stub.UpdateDepartment(newDepartment, metadata=authorization)
                         _logger.info("updated department on Weladee : %s" % result)
                     except Exception as e:
-                        #print("[department] odoo > %s" % vals)
-                        #print("[department] weladee > %s" % newDepartment)
                         _logger.error("weladee > %s" % newDepartment)
                         _logger.error("Error while update department on Weladee : %s" % e)
                 else:
@@ -155,7 +153,6 @@ class weladee_department(models.Model):
         else:
           _logger.error("Error while update department on Weladee : No authroized")
 
-    @api.multi
     def write(self, vals):
         odoovals = sync_clean_up(vals)
         ret = super(weladee_department, self).write( odoovals )

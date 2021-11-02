@@ -17,7 +17,6 @@ class weladee_attendance_form(models.TransientModel):
     def _get_synchronous_email(self):
         return "get_synchronous_email(self)"
 
-    @api.one
     def _get_synchronous_email(self):
         self.email = get_synchronous_email(self)
 
@@ -37,7 +36,6 @@ class weladee_attendance_form(models.TransientModel):
             "target":"new"
         } 
 
-    @api.multi
     def synchronousBtn(self):
         '''
         click confirm to start synchronous
@@ -46,14 +44,14 @@ class weladee_attendance_form(models.TransientModel):
         works = self.env['weladee_attendance.working'].search([])
         if works and len(works) > 0:           
            user_tz = pytz.timezone(self.env.context.get('tz') or self.env.user.tz or 'UTC')
-           last_work = datetime.datetime.strptime(works.last_run,'%Y-%m-%d %H:%M:%S')
+           last_work = works.last_run
            last_run = last_work.astimezone(user_tz)
 
            raise UserError('Caution, the task already started at %s. Please wait...' % last_run.strftime('%d/%m/%Y %H:%M'))      
 
         cron = self.env.ref('Weladee_Attendances.weladee_attendance_synchronous_cron')
         #restart cron
-        newnextcall = datetime.datetime.strptime(cron.nextcall,'%Y-%m-%d %H:%M:%S')
+        newnextcall = cron.nextcall
         newnextcall = newnextcall - datetime.timedelta(days=30)
         cron.write({'nextcall': newnextcall})
 

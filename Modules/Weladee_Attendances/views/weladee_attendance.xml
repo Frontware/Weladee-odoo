@@ -13,15 +13,15 @@
             <field name="model">weladee_attendance_form</field>
             <field name="arch" type="xml">
                <form string="Weladee Synchronization">
-                    <label string="List" colspan="4" /><br />
-                    <label string="   - Positions" colspan="4" /><br />
-                    <label string="   - Departments" colspan="4" /><br />
-                    <label string="   - Employees" colspan="4" /><br />
-                    <label string="   - Holidays" colspan="4" /><br />
-                    <label string="   - Attendance" colspan="4" />
+                    <span colspan="4" class="o_form_label">List</span><br />
+                    <span colspan="4" class="o_form_label">   - Positions</span><br />
+                    <span colspan="4" class="o_form_label">   - Departments</span><br />
+                    <span colspan="4" class="o_form_label">   - Employees</span><br />
+                    <span colspan="4" class="o_form_label">   - Holidays</span><br />
+                    <span colspan="4" class="o_form_label">   - Attendance</span><br />
                     <br />
                     <br />
-                    <label string="After synchronization, result will send to email address below" />
+                    <span class="o_form_label">After synchronization, result will send to email address below</span>
                     <field name="email" readonly="1" />
                     <footer>
                         <button icon="fa-close"  special="cancel"   string="Close"/>
@@ -36,7 +36,7 @@
             <field name="model">weladee_attendance_form</field>
             <field name="arch" type="xml">
                <form string="Synchronous">
-                    <label string="Synchronization started, you will receive email at email address below once it's done." />
+                    <span class="o_form_label">Synchronization started, you will receive email at email address below once it's done.</span>
                     <field name="email" readonly="1" />
                     <footer>
                         <button icon="fa-close"  special="cancel"   string="Close"/>

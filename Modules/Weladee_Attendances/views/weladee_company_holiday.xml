@@ -35,11 +35,10 @@
         <record id="action_company_holidays" model="ir.actions.act_window">
             <field name="name">Company holidays</field>
             <field name="res_model">weladee_attendance.company.holidays</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
-                    Click here to create a new company holiday
+                    Run Attendances <span class="fa fa-arrow-right o_we_selected_image" style="font-size: 13px;"></span> Weladee synchronization to get your company holiday from weladee
                 </p>
             </field>
         </record>

@@ -31,30 +31,35 @@
                     <page string="Holiday">
                         <group>
                             <field name="holiday_status_id"/>
-                            <label for="id" string=" "/>
+                            <label for="holiday_notify_leave_req" string="Notify" />
                             <div>
                                 <field name="holiday_notify_leave_req"/>
-                                <label for="holiday_notify_leave_req"/>
-                                <div attrs="{'invisible':[('holiday_notify_leave_req','=',False)]}">
-                                    <label for="holiday_notify_leave_req_email"/>
-                                    <field name="holiday_notify_leave_req_email" attrs="{'required':[('holiday_notify_leave_req','=',True)]}"/>
-                                </div>
-                                <label string="*Note: you can separate each email by ;" />
                             </div>
+                        </group>
+                        <group attrs="{'invisible':[('holiday_notify_leave_req','=',False)]}">
+                            <span class="o_form_label">to email</span><br/>
+                            <div>
+                                <field name="holiday_notify_leave_req_email" attrs="{'required':[('holiday_notify_leave_req','=',True)]}"/>
+                            </div>
+                            <br/>
+                            <span class="o_form_label">*Note: you can separate each email by ;</span>
                         </group>
                     </page>
                     <page string="Notification">
                         <group>
-                            <field name="email" requird="1"/>
-                            <label for="id" string=""/>
+                            <label for="email"/>
+                            <div>
+                                <field name="email" requird="1"/>
+                                <br />
+                                <span class="o_form_label">*Note: you can separate each email by ;</span>
+                            </div>
+                        </group>
+                        <group>
                             <div>
                                 <field name="api_debug" nolabel="1" class="oe_inline"/>
                                 <label for="api_debug" />
                             </div>
                         </group>
-                        <div colspan="4">
-                            <label string="*Note: you can separate each email by ;" />
-                        </div>
                     </page>
                 </notebook>
                 <footer>
@@ -68,10 +73,15 @@
     <record model="ir.actions.act_window" id="action_weladee_setting_form">
         <field name="name">Weladee Settings</field>
         <field name="res_model">weladee_attendance.synchronous.setting</field>
-        <field name="view_type">form</field>
         <field name="view_mode">form</field>
         <field name="view_id" ref="weladee_setting_wizard"/>
         <field name="target">new</field>
     </record>
+
     <menuitem id="weladee_setting_menu" name="Weladee Settings" sequence="76" parent="hr_attendance.menu_hr_attendance_root" groups="hr_attendance.group_hr_attendance_manager" action="action_weladee_setting_form" />
+    
+    <record id="hr_attendance.menu_hr_attendance_kiosk_no_user_mode" model="ir.ui.menu">
+        <field name="active">false</field>
+    </record>
+
 </odoo>  

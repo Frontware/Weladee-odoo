@@ -99,22 +99,9 @@ class weladee_job(models.Model):
 
             elif newPosition_mode == 'update':
                 _logger.warn("No update position available from odoo -> Weladee")
-                '''
-                if newPosition:
-                    try:
-                        result = stub.UpdatePosition(newPosition, metadata=authorization)
-                        _logger.info("updated position on Weladee : %s" % result.id)
-                    except Exception as e:
-                        _logger.debug("[position] odoo > %s" % vals)
-                        _logger.error("Error while update position on Weladee : %s" % e)
-                else:
-                    # not found this weladee id anymore, probably deleted on weladee., still keep in odoo without sync.
-                    _logger.error("Error while update position on Weladee : can't find this weladee id %s" % self.weladee_id)
-                '''
         else:
           _logger.error("Error while update position on Weladee : No authroized")
 
-    @api.multi
     def write(self, vals):
         odoovals = sync_clean_up(vals)
         ret = super(weladee_job, self).write( odoovals )

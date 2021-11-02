@@ -142,7 +142,7 @@ class weladee_settings(models.TransientModel):
         return get_holiday_notify_email(self)
         
 
-    holiday_status_id = fields.Many2one("hr.holidays.status", String="Default Leave Type",required=True,default=_get_holiday_status )
+    holiday_status_id = fields.Many2one("hr.leave.type", String="Default Leave Type",required=True,default=_get_holiday_status )
     holiday_notify_leave_req = fields.Boolean('Notify if there is not enough allocated leave request', default=_get_holiday_notify_leave_req )
     holiday_notify_leave_req_email = fields.Text('Notified Email', default=_get_holiday_notify_leave_req_email)
 

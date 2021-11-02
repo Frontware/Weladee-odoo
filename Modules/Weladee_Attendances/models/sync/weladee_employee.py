@@ -42,6 +42,7 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
 
     2018-06-14 KPO sync qrcode from weladee
     '''    
+    sync_loginfo(context_sync,'[employee] 0')
     photoBase64 = ''
     if weladee_employee.employee.photo:
         bytese = False
@@ -94,6 +95,7 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
     if weladee_employee.employee.Birthday > 0:
         data["birthday"] = datetime.fromtimestamp( weladee_employee.employee.Birthday )
 
+    sync_loginfo(context_sync,'[employee] 0.5')
     if weladee_employee.employee.PositionID :
         job_datas = job_obj.search( [("weladee_id","=", weladee_employee.employee.PositionID )] )
         if job_datas :
@@ -107,9 +109,7 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
                 data[ "department_id" ] = ddatas.id
 
     if photoBase64:
-        data["image"] = photoBase64
-        data["image_medium"] = photoBase64
-        data["image_small"] = photoBase64
+        data["image_1920"] = photoBase64
 
     if weladee_employee.Badge:
         data["barcode"] = weladee_employee.Badge
@@ -126,8 +126,9 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
        data["work_phone"] = weladee_employee.employee.Phones[0]
        
     #2018-06-01 KPO if application level >=2 > manager   
-    data["manager"] = weladee_employee.employee.application_level >= 2
+    data["parent_id"] = weladee_employee.employee.application_level >= 2
 
+    sync_loginfo(context_sync,'[employee] 1')
     # look if there is odoo record with same weladee-id
     # if not found then create else update    
     odoo_employee = emp_obj.search([("weladee_id", "=", weladee_employee.employee.ID),'|',('active','=',False),('active','=',True)])
@@ -139,6 +140,7 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
        if not weladee_employee.odoo.odoo_id:
           data['send2-weladee'] = True
 
+    sync_loginfo(context_sync,'[employee] 2')
     if data['res-mode'] == 'create':
        # check if there is same name, email
        # consider it same record 
@@ -159,8 +161,7 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
           data['res-mode'] = 'update'
           data['res-id'] = odoo_employee.id
 
-    #print(data['gender'])
-    #print(weladee_employee)
+    sync_loginfo(context_sync,'[employee] 3')
     return data   
 
 def sync_employee(job_obj, employee_obj, department_obj, country, authorization, emp_managers, context_sync, pdf_path):
@@ -192,7 +193,9 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
 
             elif odoo_emp and odoo_emp['res-mode'] == 'update':
                 
+                sync_loginfo(context_sync,'[employee] uuuuuu')
                 odoo_id = employee_obj.search([('id','=',odoo_emp['res-id']),'|',('active','=',False),('active','=',True)])
+                sync_loginfo(context_sync,str(odoo_id))
                 if odoo_id.id:
                    odoo_id.write(odoo_emp)
                    sync_logdebug(context_sync, "Updated employee '%s' to odoo" % odoo_emp['name'] )
@@ -205,6 +208,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
                    sync_stat_error(context_sync['stat-employee'], 1)
 
     except Exception as e:
+        sync_loginfo(context_sync, str(e))
         if sync_weladee_error(weladee_employee, 'employee', e, context_sync):
            return
     
@@ -216,6 +220,9 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
     odoo_employee_ids = employee_obj.search([('weladee_id','=',False),'|',('active','=',False),('active','=',True)])
     context_sync['stat-w-employee']['to-sync'] = len(odoo_employee_ids)
     for odoo_employee in odoo_employee_ids:
+        if odoo_employee.id == 1: 
+           #always skip administrator id = 1
+           continue 
         sync_stat_to_sync(context_sync['stat-w-employee'], 1)
         if not odoo_employee.name:
            sync_logdebug(context_sync, 'odoo > %s' % odoo_employee) 
@@ -255,8 +262,8 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
         if odoo_employee.country_id:
             newEmployee.employee.Nationality = odoo_employee.country_id.name 
 
-        if odoo_employee.image:
-            newEmployee.employee.photo = odoo_employee.image
+        if odoo_employee.image_1920:
+            newEmployee.employee.photo = odoo_employee.image_1920
 
         if odoo_employee.work_phone:
             newEmployee.employee.Phones[:] = [odoo_employee.work_phone]
@@ -272,7 +279,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
           
         try:
             returnobj = stub.AddEmployee(newEmployee, metadata=authorization)
-            #print( result  )
+
             odoo_employee.write({'weladee_id':returnobj.id})
             sync_logdebug(context_sync, "Added employee to weladee : %s" % odoo_employee.name)
             sync_stat_create(context_sync['stat-w-employee'], 1)

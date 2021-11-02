@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+    <t t-extend="hr_holidays.dashboard.calendar.button">
+        <t t-jquery="button.btn" t-operation="replace">
+            
+        </t>
+    </t>
+</templates>

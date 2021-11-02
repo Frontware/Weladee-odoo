@@ -6,20 +6,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-02 08:16+0000\n"
-"PO-Revision-Date: 2021-11-02 08:16+0000\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"POT-Creation-Date: 2020-11-17 10:35+0000\n"
+"PO-Revision-Date: 2020-09-07 08:12+0000\n"
+"Last-Translator: KPO, 2021\n"
+"Language-Team: Thai (https://www.odoo.co.th/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Language: th\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: Weladee_Attendances
 #: code:addons/Weladee_Attendances/library/weladee_translation.py:0
 #, python-format
 msgid " employee tag %s"
-msgstr ""
+msgstr " ป้ายพนักงาน %s"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
@@ -27,6 +28,8 @@ msgid ""
 "<br/>\n"
 "                                <span class=\"o_form_label\">*Note: you can separate each email by ;</span>"
 msgstr ""
+"<br/>\n"
+"                                <span class=\"o_form_label\">*หมายเหตุ: คั่นอีเมลแต่ละอันด้วย ;</span>"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
@@ -34,6 +37,8 @@ msgid ""
 "<br/>\n"
 "                            <span class=\"o_form_label\">*Note: you can separate each email by ;</span>"
 msgstr ""
+"<br/>\n"
+"                            <span class=\"o_form_label\">*หมายเหตุ: คั่นอีเมลแต่ละอันด้วย ;</span>"
 
 #. module: Weladee_Attendances
 #: model:mail.template,body_html:Weladee_Attendances.weladee_attendance_synchronous_cron_mail
@@ -84,6 +89,51 @@ msgid ""
 "*This request and email are generated on database = ${user.env.cr.dbname} within ${ctx.get('request-elapse')}\n"
 "</p>\n"
 msgstr ""
+"<div>\n"
+"<p>สวัสดี,\n"
+"<br/>\n"
+"มีการเริ่มทำดึงข้อมูลเวลาดีเมื่อ ${ctx.get('request-date')}\n"
+"</p>\n"
+"% if ctx.get('request-error',False):\n"
+"    มีข้อผิดพลาดเกิดขึ้นเมื่อดึงข้อมูล:<br/>\n"
+"    <ul>\n"
+"    % for err in ctx.get('request-logs'):\n"
+"      % if err[0] == 'e'\n"
+"        <li style=\"color:red\">${err[1]}</li>\n"
+"      % endif\n"
+"    % endfor\n"
+"    </ul>\n"
+"% else:\n"
+"\n"
+"    % if ctx.get('request-logs-y',False) == 'Y':\n"
+"\n"
+"        มีข้อผิดพลาดเกิดขึ้นเมื่อดึงข้อมูล:<br/>\n"
+"        <ul>\n"
+"            % for err in ctx.get('request-logs'):\n"
+"                % if err[0] == 'e'\n"
+"                <li style=\"color:red\">${err[1]}</li>\n"
+"                % endif\n"
+"            % endfor\n"
+"        </ul>\n"
+"\n"
+"    % else:\n"
+"\n"
+"        ได้ทำการดึงข้อมูลเหล่านี้จากเวลาดีเรียบร้อยแล้ว:\n"
+"        <ul>\n"
+"            <li>คำแหน่งพนักงาน</li>\n"
+"            <li>แผนก</li>\n"
+"            <li>พนักงาน</li>\n"
+"            <li>ข้อมูลเข้าออก</li>\n"
+"            <li>รายการวันหยุด</li>\n"
+"        </ul>\n"
+"\n"
+"    % endif\n"
+"\n"
+"% endif\n"
+"</div>\n"
+"<p>\n"
+"*การทำงานและอีเมลนี้ถูกสร้างขึ้นบนฐานข้อมูล = ${user.env.cr.dbname} ใช้เวลาประมาณ ${ctx.get('request-elapse')}\n"
+"</p>\n"
 
 #. module: Weladee_Attendances
 #: model:mail.template,body_html:Weladee_Attendances.weladee_attendance_synchronous_cron_mail_debug
@@ -155,6 +205,72 @@ msgid ""
 "*This request and email are generated on database = ${user.env.cr.dbname} within ${ctx.get('request-elapse')}\n"
 "</p>\n"
 msgstr ""
+"<div>\n"
+"<p>สวัสดี,\n"
+"<br/>\n"
+"มีการเริ่มทำดึงข้อมูลเวลาดีเมื่อ at ${ctx.get('request-date')}\n"
+"</p>\n"
+"% if ctx.get('request-error',False):\n"
+"    มีข้อผิดพลาดเกิดขึ้นเมื่อดึงข้อมูล:<br/>\n"
+"    <ul>\n"
+"    % for err in ctx.get('request-logs'):\n"
+"      % if err[0] == 'e'\n"
+"        <li style=\"color:red\">${err[1]}</li>\n"
+"      % endif\n"
+"    % endfor\n"
+"    </ul>\n"
+"% else:\n"
+"\n"
+"    % if ctx.get('request-logs-y',False) == 'Y':\n"
+"\n"
+"        มีข้อผิดพลาดเกิดขึ้นเมื่อดึงข้อมูล:<br/>\n"
+"        <ul>\n"
+"            % for err in ctx.get('request-logs'):\n"
+"                % if err[0] == 'e'\n"
+"                <li style=\"color:red\">${err[1]}</li>\n"
+"                % endif\n"
+"            % endfor\n"
+"        </ul>\n"
+"\n"
+"    % else:\n"
+"\n"
+"        ได้ทำการดึงข้อมูลเหล่านี้จากเวลาดีเรียบร้อยแล้ว:\n"
+"        <ul>\n"
+"            <li>คำแหน่งพนักงาน</li>\n"
+"            <li>แผนก</li>\n"
+"            <li>พนักงาน</li>\n"
+"            <li>ข้อมูลเข้าออก</li>\n"
+"            <li>รายการวันหยุด</li>\n"
+"        </ul>\n"
+"\n"
+"    % endif\n"
+"\n"
+"% endif\n"
+"\n"
+"% if ctx.get('request-debug',''):\n"
+"    <br/>\n"
+"    ข้อมูลเพิ่มเติม:<br/>\n"
+"    <ul>\n"
+"        % for err in ctx.get('request-logs'):\n"
+"            % if err[0] == 'e'\n"
+"                <li style=\"color:red\"><b>${err[1]}</b></li>\n"
+"            % endif\n"
+"            % if err[0] == 'w'\n"
+"                <li style=\"color:orange\"><i>${err[1]}</i></li>\n"
+"            % endif\n"
+"            % if err[0] == 'd':\n"
+"                <li>---${err[1]}</li>\n"
+"            % endif\n"
+"            % if err[0] == 'i'\n"
+"                <li>${err[1]}</li>\n"
+"            % endif\n"
+"        % endfor\n"
+"    </ul>\n"
+"% endif\n"
+"</div>\n"
+"<p>\n"
+"*การทำงานและอีเมลนี้ถูกสร้างขึ้นบนฐานข้อมูล= ${user.env.cr.dbname} ใช้เวลาประมาณ ${ctx.get('request-elapse')}\n"
+"</p>\n"
 
 #. module: Weladee_Attendances
 #: model:mail.template,body_html:Weladee_Attendances.weladee_attendance_allocate_emp_mail
@@ -164,13 +280,24 @@ msgid ""
 "<br/><br/>\n"
 "This employee ${ctx.get('employee','')} has not enough Leaves Allocation Request, which makes current synchronization stopped.<br/>\n"
 "<br/>\n"
-"Please go to Leaves -&gt; Leaves to Approve -&gt; <a href=\"${ctx.get('url','#')|safe}\">Leaves Allocation</a> to define\n"
+"Please change this employee Leaves Allocation\n"
 "</p>\n"
 "<p>\n"
 "*This request and email are generated on database = ${user.env.cr.dbname}\n"
 "</p>\n"
 "</div>\n"
 msgstr ""
+"<div>\n"
+"<p>สวัสดี,\n"
+"<br/><br/>\n"
+"พนักงาน ${ctx.get('employee','')} ไม่มีวันหยุดที่ได้รับการจัดสรรพอ, กรุณาทำการแก้ไขเพื่อเริ่มการดึงข้อมูลใหม่<br/>\n"
+"<br/>\n"
+"แก้ไขโดยการไปเพิ่มการจัดสรรวันลาของพนักงาน\n"
+"</p>\n"
+"<p>\n"
+"*การทำงานและอีเมลนี้ถูกสร้างขึ้นบนฐานข้อมูล ${user.env.cr.dbname}\n"
+"</p>\n"
+"</div>\n"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
@@ -183,11 +310,13 @@ msgid ""
 "<span class=\"o_form_label\">Synchronization started, you will receive email"
 " at email address below once it's done.</span>"
 msgstr ""
+"<span class=\"o_form_label\">เริ่มการดึงข้อมูลจากเวลาดีแล้ว เมื่อการทำงานเสร็จคุณจะได้รับอีเมล"
+"ตามที่อยู่ข้างล่างนี้.</span>"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
 msgid "<span class=\"o_form_label\">to email</span><br/>"
-msgstr ""
+msgstr "<span class=\"o_form_label\">ส่งไปอีเมล</span><br/>"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
@@ -195,6 +324,8 @@ msgid ""
 "<span class=\"o_stat_text\">Weladee</span>\n"
 "                    <span class=\"o_stat_value\">profile</span>"
 msgstr ""
+"<span class=\"o_stat_text\">เปิดใน</span>\n"
+"                    <span class=\"o_stat_value\">เวลาดี</span>"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm
@@ -209,67 +340,76 @@ msgid ""
 "                    <br/>\n"
 "                    <span class=\"o_form_label\">After synchronization, result will send to email address below</span>"
 msgstr ""
+"<span colspan=\"4\" class=\"o_form_label\">รายการ</span><br/>\n"
+"                    <span colspan=\"4\" class=\"o_form_label\">   - คำแหน่งพนักงาน</span><br/>\n"
+"                    <span colspan=\"4\" class=\"o_form_label\">   - แผนก</span><br/>\n"
+"                    <span colspan=\"4\" class=\"o_form_label\">   - พนักงาน</span><br/>\n"
+"                    <span colspan=\"4\" class=\"o_form_label\">   - รายการวันหยุด</span><br/>\n"
+"                    <span colspan=\"4\" class=\"o_form_label\">   - ข้อมูลเข้าออก</span><br/>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <span class=\"o_form_label\">หลังจากการดึงข้อมูลเสร็จรายงานจะถูกส่งไปยังที่อยู่อีเมลด้านล่าง</span>"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
 msgid "API"
-msgstr ""
+msgstr "การเชื่อมต่อ"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__api_database
 msgid "API Database"
-msgstr ""
+msgstr "ฐานข้อมูลที่เชื่อมต่อ"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__api_key
 msgid "API Key"
-msgstr ""
+msgstr "รหัสเชื่อมต่อ"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_company_holidays__company_holiday_active
 msgid "Active"
-msgstr ""
+msgstr "เปิดใช้งาน"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields.selection,name:Weladee_Attendances.selection__weladee_attendance_synchronous_setting__log_period__all
 msgid "All"
-msgstr ""
+msgstr "ทั้งหมด"
 
 #. module: Weladee_Attendances
 #: model:ir.model,name:Weladee_Attendances.model_hr_attendance
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
 msgid "Attendance"
-msgstr ""
+msgstr "ข้อมูลเข้าออก"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__can_request_holiday
 msgid "Can Request Holiday"
-msgstr ""
+msgstr "สามารถขอวันหยุด"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm_ok
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
 msgid "Close"
-msgstr ""
+msgstr "ปิด"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_department__code
 msgid "Code"
-msgstr ""
+msgstr "รหัส"
 
 #. module: Weladee_Attendances
 #: model:ir.ui.menu,name:Weladee_Attendances.menu_company_holidays
 msgid "Company Holidays"
-msgstr ""
+msgstr "วันหยุดบริษัท"
 
 #. module: Weladee_Attendances
 #: model:ir.actions.act_window,name:Weladee_Attendances.action_company_holidays
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.view_company_holidays_form
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.view_company_holidays_tree
 msgid "Company holidays"
-msgstr ""
+msgstr "วันหยุดบริษัท"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_company_holidays__create_uid
@@ -278,7 +418,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__create_uid
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_working__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "สร้างโดย"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_company_holidays__create_date
@@ -287,22 +427,22 @@ msgstr ""
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__create_date
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_working__create_date
 msgid "Created on"
-msgstr ""
+msgstr "สร้างเมื่อ"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_company_holidays__company_holiday_date
 msgid "Date"
-msgstr ""
+msgstr "วันที่"
 
 #. module: Weladee_Attendances
 #: model:ir.model,name:Weladee_Attendances.model_hr_department
 msgid "Department"
-msgstr ""
+msgstr "แผนก"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_company_holidays__company_holiday_description
 msgid "Description"
-msgstr ""
+msgstr "รายละเอียด"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_attendance__display_name
@@ -317,71 +457,71 @@ msgstr ""
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__display_name
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_working__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "ชื่อที่ใช้แสดง"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_department__email
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_form__email
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__email
 msgid "Email"
-msgstr ""
+msgstr "อีเมล"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__employee_code
 msgid "Employee Code"
-msgstr ""
+msgstr "รหัสพนักงาน"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__name
 msgid "Employee Name"
-msgstr ""
+msgstr "ชื่อพนักงาน"
 
 #. module: Weladee_Attendances
 #: model:ir.model.constraint,message:Weladee_Attendances.constraint_hr_employee_emp_code_uniq
 msgid "Employee code can't duplicate !"
-msgstr ""
+msgstr "ไม่สามารถใช้รหัสพนักงานซ้ำกันได้"
 
 #. module: Weladee_Attendances
 #: model:ir.model.constraint,message:Weladee_Attendances.constraint_hr_employee_emp_first_last_name_t_uniq
 #: model:ir.model.constraint,message:Weladee_Attendances.constraint_hr_employee_emp_first_last_name_uniq
 msgid "Employee name can't duplicate !"
-msgstr ""
+msgstr "ไม่สามารถใช้ชื่อพนักงานซ้ำกันได้"
 
 #. module: Weladee_Attendances
 #: model:ir.model.constraint,message:Weladee_Attendances.constraint_hr_employee_emp_mail_uniq
 msgid "Employee working email can't duplicate !"
-msgstr ""
+msgstr "ไม่สามารถใช้อีเมลพนักงานซ้ำกันได้"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__first_name_english
 msgid "English First Name"
-msgstr ""
+msgstr "ชื่อ(อังกฤษ)"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__last_name_english
 msgid "English Last Name"
-msgstr ""
+msgstr "นามสกุล(อังกฤษ)"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__nick_name_english
 msgid "English Nick Name"
-msgstr ""
+msgstr "ชื่อเล่น(อังกฤษ)"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__hasToFillTimesheet
 msgid "Has To Fill Timesheet"
-msgstr ""
+msgstr "พนักงานต้องกรอกไทม์ชีท"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
 msgid "Holiday"
-msgstr ""
+msgstr "วันหยุดพนักงาน"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__holiday_status_id
 msgid "Holiday Status"
-msgstr ""
+msgstr "สถานะวันหยุด"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_attendance__id
@@ -396,13 +536,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_working__id
 msgid "ID"
-msgstr ""
+msgstr "รหัส"
 
 #. module: Weladee_Attendances
 #: model:ir.model,name:Weladee_Attendances.model_hr_job
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__job_id
 msgid "Job Position"
-msgstr ""
+msgstr "ตำแหน่งงาน"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_attendance____last_update
@@ -417,7 +557,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting____last_update
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_working____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "แก้ไขครั้งสุดท้ายเมื่อ"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_company_holidays__write_uid
@@ -426,7 +566,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__write_uid
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_working__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "แก้ไขครั้งสุดท้ายโดย"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_company_holidays__write_date
@@ -435,73 +575,73 @@ msgstr ""
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__write_date
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_working__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "แก้ไขครั้งสุดท้ายเมื่อ"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_working__last_run
 msgid "Last run"
-msgstr ""
+msgstr "ทำงานครั้งสุดท้ายเมื่อ"
 
 #. module: Weladee_Attendances
 #: model:ir.model.constraint,message:Weladee_Attendances.constraint_hr_department_name_uniq
 #: model:ir.model.constraint,message:Weladee_Attendances.constraint_hr_job_name_uniq
 msgid "Name can't duplicate !"
-msgstr ""
+msgstr "ไม่สามารถใช้ชื่อซ้ำกันได้"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__nationalID
 msgid "NationalID"
-msgstr ""
+msgstr "บัตรประจำตัวประชาชน"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__country_id
 msgid "Nationality (Country)"
-msgstr ""
+msgstr "สัญชาติ (ประเทศ)"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_company_holidays__company_holiday_notes
 msgid "Notes"
-msgstr ""
+msgstr "หมายเหตุ"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
 msgid "Notification"
-msgstr ""
+msgstr "การแจ้งเตือน"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__holiday_notify_leave_req_email
 msgid "Notified Email"
-msgstr ""
+msgstr "อีเมลแจ้งเตือน"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
 msgid "Notify"
-msgstr ""
+msgstr "แจ้งเตือน"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__holiday_notify_leave_req
 msgid "Notify if there is not enough allocated leave request"
-msgstr ""
+msgstr "แจ้งเตือนหากมีการจัดสรรวันลาไม่เพียงพอ"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
 msgid "Other"
-msgstr ""
+msgstr "อื่นๆ"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__log_period_unit
 msgid "Period unit"
-msgstr ""
+msgstr "หน่วยของระยะเวลา"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__qr_code
 msgid "QR Code"
-msgstr ""
+msgstr "คิวอาร์โค้ด"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__receive_check_notification
 msgid "Receive Check Notification"
-msgstr ""
+msgstr "รับการแจ้งเตือนการเข้าออก"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.actions.act_window,help:Weladee_Attendances.action_company_holidays
@@ -510,87 +650,89 @@ msgid ""
 "style=\"font-size: 13px;\"></span> Weladee synchronization to get your "
 "company holiday from weladee"
 msgstr ""
+"ไปที่ ข้อมูลเข้าออก <span class=\"fa fa-arrow-right o_we_selected_image\" "
+"style=\"font-size: 13px;\"></span> การดึงข้อมูลวันหยุดบริษัทจากเวลาดี"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
 msgid "Save"
-msgstr ""
+msgstr "บันทึก"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
 msgid "Setting"
-msgstr ""
+msgstr "การตั้งค่า"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__api_debug
 msgid "Show debug info"
-msgstr ""
+msgstr "แสดงข้อมูลเพิ่มเติม"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_leave__weladee_sick
 msgid "Sick"
-msgstr ""
+msgstr "ลาป่วย"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__log_period
 msgid "Since"
-msgstr ""
+msgstr "ตั้งแต่"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm
 msgid "Synchronize"
-msgstr ""
+msgstr "ดึงข้อมูล"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm_ok
 msgid "Synchronous"
-msgstr ""
+msgstr "ดึงข้อมูล"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__taxID
 msgid "TaxID"
-msgstr ""
+msgstr "หมายเลขประจำตัวผู้เสียภาษี"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__employee_team
 msgid "Team"
-msgstr ""
+msgstr "ทีม"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__first_name_thai
 msgid "Thai First Name"
-msgstr ""
+msgstr "ชื่อ(ไทย)"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__last_name_thai
 msgid "Thai Last Name"
-msgstr ""
+msgstr "นามสกุล(ไทย)"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__nick_name_thai
 msgid "Thai Nick Name"
-msgstr ""
+msgstr "ชื่อเล่น(ไทย)"
 
 #. module: Weladee_Attendances
 #: model:ir.model,name:Weladee_Attendances.model_hr_leave
 msgid "Time Off"
-msgstr ""
+msgstr "ลาหยุด"
 
 #. module: Weladee_Attendances
 #: model:ir.model,name:Weladee_Attendances.model_hr_leave_type
 msgid "Time Off Type"
-msgstr ""
+msgstr "ประเภทการลาหยุด"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
 msgid "Timesheet"
-msgstr ""
+msgstr "ไทม์ชีท"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_att_hr_leave_status_form
 msgid "Weladee"
-msgstr ""
+msgstr "เวลาดี"
 
 #. module: Weladee_Attendances
 #: model:mail.template,subject:Weladee_Attendances.weladee_attendance_synchronous_cron_mail
@@ -599,13 +741,15 @@ msgid ""
 "Weladee Attendance Synchronization [${ctx.get('request-status','')}]: "
 "Synchronization task's result from request at ${ctx.get('request-date','')}"
 msgstr ""
+"การดึงข้อมูลจากเวลาดี [${ctx.get('request-status','')}]: "
+"รายงานข้อมูลของคำขอเมื่อ ${ctx.get('request-date','')}"
 
 #. module: Weladee_Attendances
 #: model:ir.actions.server,name:Weladee_Attendances.weladee_attendance_synchronous_cron_ir_actions_server
 #: model:ir.cron,cron_name:Weladee_Attendances.weladee_attendance_synchronous_cron
 #: model:ir.cron,name:Weladee_Attendances.weladee_attendance_synchronous_cron
 msgid "Weladee Attendance: Synchronous task"
-msgstr ""
+msgstr "งานดึงข้อมูลจากเวลาดี"
 
 #. module: Weladee_Attendances
 #: model:mail.template,subject:Weladee_Attendances.weladee_attendance_allocate_emp_mail
@@ -613,115 +757,117 @@ msgid ""
 "Weladee Attendance: this employee ${ctx.get('employee','')} has not enough "
 "Leaves Allocation Request in Odoo"
 msgstr ""
+"การดึงข้อมูลจากเวลาดี: พนักงาน ${ctx.get('employee','')} มี"
+"การจัดสรรวันหยุดไม่เพียงพอ"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_leave__weladee_code
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_leave_type__weladee_code
 msgid "Weladee Code"
-msgstr ""
+msgstr "รหัสวันลาในเวลาดี"
 
 #. module: Weladee_Attendances
 #: model:ir.model.constraint,message:Weladee_Attendances.constraint_hr_leave_type_weladee_code_uniq
 msgid "Weladee Holiday Type can't duplicate !"
-msgstr ""
+msgstr "ไม่สามารถใช้ชนิดวันลาในเวลาดีซ้ำได้"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_department__weladee_id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__weladee_id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_job__weladee_id
 msgid "Weladee ID"
-msgstr ""
+msgstr "รหัสในเวลาดี"
 
 #. module: Weladee_Attendances
 #: code:addons/Weladee_Attendances/models/weladee_employee.py:0
 #, python-format
 msgid "Weladee Profile"
-msgstr ""
+msgstr "หน้าพนักงานในเวลาดี"
 
 #. module: Weladee_Attendances
 #: model:ir.actions.act_window,name:Weladee_Attendances.action_weladee_setting_form
 #: model:ir.ui.menu,name:Weladee_Attendances.weladee_setting_menu
 msgid "Weladee Settings"
-msgstr ""
+msgstr "การตั้งค่าในเวลาดี"
 
 #. module: Weladee_Attendances
 #: model:ir.actions.server,name:Weladee_Attendances.weladee_attendance_synchronous_act_server
 #: model:ir.ui.menu,name:Weladee_Attendances.weladee_attendance_synchronous_menu
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm
 msgid "Weladee Synchronization"
-msgstr ""
+msgstr "การดึงข้อมูลจากเวลาดี"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__weladee_profile
 msgid "Weladee Url"
-msgstr ""
+msgstr "URL เวลาดี"
 
 #. module: Weladee_Attendances
 #: model:ir.model,name:Weladee_Attendances.model_weladee_attendance_company_holidays
 msgid "Weladee company holidays"
-msgstr ""
+msgstr "วันหยุดบริษัทในเวลาดี"
 
 #. module: Weladee_Attendances
 #: model:ir.model,name:Weladee_Attendances.model_weladee_attendance_synchronous_setting
 msgid "Weladee settings"
-msgstr ""
+msgstr "การตั้งค่าในเวลาดี"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__work_email
 msgid "Work Email"
-msgstr ""
+msgstr "อีเมลที่ทำงาน"
 
 #. module: Weladee_Attendances
 #: model:ir.model.constraint,message:Weladee_Attendances.constraint_hr_attendance_unique_empin_timestamp
 msgid "employee checkin record"
-msgstr ""
+msgstr "ข้อมูลเข้างานของพนักงาน"
 
 #. module: Weladee_Attendances
 #: model:ir.model.constraint,message:Weladee_Attendances.constraint_hr_attendance_unique_empout_timestamp
 msgid "employee checkout record"
-msgstr ""
+msgstr "ข้อมูลออกงานของพนักงาน"
 
 #. module: Weladee_Attendances
 #: model:res.groups,name:Weladee_Attendances.group_weladee_leave_allocation
 msgid "for allocate leave"
-msgstr ""
+msgstr "สำหรับการจัดสรรการลา"
 
 #. module: Weladee_Attendances
 #: model:res.groups,name:Weladee_Attendances.group_weladee_attendance_tohide
 msgid "for hidden purpose"
-msgstr ""
+msgstr "ใช้ภายในโปรแกรม"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields.selection,name:Weladee_Attendances.selection__weladee_attendance_synchronous_setting__log_period__m
 msgid "month(s) ago"
-msgstr ""
+msgstr "เดือนที่แล้ว"
 
 #. module: Weladee_Attendances
 #: model:ir.model,name:Weladee_Attendances.model_hr_employee
 msgid "synchronous Employee to weladee"
-msgstr ""
+msgstr "ส่งข้อมูลพนักงานไปเวลาดี"
 
 #. module: Weladee_Attendances
 #: model:ir.model,name:Weladee_Attendances.model_weladee_attendance_synchronous
 msgid "synchronous Employee, Department, Holiday and attendance"
-msgstr ""
+msgstr "ดึงข้อมูลพนักงาน ตำแหน่ง วันหยุดและข้อมูลเข้าออก"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields.selection,name:Weladee_Attendances.selection__weladee_attendance_synchronous_setting__log_period__w
 msgid "week(s) ago"
-msgstr ""
+msgstr "สัปดาห์ที่แล้ว"
 
 #. module: Weladee_Attendances
 #: model:ir.model,name:Weladee_Attendances.model_weladee_attendance_working
 msgid "weladee_attendance.working"
-msgstr ""
+msgstr "การดึงข้อมูลจากเวลาดี ตัวทำงาน"
 
 #. module: Weladee_Attendances
 #: model:ir.model,name:Weladee_Attendances.model_weladee_attendance_form
 msgid "weladee_attendance_form"
-msgstr ""
+msgstr "การดึงข้อมูลจากเวลาดี มุมมอง"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields.selection,name:Weladee_Attendances.selection__weladee_attendance_synchronous_setting__log_period__y
 msgid "year(s) ago"
-msgstr ""
+msgstr "ปีที่แล้ว"

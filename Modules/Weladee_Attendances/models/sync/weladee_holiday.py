@@ -130,7 +130,7 @@ def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, con
 
             # collect leave type
             leaves_types = {}
-            for t in self.env['hr.holidays.status'].search([('weladee_code','!=',False)]):
+            for t in self.env['hr.leave.type'].search([('weladee_code','!=',False)]):
                 if not t.weladee_code in leaves_types:
                    leaves_types[t.weladee_code] = t.id 
             
@@ -195,7 +195,7 @@ def sync_holiday(self, emp_obj, holiday_obj, com_holiday_obj, authorization, con
 
                 template = self.env.ref('Weladee_Attendances.weladee_attendance_allocate_emp_mail', raise_if_not_found=False)
                 if template:
-                    allocation_url='%s/web#view_type=list&model=hr.holidays&menu_id=%s&action=%s' % (
+                    allocation_url='%s/web#view_type=list&model=hr.leave&menu_id=%s&action=%s' % (
                         self.env['ir.config_parameter'].search([('key','=','web.base.url')]).value,
                         self.env.ref('hr_holidays.menu_open_department_leave_allocation_approve').id,
                         self.env.ref('hr_holidays.open_department_holidays_allocation_approve').id)

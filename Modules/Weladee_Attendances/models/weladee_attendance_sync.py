@@ -67,7 +67,7 @@ class weladee_attendance(models.TransientModel):
            to_email = False
         
         if (not holiday_status_id) or (not authorization) and (api_db == self.env.cr.dbname):
-            #raise exceptions.UserError('Must to be set Leave Type on Weladee setting')
+            
             sync_stop(context_sync)
             sync_logerror(context_sync,'You must setup API Key, Default Holiday Status at Attendances -> Weladee settings')
         
@@ -119,7 +119,7 @@ class weladee_attendance(models.TransientModel):
 
         if not sync_has_error(context_sync):
             sync_logdebug(context_sync,"Start sync...Holiday")
-            hr_obj = self.env['hr.holidays']
+            hr_obj = self.env['hr.leave']
             com_hr_obj = self.env['weladee_attendance.company.holidays']
             sync_holiday(self, emp_obj, hr_obj, com_hr_obj, authorization, context_sync, odoo_weladee_ids, holiday_status_id, to_email)
 

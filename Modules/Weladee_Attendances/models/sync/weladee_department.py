@@ -82,8 +82,6 @@ def sync_department(department_obj, authorization, dep_managers, context_sync):
                    if not odoo_id.manager_id.id: dep_managers[ odoo_id.id ] = weladee_department.department.managerID
                    if odoo_id.manager_id.id and odoo_id.manager_id.weladee_id != weladee_department.department.managerID: 
                        dep_managers[ odoo_id.id ] = weladee_department.department.managerID   
-                   #print(odoo_id.manager_id)
-                   #print(weladee_department)
                 else:
                    sync_logdebug(context_sync, 'weladee > %s' % weladee_department) 
                    sync_logerror(context_sync, "Not found this odoo department id %s of '%s' in odoo" % (odoo_dept['res-id'], odoo_dept['name']) ) 
@@ -120,7 +118,7 @@ def sync_department(department_obj, authorization, dep_managers, context_sync):
           
         try:
             returnobj = stub.AddDepartment(newDepartment, metadata=authorization)
-            #print( result  )
+            
             odoo_department.write({'weladee_id':returnobj.id})
             sync_logdebug(context_sync, "Added department to weladee : %s" % odoo_department.name)
             sync_stat_create(context_sync['stat-w-department'], 1)

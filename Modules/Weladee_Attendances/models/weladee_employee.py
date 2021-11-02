@@ -152,8 +152,8 @@ class weladee_employee(models.Model):
                 WeladeeData.employee.TaxID = vals["taxID"]
             if vals["nationalID"]:
                 WeladeeData.employee.NationalID = vals["nationalID"]
-            if vals["image"]:
-                WeladeeData.employee.photo = vals["image"]
+            if vals["image_1920"]:
+                WeladeeData.employee.photo = vals["image_1920"]
 
             if "work_phone" in vals:
               if not WeladeeData.employee.Phones:
@@ -303,8 +303,8 @@ class weladee_employee(models.Model):
                 if countryData.id :
                     WeladeeData.employee.Nationality = countryData.name
 
-            if "image" in vals:
-                WeladeeData.employee.photo = vals["image"] or ''
+            if "image_1920" in vals:
+                WeladeeData.employee.photo = vals["image_1920"] or ''
 
             if "work_phone" in vals:
                 if len(WeladeeData.employee.Phones) == 0:
@@ -382,7 +382,6 @@ class weladee_employee(models.Model):
 
         return pid
 
-    @api.multi
     def write(self, vals):
         odoovals = sync_clean_up(vals)
         self.clean_up_space(odoovals)
@@ -417,7 +416,6 @@ class weladee_employee(models.Model):
       else :
         raise exceptions.UserError("This employee don't have weladee url.")
 
-    @api.one
     @api.returns('self', lambda value: value.id)
     def copy(self, default=None):
         if not default:
