@@ -62,28 +62,44 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
     #2018-06-07 KPO don't sync note back   
     #2018-06-21 KPO get team but don't sync back     
     data = { "name" : " ".join([weladee_employee.employee.first_name_english or '', weladee_employee.employee.last_name_english or "" ])
-            ,"employee_code" : weladee_employee.employee.Code
-            ,"weladee_profile" : "https://www.weladee.com/employee/%s" % weladee_employee.employee.ID
-            ,"work_email":( weladee_employee.employee.email or weladee_employee.employee.user_name )
             ,"first_name_english":weladee_employee.employee.first_name_english
             ,"last_name_english":weladee_employee.employee.last_name_english
             ,"first_name_thai":weladee_employee.employee.first_name_thai
             ,"last_name_thai":weladee_employee.employee.last_name_thai
             ,"nick_name_english":weladee_employee.employee.nickname_english
             ,"nick_name_thai":weladee_employee.employee.nickname_thai
+            ,"employee_code" : weladee_employee.employee.Code
+            ,"weladee_profile" : "https://www.weladee.com/employee/%s" % weladee_employee.employee.ID
+            ,"work_email":( weladee_employee.employee.email or weladee_employee.employee.user_name )
             ,"active": weladee_employee.employee.Active
             ,"receive_check_notification": weladee_employee.employee.receiveCheckNotification
             ,"can_request_holiday": weladee_employee.employee.CanRequestHoliday
             ,"hasToFillTimesheet": weladee_employee.employee.HasToFillTimesheet
             ,"weladee_id":weladee_employee.employee.ID
+            ,"employee_team":weladee_employee.employee.TeamName
             ,"qr_code":weladee_employee.employee.QRCode
             ,"gender": sync_employee_data_gender(weladee_employee)
-            ,"employee_team":weladee_employee.employee.TeamName
             ,"timesheet_cost":weladee_employee.employee.HourlyCost
             ,'send2-weladee':False}
+
+    if weladee_employee.employee.Nationality:
+        if len(weladee_employee.employee.Nationality) == 2 and weladee_employee.employee.Nationality in country :
+            data["country_id"] = country[ weladee_employee.employee.Nationality ]
+        else:
+           data["country_name"] = weladee_employee.employee.Nationality
+
     #fixed contraint problem when empty
     if data['employee_code'] == '': data['employee_code'] = False
     if data['work_email'] == '': data['work_email'] = False
+
+    if weladee_employee.employee.PositionID :
+        job_datas = job_obj.search( [("weladee_id","=", weladee_employee.employee.PositionID )] )
+        if job_datas :
+            for jdatas in job_datas :
+                data[ "job_id" ] = jdatas.id
+
+    if weladee_employee.employee.Birthday > 0:
+        data["birthday"] = datetime.fromtimestamp( weladee_employee.employee.Birthday )
 
     if weladee_employee.employee.PassportNumber :
         data["passport_id"] = weladee_employee.employee.PassportNumber
@@ -92,23 +108,17 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
     if weladee_employee.employee.NationalID :
         data["nationalID"] = weladee_employee.employee.NationalID
 
-    if weladee_employee.employee.Birthday > 0:
-        data["birthday"] = datetime.fromtimestamp( weladee_employee.employee.Birthday )
+    if photoBase64:
+        data["image_1920"] = photoBase64
 
-    if weladee_employee.employee.PositionID :
-        job_datas = job_obj.search( [("weladee_id","=", weladee_employee.employee.PositionID )] )
-        if job_datas :
-            for jdatas in job_datas :
-                data[ "job_id" ] = jdatas.id
-    
+    if weladee_employee.employee.Phones:
+       data["work_phone"] = weladee_employee.employee.Phones[0]
+
     if weladee_employee.DepartmentID :
         dep_datas = department_obj.search( [("weladee_id","=", weladee_employee.DepartmentID )] )
         if dep_datas :
             for ddatas in dep_datas :
                 data[ "department_id" ] = ddatas.id
-
-    if photoBase64:
-        data["image_1920"] = photoBase64
 
     if weladee_employee.Badge:
         data["barcode"] = weladee_employee.Badge
@@ -116,14 +126,6 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
     #2018-05-29 KPO if active = false set barcode to false
     if not weladee_employee.employee.Active:
        data["barcode"] = False 
-
-    if weladee_employee.employee.Nationality:
-        if len(weladee_employee.employee.Nationality) == 2 and weladee_employee.employee.Nationality in country :
-            data["country_id"] = country[ weladee_employee.employee.Nationality ]
-        else:
-           data["country_name"] = weladee_employee.employee.Nationality
-    if weladee_employee.employee.Phones:
-       data["work_phone"] = weladee_employee.employee.Phones[0]
        
     #2018-06-01 KPO if application level >=2 > manager   
     #data["manager"] = weladee_employee.employee.application_level >= 2
