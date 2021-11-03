@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo import exceptions
 
 import datetime
@@ -19,4 +19,4 @@ class weladee_company_holidays(models.Model):
     def _onchange_company_holiday_date(self):
          holiday = self.search([('company_holiday_date','=',self.company_holiday_date)])
          if holiday:
-            raise exceptions.UserError('%s is already a company holiday.' % self.company_holiday_date)
+            raise exceptions.UserError(_('%s is already a company holiday.') % self.company_holiday_date)

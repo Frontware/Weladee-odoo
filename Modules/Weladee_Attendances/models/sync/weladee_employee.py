@@ -3,7 +3,7 @@
 import time
 import requests
 import base64
-import uuid
+import traceback
 import subprocess
 import io
 from datetime import datetime
@@ -42,7 +42,6 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
 
     2018-06-14 KPO sync qrcode from weladee
     '''    
-    sync_loginfo(context_sync,'[employee] 0')
     photoBase64 = ''
     if weladee_employee.employee.photo:
         bytese = False
@@ -95,7 +94,6 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
     if weladee_employee.employee.Birthday > 0:
         data["birthday"] = datetime.fromtimestamp( weladee_employee.employee.Birthday )
 
-    sync_loginfo(context_sync,'[employee] 0.5')
     if weladee_employee.employee.PositionID :
         job_datas = job_obj.search( [("weladee_id","=", weladee_employee.employee.PositionID )] )
         if job_datas :
@@ -126,9 +124,8 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
        data["work_phone"] = weladee_employee.employee.Phones[0]
        
     #2018-06-01 KPO if application level >=2 > manager   
-    data["parent_id"] = weladee_employee.employee.application_level >= 2
+    #data["manager"] = weladee_employee.employee.application_level >= 2
 
-    sync_loginfo(context_sync,'[employee] 1')
     # look if there is odoo record with same weladee-id
     # if not found then create else update    
     odoo_employee = emp_obj.search([("weladee_id", "=", weladee_employee.employee.ID),'|',('active','=',False),('active','=',True)])
@@ -140,7 +137,6 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
        if not weladee_employee.odoo.odoo_id:
           data['send2-weladee'] = True
 
-    sync_loginfo(context_sync,'[employee] 2')
     if data['res-mode'] == 'create':
        # check if there is same name, email
        # consider it same record 
@@ -161,7 +157,6 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
           data['res-mode'] = 'update'
           data['res-id'] = odoo_employee.id
 
-    sync_loginfo(context_sync,'[employee] 3')
     return data   
 
 def sync_employee(job_obj, employee_obj, department_obj, country, authorization, emp_managers, context_sync, pdf_path):
@@ -193,9 +188,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
 
             elif odoo_emp and odoo_emp['res-mode'] == 'update':
                 
-                sync_loginfo(context_sync,'[employee] uuuuuu')
                 odoo_id = employee_obj.search([('id','=',odoo_emp['res-id']),'|',('active','=',False),('active','=',True)])
-                sync_loginfo(context_sync,str(odoo_id))
                 if odoo_id.id:
                    odoo_id.write(odoo_emp)
                    sync_logdebug(context_sync, "Updated employee '%s' to odoo" % odoo_emp['name'] )
@@ -208,7 +201,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
                    sync_stat_error(context_sync['stat-employee'], 1)
 
     except Exception as e:
-        sync_loginfo(context_sync, str(e))
+        print(traceback.format_exc())
         if sync_weladee_error(weladee_employee, 'employee', e, context_sync):
            return
     

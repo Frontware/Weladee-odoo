@@ -96,6 +96,7 @@ def sync_clean_up(in_vals):
     vals = in_vals.copy()
     if 'res-mode' in vals: del vals['res-mode']
     if 'res-id' in vals: del vals['res-id']
+    if 'res-type' in vals: del vals['res-type']
     if 'send2-weladee' in vals: del vals['send2-weladee']
     if 'work_email' in vals: vals['work_email'] = (vals['work_email'] or '').lower()
 

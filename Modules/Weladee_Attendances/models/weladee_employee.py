@@ -366,6 +366,8 @@ class weladee_employee(models.Model):
            vals["first_name_thai"] = (vals["first_name_thai"] or '').strip(' ')
         if "last_name_thai" in vals and vals["last_name_thai"]:
            vals["last_name_thai"] = (vals["last_name_thai"] or '').strip(' ')
+        if vals.get('parent_id', False) == 0:
+           vals['parent_id'] = False
 
     @api.model
     def create(self, vals):
@@ -414,7 +416,7 @@ class weladee_employee(models.Model):
               'target': 'new'
           }
       else :
-        raise exceptions.UserError("This employee don't have weladee url.")
+        raise exceptions.UserError(_("This employee don't have weladee url."))
 
     @api.returns('self', lambda value: value.id)
     def copy(self, default=None):
