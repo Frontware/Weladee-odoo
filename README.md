@@ -112,4 +112,4 @@ Simple code parsing a stream of log events that need to be synchronized with Odo
 ```
 
 --------------------------------------------------------------
-(c) 2019 [Frontware International Co,Ltd.](https://www.frontware.co.th)
+(c) 2021 [Frontware International Co,Ltd.](https://www.frontware.co.th)
