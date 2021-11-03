@@ -138,7 +138,7 @@ class weladee_attendance(models.TransientModel):
         if to_email: 
             self.send_result_mail(context_sync)
         else:
-            _logger.warn("!!! email will not sent, because consider it as error from restored db.")
+            _logger.warning("!!! email will not sent, because consider it as error from restored db.")
 
         works = self.env['weladee_attendance.working'].search([])
         if works: works.unlink()

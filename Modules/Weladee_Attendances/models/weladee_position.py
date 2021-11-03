@@ -98,7 +98,7 @@ class weladee_job(models.Model):
                     _logger.error("Error while create position on Weladee : %s" % e)
 
             elif newPosition_mode == 'update':
-                _logger.warn("No update position available from odoo -> Weladee")
+                _logger.warning("No update position available from odoo -> Weladee")
         else:
           _logger.error("Error while update position on Weladee : No authroized")
 
@@ -115,7 +115,7 @@ class weladee_job(models.Model):
            for each in self:
                if each.weladee_id:
                   # no update back from odoo -> weladee                  
-                  _logger.warn("No update position available from odoo -> Weladee")
+                  _logger.warning("No update position available from odoo -> Weladee")
                else:
                   self._update_in_weladee(each, vals)
 

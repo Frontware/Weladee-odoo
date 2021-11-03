@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
+import traceback
 from .weladee_base import sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
 from .weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info
 
@@ -26,6 +27,7 @@ def sync_manager_dep(emp_obj, dep_obj, weladee_managers, authorization, context_
                 sync_logdebug(context_sync,"Updated manager of %s" % odoo_dep.name)
                 sync_stat_update(context_sync['stat-d-manager'], 1)
             except Exception as e:
+                print(traceback.format_exc())
                 sync_logdebug(context_sync, 'odoo > %s' % odoo_dep)
                 sync_logerror(context_sync, "Update manager of %s failed : %s" % (odoo_dep.name, e))   
                 sync_stat_error(context_sync['stat-d-manager'], 1)
@@ -51,7 +53,7 @@ def sync_manager_emp(employee_obj, weladee_managers, authorization, context_sync
                                                 '|',("active","=",False),("active","=",True)] )
 
             try:
-                __ = odoo_emp.write( {"parent_id": int(odoo_manager.id) } )
+                __ = odoo_emp.write( {"send2-weladee": False, "parent_id": int(odoo_manager.id) } )
                 sync_logdebug(context_sync,"Updated manager of %s" % odoo_emp.name)
                 sync_stat_update(context_sync['stat-e-manager'], 1)
             except Exception as e:

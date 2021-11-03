@@ -79,6 +79,7 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
             ,"qr_code":weladee_employee.employee.QRCode
             ,"gender": sync_employee_data_gender(weladee_employee)
             ,"employee_team":weladee_employee.employee.TeamName
+            ,"timesheet_cost":weladee_employee.employee.HourlyCost
             ,'send2-weladee':False}
     #fixed contraint problem when empty
     if data['employee_code'] == '': data['employee_code'] = False
@@ -273,6 +274,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
             newEmployee.employee.Phones[:] = [odoo_employee.work_phone]
         
         newEmployee.employee.Gender = new_employee_data_gender(odoo_employee.gender)
+        newEmployee.employee.HourlyCost = odoo_employee.timesheet_cost
 
         #2018-06-07 KPO don't sync note back
         #2018-06-15 KPO don't sync badge

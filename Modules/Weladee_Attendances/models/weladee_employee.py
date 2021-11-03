@@ -164,6 +164,9 @@ class weladee_employee(models.Model):
             if 'gender' in vals:
                 WeladeeData.employee.Gender = new_employee_data_gender(vals['gender']) 
 
+            if 'timesheet_cost' in vals:
+                WeladeeData.employee.HourlyCost = vals.get('timesheet_cost', 0)
+
             #2018-06-07 KPO don't sync note back
             #2018-06-15 KPO don't sync badge
 
@@ -244,6 +247,9 @@ class weladee_employee(models.Model):
                 countryData = self.env['res.country'].browse( vals["country_id"] )
                 if countryData.id :
                     WeladeeData.employee.Nationality = countryData.code
+            else :
+                if employee_odoo.country_id.id:
+                   WeladeeData.employee.Nationality = employee_odoo.country_id.code
 
             if "work_email" in vals :
                 WeladeeData.employee.email = vals["work_email"] or ''
@@ -270,6 +276,9 @@ class weladee_employee(models.Model):
 
             if 'birthday' in vals:
                 WeladeeData.employee.Birthday = int(datetime.strptime(vals["birthday"],'%Y-%m-%d').timestamp())
+            else :
+                if employee_odoo.birthday:
+                   WeladeeData.employee.Birthday = employee_odoo.birthday.timestamp()
 
             #language not sync yet
 
@@ -320,6 +329,13 @@ class weladee_employee(models.Model):
 
             if 'gender' in vals:
                 WeladeeData.employee.Gender = new_employee_data_gender(vals['gender'])   
+            else:
+                WeladeeData.employee.Gender = employee_odoo.gender
+
+            if 'timesheet_cost' in vals:
+                WeladeeData.employee.HourlyCost = vals.get('timesheet_cost', 0)
+            else:
+                WeladeeData.employee.HourlyCost = employee_odoo.timesheet_cost or 0
 
             #2018-05-28 KPO use employee_code
             #2018-06-23 KPO don't update employee code after create
@@ -328,13 +344,12 @@ class weladee_employee(models.Model):
             #2018-10-29 KPO we don't sync 
             #  department
             #  photo
-            # back to weladee    
-            
+            # back to weladee                
             if WeladeeData_mode == 'create':
                 if employee_odoo.weladee_id:
                     _logger.debug("[employee] odoo > %s" % vals)
                     _logger.debug("[employee] weladee > %s" % employee_odoo)
-                    _logger.warn("don't find this id %s on Weladee" % employee_odoo.weladee_id)
+                    _logger.warning("don't find this id %s on Weladee" % employee_odoo.weladee_id)
                 else:
                     try:
                         WeladeeData.employee.lg = "en" 

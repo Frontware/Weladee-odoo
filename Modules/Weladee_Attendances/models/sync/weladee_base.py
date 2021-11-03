@@ -49,7 +49,7 @@ def sync_logwarn(context_sync, log):
     '''
     write in context and log warn
     '''
-    _logger.warn('%s' % log )
+    _logger.warning('%s' % log )
 
     context_sync['request-logs'].append(['w', log])
 

@@ -48,8 +48,8 @@ class weladee_department(models.Model):
             newDepartment.odoo.odoo_created_on = int(time.time())
             newDepartment.odoo.odoo_synced_on = int(time.time())
 
-            newDepartment.department.name_english = vals["name"]
-            newDepartment.department.name_thai = vals["name"]
+            newDepartment.department.name_english = vals["name"] or ''
+            newDepartment.department.name_thai = vals["name"] or ''
             if vals.get('code',False):
                newDepartment.department.code = vals["code"]
             if vals.get('email',False):
@@ -96,17 +96,17 @@ class weladee_department(models.Model):
             newDepartment.odoo.odoo_synced_on = int(time.time())
 
             if 'name' in vals:
-                newDepartment.department.name_english = vals["name"]
+                newDepartment.department.name_english = vals["name"] or ''
             else:
                 newDepartment.department.name_english = department_odoo.name
 
             if 'code' in vals:
-                newDepartment.department.code = vals["code"]
+                newDepartment.department.code = vals["code"] or ''
             else:
                 newDepartment.department.code = department_odoo.code
 
             if 'email' in vals:
-                newDepartment.department.email = vals["email"]
+                newDepartment.department.email = vals["email"] or ''
             else:
                 newDepartment.department.email = department_odoo.email
 
@@ -126,7 +126,7 @@ class weladee_department(models.Model):
             if newDepartment_mode == 'create':
                 if department_odoo.weladee_id:
                     _logger.debug("[department] odoo > %s" % vals)
-                    _logger.warn("don't find this id on Weladee : %s" % e)
+                    _logger.warning("don't find this id on Weladee : %s" % e)
                 else:
                     try:
                         newDepartment.department.active = True
