@@ -1,7 +1,7 @@
 # Weladee - Odoo
 
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/weladee)
-[![Coverage Status](https://coveralls.io/repos/github/Frontware/Weladee-odoo/badge.svg?branch=odoo11)](https://coveralls.io/github/Frontware/Weladee-odoo?branch=odoo11)
+
 
 ![Weladee logo](https://vgy.me/jlVton.png)![odoo](https://vgy.me/5KoRp0.png)
 
@@ -111,5 +111,6 @@ Simple code parsing a stream of log events that need to be synchronized with Odo
         logging.log(i,att)
 ```
 
+![](https://img.shields.io/badge/Developed%20by%20-Frontware%20International-orange)
 --------------------------------------------------------------
 (c) 2021 [Frontware International Co,Ltd.](https://www.frontware.co.th)
