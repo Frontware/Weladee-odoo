@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+customize user profile form
+
+remarks:
+2021-11-03 KPO created    
+-->
+<odoo>
+    <data>
+
+        <record id="weladee_att_hr_user_profile" model="ir.ui.view">
+            <field name="name">weladee_att_hr_user_profile</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="hr_holidays.res_users_view_form"/>
+            <field name="arch" type="xml">
+               <xpath expr="//button[@name=%(hr_holidays.hr_leave_action_new_request)d]" position="replace">
+               </xpath>
+               <xpath expr="//button[@name=%(hr_holidays.hr_leave_allocation_action_my)d]" position="replace">
+               </xpath>
+            </field>
+        </record>      
+
+    </data>
+</odoo>

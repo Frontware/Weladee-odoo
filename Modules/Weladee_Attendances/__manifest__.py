@@ -39,6 +39,7 @@
          "views/weladee_holiday.xml",
          "views/weladee_company_holiday.xml",
          "views/fw_hr_employee.xml",
+         "views/fw_user_profile.xml"
 ],
 "qweb":[
          "static/src/xml/holiday.xml"
@@ -72,6 +73,10 @@ change log:
                 
 requirement:
 ------------------------------------
+* protobuf
+
+  pip3 install protobuf
+
 * grpcio
 
   pip3 install grpcio  

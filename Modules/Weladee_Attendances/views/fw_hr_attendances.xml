@@ -7,6 +7,10 @@ remarks:
 -->
 <odoo>
     <data>
+        <record id="hr_attendance.menu_hr_attendance_my_attendances" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+
         <record id="weladee_att_hr_att_list" model="ir.ui.view">
             <field name="name">weladee_att_hr_att_list</field>
             <field name="model">hr.attendance</field>
