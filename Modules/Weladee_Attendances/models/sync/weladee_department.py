@@ -56,7 +56,6 @@ def sync_department(department_obj, authorization, dep_managers, context_sync):
         weladee_department = False
         sync_loginfo(context_sync,'[department] updating changes from weladee-> odoo')
         for weladee_department in stub.GetDepartments(myrequest, metadata=authorization):
-            print(weladee_department)
             sync_stat_to_sync(context_sync['stat-department'], 1)
             if not weladee_department :
                sync_logwarn(context_sync,'weladee department is empty')

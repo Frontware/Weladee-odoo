@@ -111,15 +111,15 @@ class weladee_employee(models.Model):
 
             #2018-05-28 KPO change to employee_code
             if "employee_code" in vals and vals["employee_code"] :
-                WeladeeData.employee.code = vals["employee_code"]
+                WeladeeData.employee.Code = vals["employee_code"]
             elif "employee_code_hidden" in vals and vals["employee_code_hidden"] :
-                WeladeeData.employee.code = vals["employee_code_hidden"]
+                WeladeeData.employee.Code = vals["employee_code_hidden"]
 
             if vals["country_id"] :
                 c_line_obj = self.env['res.country']
                 cdata = c_line_obj.browse( vals["country_id"] )
-                if cdata and cdata.name :
-                    WeladeeData.employee.Nationality = cdata.name
+                if cdata and cdata.id :
+                    WeladeeData.employee.Nationality = cdata.code
 
             #2018-06-07 KPO don't sync note back
             if vals["work_email"] :
@@ -128,7 +128,7 @@ class weladee_employee(models.Model):
             if "parent_id" in vals :
                 manager = self.env['hr.employee'].browse( vals["parent_id"] )
                 if manager and manager.weladee_id:
-                    WeladeeData.employee.managerID = int(manager.weladee_id)
+                    WeladeeData.employee.ManagerID = int(manager.weladee_id)
 
             if vals["job_id"] :
                 positionData = self.env['hr.job'].browse( vals["job_id"] )
@@ -142,12 +142,12 @@ class weladee_employee(models.Model):
             WeladeeData.employee.lg = "en"
             WeladeeData.employee.Active = vals.get("active",False)
             WeladeeData.employee.receiveCheckNotification = vals["receive_check_notification"]
-            WeladeeData.employee.canRequestHoliday = vals["can_request_holiday"]
-            WeladeeData.employee.hasToFillTimesheet = vals["hasToFillTimesheet"]
+            WeladeeData.employee.CanRequestHoliday = vals["can_request_holiday"]
+            WeladeeData.employee.HasToFillTimesheet = vals["hasToFillTimesheet"]
 
             #2018-05-28 KPO use field from odoo
             if vals["passport_id"]:
-                WeladeeData.employee.passportNumber = vals["passport_id"]
+                WeladeeData.employee.PassportNumber = vals["passport_id"]
             if vals["taxID"]:
                 WeladeeData.employee.TaxID = vals["taxID"]
             if vals["nationalID"]:
@@ -162,7 +162,10 @@ class weladee_employee(models.Model):
                  WeladeeData.employee.Phones[0] = vals['work_phone'] or ''
 
             if 'gender' in vals:
-                WeladeeData.employee.gender = new_employee_data_gender(vals['gender']) 
+                WeladeeData.employee.Gender = new_employee_data_gender(vals['gender']) 
+
+            #2018-06-07 KPO don't sync note back
+            #2018-06-15 KPO don't sync badge
 
             try:
               result = stub.AddEmployee(WeladeeData, metadata=authorization)
@@ -235,6 +238,41 @@ class weladee_employee(models.Model):
             else:
               WeladeeData.employee.nickname_thai = employee_odoo.nick_name_thai or ''
 
+            #2018-06-23 KPO don't update employee code after create
+
+            if "country_id" in vals :
+                countryData = self.env['res.country'].browse( vals["country_id"] )
+                if countryData.id :
+                    WeladeeData.employee.Nationality = countryData.code
+
+            if "work_email" in vals :
+                WeladeeData.employee.email = vals["work_email"] or ''
+            else:
+                WeladeeData.employee.email = employee_odoo.work_email or ''
+
+            if "parent_id" in vals :
+                manager = self.env['hr.employee'].browse( vals["parent_id"] )
+                if manager:
+                    WeladeeData.employee.ManagerID = int(manager.weladee_id)
+                else:
+                    WeladeeData.employee.ManagerID = 0
+            else : 
+                if employee_odoo.parent_id:
+                    WeladeeData.employee.ManagerID = int(employee_odoo.parent_id.weladee_id)
+
+            if "job_id" in vals :
+                positionData = self.env['hr.job'].browse( vals["job_id"] )
+                if positionData and positionData.weladee_id :
+                    WeladeeData.employee.PositionID = int(positionData.weladee_id)
+            else :
+              if employee_odoo.job_id:
+                  WeladeeData.employee.PositionID = int(employee_odoo.job_id.weladee_id)
+
+            if 'birthday' in vals:
+                WeladeeData.employee.Birthday = int(datetime.strptime(vals["birthday"],'%Y-%m-%d').timestamp())
+
+            #language not sync yet
+
             if "active" in vals :
               WeladeeData.employee.Active = vals["active"]
             else:
@@ -246,20 +284,20 @@ class weladee_employee(models.Model):
               WeladeeData.employee.receiveCheckNotification = employee_odoo.receive_check_notification
 
             if "can_request_holiday" in vals :
-              WeladeeData.employee.canRequestHoliday = vals["can_request_holiday"]
+              WeladeeData.employee.CanRequestHoliday = vals["can_request_holiday"]
             else :
-              WeladeeData.employee.canRequestHoliday = employee_odoo.can_request_holiday
+              WeladeeData.employee.CanRequestHoliday = employee_odoo.can_request_holiday
 
             if "hasToFillTimesheet" in vals :
-              WeladeeData.employee.hasToFillTimesheet = vals["hasToFillTimesheet"]
+              WeladeeData.employee.HasToFillTimesheet = vals["hasToFillTimesheet"]
             else :
-              WeladeeData.employee.hasToFillTimesheet = employee_odoo.hasToFillTimesheet
+              WeladeeData.employee.HasToFillTimesheet = employee_odoo.hasToFillTimesheet
 
             #2018-05-28 KPO use passport_id from odoo
             if "passport_id" in vals :
-              WeladeeData.employee.passportNumber = vals["passport_id"] or ''
+              WeladeeData.employee.PassportNumber = vals["passport_id"] or ''
             else :
-              WeladeeData.employee.passportNumber = employee_odoo.passport_id or ''
+              WeladeeData.employee.PassportNumber = employee_odoo.passport_id or ''
 
             if "taxID" in vals :
               WeladeeData.employee.TaxID = vals["taxID"] or ''
@@ -271,38 +309,6 @@ class weladee_employee(models.Model):
             else :
               WeladeeData.employee.NationalID = employee_odoo.nationalID or ''
             
-            #2018-05-28 KPO use employee_code
-            #2018-06-23 KPO don't update employee code after create
-            #2018-06-07 KPO don't sync note back
-
-            if "parent_id" in vals :
-                manager = self.env['hr.employee'].browse( vals["parent_id"] )
-                if manager:
-                    WeladeeData.employee.managerID = int(manager.weladee_id)
-                else:
-                    WeladeeData.employee.managerID = 0
-            else : 
-                if employee_odoo.parent_id:
-                    WeladeeData.employee.managerID = int(employee_odoo.parent_id.weladee_id)
-
-            if "work_email" in vals :
-                WeladeeData.employee.email = vals["work_email"] or ''
-            else:
-                WeladeeData.employee.email = employee_odoo.work_email or ''
-
-            if "job_id" in vals :
-                positionData = self.env['hr.job'].browse( vals["job_id"] )
-                if positionData and positionData.weladee_id :
-                    WeladeeData.employee.PositionID = int(positionData.weladee_id)
-            else :
-              if employee_odoo.job_id:
-                  WeladeeData.employee.PositionID = int(employee_odoo.job_id.weladee_id)
-
-            if "country_id" in vals :
-                countryData = self.env['res.country'].browse( vals["country_id"] )
-                if countryData.id :
-                    WeladeeData.employee.Nationality = countryData.name
-
             if "image_1920" in vals:
                 WeladeeData.employee.photo = vals["image_1920"] or ''
 
@@ -313,11 +319,12 @@ class weladee_employee(models.Model):
                   WeladeeData.employee.Phones[0] = vals['work_phone'] or ''
 
             if 'gender' in vals:
-                WeladeeData.employee.gender = new_employee_data_gender(vals['gender'])   
+                WeladeeData.employee.Gender = new_employee_data_gender(vals['gender'])   
 
-            if 'birthday' in vals:
-                WeladeeData.employee.Birthday = int(datetime.strptime(vals["birthday"],'%Y-%m-%d').timestamp())
-                  
+            #2018-05-28 KPO use employee_code
+            #2018-06-23 KPO don't update employee code after create
+            #2018-06-07 KPO don't sync note back                  
+            #2018-06-15 KPO don't sync badge
             #2018-10-29 KPO we don't sync 
             #  department
             #  photo
@@ -367,7 +374,10 @@ class weladee_employee(models.Model):
         if "last_name_thai" in vals and vals["last_name_thai"]:
            vals["last_name_thai"] = (vals["last_name_thai"] or '').strip(' ')
         if vals.get('parent_id', False) == 0:
-           vals['parent_id'] = False
+           vals['parent_id'] = False        
+        if vals.get('country_name', False):
+           vals['country_id'] = self.env['res.country'].with_context(lang='en_US').search([('name','=', vals['country_name'])]).id
+           del vals['country_name']
 
     @api.model
     def create(self, vals):
@@ -387,6 +397,11 @@ class weladee_employee(models.Model):
     def write(self, vals):
         odoovals = sync_clean_up(vals)
         self.clean_up_space(odoovals)
+        wid = vals.get('weladee_id', self.weladee_id)
+        wp = vals.get('weladee_profile', self.weladee_profile)
+        if wid and not wp:
+           self.weladee_profile = "https://www.weladee.com/employee/%s" % wid
+
         ret = super(weladee_employee, self).write( odoovals )
         # if don't need to sync when there is weladee-id in vals
         # case we don't need to send to weladee, like just update weladee-id in odoo

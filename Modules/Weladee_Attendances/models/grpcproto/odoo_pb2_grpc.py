@@ -92,6 +92,16 @@ class OdooStub(object):
         request_serializer=weladee__pb2.Empty.SerializeToString,
         response_deserializer=odoo__pb2.ProjectOdoo.FromString,
         )
+    self.GetExpenses = channel.unary_stream(
+        '/grpc.weladee.com.Odoo/GetExpenses',
+        request_serializer=weladee__pb2.Empty.SerializeToString,
+        response_deserializer=odoo__pb2.ExpenseOdoo.FromString,
+        )
+    self.GetExpenseTypes = channel.unary_stream(
+        '/grpc.weladee.com.Odoo/GetExpenseTypes',
+        request_serializer=weladee__pb2.Empty.SerializeToString,
+        response_deserializer=odoo__pb2.ExpenseTypeOdoo.FromString,
+        )
 
 
 class OdooServicer(object):
@@ -101,106 +111,120 @@ class OdooServicer(object):
   """
 
   def UpdateEmployee(self, request, context):
-    """/ Update employee
+    """Update employee
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def GetEmployees(self, request, context):
-    """/ Stream of employees
+    """Stream of employees
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def AddEmployee(self, request, context):
-    """/ Add employee, get the id as return.
+    """Add employee, get the id as return.
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def GetEmployeeHolidays(self, request, context):
-    """/ Stream of holidays for 1 specific employee
+    """Stream of holidays for 1 specific employee
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def GetHolidays(self, request, context):
-    """/ Stream of holidays for the company + employees that need to be synchronized with Odoo
+    """Stream of holidays for the company + employees that need to be synchronized with Odoo
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def AddHoliday(self, request, context):
-    """/ Add holiday, get the id as return.
+    """Add holiday, get the id as return.
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def DropHoliday(self, request, context):
-    """/ Remove holiday from database
+    """Remove holiday from database
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def UpdateHoliday(self, request, context):
-    """/ Update holiday. raise error if fails
+    """Update holiday. raise error if fails
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def GetDepartments(self, request, context):
-    """/ return a stream of departments
+    """return a stream of departments
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def AddDepartment(self, request, context):
-    """/ Add department, get the id as return.
+    """Add department, get the id as return.
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def UpdateDepartment(self, request, context):
-    """/ Update a department. raise error if fails
+    """Update a department. raise error if fails
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def GetNewAttendance(self, request, context):
-    """/ return a stream of attendance record + odoo employee id that have not yet been synchronized with Odoo or that need to be synchronized again.
+    """return a stream of attendance record + odoo employee id that have not yet been synchronized with Odoo or that need to be synchronized again.
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def GetPositions(self, request, context):
-    """rpc SyncAttendance (stream LogEventOdooSync) returns (Empty); /// Send a stream of LogEventSync to confirm the log entries have been synchronized with Odoo. This funciton use a stream in order to synchronize a large bunch of records very quickly. Odoo can not update or create or delete LogEvent record in Weladee.
-    / return a stream of positions. Called "job title" in odoo
+    """rpc SyncAttendance (stream LogEventOdooSync) returns (Empty); // Send a stream of LogEventSync to confirm the log entries have been synchronized with Odoo. This funciton use a stream in order to synchronize a large bunch of records very quickly. Odoo can not update or create or delete LogEvent record in Weladee.
+    return a stream of positions. Called "job title" in odoo
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def AddPosition(self, request, context):
-    """/ Add position, get the id as return.
+    """Add position, get the id as return.
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def GetProjects(self, request, context):
-    """/ return stream of timesheet project
+    """return stream of timesheet project
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def GetExpenses(self, request, context):
+    """Return a stream of Expenses
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def GetExpenseTypes(self, request, context):
+    """Return a stream of Expense types
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -283,6 +307,16 @@ def add_OdooServicer_to_server(servicer, server):
           servicer.GetProjects,
           request_deserializer=weladee__pb2.Empty.FromString,
           response_serializer=odoo__pb2.ProjectOdoo.SerializeToString,
+      ),
+      'GetExpenses': grpc.unary_stream_rpc_method_handler(
+          servicer.GetExpenses,
+          request_deserializer=weladee__pb2.Empty.FromString,
+          response_serializer=odoo__pb2.ExpenseOdoo.SerializeToString,
+      ),
+      'GetExpenseTypes': grpc.unary_stream_rpc_method_handler(
+          servicer.GetExpenseTypes,
+          request_deserializer=weladee__pb2.Empty.FromString,
+          response_serializer=odoo__pb2.ExpenseTypeOdoo.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(

@@ -94,7 +94,7 @@ class weladee_attendance(models.TransientModel):
             sync_logdebug(context_sync,"Loading...Countries")            
             country_line_ids = self.env['res.country'].search([])
             for cu in country_line_ids:
-                if cu.name : country[ cu.name.lower() ] = cu.id
+                if cu.name : country[ cu.name ] = cu.id
         
         emp_managers = {}
         emp_obj = False

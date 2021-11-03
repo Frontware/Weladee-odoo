@@ -19,7 +19,7 @@ remarks:
                         class="oe_stat_button" 
                         type="object"
                         widget="url"
-                        attrs="{'invisible':[('weladee_profile','=',False)]}"
+                        attrs="{'invisible':['|',('weladee_profile','=',False),('weladee_profile','=','')]}"
                     >  
                     <div role="img" class="o_button_icon icon-weladee"/>
                     <div class="o_stat_info">
