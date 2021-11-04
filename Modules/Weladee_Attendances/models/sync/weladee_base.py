@@ -3,6 +3,7 @@
 # Weladee grpc server address is hrpc.weladee.com:22443
 import logging
 _logger = logging.getLogger(__name__)
+import base64
 
 from odoo.addons.Weladee_Attendances.models import weladee_grpc
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
@@ -119,3 +120,15 @@ def sync_stat_info(context_sync, key, keyname, newline=False):
                                                                                              context_sync.get(key,{}).get('error',0)))
     if newline: sync_loginfo(context_sync, ' ') 
     del context_sync[key]                                                                                            
+
+def sync_message_log(rec_id, msg, e):
+    """
+    create error as attachment (because error can't display well in message log)
+    """
+    attid = rec_id.env['ir.attachment'].create({
+                    'name': 'err-%s-%s.txt' % (rec_id._name,rec_id.id),
+                    'datas': base64.encodebytes(bytes(str(e),'utf-8')),
+                    'description': msg,
+                    'type': 'binary',
+                })
+    rec_id._message_log(body='<font color="red">Error!</font> there is an error while send this record to weladee: <a href="web/content/?model=ir.attachment&id=%s&filename_field=name&field=datas&download=true&name=">more info</a>' % attid.id )

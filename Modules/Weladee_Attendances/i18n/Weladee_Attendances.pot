@@ -22,6 +22,12 @@ msgid " employee tag %s"
 msgstr ""
 
 #. module: Weladee_Attendances
+#: code:addons/Weladee_Attendances/models/weladee_company_holiday.py:0
+#, python-format
+msgid "%s is already a company holiday."
+msgstr ""
+
+#. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
 msgid ""
 "<br/>\n"
@@ -320,6 +326,36 @@ msgid "Display Name"
 msgstr ""
 
 #. module: Weladee_Attendances
+#: model:ir.model.fields.selection,name:Weladee_Attendances.selection__hr_employee__marital__divorced
+msgid "Divorced"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
+msgid "Driving"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__driving_license_expiration_date
+msgid "Driving license expired date"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__driving_license_date_issue
+msgid "Driving license issued date"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__driving_license_place_issue
+msgid "Driving license issued place"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__driving_license_number
+msgid "Driving license number"
+msgstr ""
+
+#. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_department__email
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_form__email
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__email
@@ -443,6 +479,22 @@ msgid "Last run"
 msgstr ""
 
 #. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__marital
+msgid "Marital Status"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields.selection,name:Weladee_Attendances.selection__hr_employee__marital__married
+msgid "Married"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__military_status
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
+msgid "Military status"
+msgstr ""
+
+#. module: Weladee_Attendances
 #: model:ir.model.constraint,message:Weladee_Attendances.constraint_hr_department_name_uniq
 #: model:ir.model.constraint,message:Weladee_Attendances.constraint_hr_job_name_uniq
 msgid "Name can't duplicate !"
@@ -479,6 +531,7 @@ msgid "Notify if there is not enough allocated leave request"
 msgstr ""
 
 #. module: Weladee_Attendances
+#: model:ir.model.fields.selection,name:Weladee_Attendances.selection__hr_employee__marital__other
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
 msgid "Other"
 msgstr ""
@@ -486,6 +539,11 @@ msgstr ""
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__log_period_unit
 msgid "Period unit"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__probation_due_date
+msgid "Probation due date"
 msgstr ""
 
 #. module: Weladee_Attendances
@@ -499,6 +557,21 @@ msgid "Receive Check Notification"
 msgstr ""
 
 #. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__religion
+msgid "Religion"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__resignation_date
+msgid "Resignation date"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__resignation_reason
+msgid "Resignation reason"
+msgstr ""
+
+#. module: Weladee_Attendances
 #: model_terms:ir.actions.act_window,help:Weladee_Attendances.action_company_holidays
 msgid ""
 "Run Attendances <span class=\"fa fa-arrow-right o_we_selected_image\" "
@@ -509,6 +582,11 @@ msgstr ""
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
 msgid "Save"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields.selection,name:Weladee_Attendances.selection__hr_employee__marital__separated
+msgid "Separated"
 msgstr ""
 
 #. module: Weladee_Attendances
@@ -529,6 +607,11 @@ msgstr ""
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__log_period
 msgid "Since"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields.selection,name:Weladee_Attendances.selection__hr_employee__marital__single
+msgid "Single"
 msgstr ""
 
 #. module: Weladee_Attendances
@@ -567,6 +650,12 @@ msgid "Thai Nick Name"
 msgstr ""
 
 #. module: Weladee_Attendances
+#: code:addons/Weladee_Attendances/models/weladee_employee.py:0
+#, python-format
+msgid "This employee don't have weladee url."
+msgstr ""
+
+#. module: Weladee_Attendances
 #: model:ir.model,name:Weladee_Attendances.model_hr_leave
 msgid "Time Off"
 msgstr ""
@@ -579,6 +668,11 @@ msgstr ""
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
 msgid "Timesheet"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields.selection,name:Weladee_Attendances.selection__hr_employee__marital__unknownmaritalstatus
+msgid "Unknown"
 msgstr ""
 
 #. module: Weladee_Attendances
@@ -659,6 +753,16 @@ msgstr ""
 #. module: Weladee_Attendances
 #: model:ir.model,name:Weladee_Attendances.model_weladee_attendance_synchronous_setting
 msgid "Weladee settings"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields.selection,name:Weladee_Attendances.selection__hr_employee__marital__widowed
+msgid "Widower"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
+msgid "Work"
 msgstr ""
 
 #. module: Weladee_Attendances

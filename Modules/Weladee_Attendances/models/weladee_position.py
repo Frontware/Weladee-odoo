@@ -11,7 +11,7 @@ from odoo import exceptions
 
 from .grpcproto import odoo_pb2
 from . import weladee_settings
-from .sync.weladee_base import stub, myrequest, sync_clean_up
+from .sync.weladee_base import stub, myrequest, sync_clean_up, sync_message_log
 
 class weladee_job(models.Model):
     _inherit = 'hr.job'
@@ -57,6 +57,7 @@ class weladee_job(models.Model):
               _logger.error("odoo > %s" % vals)
               _logger.error("weladee > %s" % result)
               _logger.error("Error while add position on Weladee : %s" % e)
+              position_odoo._message_log(body=_('<font color="red">Error!</b> there is error while update this record in weladee: %s') % str(e))              
         else:
           _logger.error("Error while add position on Weladee : No authroized")
 
@@ -96,9 +97,11 @@ class weladee_job(models.Model):
                 except Exception as e:
                     _logger.debug("[position] odoo > %s" % vals)
                     _logger.error("Error while create position on Weladee : %s" % e)
+                    sync_message_log(position_odoo, 'when hr.position is created', e)
 
             elif newPosition_mode == 'update':
                 _logger.warning("No update position available from odoo -> Weladee")
+                sync_message_log(position_odoo, 'hr.position will not update to weladee', False)
         else:
           _logger.error("Error while update position on Weladee : No authroized")
 

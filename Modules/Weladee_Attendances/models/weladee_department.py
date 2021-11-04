@@ -11,7 +11,7 @@ from odoo import exceptions
 
 from .grpcproto import odoo_pb2
 from . import weladee_settings
-from .sync.weladee_base import stub, myrequest, sync_clean_up
+from .sync.weladee_base import stub, myrequest, sync_clean_up, sync_message_log
 
 class weladee_department(models.Model):
     _inherit = 'hr.department'
@@ -69,6 +69,8 @@ class weladee_department(models.Model):
               _logger.debug("odoo > %s" % vals)
               _logger.error("weladee > %s" % newDepartment)
               _logger.error("Error while add department on Weladee : %s" % e)
+              department_odoo._message_log(body=_('<font color="red">Error!</b> there is error while create this record in weladee: %s') % str(e))
+              sync_message_log(department_odoo, 'hr.department created', e)
         else:
           _logger.error("Error while add department on Weladee : No authroized")
 
@@ -138,6 +140,7 @@ class weladee_department(models.Model):
                     except Exception as e:
                         _logger.debug("[department] odoo > %s" % vals)
                         _logger.error("Error while create department on Weladee : %s" % e)
+                        sync_message_log(department_odoo, 'when hr.department is created', e)
 
             elif newDepartment_mode == 'update':
                 if newDepartment:
@@ -147,6 +150,7 @@ class weladee_department(models.Model):
                     except Exception as e:
                         _logger.error("weladee > %s" % newDepartment)
                         _logger.error("Error while update department on Weladee : %s" % e)
+                        sync_message_log(department_odoo, 'when hr.department is updated', e)
                 else:
                     # not found this weladee id anymore, probably deleted on weladee., still keep in odoo without sync.
                     _logger.error("Error while update department on Weladee : can't find this weladee id %s" % department_odoo.weladee_id)

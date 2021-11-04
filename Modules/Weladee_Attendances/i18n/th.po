@@ -17,6 +17,12 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: Weladee_Attendances
+#: code:addons/Weladee_Attendances/models/weladee_company_holiday.py:0
+#, python-format
+msgid "%s is already a company holiday."
+msgstr "%s เป็นวันหยุดบริษัท"
+
+#. module: Weladee_Attendances
 #: code:addons/Weladee_Attendances/library/weladee_translation.py:0
 #, python-format
 msgid " employee tag %s"
@@ -460,6 +466,36 @@ msgid "Display Name"
 msgstr "ชื่อที่ใช้แสดง"
 
 #. module: Weladee_Attendances
+#: model:ir.model.fields.selection,name:Weladee_Attendances.selection__hr_employee__marital__divorced
+msgid "Divorced"
+msgstr "หย่าร้าง"
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
+msgid "Driving"
+msgstr "ใบขับขี่"
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__driving_license_expiration_date
+msgid "Driving license expired date"
+msgstr "ใบขับขี่หมดอายุ"
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__driving_license_date_issue
+msgid "Driving license issued date"
+msgstr "ใบขับขี่ออกให้เมื่อ"
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__driving_license_place_issue
+msgid "Driving license issued place"
+msgstr "ใบขับขี่ออกให้ ณ"
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__driving_license_number
+msgid "Driving license number"
+msgstr "เลขที่ใบขับขี่"
+
+#. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_department__email
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_form__email
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__email
@@ -583,6 +619,22 @@ msgid "Last run"
 msgstr "ทำงานครั้งสุดท้ายเมื่อ"
 
 #. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__marital
+msgid "Marital Status"
+msgstr "สถานะสมรส"
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields.selection,name:Weladee_Attendances.selection__hr_employee__marital__married
+msgid "Married"
+msgstr "แต่งงาน"
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__military_status
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
+msgid "Military status"
+msgstr "สถานภาพเกณฑ์ทหาร"
+
+#. module: Weladee_Attendances
 #: model:ir.model.constraint,message:Weladee_Attendances.constraint_hr_department_name_uniq
 #: model:ir.model.constraint,message:Weladee_Attendances.constraint_hr_job_name_uniq
 msgid "Name can't duplicate !"
@@ -619,6 +671,7 @@ msgid "Notify if there is not enough allocated leave request"
 msgstr "แจ้งเตือนหากมีการจัดสรรวันลาไม่เพียงพอ"
 
 #. module: Weladee_Attendances
+#: model:ir.model.fields.selection,name:Weladee_Attendances.selection__hr_employee__marital__other
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
 msgid "Other"
 msgstr "อื่นๆ"
@@ -629,6 +682,11 @@ msgid "Period unit"
 msgstr "หน่วยของระยะเวลา"
 
 #. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__probation_due_date
+msgid "Probation due date"
+msgstr "วันสิ้นสุดทดลองงาน"
+
+#. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__qr_code
 msgid "QR Code"
 msgstr "คิวอาร์โค้ด"
@@ -637,6 +695,21 @@ msgstr "คิวอาร์โค้ด"
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__receive_check_notification
 msgid "Receive Check Notification"
 msgstr "รับการแจ้งเตือนการเข้าออก"
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__religion
+msgid "Religion"
+msgstr "ศาสนา"
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__resignation_date
+msgid "Resignation date"
+msgstr "วันที่ลาออก"
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__resignation_reason
+msgid "Resignation reason"
+msgstr "เหตุผลการลาออก"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.actions.act_window,help:Weladee_Attendances.action_company_holidays
@@ -652,6 +725,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
 msgid "Save"
 msgstr "บันทึก"
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields.selection,name:Weladee_Attendances.selection__hr_employee__marital__separated
+msgid "Separated"
+msgstr "แยกกันอยู่"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
@@ -677,6 +755,11 @@ msgstr "ตั้งแต่"
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm
 msgid "Synchronize"
 msgstr "ดึงข้อมูล"
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields.selection,name:Weladee_Attendances.selection__hr_employee__marital__single
+msgid "Single"
+msgstr "โสด"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm_ok
@@ -709,6 +792,12 @@ msgid "Thai Nick Name"
 msgstr "ชื่อเล่น(ไทย)"
 
 #. module: Weladee_Attendances
+#: code:addons/Weladee_Attendances/models/weladee_employee.py:0
+#, python-format
+msgid "This employee don't have weladee url."
+msgstr "ข้อมูลพนักงานคนนี้ไม่ได้เชื่อมต่อกับเวลาดี"
+
+#. module: Weladee_Attendances
 #: model:ir.model,name:Weladee_Attendances.model_hr_leave
 msgid "Time Off"
 msgstr "ลาหยุด"
@@ -722,6 +811,11 @@ msgstr "ประเภทการลาหยุด"
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
 msgid "Timesheet"
 msgstr "ไทม์ชีท"
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields.selection,name:Weladee_Attendances.selection__hr_employee__marital__unknownmaritalstatus
+msgid "Unknown"
+msgstr "ไม่รู้จัก"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
@@ -784,6 +878,16 @@ msgstr "หน้าพนักงานในเวลาดี"
 #: model:ir.ui.menu,name:Weladee_Attendances.weladee_setting_menu
 msgid "Weladee Settings"
 msgstr "การตั้งค่าในเวลาดี"
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields.selection,name:Weladee_Attendances.selection__hr_employee__marital__widowed
+msgid "Widower"
+msgstr "หม้าย"
+
+#. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
+msgid "Work"
+msgstr "งาน"
 
 #. module: Weladee_Attendances
 #: model:ir.actions.server,name:Weladee_Attendances.weladee_attendance_synchronous_act_server

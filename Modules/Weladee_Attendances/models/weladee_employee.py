@@ -13,7 +13,7 @@ from odoo import exceptions
 from .grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from . import weladee_settings
-from .sync.weladee_base import stub, myrequest, sync_clean_up 
+from .sync.weladee_base import stub, myrequest, sync_clean_up, sync_message_log 
 from .sync.weladee_employee import new_employee_data_gender,new_employee_data_maritial, new_employee_data_military, new_employee_data_religion,new_employee_data_religion,new_employee_data_military
 
 def get_weladee_employee(weladee_id, authorization):
@@ -252,9 +252,9 @@ class weladee_employee(models.Model):
               employee_odoo.write( towrite )
 
             except Exception as e:
-              print(traceback.format_exc())
               _logger.debug("odoo > %s" % vals)
               _logger.error("Error while add employee on Weladee : %s" % e)
+              sync_message_log(employee_odoo, 'when hr.employee is created', e)
         else:
           _logger.error("Error while add employee on Weladee : No authroized")
 
@@ -487,6 +487,8 @@ class weladee_employee(models.Model):
                     except Exception as e:
                         _logger.debug("[employee] odoo > %s" % vals)
                         _logger.error("Error while create employee on Weladee : %s" % e)
+                        sync_message_log(employee_odoo, 'when hr.employee is updated', e)
+
 
             elif WeladeeData_mode == 'update':
                 if WeladeeData:
@@ -496,6 +498,7 @@ class weladee_employee(models.Model):
                     except Exception as e:
                         _logger.debug("[employee] odoo > %s" % vals)
                         _logger.error("Error while update employee on Weladee : %s" % e)
+                        sync_message_log(employee_odoo, 'when hr.employee is updated', e)
                 else:
                     # not found this weladee id anymore, probably deleted on weladee., still keep in odoo without sync.
                     _logger.error("Error while update employee on Weladee : can't find this weladee id %s" % employee_odoo.weladee_id)
@@ -503,6 +506,11 @@ class weladee_employee(models.Model):
           _logger.error("Error while update employee on Weladee : No authroized")
 
     def clean_up_space(self, vals):
+        """
+        remove space in employee_code,first_name_english,last_name_english,work_email,first_name_thai,last_name_thai
+        when parent id = 0, set to False
+        convert country_name to country_id
+        """
         if "employee_code" in vals and vals["employee_code"]:
            vals["employee_code"] = (vals["employee_code"] or '').strip(' ')
         if "first_name_english" in vals and vals["first_name_english"]:
