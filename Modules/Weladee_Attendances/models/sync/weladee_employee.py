@@ -65,7 +65,7 @@ def new_employee_data_maritial(maritial):
 def new_employee_data_religion(maritial):
     '''
     convert odoo employee religion to weladee
-    '''
+    '''    
     return weladee_pb2.Religion.Value(maritial)
 
 def new_employee_data_military(maritial):
@@ -185,18 +185,6 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
     if weladee_employee.employee.ProbationDueDate > 0:
         data["probation_due_date"] = datetime.fromtimestamp( weladee_employee.employee.ProbationDueDate )
     data["resignation_reason"] = weladee_employee.employee.ResignationReason
-
-    data["passport_place_issue"] = weladee_employee.employee.PassportPlaceIssue
-    if weladee_employee.employee.PassportDateIssue > 0:
-        data["passport_date_issue"] = datetime.fromtimestamp( weladee_employee.employee.PassportDateIssue )
-    if weladee_employee.employee.PassportExpirationDate > 0:
-        data["passport_expiration_date"] = datetime.fromtimestamp( weladee_employee.employee.PassportExpirationDate )    
-
-    data["nationalid_place_issue"] = weladee_employee.employee.NationalIDPlaceIssue
-    if weladee_employee.employee.NationalIDDateIssue > 0:
-        data["nationalid_date_issue"] = datetime.fromtimestamp( weladee_employee.employee.NationalIDDateIssue )
-    if weladee_employee.employee.NationalIDExpirationDate > 0:
-        data["nationalid_expiration_date"] = datetime.fromtimestamp( weladee_employee.employee.NationalIDExpirationDate )    
 
     # look if there is odoo record with same weladee-id
     # if not found then create else update    
@@ -349,30 +337,18 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
         newEmployee.employee.DrivingLicenseNumber = odoo_employee.driving_license_number or ''
         newEmployee.employee.DrivingLicensePlaceIssue = odoo_employee.driving_license_place_issue or ''
         if odoo_employee.driving_license_date_issue:
-           newEmployee.employee.DrivingLicenseDateIssue = odoo_employee.driving_license_date_issue.timestamp()
+           newEmployee.employee.DrivingLicenseDateIssue = int(datetime.strptime(odoo_employee.driving_license_date_issue.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
         if odoo_employee.driving_license_expiration_date:
-           newEmployee.employee.DrivingLicenseExpirationDate = odoo_employee.driving_license_expiration_date.timestamp()
+           newEmployee.employee.DrivingLicenseExpirationDate = int(datetime.strptime(odoo_employee.driving_license_expiration_date.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
         newEmployee.employee.Religion = new_employee_data_religion(odoo_employee.religion)
         newEmployee.employee.MaritalStatus = new_employee_data_maritial(odoo_employee.maritial)
         newEmployee.employee.MilitaryStatus = new_employee_data_military( odoo_employee.military_status)
         if odoo_employee.resignation_date:
-           newEmployee.employee.ResignationDate = odoo_employee.resignation_date.timestamp()
+           newEmployee.employee.ResignationDate = int(datetime.strptime(odoo_employee.resignation_date.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
         if odoo_employee.probation_due_date:
-           newEmployee.employee.ProbationDueDate = odoo_employee.probation_due_date.timestamp()
+           newEmployee.employee.ProbationDueDate = int(datetime.strptime(odoo_employee.probation_due_date.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
         newEmployee.employee.ResignationReason = odoo_employee.resignation_reason
 
-
-        newEmployee.employee.DrivingLicensePlaceIssue = odoo_employee.passport_place_issue or ''
-        if odoo_employee.passport_date_issue:
-           newEmployee.employee.DrivingLicenseDateIssue = odoo_employee.passport_date_issue.timestamp()
-        if odoo_employee.passport_expiration_date:
-           newEmployee.employee.DrivingLicenseExpirationDate = odoo_employee.passport_expiration_date.timestamp()
-
-        newEmployee.employee.NationalIDPlaceIssue = odoo_employee.nationalid_place_issue or ''
-        if odoo_employee.nationalid_date_issue:
-           newEmployee.employee.NationalIDDateIssue = odoo_employee.nationalid_date_issue.timestamp()
-        if odoo_employee.nationalid_expiration_date:
-           newEmployee.employee.NationalIDExpirationDate = odoo_employee.nationalid_expiration_date.timestamp()
         #2018-06-07 KPO don't sync note back
         #2018-06-15 KPO don't sync badge
 

@@ -73,16 +73,7 @@ remarks:
                     <field name="religion"/>
                 </xpath>
 
-                <xpath expr="//field[@name='passport_id']" position="after">
-                    <field name="passport_place_issue"/>
-                    <field name="passport_date_issue"/>
-                    <field name="passport_expiration_date"/>
-                </xpath>
-
                 <xpath expr="//field[@name='identification_id']" position="after">
-                    <field name="nationalid_place_issue"/>
-                    <field name="nationalid_date_issue"/>
-                    <field name="nationalid_expiration_date"/>
                     <field name="taxID"/>
                 </xpath>
                 

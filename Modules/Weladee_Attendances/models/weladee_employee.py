@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import logging
+import traceback
 _logger = logging.getLogger(__name__)
 import time
 
@@ -71,20 +72,12 @@ class weladee_employee(models.Model):
     driving_license_date_issue = fields.Date('Driving license issued date')
     driving_license_expiration_date = fields.Date('Driving license expired date')
 
-    religion = fields.Char('Religion')
-    military_status = fields.Char('Military status')
+    religion = fields.Selection(selection='_get_religion',string='Religion',default=lambda s: s._get_religion_default())
+    military_status = fields.Selection(selection='_get_military',string='Military status',default=lambda s: s._get_military_default())
 
     resignation_date = fields.Date('Resignation date')
     resignation_reason = fields.Text('Resignation reason')
     probation_due_date = fields.Date('Probation due date')
-
-    passport_place_issue = fields.Char('Passport issue place')
-    passport_date_issue = fields.Date('Passport issue date')
-    passport_expiration_date = fields.Date('Passport expired date')
-
-    nationalid_place_issue = fields.Char('NationalID issue place')
-    nationalid_date_issue = fields.Date('NationalID issue date')
-    nationalid_expiration_date = fields.Date('NationalID expired date')
 
     marital = fields.Selection([
         ('single', 'Single'),
@@ -102,6 +95,22 @@ class weladee_employee(models.Model):
       ('emp_mail_uniq', 'unique(work_email)', "Employee working email can't duplicate !"),
       ('emp_first_last_name_t_uniq', 'unique(first_name_thai,last_name_thai)', "Employee name can't duplicate !"),
     ]
+
+    @api.model
+    def _get_religion_default(self):
+        return weladee_pb2.Religion.keys()[0]
+
+    @api.model
+    def _get_military_default(self):
+        return weladee_pb2.MilitaryStatus.keys()[0]
+
+    @api.model
+    def _get_religion(self):
+        return [(x, x) for x in weladee_pb2.Religion.keys()]
+
+    @api.model
+    def _get_military(self):        
+        return [(x, x) for x in weladee_pb2.MilitaryStatus.keys()]
 
     def _create_in_weladee(self, employee_odoo, vals):
         '''
@@ -225,27 +234,6 @@ class weladee_employee(models.Model):
             if "resignation_reason" in vals:
                 WeladeeData.employee.ResignationReason = vals['resignation_reason'] or ''
 
-            if 'passport_place_issue' in vals:
-                WeladeeData.employee.PassportPlaceIssue = vals['passport_place_issue'] or ''
-
-            if "passport_date_issue" in vals:
-                if vals['passport_date_issue']:
-                   WeladeeData.employee.PassportDateIssue = int(datetime.strptime(vals["passport_date_issue"],'%Y-%m-%d').timestamp())
-
-            if "passport_expiration_date" in vals:                
-                if vals['passport_expiration_date']:
-                   WeladeeData.employee.PassportExpirationDate = int(datetime.strptime(vals["passport_expiration_date"],'%Y-%m-%d').timestamp())
-
-            if 'nationalid_place_issue' in vals:
-                WeladeeData.employee.NationalIDPlaceIssue = vals['nationalid_place_issue'] or ''
-            if "nationalid_date_issue" in vals:
-                if vals['nationalid_date_issue']:
-                   WeladeeData.employee.NationalIDDateIssue = int(datetime.strptime(vals["nationalid_date_issue"],'%Y-%m-%d').timestamp())
-
-            if "nationalid_expiration_date" in vals:                
-                if vals['nationalid_expiration_date']:
-                   WeladeeData.employee.NationalIDExpirationDate = int(datetime.strptime(vals["nationalid_expiration_date"],'%Y-%m-%d').timestamp())
-
             #2018-06-07 KPO don't sync note back
             #2018-06-15 KPO don't sync badge
 
@@ -260,10 +248,11 @@ class weladee_employee(models.Model):
               for weladee_emp in stub.GetEmployees(odooRequest, metadata=authorization):
                   if weladee_emp and weladee_emp.employee:
                      towrite['qr_code'] = weladee_emp.employee.QRCode
-              towrite['weladee-id'] = result.ID
+              towrite['weladee_id'] = result.ID
               employee_odoo.write( towrite )
 
             except Exception as e:
+              print(traceback.format_exc())
               _logger.debug("odoo > %s" % vals)
               _logger.error("Error while add employee on Weladee : %s" % e)
         else:
@@ -293,22 +282,22 @@ class weladee_employee(models.Model):
             if "first_name_english" in vals:
               WeladeeData.employee.first_name_english = vals.get("first_name_english", '')
             else:
-              WeladeeData.employee.first_name_english = employee_odoo.first_name_english or bytes()
+              WeladeeData.employee.first_name_english = employee_odoo.first_name_english or ''
 
             if "last_name_english" in vals :
               WeladeeData.employee.last_name_english = vals.get("last_name_english", '')
             else:
-              WeladeeData.employee.last_name_english = employee_odoo.last_name_english or bytes()
+              WeladeeData.employee.last_name_english = employee_odoo.last_name_english or ''
 
             if "first_name_thai" in vals:
               WeladeeData.employee.first_name_thai = vals.get("first_name_thai", '')
             else:
-              WeladeeData.employee.first_name_thai = employee_odoo.first_name_thai or bytes()
+              WeladeeData.employee.first_name_thai = employee_odoo.first_name_thai or ''
 
             if "last_name_thai" in vals :
               WeladeeData.employee.last_name_thai = vals.get("last_name_thai", '')
             else:
-              WeladeeData.employee.last_name_thai = employee_odoo.last_name_thai or bytes()
+              WeladeeData.employee.last_name_thai = employee_odoo.last_name_thai or ''
 
             if "nick_name_english" in vals :
               WeladeeData.employee.nickname_english = vals.get("nick_name_english", '')
@@ -321,7 +310,6 @@ class weladee_employee(models.Model):
               WeladeeData.employee.nickname_thai = employee_odoo.nick_name_thai or ''
 
             #2018-06-23 KPO don't update employee code after create
-
             if "country_id" in vals:
                 if vals["country_id"]:
                    countryData = self.env['res.country'].browse( vals["country_id"] )
@@ -329,7 +317,7 @@ class weladee_employee(models.Model):
                        WeladeeData.employee.Nationality = countryData.code
             else :
                 if employee_odoo.country_id.id:
-                   WeladeeData.employee.Nationality = employee_odoo.country_id.code
+                   WeladeeData.employee.Nationality = employee_odoo.country_id.code or ''
 
             if "work_email" in vals :
                 WeladeeData.employee.email = vals.get("work_email", '')
@@ -359,7 +347,7 @@ class weladee_employee(models.Model):
                    WeladeeData.employee.Birthday = int(datetime.strptime(vals["birthday"],'%Y-%m-%d').timestamp())
             else :
                 if employee_odoo.birthday:
-                   WeladeeData.employee.Birthday = employee_odoo.birthday.timestamp()
+                   WeladeeData.employee.Birthday = int(datetime.strptime(employee_odoo.birthday.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
 
             #language not sync yet
 
@@ -400,7 +388,7 @@ class weladee_employee(models.Model):
               WeladeeData.employee.NationalID = employee_odoo.identification_id or ''
             
             if "image_1920" in vals:
-                WeladeeData.employee.photo = vals["image_1920"]
+                WeladeeData.employee.photo = vals["image_1920"] or ''
 
             if "work_phone" in vals:
                 if len(WeladeeData.employee.Phones) == 0:
@@ -421,26 +409,26 @@ class weladee_employee(models.Model):
             if 'driving_license_number' in vals:
                 WeladeeData.employee.DrivingLicenseNumber = vals['driving_license_number'] or ''
             else:
-                WeladeeData.employee.DrivingLicenseNumber = employee_odoo.driving_license_number
+                WeladeeData.employee.DrivingLicenseNumber = employee_odoo.driving_license_number or ''
 
             if 'driving_license_place_issue' in vals:
                 WeladeeData.employee.DrivingLicensePlaceIssue = vals['driving_license_place_issue'] or ''
             else:
-                WeladeeData.employee.DrivingLicensePlaceIssue = employee_odoo.driving_license_place_issue
+                WeladeeData.employee.DrivingLicensePlaceIssue = employee_odoo.driving_license_place_issue or ''
                 
             if 'driving_license_date_issue' in vals:
                 if vals["driving_license_date_issue"]:
                    WeladeeData.employee.DrivingLicenseDateIssue = int(datetime.strptime(vals["driving_license_date_issue"],'%Y-%m-%d').timestamp())
             else :
                 if employee_odoo.driving_license_date_issue:
-                   WeladeeData.employee.DrivingLicenseDateIssue = employee_odoo.driving_license_date_issue.timestamp()
+                   WeladeeData.employee.DrivingLicenseDateIssue = int(datetime.strptime(employee_odoo.driving_license_date_issue.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
                    
-            if 'driving_license_expiration_date':
+            if 'driving_license_expiration_date' in vals:
                 if vals["driving_license_expiration_date"]:
                    WeladeeData.employee.DrivingLicenseExpirationDate = int(datetime.strptime(vals["driving_license_expiration_date"],'%Y-%m-%d').timestamp())
             else :
                 if employee_odoo.driving_license_expiration_date:
-                   WeladeeData.employee.DrivingLicenseExpirationDate = employee_odoo.driving_license_expiration_date.timestamp()
+                   WeladeeData.employee.DrivingLicenseExpirationDate = int(datetime.strptime(employee_odoo.driving_license_expiration_date.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
                    
             if 'religion' in vals:
                 WeladeeData.employee.Religion = new_employee_data_religion( vals['religion'] )
@@ -461,56 +449,20 @@ class weladee_employee(models.Model):
                 if vals["resignation_date"]:
                    WeladeeData.employee.ResignationDate = int(datetime.strptime(vals["resignation_date"],'%Y-%m-%d').timestamp())
             else:
-                WeladeeData.employee.ResignationDate = employee_odoo.resignation_date.timestamp()
+                if employee_odoo.resignation_date:
+                   WeladeeData.employee.ResignationDate = int(datetime.strptime(employee_odoo.resignation_date.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
 
             if "probation_due_date" in vals:
                 if vals["probation_due_date"]:
                    WeladeeData.employee.ProbationDueDate = int(datetime.strptime(vals["probation_due_date"],'%Y-%m-%d').timestamp())
             else:
-                WeladeeData.employee.ProbationDueDate = employee_odoo.probation_due_date.timestamp()
+                if employee_odoo.probation_due_date:
+                   WeladeeData.employee.ProbationDueDate = int(datetime.strptime(employee_odoo.probation_due_date.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
 
             if "resignation_reason" in vals:
                 WeladeeData.employee.ResignationReason = vals['resignation_reason'] or ''
             else:
-                WeladeeData.employee.ResignationReason = employee_odoo.resignation_reason
-
-            if 'passport_place_issue' in vals:
-                WeladeeData.employee.PassportPlaceIssue = vals['passport_place_issue'] or ''
-            else:
-                WeladeeData.employee.PassportPlaceIssue = employee_odoo.passport_place_issue
-                
-            if 'passport_date_issue' in vals:
-                if vals["passport_date_issue"]:
-                   WeladeeData.employee.PassportDateIssue = int(datetime.strptime(vals["passport_date_issue"],'%Y-%m-%d').timestamp())
-            else :
-                if employee_odoo.passport_date_issue:
-                   WeladeeData.employee.PassportDateIssue = employee_odoo.passport_date_issue.timestamp()
-                   
-            if 'passport_expiration_date':
-                if vals["passport_expiration_date"]:
-                   WeladeeData.employee.PassportExpirationDate = int(datetime.strptime(vals["passport_expiration_date"],'%Y-%m-%d').timestamp())
-            else :
-                if employee_odoo.passport_expiration_date:
-                   WeladeeData.employee.PassportExpirationDate = employee_odoo.passport_expiration_date.timestamp()
-
-            if 'nationalid_place_issue' in vals:
-                WeladeeData.employee.NationalIDPlaceIssue = vals['nationalid_place_issue'] or ''
-            else:
-                WeladeeData.employee.NationalIDPlaceIssue = employee_odoo.nationalid_place_issue
-                
-            if 'nationalid_date_issue' in vals:
-                if vals["nationalid_date_issue"]:
-                   WeladeeData.employee.NationalIDDateIssue = int(datetime.strptime(vals["nationalid_date_issue"],'%Y-%m-%d').timestamp())
-            else :
-                if employee_odoo.nationalid_date_issue:
-                   WeladeeData.employee.NationalIDDateIssue = employee_odoo.nationalid_date_issue.timestamp()
-                   
-            if 'nationalid_expiration_date':
-                if vals["nationalid_expiration_date"]:
-                   WeladeeData.employee.NationalIDExpirationDate = int(datetime.strptime(vals["nationalid_expiration_date"],'%Y-%m-%d').timestamp())
-            else :
-                if employee_odoo.nationalid_expiration_date:
-                   WeladeeData.employee.NationalIDExpirationDate = employee_odoo.nationalid_expiration_date.timestamp()
+                WeladeeData.employee.ResignationReason = employee_odoo.resignation_reason or ''
 
             #2018-05-28 KPO use employee_code
             #2018-06-23 KPO don't update employee code after create
