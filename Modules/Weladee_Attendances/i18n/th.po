@@ -589,11 +589,6 @@ msgid "Name can't duplicate !"
 msgstr "ไม่สามารถใช้ชื่อซ้ำกันได้"
 
 #. module: Weladee_Attendances
-#: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__nationalID
-msgid "NationalID"
-msgstr "บัตรประจำตัวประชาชน"
-
-#. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__country_id
 msgid "Nationality (Country)"
 msgstr "สัญชาติ (ประเทศ)"

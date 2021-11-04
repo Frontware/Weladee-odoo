@@ -23,7 +23,7 @@ def sync_manager_dep(emp_obj, dep_obj, weladee_managers, authorization, context_
                                                 '|',("active","=",False),("active","=",True)] )
 
             try:
-                __ = odoo_dep.write( {"manager_id": int(odoo_manager.id) } )
+                __ = odoo_dep.write( {"send2-weladee": False,"manager_id": int(odoo_manager.id) } )
                 sync_logdebug(context_sync,"Updated manager of %s" % odoo_dep.name)
                 sync_stat_update(context_sync['stat-d-manager'], 1)
             except Exception as e:
