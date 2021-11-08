@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+customize partner form
+
+remarks:
+2021-11-08 KPO created    
+-->
+<odoo>
+    <data>
+        <record id="fw_view_partner_form" model="ir.ui.view">
+            <field name="name">fw_view_partner_form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">                
+               <xpath expr="//field[@name='name']//.." position="after">
+                   <field name="weladee_id" invisible="1" />
+                   <div attrs="{'invisible':[('weladee_id','=',False)]}" style="color:red">
+                   This record is imported from weladee, any change in odoo will be replaced by data from weladee.
+                   </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

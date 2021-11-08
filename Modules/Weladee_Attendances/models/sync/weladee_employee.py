@@ -24,11 +24,11 @@ def sync_employee_data_gender(weladee_emp):
     else:
         return 'other'
 
-def sync_employee_data_maritial(weladee_emp):
+def sync_employee_data_marital(weladee_emp):
     '''
-    convert weladee employee MilitaryStatus to odoo
+    convert weladee employee marital to odoo
     '''
-    return weladee_pb2.MaritalStatus.Name(weladee_emp.employee.MilitaryStatus).lower()
+    return weladee_pb2.MaritalStatus.Name(weladee_emp.employee.MaritalStatus).lower()
 
 def sync_employee_data_religion(weladee_emp):
     '''
@@ -53,26 +53,26 @@ def new_employee_data_gender(gender):
     else:
         return 'u'
 
-def new_employee_data_maritial(maritial):
+def new_employee_data_marital(marital):
     '''
-    convert odoo employee maritial to weladee
+    convert odoo employee marital to weladee
     '''
     for k in weladee_pb2.MaritalStatus.keys():
-        if k.lower()  == maritial:
+        if k.lower()  == marital:
            return weladee_pb2.MaritalStatus.Value(k)
     return False
 
-def new_employee_data_religion(maritial):
+def new_employee_data_religion(religion):
     '''
     convert odoo employee religion to weladee
     '''    
-    return weladee_pb2.Religion.Value(maritial)
+    return weladee_pb2.Religion.Value(religion)
 
-def new_employee_data_military(maritial):
+def new_employee_data_military(military):
     '''
     convert odoo employee military to weladee
     '''
-    return weladee_pb2.MilitaryStatus.Value(maritial)
+    return weladee_pb2.MilitaryStatus.Value(military)
 
 def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, country, context_sync,pdf_path):
     '''
@@ -178,7 +178,7 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
     if weladee_employee.employee.DrivingLicenseExpirationDate > 0:
         data["driving_license_expiration_date"] = datetime.fromtimestamp( weladee_employee.employee.DrivingLicenseExpirationDate )    
     data["religion"] =  sync_employee_data_religion(weladee_employee)
-    data["marital"] = sync_employee_data_maritial(weladee_employee)
+    data["marital"] = sync_employee_data_marital(weladee_employee)
     data["military_status"] = sync_employee_data_military(weladee_employee)
     if weladee_employee.employee.ResignationDate > 0:
         data["resignation_date"] = datetime.fromtimestamp( weladee_employee.employee.ResignationDate )
@@ -341,13 +341,14 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
         if odoo_employee.driving_license_expiration_date:
            newEmployee.employee.DrivingLicenseExpirationDate = int(datetime.strptime(odoo_employee.driving_license_expiration_date.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
         newEmployee.employee.Religion = new_employee_data_religion(odoo_employee.religion)
-        newEmployee.employee.MaritalStatus = new_employee_data_maritial(odoo_employee.maritial)
+        newEmployee.employee.MaritalStatus = new_employee_data_marital(odoo_employee.marital)
+
         newEmployee.employee.MilitaryStatus = new_employee_data_military( odoo_employee.military_status)
         if odoo_employee.resignation_date:
            newEmployee.employee.ResignationDate = int(datetime.strptime(odoo_employee.resignation_date.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
         if odoo_employee.probation_due_date:
            newEmployee.employee.ProbationDueDate = int(datetime.strptime(odoo_employee.probation_due_date.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
-        newEmployee.employee.ResignationReason = odoo_employee.resignation_reason
+        newEmployee.employee.ResignationReason = odoo_employee.resignation_reason or ''
 
         #2018-06-07 KPO don't sync note back
         #2018-06-15 KPO don't sync badge
@@ -360,6 +361,7 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
             sync_stat_create(context_sync['stat-w-employee'], 1)
 
         except Exception as e:
+            print(traceback.format_exc())
             sync_logdebug(context_sync, 'odoo > %s' % odoo_employee)
             sync_logerror(context_sync, "Add employee '%s' failed : %s" % (odoo_employee.name, e))
             sync_stat_error(context_sync['stat-w-employee'], 1)

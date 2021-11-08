@@ -42,6 +42,12 @@ def sync_log_data(emp_obj, att_obj, weladee_att, odoo_weladee_ids, context_sync)
     #write checkin/out time
     data[check_field] = date
 
+    if not data['employee_id']:
+        data['res-mode'] = '' 
+        sync_logdebug(context_sync, 'weladee > %s ' % weladee_att)
+        sync_logdebug(context_sync, 'odoo > %s ' % data)
+        sync_logwarn(context_sync, 'this checkin has no employee id, no change')
+
     if data['res-mode'] == 'create':
        if check_field == 'check_in': 
           prev_rec = att_obj.search( [ ('employee_id','=', data['employee_id'] ), (check_field,'=', date)],limit=1 )

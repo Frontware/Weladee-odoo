@@ -14,7 +14,7 @@ from .grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from . import weladee_settings
 from .sync.weladee_base import stub, myrequest, sync_clean_up, sync_message_log 
-from .sync.weladee_employee import new_employee_data_gender,new_employee_data_maritial, new_employee_data_military, new_employee_data_religion,new_employee_data_religion,new_employee_data_military
+from .sync.weladee_employee import new_employee_data_gender,new_employee_data_marital, new_employee_data_military, new_employee_data_religion,new_employee_data_religion,new_employee_data_military
 
 def get_weladee_employee(weladee_id, authorization):
     '''
@@ -222,7 +222,7 @@ class weladee_employee(models.Model):
             if "religion" in vals:
                 WeladeeData.employee.Religion = new_employee_data_religion( vals['religion'] or '')
             if "marital_status" in vals:
-               WeladeeData.employee.MaritalStatus = new_employee_data_maritial( vals['marital_status'] or '')
+               WeladeeData.employee.MaritalStatus = new_employee_data_marital( vals['marital_status'] or '')
             if "military_status" in vals:
                 WeladeeData.employee.MilitaryStatus = new_employee_data_military(vals['military_status'] or '')
             if "resignation_date" in vals:                
@@ -436,9 +436,9 @@ class weladee_employee(models.Model):
                 WeladeeData.employee.Religion = new_employee_data_religion( employee_odoo.religion )
                 
             if 'marital' in vals:
-               WeladeeData.employee.MaritalStatus = new_employee_data_maritial(vals['marital'])
+               WeladeeData.employee.MaritalStatus = new_employee_data_marital(vals['marital'])
             else:
-               WeladeeData.employee.MaritalStatus = new_employee_data_maritial(employee_odoo.marital)
+               WeladeeData.employee.MaritalStatus = new_employee_data_marital(employee_odoo.marital)
 
             if 'military_status' in vals:
                 WeladeeData.employee.MilitaryStatus = new_employee_data_military(  vals['military_status'] or '')
