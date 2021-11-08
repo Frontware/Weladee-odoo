@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+customize project form
+
+remarks:
+2021-11-08 KPO created    
+-->
+<odoo>
+    <data>
+        <record id="fw_edit_project" model="ir.ui.view">
+            <field name="name">fw_edit_project</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">                
+               <xpath expr="//field[@name='name']//.." position="after">
+                   <field name="weladee_id" invisible="1" />
+                   <div attrs="{'invisible':[('weladee_id','=',False)]}" style="color:red">
+                   This record is imported from weladee, any change in odoo will be replaced by data from weladee.
+                   </div>
+                   <label for="name_thai"/>
+                   <div>
+                   <field name="name_thai" />
+                   </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

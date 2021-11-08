@@ -179,6 +179,22 @@ msgid ""
 msgstr ""
 
 #. module: Weladee_Attendances
+#: code:addons/Weladee_Attendances/models/weladee_department.py:0
+#, python-format
+msgid ""
+"<font color=\"red\">Error!</b> there is error while create this record in "
+"weladee: %s"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: code:addons/Weladee_Attendances/models/weladee_position.py:0
+#, python-format
+msgid ""
+"<font color=\"red\">Error!</b> there is error while update this record in "
+"weladee: %s"
+msgstr ""
+
+#. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
 msgid "<span attrs=\"{'invisible':[('log_period','=','all')]}\">&amp;nbsp;</span>"
 msgstr ""
@@ -280,6 +296,11 @@ msgid "Company holidays"
 msgstr ""
 
 #. module: Weladee_Attendances
+#: model:ir.model,name:Weladee_Attendances.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_company_holidays__create_uid
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_form__create_uid
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous__create_uid
@@ -319,6 +340,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_job__display_name
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_leave__display_name
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_leave_type__display_name
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_project_project__display_name
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_res_partner__display_name
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_company_holidays__display_name
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_form__display_name
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous__display_name
@@ -428,6 +451,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_job__id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_leave__id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_leave_type__id
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_project_project__id
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_res_partner__id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_company_holidays__id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_form__id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous__id
@@ -449,6 +474,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_job____last_update
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_leave____last_update
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_leave_type____last_update
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_project_project____last_update
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_res_partner____last_update
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_company_holidays____last_update
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_form____last_update
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous____last_update
@@ -503,6 +530,13 @@ msgid "Name can't duplicate !"
 msgstr ""
 
 #. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_project_project__name_thai
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_res_partner__name_thai
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_res_users__name_thai
+msgid "Name(thai)"
+msgstr ""
+
+#. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__country_id
 msgid "Nationality (Country)"
 msgstr ""
@@ -546,6 +580,11 @@ msgstr ""
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__probation_due_date
 msgid "Probation due date"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model,name:Weladee_Attendances.model_project_project
+msgid "Project"
 msgstr ""
 
 #. module: Weladee_Attendances
@@ -658,6 +697,14 @@ msgid "This employee don't have weladee url."
 msgstr ""
 
 #. module: Weladee_Attendances
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.fw_edit_project
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.fw_view_partner_form
+msgid ""
+"This record is imported from weladee, any change in odoo will be replaced by"
+" data from weladee."
+msgstr ""
+
+#. module: Weladee_Attendances
 #: model:ir.model,name:Weladee_Attendances.model_hr_leave
 msgid "Time Off"
 msgstr ""
@@ -720,6 +767,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_department__weladee_id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__weladee_id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_job__weladee_id
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_project_project__weladee_id
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_res_partner__weladee_id
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_res_users__weladee_id
 msgid "Weladee ID"
 msgstr ""
 
