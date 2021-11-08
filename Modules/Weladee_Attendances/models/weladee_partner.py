@@ -10,3 +10,4 @@ class weladee_partner(models.Model):
     _inherit = 'res.partner'
 
     weladee_id = fields.Char(string="Weladee ID",copy=False)
+    name_thai = fields.Char(string='Name(thai)')

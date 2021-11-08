@@ -43,11 +43,13 @@ There is a request to do Weladee Synchronization at ${ctx.get('request-date')}
 
         These data are successfully sync with Weladee:
         <ul>
-            <li>Position</li>
-            <li>Department</li>
-            <li>Employee</li>
-            <li>Attendances</li>
+            <li>Positions</li>
+            <li>Departments</li>
+            <li>Employees</li>
             <li>Holidays</li>
+            <li>Attendances</li>
+            <li>Customers</li>
+            <li>Projects</li>
         </ul>
 
     % endif

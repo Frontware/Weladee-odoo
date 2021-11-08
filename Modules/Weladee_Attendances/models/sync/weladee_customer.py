@@ -15,9 +15,11 @@ def sync_customer_data(self, weladee_customer, cus_obj, context_sync):
     '''
     customer data to sync
     '''
-    data = {'name': weladee_customer.Customer.NameEnglish or weladee_customer.Customer.NameThai,
+    data = {'name': weladee_customer.Customer.NameEnglish,
+            'name_thai': weladee_customer.Customer.NameThai,
             'comment': weladee_customer.Customer.Note,
             'weladee_id': weladee_customer.Customer.ID,
+            'active':weladee_customer.Customer.active,
             'customer_rank': 1}    
     data['res-mode'] = 'create'
     prev_rec = cus_obj.search( [ ('name','=', data['name'] )],limit=1 )
@@ -25,7 +27,7 @@ def sync_customer_data(self, weladee_customer, cus_obj, context_sync):
         data['res-mode'] = '' 
         sync_logdebug(context_sync, 'weladee > %s ' % weladee_customer)
         sync_logdebug(context_sync, 'odoo > %s ' % data)
-        sync_logwarn(context_sync, 'this customer\'name record already exist for this %s exist, no change will appy' % data['name'])
+        sync_logwarn(context_sync, 'this customer\'name record already exist for this %s exist, no change will apply' % data['name'])
 
     return data   
 
@@ -62,6 +64,7 @@ def sync_customer(self, cs_obj, authorization, context_sync, odoo_weladee_ids, t
                     sync_logdebug(context_sync, "Insert customer '%s' to odoo" % odoo_cus )
                     sync_stat_create(context_sync['stat-cus'], 1)
 
+                    odoo_weladee_ids[weladee_customer.Customer.ID] = newid.id
                 else:
                     sync_logdebug(context_sync, 'weladee > %s' % weladee_customer) 
                     sync_logerror(context_sync, "error while create odoo customer id %s of '%s' in odoo" % (odoo_cus['res-id'], odoo_cus) ) 

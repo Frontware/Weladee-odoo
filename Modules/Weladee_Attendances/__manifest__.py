@@ -40,7 +40,8 @@
          "views/weladee_company_holiday.xml",
          "views/fw_hr_employee.xml",
          "views/fw_user_profile.xml",
-         "views/fw_res_partner.xml"
+         "views/fw_res_partner.xml",
+         "views/fw_project_project.xml"
 ],
 "qweb":[
          "static/src/xml/holiday.xml"

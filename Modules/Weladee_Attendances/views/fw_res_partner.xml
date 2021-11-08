@@ -18,6 +18,9 @@ remarks:
                    This record is imported from weladee, any change in odoo will be replaced by data from weladee.
                    </div>
                 </xpath>
+                <xpath expr="//field[@name='type']" position="before">
+                    <field name="name_thai" />
+                </xpath>
             </field>
         </record>
     </data>
