@@ -5,7 +5,6 @@ import requests
 import base64
 import traceback
 import subprocess
-import io
 from datetime import datetime
 
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2

@@ -1,27 +1,13 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-import time
 import datetime
 import traceback
 
-import odoo
-from odoo.http import request
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from .weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error,sync_clean_up
 from .weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info 
 from odoo.addons.Weladee_Attendances.library.weladee_lib import _convert_to_tz_time
-
-def _compare_2_date(date1, date2, comparer):
-    '''
-    compare
-    '''
-    d_date1 = datetime.datetime.strptime(date1,'%Y-%m-%d %H:%M:%S')
-    d_date2 = datetime.datetime.strptime(date2,'%Y-%m-%d %H:%M:%S')
-    if comparer == '>':
-       return d_date1 > d_date2
-    elif comparer == '<':
-       return d_date1 < d_date2 
 
 def sync_log_data(weladee_att, req):
     '''

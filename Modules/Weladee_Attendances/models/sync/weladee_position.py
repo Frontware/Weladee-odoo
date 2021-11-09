@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import time
+import traceback
 
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
@@ -87,6 +88,7 @@ def sync_position(req):
                    sync_stat_error(req.context_sync['stat-position'], 1)
 
     except Exception as e:
+        print(traceback.format_exc())
         if sync_weladee_error(weladee_position, 'position', e, req.context_sync):
            return
     #stat
@@ -116,6 +118,7 @@ def sync_position(req):
             sync_logdebug(req.context_sync, "Added position to weladee : %s" % positionData.name)
             sync_stat_create(req.context_sync['stat-w-position'], 1)
         except Exception as e:
+            print(traceback.format_exc())
             sync_logdebug(req.context_sync, 'odoo > %s' % positionData)
             sync_logerror(req.context_sync, "Add position '%s' failed : %s" % (positionData.name, e))
             sync_stat_error(req.context_sync['stat-w-position'], 1)

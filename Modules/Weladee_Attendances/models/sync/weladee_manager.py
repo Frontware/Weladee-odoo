@@ -57,6 +57,7 @@ def sync_manager_emp(req):
                 sync_logdebug(req.context_sync,"Updated manager of %s" % odoo_emp.name)
                 sync_stat_update(req.context_sync['stat-e-manager'], 1)
             except Exception as e:
+                print(traceback.format_exc())
                 sync_logdebug(req.context_sync, 'odoo > %s' % odoo_emp)
                 sync_logerror(req.context_sync, "Update manager of %s failed : %s" % (odoo_emp.name, e))   
                 sync_stat_error(req.context_sync['stat-e-manager'], 1)

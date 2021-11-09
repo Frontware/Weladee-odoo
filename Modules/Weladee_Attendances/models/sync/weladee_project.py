@@ -1,15 +1,9 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-import time
-import datetime
-import pytz
-
-from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
+import traceback
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from .weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
 from .weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
-from .weladee_log import get_emp_odoo_weladee_ids
-from odoo.addons.Weladee_Attendances.library.weladee_lib import _convert_to_tz_time
 
 def sync_project_data(weladee_project, req):
     '''
@@ -72,6 +66,7 @@ def sync_project(req):
                     sync_stat_error(req.context_sync['stat-proj'], 1)
 
     except Exception as e:
+        print(traceback.format_exc())
         sync_logdebug(req.context_sync, 'odoo >> %s' % odoo_prj) 
         if sync_weladee_error(weladee_project, 'project', e, req.context_sync):
             return

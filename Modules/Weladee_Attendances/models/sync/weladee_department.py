@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import time
+import traceback
 
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
@@ -87,6 +88,7 @@ def sync_department(req):
                    sync_stat_error(req.context_sync['stat-department'], 1)
 
     except Exception as e:
+        print(traceback.format_exc())
         sync_logdebug(req.context_sync, 'odoo >> %s' % odoo_dept) 
         if sync_weladee_error(weladee_department, 'department', e, req.context_sync):
            return
@@ -122,6 +124,7 @@ def sync_department(req):
             sync_logdebug(req.context_sync, "Added department to weladee : %s" % odoo_department.name)
             sync_stat_create(req.context_sync['stat-w-department'], 1)
         except Exception as e:
+            print(traceback.format_exc())
             sync_logdebug(req.context_sync, 'odoo > %s' % odoo_department)
             sync_logerror(req.context_sync, "Add department '%s' failed : %s" % (odoo_department.name, e))
             sync_stat_error(req.context_sync['stat-w-department'], 1)
