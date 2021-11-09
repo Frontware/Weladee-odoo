@@ -356,7 +356,7 @@ def sync_employee(req):
         try:
             returnobj = stub.AddEmployee(newEmployee, metadata=req.config.authorization)
 
-            odoo_employee.write({'weladee_id':returnobj.id})
+            odoo_employee.write({'send2-weladee':False, 'weladee_id':returnobj.id})
             sync_logdebug(req.context_sync, "Added employee to weladee : %s" % odoo_employee.name)
             sync_stat_create(req.context_sync['stat-w-employee'], 1)
 

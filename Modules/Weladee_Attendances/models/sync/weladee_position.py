@@ -112,7 +112,7 @@ def sync_position(req):
         try:
             returnobj = stub.AddPosition(newPosition, metadata=req.config.authorization)
             #print( result  )
-            positionData.write({'weladee_id':returnobj.id})
+            positionData.write({'send2-weladee': False, 'weladee_id':returnobj.id})
             sync_logdebug(req.context_sync, "Added position to weladee : %s" % positionData.name)
             sync_stat_create(req.context_sync['stat-w-position'], 1)
         except Exception as e:

@@ -42,7 +42,7 @@ class weladee_department(models.Model):
         '''
         ret = weladee_settings.get_api_key(self)      
         
-        if ret.config.authorization:
+        if ret.authorization:
             newDepartment = odoo_pb2.DepartmentOdoo()
             newDepartment.odoo.odoo_id = department_odoo.id
             newDepartment.odoo.odoo_created_on = int(time.time())
@@ -62,7 +62,7 @@ class weladee_department(models.Model):
                    newDepartment.department.managerID= int(sel_man.weladee_id)
 
             try:
-              result = stub.AddDepartment(newDepartment, metadata=ret.config.authorization)
+              result = stub.AddDepartment(newDepartment, metadata=ret.authorization)
               department_odoo.write({'weladee_id':result.ID,'send2-weladee':False})
               _logger.info("Added department on Weladee : %s" % result.ID)
             except Exception as e:
@@ -80,12 +80,12 @@ class weladee_department(models.Model):
         '''
         ret = weladee_settings.get_api_key(self)      
         
-        if ret.config.authorization:
+        if ret.authorization:
             newDepartment = False
             newDepartment_mode = 'create'
             odooRequest = odoo_pb2.OdooRequest()
             odooRequest.ID = int(department_odoo.weladee_id or '0')
-            for weladee_department in stub.GetDepartments(odooRequest, metadata=ret.config.authorization):
+            for weladee_department in stub.GetDepartments(odooRequest, metadata=ret.authorization):
                 if weladee_department and weladee_department.department and weladee_department.department.ID > 0 and weladee_department.department.ID == int(department_odoo.weladee_id or '0'):
                    newDepartment = weladee_department
                    newDepartment_mode = 'update'                    
@@ -134,7 +134,7 @@ class weladee_department(models.Model):
                         newDepartment.department.active = True
                         newDepartment.department.name_thai = newDepartment.department.name_english
 
-                        result = stub.AddDepartment(newDepartment, metadata=ret.config.authorization)
+                        result = stub.AddDepartment(newDepartment, metadata=ret.authorization)
                         department_odoo.write({'weladee_id':result.ID,'send2-weladee':False})
                         _logger.info("created department on Weladee : %s" % result.ID)
                     except Exception as e:
@@ -145,7 +145,7 @@ class weladee_department(models.Model):
             elif newDepartment_mode == 'update':
                 if newDepartment:
                     try:
-                        result = stub.UpdateDepartment(newDepartment, metadata=ret.config.authorization)
+                        result = stub.UpdateDepartment(newDepartment, metadata=ret.authorization)
                         _logger.info("updated department on Weladee : %s" % result)
                     except Exception as e:
                         _logger.error("weladee > %s" % newDepartment)

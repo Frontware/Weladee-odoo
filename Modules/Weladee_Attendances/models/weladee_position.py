@@ -40,7 +40,7 @@ class weladee_job(models.Model):
         '''
         ret = weladee_settings.get_api_key(self)      
         
-        if ret.config.authorization:
+        if ret.authorization:
             newPosition = odoo_pb2.PositionOdoo()
             newPosition.odoo.odoo_id = position_odoo.id
             newPosition.odoo.odoo_created_on = int(time.time())
@@ -50,7 +50,7 @@ class weladee_job(models.Model):
             newPosition.position.active = True
 
             try:
-              result = stub.AddPosition(newPosition, metadata=ret.config.authorization)
+              result = stub.AddPosition(newPosition, metadata=ret.authorization)
               position_odoo.write({'weladee_id':result.ID,'send2-weladee':False})
               _logger.info("Added position on Weladee : %s %s" % (result, type(result)))
             except Exception as e:
@@ -67,12 +67,12 @@ class weladee_job(models.Model):
         '''
         ret = weladee_settings.get_api_key(self)      
         
-        if ret.config.authorization:
+        if ret.authorization:
             newPosition = False
             newPosition_mode = 'create'
             odooRequest = odoo_pb2.OdooRequest()
             odooRequest.ID = int(position_odoo.weladee_id or '0')
-            for weladee_position in stub.GetPositions(odooRequest, metadata=ret.config.authorization):
+            for weladee_position in stub.GetPositions(odooRequest, metadata=ret.authorization):
                 if weladee_position and weladee_position.position and weladee_position.position.ID == int(position_odoo.weladee_id or '0'):
                    newPosition = weladee_position
                    newPosition_mode = 'update'                    
@@ -92,7 +92,7 @@ class weladee_job(models.Model):
             if newPosition_mode == 'create':
                 try:
                     newPosition.position.active = True
-                    result = stub.AddPosition(newPosition, metadata=ret.config.authorization)
+                    result = stub.AddPosition(newPosition, metadata=ret.authorization)
                     _logger.info("created position on Weladee : %s" % result)
                 except Exception as e:
                     _logger.debug("[position] odoo > %s" % vals)

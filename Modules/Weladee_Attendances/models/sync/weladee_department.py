@@ -118,7 +118,7 @@ def sync_department(req):
         try:
             returnobj = stub.AddDepartment(newDepartment, metadata=req.config.authorization)
             
-            odoo_department.write({'weladee_id':returnobj.id})
+            odoo_department.write({'send2-weladee': False,'weladee_id':returnobj.id})
             sync_logdebug(req.context_sync, "Added department to weladee : %s" % odoo_department.name)
             sync_stat_create(req.context_sync['stat-w-department'], 1)
         except Exception as e:
