@@ -30,7 +30,9 @@
                     </page>
                     <page string="Holiday">
                         <group>
+                            <field name="tz"/>
                             <field name="holiday_status_id"/>
+                            <field name="sick_status_id"/>
                             <label for="holiday_notify_leave_req" string="Notify" />
                             <div>
                                 <field name="holiday_notify_leave_req"/>

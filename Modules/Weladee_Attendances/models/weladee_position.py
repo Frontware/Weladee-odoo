@@ -5,7 +5,7 @@ _logger = logging.getLogger(__name__)
 import time
 
 from odoo import osv
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from datetime import datetime,date, timedelta
 from odoo import exceptions
 
@@ -38,9 +38,9 @@ class weladee_job(models.Model):
         '''
         create new record in weladee
         '''
-        authorization, __, __ = weladee_settings.get_api_key(self)      
+        ret = weladee_settings.get_api_key(self)      
         
-        if authorization:
+        if ret.config.authorization:
             newPosition = odoo_pb2.PositionOdoo()
             newPosition.odoo.odoo_id = position_odoo.id
             newPosition.odoo.odoo_created_on = int(time.time())
@@ -50,7 +50,7 @@ class weladee_job(models.Model):
             newPosition.position.active = True
 
             try:
-              result = stub.AddPosition(newPosition, metadata=authorization)
+              result = stub.AddPosition(newPosition, metadata=ret.config.authorization)
               position_odoo.write({'weladee_id':result.ID,'send2-weladee':False})
               _logger.info("Added position on Weladee : %s %s" % (result, type(result)))
             except Exception as e:
@@ -65,14 +65,14 @@ class weladee_job(models.Model):
         '''
         create new record in weladee
         '''
-        authorization, __, __ = weladee_settings.get_api_key(self)      
+        ret = weladee_settings.get_api_key(self)      
         
-        if authorization:
+        if ret.config.authorization:
             newPosition = False
             newPosition_mode = 'create'
             odooRequest = odoo_pb2.OdooRequest()
             odooRequest.ID = int(position_odoo.weladee_id or '0')
-            for weladee_position in stub.GetPositions(odooRequest, metadata=authorization):
+            for weladee_position in stub.GetPositions(odooRequest, metadata=ret.config.authorization):
                 if weladee_position and weladee_position.position and weladee_position.position.ID == int(position_odoo.weladee_id or '0'):
                    newPosition = weladee_position
                    newPosition_mode = 'update'                    
@@ -92,7 +92,7 @@ class weladee_job(models.Model):
             if newPosition_mode == 'create':
                 try:
                     newPosition.position.active = True
-                    result = stub.AddPosition(newPosition, metadata=authorization)
+                    result = stub.AddPosition(newPosition, metadata=ret.config.authorization)
                     _logger.info("created position on Weladee : %s" % result)
                 except Exception as e:
                     _logger.debug("[position] odoo > %s" % vals)

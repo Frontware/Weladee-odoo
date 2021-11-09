@@ -29,6 +29,34 @@ class weladee_attendance_working(models.TransientModel):
 
       last_run = fields.Datetime('Last run')
 
+class weladee_attendance_param():
+      def __init__(self):
+          self.config = False
+          self.context_sync = False
+          self.to_email = False
+
+          self.job_obj = False
+
+          self.department_obj = False
+          self.department_managers = {}
+
+          self.country = {}
+
+          self.employee_managers = {}
+          self.employee_obj = False
+
+          self.log_obj = False
+          self.employee_odoo_weladee_ids = {}
+          self.period_settings = False
+
+          self.leave_obj = False  
+          self.company_holiday_obj = False
+
+          self.customer_obj = False
+          self.customer_odoo_weladee_ids = {}
+
+          self.project_obj = False
+
 class weladee_attendance(models.TransientModel):
     _name="weladee_attendance.synchronous"
     _description="synchronous Employee, Department, Holiday and attendance"
@@ -50,7 +78,8 @@ class weladee_attendance(models.TransientModel):
             today = elapse_start.astimezone(user_tz)
         except:
             today = user_tz.localize(elapse_start)
-        context_sync = {
+        req = weladee_attendance_param()
+        req.context_sync = {
             'request-date':today.strftime('%d/%m/%Y %H:%M'),
             'request-logs':[],
             'request-logs-key':{},
@@ -59,97 +88,91 @@ class weladee_attendance(models.TransientModel):
             'request-email':get_synchronous_email(self),
             'request-debug':get_synchronous_debug(self)
         }
-        sync_loginfo(context_sync,"Starting sync..")
-        authorization, holiday_status_id, api_db = weladee_settings.get_api_key(self)
+        sync_loginfo(req.context_sync,"Starting sync..")
+        req.config = weladee_settings.get_api_key(self)
 
-        to_email = True
-        if api_db and (api_db != self.env.cr.dbname):
-           sync_stop(context_sync)
-           sync_logerror(context_sync,'Warning this api key of (%s) is not match with current database' % api_db)
-           to_email = False
+        req.to_email = True
+        if req.config.api_db and (req.config.api_db != self.env.cr.dbname):
+           sync_stop(req.context_sync)
+           sync_logerror(req.context_sync,'Warning this api key of (%s) is not match with current database' % req.config.api_db)
+           req.to_email = False
         
-        if (not holiday_status_id) or (not authorization) and (api_db == self.env.cr.dbname):
+        if (not req.config.holiday_status_id) or (not req.config.authorization) and (req.config.api_db == self.env.cr.dbname):
             
-            sync_stop(context_sync)
-            sync_logerror(context_sync,'You must setup API Key, Default Holiday Status at Attendances -> Weladee settings')
+            sync_stop(req.context_sync)
+            sync_logerror(req.context_sync,'You must setup API Key, Default Holiday Status at Attendances -> Weladee settings')
         
-        job_obj = False
-        if not sync_has_error(context_sync):
-            sync_logdebug(context_sync,"Start sync...Positions")
-            job_obj = self.env['hr.job']    
-            sync_position(job_obj, authorization, context_sync) 
-            if context_sync.get('connection-error',False) == True:
+        if not sync_has_error(req.context_sync):
+            sync_logdebug(req.context_sync,"Start sync...Positions")
+            req.job_obj = self.env['hr.job']    
+            sync_position(req) 
+            if req.context_sync.get('connection-error',False) == True:
                # re create connection
-               context_sync['connection-error-count'] = context_sync.get('connection-error-count',0) + 1
-               context_sync['connection-error'] = False
-               resync_position(job_obj, authorization, context_sync) 
+               req.context_sync['connection-error-count'] = req.context_sync.get('connection-error-count',0) + 1
+               req.context_sync['connection-error'] = False
+               resync_position(req) 
 
-        department_obj = False
-        dep_managers = {}
-        if not sync_has_error(context_sync):
-            sync_logdebug(context_sync,"Start sync...Departments")
-            department_obj = self.env['hr.department']    
-            sync_department(department_obj, authorization, dep_managers, context_sync)
+        if not sync_has_error(req.context_sync):
+            sync_logdebug(req.context_sync,"Start sync...Departments")
+            req.department_obj = self.env['hr.department']    
+            sync_department(req)
         
-        country = {}
-        if not sync_has_error(context_sync):
-            sync_logdebug(context_sync,"Loading...Countries")            
+        if not sync_has_error(req.context_sync):
+            sync_logdebug(req.context_sync,"Loading...Countries")            
             country_line_ids = self.env['res.country'].search([])
             for cu in country_line_ids:
-                if cu.name : country[ cu.name ] = cu.id
+                if cu.name : req.country[ cu.name ] = cu.id
         
-        emp_managers = {}
-        emp_obj = False
-        if not sync_has_error(context_sync):
-            sync_logdebug(context_sync,"Start sync...Employee")
+        if not sync_has_error(req.context_sync):
+            sync_logdebug(req.context_sync,"Start sync...Employee")
                
-            emp_obj = self.env['hr.employee']    
-            pdf_path = self.env['ir.config_parameter'].search([('key','=','tmppath')]).value
-            sync_employee(job_obj, emp_obj, department_obj, country, authorization, emp_managers, context_sync, pdf_path)
+            req.employee_obj = self.env['hr.employee']    
+            sync_employee(req)
 
-        if not sync_has_error(context_sync):
-            sync_logdebug(context_sync,"Start sync...Manager")
+        if not sync_has_error(req.context_sync):
+            sync_logdebug(req.context_sync,"Start sync...Manager")
 
-            sync_manager_dep(emp_obj, department_obj, dep_managers, authorization, context_sync)
-            sync_manager_emp(emp_obj, emp_managers, authorization, context_sync)
+            sync_manager_dep(req)
+            sync_manager_emp(req)
         
         odoo_weladee_ids = {}
-        if not sync_has_error(context_sync):
-            sync_logdebug(context_sync,"Start sync...Log")
-            att_obj = self.env['hr.attendance']
-            sync_log(self, emp_obj, att_obj, authorization, context_sync, odoo_weladee_ids, get_synchronous_period(self))
+        if not sync_has_error(req.context_sync):
+            sync_logdebug(req.context_sync,"Start sync...Log")
+            req.log_obj = self.env['hr.attendance']
+            req.period_settings = get_synchronous_period(self)
+            sync_log(self, req )
 
-        if not sync_has_error(context_sync):
-            sync_logdebug(context_sync,"Start sync...Holiday")
-            hr_obj = self.env['hr.leave']
-            com_hr_obj = self.env['weladee_attendance.company.holidays']
-            sync_holiday(self, emp_obj, hr_obj, com_hr_obj, authorization, context_sync, odoo_weladee_ids, holiday_status_id, to_email)
+        if not sync_has_error(req.context_sync):
+            sync_logdebug(req.context_sync,"Start sync...Holiday")
+            req.leave_obj = self.env['hr.leave']
+            req.company_holiday_obj = self.env['weladee_attendance.company.holidays']
+            sync_holiday(self, req)
 
         cus_odoo_weladee_ids = {}
-        if not sync_has_error(context_sync):
-            sync_logdebug(context_sync,"Start sync...Customer")
-            cs_obj = self.env['res.partner']
-            sync_customer(self, cs_obj, authorization, context_sync, cus_odoo_weladee_ids, to_email)
+        if not sync_has_error(req.context_sync):
+            sync_logdebug(req.context_sync,"Start sync...Customer")
+            req.customer_obj = self.env['res.partner']
+            sync_customer(req)
 
-        if not sync_has_error(context_sync):
-            sync_logdebug(context_sync,"Start sync...Project")
-            prj_obj = self.env['project.project']
-            sync_project(self, prj_obj, authorization, context_sync, cus_odoo_weladee_ids, to_email)
+        if not sync_has_error(req.context_sync):
+            sync_logdebug(req.context_sync,"Start sync...Project")
+            req.project_obj = self.env['project.project']
+            sync_project(req)
 
-        sync_loginfo(context_sync,'sending result to %s' % context_sync['request-email'])
-        context_sync['request-elapse'] = str(datetime.today() - elapse_start)
+        sync_loginfo(req.context_sync,'sending result to %s' % req.context_sync['request-email'])
+        req.context_sync['request-elapse'] = str(datetime.today() - elapse_start)
         # send email status
-        context_sync['request-status'] = 'Success'
+        req.context_sync['request-status'] = 'Success'
         # check failed, first
-        if context_sync['request-logs-y']=='Y':context_sync['request-status'] = 'Not OK'
-        if context_sync['request-error']:context_sync['request-status'] = 'Failed'
+        if req.context_sync['request-logs-y']=='Y':req.context_sync['request-status'] = 'Not OK'
+        if req.context_sync['request-error']:req.context_sync['request-status'] = 'Failed'
 
         # removed temporary    
-        del context_sync['request-logs-key']
+        del req.context_sync['request-logs-key']
         # send email if need
         # will not send if db not match
-        if to_email: 
-            self.send_result_mail(context_sync)
+        if req.to_email: 
+            self.send_result_mail(req.context_sync)
         else:
             _logger.warning("!!! email will not sent, because consider it as error from restored db.")
 

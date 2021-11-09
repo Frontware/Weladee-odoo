@@ -116,9 +116,9 @@ class weladee_employee(models.Model):
         '''
         create new employee record in weladee
         '''
-        authorization, __, __ = weladee_settings.get_api_key(self)      
+        ret = weladee_settings.get_api_key(self)      
         
-        if authorization:
+        if ret.config.authorization:
             WeladeeData = odoo_pb2.EmployeeOdoo()
             WeladeeData.odoo.odoo_id = employee_odoo.id
             WeladeeData.odoo.odoo_created_on = int(time.time())
@@ -238,14 +238,14 @@ class weladee_employee(models.Model):
             #2018-06-15 KPO don't sync badge
 
             try:
-              result = stub.AddEmployee(WeladeeData, metadata=authorization)
+              result = stub.AddEmployee(WeladeeData, metadata=ret.config.authorization)
               _logger.info("Added employee on Weladee : %s" % result.ID)
 
               #get qrcode back
               towrite={'send2-weladee':False}
               odooRequest = odoo_pb2.OdooRequest()
               odooRequest.odoo_id = employee_odoo.id
-              for weladee_emp in stub.GetEmployees(odooRequest, metadata=authorization):
+              for weladee_emp in stub.GetEmployees(odooRequest, metadata=ret.config.authorization):
                   if weladee_emp and weladee_emp.employee:
                      towrite['qr_code'] = weladee_emp.employee.QRCode
               towrite['weladee_id'] = result.ID
@@ -262,13 +262,13 @@ class weladee_employee(models.Model):
         '''
         create new record in weladee
         '''
-        authorization, __, __ = weladee_settings.get_api_key(self)      
+        ret = weladee_settings.get_api_key(self)      
         
-        if authorization:
+        if ret.config.authorization:
             WeladeeData = False
             WeladeeData_mode = 'create'
             if vals.get('weladee_id', employee_odoo.weladee_id):
-                WeladeeData = get_weladee_employee(vals.get('weladee_id',employee_odoo.weladee_id), authorization)
+                WeladeeData = get_weladee_employee(vals.get('weladee_id',employee_odoo.weladee_id), ret.config.authorization)
                 if WeladeeData:
                    WeladeeData_mode = 'update'                    
 
@@ -481,7 +481,7 @@ class weladee_employee(models.Model):
                     try:
                         WeladeeData.employee.lg = "en" 
 
-                        result = stub.AddEmployee(WeladeeData, metadata=authorization)
+                        result = stub.AddEmployee(WeladeeData, metadata=ret.config.authorization)
                         employee_odoo.write({'weladee_id':result.ID,'send2-weladee':False})
                         _logger.info("created employee on Weladee : %s" % result.ID)
                     except Exception as e:
@@ -493,7 +493,7 @@ class weladee_employee(models.Model):
             elif WeladeeData_mode == 'update':
                 if WeladeeData:
                     try:
-                        result = stub.UpdateEmployee(WeladeeData, metadata=authorization)
+                        result = stub.UpdateEmployee(WeladeeData, metadata=ret.config.authorization)
                         _logger.info("updated employee on Weladee : %s" % result)
                     except Exception as e:
                         _logger.debug("[employee] odoo > %s" % vals)

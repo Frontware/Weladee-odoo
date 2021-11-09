@@ -74,7 +74,7 @@ def new_employee_data_military(military):
     '''
     return weladee_pb2.MilitaryStatus.Value(military)
 
-def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, country, context_sync,pdf_path):
+def sync_employee_data(weladee_employee, req):
     '''
     employee data to sync
 
@@ -96,8 +96,8 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
             photoBase64 = base64.b64encode(bytesa)
 
         except Exception as e:
-            sync_logdebug(context_sync, "image : %s" % weladee_employee.employee.photo)
-            sync_logerror(context_sync, "Error when load image %s : %s" % (weladee_employee.employee.photo,bytese or e or 'undefined'))
+            sync_logdebug(req.context_sync, "image : %s" % weladee_employee.employee.photo)
+            sync_logerror(req.context_sync, "Error when load image %s : %s" % (weladee_employee.employee.photo,bytese or e or 'undefined'))
     
     #2018-06-07 KPO don't sync note back   
     #2018-06-21 KPO get team but don't sync back     
@@ -123,8 +123,8 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
             ,'send2-weladee':False}
 
     if weladee_employee.employee.Nationality:
-        if len(weladee_employee.employee.Nationality) == 2 and weladee_employee.employee.Nationality in country :
-            data["country_id"] = country[ weladee_employee.employee.Nationality ]
+        if len(weladee_employee.employee.Nationality) == 2 and weladee_employee.employee.Nationality in req.country :
+            data["country_id"] = req.country[ weladee_employee.employee.Nationality ]
         else:
            data["country_name"] = weladee_employee.employee.Nationality
 
@@ -133,7 +133,7 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
     if data['work_email'] == '': data['work_email'] = False
 
     if weladee_employee.employee.PositionID :
-        job_datas = job_obj.search( [("weladee_id","=", weladee_employee.employee.PositionID )] )
+        job_datas = req.job_obj.search( [("weladee_id","=", weladee_employee.employee.PositionID )] )
         if job_datas :
             for jdatas in job_datas :
                 data[ "job_id" ] = jdatas.id
@@ -154,7 +154,7 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
        data["work_phone"] = weladee_employee.employee.Phones[0]
 
     if weladee_employee.DepartmentID :
-        dep_datas = department_obj.search( [("weladee_id","=", weladee_employee.DepartmentID )] )
+        dep_datas = req.department_obj.search( [("weladee_id","=", weladee_employee.DepartmentID )] )
         if dep_datas :
             for ddatas in dep_datas :
                 data[ "department_id" ] = ddatas.id        
@@ -188,7 +188,7 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
 
     # look if there is odoo record with same weladee-id
     # if not found then create else update    
-    odoo_employee = emp_obj.search([("weladee_id", "=", weladee_employee.employee.ID),'|',('active','=',False),('active','=',True)])
+    odoo_employee = req.employee_obj.search([("weladee_id", "=", weladee_employee.employee.ID),'|',('active','=',False),('active','=',True)])
     if not odoo_employee.id:
        data['res-mode'] = 'create'
     else:
@@ -201,89 +201,89 @@ def sync_employee_data(weladee_employee, emp_obj, job_obj, department_obj, count
        # check if there is same name, email
        # consider it same record 
        if data['work_email']:
-          odoo_employee = emp_obj.search([('work_email','=',data['work_email']),'|',('active','=',False),('active','=',True)])
+          odoo_employee = req.employee_obj.search([('work_email','=',data['work_email']),'|',('active','=',False),('active','=',True)])
        else:
-          odoo_employee = emp_obj.search([('last_name_english','=',data['last_name_english']),\
+          odoo_employee = req.employee_obj.search([('last_name_english','=',data['last_name_english']),\
                                           ('first_name_english','=',data['first_name_english']),\
                                           '|',('active','=',False),('active','=',True)]) 
        if odoo_employee.id:
           #if there is weladee id, will update it 
-          sync_logdebug(context_sync, 'odoo > %s' % odoo_employee)
-          sync_logdebug(context_sync, 'weladee > %s' % weladee_employee)
+          sync_logdebug(req.context_sync, 'odoo > %s' % odoo_employee)
+          sync_logdebug(req.context_sync, 'weladee > %s' % weladee_employee)
           if odoo_employee.weladee_id:
-             sync_logwarn(context_sync,'weladee id change for this employee %s, will replace old weladee id %s with new one %s' % (data['work_email'] or data['name'],odoo_employee.weladee_id, weladee_employee.employee.ID))      
+             sync_logwarn(req.context_sync,'weladee id change for this employee %s, will replace old weladee id %s with new one %s' % (data['work_email'] or data['name'],odoo_employee.weladee_id, weladee_employee.employee.ID))      
           else:
-             sync_logdebug(context_sync,'this employee %s is missing weladee link, will update with new one %s' % (data['work_email'] or data['name'],weladee_employee.employee.ID))      
+             sync_logdebug(req.context_sync,'this employee %s is missing weladee link, will update with new one %s' % (data['work_email'] or data['name'],weladee_employee.employee.ID))      
           data['res-mode'] = 'update'
           data['res-id'] = odoo_employee.id
 
     return data   
 
-def sync_employee(job_obj, employee_obj, department_obj, country, authorization, emp_managers, context_sync, pdf_path):
+def sync_employee(req):
     '''
     sync data from employee
     '''
-    context_sync['stat-employee'] = {'to-sync':0, "create":0, "update": 0, "error":0}
-    context_sync['stat-w-employee'] = {'to-sync':0, "create":0, "update": 0, "error":0}
+    req.context_sync['stat-employee'] = {'to-sync':0, "create":0, "update": 0, "error":0}
+    req.context_sync['stat-w-employee'] = {'to-sync':0, "create":0, "update": 0, "error":0}
     try:
         weladee_employee = False
-        sync_loginfo(context_sync,'[employee] updating changes from weladee-> odoo')
-        for weladee_employee in stub.GetEmployees(weladee_pb2.Empty(), metadata=authorization):
-            sync_stat_to_sync(context_sync['stat-employee'], 1)
+        sync_loginfo(req.context_sync,'[employee] updating changes from weladee-> odoo')
+        for weladee_employee in stub.GetEmployees(weladee_pb2.Empty(), metadata=req.config.authorization):
+            sync_stat_to_sync(req.context_sync['stat-employee'], 1)
             if not weladee_employee :
-               sync_logwarn(context_sync,'weladee employee is empty')
-               sync_logdebug(context_sync, "weladee employee is empty '%s'" % weladee_employee )
+               sync_logwarn(req.context_sync,'weladee employee is empty')
+               sync_logdebug(req.context_sync, "weladee employee is empty '%s'" % weladee_employee )
                continue
-            print(weladee_employee)    
-            odoo_emp = sync_employee_data(weladee_employee, employee_obj, job_obj, department_obj, country, context_sync, pdf_path)
-            sync_logdebug(context_sync, "weladee employee mode '%s'" % odoo_emp )
+            
+            odoo_emp = sync_employee_data(weladee_employee, req)
+            sync_logdebug(req.context_sync, "weladee employee mode '%s'" % odoo_emp )
 
             if odoo_emp and odoo_emp['res-mode'] == 'create':
-               newid = employee_obj.create(odoo_emp)
+               newid = req.employee_obj.create(odoo_emp)
                # link weladee-manager and odoo employee
                if newid.id:
-                  emp_managers[ newid.id ] = weladee_employee.employee.ManagerID
-               sync_logdebug(context_sync, "Insert employee '%s' to odoo" % odoo_emp['name'] )
-               sync_stat_create(context_sync['stat-employee'], 1)
+                  req.employee_managers[ newid.id ] = weladee_employee.employee.ManagerID
+               sync_logdebug(req.context_sync, "Insert employee '%s' to odoo" % odoo_emp['name'] )
+               sync_stat_create(req.context_sync['stat-employee'], 1)
 
             elif odoo_emp and odoo_emp['res-mode'] == 'update':
                 
-                odoo_id = employee_obj.search([('id','=',odoo_emp['res-id']),'|',('active','=',False),('active','=',True)])
+                odoo_id = req.employee_obj.search([('id','=',odoo_emp['res-id']),'|',('active','=',False),('active','=',True)])
                 if odoo_id.id:
                    odoo_id.write(odoo_emp)
-                   sync_logdebug(context_sync, "Updated employee '%s' to odoo" % odoo_emp['name'] )
-                   sync_stat_update(context_sync['stat-employee'], 1)
+                   sync_logdebug(req.context_sync, "Updated employee '%s' to odoo" % odoo_emp['name'] )
+                   sync_stat_update(req.context_sync['stat-employee'], 1)
                    # link weladee-manager and odoo employee
-                   emp_managers[ odoo_id.id ] = weladee_employee.employee.ManagerID
+                   req.employee_managers[ odoo_id.id ] = weladee_employee.employee.ManagerID
                 else:
-                   sync_logdebug(context_sync, 'weladee > %s' % weladee_employee) 
-                   sync_logerror(context_sync, "Not found this odoo employee id %s of '%s' in odoo" % (odoo_emp['res-id'], odoo_emp['name']) ) 
-                   sync_stat_error(context_sync['stat-employee'], 1)
+                   sync_logdebug(req.context_sync, 'weladee > %s' % weladee_employee) 
+                   sync_logerror(req.context_sync, "Not found this odoo employee id %s of '%s' in odoo" % (odoo_emp['res-id'], odoo_emp['name']) ) 
+                   sync_stat_error(req.context_sync['stat-employee'], 1)
 
     except Exception as e:
         print(traceback.format_exc())
-        if sync_weladee_error(weladee_employee, 'employee', e, context_sync):
+        if sync_weladee_error(weladee_employee, 'employee', e, req.context_sync):
            return
     
     #stat
-    sync_stat_info(context_sync,'stat-employee','[employee] updating changes from weladee-> odoo')
+    sync_stat_info(req.context_sync,'stat-employee','[employee] updating changes from weladee-> odoo')
 
     #scan in odoo if there is record with no weladee_id
-    sync_loginfo(context_sync, '[employee] updating new changes from odoo -> weladee')
-    odoo_employee_ids = employee_obj.search([('weladee_id','=',False),'|',('active','=',False),('active','=',True)])
-    context_sync['stat-w-employee']['to-sync'] = len(odoo_employee_ids)
+    sync_loginfo(req.context_sync, '[employee] updating new changes from odoo -> weladee')
+    odoo_employee_ids = req.employee_obj.search([('weladee_id','=',False),'|',('active','=',False),('active','=',True)])
+    req.context_sync['stat-w-employee']['to-sync'] = len(odoo_employee_ids)
     for odoo_employee in odoo_employee_ids:
         if odoo_employee.id == 1: 
            #always skip administrator id = 1
            continue 
-        sync_stat_to_sync(context_sync['stat-w-employee'], 1)
+        sync_stat_to_sync(req.context_sync['stat-w-employee'], 1)
         if not odoo_employee.name:
-           sync_logdebug(context_sync, 'odoo > %s' % odoo_employee) 
-           sync_logwarn(context_sync, 'do not send empty odoo employee name')
+           sync_logdebug(req.context_sync, 'odoo > %s' % odoo_employee) 
+           sync_logwarn(req.context_sync, 'do not send empty odoo employee name')
            continue
         if not odoo_employee.work_email:
-           sync_logdebug(context_sync, 'odoo > %s' % odoo_employee) 
-           sync_logwarn(context_sync, 'do not send empty odoo employee email')
+           sync_logdebug(req.context_sync, 'odoo > %s' % odoo_employee) 
+           sync_logwarn(req.context_sync, 'do not send empty odoo employee email')
            continue
         
         newEmployee = odoo_pb2.EmployeeOdoo()
@@ -354,16 +354,16 @@ def sync_employee(job_obj, employee_obj, department_obj, country, authorization,
         #2018-06-15 KPO don't sync badge
 
         try:
-            returnobj = stub.AddEmployee(newEmployee, metadata=authorization)
+            returnobj = stub.AddEmployee(newEmployee, metadata=req.config.authorization)
 
             odoo_employee.write({'weladee_id':returnobj.id})
-            sync_logdebug(context_sync, "Added employee to weladee : %s" % odoo_employee.name)
-            sync_stat_create(context_sync['stat-w-employee'], 1)
+            sync_logdebug(req.context_sync, "Added employee to weladee : %s" % odoo_employee.name)
+            sync_stat_create(req.context_sync['stat-w-employee'], 1)
 
         except Exception as e:
             print(traceback.format_exc())
-            sync_logdebug(context_sync, 'odoo > %s' % odoo_employee)
-            sync_logerror(context_sync, "Add employee '%s' failed : %s" % (odoo_employee.name, e))
-            sync_stat_error(context_sync['stat-w-employee'], 1)
+            sync_logdebug(req.context_sync, 'odoo > %s' % odoo_employee)
+            sync_logerror(req.context_sync, "Add employee '%s' failed : %s" % (odoo_employee.name, e))
+            sync_stat_error(req.context_sync['stat-w-employee'], 1)
     #stat
-    sync_stat_info(context_sync,'stat-w-employee','[employee] updating new changes from odoo -> weladee',newline=True)
+    sync_stat_info(req.context_sync,'stat-w-employee','[employee] updating new changes from odoo -> weladee',newline=True)

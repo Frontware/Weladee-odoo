@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 from odoo import api, fields, models, _
+from odoo.addons.base.models.res_partner import _tz_get
 
 CONST_SETTING_APIKEY = 'weladee-api_key'
 CONST_SETTING_HOLIDAY_STATUS_ID = 'weladee-holiday_status_id'
+CONST_SETTING_SICK_STATUS_ID = 'weladee-sick_status_id'
 CONST_SETTING_SYNC_EMAIL = 'weladee-sync-email'
 CONST_SETTING_APIDB = 'weladee-api_db'
 CONST_SETTING_API_DEBUG = 'weladee-api_debug'
@@ -12,6 +14,15 @@ CONST_SETTING_LOG_PERIOD_UNIT = 'weladee-log_period_unit'
 
 CONST_SETTING_HOLIDAY_NOTICE = 'weladee-holiday-notify'
 CONST_SETTING_HOLIDAY_NOTICE_EMAIL = 'weladee-holiday-notify-email'
+CONST_SETTING_HOLIDAY_TIMEZONE = 'weladee-holiday-timezone'
+
+class wiz_setting():
+    def __init__(self):
+        self.authorization = False
+        self.holiday_status_id = False
+        self.api_db = False
+        self.sick_status_id = False
+        self.tz = False
 
 def get_api_key(self):
   '''
@@ -20,25 +31,31 @@ def get_api_key(self):
 
   '''
   line_ids = self.env['ir.config_parameter'].search([('key','like','weladee-%')])
-  authorization = False
-  holiday_status_id = False
-  api_db = False
-
+  ret = wiz_setting()  
   for dataSet in line_ids:
       if dataSet.key == CONST_SETTING_APIKEY :
-          authorization = [("authorization", dataSet.value)]
+          ret.authorization = [("authorization", dataSet.value)]
       elif dataSet.key == CONST_SETTING_HOLIDAY_STATUS_ID:
           try:
-            holiday_status_id = int(float(dataSet.value))
+            ret.holiday_status_id = int(float(dataSet.value))
+          except:
+            pass  
+      elif dataSet.key == CONST_SETTING_SICK_STATUS_ID:
+          try:
+            ret.sick_status_id = int(float(dataSet.value))
           except:
             pass  
       elif dataSet.key == CONST_SETTING_APIDB:
-          api_db = dataSet.value   
-          if api_db != self.env.cr.dbname:
-             authorization = False
-             holiday_status_id = False 
+          ret.api_db = dataSet.value   
+          if ret.api_db != self.env.cr.dbname:
+             ret.authorization = False
+             ret.holiday_status_id = False
+             ret.sick_status_id = False 
+             ret.tz = False 
+      elif dataSet.key == CONST_SETTING_HOLIDAY_TIMEZONE :
+          ret.tz = dataSet.value
 
-  return authorization, holiday_status_id, api_db
+  return ret
 
 def get_synchronous_period(self):
     '''
@@ -112,14 +129,19 @@ class weladee_settings(models.TransientModel):
     2018-06-07 KPO save data
     '''
     def _get_holiday_status(self):
-        __, holiday_status_id, __ = get_api_key(self)
+        ret = get_api_key(self)
 
-        return holiday_status_id
+        return ret.holiday_status_id
+
+    def _get_sick_status(self):
+        ret = get_api_key(self)
+
+        return ret.sick_status_id    
 
     def _get_api_key(self):
-        api_key, __, __ = get_api_key(self)
+        ret = get_api_key(self)
         
-        return (api_key or [['','']])[0][1]
+        return (ret.authorization or [['','']])[0][1]
 
     def _get_email(self):
         return get_synchronous_email(self)
@@ -140,9 +162,14 @@ class weladee_settings(models.TransientModel):
 
     def _get_holiday_notify_leave_req_email(self):
         return get_holiday_notify_email(self)
-        
+
+    def _get_tz(self):
+        ret = get_api_key(self)
+        print(ret.tz)
+        return ret.tz or self._context.get('tz')
 
     holiday_status_id = fields.Many2one("hr.leave.type", String="Default Leave Type",required=True,default=_get_holiday_status )
+    sick_status_id = fields.Many2one("hr.leave.type", String="Sick leave Type",default=_get_sick_status )
     holiday_notify_leave_req = fields.Boolean('Notify if there is not enough allocated leave request', default=_get_holiday_notify_leave_req )
     holiday_notify_leave_req_email = fields.Text('Notified Email', default=_get_holiday_notify_leave_req_email)
 
@@ -156,6 +183,7 @@ class weladee_settings(models.TransientModel):
                                    ('m','month(s) ago'),
                                    ('y','year(s) ago'),
                                    ('all','All')],string='Since',default=_get_log_period,required=True)
+    tz = fields.Selection(_tz_get, string='Timezone', default=_get_tz,required=True)    
 
     def _save_setting(self, pool, key, value):
         line_ids = pool.search([('key','=',key)])
@@ -173,6 +201,9 @@ class weladee_settings(models.TransientModel):
         self._save_setting(config_pool, CONST_SETTING_HOLIDAY_STATUS_ID, self.holiday_status_id.id)
         self._save_setting(config_pool, CONST_SETTING_SYNC_EMAIL, self.email)
         self._save_setting(config_pool, CONST_SETTING_APIDB, self.api_database)
+        self._save_setting(config_pool, CONST_SETTING_SICK_STATUS_ID, self.sick_status_id.id)
+        self._save_setting(config_pool, CONST_SETTING_HOLIDAY_TIMEZONE, self.tz)
+
         _api_debug = ""
         if self.api_debug: _api_debug = "Y"
         self._save_setting(config_pool, CONST_SETTING_API_DEBUG, _api_debug)
