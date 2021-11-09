@@ -14,4 +14,5 @@ from . import weladee_position
 from . import weladee_partner
 from . import weladee_project
 from . import weladee_task
+from . import weladee_account_analytic_line
 from . import weladee_settings

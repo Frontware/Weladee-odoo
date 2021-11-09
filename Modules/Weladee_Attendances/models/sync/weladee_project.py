@@ -38,6 +38,12 @@ def sync_delete_task(req):
        del_ids.unlink()
        sync_logwarn(req.context_sync, 'remove all linked task: %s record(s)' % len(del_ids))
 
+def sync_delete_timesheet(req):
+    del_ids = req.timesheet_obj.search([('weladee_id','!=',False)])
+    if del_ids: 
+       del_ids.unlink()
+       sync_logwarn(req.context_sync, 'remove all linked timesheet: %s record(s)' % len(del_ids))
+
 def sync_project(req):
     '''
     sync all project from weladee (1 way from weladee)
@@ -47,6 +53,7 @@ def sync_project(req):
     odoo_prj = False
     weladee_project = False
 
+    sync_delete_timesheet(req)
     sync_delete_task(req)
     sync_delete_project(req)
 

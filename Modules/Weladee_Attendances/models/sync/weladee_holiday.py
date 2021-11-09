@@ -120,6 +120,12 @@ def sync_holiday(self, req):
 
     '''
     req.context_sync['stat-hol'] = {'to-sync':0, "create":0, "update": 0, "error":0}
+
+    #if empty, create one 
+    if not req.employee_odoo_weladee_ids: 
+        sync_logdebug(req.context_sync, 'getting all employee-weladee link') 
+        req.employee_odoo_weladee_ids = get_emp_odoo_weladee_ids(req)
+
     odoo_hol = False
     weladee_holiday = False
     try:        
@@ -129,11 +135,6 @@ def sync_holiday(self, req):
             if not weladee_holiday :
                sync_logwarn(req.context_sync,'weladee holiday is empty')
                continue
-
-            #if empty, create one 
-            if not req.employee_odoo_weladee_ids: 
-                sync_logdebug(req.context_sync, 'getting all employee-weladee link') 
-                req.employee_odoo_weladee_ids = get_emp_odoo_weladee_ids(req)
 
             # collect leave type
             leaves_types = {}

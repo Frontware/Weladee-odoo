@@ -411,6 +411,11 @@ msgid "All"
 msgstr "ทั้งหมด"
 
 #. module: Weladee_Attendances
+#: model:ir.model,name:Weladee_Attendances.model_account_analytic_line
+msgid "Analytic Line"
+msgstr ""
+
+#. module: Weladee_Attendances
 #: model:ir.model,name:Weladee_Attendances.model_hr_attendance
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_setting_wizard
@@ -498,6 +503,8 @@ msgstr "รายละเอียด"
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_working__display_name
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_project_project__display_name
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_res_partner__display_name
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_account_analytic_line__display_name
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_project_task__display_name
 msgid "Display Name"
 msgstr "ชื่อที่ใช้แสดง"
 
@@ -609,6 +616,8 @@ msgstr "สถานะวันหยุด"
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_working__id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_project_project__id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_res_partner__id
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_account_analytic_line__id
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_project_task__id
 msgid "ID"
 msgstr "รหัส"
 
@@ -632,6 +641,8 @@ msgstr "ตำแหน่งงาน"
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_working____last_update
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_project_project____last_update
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_res_partner____last_update
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_account_analytic_line____last_update
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_project_task____last_update
 msgid "Last Modified on"
 msgstr "แก้ไขครั้งสุดท้ายเมื่อ"
 
@@ -684,6 +695,7 @@ msgstr "ไม่สามารถใช้ชื่อซ้ำกันได
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_project_project__name_thai
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_res_partner__name_thai
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_res_users__name_thai
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_project_task__name_thai
 msgid "Name(thai)"
 msgstr "ชื่อ(ไทย)"
 
@@ -799,6 +811,11 @@ msgid "Sick"
 msgstr "ลาป่วย"
 
 #. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__sick_status_id
+msgid "Sick Status"
+msgstr "ชนิดลาป่วย"
+
+#. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__log_period
 msgid "Since"
 msgstr "ตั้งแต่"
@@ -817,6 +834,11 @@ msgstr "โสด"
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm_ok
 msgid "Synchronous"
 msgstr "ดึงข้อมูล"
+
+#. module: Weladee_Attendances
+#: model:ir.model,name:Weladee_Attendances.model_project_task
+msgid "Task"
+msgstr "งาน"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__taxID
@@ -852,6 +874,7 @@ msgstr "ข้อมูลพนักงานคนนี้ไม่ได้
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.fw_edit_project
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.fw_view_partner_form
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances.fw_task_view_task_form2
 msgid ""
 "This record is imported from weladee, any change in odoo will be replaced by"
 " data from weladee."
@@ -873,6 +896,11 @@ msgstr "ประเภทการลาหยุด"
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.hr_employee_weladee_profile
 msgid "Timesheet"
 msgstr "ไทม์ชีท"
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_weladee_attendance_synchronous_setting__tz
+msgid "Timezone"
+msgstr "เขตเวลา"
 
 #. module: Weladee_Attendances
 #: model:ir.model.fields.selection,name:Weladee_Attendances.selection__hr_employee__marital__unknownmaritalstatus
@@ -929,6 +957,8 @@ msgstr "ไม่สามารถใช้ชนิดวันลาในเ
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_project_project__weladee_id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_res_partner__weladee_id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_res_users__weladee_id
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_account_analytic_line__weladee_id
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_project_task__weladee_id
 msgid "Weladee ID"
 msgstr "รหัสในเวลาดี"
 

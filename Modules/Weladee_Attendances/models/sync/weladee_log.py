@@ -127,6 +127,11 @@ def sync_log(self, req):
     req.context_sync['cursor'] = False
     
     dt_from_utc = sync_delete_log(self, req)
+    
+    #if empty, create one 
+    if not req.employee_odoo_weladee_ids: 
+        sync_logdebug(req.context_sync, 'getting all employee-weladee link') 
+        req.employee_odoo_weladee_ids = get_emp_odoo_weladee_ids(req)
 
     odoo_att = False
     weladee_att = False    
@@ -144,12 +149,7 @@ def sync_log(self, req):
             if not weladee_att :
                 sync_logwarn(req.context_sync,'weladee attendance is empty')
                 continue
-
-            #if empty, create one 
-            if not req.employee_odoo_weladee_ids: 
-                sync_logdebug(req.context_sync, 'getting all employee-weladee link') 
-                req.employee_odoo_weladee_ids = get_emp_odoo_weladee_ids(req)
-            
+           
             # this function should write enough, odoo and weladee current record data
             odoo_att = sync_log_data(weladee_att, req)
             

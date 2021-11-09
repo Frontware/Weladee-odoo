@@ -18,7 +18,6 @@ def sync_task_data(weladee_task, req):
     data['partner_id'] = req.customer_odoo_weladee_ids.get(weladee_task.Task.CustomerID, False)
     data['project_id'] = req.project_odoo_weladee_ids.get(weladee_task.Task.ProjectID, False)
     if not data['partner_id']:
-       print(data['project_id'])
        data['partner_id'] = req.project_obj.browse(data['project_id']).partner_id.id 
 
     data['res-mode'] = 'create'
@@ -57,6 +56,7 @@ def sync_task(req):
                     sync_logdebug(req.context_sync, "Insert task '%s' to odoo" % odoo_task )
                     sync_stat_create(req.context_sync['stat-task'], 1)
 
+                    req.task_odoo_weladee_ids[weladee_task.Task.ID] = newid.id
                 else:
                     sync_logdebug(req.context_sync, 'weladee > %s' % weladee_task) 
                     sync_logerror(req.context_sync, "error while create odoo task id %s of '%s' in odoo" % (odoo_task['res-id'], odoo_task) ) 

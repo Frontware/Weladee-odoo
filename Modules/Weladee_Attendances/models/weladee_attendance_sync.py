@@ -23,6 +23,7 @@ from odoo.addons.Weladee_Attendances.models.sync.weladee_holiday import sync_hol
 from odoo.addons.Weladee_Attendances.models.sync.weladee_customer import sync_customer
 from odoo.addons.Weladee_Attendances.models.sync.weladee_project import sync_project
 from odoo.addons.Weladee_Attendances.models.sync.weladee_task import sync_task
+from odoo.addons.Weladee_Attendances.models.sync.weladee_timesheet import sync_timesheet
 
 class weladee_attendance_working(models.TransientModel):
       _name="weladee_attendance.working"  
@@ -130,11 +131,16 @@ class weladee_attendance(models.TransientModel):
             sync_logdebug(req.context_sync,"Start sync...Project")
             req.project_obj = self.env['project.project']
             req.task_obj = self.env['project.task']
+            req.timesheet_obj= self.env['account.analytic.line']
             sync_project(req)
 
         if not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Task")
             sync_task(req)
+
+        if not sync_has_error(req.context_sync):
+            sync_logdebug(req.context_sync,"Start sync...Timesheet")
+            sync_timesheet(req)
 
         sync_loginfo(req.context_sync,'sending result to %s' % req.context_sync['request-email'])
         req.context_sync['request-elapse'] = str(datetime.today() - elapse_start)
