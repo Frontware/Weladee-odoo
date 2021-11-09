@@ -13,4 +13,5 @@ from . import weladee_holidays
 from . import weladee_position
 from . import weladee_partner
 from . import weladee_project
+from . import weladee_task
 from . import weladee_settings

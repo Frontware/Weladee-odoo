@@ -123,7 +123,7 @@ def sync_holiday(self, req):
     odoo_hol = False
     weladee_holiday = False
     try:        
-        sync_loginfo(req.context_sync,'[log] updating changes from weladee-> odoo')
+        sync_loginfo(req.context_sync,'[holiday] updating changes from weladee-> odoo')
         for weladee_holiday in stub.GetHolidays(weladee_pb2.Empty(), metadata=req.config.authorization):
             sync_stat_to_sync(req.context_sync['stat-hol'], 1)
             if not weladee_holiday :
@@ -215,4 +215,4 @@ def sync_holiday(self, req):
         if sync_weladee_error(weladee_holiday, 'holiday', e, req.context_sync):
             return
     #stat
-    sync_stat_info(req.context_sync,'stat-hol','[log] updating changes from weladee-> odoo')
+    sync_stat_info(req.context_sync,'stat-hol','[holiday] updating changes from weladee-> odoo')

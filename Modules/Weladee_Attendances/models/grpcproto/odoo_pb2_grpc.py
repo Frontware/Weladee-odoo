@@ -88,6 +88,21 @@ class OdooStub(object):
                 request_serializer=odoo__pb2.PositionOdoo.SerializeToString,
                 response_deserializer=weladee__pb2.AddResult.FromString,
                 )
+        self.GetWorkTypes = channel.unary_stream(
+                '/grpc.weladee.com.Odoo/GetWorkTypes',
+                request_serializer=weladee__pb2.Empty.SerializeToString,
+                response_deserializer=odoo__pb2.WorkTypeOdoo.FromString,
+                )
+        self.GetTasks = channel.unary_stream(
+                '/grpc.weladee.com.Odoo/GetTasks',
+                request_serializer=weladee__pb2.Empty.SerializeToString,
+                response_deserializer=odoo__pb2.TaskOdoo.FromString,
+                )
+        self.GetStages = channel.unary_stream(
+                '/grpc.weladee.com.Odoo/GetStages',
+                request_serializer=weladee__pb2.Empty.SerializeToString,
+                response_deserializer=odoo__pb2.StageOdoo.FromString,
+                )
         self.GetProjects = channel.unary_stream(
                 '/grpc.weladee.com.Odoo/GetProjects',
                 request_serializer=weladee__pb2.Empty.SerializeToString,
@@ -97,6 +112,11 @@ class OdooStub(object):
                 '/grpc.weladee.com.Odoo/GetCustomers',
                 request_serializer=weladee__pb2.Empty.SerializeToString,
                 response_deserializer=odoo__pb2.CustomerOdoo.FromString,
+                )
+        self.GetTimeSheets = channel.unary_stream(
+                '/grpc.weladee.com.Odoo/GetTimeSheets',
+                request_serializer=weladee__pb2.Empty.SerializeToString,
+                response_deserializer=odoo__pb2.SheetOdoo.FromString,
                 )
         self.GetExpenses = channel.unary_stream(
                 '/grpc.weladee.com.Odoo/GetExpenses',
@@ -138,7 +158,8 @@ class OdooServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def GetEmployeeHolidays(self, request, context):
-        """Stream of holidays for 1 specific employee
+        """Leave / Holiday
+        Stream of holidays for 1 specific employee
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -215,9 +236,31 @@ class OdooServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def GetProjects(self, request, context):
+    def GetWorkTypes(self, request, context):
         """TIMESHEET
-        return stream of timesheet project
+
+        return a stream of worktype timesheets    
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetTasks(self, request, context):
+        """Return stream of tasks
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetStages(self, request, context):
+        """Return stream of stages
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetProjects(self, request, context):
+        """return stream of timesheet project
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -225,6 +268,13 @@ class OdooServicer(object):
 
     def GetCustomers(self, request, context):
         """return stream of timesheet customer
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetTimeSheets(self, request, context):
+        """return stream of timesheet employee that have been approved (locked)
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -318,6 +368,21 @@ def add_OdooServicer_to_server(servicer, server):
                     request_deserializer=odoo__pb2.PositionOdoo.FromString,
                     response_serializer=weladee__pb2.AddResult.SerializeToString,
             ),
+            'GetWorkTypes': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetWorkTypes,
+                    request_deserializer=weladee__pb2.Empty.FromString,
+                    response_serializer=odoo__pb2.WorkTypeOdoo.SerializeToString,
+            ),
+            'GetTasks': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetTasks,
+                    request_deserializer=weladee__pb2.Empty.FromString,
+                    response_serializer=odoo__pb2.TaskOdoo.SerializeToString,
+            ),
+            'GetStages': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetStages,
+                    request_deserializer=weladee__pb2.Empty.FromString,
+                    response_serializer=odoo__pb2.StageOdoo.SerializeToString,
+            ),
             'GetProjects': grpc.unary_stream_rpc_method_handler(
                     servicer.GetProjects,
                     request_deserializer=weladee__pb2.Empty.FromString,
@@ -327,6 +392,11 @@ def add_OdooServicer_to_server(servicer, server):
                     servicer.GetCustomers,
                     request_deserializer=weladee__pb2.Empty.FromString,
                     response_serializer=odoo__pb2.CustomerOdoo.SerializeToString,
+            ),
+            'GetTimeSheets': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetTimeSheets,
+                    request_deserializer=weladee__pb2.Empty.FromString,
+                    response_serializer=odoo__pb2.SheetOdoo.SerializeToString,
             ),
             'GetExpenses': grpc.unary_stream_rpc_method_handler(
                     servicer.GetExpenses,
@@ -590,6 +660,57 @@ class Odoo(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
+    def GetWorkTypes(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetWorkTypes',
+            weladee__pb2.Empty.SerializeToString,
+            odoo__pb2.WorkTypeOdoo.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetTasks(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetTasks',
+            weladee__pb2.Empty.SerializeToString,
+            odoo__pb2.TaskOdoo.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetStages(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetStages',
+            weladee__pb2.Empty.SerializeToString,
+            odoo__pb2.StageOdoo.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
     def GetProjects(request,
             target,
             options=(),
@@ -620,6 +741,23 @@ class Odoo(object):
         return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetCustomers',
             weladee__pb2.Empty.SerializeToString,
             odoo__pb2.CustomerOdoo.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetTimeSheets(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetTimeSheets',
+            weladee__pb2.Empty.SerializeToString,
+            odoo__pb2.SheetOdoo.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

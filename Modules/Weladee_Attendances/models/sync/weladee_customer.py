@@ -43,7 +43,7 @@ def sync_customer(req):
     sync_delete_customer(req)
 
     try:        
-        sync_loginfo(req.context_sync,'[log] updating changes from weladee-> odoo')
+        sync_loginfo(req.context_sync,'[customer] updating changes from weladee-> odoo')
         for weladee_customer in stub.GetCustomers(weladee_pb2.Empty(), metadata=req.config.authorization):
             sync_stat_to_sync(req.context_sync['stat-cus'], 1)
             if not weladee_customer :
@@ -70,4 +70,4 @@ def sync_customer(req):
         if sync_weladee_error(weladee_customer, 'customer', e, req.context_sync):
             return
     #stat
-    sync_stat_info(req.context_sync,'stat-cus','[log] updating changes from weladee-> odoo')
+    sync_stat_info(req.context_sync,'stat-cus','[customer] updating changes from weladee-> odoo')

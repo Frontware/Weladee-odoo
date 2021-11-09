@@ -7,7 +7,7 @@ from .weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sy
 
 def sync_project_data(weladee_project, req):
     '''
-    customer data to sync
+    project data to sync
     '''
     data = {'name': weladee_project.Project.NameEnglish,
             'name_thai': weladee_project.Project.NameThai,
@@ -28,23 +28,30 @@ def sync_project_data(weladee_project, req):
 
 def sync_delete_project(req):
     del_ids = req.project_obj.search([('weladee_id','!=',False)])
-    if del_ids: 
+    if del_ids:         
        del_ids.unlink()
        sync_logwarn(req.context_sync, 'remove all linked project: %s record(s)' % len(del_ids))
 
+def sync_delete_task(req):
+    del_ids = req.task_obj.search([('weladee_id','!=',False)])
+    if del_ids: 
+       del_ids.unlink()
+       sync_logwarn(req.context_sync, 'remove all linked task: %s record(s)' % len(del_ids))
+
 def sync_project(req):
     '''
-    sync all customer from weladee (1 way from weladee)
+    sync all project from weladee (1 way from weladee)
 
     '''
     req.context_sync['stat-proj'] = {'to-sync':0, "create":0, "update": 0, "error":0}
     odoo_prj = False
     weladee_project = False
 
+    sync_delete_task(req)
     sync_delete_project(req)
 
     try:        
-        sync_loginfo(req.context_sync,'[log] updating changes from weladee-> odoo')
+        sync_loginfo(req.context_sync,'[project] updating changes from weladee-> odoo')
         for weladee_project in stub.GetProjects(weladee_pb2.Empty(), metadata=req.config.authorization):
             print(weladee_project)
             sync_stat_to_sync(req.context_sync['stat-proj'], 1)
@@ -60,6 +67,7 @@ def sync_project(req):
                     sync_logdebug(req.context_sync, "Insert project '%s' to odoo" % odoo_prj )
                     sync_stat_create(req.context_sync['stat-proj'], 1)
 
+                    req.project_odoo_weladee_ids[weladee_project.Project.ID] = newid.id
                 else:
                     sync_logdebug(req.context_sync, 'weladee > %s' % weladee_project) 
                     sync_logerror(req.context_sync, "error while create odoo project id %s of '%s' in odoo" % (odoo_prj['res-id'], odoo_prj) ) 
@@ -71,4 +79,4 @@ def sync_project(req):
         if sync_weladee_error(weladee_project, 'project', e, req.context_sync):
             return
     #stat
-    sync_stat_info(req.context_sync,'stat-proj','[log] updating changes from weladee-> odoo')
+    sync_stat_info(req.context_sync,'stat-proj','[project] updating changes from weladee-> odoo')

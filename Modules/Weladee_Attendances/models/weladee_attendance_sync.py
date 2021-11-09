@@ -2,18 +2,17 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import logging
 _logger = logging.getLogger(__name__)
-import time
+
 import pytz
-from datetime import datetime,date, timedelta
+from datetime import datetime
 
 from odoo import osv
 from odoo import models, fields, api, _
 
-from .grpcproto import odoo_pb2
-from .grpcproto import weladee_pb2
 from . import weladee_settings
 from .sync.weladee_base import myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_has_error
 
+from odoo.addons.Weladee_Attendances.models.weladee_attendance_param import weladee_attendance_param
 from odoo.addons.Weladee_Attendances.models.weladee_settings import get_synchronous_email, get_synchronous_debug,get_synchronous_period 
 from odoo.addons.Weladee_Attendances.models.sync.weladee_position import sync_position_data, sync_position, resync_position 
 from odoo.addons.Weladee_Attendances.models.sync.weladee_department import sync_department_data, sync_department
@@ -23,39 +22,12 @@ from odoo.addons.Weladee_Attendances.models.sync.weladee_log import sync_log
 from odoo.addons.Weladee_Attendances.models.sync.weladee_holiday import sync_holiday
 from odoo.addons.Weladee_Attendances.models.sync.weladee_customer import sync_customer
 from odoo.addons.Weladee_Attendances.models.sync.weladee_project import sync_project
+from odoo.addons.Weladee_Attendances.models.sync.weladee_task import sync_task
 
 class weladee_attendance_working(models.TransientModel):
       _name="weladee_attendance.working"  
 
       last_run = fields.Datetime('Last run')
-
-class weladee_attendance_param():
-      def __init__(self):
-          self.config = False
-          self.context_sync = False
-          self.to_email = False
-
-          self.job_obj = False
-
-          self.department_obj = False
-          self.department_managers = {}
-
-          self.country = {}
-
-          self.employee_managers = {}
-          self.employee_obj = False
-
-          self.log_obj = False
-          self.employee_odoo_weladee_ids = {}
-          self.period_settings = False
-
-          self.leave_obj = False  
-          self.company_holiday_obj = False
-
-          self.customer_obj = False
-          self.customer_odoo_weladee_ids = {}
-
-          self.project_obj = False
 
 class weladee_attendance(models.TransientModel):
     _name="weladee_attendance.synchronous"
@@ -157,7 +129,12 @@ class weladee_attendance(models.TransientModel):
         if not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Project")
             req.project_obj = self.env['project.project']
+            req.task_obj = self.env['project.task']
             sync_project(req)
+
+        if not sync_has_error(req.context_sync):
+            sync_logdebug(req.context_sync,"Start sync...Task")
+            sync_task(req)
 
         sync_loginfo(req.context_sync,'sending result to %s' % req.context_sync['request-email'])
         req.context_sync['request-elapse'] = str(datetime.today() - elapse_start)
