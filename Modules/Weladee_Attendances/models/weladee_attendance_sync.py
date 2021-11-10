@@ -23,6 +23,7 @@ from odoo.addons.Weladee_Attendances.models.sync.weladee_holiday import sync_hol
 from odoo.addons.Weladee_Attendances.models.sync.weladee_customer import sync_customer
 from odoo.addons.Weladee_Attendances.models.sync.weladee_project import sync_project
 from odoo.addons.Weladee_Attendances.models.sync.weladee_task import sync_task
+from odoo.addons.Weladee_Attendances.models.sync.weladee_work_type import sync_work_type
 from odoo.addons.Weladee_Attendances.models.sync.weladee_timesheet import sync_timesheet
 
 class weladee_attendance_working(models.TransientModel):
@@ -137,6 +138,11 @@ class weladee_attendance(models.TransientModel):
         if not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Task")
             sync_task(req)
+
+        if not sync_has_error(req.context_sync):
+            sync_logdebug(req.context_sync,"Start sync...Work type")
+            req.work_type_obj = self.env['mail.activity.type']
+            sync_work_type(req)
 
         if not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Timesheet")

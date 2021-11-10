@@ -17,7 +17,9 @@ def sync_timesheet_data(weladee_timesheet, req):
             'employee_id':  req.employee_odoo_weladee_ids.get(str(weladee_timesheet.Sheet.EmployeeID), False),
             'name': weladee_timesheet.Sheet.Description,
             'date': datetime.datetime.utcfromtimestamp(weladee_timesheet.Sheet.Day),
-            'unit_amount': weladee_timesheet.Sheet.TimeSpent / 60
+            'unit_amount': weladee_timesheet.Sheet.TimeSpent / 60,
+            'weladee_cost': weladee_timesheet.Sheet.Cost,
+            'work_type_id': req.work_type_odoo_weladee_ids.get(str(weladee_timesheet.Sheet.WorkTypeID),False)
             }        
     data['res-mode'] = 'create'
     print(data)
@@ -29,6 +31,10 @@ def sync_timesheet(req):
 
     '''
     req.context_sync['stat-timesheet'] = {'to-sync':0, "create":0, "update": 0, "error":0}
+
+    req.work_type_odoo_weladee_ids = {}
+    for ec in req.work_type_obj.search([('weladee_id','!=',False)]):
+        req.work_type_odoo_weladee_ids[ec.weladee_id] = ec.id
 
     odoo_timesheet = False
     weladee_timesheet = False

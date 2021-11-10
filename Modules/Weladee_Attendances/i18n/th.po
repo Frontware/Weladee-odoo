@@ -406,6 +406,11 @@ msgid "Active"
 msgstr "เปิดใช้งาน"
 
 #. module: Weladee_Attendances
+#: model:ir.model,name:Weladee_Attendances.model_mail_activity_type
+msgid "Activity Type"
+msgstr ""
+
+#. module: Weladee_Attendances
 #: model:ir.model.fields.selection,name:Weladee_Attendances.selection__weladee_attendance_synchronous_setting__log_period__all
 msgid "All"
 msgstr "ทั้งหมด"
@@ -505,6 +510,7 @@ msgstr "รายละเอียด"
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_res_partner__display_name
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_account_analytic_line__display_name
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_project_task__display_name
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_mail_activity_type__display_name
 msgid "Display Name"
 msgstr "ชื่อที่ใช้แสดง"
 
@@ -618,6 +624,7 @@ msgstr "สถานะวันหยุด"
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_res_partner__id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_account_analytic_line__id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_project_task__id
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_mail_activity_type__id
 msgid "ID"
 msgstr "รหัส"
 
@@ -643,6 +650,7 @@ msgstr "ตำแหน่งงาน"
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_res_partner____last_update
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_account_analytic_line____last_update
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_project_task____last_update
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_mail_activity_type____last_update
 msgid "Last Modified on"
 msgstr "แก้ไขครั้งสุดท้ายเมื่อ"
 
@@ -696,6 +704,7 @@ msgstr "ไม่สามารถใช้ชื่อซ้ำกันได
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_res_partner__name_thai
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_res_users__name_thai
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_project_task__name_thai
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_mail_activity_type__name_thai
 msgid "Name(thai)"
 msgstr "ชื่อ(ไทย)"
 
@@ -942,6 +951,7 @@ msgstr ""
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_leave__weladee_code
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_leave_type__weladee_code
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_mail_activity_type__weladee_code
 msgid "Weladee Code"
 msgstr "รหัสวันลาในเวลาดี"
 
@@ -959,6 +969,7 @@ msgstr "ไม่สามารถใช้ชนิดวันลาในเ
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_res_users__weladee_id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_account_analytic_line__weladee_id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_project_task__weladee_id
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_mail_activity_type__weladee_id
 msgid "Weladee ID"
 msgstr "รหัสในเวลาดี"
 
@@ -1002,6 +1013,11 @@ msgid "Weladee company holidays"
 msgstr "วันหยุดบริษัทในเวลาดี"
 
 #. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_account_analytic_line__weladee_cost
+msgid "Weladee cost"
+msgstr "ค่าต้นทุน(จากเวลาดี)"
+
+#. module: Weladee_Attendances
 #: model:ir.model,name:Weladee_Attendances.model_weladee_attendance_synchronous_setting
 msgid "Weladee settings"
 msgstr "การตั้งค่าในเวลาดี"
@@ -1010,6 +1026,11 @@ msgstr "การตั้งค่าในเวลาดี"
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__work_email
 msgid "Work Email"
 msgstr "อีเมลที่ทำงาน"
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_account_analytic_line__work_type_id
+msgid "Work type"
+msgstr "ประเภทงาน"
 
 #. module: Weladee_Attendances
 #: model:ir.model.constraint,message:Weladee_Attendances.constraint_hr_attendance_unique_empin_timestamp

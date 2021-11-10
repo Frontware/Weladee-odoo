@@ -255,6 +255,11 @@ msgid "Active"
 msgstr ""
 
 #. module: Weladee_Attendances
+#: model:ir.model,name:Weladee_Attendances.model_mail_activity_type
+msgid "Activity Type"
+msgstr ""
+
+#. module: Weladee_Attendances
 #: model:ir.model.fields.selection,name:Weladee_Attendances.selection__weladee_attendance_synchronous_setting__log_period__all
 msgid "All"
 msgstr ""
@@ -346,6 +351,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_job__display_name
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_leave__display_name
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_leave_type__display_name
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_mail_activity_type__display_name
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_project_project__display_name
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_project_task__display_name
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_res_partner__display_name
@@ -459,6 +465,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_job__id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_leave__id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_leave_type__id
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_mail_activity_type__id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_project_project__id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_project_task__id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_res_partner__id
@@ -484,6 +491,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_job____last_update
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_leave____last_update
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_leave_type____last_update
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_mail_activity_type____last_update
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_project_project____last_update
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_project_task____last_update
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_res_partner____last_update
@@ -541,6 +549,7 @@ msgid "Name can't duplicate !"
 msgstr ""
 
 #. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_mail_activity_type__name_thai
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_project_project__name_thai
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_project_task__name_thai
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_res_partner__name_thai
@@ -783,6 +792,7 @@ msgstr ""
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_leave__weladee_code
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_leave_type__weladee_code
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_mail_activity_type__weladee_code
 msgid "Weladee Code"
 msgstr ""
 
@@ -796,6 +806,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_department__weladee_id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__weladee_id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_job__weladee_id
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_mail_activity_type__weladee_id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_project_project__weladee_id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_project_task__weladee_id
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_res_partner__weladee_id
@@ -833,6 +844,11 @@ msgid "Weladee company holidays"
 msgstr ""
 
 #. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_account_analytic_line__weladee_cost
+msgid "Weladee cost"
+msgstr ""
+
+#. module: Weladee_Attendances
 #: model:ir.model,name:Weladee_Attendances.model_weladee_attendance_synchronous_setting
 msgid "Weladee settings"
 msgstr ""
@@ -850,6 +866,11 @@ msgstr ""
 #. module: Weladee_Attendances
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__work_email
 msgid "Work Email"
+msgstr ""
+
+#. module: Weladee_Attendances
+#: model:ir.model.fields,field_description:Weladee_Attendances.field_account_analytic_line__work_type_id
+msgid "Work type"
 msgstr ""
 
 #. module: Weladee_Attendances
