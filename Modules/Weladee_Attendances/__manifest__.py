@@ -24,7 +24,11 @@
 "author" : "Frontware International",
 "category" : "Generic Modules",
 'summary': 'Weladee-Odoo attendances\'s module',
-"depends" : ['base', 'hr', 'hr_attendance', 'hr_holidays', 'hr_timesheet'],
+"depends" : ['base', 'hr', 
+             'hr_attendance', 
+             'hr_holidays', 
+             'hr_timesheet', 
+             'hr_recruitment'],
 "data" :["security/security.xml",
          "security/ir.model.access.csv",    
          "views/emails/weladee_attendance.xml",
@@ -42,7 +46,8 @@
          "views/fw_user_profile.xml",
          "views/fw_res_partner.xml",
          "views/fw_project_project.xml",
-         "views/fw_project_task.xml"
+         "views/fw_project_task.xml",
+         "views/fw_hr_job.xml"
 ],
 "qweb":[
          "static/src/xml/holiday.xml"

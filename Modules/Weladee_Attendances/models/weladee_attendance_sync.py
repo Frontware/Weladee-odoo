@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import logging
+
 _logger = logging.getLogger(__name__)
 
 import pytz
@@ -25,7 +26,7 @@ from odoo.addons.Weladee_Attendances.models.sync.weladee_project import sync_pro
 from odoo.addons.Weladee_Attendances.models.sync.weladee_task import sync_task
 from odoo.addons.Weladee_Attendances.models.sync.weladee_work_type import sync_work_type
 from odoo.addons.Weladee_Attendances.models.sync.weladee_timesheet import sync_timesheet
-
+from odoo.addons.Weladee_Attendances.models.sync.weladee_job_ads import sync_job_ads
 class weladee_attendance_working(models.TransientModel):
       _name="weladee_attendance.working"  
 
@@ -147,6 +148,11 @@ class weladee_attendance(models.TransientModel):
         if not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Timesheet")
             sync_timesheet(req)
+
+        if not sync_has_error(req.context_sync):
+            sync_logdebug(req.context_sync,"Start sync...Job ads")
+            req.jobads_obj = self.env['weladee_job_ads']
+            sync_job_ads(req)
 
         sync_loginfo(req.context_sync,'sending result to %s' % req.context_sync['request-email'])
         req.context_sync['request-elapse'] = str(datetime.today() - elapse_start)

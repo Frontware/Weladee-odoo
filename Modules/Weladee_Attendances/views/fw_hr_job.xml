@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+customize HR Department form
+
+remarks:
+2018-08-20 KPO created    
+-->
+<odoo>
+    <data>
+        <record id="weladee_fw_hr_job_form" model="ir.ui.view">
+            <field name="name">weladee_fw_hr_job_form</field>
+            <field name="model">hr.job</field>
+            <field name="inherit_id" ref="hr.view_hr_job_form"/>
+            <field name="arch" type="xml">                
+               <xpath expr="//notebook[last()]" position="inside">
+                   <page string="Job ads">
+                    
+                   </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

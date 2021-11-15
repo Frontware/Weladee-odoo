@@ -88,6 +88,16 @@ class OdooStub(object):
                 request_serializer=odoo__pb2.PositionOdoo.SerializeToString,
                 response_deserializer=weladee__pb2.AddResult.FromString,
                 )
+        self.GetJobAds = channel.unary_stream(
+                '/grpc.weladee.com.Odoo/GetJobAds',
+                request_serializer=weladee__pb2.Empty.SerializeToString,
+                response_deserializer=odoo__pb2.JobAdOdoo.FromString,
+                )
+        self.GetJobApplications = channel.unary_stream(
+                '/grpc.weladee.com.Odoo/GetJobApplications',
+                request_serializer=weladee__pb2.Empty.SerializeToString,
+                response_deserializer=odoo__pb2.JobApplicationOdoo.FromString,
+                )
         self.GetWorkTypes = channel.unary_stream(
                 '/grpc.weladee.com.Odoo/GetWorkTypes',
                 request_serializer=weladee__pb2.Empty.SerializeToString,
@@ -236,6 +246,21 @@ class OdooServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetJobAds(self, request, context):
+        """Job classified
+        Called Position in Recruitment module Odoo
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetJobApplications(self, request, context):
+        """Get applications
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def GetWorkTypes(self, request, context):
         """TIMESHEET
 
@@ -367,6 +392,16 @@ def add_OdooServicer_to_server(servicer, server):
                     servicer.AddPosition,
                     request_deserializer=odoo__pb2.PositionOdoo.FromString,
                     response_serializer=weladee__pb2.AddResult.SerializeToString,
+            ),
+            'GetJobAds': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetJobAds,
+                    request_deserializer=weladee__pb2.Empty.FromString,
+                    response_serializer=odoo__pb2.JobAdOdoo.SerializeToString,
+            ),
+            'GetJobApplications': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetJobApplications,
+                    request_deserializer=weladee__pb2.Empty.FromString,
+                    response_serializer=odoo__pb2.JobApplicationOdoo.SerializeToString,
             ),
             'GetWorkTypes': grpc.unary_stream_rpc_method_handler(
                     servicer.GetWorkTypes,
@@ -656,6 +691,40 @@ class Odoo(object):
         return grpc.experimental.unary_unary(request, target, '/grpc.weladee.com.Odoo/AddPosition',
             odoo__pb2.PositionOdoo.SerializeToString,
             weladee__pb2.AddResult.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetJobAds(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetJobAds',
+            weladee__pb2.Empty.SerializeToString,
+            odoo__pb2.JobAdOdoo.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetJobApplications(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetJobApplications',
+            weladee__pb2.Empty.SerializeToString,
+            odoo__pb2.JobApplicationOdoo.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

@@ -16,4 +16,5 @@ from . import weladee_project
 from . import weladee_task
 from . import weladee_mail_act_type
 from . import weladee_account_analytic_line
+from . import weladee_job_ads
 from . import weladee_settings
