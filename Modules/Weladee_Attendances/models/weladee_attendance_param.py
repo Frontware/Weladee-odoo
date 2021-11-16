@@ -38,3 +38,4 @@ class weladee_attendance_param():
           self.timesheet_obj = False  
 
           self.jobads_obj = False  
+          self.job_ads_odoo_weladee_ids = {}

@@ -5,3 +5,6 @@ weladee_attendance_form_man,weladee_attendance_form_man,model_weladee_attendance
 weladee_attendance.working_man,weladee_attendance.working_man,model_weladee_attendance_working,base.group_erp_manager,1,1,1,1
 weladee_attendance.synchronous_man,weladee_attendance.synchronous_man,model_weladee_attendance_synchronous,base.group_erp_manager,1,1,1,1
 weladee_attendance.company.holidays_user,weladee_attendance.company.holidays_user,model_weladee_attendance_company_holidays,base.group_user,1,0,0,0
+
+weladee_job_ads_user,weladee_job_ads_user,model_weladee_job_ads,hr_recruitment.group_hr_recruitment_user,1,1,1,0
+weladee_job_ads_man,weladee_job_ads_man,model_weladee_job_ads,hr_recruitment.group_hr_recruitment_manager,1,1,1,1

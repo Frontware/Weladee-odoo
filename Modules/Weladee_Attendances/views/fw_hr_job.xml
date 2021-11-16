@@ -14,7 +14,11 @@ remarks:
             <field name="arch" type="xml">                
                <xpath expr="//notebook[last()]" position="inside">
                    <page string="Job ads">
-                    
+                    <field name="job_ads_ids">
+                        <tree>
+                            <field name="name" />
+                        </tree>
+                    </field>
                    </page>
                 </xpath>
             </field>

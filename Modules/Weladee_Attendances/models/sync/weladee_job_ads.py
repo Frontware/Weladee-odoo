@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
+import datetime
 import traceback
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from .weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
@@ -9,11 +10,13 @@ def sync_job_ads_data(weladee_job_ads, req):
     '''
     job_ads data to sync
     '''
-    data = {'name': weladee_job_ads.job_ads.NameEnglish,
-            'name_thai': weladee_job_ads.job_ads.NameThai,
-            'description': weladee_job_ads.job_ads.Note,
-            'weladee_id':  weladee_job_ads.job_ads.ID,
-            'active':weladee_job_ads.job_ads.active,
+    data = {'name': weladee_job_ads.JobAd.Title,
+            'description': weladee_job_ads.JobAd.Description,
+            'skills': weladee_job_ads.JobAd.Skills,
+            'location': weladee_job_ads.JobAd.Location,
+            'publish_date': datetime.datetime.fromtimestamp(weladee_job_ads.JobAd.PublishDate),
+            'expire_date': datetime.datetime.fromtimestamp(weladee_job_ads.JobAd.ExpireDate),
+            'weladee_id':  weladee_job_ads.JobAd.ID,            
             }        
 
     data['res-mode'] = 'create'
@@ -58,7 +61,7 @@ def sync_job_ads(req):
                     sync_logdebug(req.context_sync, "Insert job_ads '%s' to odoo" % odoo_job_ads )
                     sync_stat_create(req.context_sync['stat-job_ads'], 1)
 
-                    req.job_ads_odoo_weladee_ids[weladee_job_ads.job_ads.ID] = newid.id
+                    req.job_ads_odoo_weladee_ids[weladee_job_ads.JobAd.ID] = newid.id
                 else:
                     sync_logdebug(req.context_sync, 'weladee > %s' % weladee_job_ads) 
                     sync_logerror(req.context_sync, "error while create odoo job_ads id %s of '%s' in odoo" % (odoo_job_ads['res-id'], odoo_job_ads) ) 

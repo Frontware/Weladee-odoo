@@ -22,9 +22,28 @@ class weladee_job_ads(models.Model):
     expire_date = fields.Date('Expire date')
     location = fields.Text('Location')
     description = fields.Text('Description')
+    skills = fields.Text('Skill')
     weladee_id = fields.Char(string="Weladee ID",copy=False)
 
     _sql_constraints = [
         ('name_uniq', 'unique(name)', "Name can't duplicate !"),
     ]
 
+    @api.model
+    def create(self, vals):
+        if not vals.get('position_id', False):
+           # create new position
+           jobob = self.env['hr.job']
+           ji = jobob.search([('name','=', vals['name'])])
+           if ji and ji.id:
+              pass
+           else:
+              ji = jobob.create({
+                  'name': vals['name'],
+                  'weladee_id': -1
+              }) 
+
+           vals['position_id']  = ji.id
+        ret = super(weladee_job_ads, self).create(vals)
+        
+        return ret
