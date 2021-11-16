@@ -10,4 +10,15 @@ class weladee_task(models.Model):
     _inherit = 'project.task'
 
     weladee_id = fields.Char(string="Weladee ID",copy=False)
-    name_thai = fields.Char(string='Name(thai)')
+
+    @api.model
+    def create(self, vals):
+        name_th = vals.get('name-th', '') 
+        del vals['name-th']
+        ret = super(weladee_task, self).create(vals)
+        irobj = self.env['ir.translation']
+
+        irobj._set_ids('project.task,name','model','en_US', [ret.id], vals.get('name', ''))
+        irobj._set_ids('project.task,name','model','th_TH', [ret.id], name_th)
+
+        return ret    

@@ -10,7 +10,7 @@ def sync_task_data(weladee_task, req):
     task data to sync
     '''
     data = {'name': weladee_task.Task.NameEnglish,
-            'name_thai': weladee_task.Task.NameThai,
+            'name-th': weladee_task.Task.NameThai,
             'description': weladee_task.Task.Note,
             'weladee_id':  weladee_task.Task.ID,
             'active':weladee_task.Task.active,

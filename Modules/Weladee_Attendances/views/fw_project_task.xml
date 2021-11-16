@@ -18,12 +18,6 @@ remarks:
                    This record is imported from weladee, any change in odoo will be replaced by data from weladee.
                    </div>
                </xpath>
-               <xpath expr="//field[@name='project_id']" position="before">
-                   <label for="name_thai"/>
-                   <div>
-                   <field name="name_thai" />
-                   </div>
-                </xpath>
             </field>
         </record>
 

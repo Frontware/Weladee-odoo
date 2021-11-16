@@ -17,10 +17,16 @@ remarks:
                    <div attrs="{'invisible':[('weladee_id','=',False)]}" style="color:red">
                    This record is imported from weladee, any change in odoo will be replaced by data from weladee.
                    </div>
-                   <label for="name_thai"/>
-                   <div>
-                   <field name="name_thai" />
-                   </div>
+                </xpath>
+                <xpath expr="//notebook" position="before">
+                    <label for="url" />
+                    <field name="url" />
+                </xpath>
+                <xpath expr="//notebook" position="after">
+                    <label for="note" />
+                    <div>
+                    <field name="note" />
+                    </div>
                 </xpath>
             </field>
         </record>

@@ -11,7 +11,7 @@ from odoo import osv
 from odoo import models, fields, api, _
 
 from . import weladee_settings
-from .sync.weladee_base import myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_has_error
+from .sync.weladee_base import renew_connection, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_has_error
 
 from odoo.addons.Weladee_Attendances.models.weladee_attendance_param import weladee_attendance_param
 from odoo.addons.Weladee_Attendances.models.weladee_settings import get_synchronous_email, get_synchronous_debug,get_synchronous_period 
@@ -150,6 +150,7 @@ class weladee_attendance(models.TransientModel):
             sync_timesheet(req)
 
         if not sync_has_error(req.context_sync):
+            req.config.authorization = [('authorization', '6a8ab715-52d9-4299-a0b5-378b431d6afe')]
             sync_logdebug(req.context_sync,"Start sync...Job ads")
             req.jobads_obj = self.env['weladee_job_ads']
             sync_job_ads(req)

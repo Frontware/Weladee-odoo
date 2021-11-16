@@ -10,8 +10,11 @@ def sync_project_data(weladee_project, req):
     project data to sync
     '''
     data = {'name': weladee_project.Project.NameEnglish,
-            'name_thai': weladee_project.Project.NameThai,
-            'description': weladee_project.Project.Note,
+            'name-th': weladee_project.Project.NameThai,
+            'description': weladee_project.Project.DescriptionEnglish,
+            'description-th': weladee_project.Project.DescriptionThai,
+            'note': weladee_project.Project.Note,
+            'url': weladee_project.Project.URL,
             'weladee_id':  weladee_project.Project.ID,
             'active':weladee_project.Project.active,
             }    
