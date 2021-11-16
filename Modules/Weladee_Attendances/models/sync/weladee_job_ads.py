@@ -29,6 +29,12 @@ def sync_job_ads_data(weladee_job_ads, req):
 
     return data   
 
+def sync_delete_jobapp(req):
+    del_ids = req.jobapp_obj.search([('weladee_id','!=',False)])
+    if del_ids: 
+       del_ids.unlink()
+       sync_logwarn(req.context_sync, 'remove all linked jobapp: %s record(s)' % len(del_ids))
+
 def sync_delete_jobads(req):
     del_ids = req.jobads_obj.search([('weladee_id','!=',False)])
     if del_ids: 
@@ -43,6 +49,9 @@ def sync_job_ads(req):
     req.context_sync['stat-job_ads'] = {'to-sync':0, "create":0, "update": 0, "error":0}
     odoo_job_ads = False
     weladee_job_ads = False
+
+    sync_delete_jobapp(req)
+    sync_delete_jobads(req)
 
     try:        
         sync_loginfo(req.context_sync,'[job_ads] updating changes from weladee-> odoo')

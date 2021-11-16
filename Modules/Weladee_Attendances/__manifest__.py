@@ -47,7 +47,8 @@
          "views/fw_res_partner.xml",
          "views/fw_project_project.xml",
          "views/fw_project_task.xml",
-         "views/fw_hr_job.xml"
+         "views/fw_hr_job.xml",
+         "views/fw_hr_job_applicant.xml"
 ],
 "qweb":[
          "static/src/xml/holiday.xml"

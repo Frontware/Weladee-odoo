@@ -27,6 +27,7 @@ from odoo.addons.Weladee_Attendances.models.sync.weladee_task import sync_task
 from odoo.addons.Weladee_Attendances.models.sync.weladee_work_type import sync_work_type
 from odoo.addons.Weladee_Attendances.models.sync.weladee_timesheet import sync_timesheet
 from odoo.addons.Weladee_Attendances.models.sync.weladee_job_ads import sync_job_ads
+from odoo.addons.Weladee_Attendances.models.sync.weladee_job_applicant import sync_job_applicant
 class weladee_attendance_working(models.TransientModel):
       _name="weladee_attendance.working"  
 
@@ -153,7 +154,14 @@ class weladee_attendance(models.TransientModel):
             req.config.authorization = [('authorization', '6a8ab715-52d9-4299-a0b5-378b431d6afe')]
             sync_logdebug(req.context_sync,"Start sync...Job ads")
             req.jobads_obj = self.env['weladee_job_ads']
+            req.jobapp_obj = self.env['hr.applicant']
             sync_job_ads(req)
+
+        if not sync_has_error(req.context_sync):
+            req.config.authorization = [('authorization', '6a8ab715-52d9-4299-a0b5-378b431d6afe')]
+            sync_logdebug(req.context_sync,"Start sync...Job applicant")
+            req.lang_obj = self.env['res.lang']
+            sync_job_applicant(req)
 
         sync_loginfo(req.context_sync,'sending result to %s' % req.context_sync['request-email'])
         req.context_sync['request-elapse'] = str(datetime.today() - elapse_start)

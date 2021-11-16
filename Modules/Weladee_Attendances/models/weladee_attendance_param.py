@@ -39,3 +39,6 @@ class weladee_attendance_param():
 
           self.jobads_obj = False  
           self.job_ads_odoo_weladee_ids = {}
+
+          self.jobapp_obj = False  
+          self.lang_obj = False
