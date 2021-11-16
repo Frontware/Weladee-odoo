@@ -151,14 +151,12 @@ class weladee_attendance(models.TransientModel):
             sync_timesheet(req)
 
         if not sync_has_error(req.context_sync):
-            req.config.authorization = [('authorization', '6a8ab715-52d9-4299-a0b5-378b431d6afe')]
             sync_logdebug(req.context_sync,"Start sync...Job ads")
             req.jobads_obj = self.env['weladee_job_ads']
             req.jobapp_obj = self.env['hr.applicant']
             sync_job_ads(req)
 
         if not sync_has_error(req.context_sync):
-            req.config.authorization = [('authorization', '6a8ab715-52d9-4299-a0b5-378b431d6afe')]
             sync_logdebug(req.context_sync,"Start sync...Job applicant")
             req.lang_obj = self.env['res.lang']
             sync_job_applicant(req)
