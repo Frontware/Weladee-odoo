@@ -160,6 +160,7 @@ class weladee_attendance(models.TransientModel):
             req.jobapp_obj = self.env['hr.applicant']
             sync_job_ads(req)
 
+        req.config = weladee_settings.get_api_key(self)
         if not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Job applicant")
             req.lang_obj = self.env['res.lang']
