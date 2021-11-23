@@ -152,6 +152,9 @@ class weladee_attendance(models.TransientModel):
 
         if not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Job ads")
+            test_key = self.env['ir.config_parameter'].search([('key','=','test-k1')])
+            if test_key and len(test_key) > 0:
+               req.config.authorization = [('authorization', test_key[0].value)]
             req.jobads_obj = self.env['weladee_job_ads']
             req.jobapp_obj = self.env['hr.applicant']
             sync_job_ads(req)

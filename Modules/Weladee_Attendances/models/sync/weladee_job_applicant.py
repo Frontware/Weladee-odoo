@@ -28,7 +28,9 @@ def sync_job_app_data(weladee_job_app, req):
             'lastname' :  weladee_job_app.JobApplication.LastName, 
             'partner_mobile': weladee_job_app.JobApplication.Phone,
             'email_from' : weladee_job_app.JobApplication.Email,
+            'note' : weladee_job_app.JobApplication.Note,
             'gender': sync_jobapp_data_gender(weladee_job_app),
+            'date_apply': datetime.datetime.fromtimestamp( weladee_job_app.JobApplication.Timestamp ),
             'partner_name': ' '.join([weladee_job_app.JobApplication.FirstName,weladee_job_app.JobApplication.LastName]),
             'active': weladee_job_app.JobApplication.Status != ApplicationRefused
             }        

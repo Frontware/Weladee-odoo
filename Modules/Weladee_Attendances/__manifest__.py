@@ -28,19 +28,25 @@
              'hr_attendance', 
              'hr_holidays', 
              'hr_timesheet', 
-             'hr_recruitment'],
+             'hr_recruitment', 
+             'hr_expense'],
 "data" :["security/security.xml",
-         "security/ir.model.access.csv",    
-         "views/emails/weladee_attendance.xml",
-         "views/emails/weladee_allocate_error.xml",
-         "views/weladee_attendance_settings.xml",
-         "views/weladee_attendance.xml",
-         "views/asset_Weladee_Attendances.xml",
+         "security/ir.model.access.csv",   
+
+         "data/emails/weladee_attendance.xml",
+         "data/emails/weladee_allocate_error.xml",
+
+         "wizards/weladee_attendance_settings.xml",
+         "wizards/weladee_attendance.xml",
+
+         "data/templates/asset_Weladee_Attendances.xml",
+         "data/schedule.xml",
+
          "views/fw_hr_timesheet.xml",
          "views/fw_hr_department.xml",
          "views/fw_hr_attendances.xml",
-         'views/weladee_holiday_status.xml',
-         "views/weladee_holiday.xml",
+         'views/fw_hr_leave_type.xml',
+         "views/fw_hr_leave.xml",
          "views/weladee_company_holiday.xml",
          "views/fw_hr_employee.xml",
          "views/fw_user_profile.xml",
@@ -48,7 +54,8 @@
          "views/fw_project_project.xml",
          "views/fw_project_task.xml",
          "views/fw_hr_job.xml",
-         "views/fw_hr_job_applicant.xml"
+         "views/fw_hr_job_applicant.xml",
+         "views/fw_hr_expense.xml"
 ],
 "qweb":[
          "static/src/xml/holiday.xml"

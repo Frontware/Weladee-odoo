@@ -12,9 +12,16 @@ remarks:
             <field name="model">hr.applicant</field>
             <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
             <field name="arch" type="xml">                
-               <xpath expr="//fieldอน[@name='type_id']" position="after">
+               <xpath expr="//field[@name='type_id']" position="after">
                    <field name="gender" />
                    <field name="lang_id" />
+                </xpath>
+                <xpath expr="//field[@name='source_id']" position="after">
+                   <field name="date_apply" />
+                </xpath>
+                <xpath expr="//field[@name='emp_id']//..//.." position="after">
+                   <label for="note" />
+                   <field name="note" />
                 </xpath>
             </field>
         </record>
