@@ -4,8 +4,6 @@ from odoo import api, fields, models, _
 from odoo.addons.base.models.res_partner import _tz_get
 
 CONST_SETTING_APIKEY = 'weladee-api_key'
-CONST_SETTING_HOLIDAY_STATUS_ID = 'weladee-holiday_status_id'
-CONST_SETTING_SICK_STATUS_ID = 'weladee-sick_status_id'
 CONST_SETTING_SYNC_EMAIL = 'weladee-sync-email'
 CONST_SETTING_APIDB = 'weladee-api_db'
 CONST_SETTING_API_DEBUG = 'weladee-api_debug'
@@ -15,7 +13,11 @@ CONST_SETTING_LOG_PERIOD_UNIT = 'weladee-log_period_unit'
 CONST_SETTING_HOLIDAY_NOTICE = 'weladee-holiday-notify'
 CONST_SETTING_HOLIDAY_NOTICE_EMAIL = 'weladee-holiday-notify-email'
 CONST_SETTING_HOLIDAY_TIMEZONE = 'weladee-holiday-timezone'
+CONST_SETTING_HOLIDAY_STATUS_ID = 'weladee-holiday_status_id'
 
+CONST_SETTING_SICK_STATUS_ID = 'weladee-sick_status_id'
+
+CONST_SETTING_EXPENSE_PRODUCT_ID = 'weladee-expense_product_id'
 class wiz_setting():
     def __init__(self):
         self.authorization = False
@@ -23,6 +25,7 @@ class wiz_setting():
         self.api_db = False
         self.sick_status_id = False
         self.tz = False
+        self.expense_product_id = False
 
 def get_api_key(self):
   '''
@@ -54,6 +57,11 @@ def get_api_key(self):
              ret.tz = False 
       elif dataSet.key == CONST_SETTING_HOLIDAY_TIMEZONE :
           ret.tz = dataSet.value
+      elif dataSet.key == CONST_SETTING_EXPENSE_PRODUCT_ID:
+          try:
+            ret.expense_product_id = int(float(dataSet.value))
+          except:
+            pass  
 
   return ret
 
@@ -168,6 +176,11 @@ class weladee_settings(models.TransientModel):
         print(ret.tz)
         return ret.tz or self._context.get('tz')
 
+    def _get_expense_product(self):
+        ret = get_api_key(self)
+
+        return ret.expense_product_id
+
     holiday_status_id = fields.Many2one("hr.leave.type", String="Default Leave Type",required=True,default=_get_holiday_status )
     sick_status_id = fields.Many2one("hr.leave.type", String="Sick leave Type",default=_get_sick_status )
     holiday_notify_leave_req = fields.Boolean('Notify if there is not enough allocated leave request', default=_get_holiday_notify_leave_req )
@@ -184,6 +197,7 @@ class weladee_settings(models.TransientModel):
                                    ('y','year(s) ago'),
                                    ('all','All')],string='Since',default=_get_log_period,required=True)
     tz = fields.Selection(_tz_get, string='Timezone', default=_get_tz,required=True)    
+    expense_product_id = fields.Many2one("product.product", String="Expense product",required=True,default=_get_expense_product )
 
     def _save_setting(self, pool, key, value):
         line_ids = pool.search([('key','=',key)])
@@ -213,3 +227,4 @@ class weladee_settings(models.TransientModel):
         self._save_setting(config_pool, CONST_SETTING_HOLIDAY_NOTICE, "Y" if self.holiday_notify_leave_req else "N")
         self._save_setting(config_pool, CONST_SETTING_HOLIDAY_NOTICE_EMAIL, self.holiday_notify_leave_req_email)
         
+        self._save_setting(config_pool, CONST_SETTING_EXPENSE_PRODUCT_ID, self.expense_product_id.id)

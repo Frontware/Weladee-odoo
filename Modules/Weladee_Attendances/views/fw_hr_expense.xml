@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!-- 
+    purpose : customize hr expense
+    
+    remarks :
+    
+    2021-09-29 KPO created
+ -->
+<odoo>
+    <data>
+        <record id="hr_expense.menu_hr_expense_root" model="ir.ui.menu">
+            <field name="active">true</field>
+        </record>
+
+        <record id="hr_expense.res_config_settings_view_form" model="ir.ui.view">
+            <field name="active">true</field>
+        </record>
+
+        <record id="weladee_att_hr_exp_list" model="ir.ui.view">
+        <field name="name">weladee_att_hr_exp_list</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense.view_my_expenses_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="create">0</attribute>
+                <attribute name="edit">0</attribute>
+                <attribute name="delete">0</attribute>
+            </xpath>
+        </field>
+        </record>
+
+        <record id="weladee_att_hr_exps_list" model="ir.ui.view">
+        <field name="name">weladee_att_hr_exps_list</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="create">0</attribute>
+                <attribute name="edit">0</attribute>
+                <attribute name="delete">0</attribute>
+            </xpath>
+        </field>
+        </record>
+    </data>
+</odoo>       

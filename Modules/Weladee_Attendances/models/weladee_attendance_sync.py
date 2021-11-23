@@ -28,6 +28,7 @@ from odoo.addons.Weladee_Attendances.models.sync.weladee_work_type import sync_w
 from odoo.addons.Weladee_Attendances.models.sync.weladee_timesheet import sync_timesheet
 from odoo.addons.Weladee_Attendances.models.sync.weladee_job_ads import sync_job_ads
 from odoo.addons.Weladee_Attendances.models.sync.weladee_job_applicant import sync_job_applicant
+from odoo.addons.Weladee_Attendances.models.sync.weladee_expense import sync_expense
 class weladee_attendance_working(models.TransientModel):
       _name="weladee_attendance.working"  
 
@@ -163,6 +164,13 @@ class weladee_attendance(models.TransientModel):
             sync_logdebug(req.context_sync,"Start sync...Job applicant")
             req.lang_obj = self.env['res.lang']
             sync_job_applicant(req)
+
+        if not sync_has_error(req.context_sync):
+            sync_logdebug(req.context_sync,"Start sync...Expense")
+            req.expense_obj = self.env['hr.expense']
+            req.expense_sheet_obj = self.env['hr.expense.sheet']
+            req.attach_obj = self.env['ir.attachment']
+            sync_expense(req)
 
         sync_loginfo(req.context_sync,'sending result to %s' % req.context_sync['request-email'])
         req.context_sync['request-elapse'] = str(datetime.today() - elapse_start)

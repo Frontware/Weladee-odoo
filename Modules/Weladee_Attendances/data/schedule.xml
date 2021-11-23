@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+	purpose : schedule
+
+	remarks :
+ -->
+<odoo>
+    <data noupdate="1">
+        <record id="weladee_attendance_synchronous_cron" model="ir.cron">
+            <field name="name">Weladee Attendance: Synchronous task</field>
+            <field name="model_id" ref="model_weladee_attendance_synchronous"/>
+            <field name="state">code</field>
+            <field name="code">model.start_sync()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+        </record>
+    </data>
+</odoo>    

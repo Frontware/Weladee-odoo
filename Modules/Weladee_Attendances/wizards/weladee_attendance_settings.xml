@@ -47,6 +47,11 @@
                             <span class="o_form_label">*Note: you can separate each email by ;</span>
                         </group>
                     </page>
+                    <page string="Expense">
+                        <group>
+                            <field name="expense_product_id"/>
+                        </group>
+                    </page>
                     <page string="Notification">
                         <group>
                             <label for="email"/>
