@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'\n\025com.frontware.weladeeB\013WeladeeGRPCH\003P\001\220\001\001\252\002\021Frontware.Weladee',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\rweladee.proto\x12\x10grpc.weladee.com\"\x17\n\tAddResult\x12\n\n\x02ID\x18\x02 \x01(\x03\"\xc5\x07\n\x07\x43ompany\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12!\n\x0bNameEnglish\x18\x02 \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x03 \x01(\tR\tname_thai\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x1c\n\ttimesheet\x18\x06 \x01(\x08R\ttimesheet\x12\x1a\n\x08Resource\x18\x08 \x01(\x08R\x08resource\x12\x18\n\x07\x45xpense\x18) \x01(\x08R\x07\x65xpense\x12\x1d\n\tOTRequest\x18* \x01(\x08R\not_request\x12\x10\n\x03WFH\x18+ \x01(\x08R\x03wfh\x12\x34\n\x14HideDefaultShortucts\x18< \x01(\x08R\x16hide_default_shortcuts\x12\x12\n\x04note\x18\t \x01(\tR\x04note\x12\x18\n\x07\x61\x64\x64ress\x18\n \x01(\tR\x07\x61\x64\x64ress\x12\x12\n\x04\x63ity\x18\x0b \x01(\tR\x04\x63ity\x12\x1a\n\x08postcode\x18\x0c \x01(\tR\x08postcode\x12\x18\n\x07\x63ountry\x18\r \x01(\tR\x07\x63ountry\x12\x18\n\x07twitter\x18\x0e \x01(\tR\x07twitter\x12\x1a\n\x08\x66\x61\x63\x65\x62ook\x18\x07 \x01(\tR\x08\x66\x61\x63\x65\x62ook\x12\x1a\n\x08telegram\x18\x1d \x01(\tR\x08telegram\x12\x12\n\x04Line\x18\x32 \x01(\tR\x04line\x12\x17\n\x06\x41PIKey\x18\x0f \x01(\tR\x07\x61pi_key\x12\x14\n\x05TaxID\x18\x10 \x01(\tR\x05taxid\x12\x1a\n\x08\x42ranchID\x18\x11 \x01(\tR\x08\x62ranchid\x12\x10\n\x03URL\x18\x12 \x01(\tR\x03url\x12\x12\n\x04Logo\x18\x13 \x01(\tR\x04logo\x12\x1f\n\nThemeColor\x18\x14 \x01(\tR\x0btheme_color\x12#\n\x0c\x43ustomerType\x18\x15 \x01(\tR\rcustomer_type\x12\x16\n\x06Radius\x18\x16 \x01(\rR\x06radius\x12\x10\n\x08latitude\x18\x17 \x01(\x01\x12\x11\n\tlongitude\x18\x18 \x01(\x01\x12\x0e\n\x02TZ\x18\x19 \x01(\tR\x02tz\x12\x16\n\x06Phones\x18\x1a \x03(\tR\x06phones\x12$\n\rProximityUUID\x18\x1b \x01(\tR\rproximityuuid\x12\x15\n\x05\x43RMID\x18\x1e \x01(\x03R\x06\x63rm_id\x12\x1d\n\tPaidUntil\x18\x1f \x01(\x03R\npaid_until\x12#\n\x0cRegisteredOn\x18  \x01(\x03R\rregistered_on\x12\x1c\n\tSponsorID\x18( \x01(\x03R\tsponsorid\"\xe3\x08\n\x0c\x45mployeeStat\x12@\n\x0cLastWeekSick\x18\x05 \x01(\x0b\x32\x1a.grpc.weladee.com.SickStatR\x0elast_week_sick\x12\x42\n\rLastMonthSick\x18\x06 \x01(\x0b\x32\x1a.grpc.weladee.com.SickStatR\x0flast_month_sick\x12\x46\n\x0f\x43urrentYearSick\x18\x07 \x01(\x0b\x32\x1a.grpc.weladee.com.SickStatR\x11\x63urrent_year_sick\x12h\n\x12\x43urrentYearHoliday\x18\x08 \x03(\x0b\x32\x36.grpc.weladee.com.EmployeeStat.CurrentYearHolidayEntryR\x14\x63urrent_year_holiday\x12\x42\n\rLastMonthLate\x18\n \x01(\x0b\x32\x1a.grpc.weladee.com.LateStatR\x0flast_month_late\x12@\n\x0cLastWeekLate\x18\x0b \x01(\x0b\x32\x1a.grpc.weladee.com.LateStatR\x0elast_week_late\x12\x46\n\x0f\x43urrentYearLate\x18\x0c \x01(\x0b\x32\x1a.grpc.weladee.com.LateStatR\x11\x63urrent_year_late\x12\x31\n\x12LastWeekWorkedTime\x18\x14 \x01(\x05R\x15last_week_worked_time\x12:\n\x16LastWeekTeamWorkedTime\x18\x15 \x01(\x05R\x1alast_week_team_worked_time\x12\x33\n\x13LastMonthWorkedTime\x18\x16 \x01(\x05R\x16last_month_worked_time\x12<\n\x17LastMonthTeamWorkedTime\x18\x17 \x01(\x05R\x1blast_month_team_worked_time\x12H\n\x10\x43urrentMonthLate\x18\x64 \x01(\x0b\x32\x1a.grpc.weladee.com.LateStatR\x12\x63urrent_month_late\x12\x39\n\x16\x43urrentMonthWorkedTime\x18\x65 \x01(\x05R\x19\x63urrent_month_worked_time\x12\x42\n\x1a\x43urrentMonthTeamWorkedTime\x18\x66 \x01(\x05R\x1e\x63urrent_month_team_worked_time\x12H\n\x10\x43urrentMonthSick\x18g \x01(\x0b\x32\x1a.grpc.weladee.com.SickStatR\x12\x63urrent_month_sick\x1aX\n\x17\x43urrentYearHolidayEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12,\n\x05value\x18\x02 \x01(\x0b\x32\x1d.grpc.weladee.com.holidayStat:\x02\x38\x01\".\n\x0bholidayStat\x12\r\n\x05Taken\x18\x02 \x01(\x02\x12\x10\n\x08\x41pproved\x18\x03 \x01(\x05\"g\n\x08SickStat\x12(\n\x0eNumberSickDays\x18\x01 \x01(\x02R\x10number_sick_days\x12\x31\n\x12NumberTeamSickDays\x18\x02 \x01(\x02R\x15number_team_sick_days\"\x9c\x01\n\x08LateStat\x12\x1f\n\nNumberLate\x18\x01 \x01(\x05R\x0bnumber_late\x12\x1d\n\tTotalLate\x18\x02 \x01(\x05R\ntotal_late\x12(\n\x0eNumberLateTeam\x18\n \x01(\x02R\x10number_late_team\x12&\n\rTotalLateTeam\x18\x0b \x01(\x05R\x0ftotal_late_team\"\x07\n\x05\x45mpty\"\xc2\x03\n\x07Holiday\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12!\n\x0bNameEnglish\x18\x02 \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x03 \x01(\tR\tname_thai\x12\x12\n\x04\x64\x61te\x18\x04 \x01(\x05R\x04\x64\x61te\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04\x63ode\x18\x06 \x01(\tR\x04\x63ode\x12\x14\n\x05\x63olor\x18\x07 \x01(\tR\x05\x63olor\x12\x1e\n\nEmployeeID\x18\x08 \x01(\x03R\nemployeeid\x12\x12\n\x04note\x18\t \x01(\tR\x04note\x12\x1d\n\tsickLeave\x18\n \x01(\x08R\nsick_leave\x12\x34\n\x07\x44\x61yPart\x18\x0b \x01(\x0e\x32\x19.grpc.weladee.com.DayPartR\x08\x64\x61y_part\x12\x16\n\x06\x43odeID\x18\x14 \x01(\x03R\x06\x63odeid\x12+\n\x10HolidayRequestID\x18\x16 \x01(\x03R\x11holiday_requestid\x12#\n\x0c\x45mployeeName\x18\x19 \x01(\tR\remployee_name\x12\x1e\n\x05\x41lert\x18\x1e \x01(\x08R\x0f\x61lert,omitempty\"\xa8\x02\n\nSuggestion\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x1e\n\nEmployeeID\x18\x02 \x01(\x03R\nemployeeid\x12\x1c\n\tCompanyID\x18\x03 \x01(\x03R\tcompanyid\x12\x1d\n\tCreatedOn\x18\x04 \x01(\x03R\ncreated_on\x12\x43\n\tRecipient\x18\x05 \x01(\x0e\x32%.grpc.weladee.com.SuggestionRecipientR\trecipient\x12\x12\n\x04Text\x18\x06 \x01(\tR\x04text\x12\x12\n\x04Note\x18\t \x01(\tR\x04note\x12#\n\x0c\x45mployeeName\x18\n \x01(\tR\remployee_name\x12\x1b\n\x08TeamName\x18\x0b \x01(\tR\tteam_name\":\n\x18HolidayAllocationRequest\x12\n\n\x02ID\x18\x01 \x01(\x03\x12\x12\n\nEmployeeID\x18\x04 \x01(\x03\"\x89\x02\n\x11HolidayAllocation\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x1e\n\nEmployeeID\x18\x02 \x01(\x03R\nemployeeid\x12\x1e\n\x06\x43odeID\x18\x03 \x01(\x03R\x0eholiday_codeid\x12\x12\n\x04\x44\x61ys\x18\x04 \x01(\x02R\x04\x64\x61ys\x12\x14\n\x05\x43olor\x18\t \x01(\tR\x05\x63olor\x12\x12\n\x04Note\x18\n \x01(\tR\x04note\x12\x1a\n\x04\x43ode\x18\x0b \x01(\tR\x0choliday_code\x12\x1b\n\x08\x43odeName\x18\x0c \x01(\tR\tcode_name\x12-\n\x11\x44\x65\x66\x61ultAllocation\x18\r \x01(\x05R\x12\x64\x65\x66\x61ult_allocation\";\n\tRectangle\x12\n\n\x02X1\x18\x01 \x01(\x05\x12\n\n\x02X2\x18\x02 \x01(\x05\x12\n\n\x02Y1\x18\x03 \x01(\x05\x12\n\n\x02Y2\x18\x04 \x01(\x05\"\xca\x04\n\x08LogPhoto\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x1c\n\tTimeStamp\x18\x02 \x01(\x03R\ttimestamp\x12\x1e\n\nEmployeeID\x18\x05 \x01(\x03R\nemployeeid\x12\x16\n\x06GateID\x18\x06 \x01(\x03R\x06gateid\x12%\n\rGateStationID\x18\x07 \x01(\x03R\x0egate_stationid\x12\x16\n\x06\x61\x63tive\x18\t \x01(\x08R\x06\x61\x63tive\x12\x42\n\rFaceRectangle\x18\n \x01(\x0b\x32\x1b.grpc.weladee.com.RectangleR\x0e\x66\x61\x63\x65_rectangle\x12\x0b\n\x03URL\x18\x0b \x01(\t\x12\x12\n\x04note\x18\x0c \x01(\tR\x04note\x12\x12\n\x04IPFS\x18\r \x01(\tR\x04ipfs\x12#\n\x0c\x46\x61\x63\x65\x44\x65tected\x18\x0e \x01(\x08R\rface_detected\x12\'\n\x0e\x46\x61\x63\x65Recognized\x18\x0f \x01(\x08R\x0f\x66\x61\x63\x65_recognized\x12\x44\n\rFaceConfirmed\x18\x10 \x01(\x0e\x32\x1d.grpc.weladee.com.FaceConfirmR\x0e\x66\x61\x63\x65_confirmed\x12!\n\x0b\x46\x61\x63\x65Trained\x18\x11 \x01(\x08R\x0c\x66\x61\x63\x65_trained\x12\'\n\x0eTelegramFileID\x18\x12 \x01(\tR\x0ftelegram_fileid\x12#\n\x0c\x45mployeeName\x18\x14 \x01(\tR\remployee_name\x12\x1b\n\x08GateName\x18\x15 \x01(\tR\tgate_name\"a\n\x16PendingPhotoAssignment\x12\'\n\x0ePendingPhotoID\x18\x01 \x01(\x03R\x0fpending_photoid\x12\x1e\n\nEmployeeID\x18\x02 \x01(\x03R\nemployeeid\"\x9e\x01\n\x0cPendingPhoto\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x1c\n\tTimeStamp\x18\x02 \x01(\x03R\ttimestamp\x12\x16\n\x06GateID\x18\x06 \x01(\x03R\x06gateid\x12\x1b\n\x08GateName\x18\x07 \x01(\tR\tgate_name\x12\x10\n\x03URL\x18\x0b \x01(\tR\x03url\x12\x19\n\x07\x46\x61\x63\x65URL\x18\x0c \x01(\tR\x08\x66\x61\x63\x65_url\"F\n\x10\x46\x61\x63\x65\x43onfirmation\x12\x18\n\x07PhotoID\x18\x01 \x01(\x03R\x07photoid\x12\x18\n\x07\x43onfirm\x18\x02 \x01(\x08R\x07\x63onfirm\"\x97\x01\n\x08NewPhoto\x12,\n\x08LogPhoto\x18\x01 \x01(\x0b\x32\x1a.grpc.weladee.com.LogPhoto\x12\r\n\x05Photo\x18\x02 \x01(\x0c\x12.\n\tPhototype\x18\x03 \x01(\x0e\x32\x1b.grpc.weladee.com.PhotoType\x12\x10\n\x08HashIPFS\x18\x04 \x01(\t\x12\x0c\n\x04\x46\x61\x63\x65\x18\x05 \x01(\x0c\"\x1d\n\x0cHolidayCodes\x12\r\n\x05\x43odes\x18\x01 \x03(\t\"\x9c\x01\n\x08Position\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12!\n\x0bNameEnglish\x18\x02 \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x03 \x01(\tR\tname_thai\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x14\n\x05Level\x18\x07 \x01(\x05R\x05level\x12\x12\n\x04note\x18\t \x01(\tR\x04note\"\xd9\x04\n\x04Team\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x12\n\x04Name\x18\x03 \x01(\tR\x04name\x12-\n\x0eMaxTimePerWeek\x18\x04 \x01(\x05R\x15maximum_time_per_week\x12+\n\rMaxTimePerDay\x18\x05 \x01(\x05R\x14maximum_time_per_day\x12-\n\x0eMinTimePerWeek\x18\x06 \x01(\x05R\x15minimum_time_per_week\x12+\n\rMinTimePerDay\x18\x07 \x01(\x05R\x14minimum_time_per_day\x12?\n\x17MinimumDayBeforeHoliday\x18\x08 \x01(\x05\x42\x02\x18\x01R\x1aminimum_day_before_holiday\x12!\n\x0bNameEnglish\x18\n \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x0b \x01(\tR\tname_thai\x12\x16\n\x06\x61\x63tive\x18\x0c \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04note\x18\t \x01(\tR\x04note\x12\x14\n\x05\x65mail\x18\r \x01(\tR\x05\x65mail\x12\x1c\n\tManagerID\x18\x0e \x01(\x03R\tmanagerid\x12!\n\x0bManagerName\x18\x0f \x01(\tR\x0cmanager_name\x12\x45\n\x0cworkingHours\x18\x11 \x03(\x0b\x32 .grpc.weladee.com.OpenHourMobileR\rworking_hours\x12\x14\n\x05Gates\x18\x12 \x03(\x03R\x05gates\x12\x14\n\x05shift\x18\x13 \x01(\x08R\x05shift\"\x8e\x04\n\x04Gate\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\"\n\x0cname_english\x18\x02 \x01(\tR\x0cname_english\x12\x1c\n\tname_thai\x18\x03 \x01(\tR\tname_thai\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x0e\n\x06\x61\x63tion\x18\x07 \x03(\t\x12\x16\n\x06QRCode\x18\x08 \x01(\tR\x06qrcode\x12\x12\n\x04note\x18\t \x01(\tR\x04note\x12\x1a\n\x08latitude\x18\n \x01(\x01R\x08latitude\x12\x1c\n\tlongitude\x18\x0b \x01(\x01R\tlongitude\x12\x16\n\x06radius\x18\x0c \x01(\x05R\x06radius\x12\x18\n\x07\x61\x64\x64ress\x18\r \x01(\tR\x07\x61\x64\x64ress\x12\x12\n\x04\x63ity\x18\x0e \x01(\tR\x04\x63ity\x12\x1a\n\x08postCode\x18\x0f \x01(\tR\x08postcode\x12\x18\n\x07\x63ountry\x18\x10 \x01(\tR\x07\x63ountry\x12>\n\topenHours\x18\x11 \x03(\x0b\x32 .grpc.weladee.com.OpenHourMobileR\topenhours\x12,\n\x05teams\x18\x13 \x03(\x0b\x32\x16.grpc.weladee.com.TeamR\x05teams\x12(\n\x0e\x41llowFreeCheck\x18\x12 \x01(\x08R\x10\x61llow_free_check\x12\x12\n\x04\x43ode\x18\x14 \x01(\tR\x04\x63ode\"\xe2\x01\n\nDepartment\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\"\n\x0cname_english\x18\x02 \x01(\tR\x0cname_english\x12\x1c\n\tname_thai\x18\x03 \x01(\tR\tname_thai\x12\x1c\n\tmanagerID\x18\x04 \x01(\x03R\tmanagerid\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x0c\n\x04\x63ode\x18\x06 \x01(\t\x12\r\n\x05\x65mail\x18\x07 \x01(\t\x12\x0c\n\x04note\x18\t \x01(\t\x12!\n\x0bManagerName\x18\n \x01(\tR\x0cmanager_name\"\xc8\x01\n\x08LogEvent\x12\x1e\n\nemployeeid\x18\x01 \x01(\x03R\nemployeeid\x12\x16\n\x06\x61\x63tion\x18\x02 \x01(\tR\x06\x61\x63tion\x12\x1c\n\ttimestamp\x18\x03 \x01(\x03R\ttimestamp\x12\x16\n\x06teamid\x18\x04 \x01(\x03R\x06teamid\x12\x12\n\x04late\x18\x05 \x01(\x05R\x04late\x12\x0e\n\x02id\x18\x06 \x01(\x03R\x02id\x12\x16\n\x06gateid\x18\x07 \x01(\x03R\x06gateid\x12\x12\n\x04note\x18\x08 \x01(\tR\x04note\"K\n\rRefuseRequest\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x16\n\x06reason\x18\x05 \x01(\tR\x06reason\x12\x12\n\x04note\x18\x06 \x01(\tR\x04note\"N\n\x0f\x45mployeeRequest\x12\x13\n\tuser_name\x18\x01 \x01(\tH\x00\x12\x0f\n\x05\x65mail\x18\x02 \x01(\tH\x00\x12\x0c\n\x02ID\x18\x03 \x01(\x03H\x00\x42\x07\n\x05query\"\x1e\n\rEmployeeStats\x12\r\n\x05stats\x18\x01 \x01(\x0c\"\xb6\x06\n\x10\x45mployeesRequest\x12\x1e\n\nEmployeeID\x18\x01 \x01(\x03R\nemployeeid\x12\x16\n\x06Teamid\x18\x02 \x01(\x03R\x06teamid\x12\x1c\n\tManagerID\x18\x03 \x01(\x03R\tmanagerid\x12\"\n\x0c\x44\x65partmentID\x18\x04 \x01(\x03R\x0c\x64\x65partmentid\x12\x1f\n\tProjectID\x18\x05 \x01(\x03R\x0c\x64\x65partmentid\x12\x16\n\x06TaskID\x18\x06 \x01(\x03R\x06taskid\x12\x10\n\x03Tag\x18\x11 \x01(\tR\x03tag\x12\x16\n\x06GateID\x18\x08 \x01(\x03R\x06gateid\x12\x31\n\x06\x41\x63tive\x18\t \x01(\x0e\x32\x19.grpc.weladee.com.TrinaryR\x06\x61\x63tive\x12\x37\n\tTimesheet\x18\n \x01(\x0e\x32\x19.grpc.weladee.com.TrinaryR\ttimesheet\x12\x12\n\nPositionID\x18\x14 \x01(\x03\x12\x0e\n\x06Offset\x18\x1e \x01(\x03\x12\r\n\x05Limit\x18\x1f \x01(\x03\x12\x13\n\x0bManagerName\x18\' \x01(\t\x12\x14\n\x0c\x45mployeeName\x18( \x01(\t\x12\x10\n\x08TeamName\x18) \x01(\t\x12\x16\n\x0e\x44\x65partmentName\x18* \x01(\t\x12\x13\n\x0bProjectName\x18+ \x01(\t\x12\x0c\n\x04\x43ode\x18, \x01(\t\x12\x14\n\x0cPositionName\x18- \x01(\t\x12\r\n\x05\x45mail\x18. \x01(\t\x12,\n\tIsManager\x18\x30 \x01(\x0e\x32\x19.grpc.weladee.com.Trinary\x12.\n\x0bIsHRManager\x18\x31 \x01(\x0e\x32\x19.grpc.weladee.com.Trinary\x12\x0c\n\x04RFID\x18\x32 \x01(\x03\x12\x11\n\tRFIDToken\x18\x33 \x01(\t\x12\x0c\n\x04Text\x18< \x01(\t\x12(\n\x06Gender\x18= \x01(\x0e\x32\x18.grpc.weladee.com.Gender\x12\x10\n\x06LateOn\x18\x64 \x01(\x03H\x00\x12\x12\n\x08\x41\x62sentOn\x18\x65 \x01(\x03H\x00\x12\x1a\n\x10\x46orgotCheckOutOn\x18\x66 \x01(\x03H\x00\x42\x10\n\x0eSpecialRequest\"\x1b\n\tRequestID\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\"\xc5\x17\n\x08\x45mployee\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x14\n\x05\x65mail\x18\x02 \x01(\tR\x05\x65mail\x12\x1c\n\tuser_name\x18\x03 \x01(\tR\tuser_name\x12,\n\x11last_name_english\x18\x04 \x01(\tR\x11last_name_english\x12.\n\x12\x66irst_name_english\x18\x05 \x01(\tR\x12\x66irst_name_english\x12(\n\x0f\x66irst_name_thai\x18\x06 \x01(\tR\x0f\x66irst_name_thai\x12&\n\x0elast_name_thai\x18\x07 \x01(\tR\x0elast_name_thai\x12\x1c\n\tManagerID\x18\x08 \x01(\x03R\tmanagerid\x12\x16\n\x06LineID\x18\t \x01(\tR\x06lineid\x12+\n\x0fLineAccessToken\x18\xc8\x01 \x01(\tR\x11line_access_token\x12\x1e\n\nTelegramID\x18\x33 \x01(\x03R\ntelegramid\x12,\n\x10TelegramUserName\x18G \x01(\tR\x12telegram_user_name\x12*\n\x10nickname_english\x18\n \x01(\tR\x10nickname_english\x12$\n\rnickname_thai\x18\x0b \x01(\tR\rnickname_thai\x12\x1b\n\x08\x46\x43Mtoken\x18\x12 \x03(\tR\tfcm_token\x12 \n\x0bphone_model\x18\x13 \x01(\tR\x0bphone_model\x12\"\n\x0cphone_serial\x18\x14 \x01(\tR\x0cphone_serial\x12\x1e\n\rMobileVersion\x18^ \x01(\tR\x07version\x12\x12\n\x04\x43ode\x18\x15 \x01(\tR\x04\x63ode\x12\x1e\n\ncreated_by\x18\x0e \x01(\x03R\ncreated_by\x12\x1e\n\nupdated_by\x18\x0f \x01(\x03R\nupdated_by\x12\x16\n\x06\x41\x63tive\x18\x10 \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04Note\x18\x11 \x01(\tR\x04note\x12\x1e\n\ncreated_on\x18\x16 \x01(\x03R\ncreated_on\x12\x1e\n\nupdated_on\x18\x17 \x01(\x03R\nupdated_on\x12\x14\n\x05photo\x18\x18 \x01(\tR\x05photo\x12\x0e\n\x02lg\x18\x19 \x01(\tR\x02lg\x12P\n\x11\x61pplication_level\x18\x1a \x01(\x0e\x32\".grpc.weladee.com.ApplicationLevelR\x11\x61pplication_level\x12\x1e\n\nPositionID\x18\x1b \x01(\x03R\npositionid\x12\x16\n\x06Phones\x18\x1c \x03(\tR\x06phones\x12\x12\n\x04rfid\x18\x1d \x01(\x03R\x04rfid\x12\'\n\x0e\x45mailValidated\x18\" \x01(\x08R\x0f\x65mail_validated\x12\x16\n\x06TeamID\x18# \x01(\x03R\x06teamid\x12\x16\n\x06Gender\x18$ \x01(\tR\x06gender\x12\x31\n\x12HasToFillTimesheet\x18% \x01(\x08R\x15has_to_fill_timesheet\x12<\n\x18receiveCheckNotification\x18& \x01(\x08R\x1areceive_check_notification\x12.\n\x11\x43\x61nRequestHoliday\x18\' \x01(\x08R\x13\x63\x61n_request_holiday\x12\x12\n\x04Tags\x18? \x03(\tR\x04tags\x12\x14\n\x05Token\x18\x32 \x01(\tR\x05token\x12\x31\n\x12\x43\x61nCheckTeamMember\x18\x34 \x01(\x08R\x15\x63\x61n_check_team_member\x12\x16\n\x06QRCode\x18\x35 \x01(\tR\x06qrcode\x12\x1d\n\tFreeCheck\x18\x37 \x01(\x08R\nfree_check\x12\x1f\n\nHourlyCost\x18\x38 \x01(\x01R\x0bhourly_cost\x12)\n\x0f\x44\x65partmentNames\x18< \x03(\tR\x10\x64\x65partment_names\x12\x1b\n\x08TeamName\x18= \x01(\tR\tteam_name\x12#\n\x0cPositionName\x18> \x01(\tR\rposition_name\x12!\n\x0bManagerName\x18@ \x01(\tR\x0cmanager_name\x12 \n\x0b\x44\x65partments\x18\x45 \x03(\x03R\x0b\x64\x65partments\x12\x1a\n\x08Password\x18\x46 \x01(\tR\x08password\x12\x1c\n\tCompanyID\x18P \x01(\x03R\tcompanyid\x12#\n\x0bHasToUse2FA\x18Q \x01(\x08R\x0ehas_to_use_2fa\x12\x1d\n\tOTPMobile\x18R \x01(\x08R\notp_mobile\x12!\n\x0b\x46orceSelfie\x18S \x01(\x08R\x0c\x66orce_selfie\x12\x17\n\x06OptOut\x18T \x01(\x08R\x07opt_out\x12\x1d\n\tStartedOn\x18U \x01(\x03R\nstarted_on\x12)\n\x0fResignationDate\x18V \x01(\x03R\x10resignation_date\x12-\n\x11ResignationReason\x18W \x01(\tR\x12resignation_reason\x12,\n\x10ProbationDueDate\x18X \x01(\x03R\x12probation_due_date\x12$\n\x0c\x43\x61nRequestOT\x18Z \x01(\x08R\x0e\x63\x61n_request_ot\x12.\n\x11\x43\x61nRequestExpense\x18[ \x01(\x08R\x13\x63\x61n_request_expense\x12\x1a\n\x08\x42irthday\x18\r \x01(\x03R\x08\x62irthday\x12\x1e\n\nNationalID\x18( \x01(\tR\nnationalid\x12\x34\n\x14NationalIDPlaceIssue\x18s \x01(\tR\x16nationalid_place_issue\x12\x32\n\x13NationalIDDateIssue\x18t \x01(\x03R\x15nationalid_date_issue\x12<\n\x18NationalIDExpirationDate\x18u \x01(\x03R\x1anationalid_expiration_date\x12\x14\n\x05TaxID\x18) \x01(\tR\x05taxid\x12\'\n\x0ePassportNumber\x18* \x01(\tR\x0fpassport_number\x12\x30\n\x12PassportPlaceIssue\x18+ \x01(\tR\x14passport_place_issue\x12.\n\x11PassportDateIssue\x18i \x01(\x03R\x13passport_date_issue\x12\x38\n\x16PassportExpirationDate\x18j \x01(\x03R\x18passport_expiration_date\x12 \n\x0bNationality\x18\x36 \x01(\tR\x0bnationality\x12\x34\n\x14\x44rivingLicenseNumber\x18\x64 \x01(\tR\x16\x64riving_license_number\x12=\n\x18\x44rivingLicensePlaceIssue\x18\x65 \x01(\tR\x1b\x64riving_license_place_issue\x12;\n\x17\x44rivingLicenseDateIssue\x18\x66 \x01(\x03R\x1a\x64riving_license_date_issue\x12\x45\n\x1c\x44rivingLicenseExpirationDate\x18g \x01(\x03R\x1f\x64riving_license_expiration_date\x12\x36\n\x08Religion\x18x \x01(\x0e\x32\x1a.grpc.weladee.com.ReligionR\x08religion\x12\x46\n\rMaritalStatus\x18y \x01(\x0e\x32\x1f.grpc.weladee.com.MaritalStatusR\x0emarital_status\x12I\n\x0eMilitaryStatus\x18z \x01(\x0e\x32 .grpc.weladee.com.MilitaryStatusR\x0fmilitary_status\"\xb5\x02\n\x08Openhour\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x18\n\x07WeekDay\x18\x04 \x01(\rR\x07weekday\x12\x0c\n\x04\x46rom\x18\x05 \x01(\t\x12\n\n\x02To\x18\x06 \x01(\t\x12!\n\x0bNameEnglish\x18\x07 \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x08 \x01(\tR\tname_thai\x12\x1c\n\tDetailsID\x18\t \x01(\x03R\tdetailsid\x12\x16\n\x06\x41\x63tive\x18\n \x01(\x08R\x06\x61\x63tive\x12\x1d\n\tLateAfter\x18\x0b \x01(\tR\nlate_after\x12(\n\x0eMinPauseBefore\x18\x0c \x01(\x03R\x10min_pause_before\x12\x12\n\x04Note\x18\r \x01(\tR\x04note\x12\x12\n\x04Type\x18\x0f \x01(\tR\x04type\"\xad\x01\n\x0eOpenHourDetail\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x18\n\x07WeekDay\x18\x04 \x01(\rR\x07weekday\x12\x0c\n\x04\x46rom\x18\x05 \x01(\t\x12\n\n\x02To\x18\x06 \x01(\t\x12\x1d\n\tLateAfter\x18\x0b \x01(\tR\nlate_after\x12(\n\x0eMinPauseBefore\x18\x0c \x01(\x03R\x10min_pause_before\x12\x0e\n\x02TZ\x18\x19 \x01(\tR\x02tz\"\xba\x01\n\x0eOpenHourMobile\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x12\n\x04Name\x18\x03 \x01(\tR\x04name\x12\x18\n\x07WeekDay\x18\x04 \x01(\rR\x07weekday\x12\x12\n\x04\x46rom\x18\x05 \x01(\tR\x04\x66rom\x12\x0e\n\x02To\x18\x06 \x01(\tR\x02to\x12\x1c\n\tDetailsID\x18\t \x01(\x03R\tdetailsid\x12(\n\x0eMinPauseBefore\x18\x0c \x01(\x03R\x10min_pause_before\"\x8b\n\n\x0bGateStation\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x1c\n\tCompanyID\x18\x02 \x01(\x03R\tcompanyid\x12\x10\n\x03MAC\x18\x03 \x01(\tR\x03mac\x12\x14\n\x05Major\x18\x04 \x01(\rR\x05major\x12\x14\n\x05Minor\x18\x05 \x01(\rR\x05minor\x12\x14\n\x05Token\x18\x07 \x01(\tR\x05token\x12\x12\n\x04Note\x18\x08 \x01(\tR\x04note\x12\x0e\n\x02IP\x18\t \x01(\tR\x02ip\x12\x16\n\x06\x41\x63tive\x18\x0b \x01(\x08R\x06\x61\x63tive\x12\x16\n\x06GateID\x18\x0c \x01(\x03R\x06gateid\x12\x18\n\x07ModelID\x18\r \x01(\x03R\x07modelid\x12\x16\n\x06Serial\x18\x0e \x01(\tR\x06serial\x12$\n\x0cShowLatestIn\x18\x0f \x01(\x08R\x0eshow_latest_in\x12&\n\rShowLatestOut\x18\x10 \x01(\x08R\x0fshow_latest_out\x12$\n\x0cShowMostLate\x18\x11 \x01(\x08R\x0eshow_most_late\x12\x1f\n\nHasDisplay\x18\x12 \x01(\x08R\x0bhas_display\x12\x1b\n\x08PlayBeep\x18\x13 \x01(\x08R\tplay_beep\x12\x1a\n\x08\x43\x61tegory\x18\x1c \x01(\tR\x08\x63\x61tegory\x12\x1d\n\tHDMISound\x18- \x01(\x08R\nhdmi_sound\x12#\n\x0c\x42\x65\x61\x63onActive\x18\x14 \x01(\x08R\rbeacon_active\x12&\n\rHasOnboardLCD\x18\x15 \x01(\x08R\x0fhas_onboard_lcd\x12!\n\x0bShowTwitter\x18\x16 \x01(\x08R\x0cshow_twitter\x12\x1d\n\tPlayVoice\x18\x17 \x01(\x08R\nplay_voice\x12,\n\x10ShowWorkingHours\x18\x18 \x01(\x08R\x12show_working_hours\x12\x38\n\x16ShowBackgroundPictures\x18\x19 \x01(\x08R\x18show_background_pictures\x12#\n\x0cShowFacebook\x18\x1a \x01(\x08R\rshow_facebook\x12#\n\x0cScanResource\x18\x1b \x01(\x08R\rscan_resource\x12\x1b\n\x08WifiSSID\x18\x1e \x01(\tR\twifi_ssid\x12\x19\n\x07WifiPwd\x18\x1f \x01(\tR\x08wifi_pwd\x12%\n\rRefreshScreen\x18  \x01(\rR\x0erefresh_screen\x12\x12\n\x04URLs\x18! \x03(\tR\x04urls\x12\x19\n\x07SSHPort\x18\" \x01(\rR\x08ssh_port\x12$\n\rProximityUUID\x18# \x01(\tR\rproximityuuid\x12!\n\x0b\x43ompanyName\x18$ \x01(\tR\x0c\x63ompany_name\x12\x1d\n\tModelName\x18% \x01(\tR\nmodel_name\x12\x1b\n\x08GateName\x18& \x01(\tR\tgate_name\x12\x12\n\x04MACs\x18( \x03(\tR\x04macs\x12-\n\x11RefreshBackground\x18) \x01(\rR\x12refresh_background\x12\x14\n\x05\x43olor\x18* \x01(\tR\x05\x63olor\x12(\n\x0eLastTimeOnline\x18+ \x01(\x03R\x10last_time_online\x12\x30\n\x12ScreenSaverTimeout\x18. \x01(\rR\x14screen_saver_timeout\"\xcd\x03\n\nWebStation\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x1c\n\tCompanyID\x18\x02 \x01(\x03R\tcompanyid\x12\x10\n\x03MAC\x18\x03 \x01(\tR\x03mac\x12\x14\n\x05Token\x18\x07 \x01(\tR\x05token\x12\x12\n\x04Note\x18\x08 \x01(\tR\x04note\x12\x0e\n\x02IP\x18\t \x01(\tR\x02ip\x12\x16\n\x06\x41\x63tive\x18\x0b \x01(\x08R\x06\x61\x63tive\x12\x18\n\x07ModelID\x18\r \x01(\x03R\x07modelid\x12\x16\n\x06Serial\x18\x0e \x01(\tR\x06serial\x12\x1b\n\x08WifiSSID\x18\x1e \x01(\tR\twifi_ssid\x12\x19\n\x07WifiPwd\x18\x1f \x01(\tR\x08wifi_pwd\x12\x12\n\x04URLs\x18! \x03(\tR\x04urls\x12\x19\n\x07SSHPort\x18\" \x01(\rR\x08ssh_port\x12!\n\x0b\x43ompanyName\x18$ \x01(\tR\x0c\x63ompany_name\x12\x1d\n\tModelName\x18% \x01(\tR\nmodel_name\x12\x12\n\x04MACs\x18( \x03(\tR\x04macs\x12\x14\n\x05\x43olor\x18* \x01(\tR\x05\x63olor\x12(\n\x0eLastTimeOnline\x18+ \x01(\x03R\x10last_time_online\";\n\x0fHolidayRequests\x12\x10\n\x03IDs\x18\x01 \x03(\x03R\x03ids\x12\x16\n\x06Reason\x18\x02 \x01(\tR\x06reason\"\xa1\x02\n\x0b\x43odeHoliday\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x12\n\x04\x43ode\x18\x02 \x01(\tR\x04\x63ode\x12\"\n\x0cName_english\x18\x03 \x01(\tR\x0cname_english\x12\x1c\n\tName_thai\x18\x04 \x01(\tR\tname_thai\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x14\n\x05\x43olor\x18\x06 \x01(\tR\x05\x63olor\x12-\n\x11\x44\x65\x66\x61ultAllocation\x18\x07 \x01(\x05R\x12\x64\x65\x66\x61ult_allocation\x12;\n\x17MinimumDayBeforeHoliday\x18\x08 \x01(\x05R\x1aminimum_day_before_holiday\x12\x12\n\x04Note\x18\n \x01(\tR\x04note\"\xea\x03\n\x0c\x41nnouncement\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12#\n\x0cTitleEnglish\x18\x02 \x01(\tR\rtitle_english\x12\x1d\n\tTitleThai\x18\x03 \x01(\tR\ntitle_thai\x12\'\n\x0eMessageEnglish\x18\x04 \x01(\tR\x0fmessage_english\x12!\n\x0bMessageThai\x18\x05 \x01(\tR\x0cmessage_thai\x12!\n\x0b\x44isplayFrom\x18\x06 \x01(\x03R\x0c\x64isplay_from\x12\x1d\n\tDisplayTo\x18\x07 \x01(\x03R\ndisplay_to\x12\x16\n\x06TeamID\x18\x08 \x01(\x03R\x06teamid\x12\"\n\x0c\x44\x65partmentID\x18\t \x01(\x03R\x0c\x64\x65partmentid\x12\x36\n\x08Priority\x18\n \x01(\x0e\x32\x1a.grpc.weladee.com.PriorityR\x08priority\x12\x16\n\x06\x41\x63tive\x18\x0f \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04Note\x18\x10 \x01(\tR\x04note\x12\x17\n\x06ReadON\x18\x14 \x01(\x03R\x07read_on\x12\x1c\n\tCompanyID\x18\x19 \x01(\x03R\tcompanyid\x12!\n\x0b\x43ompanyName\x18\x1a \x01(\tR\x0c\x63ompany_name\"L\n\nMinVersion\x12\x0f\n\x07\x61ndroid\x18\x01 \x01(\t\x12\x0b\n\x03ios\x18\x02 \x01(\t\x12\x11\n\tAdminLite\x18\x03 \x01(\t\x12\r\n\x05Kiosk\x18\x04 \x01(\t\"\x19\n\x08\x46\x43MToken\x12\r\n\x05token\x18\x01 \x01(\t\"\xff\x01\n\nGoogleUser\x12\x14\n\x05\x45mail\x18\x02 \x01(\tR\x05\x65mail\x12\x12\n\x04Name\x18\x07 \x01(\tR\x04name\x12\x14\n\x05Photo\x18\x08 \x01(\tR\x05photo\x12\x1b\n\x08\x46\x43Mtoken\x18\x12 \x03(\tR\tfcm_token\x12\x1f\n\nPhoneModel\x18\x13 \x01(\tR\x0bphone_model\x12!\n\x0bPhoneSerial\x18\x14 \x01(\tR\x0cphone_serial\x12\x1d\n\tCreatedOn\x18\x16 \x01(\x03R\ncreated_on\x12\x1f\n\nLastSignIn\x18\x17 \x01(\x03R\x0blast_signin\x12\x10\n\x03UID\x18\x1e \x01(\tR\x03uid\"\xc9\x03\n\x12HolidayPreferences\x12,\n\x10\x41pproveByManager\x18\x01 \x01(\x08R\x12\x61pprove_by_manager\x12\x35\n\x14\x41pproveByTeamManager\x18\x02 \x01(\x08R\x17\x61pprove_by_team_manager\x12\x31\n\x12\x41pproveByHRManager\x18\x03 \x01(\x08R\x15\x61pprove_by_hr_manager\x12\x35\n\x14\x41pproveByDeptManager\x18\x04 \x01(\x08R\x17\x61pprove_by_dept_manager\x12\x31\n\x13InstructionsEnglish\x18\x14 \x01(\tR\x14instructions_english\x12+\n\x10InstructionsThai\x18\x15 \x01(\tR\x11instructions_thai\x12\x44\n\x1cInstructionsSickLeaveEnglish\x18\x1e \x01(\tR\x1einstructions_sickleave_english\x12>\n\x19InstructionsSickLeaveThai\x18\x1f \x01(\tR\x1binstructions_sickleave_thai\"~\n\x0c\x43ompanyRules\x12#\n\x0cRulesEnglish\x18\x02 \x01(\tR\rrules_english\x12\x1d\n\tRulesThai\x18\x03 \x01(\tR\nrules_thai\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04Note\x18\t \x01(\tR\x04note\"\xdb\x03\n\x0f\x44\x61ilyAttendance\x12\x12\n\x04\x44\x61te\x18\x01 \x01(\x03R\x04\x64\x61te\x12\x1e\n\nEmployeeID\x18\x02 \x01(\x03R\nemployeeid\x12\x0e\n\x02In\x18\n \x01(\x03R\x02in\x12\x10\n\x03Out\x18\x14 \x01(\x03R\x03out\x12\x12\n\x04Late\x18\x1e \x01(\x03R\x04late\x12\x1a\n\tTimeSpent\x18( \x01(\x03R\x07\x65lapsed\x12\x1d\n\tBreakTime\x18- \x01(\x03R\nbreak_time\x12\x0e\n\x02OT\x18\x32 \x01(\x03R\x02ot\x12\x19\n\x07OTAfter\x18< \x01(\x03R\x08ot_after\x12\x1f\n\nOTApproved\x18\x46 \x01(\rR\x0bot_approved\x12%\n\rOTDescription\x18P \x01(\tR\x0eot_description\x12$\n\x0c\x45mployeeName\x18\x8c\x01 \x01(\tR\remployee_name\x12$\n\x0c\x45mployeeCode\x18\x91\x01 \x01(\tR\remployee_code\x12\x1c\n\x08TeamName\x18\x96\x01 \x01(\tR\tteam_name\x12!\n\nGateInName\x18\xaa\x01 \x01(\tR\x0cgate_in_name\x12#\n\x0bGateOutName\x18\xb4\x01 \x01(\tR\rgate_out_name\"\xe6\x02\n\x0bGeoLocation\x12\x1a\n\x08Latitude\x18\x01 \x01(\x01R\x08latitude\x12\x1c\n\tLongitude\x18\x02 \x01(\x01R\tlongitude\x12\x1a\n\x08\x41\x63\x63uracy\x18\x03 \x01(\x03R\x08\x61\x63\x63uracy\x12\x1c\n\ttimestamp\x18\x04 \x01(\x03R\ttimestamp\x12\x1a\n\x08location\x18\x05 \x01(\tR\x08location\x12\x16\n\x06status\x18\x06 \x01(\tR\x06status\x12\x1e\n\nEmployeeID\x18\x07 \x01(\x03R\nemployeeid\x12\x16\n\x06gateID\x18\x08 \x01(\x03R\x06gateid\x12\x1b\n\x08GateName\x18\t \x01(\tR\tgate_name\x12\x10\n\x03Pin\x18\n \x01(\x08R\x03pin\x12#\n\x0c\x45mployeeName\x18\x14 \x01(\tR\remployee_name\x12#\n\x0c\x45mployeeCode\x18\x15 \x01(\tR\remployee_code\"\xec\x01\n\x12GeoLocationRequest\x12\x12\n\nEmployeeID\x18\x01 \x01(\x03\x12\x13\n\x0bMaxAccuracy\x18\x03 \x01(\r\x12\x0e\n\x06Offset\x18\t \x01(\x03\x12\r\n\x05Limit\x18\n \x01(\x03\x12\x0c\n\x04\x46rom\x18\x0b \x01(\x03\x12\n\n\x02To\x18\x0c \x01(\x03\x12\x14\n\x0c\x45mployeeName\x18\x0f \x01(\t\x12\x14\n\x0cLocationName\x18\x10 \x01(\t\x12&\n\x03Pin\x18\x11 \x01(\x0e\x32\x19.grpc.weladee.com.Trinary\x12\x0e\n\x06GateID\x18\x12 \x01(\x03\x12\x10\n\x03XLS\x18\x14 \x01(\x08R\x03xls\"\x9a\x01\n\x0e\x42radfordFactor\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x12\n\x04\x43ode\x18\x02 \x01(\tR\x04\x63ode\x12\x1b\n\x08LastName\x18\x04 \x01(\tR\tlast_name\x12\x1d\n\tFirstName\x18\x05 \x01(\tR\nfirst_name\x12\x0c\n\x01S\x18\x06 \x01(\x01R\x01s\x12\x0c\n\x01\x44\x18\x07 \x01(\x01R\x01\x64\x12\x0c\n\x01\x42\x18\x08 \x01(\x01R\x01\x62*\xa3\x01\n\x10\x41pplicationLevel\x12\x13\n\x0fSimple_Employee\x10\x00\x12\x0f\n\x0bHR_Operator\x10\x01\x12\x0e\n\nHR_Manager\x10\x02\x12\x10\n\x0cTeam_Manager\x10\x03\x12\x16\n\x12\x44\x65partment_Manager\x10\x04\x12\x0c\n\x08\x44irector\x10\x05\x12\x11\n\rAdministrator\x10\x06\x12\x0e\n\nSupervisor\x10\t*_\n\x0b\x43ompanyType\x12\x07\n\x03\x41ny\x10\x00\x12\x08\n\x04\x46ree\x10\x01\x12\t\n\x05Trial\x10\x02\x12\x07\n\x03SME\x10\x03\x12\x0c\n\x08Standard\x10\x04\x12\x0e\n\nEnterprise\x10\x05\x12\x0b\n\x07NotFree\x10\x06*G\n\x0b\x46\x61\x63\x65\x43onfirm\x12\x15\n\x11\x46\x61\x63\x65ToBeConfirmed\x10\x00\x12\x11\n\rFaceConfirmed\x10\x01\x12\x0e\n\nFaceDenied\x10\x02*\'\n\tPhotoType\x12\x07\n\x03JPG\x10\x00\x12\x08\n\x04WEBP\x10\x01\x12\x07\n\x03PNG\x10\x02*@\n\x14HolidayRequestStatus\x12\r\n\tRequested\x10\x00\x12\x0c\n\x08\x41pproved\x10\x01\x12\x0b\n\x07Refused\x10\x02*2\n\x07\x44\x61yPart\x12\x0b\n\x07\x46ullDay\x10\x00\x12\x0b\n\x07Morning\x10\x01\x12\r\n\tAfterNoon\x10\x02*O\n\x13SuggestionRecipient\x12\n\n\x06RecBot\x10\x00\x12\t\n\x05RecHR\x10\x01\x12\x0e\n\nRecManager\x10\x02\x12\x11\n\rRecManagement\x10\x03*3\n\x07Trinary\x12\r\n\tTriIgnore\x10\x00\x12\x0b\n\x07TriTrue\x10\x01\x12\x0c\n\x08TriFalse\x10\x02*\xa5\x01\n\x0eMilitaryStatus\x12\x13\n\x0fMilitaryUnknown\x10\x00\x12\x0b\n\x07Studied\x10\x01\x12\x0e\n\nDischarged\x10\x02\x12\x08\n\x04\x44one\x10\x03\x12\x0b\n\x07Pending\x10\x04\x12\x0f\n\x0b\x43onscripted\x10\x05\x12\x08\n\x04ROTC\x10\x06\x12\x08\n\x04NMSO\x10\x07\x12\x0c\n\x08\x45xempted\x10\x08\x12\x17\n\x13MilitaryStatusOther\x10\x0f*\x84\x01\n\rMaritalStatus\x12\x18\n\x14UnknownMaritalStatus\x10\x00\x12\x0b\n\x07Married\x10\x01\x12\x0c\n\x08\x44ivorced\x10\x02\x12\r\n\tSeparated\x10\x03\x12\x0b\n\x07Widowed\x10\x04\x12\n\n\x06Single\x10\x05\x12\x16\n\x12OtherMaritalStatus\x10\n*\x82\x01\n\x08Religion\x12\x0b\n\x07Unknown\x10\x00\x12\x0b\n\x07\x42udhist\x10\x01\x12\n\n\x06Muslim\x10\x02\x12\r\n\tChristian\x10\x03\x12\n\n\x06Jewish\x10\x04\x12\x08\n\x04Sikh\x10\x05\x12\x08\n\x04Indu\x10\x06\x12\x11\n\rOtherReligion\x10P\x12\x0e\n\nNoReligion\x10\x64*5\n\x08Priority\x12\n\n\x06Normal\x10\x00\x12\x07\n\x03Low\x10\x01\x12\x08\n\x04High\x10\x02\x12\n\n\x06Urgent\x10\x03*N\n\x06Gender\x12\r\n\tGenderAny\x10\x00\x12\x0e\n\nGenderMale\x10\x01\x12\x10\n\x0cGenderFemale\x10\x02\x12\x13\n\x0fGenderUndefined\x10\x03\x42?\n\x15\x63om.frontware.weladeeB\x0bWeladeeGRPCH\x03P\x01\x90\x01\x01\xaa\x02\x11\x46rontware.Weladeeb\x06proto3'
+  serialized_pb=b'\n\rweladee.proto\x12\x10grpc.weladee.com\"\x17\n\tAddResult\x12\n\n\x02ID\x18\x02 \x01(\x03\"\x8f\x07\n\x07\x43ompany\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12!\n\x0bNameEnglish\x18\x02 \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x03 \x01(\tR\tname_thai\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x1c\n\ttimesheet\x18\x06 \x01(\x08R\ttimesheet\x12\x1a\n\x08Resource\x18\x08 \x01(\x08R\x08resource\x12\x18\n\x07\x45xpense\x18) \x01(\x08R\x07\x65xpense\x12\x1d\n\tOTRequest\x18* \x01(\x08R\not_request\x12\x10\n\x03WFH\x18+ \x01(\x08R\x03wfh\x12\x12\n\x04note\x18\t \x01(\tR\x04note\x12\x18\n\x07\x61\x64\x64ress\x18\n \x01(\tR\x07\x61\x64\x64ress\x12\x12\n\x04\x63ity\x18\x0b \x01(\tR\x04\x63ity\x12\x1a\n\x08postcode\x18\x0c \x01(\tR\x08postcode\x12\x18\n\x07\x63ountry\x18\r \x01(\tR\x07\x63ountry\x12\x18\n\x07twitter\x18\x0e \x01(\tR\x07twitter\x12\x1a\n\x08\x66\x61\x63\x65\x62ook\x18\x07 \x01(\tR\x08\x66\x61\x63\x65\x62ook\x12\x1a\n\x08telegram\x18\x1d \x01(\tR\x08telegram\x12\x12\n\x04Line\x18\x32 \x01(\tR\x04line\x12\x17\n\x06\x41PIKey\x18\x0f \x01(\tR\x07\x61pi_key\x12\x14\n\x05TaxID\x18\x10 \x01(\tR\x05taxid\x12\x1a\n\x08\x42ranchID\x18\x11 \x01(\tR\x08\x62ranchid\x12\x10\n\x03URL\x18\x12 \x01(\tR\x03url\x12\x12\n\x04Logo\x18\x13 \x01(\tR\x04logo\x12\x1f\n\nThemeColor\x18\x14 \x01(\tR\x0btheme_color\x12#\n\x0c\x43ustomerType\x18\x15 \x01(\tR\rcustomer_type\x12\x16\n\x06Radius\x18\x16 \x01(\rR\x06radius\x12\x10\n\x08latitude\x18\x17 \x01(\x01\x12\x11\n\tlongitude\x18\x18 \x01(\x01\x12\x0e\n\x02TZ\x18\x19 \x01(\tR\x02tz\x12\x16\n\x06Phones\x18\x1a \x03(\tR\x06phones\x12$\n\rProximityUUID\x18\x1b \x01(\tR\rproximityuuid\x12\x15\n\x05\x43RMID\x18\x1e \x01(\x03R\x06\x63rm_id\x12\x1d\n\tPaidUntil\x18\x1f \x01(\x03R\npaid_until\x12#\n\x0cRegisteredOn\x18  \x01(\x03R\rregistered_on\x12\x1c\n\tSponsorID\x18( \x01(\x03R\tsponsorid\"\xe3\x08\n\x0c\x45mployeeStat\x12@\n\x0cLastWeekSick\x18\x05 \x01(\x0b\x32\x1a.grpc.weladee.com.SickStatR\x0elast_week_sick\x12\x42\n\rLastMonthSick\x18\x06 \x01(\x0b\x32\x1a.grpc.weladee.com.SickStatR\x0flast_month_sick\x12\x46\n\x0f\x43urrentYearSick\x18\x07 \x01(\x0b\x32\x1a.grpc.weladee.com.SickStatR\x11\x63urrent_year_sick\x12h\n\x12\x43urrentYearHoliday\x18\x08 \x03(\x0b\x32\x36.grpc.weladee.com.EmployeeStat.CurrentYearHolidayEntryR\x14\x63urrent_year_holiday\x12\x42\n\rLastMonthLate\x18\n \x01(\x0b\x32\x1a.grpc.weladee.com.LateStatR\x0flast_month_late\x12@\n\x0cLastWeekLate\x18\x0b \x01(\x0b\x32\x1a.grpc.weladee.com.LateStatR\x0elast_week_late\x12\x46\n\x0f\x43urrentYearLate\x18\x0c \x01(\x0b\x32\x1a.grpc.weladee.com.LateStatR\x11\x63urrent_year_late\x12\x31\n\x12LastWeekWorkedTime\x18\x14 \x01(\x05R\x15last_week_worked_time\x12:\n\x16LastWeekTeamWorkedTime\x18\x15 \x01(\x05R\x1alast_week_team_worked_time\x12\x33\n\x13LastMonthWorkedTime\x18\x16 \x01(\x05R\x16last_month_worked_time\x12<\n\x17LastMonthTeamWorkedTime\x18\x17 \x01(\x05R\x1blast_month_team_worked_time\x12H\n\x10\x43urrentMonthLate\x18\x64 \x01(\x0b\x32\x1a.grpc.weladee.com.LateStatR\x12\x63urrent_month_late\x12\x39\n\x16\x43urrentMonthWorkedTime\x18\x65 \x01(\x05R\x19\x63urrent_month_worked_time\x12\x42\n\x1a\x43urrentMonthTeamWorkedTime\x18\x66 \x01(\x05R\x1e\x63urrent_month_team_worked_time\x12H\n\x10\x43urrentMonthSick\x18g \x01(\x0b\x32\x1a.grpc.weladee.com.SickStatR\x12\x63urrent_month_sick\x1aX\n\x17\x43urrentYearHolidayEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12,\n\x05value\x18\x02 \x01(\x0b\x32\x1d.grpc.weladee.com.holidayStat:\x02\x38\x01\".\n\x0bholidayStat\x12\r\n\x05Taken\x18\x02 \x01(\x02\x12\x10\n\x08\x41pproved\x18\x03 \x01(\x05\"\xe4\x02\n\x12\x45mployeeOfTheMonth\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x1f\n\nEmployeeID\x18\n \x01(\x03R\x0b\x65mployee_id\x12\x14\n\x05Month\x18\x14 \x01(\x05R\x05month\x12\x12\n\x04Year\x18\x1e \x01(\x05R\x04year\x12#\n\x0cTitleEnglish\x18( \x01(\tR\rtitle_english\x12\x1d\n\tTitleThai\x18\x32 \x01(\tR\ntitle_thai\x12/\n\x12\x44\x65scriptionEnglish\x18< \x01(\tR\x13\x64\x65scription_english\x12)\n\x0f\x44\x65scriptionThai\x18\x46 \x01(\tR\x10\x64\x65scription_thai\x12\x1c\n\x08LastName\x18\xb4\x01 \x01(\tR\tlast_name\x12\x1e\n\tFirstName\x18\xbe\x01 \x01(\tR\nfirst_name\x12\x15\n\x05Photo\x18\xc8\x01 \x01(\tR\x05photo\"g\n\x08SickStat\x12(\n\x0eNumberSickDays\x18\x01 \x01(\x02R\x10number_sick_days\x12\x31\n\x12NumberTeamSickDays\x18\x02 \x01(\x02R\x15number_team_sick_days\"\x9c\x01\n\x08LateStat\x12\x1f\n\nNumberLate\x18\x01 \x01(\x05R\x0bnumber_late\x12\x1d\n\tTotalLate\x18\x02 \x01(\x05R\ntotal_late\x12(\n\x0eNumberLateTeam\x18\n \x01(\x02R\x10number_late_team\x12&\n\rTotalLateTeam\x18\x0b \x01(\x05R\x0ftotal_late_team\"\x07\n\x05\x45mpty\"\xc2\x03\n\x07Holiday\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12!\n\x0bNameEnglish\x18\x02 \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x03 \x01(\tR\tname_thai\x12\x12\n\x04\x64\x61te\x18\x04 \x01(\x05R\x04\x64\x61te\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04\x63ode\x18\x06 \x01(\tR\x04\x63ode\x12\x14\n\x05\x63olor\x18\x07 \x01(\tR\x05\x63olor\x12\x1e\n\nEmployeeID\x18\x08 \x01(\x03R\nemployeeid\x12\x12\n\x04note\x18\t \x01(\tR\x04note\x12\x1d\n\tsickLeave\x18\n \x01(\x08R\nsick_leave\x12\x34\n\x07\x44\x61yPart\x18\x0b \x01(\x0e\x32\x19.grpc.weladee.com.DayPartR\x08\x64\x61y_part\x12\x16\n\x06\x43odeID\x18\x14 \x01(\x03R\x06\x63odeid\x12+\n\x10HolidayRequestID\x18\x16 \x01(\x03R\x11holiday_requestid\x12#\n\x0c\x45mployeeName\x18\x19 \x01(\tR\remployee_name\x12\x1e\n\x05\x41lert\x18\x1e \x01(\x08R\x0f\x61lert,omitempty\"\xa8\x02\n\nSuggestion\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x1e\n\nEmployeeID\x18\x02 \x01(\x03R\nemployeeid\x12\x1c\n\tCompanyID\x18\x03 \x01(\x03R\tcompanyid\x12\x1d\n\tCreatedOn\x18\x04 \x01(\x03R\ncreated_on\x12\x43\n\tRecipient\x18\x05 \x01(\x0e\x32%.grpc.weladee.com.SuggestionRecipientR\trecipient\x12\x12\n\x04Text\x18\x06 \x01(\tR\x04text\x12\x12\n\x04Note\x18\t \x01(\tR\x04note\x12#\n\x0c\x45mployeeName\x18\n \x01(\tR\remployee_name\x12\x1b\n\x08TeamName\x18\x0b \x01(\tR\tteam_name\":\n\x18HolidayAllocationRequest\x12\n\n\x02ID\x18\x01 \x01(\x03\x12\x12\n\nEmployeeID\x18\x04 \x01(\x03\"\x89\x02\n\x11HolidayAllocation\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x1e\n\nEmployeeID\x18\x02 \x01(\x03R\nemployeeid\x12\x1e\n\x06\x43odeID\x18\x03 \x01(\x03R\x0eholiday_codeid\x12\x12\n\x04\x44\x61ys\x18\x04 \x01(\x02R\x04\x64\x61ys\x12\x14\n\x05\x43olor\x18\t \x01(\tR\x05\x63olor\x12\x12\n\x04Note\x18\n \x01(\tR\x04note\x12\x1a\n\x04\x43ode\x18\x0b \x01(\tR\x0choliday_code\x12\x1b\n\x08\x43odeName\x18\x0c \x01(\tR\tcode_name\x12-\n\x11\x44\x65\x66\x61ultAllocation\x18\r \x01(\x05R\x12\x64\x65\x66\x61ult_allocation\";\n\tRectangle\x12\n\n\x02X1\x18\x01 \x01(\x05\x12\n\n\x02X2\x18\x02 \x01(\x05\x12\n\n\x02Y1\x18\x03 \x01(\x05\x12\n\n\x02Y2\x18\x04 \x01(\x05\"\xca\x04\n\x08LogPhoto\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x1c\n\tTimeStamp\x18\x02 \x01(\x03R\ttimestamp\x12\x1e\n\nEmployeeID\x18\x05 \x01(\x03R\nemployeeid\x12\x16\n\x06GateID\x18\x06 \x01(\x03R\x06gateid\x12%\n\rGateStationID\x18\x07 \x01(\x03R\x0egate_stationid\x12\x16\n\x06\x61\x63tive\x18\t \x01(\x08R\x06\x61\x63tive\x12\x42\n\rFaceRectangle\x18\n \x01(\x0b\x32\x1b.grpc.weladee.com.RectangleR\x0e\x66\x61\x63\x65_rectangle\x12\x0b\n\x03URL\x18\x0b \x01(\t\x12\x12\n\x04note\x18\x0c \x01(\tR\x04note\x12\x12\n\x04IPFS\x18\r \x01(\tR\x04ipfs\x12#\n\x0c\x46\x61\x63\x65\x44\x65tected\x18\x0e \x01(\x08R\rface_detected\x12\'\n\x0e\x46\x61\x63\x65Recognized\x18\x0f \x01(\x08R\x0f\x66\x61\x63\x65_recognized\x12\x44\n\rFaceConfirmed\x18\x10 \x01(\x0e\x32\x1d.grpc.weladee.com.FaceConfirmR\x0e\x66\x61\x63\x65_confirmed\x12!\n\x0b\x46\x61\x63\x65Trained\x18\x11 \x01(\x08R\x0c\x66\x61\x63\x65_trained\x12\'\n\x0eTelegramFileID\x18\x12 \x01(\tR\x0ftelegram_fileid\x12#\n\x0c\x45mployeeName\x18\x14 \x01(\tR\remployee_name\x12\x1b\n\x08GateName\x18\x15 \x01(\tR\tgate_name\"a\n\x16PendingPhotoAssignment\x12\'\n\x0ePendingPhotoID\x18\x01 \x01(\x03R\x0fpending_photoid\x12\x1e\n\nEmployeeID\x18\x02 \x01(\x03R\nemployeeid\"\x9e\x01\n\x0cPendingPhoto\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x1c\n\tTimeStamp\x18\x02 \x01(\x03R\ttimestamp\x12\x16\n\x06GateID\x18\x06 \x01(\x03R\x06gateid\x12\x1b\n\x08GateName\x18\x07 \x01(\tR\tgate_name\x12\x10\n\x03URL\x18\x0b \x01(\tR\x03url\x12\x19\n\x07\x46\x61\x63\x65URL\x18\x0c \x01(\tR\x08\x66\x61\x63\x65_url\"F\n\x10\x46\x61\x63\x65\x43onfirmation\x12\x18\n\x07PhotoID\x18\x01 \x01(\x03R\x07photoid\x12\x18\n\x07\x43onfirm\x18\x02 \x01(\x08R\x07\x63onfirm\"\x97\x01\n\x08NewPhoto\x12,\n\x08LogPhoto\x18\x01 \x01(\x0b\x32\x1a.grpc.weladee.com.LogPhoto\x12\r\n\x05Photo\x18\x02 \x01(\x0c\x12.\n\tPhototype\x18\x03 \x01(\x0e\x32\x1b.grpc.weladee.com.PhotoType\x12\x10\n\x08HashIPFS\x18\x04 \x01(\t\x12\x0c\n\x04\x46\x61\x63\x65\x18\x05 \x01(\x0c\"\x1d\n\x0cHolidayCodes\x12\r\n\x05\x43odes\x18\x01 \x03(\t\"\x9c\x01\n\x08Position\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12!\n\x0bNameEnglish\x18\x02 \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x03 \x01(\tR\tname_thai\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x14\n\x05Level\x18\x07 \x01(\x05R\x05level\x12\x12\n\x04note\x18\t \x01(\tR\x04note\"\xd9\x04\n\x04Team\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x12\n\x04Name\x18\x03 \x01(\tR\x04name\x12-\n\x0eMaxTimePerWeek\x18\x04 \x01(\x05R\x15maximum_time_per_week\x12+\n\rMaxTimePerDay\x18\x05 \x01(\x05R\x14maximum_time_per_day\x12-\n\x0eMinTimePerWeek\x18\x06 \x01(\x05R\x15minimum_time_per_week\x12+\n\rMinTimePerDay\x18\x07 \x01(\x05R\x14minimum_time_per_day\x12?\n\x17MinimumDayBeforeHoliday\x18\x08 \x01(\x05\x42\x02\x18\x01R\x1aminimum_day_before_holiday\x12!\n\x0bNameEnglish\x18\n \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x0b \x01(\tR\tname_thai\x12\x16\n\x06\x61\x63tive\x18\x0c \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04note\x18\t \x01(\tR\x04note\x12\x14\n\x05\x65mail\x18\r \x01(\tR\x05\x65mail\x12\x1c\n\tManagerID\x18\x0e \x01(\x03R\tmanagerid\x12!\n\x0bManagerName\x18\x0f \x01(\tR\x0cmanager_name\x12\x45\n\x0cworkingHours\x18\x11 \x03(\x0b\x32 .grpc.weladee.com.OpenHourMobileR\rworking_hours\x12\x14\n\x05Gates\x18\x12 \x03(\x03R\x05gates\x12\x14\n\x05shift\x18\x13 \x01(\x08R\x05shift\"\x8e\x04\n\x04Gate\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\"\n\x0cname_english\x18\x02 \x01(\tR\x0cname_english\x12\x1c\n\tname_thai\x18\x03 \x01(\tR\tname_thai\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x0e\n\x06\x61\x63tion\x18\x07 \x03(\t\x12\x16\n\x06QRCode\x18\x08 \x01(\tR\x06qrcode\x12\x12\n\x04note\x18\t \x01(\tR\x04note\x12\x1a\n\x08latitude\x18\n \x01(\x01R\x08latitude\x12\x1c\n\tlongitude\x18\x0b \x01(\x01R\tlongitude\x12\x16\n\x06radius\x18\x0c \x01(\x05R\x06radius\x12\x18\n\x07\x61\x64\x64ress\x18\r \x01(\tR\x07\x61\x64\x64ress\x12\x12\n\x04\x63ity\x18\x0e \x01(\tR\x04\x63ity\x12\x1a\n\x08postCode\x18\x0f \x01(\tR\x08postcode\x12\x18\n\x07\x63ountry\x18\x10 \x01(\tR\x07\x63ountry\x12>\n\topenHours\x18\x11 \x03(\x0b\x32 .grpc.weladee.com.OpenHourMobileR\topenhours\x12,\n\x05teams\x18\x13 \x03(\x0b\x32\x16.grpc.weladee.com.TeamR\x05teams\x12(\n\x0e\x41llowFreeCheck\x18\x12 \x01(\x08R\x10\x61llow_free_check\x12\x12\n\x04\x43ode\x18\x14 \x01(\tR\x04\x63ode\"\xe2\x01\n\nDepartment\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\"\n\x0cname_english\x18\x02 \x01(\tR\x0cname_english\x12\x1c\n\tname_thai\x18\x03 \x01(\tR\tname_thai\x12\x1c\n\tmanagerID\x18\x04 \x01(\x03R\tmanagerid\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x0c\n\x04\x63ode\x18\x06 \x01(\t\x12\r\n\x05\x65mail\x18\x07 \x01(\t\x12\x0c\n\x04note\x18\t \x01(\t\x12!\n\x0bManagerName\x18\n \x01(\tR\x0cmanager_name\"\xc8\x01\n\x08LogEvent\x12\x1e\n\nemployeeid\x18\x01 \x01(\x03R\nemployeeid\x12\x16\n\x06\x61\x63tion\x18\x02 \x01(\tR\x06\x61\x63tion\x12\x1c\n\ttimestamp\x18\x03 \x01(\x03R\ttimestamp\x12\x16\n\x06teamid\x18\x04 \x01(\x03R\x06teamid\x12\x12\n\x04late\x18\x05 \x01(\x05R\x04late\x12\x0e\n\x02id\x18\x06 \x01(\x03R\x02id\x12\x16\n\x06gateid\x18\x07 \x01(\x03R\x06gateid\x12\x12\n\x04note\x18\x08 \x01(\tR\x04note\"K\n\rRefuseRequest\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x16\n\x06reason\x18\x05 \x01(\tR\x06reason\x12\x12\n\x04note\x18\x06 \x01(\tR\x04note\"N\n\x0f\x45mployeeRequest\x12\x13\n\tuser_name\x18\x01 \x01(\tH\x00\x12\x0f\n\x05\x65mail\x18\x02 \x01(\tH\x00\x12\x0c\n\x02ID\x18\x03 \x01(\x03H\x00\x42\x07\n\x05query\"\x1e\n\rEmployeeStats\x12\r\n\x05stats\x18\x01 \x01(\x0c\"\xb6\x06\n\x10\x45mployeesRequest\x12\x1e\n\nEmployeeID\x18\x01 \x01(\x03R\nemployeeid\x12\x16\n\x06Teamid\x18\x02 \x01(\x03R\x06teamid\x12\x1c\n\tManagerID\x18\x03 \x01(\x03R\tmanagerid\x12\"\n\x0c\x44\x65partmentID\x18\x04 \x01(\x03R\x0c\x64\x65partmentid\x12\x1f\n\tProjectID\x18\x05 \x01(\x03R\x0c\x64\x65partmentid\x12\x16\n\x06TaskID\x18\x06 \x01(\x03R\x06taskid\x12\x10\n\x03Tag\x18\x11 \x01(\tR\x03tag\x12\x16\n\x06GateID\x18\x08 \x01(\x03R\x06gateid\x12\x31\n\x06\x41\x63tive\x18\t \x01(\x0e\x32\x19.grpc.weladee.com.TrinaryR\x06\x61\x63tive\x12\x37\n\tTimesheet\x18\n \x01(\x0e\x32\x19.grpc.weladee.com.TrinaryR\ttimesheet\x12\x12\n\nPositionID\x18\x14 \x01(\x03\x12\x0e\n\x06Offset\x18\x1e \x01(\x03\x12\r\n\x05Limit\x18\x1f \x01(\x03\x12\x13\n\x0bManagerName\x18\' \x01(\t\x12\x14\n\x0c\x45mployeeName\x18( \x01(\t\x12\x10\n\x08TeamName\x18) \x01(\t\x12\x16\n\x0e\x44\x65partmentName\x18* \x01(\t\x12\x13\n\x0bProjectName\x18+ \x01(\t\x12\x0c\n\x04\x43ode\x18, \x01(\t\x12\x14\n\x0cPositionName\x18- \x01(\t\x12\r\n\x05\x45mail\x18. \x01(\t\x12,\n\tIsManager\x18\x30 \x01(\x0e\x32\x19.grpc.weladee.com.Trinary\x12.\n\x0bIsHRManager\x18\x31 \x01(\x0e\x32\x19.grpc.weladee.com.Trinary\x12\x0c\n\x04RFID\x18\x32 \x01(\x03\x12\x11\n\tRFIDToken\x18\x33 \x01(\t\x12\x0c\n\x04Text\x18< \x01(\t\x12(\n\x06Gender\x18= \x01(\x0e\x32\x18.grpc.weladee.com.Gender\x12\x10\n\x06LateOn\x18\x64 \x01(\x03H\x00\x12\x12\n\x08\x41\x62sentOn\x18\x65 \x01(\x03H\x00\x12\x1a\n\x10\x46orgotCheckOutOn\x18\x66 \x01(\x03H\x00\x42\x10\n\x0eSpecialRequest\"\x1b\n\tRequestID\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\"\xc5\x17\n\x08\x45mployee\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x14\n\x05\x65mail\x18\x02 \x01(\tR\x05\x65mail\x12\x1c\n\tuser_name\x18\x03 \x01(\tR\tuser_name\x12,\n\x11last_name_english\x18\x04 \x01(\tR\x11last_name_english\x12.\n\x12\x66irst_name_english\x18\x05 \x01(\tR\x12\x66irst_name_english\x12(\n\x0f\x66irst_name_thai\x18\x06 \x01(\tR\x0f\x66irst_name_thai\x12&\n\x0elast_name_thai\x18\x07 \x01(\tR\x0elast_name_thai\x12\x1c\n\tManagerID\x18\x08 \x01(\x03R\tmanagerid\x12\x16\n\x06LineID\x18\t \x01(\tR\x06lineid\x12+\n\x0fLineAccessToken\x18\xc8\x01 \x01(\tR\x11line_access_token\x12\x1e\n\nTelegramID\x18\x33 \x01(\x03R\ntelegramid\x12,\n\x10TelegramUserName\x18G \x01(\tR\x12telegram_user_name\x12*\n\x10nickname_english\x18\n \x01(\tR\x10nickname_english\x12$\n\rnickname_thai\x18\x0b \x01(\tR\rnickname_thai\x12\x1b\n\x08\x46\x43Mtoken\x18\x12 \x03(\tR\tfcm_token\x12 \n\x0bphone_model\x18\x13 \x01(\tR\x0bphone_model\x12\"\n\x0cphone_serial\x18\x14 \x01(\tR\x0cphone_serial\x12\x1e\n\rMobileVersion\x18^ \x01(\tR\x07version\x12\x12\n\x04\x43ode\x18\x15 \x01(\tR\x04\x63ode\x12\x1e\n\ncreated_by\x18\x0e \x01(\x03R\ncreated_by\x12\x1e\n\nupdated_by\x18\x0f \x01(\x03R\nupdated_by\x12\x16\n\x06\x41\x63tive\x18\x10 \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04Note\x18\x11 \x01(\tR\x04note\x12\x1e\n\ncreated_on\x18\x16 \x01(\x03R\ncreated_on\x12\x1e\n\nupdated_on\x18\x17 \x01(\x03R\nupdated_on\x12\x14\n\x05photo\x18\x18 \x01(\tR\x05photo\x12\x0e\n\x02lg\x18\x19 \x01(\tR\x02lg\x12P\n\x11\x61pplication_level\x18\x1a \x01(\x0e\x32\".grpc.weladee.com.ApplicationLevelR\x11\x61pplication_level\x12\x1e\n\nPositionID\x18\x1b \x01(\x03R\npositionid\x12\x16\n\x06Phones\x18\x1c \x03(\tR\x06phones\x12\x12\n\x04rfid\x18\x1d \x01(\x03R\x04rfid\x12\'\n\x0e\x45mailValidated\x18\" \x01(\x08R\x0f\x65mail_validated\x12\x16\n\x06TeamID\x18# \x01(\x03R\x06teamid\x12\x16\n\x06Gender\x18$ \x01(\tR\x06gender\x12\x31\n\x12HasToFillTimesheet\x18% \x01(\x08R\x15has_to_fill_timesheet\x12<\n\x18receiveCheckNotification\x18& \x01(\x08R\x1areceive_check_notification\x12.\n\x11\x43\x61nRequestHoliday\x18\' \x01(\x08R\x13\x63\x61n_request_holiday\x12\x12\n\x04Tags\x18? \x03(\tR\x04tags\x12\x14\n\x05Token\x18\x32 \x01(\tR\x05token\x12\x31\n\x12\x43\x61nCheckTeamMember\x18\x34 \x01(\x08R\x15\x63\x61n_check_team_member\x12\x16\n\x06QRCode\x18\x35 \x01(\tR\x06qrcode\x12\x1d\n\tFreeCheck\x18\x37 \x01(\x08R\nfree_check\x12\x1f\n\nHourlyCost\x18\x38 \x01(\x01R\x0bhourly_cost\x12)\n\x0f\x44\x65partmentNames\x18< \x03(\tR\x10\x64\x65partment_names\x12\x1b\n\x08TeamName\x18= \x01(\tR\tteam_name\x12#\n\x0cPositionName\x18> \x01(\tR\rposition_name\x12!\n\x0bManagerName\x18@ \x01(\tR\x0cmanager_name\x12 \n\x0b\x44\x65partments\x18\x45 \x03(\x03R\x0b\x64\x65partments\x12\x1a\n\x08Password\x18\x46 \x01(\tR\x08password\x12\x1c\n\tCompanyID\x18P \x01(\x03R\tcompanyid\x12#\n\x0bHasToUse2FA\x18Q \x01(\x08R\x0ehas_to_use_2fa\x12\x1d\n\tOTPMobile\x18R \x01(\x08R\notp_mobile\x12!\n\x0b\x46orceSelfie\x18S \x01(\x08R\x0c\x66orce_selfie\x12\x17\n\x06OptOut\x18T \x01(\x08R\x07opt_out\x12\x1d\n\tStartedOn\x18U \x01(\x03R\nstarted_on\x12)\n\x0fResignationDate\x18V \x01(\x03R\x10resignation_date\x12-\n\x11ResignationReason\x18W \x01(\tR\x12resignation_reason\x12,\n\x10ProbationDueDate\x18X \x01(\x03R\x12probation_due_date\x12$\n\x0c\x43\x61nRequestOT\x18Z \x01(\x08R\x0e\x63\x61n_request_ot\x12.\n\x11\x43\x61nRequestExpense\x18[ \x01(\x08R\x13\x63\x61n_request_expense\x12\x1a\n\x08\x42irthday\x18\r \x01(\x03R\x08\x62irthday\x12\x1e\n\nNationalID\x18( \x01(\tR\nnationalid\x12\x34\n\x14NationalIDPlaceIssue\x18s \x01(\tR\x16nationalid_place_issue\x12\x32\n\x13NationalIDDateIssue\x18t \x01(\x03R\x15nationalid_date_issue\x12<\n\x18NationalIDExpirationDate\x18u \x01(\x03R\x1anationalid_expiration_date\x12\x14\n\x05TaxID\x18) \x01(\tR\x05taxid\x12\'\n\x0ePassportNumber\x18* \x01(\tR\x0fpassport_number\x12\x30\n\x12PassportPlaceIssue\x18+ \x01(\tR\x14passport_place_issue\x12.\n\x11PassportDateIssue\x18i \x01(\x03R\x13passport_date_issue\x12\x38\n\x16PassportExpirationDate\x18j \x01(\x03R\x18passport_expiration_date\x12 \n\x0bNationality\x18\x36 \x01(\tR\x0bnationality\x12\x34\n\x14\x44rivingLicenseNumber\x18\x64 \x01(\tR\x16\x64riving_license_number\x12=\n\x18\x44rivingLicensePlaceIssue\x18\x65 \x01(\tR\x1b\x64riving_license_place_issue\x12;\n\x17\x44rivingLicenseDateIssue\x18\x66 \x01(\x03R\x1a\x64riving_license_date_issue\x12\x45\n\x1c\x44rivingLicenseExpirationDate\x18g \x01(\x03R\x1f\x64riving_license_expiration_date\x12\x36\n\x08Religion\x18x \x01(\x0e\x32\x1a.grpc.weladee.com.ReligionR\x08religion\x12\x46\n\rMaritalStatus\x18y \x01(\x0e\x32\x1f.grpc.weladee.com.MaritalStatusR\x0emarital_status\x12I\n\x0eMilitaryStatus\x18z \x01(\x0e\x32 .grpc.weladee.com.MilitaryStatusR\x0fmilitary_status\"\xb5\x02\n\x08Openhour\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x18\n\x07WeekDay\x18\x04 \x01(\rR\x07weekday\x12\x0c\n\x04\x46rom\x18\x05 \x01(\t\x12\n\n\x02To\x18\x06 \x01(\t\x12!\n\x0bNameEnglish\x18\x07 \x01(\tR\x0cname_english\x12\x1b\n\x08NameThai\x18\x08 \x01(\tR\tname_thai\x12\x1c\n\tDetailsID\x18\t \x01(\x03R\tdetailsid\x12\x16\n\x06\x41\x63tive\x18\n \x01(\x08R\x06\x61\x63tive\x12\x1d\n\tLateAfter\x18\x0b \x01(\tR\nlate_after\x12(\n\x0eMinPauseBefore\x18\x0c \x01(\x03R\x10min_pause_before\x12\x12\n\x04Note\x18\r \x01(\tR\x04note\x12\x12\n\x04Type\x18\x0f \x01(\tR\x04type\"\xad\x01\n\x0eOpenHourDetail\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x18\n\x07WeekDay\x18\x04 \x01(\rR\x07weekday\x12\x0c\n\x04\x46rom\x18\x05 \x01(\t\x12\n\n\x02To\x18\x06 \x01(\t\x12\x1d\n\tLateAfter\x18\x0b \x01(\tR\nlate_after\x12(\n\x0eMinPauseBefore\x18\x0c \x01(\x03R\x10min_pause_before\x12\x0e\n\x02TZ\x18\x19 \x01(\tR\x02tz\"\xba\x01\n\x0eOpenHourMobile\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x12\n\x04Name\x18\x03 \x01(\tR\x04name\x12\x18\n\x07WeekDay\x18\x04 \x01(\rR\x07weekday\x12\x12\n\x04\x46rom\x18\x05 \x01(\tR\x04\x66rom\x12\x0e\n\x02To\x18\x06 \x01(\tR\x02to\x12\x1c\n\tDetailsID\x18\t \x01(\x03R\tdetailsid\x12(\n\x0eMinPauseBefore\x18\x0c \x01(\x03R\x10min_pause_before\"\x8b\n\n\x0bGateStation\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x1c\n\tCompanyID\x18\x02 \x01(\x03R\tcompanyid\x12\x10\n\x03MAC\x18\x03 \x01(\tR\x03mac\x12\x14\n\x05Major\x18\x04 \x01(\rR\x05major\x12\x14\n\x05Minor\x18\x05 \x01(\rR\x05minor\x12\x14\n\x05Token\x18\x07 \x01(\tR\x05token\x12\x12\n\x04Note\x18\x08 \x01(\tR\x04note\x12\x0e\n\x02IP\x18\t \x01(\tR\x02ip\x12\x16\n\x06\x41\x63tive\x18\x0b \x01(\x08R\x06\x61\x63tive\x12\x16\n\x06GateID\x18\x0c \x01(\x03R\x06gateid\x12\x18\n\x07ModelID\x18\r \x01(\x03R\x07modelid\x12\x16\n\x06Serial\x18\x0e \x01(\tR\x06serial\x12$\n\x0cShowLatestIn\x18\x0f \x01(\x08R\x0eshow_latest_in\x12&\n\rShowLatestOut\x18\x10 \x01(\x08R\x0fshow_latest_out\x12$\n\x0cShowMostLate\x18\x11 \x01(\x08R\x0eshow_most_late\x12\x1f\n\nHasDisplay\x18\x12 \x01(\x08R\x0bhas_display\x12\x1b\n\x08PlayBeep\x18\x13 \x01(\x08R\tplay_beep\x12\x1a\n\x08\x43\x61tegory\x18\x1c \x01(\tR\x08\x63\x61tegory\x12\x1d\n\tHDMISound\x18- \x01(\x08R\nhdmi_sound\x12#\n\x0c\x42\x65\x61\x63onActive\x18\x14 \x01(\x08R\rbeacon_active\x12&\n\rHasOnboardLCD\x18\x15 \x01(\x08R\x0fhas_onboard_lcd\x12!\n\x0bShowTwitter\x18\x16 \x01(\x08R\x0cshow_twitter\x12\x1d\n\tPlayVoice\x18\x17 \x01(\x08R\nplay_voice\x12,\n\x10ShowWorkingHours\x18\x18 \x01(\x08R\x12show_working_hours\x12\x38\n\x16ShowBackgroundPictures\x18\x19 \x01(\x08R\x18show_background_pictures\x12#\n\x0cShowFacebook\x18\x1a \x01(\x08R\rshow_facebook\x12#\n\x0cScanResource\x18\x1b \x01(\x08R\rscan_resource\x12\x1b\n\x08WifiSSID\x18\x1e \x01(\tR\twifi_ssid\x12\x19\n\x07WifiPwd\x18\x1f \x01(\tR\x08wifi_pwd\x12%\n\rRefreshScreen\x18  \x01(\rR\x0erefresh_screen\x12\x12\n\x04URLs\x18! \x03(\tR\x04urls\x12\x19\n\x07SSHPort\x18\" \x01(\rR\x08ssh_port\x12$\n\rProximityUUID\x18# \x01(\tR\rproximityuuid\x12!\n\x0b\x43ompanyName\x18$ \x01(\tR\x0c\x63ompany_name\x12\x1d\n\tModelName\x18% \x01(\tR\nmodel_name\x12\x1b\n\x08GateName\x18& \x01(\tR\tgate_name\x12\x12\n\x04MACs\x18( \x03(\tR\x04macs\x12-\n\x11RefreshBackground\x18) \x01(\rR\x12refresh_background\x12\x14\n\x05\x43olor\x18* \x01(\tR\x05\x63olor\x12(\n\x0eLastTimeOnline\x18+ \x01(\x03R\x10last_time_online\x12\x30\n\x12ScreenSaverTimeout\x18. \x01(\rR\x14screen_saver_timeout\"\xcd\x03\n\nWebStation\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x1c\n\tCompanyID\x18\x02 \x01(\x03R\tcompanyid\x12\x10\n\x03MAC\x18\x03 \x01(\tR\x03mac\x12\x14\n\x05Token\x18\x07 \x01(\tR\x05token\x12\x12\n\x04Note\x18\x08 \x01(\tR\x04note\x12\x0e\n\x02IP\x18\t \x01(\tR\x02ip\x12\x16\n\x06\x41\x63tive\x18\x0b \x01(\x08R\x06\x61\x63tive\x12\x18\n\x07ModelID\x18\r \x01(\x03R\x07modelid\x12\x16\n\x06Serial\x18\x0e \x01(\tR\x06serial\x12\x1b\n\x08WifiSSID\x18\x1e \x01(\tR\twifi_ssid\x12\x19\n\x07WifiPwd\x18\x1f \x01(\tR\x08wifi_pwd\x12\x12\n\x04URLs\x18! \x03(\tR\x04urls\x12\x19\n\x07SSHPort\x18\" \x01(\rR\x08ssh_port\x12!\n\x0b\x43ompanyName\x18$ \x01(\tR\x0c\x63ompany_name\x12\x1d\n\tModelName\x18% \x01(\tR\nmodel_name\x12\x12\n\x04MACs\x18( \x03(\tR\x04macs\x12\x14\n\x05\x43olor\x18* \x01(\tR\x05\x63olor\x12(\n\x0eLastTimeOnline\x18+ \x01(\x03R\x10last_time_online\";\n\x0fHolidayRequests\x12\x10\n\x03IDs\x18\x01 \x03(\x03R\x03ids\x12\x16\n\x06Reason\x18\x02 \x01(\tR\x06reason\"\xa1\x02\n\x0b\x43odeHoliday\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x12\n\x04\x43ode\x18\x02 \x01(\tR\x04\x63ode\x12\"\n\x0cName_english\x18\x03 \x01(\tR\x0cname_english\x12\x1c\n\tName_thai\x18\x04 \x01(\tR\tname_thai\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x14\n\x05\x43olor\x18\x06 \x01(\tR\x05\x63olor\x12-\n\x11\x44\x65\x66\x61ultAllocation\x18\x07 \x01(\x05R\x12\x64\x65\x66\x61ult_allocation\x12;\n\x17MinimumDayBeforeHoliday\x18\x08 \x01(\x05R\x1aminimum_day_before_holiday\x12\x12\n\x04Note\x18\n \x01(\tR\x04note\"\xea\x03\n\x0c\x41nnouncement\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12#\n\x0cTitleEnglish\x18\x02 \x01(\tR\rtitle_english\x12\x1d\n\tTitleThai\x18\x03 \x01(\tR\ntitle_thai\x12\'\n\x0eMessageEnglish\x18\x04 \x01(\tR\x0fmessage_english\x12!\n\x0bMessageThai\x18\x05 \x01(\tR\x0cmessage_thai\x12!\n\x0b\x44isplayFrom\x18\x06 \x01(\x03R\x0c\x64isplay_from\x12\x1d\n\tDisplayTo\x18\x07 \x01(\x03R\ndisplay_to\x12\x16\n\x06TeamID\x18\x08 \x01(\x03R\x06teamid\x12\"\n\x0c\x44\x65partmentID\x18\t \x01(\x03R\x0c\x64\x65partmentid\x12\x36\n\x08Priority\x18\n \x01(\x0e\x32\x1a.grpc.weladee.com.PriorityR\x08priority\x12\x16\n\x06\x41\x63tive\x18\x0f \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04Note\x18\x10 \x01(\tR\x04note\x12\x17\n\x06ReadON\x18\x14 \x01(\x03R\x07read_on\x12\x1c\n\tCompanyID\x18\x19 \x01(\x03R\tcompanyid\x12!\n\x0b\x43ompanyName\x18\x1a \x01(\tR\x0c\x63ompany_name\"L\n\nMinVersion\x12\x0f\n\x07\x61ndroid\x18\x01 \x01(\t\x12\x0b\n\x03ios\x18\x02 \x01(\t\x12\x11\n\tAdminLite\x18\x03 \x01(\t\x12\r\n\x05Kiosk\x18\x04 \x01(\t\"\x19\n\x08\x46\x43MToken\x12\r\n\x05token\x18\x01 \x01(\t\"\xff\x01\n\nGoogleUser\x12\x14\n\x05\x45mail\x18\x02 \x01(\tR\x05\x65mail\x12\x12\n\x04Name\x18\x07 \x01(\tR\x04name\x12\x14\n\x05Photo\x18\x08 \x01(\tR\x05photo\x12\x1b\n\x08\x46\x43Mtoken\x18\x12 \x03(\tR\tfcm_token\x12\x1f\n\nPhoneModel\x18\x13 \x01(\tR\x0bphone_model\x12!\n\x0bPhoneSerial\x18\x14 \x01(\tR\x0cphone_serial\x12\x1d\n\tCreatedOn\x18\x16 \x01(\x03R\ncreated_on\x12\x1f\n\nLastSignIn\x18\x17 \x01(\x03R\x0blast_signin\x12\x10\n\x03UID\x18\x1e \x01(\tR\x03uid\"\xc9\x03\n\x12HolidayPreferences\x12,\n\x10\x41pproveByManager\x18\x01 \x01(\x08R\x12\x61pprove_by_manager\x12\x35\n\x14\x41pproveByTeamManager\x18\x02 \x01(\x08R\x17\x61pprove_by_team_manager\x12\x31\n\x12\x41pproveByHRManager\x18\x03 \x01(\x08R\x15\x61pprove_by_hr_manager\x12\x35\n\x14\x41pproveByDeptManager\x18\x04 \x01(\x08R\x17\x61pprove_by_dept_manager\x12\x31\n\x13InstructionsEnglish\x18\x14 \x01(\tR\x14instructions_english\x12+\n\x10InstructionsThai\x18\x15 \x01(\tR\x11instructions_thai\x12\x44\n\x1cInstructionsSickLeaveEnglish\x18\x1e \x01(\tR\x1einstructions_sickleave_english\x12>\n\x19InstructionsSickLeaveThai\x18\x1f \x01(\tR\x1binstructions_sickleave_thai\"~\n\x0c\x43ompanyRules\x12#\n\x0cRulesEnglish\x18\x02 \x01(\tR\rrules_english\x12\x1d\n\tRulesThai\x18\x03 \x01(\tR\nrules_thai\x12\x16\n\x06\x61\x63tive\x18\x05 \x01(\x08R\x06\x61\x63tive\x12\x12\n\x04Note\x18\t \x01(\tR\x04note\"\xdb\x03\n\x0f\x44\x61ilyAttendance\x12\x12\n\x04\x44\x61te\x18\x01 \x01(\x03R\x04\x64\x61te\x12\x1e\n\nEmployeeID\x18\x02 \x01(\x03R\nemployeeid\x12\x0e\n\x02In\x18\n \x01(\x03R\x02in\x12\x10\n\x03Out\x18\x14 \x01(\x03R\x03out\x12\x12\n\x04Late\x18\x1e \x01(\x03R\x04late\x12\x1a\n\tTimeSpent\x18( \x01(\x03R\x07\x65lapsed\x12\x1d\n\tBreakTime\x18- \x01(\x03R\nbreak_time\x12\x0e\n\x02OT\x18\x32 \x01(\x03R\x02ot\x12\x19\n\x07OTAfter\x18< \x01(\x03R\x08ot_after\x12\x1f\n\nOTApproved\x18\x46 \x01(\rR\x0bot_approved\x12%\n\rOTDescription\x18P \x01(\tR\x0eot_description\x12$\n\x0c\x45mployeeName\x18\x8c\x01 \x01(\tR\remployee_name\x12$\n\x0c\x45mployeeCode\x18\x91\x01 \x01(\tR\remployee_code\x12\x1c\n\x08TeamName\x18\x96\x01 \x01(\tR\tteam_name\x12!\n\nGateInName\x18\xaa\x01 \x01(\tR\x0cgate_in_name\x12#\n\x0bGateOutName\x18\xb4\x01 \x01(\tR\rgate_out_name\"\xe6\x02\n\x0bGeoLocation\x12\x1a\n\x08Latitude\x18\x01 \x01(\x01R\x08latitude\x12\x1c\n\tLongitude\x18\x02 \x01(\x01R\tlongitude\x12\x1a\n\x08\x41\x63\x63uracy\x18\x03 \x01(\x03R\x08\x61\x63\x63uracy\x12\x1c\n\ttimestamp\x18\x04 \x01(\x03R\ttimestamp\x12\x1a\n\x08location\x18\x05 \x01(\tR\x08location\x12\x16\n\x06status\x18\x06 \x01(\tR\x06status\x12\x1e\n\nEmployeeID\x18\x07 \x01(\x03R\nemployeeid\x12\x16\n\x06gateID\x18\x08 \x01(\x03R\x06gateid\x12\x1b\n\x08GateName\x18\t \x01(\tR\tgate_name\x12\x10\n\x03Pin\x18\n \x01(\x08R\x03pin\x12#\n\x0c\x45mployeeName\x18\x14 \x01(\tR\remployee_name\x12#\n\x0c\x45mployeeCode\x18\x15 \x01(\tR\remployee_code\"\xec\x01\n\x12GeoLocationRequest\x12\x12\n\nEmployeeID\x18\x01 \x01(\x03\x12\x13\n\x0bMaxAccuracy\x18\x03 \x01(\r\x12\x0e\n\x06Offset\x18\t \x01(\x03\x12\r\n\x05Limit\x18\n \x01(\x03\x12\x0c\n\x04\x46rom\x18\x0b \x01(\x03\x12\n\n\x02To\x18\x0c \x01(\x03\x12\x14\n\x0c\x45mployeeName\x18\x0f \x01(\t\x12\x14\n\x0cLocationName\x18\x10 \x01(\t\x12&\n\x03Pin\x18\x11 \x01(\x0e\x32\x19.grpc.weladee.com.Trinary\x12\x0e\n\x06GateID\x18\x12 \x01(\x03\x12\x10\n\x03XLS\x18\x14 \x01(\x08R\x03xls\"\x9a\x01\n\x0e\x42radfordFactor\x12\x0e\n\x02ID\x18\x01 \x01(\x03R\x02id\x12\x12\n\x04\x43ode\x18\x02 \x01(\tR\x04\x63ode\x12\x1b\n\x08LastName\x18\x04 \x01(\tR\tlast_name\x12\x1d\n\tFirstName\x18\x05 \x01(\tR\nfirst_name\x12\x0c\n\x01S\x18\x06 \x01(\x01R\x01s\x12\x0c\n\x01\x44\x18\x07 \x01(\x01R\x01\x64\x12\x0c\n\x01\x42\x18\x08 \x01(\x01R\x01\x62*\xa3\x01\n\x10\x41pplicationLevel\x12\x13\n\x0fSimple_Employee\x10\x00\x12\x0f\n\x0bHR_Operator\x10\x01\x12\x0e\n\nHR_Manager\x10\x02\x12\x10\n\x0cTeam_Manager\x10\x03\x12\x16\n\x12\x44\x65partment_Manager\x10\x04\x12\x0c\n\x08\x44irector\x10\x05\x12\x11\n\rAdministrator\x10\x06\x12\x0e\n\nSupervisor\x10\t*_\n\x0b\x43ompanyType\x12\x07\n\x03\x41ny\x10\x00\x12\x08\n\x04\x46ree\x10\x01\x12\t\n\x05Trial\x10\x02\x12\x07\n\x03SME\x10\x03\x12\x0c\n\x08Standard\x10\x04\x12\x0e\n\nEnterprise\x10\x05\x12\x0b\n\x07NotFree\x10\x06*G\n\x0b\x46\x61\x63\x65\x43onfirm\x12\x15\n\x11\x46\x61\x63\x65ToBeConfirmed\x10\x00\x12\x11\n\rFaceConfirmed\x10\x01\x12\x0e\n\nFaceDenied\x10\x02*\'\n\tPhotoType\x12\x07\n\x03JPG\x10\x00\x12\x08\n\x04WEBP\x10\x01\x12\x07\n\x03PNG\x10\x02*@\n\x14HolidayRequestStatus\x12\r\n\tRequested\x10\x00\x12\x0c\n\x08\x41pproved\x10\x01\x12\x0b\n\x07Refused\x10\x02*2\n\x07\x44\x61yPart\x12\x0b\n\x07\x46ullDay\x10\x00\x12\x0b\n\x07Morning\x10\x01\x12\r\n\tAfterNoon\x10\x02*O\n\x13SuggestionRecipient\x12\n\n\x06RecBot\x10\x00\x12\t\n\x05RecHR\x10\x01\x12\x0e\n\nRecManager\x10\x02\x12\x11\n\rRecManagement\x10\x03*3\n\x07Trinary\x12\r\n\tTriIgnore\x10\x00\x12\x0b\n\x07TriTrue\x10\x01\x12\x0c\n\x08TriFalse\x10\x02*\xa5\x01\n\x0eMilitaryStatus\x12\x13\n\x0fMilitaryUnknown\x10\x00\x12\x0b\n\x07Studied\x10\x01\x12\x0e\n\nDischarged\x10\x02\x12\x08\n\x04\x44one\x10\x03\x12\x0b\n\x07Pending\x10\x04\x12\x0f\n\x0b\x43onscripted\x10\x05\x12\x08\n\x04ROTC\x10\x06\x12\x08\n\x04NMSO\x10\x07\x12\x0c\n\x08\x45xempted\x10\x08\x12\x17\n\x13MilitaryStatusOther\x10\x0f*\x84\x01\n\rMaritalStatus\x12\x18\n\x14UnknownMaritalStatus\x10\x00\x12\x0b\n\x07Married\x10\x01\x12\x0c\n\x08\x44ivorced\x10\x02\x12\r\n\tSeparated\x10\x03\x12\x0b\n\x07Widowed\x10\x04\x12\n\n\x06Single\x10\x05\x12\x16\n\x12OtherMaritalStatus\x10\n*\x8d\x01\n\x08Religion\x12\x0b\n\x07Unknown\x10\x00\x12\x0b\n\x07\x42udhist\x10\x01\x12\t\n\x05Islam\x10\x02\x12\r\n\tChristian\x10\x03\x12\n\n\x06Jewish\x10\x04\x12\x08\n\x04Sikh\x10\x05\x12\x08\n\x04Indu\x10\x06\x12\n\n\x06Taoism\x10\x07\x12\x11\n\rOtherReligion\x10P\x12\x0e\n\nNoReligion\x10\x64*5\n\x08Priority\x12\n\n\x06Normal\x10\x00\x12\x07\n\x03Low\x10\x01\x12\x08\n\x04High\x10\x02\x12\n\n\x06Urgent\x10\x03*N\n\x06Gender\x12\r\n\tGenderAny\x10\x00\x12\x0e\n\nGenderMale\x10\x01\x12\x10\n\x0cGenderFemale\x10\x02\x12\x13\n\x0fGenderUndefined\x10\x03\x42?\n\x15\x63om.frontware.weladeeB\x0bWeladeeGRPCH\x03P\x01\x90\x01\x01\xaa\x02\x11\x46rontware.Weladeeb\x06proto3'
 )
 
 _APPLICATIONLEVEL = _descriptor.EnumDescriptor(
@@ -73,8 +73,8 @@ _APPLICATIONLEVEL = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=15973,
-  serialized_end=16136,
+  serialized_start=16278,
+  serialized_end=16441,
 )
 _sym_db.RegisterEnumDescriptor(_APPLICATIONLEVEL)
 
@@ -124,8 +124,8 @@ _COMPANYTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=16138,
-  serialized_end=16233,
+  serialized_start=16443,
+  serialized_end=16538,
 )
 _sym_db.RegisterEnumDescriptor(_COMPANYTYPE)
 
@@ -155,8 +155,8 @@ _FACECONFIRM = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=16235,
-  serialized_end=16306,
+  serialized_start=16540,
+  serialized_end=16611,
 )
 _sym_db.RegisterEnumDescriptor(_FACECONFIRM)
 
@@ -186,8 +186,8 @@ _PHOTOTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=16308,
-  serialized_end=16347,
+  serialized_start=16613,
+  serialized_end=16652,
 )
 _sym_db.RegisterEnumDescriptor(_PHOTOTYPE)
 
@@ -217,8 +217,8 @@ _HOLIDAYREQUESTSTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=16349,
-  serialized_end=16413,
+  serialized_start=16654,
+  serialized_end=16718,
 )
 _sym_db.RegisterEnumDescriptor(_HOLIDAYREQUESTSTATUS)
 
@@ -248,8 +248,8 @@ _DAYPART = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=16415,
-  serialized_end=16465,
+  serialized_start=16720,
+  serialized_end=16770,
 )
 _sym_db.RegisterEnumDescriptor(_DAYPART)
 
@@ -284,8 +284,8 @@ _SUGGESTIONRECIPIENT = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=16467,
-  serialized_end=16546,
+  serialized_start=16772,
+  serialized_end=16851,
 )
 _sym_db.RegisterEnumDescriptor(_SUGGESTIONRECIPIENT)
 
@@ -315,8 +315,8 @@ _TRINARY = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=16548,
-  serialized_end=16599,
+  serialized_start=16853,
+  serialized_end=16904,
 )
 _sym_db.RegisterEnumDescriptor(_TRINARY)
 
@@ -381,8 +381,8 @@ _MILITARYSTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=16602,
-  serialized_end=16767,
+  serialized_start=16907,
+  serialized_end=17072,
 )
 _sym_db.RegisterEnumDescriptor(_MILITARYSTATUS)
 
@@ -432,8 +432,8 @@ _MARITALSTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=16770,
-  serialized_end=16902,
+  serialized_start=17075,
+  serialized_end=17207,
 )
 _sym_db.RegisterEnumDescriptor(_MARITALSTATUS)
 
@@ -456,7 +456,7 @@ _RELIGION = _descriptor.EnumDescriptor(
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='Muslim', index=2, number=2,
+      name='Islam', index=2, number=2,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
@@ -481,20 +481,25 @@ _RELIGION = _descriptor.EnumDescriptor(
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='OtherReligion', index=7, number=80,
+      name='Taoism', index=7, number=7,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='NoReligion', index=8, number=100,
+      name='OtherReligion', index=8, number=80,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='NoReligion', index=9, number=100,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=16905,
-  serialized_end=17035,
+  serialized_start=17210,
+  serialized_end=17351,
 )
 _sym_db.RegisterEnumDescriptor(_RELIGION)
 
@@ -529,8 +534,8 @@ _PRIORITY = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=17037,
-  serialized_end=17090,
+  serialized_start=17353,
+  serialized_end=17406,
 )
 _sym_db.RegisterEnumDescriptor(_PRIORITY)
 
@@ -565,8 +570,8 @@ _GENDER = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=17092,
-  serialized_end=17170,
+  serialized_start=17408,
+  serialized_end=17486,
 )
 _sym_db.RegisterEnumDescriptor(_GENDER)
 
@@ -624,11 +629,12 @@ Single = 5
 OtherMaritalStatus = 10
 Unknown = 0
 Budhist = 1
-Muslim = 2
+Islam = 2
 Christian = 3
 Jewish = 4
 Sikh = 5
 Indu = 6
+Taoism = 7
 OtherReligion = 80
 NoReligion = 100
 Normal = 0
@@ -746,189 +752,182 @@ _COMPANY = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='wfh', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='HideDefaultShortucts', full_name='grpc.weladee.com.Company.HideDefaultShortucts', index=9,
-      number=60, type=8, cpp_type=7, label=1,
-      has_default_value=False, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, json_name='hide_default_shortcuts', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='note', full_name='grpc.weladee.com.Company.note', index=10,
+      name='note', full_name='grpc.weladee.com.Company.note', index=9,
       number=9, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='note', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='address', full_name='grpc.weladee.com.Company.address', index=11,
+      name='address', full_name='grpc.weladee.com.Company.address', index=10,
       number=10, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='address', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='city', full_name='grpc.weladee.com.Company.city', index=12,
+      name='city', full_name='grpc.weladee.com.Company.city', index=11,
       number=11, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='city', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='postcode', full_name='grpc.weladee.com.Company.postcode', index=13,
+      name='postcode', full_name='grpc.weladee.com.Company.postcode', index=12,
       number=12, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='postcode', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='country', full_name='grpc.weladee.com.Company.country', index=14,
+      name='country', full_name='grpc.weladee.com.Company.country', index=13,
       number=13, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='country', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='twitter', full_name='grpc.weladee.com.Company.twitter', index=15,
+      name='twitter', full_name='grpc.weladee.com.Company.twitter', index=14,
       number=14, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='twitter', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='facebook', full_name='grpc.weladee.com.Company.facebook', index=16,
+      name='facebook', full_name='grpc.weladee.com.Company.facebook', index=15,
       number=7, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='facebook', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='telegram', full_name='grpc.weladee.com.Company.telegram', index=17,
+      name='telegram', full_name='grpc.weladee.com.Company.telegram', index=16,
       number=29, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='telegram', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='Line', full_name='grpc.weladee.com.Company.Line', index=18,
+      name='Line', full_name='grpc.weladee.com.Company.Line', index=17,
       number=50, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='line', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='APIKey', full_name='grpc.weladee.com.Company.APIKey', index=19,
+      name='APIKey', full_name='grpc.weladee.com.Company.APIKey', index=18,
       number=15, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='api_key', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='TaxID', full_name='grpc.weladee.com.Company.TaxID', index=20,
+      name='TaxID', full_name='grpc.weladee.com.Company.TaxID', index=19,
       number=16, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='taxid', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='BranchID', full_name='grpc.weladee.com.Company.BranchID', index=21,
+      name='BranchID', full_name='grpc.weladee.com.Company.BranchID', index=20,
       number=17, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='branchid', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='URL', full_name='grpc.weladee.com.Company.URL', index=22,
+      name='URL', full_name='grpc.weladee.com.Company.URL', index=21,
       number=18, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='url', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='Logo', full_name='grpc.weladee.com.Company.Logo', index=23,
+      name='Logo', full_name='grpc.weladee.com.Company.Logo', index=22,
       number=19, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='logo', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='ThemeColor', full_name='grpc.weladee.com.Company.ThemeColor', index=24,
+      name='ThemeColor', full_name='grpc.weladee.com.Company.ThemeColor', index=23,
       number=20, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='theme_color', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='CustomerType', full_name='grpc.weladee.com.Company.CustomerType', index=25,
+      name='CustomerType', full_name='grpc.weladee.com.Company.CustomerType', index=24,
       number=21, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='customer_type', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='Radius', full_name='grpc.weladee.com.Company.Radius', index=26,
+      name='Radius', full_name='grpc.weladee.com.Company.Radius', index=25,
       number=22, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='radius', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='latitude', full_name='grpc.weladee.com.Company.latitude', index=27,
+      name='latitude', full_name='grpc.weladee.com.Company.latitude', index=26,
       number=23, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='longitude', full_name='grpc.weladee.com.Company.longitude', index=28,
+      name='longitude', full_name='grpc.weladee.com.Company.longitude', index=27,
       number=24, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='TZ', full_name='grpc.weladee.com.Company.TZ', index=29,
+      name='TZ', full_name='grpc.weladee.com.Company.TZ', index=28,
       number=25, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='tz', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='Phones', full_name='grpc.weladee.com.Company.Phones', index=30,
+      name='Phones', full_name='grpc.weladee.com.Company.Phones', index=29,
       number=26, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='phones', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='ProximityUUID', full_name='grpc.weladee.com.Company.ProximityUUID', index=31,
+      name='ProximityUUID', full_name='grpc.weladee.com.Company.ProximityUUID', index=30,
       number=27, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='proximityuuid', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='CRMID', full_name='grpc.weladee.com.Company.CRMID', index=32,
+      name='CRMID', full_name='grpc.weladee.com.Company.CRMID', index=31,
       number=30, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='crm_id', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='PaidUntil', full_name='grpc.weladee.com.Company.PaidUntil', index=33,
+      name='PaidUntil', full_name='grpc.weladee.com.Company.PaidUntil', index=32,
       number=31, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='paid_until', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='RegisteredOn', full_name='grpc.weladee.com.Company.RegisteredOn', index=34,
+      name='RegisteredOn', full_name='grpc.weladee.com.Company.RegisteredOn', index=33,
       number=32, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, json_name='registered_on', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='SponsorID', full_name='grpc.weladee.com.Company.SponsorID', index=35,
+      name='SponsorID', full_name='grpc.weladee.com.Company.SponsorID', index=34,
       number=40, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -947,7 +946,7 @@ _COMPANY = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=61,
-  serialized_end=1026,
+  serialized_end=972,
 )
 
 
@@ -985,8 +984,8 @@ _EMPLOYEESTAT_CURRENTYEARHOLIDAYENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2064,
-  serialized_end=2152,
+  serialized_start=2010,
+  serialized_end=2098,
 )
 
 _EMPLOYEESTAT = _descriptor.Descriptor(
@@ -1114,8 +1113,8 @@ _EMPLOYEESTAT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1029,
-  serialized_end=2152,
+  serialized_start=975,
+  serialized_end=2098,
 )
 
 
@@ -1153,8 +1152,110 @@ _HOLIDAYSTAT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2154,
-  serialized_end=2200,
+  serialized_start=2100,
+  serialized_end=2146,
+)
+
+
+_EMPLOYEEOFTHEMONTH = _descriptor.Descriptor(
+  name='EmployeeOfTheMonth',
+  full_name='grpc.weladee.com.EmployeeOfTheMonth',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='ID', full_name='grpc.weladee.com.EmployeeOfTheMonth.ID', index=0,
+      number=1, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='id', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='EmployeeID', full_name='grpc.weladee.com.EmployeeOfTheMonth.EmployeeID', index=1,
+      number=10, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='employee_id', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='Month', full_name='grpc.weladee.com.EmployeeOfTheMonth.Month', index=2,
+      number=20, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='month', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='Year', full_name='grpc.weladee.com.EmployeeOfTheMonth.Year', index=3,
+      number=30, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='year', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='TitleEnglish', full_name='grpc.weladee.com.EmployeeOfTheMonth.TitleEnglish', index=4,
+      number=40, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='title_english', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='TitleThai', full_name='grpc.weladee.com.EmployeeOfTheMonth.TitleThai', index=5,
+      number=50, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='title_thai', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='DescriptionEnglish', full_name='grpc.weladee.com.EmployeeOfTheMonth.DescriptionEnglish', index=6,
+      number=60, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='description_english', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='DescriptionThai', full_name='grpc.weladee.com.EmployeeOfTheMonth.DescriptionThai', index=7,
+      number=70, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='description_thai', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='LastName', full_name='grpc.weladee.com.EmployeeOfTheMonth.LastName', index=8,
+      number=180, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='last_name', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='FirstName', full_name='grpc.weladee.com.EmployeeOfTheMonth.FirstName', index=9,
+      number=190, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='first_name', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='Photo', full_name='grpc.weladee.com.EmployeeOfTheMonth.Photo', index=10,
+      number=200, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='photo', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2149,
+  serialized_end=2505,
 )
 
 
@@ -1192,8 +1293,8 @@ _SICKSTAT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2202,
-  serialized_end=2305,
+  serialized_start=2507,
+  serialized_end=2610,
 )
 
 
@@ -1245,8 +1346,8 @@ _LATESTAT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2308,
-  serialized_end=2464,
+  serialized_start=2613,
+  serialized_end=2769,
 )
 
 
@@ -1270,8 +1371,8 @@ _EMPTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2466,
-  serialized_end=2473,
+  serialized_start=2771,
+  serialized_end=2778,
 )
 
 
@@ -1400,8 +1501,8 @@ _HOLIDAY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2476,
-  serialized_end=2926,
+  serialized_start=2781,
+  serialized_end=3231,
 )
 
 
@@ -1488,8 +1589,8 @@ _SUGGESTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2929,
-  serialized_end=3225,
+  serialized_start=3234,
+  serialized_end=3530,
 )
 
 
@@ -1527,8 +1628,8 @@ _HOLIDAYALLOCATIONREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3227,
-  serialized_end=3285,
+  serialized_start=3532,
+  serialized_end=3590,
 )
 
 
@@ -1615,8 +1716,8 @@ _HOLIDAYALLOCATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3288,
-  serialized_end=3553,
+  serialized_start=3593,
+  serialized_end=3858,
 )
 
 
@@ -1668,8 +1769,8 @@ _RECTANGLE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3555,
-  serialized_end=3614,
+  serialized_start=3860,
+  serialized_end=3919,
 )
 
 
@@ -1812,8 +1913,8 @@ _LOGPHOTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3617,
-  serialized_end=4203,
+  serialized_start=3922,
+  serialized_end=4508,
 )
 
 
@@ -1851,8 +1952,8 @@ _PENDINGPHOTOASSIGNMENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4205,
-  serialized_end=4302,
+  serialized_start=4510,
+  serialized_end=4607,
 )
 
 
@@ -1918,8 +2019,8 @@ _PENDINGPHOTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4305,
-  serialized_end=4463,
+  serialized_start=4610,
+  serialized_end=4768,
 )
 
 
@@ -1957,8 +2058,8 @@ _FACECONFIRMATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4465,
-  serialized_end=4535,
+  serialized_start=4770,
+  serialized_end=4840,
 )
 
 
@@ -2017,8 +2118,8 @@ _NEWPHOTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4538,
-  serialized_end=4689,
+  serialized_start=4843,
+  serialized_end=4994,
 )
 
 
@@ -2049,8 +2150,8 @@ _HOLIDAYCODES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4691,
-  serialized_end=4720,
+  serialized_start=4996,
+  serialized_end=5025,
 )
 
 
@@ -2116,8 +2217,8 @@ _POSITION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4723,
-  serialized_end=4879,
+  serialized_start=5028,
+  serialized_end=5184,
 )
 
 
@@ -2260,8 +2361,8 @@ _TEAM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4882,
-  serialized_end=5483,
+  serialized_start=5187,
+  serialized_end=5788,
 )
 
 
@@ -2411,8 +2512,8 @@ _GATE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5486,
-  serialized_end=6012,
+  serialized_start=5791,
+  serialized_end=6317,
 )
 
 
@@ -2499,8 +2600,8 @@ _DEPARTMENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=6015,
-  serialized_end=6241,
+  serialized_start=6320,
+  serialized_end=6546,
 )
 
 
@@ -2580,8 +2681,8 @@ _LOGEVENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=6244,
-  serialized_end=6444,
+  serialized_start=6549,
+  serialized_end=6749,
 )
 
 
@@ -2626,8 +2727,8 @@ _REFUSEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=6446,
-  serialized_end=6521,
+  serialized_start=6751,
+  serialized_end=6826,
 )
 
 
@@ -2677,8 +2778,8 @@ _EMPLOYEEREQUEST = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=6523,
-  serialized_end=6601,
+  serialized_start=6828,
+  serialized_end=6906,
 )
 
 
@@ -2709,8 +2810,8 @@ _EMPLOYEESTATS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=6603,
-  serialized_end=6633,
+  serialized_start=6908,
+  serialized_end=6938,
 )
 
 
@@ -2949,8 +3050,8 @@ _EMPLOYEESREQUEST = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=6636,
-  serialized_end=7458,
+  serialized_start=6941,
+  serialized_end=7763,
 )
 
 
@@ -2981,8 +3082,8 @@ _REQUESTID = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=7460,
-  serialized_end=7487,
+  serialized_start=7765,
+  serialized_end=7792,
 )
 
 
@@ -3552,8 +3653,8 @@ _EMPLOYEE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=7490,
-  serialized_end=10503,
+  serialized_start=7795,
+  serialized_end=10808,
 )
 
 
@@ -3661,8 +3762,8 @@ _OPENHOUR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=10506,
-  serialized_end=10815,
+  serialized_start=10811,
+  serialized_end=11120,
 )
 
 
@@ -3735,8 +3836,8 @@ _OPENHOURDETAIL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=10818,
-  serialized_end=10991,
+  serialized_start=11123,
+  serialized_end=11296,
 )
 
 
@@ -3809,8 +3910,8 @@ _OPENHOURMOBILE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=10994,
-  serialized_end=11180,
+  serialized_start=11299,
+  serialized_end=11485,
 )
 
 
@@ -4121,8 +4222,8 @@ _GATESTATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=11183,
-  serialized_end=12474,
+  serialized_start=11488,
+  serialized_end=12779,
 )
 
 
@@ -4272,8 +4373,8 @@ _WEBSTATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=12477,
-  serialized_end=12938,
+  serialized_start=12782,
+  serialized_end=13243,
 )
 
 
@@ -4311,8 +4412,8 @@ _HOLIDAYREQUESTS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=12940,
-  serialized_end=12999,
+  serialized_start=13245,
+  serialized_end=13304,
 )
 
 
@@ -4399,8 +4500,8 @@ _CODEHOLIDAY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=13002,
-  serialized_end=13291,
+  serialized_start=13307,
+  serialized_end=13596,
 )
 
 
@@ -4529,8 +4630,8 @@ _ANNOUNCEMENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=13294,
-  serialized_end=13784,
+  serialized_start=13599,
+  serialized_end=14089,
 )
 
 
@@ -4582,8 +4683,8 @@ _MINVERSION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=13786,
-  serialized_end=13862,
+  serialized_start=14091,
+  serialized_end=14167,
 )
 
 
@@ -4614,8 +4715,8 @@ _FCMTOKEN = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=13864,
-  serialized_end=13889,
+  serialized_start=14169,
+  serialized_end=14194,
 )
 
 
@@ -4702,8 +4803,8 @@ _GOOGLEUSER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=13892,
-  serialized_end=14147,
+  serialized_start=14197,
+  serialized_end=14452,
 )
 
 
@@ -4783,8 +4884,8 @@ _HOLIDAYPREFERENCES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=14150,
-  serialized_end=14607,
+  serialized_start=14455,
+  serialized_end=14912,
 )
 
 
@@ -4836,8 +4937,8 @@ _COMPANYRULES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=14609,
-  serialized_end=14735,
+  serialized_start=14914,
+  serialized_end=15040,
 )
 
 
@@ -4973,8 +5074,8 @@ _DAILYATTENDANCE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=14738,
-  serialized_end=15213,
+  serialized_start=15043,
+  serialized_end=15518,
 )
 
 
@@ -5082,8 +5183,8 @@ _GEOLOCATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=15216,
-  serialized_end=15574,
+  serialized_start=15521,
+  serialized_end=15879,
 )
 
 
@@ -5184,8 +5285,8 @@ _GEOLOCATIONREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=15577,
-  serialized_end=15813,
+  serialized_start=15882,
+  serialized_end=16118,
 )
 
 
@@ -5258,8 +5359,8 @@ _BRADFORDFACTOR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=15816,
-  serialized_end=15970,
+  serialized_start=16121,
+  serialized_end=16275,
 )
 
 _EMPLOYEESTAT_CURRENTYEARHOLIDAYENTRY.fields_by_name['value'].message_type = _HOLIDAYSTAT
@@ -5315,6 +5416,7 @@ DESCRIPTOR.message_types_by_name['AddResult'] = _ADDRESULT
 DESCRIPTOR.message_types_by_name['Company'] = _COMPANY
 DESCRIPTOR.message_types_by_name['EmployeeStat'] = _EMPLOYEESTAT
 DESCRIPTOR.message_types_by_name['holidayStat'] = _HOLIDAYSTAT
+DESCRIPTOR.message_types_by_name['EmployeeOfTheMonth'] = _EMPLOYEEOFTHEMONTH
 DESCRIPTOR.message_types_by_name['SickStat'] = _SICKSTAT
 DESCRIPTOR.message_types_by_name['LateStat'] = _LATESTAT
 DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
@@ -5407,6 +5509,13 @@ holidayStat = _reflection.GeneratedProtocolMessageType('holidayStat', (_message.
   # @@protoc_insertion_point(class_scope:grpc.weladee.com.holidayStat)
   })
 _sym_db.RegisterMessage(holidayStat)
+
+EmployeeOfTheMonth = _reflection.GeneratedProtocolMessageType('EmployeeOfTheMonth', (_message.Message,), {
+  'DESCRIPTOR' : _EMPLOYEEOFTHEMONTH,
+  '__module__' : 'weladee_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.weladee.com.EmployeeOfTheMonth)
+  })
+_sym_db.RegisterMessage(EmployeeOfTheMonth)
 
 SickStat = _reflection.GeneratedProtocolMessageType('SickStat', (_message.Message,), {
   'DESCRIPTOR' : _SICKSTAT,
