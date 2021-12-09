@@ -17,9 +17,15 @@ def sync_expense_data(weladee_expense, req):
             'employee_id': req.employee_odoo_weladee_ids.get(str(weladee_expense.Expense.EmployeeID)), 
             'date': dd, 
             'product_id': req.config.expense_product_id,
-            'unit_amount': weladee_expense.Expense.Amount / 100,
+            'unit_amount': 1,
+            'quantity': weladee_expense.Expense.AmountToRefund / 100,
+            'request_amount': weladee_expense.Expense.Amount / 100,
             'reference': weladee_expense.Expense.Ref,
-            }        
+            }    
+
+    if weladee_expense.Expense.AmountToRefund == 0:
+       data['quantity'] = weladee_expense.Expense.Amount / 100
+
     data['name'] = 'expense %s' % dd.strftime('%Y-%m-%d')
     # vendor
     vid = req.customer_obj.search([('name','=', weladee_expense.Expense.Vendor)])
@@ -64,18 +70,20 @@ def sync_expense(req):
                     sync_logdebug(req.context_sync, "Insert expense '%s' to odoo" % odoo_expense )
                     sync_stat_create(req.context_sync['stat-expense'], 1)
 
-                    req.attach_obj.create({
-                        'type': 'url',
-                        'url': weladee_expense.Expense.IPFS,
-                        'name': newid.name,
-                        'res_model': 'hr.expense',
-                        'res_id': newid.id
-                    })
+                    if weladee_expense.Expense.IPFS:    
+                       req.attach_obj.create({
+                            'type': 'url',
+                            'url': weladee_expense.Expense.IPFS,
+                            'name': newid.name,
+                            'res_model': 'hr.expense',
+                            'res_id': newid.id,
+                        })
 
                     req.expense_sheet_obj.create({
                         'name': newid.name,
                         'employee_id': newid.employee_id.id,
                         'expense_line_ids': [(6,0,[newid.id])],
+                        'state': 'submit'
                     })
 
                 else:

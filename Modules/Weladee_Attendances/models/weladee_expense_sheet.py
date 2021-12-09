@@ -40,10 +40,12 @@ class weladee_expense_sheet(models.Model):
             WeladeeData.Expense.Status = expense_pb2.Status.ExpenseStatusRefunded
             # WeladeeData.Expense.EmployeeID = int(line.employee_id.weladee_id)
             # WeladeeData.Expense.Vendor = line.bill_partner_id.name
-            # WeladeeData.Expense.Amount = int(line.unit_amount * 100)
+            WeladeeData.Expense.Amount = int(line.request_amount * 100)
+            WeladeeData.Expense.AmountToRefund = int(line.total_amount * 100)
             # WeladeeData.Expense.Date = int(datetime.datetime.strptime(line.date.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
 
-            try:    
+            try:
+                _logger.info("Odoo > %s" % WeladeeData)    
                 result = stub.UpdateExpense(WeladeeData, metadata=ret.authorization)
                 _logger.info("update expense on Weladee : %s" % result)
             except Exception as e:

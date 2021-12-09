@@ -41,5 +41,16 @@
             </xpath>
         </field>
         </record>
+
+        <record id="weladee_att_hr_exps_det_fm" model="ir.ui.view">
+        <field name="name">weladee_att_hr_exps_det_fm</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense.hr_expense_view_form_without_header"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='reference']" position="before">
+                <field name="request_amount" readonly="1" />
+            </xpath>
+        </field>
+        </record>
     </data>
 </odoo>       
