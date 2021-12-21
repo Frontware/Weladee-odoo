@@ -14,7 +14,7 @@ class weladee_task(models.Model):
     @api.model
     def create(self, vals):
         name_th = vals.get('name-th', '') 
-        del vals['name-th']
+        if 'name-th' in vals: del vals['name-th']
         ret = super(weladee_task, self).create(vals)
         irobj = self.env['ir.translation']
 
