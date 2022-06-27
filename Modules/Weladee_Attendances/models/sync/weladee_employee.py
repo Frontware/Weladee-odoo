@@ -100,11 +100,11 @@ def sync_employee_data(weladee_employee, req):
     
     #2018-06-07 KPO don't sync note back   
     #2018-06-21 KPO get team but don't sync back     
-    data = { "name" : " ".join([weladee_employee.employee.first_name_english or '', weladee_employee.employee.last_name_english or "" ])
-            ,"first_name_english":weladee_employee.employee.first_name_english
-            ,"last_name_english":weladee_employee.employee.last_name_english
-            ,"first_name_thai":weladee_employee.employee.first_name_thai
-            ,"last_name_thai":weladee_employee.employee.last_name_thai
+    data = { "name" : " ".join([weladee_employee.employee.FirstNameEnglish or '', weladee_employee.employee.LastNameEnglish or "" ])
+            ,"first_name_english":weladee_employee.employee.FirstNameEnglish
+            ,"last_name_english":weladee_employee.employee.LastNameEnglish
+            ,"first_name_thai":weladee_employee.employee.FirstNameThai
+            ,"last_name_thai":weladee_employee.employee.LastNameThai
             ,"nick_name_english":weladee_employee.employee.nickname_english
             ,"nick_name_thai":weladee_employee.employee.nickname_thai
             ,"employee_code" : weladee_employee.employee.Code
@@ -290,10 +290,10 @@ def sync_employee(req):
         newEmployee.odoo.odoo_created_on = int(time.time())
         newEmployee.odoo.odoo_synced_on = int(time.time())
 
-        newEmployee.employee.first_name_english = odoo_employee.first_name_english or odoo_employee.name
-        newEmployee.employee.last_name_english = odoo_employee.last_name_english or bytes()
-        newEmployee.employee.first_name_thai = odoo_employee.first_name_thai or ''
-        newEmployee.employee.last_name_thai = odoo_employee.last_name_thai or ''
+        newEmployee.employee.FirstNameEnglish = odoo_employee.first_name_english or odoo_employee.name
+        newEmployee.employee.LastNameEnglish = odoo_employee.last_name_english or bytes()
+        newEmployee.employee.FirstNameThai = odoo_employee.first_name_thai or ''
+        newEmployee.employee.LastNameThai = odoo_employee.last_name_thai or ''
         newEmployee.employee.nickname_english = odoo_employee.nick_name_english or ''
         newEmployee.employee.nickname_thai = odoo_employee.nick_name_thai or ''
 

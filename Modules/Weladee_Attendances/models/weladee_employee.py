@@ -125,23 +125,23 @@ class weladee_employee(models.Model):
             WeladeeData.odoo.odoo_synced_on = int(time.time())
 
             if "first_name_english" in vals and vals["first_name_english"]:
-                WeladeeData.employee.first_name_english = vals["first_name_english"]
+                WeladeeData.employee.FirstNameEnglish = vals["first_name_english"]
             if "last_name_english" in vals and vals["last_name_english"]:
-                WeladeeData.employee.last_name_english = vals["last_name_english"]
+                WeladeeData.employee.LastNameEnglish = vals["last_name_english"]
 
             # default from name
             if not "first_name_english" in vals and not "last_name_english" in vals :
                if vals["name"]:
                   defs = vals["name"].split(" ")
                   if len(defs) > 0:                  
-                     WeladeeData.employee.first_name_english = defs[0]
+                     WeladeeData.employee.FirstNameEnglish = defs[0]
                   if len(defs) > 1:
-                    WeladeeData.employee.last_name_english = defs[0]
+                    WeladeeData.employee.LastNameEnglish = defs[0]
 
             if "first_name_thai" in vals:
-                WeladeeData.employee.first_name_thai = vals["first_name_thai"] or ''
+                WeladeeData.employee.FirstNameThai = vals["first_name_thai"] or ''
             if "last_name_thai" in vals:
-                WeladeeData.employee.last_name_thai = vals["last_name_thai"] or ''
+                WeladeeData.employee.LastNameThai = vals["last_name_thai"] or ''
 
             if "nick_name_english" in vals :
                 WeladeeData.employee.nickname_english = vals["nick_name_english"] or ''
@@ -280,24 +280,24 @@ class weladee_employee(models.Model):
             WeladeeData.odoo.odoo_synced_on = int(time.time())
 
             if "first_name_english" in vals:
-              WeladeeData.employee.first_name_english = vals.get("first_name_english", '')
+              WeladeeData.employee.FirstNameEnglish = vals.get("first_name_english", '')
             else:
-              WeladeeData.employee.first_name_english = employee_odoo.first_name_english or ''
+              WeladeeData.employee.FirstNameEnglish = employee_odoo.first_name_english or ''
 
             if "last_name_english" in vals :
-              WeladeeData.employee.last_name_english = vals.get("last_name_english", '')
+              WeladeeData.employee.LastNameEnglish = vals.get("last_name_english", '')
             else:
-              WeladeeData.employee.last_name_english = employee_odoo.last_name_english or ''
+              WeladeeData.employee.LastNameEnglish = employee_odoo.last_name_english or ''
 
             if "first_name_thai" in vals:
-              WeladeeData.employee.first_name_thai = vals.get("first_name_thai", '')
+              WeladeeData.employee.FirstNameThai = vals.get("first_name_thai", '')
             else:
-              WeladeeData.employee.first_name_thai = employee_odoo.first_name_thai or ''
+              WeladeeData.employee.FirstNameThai = employee_odoo.first_name_thai or ''
 
             if "last_name_thai" in vals :
-              WeladeeData.employee.last_name_thai = vals.get("last_name_thai", '')
+              WeladeeData.employee.LastNameThai = vals.get("last_name_thai", '')
             else:
-              WeladeeData.employee.last_name_thai = employee_odoo.last_name_thai or ''
+              WeladeeData.employee.LastNameThai = employee_odoo.last_name_thai or ''
 
             if "nick_name_english" in vals :
               WeladeeData.employee.nickname_english = vals.get("nick_name_english", '')

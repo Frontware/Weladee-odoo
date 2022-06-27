@@ -147,9 +147,9 @@ def sync_holiday(self, req):
             if odoo_hol and odoo_hol['res-mode'] == 'create':
                 newid = False
                 if odoo_hol['res-type']  == 'employee':
-                     newid = req.leave_obj.with_context({'leave_skip_state_check': True}).create(sync_clean_up( odoo_hol) )
+                     newid = req.leave_obj.sudo().with_context({'leave_skip_state_check': True}).create(sync_clean_up( odoo_hol) )
                 elif odoo_hol['res-type']  == 'company':
-                     newid = req.company_holiday_obj.create(sync_clean_up(odoo_hol))
+                     newid = req.company_holiday_obj.sudo().create(sync_clean_up(odoo_hol))
                 if newid and newid.id:
                     sync_logdebug(req.context_sync, "Insert holiday '%s' to odoo" % odoo_hol )
                     sync_stat_create(req.context_sync['stat-hol'], 1)
@@ -168,7 +168,7 @@ def sync_holiday(self, req):
                      odoo_id = req.company_holiday_obj.search([('id','=',odoo_hol['res-id']),'|',('company_holiday_active','=',True),('company_holiday_active','=',False)])
                 
                 if odoo_id and odoo_id.id:
-                    if odoo_id.with_context({'leave_skip_state_check': True}).write(sync_clean_up(odoo_hol)):
+                    if odoo_id.sudo().with_context({'leave_skip_state_check': True}).write(sync_clean_up(odoo_hol)):
                         sync_logdebug(req.context_sync, "Updated holiday '%s' to odoo" % odoo_hol )
                         sync_stat_update(req.context_sync['stat-hol'], 1)
 

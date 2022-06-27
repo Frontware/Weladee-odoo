@@ -18,6 +18,26 @@ class OdooStub(object):
         Args:
             channel: A grpc.Channel.
         """
+        self.UpdateRequest = channel.unary_unary(
+                '/grpc.weladee.com.Odoo/UpdateRequest',
+                request_serializer=odoo__pb2.RequestOdoo.SerializeToString,
+                response_deserializer=weladee__pb2.Empty.FromString,
+                )
+        self.GetRequests = channel.unary_stream(
+                '/grpc.weladee.com.Odoo/GetRequests',
+                request_serializer=weladee__pb2.Empty.SerializeToString,
+                response_deserializer=odoo__pb2.RequestOdoo.FromString,
+                )
+        self.AddRequest = channel.unary_unary(
+                '/grpc.weladee.com.Odoo/AddRequest',
+                request_serializer=odoo__pb2.RequestOdoo.SerializeToString,
+                response_deserializer=weladee__pb2.AddResult.FromString,
+                )
+        self.GetApprovalTypes = channel.unary_stream(
+                '/grpc.weladee.com.Odoo/GetApprovalTypes',
+                request_serializer=weladee__pb2.Empty.SerializeToString,
+                response_deserializer=odoo__pb2.ApprovalTypeOdoo.FromString,
+                )
         self.UpdateEmployee = channel.unary_unary(
                 '/grpc.weladee.com.Odoo/UpdateEmployee',
                 request_serializer=odoo__pb2.EmployeeOdoo.SerializeToString,
@@ -151,8 +171,49 @@ class OdooServicer(object):
     Don't forget to authenticate yourself with metadata "authorization" with api_key
     """
 
+    def UpdateRequest(self, request, context):
+        """
+        #
+        # #   #####  #####  #####   ####  #    #   ##   #
+        #   #  #    # #    # #    # #    # #    #  #  #  #
+        #     # #    # #    # #    # #    # #    # #    # #
+        ####### #####  #####  #####  #    # #    # ###### #
+        #     # #      #      #   #  #    #  #  #  #    # #
+        #     # #      #      #    #  ####    ##   #    # ######
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetRequests(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def AddRequest(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetApprovalTypes(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def UpdateEmployee(self, request, context):
-        """Update employee
+        """
+        #######
+        #       #    # #####  #       ####  #   # ###### ######
+        #       ##  ## #    # #      #    #  # #  #      #
+        #####   # ## # #    # #      #    #   #   #####  #####
+        #       #    # #####  #      #    #   #   #      #
+        #       #    # #      #      #    #   #   #      #
+        ####### #    # #      ######  ####    #   ###### ######
+
+        Update employee
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -173,7 +234,17 @@ class OdooServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def GetEmployeeHolidays(self, request, context):
-        """Leave / Holiday
+        """
+
+        #                                            #    #     #
+        #       ######   ##   #    # ######         #     #     #  ####  #      # #####    ##   #   #
+        #       #       #  #  #    # #             #      #     # #    # #      # #    #  #  #   # #
+        #       #####  #    # #    # #####        #       ####### #    # #      # #    # #    #   #
+        #       #      ###### #    # #           #        #     # #    # #      # #    # ######   #
+        #       #      #    #  #  #  #          #         #     # #    # #      # #    # #    #   #
+        ####### ###### #    #   ##   ######    #          #     #  ####  ###### # #####  #    #   #
+
+
         Stream of holidays for 1 specific employee
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -209,7 +280,16 @@ class OdooServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def GetDepartments(self, request, context):
-        """return a stream of departments
+        """
+        ######
+        #     # ###### #####    ##   #####  ##### #    # ###### #    # #####
+        #     # #      #    #  #  #  #    #   #   ##  ## #      ##   #   #
+        #     # #####  #    # #    # #    #   #   # ## # #####  # #  #   #
+        #     # #      #####  ###### #####    #   #    # #      #  # #   #
+        #     # #      #      #    # #   #    #   #    # #      #   ##   #
+        ######  ###### #      #    # #    #   #   #    # ###### #    #   #
+
+        return a stream of departments
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -252,7 +332,16 @@ class OdooServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def GetJobAds(self, request, context):
-        """Job classified
+        """
+        #
+        #  ####  #####
+        # #    # #    #
+        # #    # #####
+        #     # #    # #    #
+        #     # #    # #    #
+        #####   ####  #####
+
+        Job classified
         Called Position in Recruitment module Odoo
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -267,7 +356,14 @@ class OdooServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def GetWorkTypes(self, request, context):
-        """TIMESHEET
+        """
+        ####### ### #     # #######  #####  #     # ####### ####### #######
+        #     #  ##   ## #       #     # #     # #       #          #
+        #     #  # # # # #       #       #     # #       #          #
+        #     #  #  #  # #####    #####  ####### #####   #####      #
+        #     #  #     # #             # #     # #       #          #
+        #     #  #     # #       #     # #     # #       #          #
+        #    ### #     # #######  #####  #     # ####### #######    #
 
         return a stream of worktype timesheets    
         """
@@ -311,7 +407,15 @@ class OdooServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def GetExpenses(self, request, context):
-        """EXPENSES
+        """
+        ####### #     # ######  ####### #     #  #####  #######  #####
+        #        #   #  #     # #       ##    # #     # #       #     #
+        #         # #   #     # #       # #   # #       #       #
+        #####      #    ######  #####   #  #  #  #####  #####    #####
+        #         # #   #       #       #   # #       # #             #
+        #        #   #  #       #       #    ## #     # #       #     #
+        ####### #     # #       ####### #     #  #####  #######  #####
+
         Return a stream of Expenses
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -335,6 +439,26 @@ class OdooServicer(object):
 
 def add_OdooServicer_to_server(servicer, server):
     rpc_method_handlers = {
+            'UpdateRequest': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateRequest,
+                    request_deserializer=odoo__pb2.RequestOdoo.FromString,
+                    response_serializer=weladee__pb2.Empty.SerializeToString,
+            ),
+            'GetRequests': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetRequests,
+                    request_deserializer=weladee__pb2.Empty.FromString,
+                    response_serializer=odoo__pb2.RequestOdoo.SerializeToString,
+            ),
+            'AddRequest': grpc.unary_unary_rpc_method_handler(
+                    servicer.AddRequest,
+                    request_deserializer=odoo__pb2.RequestOdoo.FromString,
+                    response_serializer=weladee__pb2.AddResult.SerializeToString,
+            ),
+            'GetApprovalTypes': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetApprovalTypes,
+                    request_deserializer=weladee__pb2.Empty.FromString,
+                    response_serializer=odoo__pb2.ApprovalTypeOdoo.SerializeToString,
+            ),
             'UpdateEmployee': grpc.unary_unary_rpc_method_handler(
                     servicer.UpdateEmployee,
                     request_deserializer=odoo__pb2.EmployeeOdoo.FromString,
@@ -472,6 +596,74 @@ class Odoo(object):
     List of available functions for Odoo only.
     Don't forget to authenticate yourself with metadata "authorization" with api_key
     """
+
+    @staticmethod
+    def UpdateRequest(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/grpc.weladee.com.Odoo/UpdateRequest',
+            odoo__pb2.RequestOdoo.SerializeToString,
+            weladee__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetRequests(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetRequests',
+            weladee__pb2.Empty.SerializeToString,
+            odoo__pb2.RequestOdoo.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def AddRequest(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/grpc.weladee.com.Odoo/AddRequest',
+            odoo__pb2.RequestOdoo.SerializeToString,
+            weladee__pb2.AddResult.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetApprovalTypes(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetApprovalTypes',
+            weladee__pb2.Empty.SerializeToString,
+            odoo__pb2.ApprovalTypeOdoo.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def UpdateEmployee(request,
