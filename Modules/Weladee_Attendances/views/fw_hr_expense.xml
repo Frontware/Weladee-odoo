@@ -52,5 +52,21 @@
             </xpath>
         </field>
         </record>
+
+        <record id="hr_expense.hr_expense_actions_my_unsubmitted" model="ir.actions.act_window">
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Run Attendances <span class="fa fa-arrow-right o_we_selected_image" style="font-size: 13px;"></span> Weladee synchronization to get your expense from weladee
+                </p>
+            </field>
+        </record>
+
+        <record id="hr_expense.hr_expense_actions_my_all" model="ir.actions.act_window">
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Run Attendances <span class="fa fa-arrow-right o_we_selected_image" style="font-size: 13px;"></span> Weladee synchronization to get your expense from weladee
+                </p>
+            </field>
+        </record>
     </data>
 </odoo>       

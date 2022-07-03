@@ -18,8 +18,8 @@ class weladee_project(models.Model):
     def create(self, vals):
         name_th = vals.get('name-th', '') 
         des_th = vals.get('description-th', '')
-        del vals['name-th']
-        del vals['description-th']
+        if 'name-th' in vals: del vals['name-th']
+        if 'description-th' in vals: del vals['description-th']
         ret = super(weladee_project, self).create(vals)
         irobj = self.env['ir.translation']
 
