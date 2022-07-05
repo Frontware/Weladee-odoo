@@ -46,3 +46,9 @@ class weladee_attendance_param():
           self.expense_obj = False
           self.expense_sheet_obj = False
           self.attach_obj = False
+
+          self.approvals_type_obj = False
+          self.approvals_approver_obj = False
+          self.approvals_request_obj = False
+
+          self.translation_obj = False

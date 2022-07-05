@@ -20,4 +20,7 @@ from . import weladee_job_ads
 from . import weladee_job_app
 from . import weladee_expense
 from . import weladee_expense_sheet
+from . import weladee_approvals_type
+from . import weladee_approvals_approver
+from . import weladee_approvals_request
 from . import weladee_settings

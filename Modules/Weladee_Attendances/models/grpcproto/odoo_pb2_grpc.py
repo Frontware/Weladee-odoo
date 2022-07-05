@@ -38,6 +38,11 @@ class OdooStub(object):
                 request_serializer=weladee__pb2.Empty.SerializeToString,
                 response_deserializer=odoo__pb2.ApprovalTypeOdoo.FromString,
                 )
+        self.AddApprovalType = channel.unary_unary(
+                '/grpc.weladee.com.Odoo/AddApprovalType',
+                request_serializer=odoo__pb2.ApprovalTypeOdoo.SerializeToString,
+                response_deserializer=weladee__pb2.AddResult.FromString,
+                )
         self.UpdateEmployee = channel.unary_unary(
                 '/grpc.weladee.com.Odoo/UpdateEmployee',
                 request_serializer=odoo__pb2.EmployeeOdoo.SerializeToString,
@@ -198,6 +203,12 @@ class OdooServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def GetApprovalTypes(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def AddApprovalType(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -459,6 +470,11 @@ def add_OdooServicer_to_server(servicer, server):
                     request_deserializer=weladee__pb2.Empty.FromString,
                     response_serializer=odoo__pb2.ApprovalTypeOdoo.SerializeToString,
             ),
+            'AddApprovalType': grpc.unary_unary_rpc_method_handler(
+                    servicer.AddApprovalType,
+                    request_deserializer=odoo__pb2.ApprovalTypeOdoo.FromString,
+                    response_serializer=weladee__pb2.AddResult.SerializeToString,
+            ),
             'UpdateEmployee': grpc.unary_unary_rpc_method_handler(
                     servicer.UpdateEmployee,
                     request_deserializer=odoo__pb2.EmployeeOdoo.FromString,
@@ -662,6 +678,23 @@ class Odoo(object):
         return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetApprovalTypes',
             weladee__pb2.Empty.SerializeToString,
             odoo__pb2.ApprovalTypeOdoo.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def AddApprovalType(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/grpc.weladee.com.Odoo/AddApprovalType',
+            odoo__pb2.ApprovalTypeOdoo.SerializeToString,
+            weladee__pb2.AddResult.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

@@ -29,6 +29,8 @@ from odoo.addons.Weladee_Attendances.models.sync.weladee_timesheet import sync_t
 from odoo.addons.Weladee_Attendances.models.sync.weladee_job_ads import sync_job_ads
 from odoo.addons.Weladee_Attendances.models.sync.weladee_job_applicant import sync_job_applicant
 from odoo.addons.Weladee_Attendances.models.sync.weladee_expense import sync_expense
+from odoo.addons.Weladee_Attendances.models.sync.weladee_approvals_type import sync_approvals_type
+from odoo.addons.Weladee_Attendances.models.sync.weladee_approvals_request import sync_approvals_request
 class weladee_attendance_working(models.TransientModel):
       _name="weladee_attendance.working"  
 
@@ -172,6 +174,23 @@ class weladee_attendance(models.TransientModel):
             req.expense_sheet_obj = self.env['hr.expense.sheet']
             req.attach_obj = self.env['ir.attachment']
             sync_expense(req)
+        
+        if not sync_has_error(req.context_sync):
+            sync_logdebug(req.context_sync,"Start sync...Approvals Types")
+            req.employee_obj = self.env['hr.employee']
+            req.approvals_type_obj = self.env['fw.approvals.type']
+            req.translation_obj = self.env['ir.translation']
+            sync_approvals_type(req)
+        
+        if not sync_has_error(req.context_sync):
+            sync_logdebug(req.context_sync,"Start sync...Approvals Requests")
+            req.employee_obj = self.env['hr.employee']
+            req.project_obj = self.env['project.project']
+            req.attach_obj = self.env['ir.attachment']
+            req.approvals_type_obj = self.env['fw.approvals.type']
+            req.approvals_approver_obj = self.env['fw.approvals.approver']
+            req.approvals_request_obj = self.env['fw.approvals.request']
+            sync_approvals_request(req)
 
         sync_loginfo(req.context_sync,'sending result to %s' % req.context_sync['request-email'])
         req.context_sync['request-elapse'] = str(datetime.today() - elapse_start)

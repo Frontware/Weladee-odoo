@@ -6,3 +6,5 @@ from . import weladee_department
 from . import weladee_employee
 from . import weladee_manager
 from . import weladee_log
+from . import weladee_approvals_type
+from . import weladee_approvals_request

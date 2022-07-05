@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+        <record id="fw_approvals_weladee_type" model="ir.ui.view">
+            <field name="name">fw_approvals_weladee_type</field>
+            <field name="model">fw.approvals.type</field>
+            <field name="inherit_id" ref="fw_approvals.fw_approvals_type_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/*[position() = 1]" position="before">
+                    <field name="weladee_id" invisible="1"/>
+                    <div class="oe_button_box">
+                        <button
+                            name="open_weladee_approvals_type"
+                            class="oe_stat_button"
+                            type="object"
+                            widget="url"
+                            attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}"
+                        >
+                            <div role="img" class="o_button_icon icon-weladee"/>
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Approval</span>
+                                <span class="o_stat_value">Type</span>
+                            </div>
+                        </button>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

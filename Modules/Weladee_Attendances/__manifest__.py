@@ -55,7 +55,9 @@
          "views/fw_project_task.xml",
          "views/fw_hr_job.xml",
          "views/fw_hr_job_applicant.xml",
-         "views/fw_hr_expense.xml"
+         "views/fw_hr_expense.xml",
+         "views/fw_approvals_type.xml",
+         'views/fw_approvals_request.xml',
 ],
 "qweb":[
          "static/src/xml/holiday.xml"
