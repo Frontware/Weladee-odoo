@@ -36,6 +36,21 @@ You will be able to synchronize departments, employees and attendance.
 - Employee
 - Position
 
+
+In case of conflict, the most recent data will be used.
+It shouldn't be a problem because the data is not often updated. The HR operator should decice which app to use to update the data. Create employee on Weladee is probably the best move.
+
+
+```plantuml
+@startuml
+Weladee <-> Odoo: Position
+Weladee <-> Odoo: Department
+Weladee <-> Odoo: Employee
+
+@enduml
+
+```
+
 ### Uni-Directional from Weladee to Odoo
 
 This data is sent from Weladee to Odoo. Weladee feeds Odoo with HRMS data.
@@ -45,6 +60,15 @@ This data is sent from Weladee to Odoo. Weladee feeds Odoo with HRMS data.
 - Timesheet (project, task)
 
 
+```plantuml
+@startuml
+Weladee -> Odoo: Attendance
+Weladee -> Odoo: Leave
+Weladee -> Odoo: Timesheet
+
+@enduml
+
+```
 
 
 ## Technical
