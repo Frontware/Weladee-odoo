@@ -85,7 +85,7 @@ Weladee is free to subscribe with 3 months trial period or even 100% free for co
 
 ## Sample Code for gRPC API
 
-It's ready for Odoo 11. gRPC code is compatible python 2 & 3.
+It's ready for Odoo 14. gRPC code is compatible python 3.
 
 ### Connect to server
 
