@@ -24,9 +24,28 @@ See how much lateness costs you with our simulation page: https://www.weladee.co
 
 [Odoo](https://www.odoo.co.th) module for Weladee
 
-This Odoo module create the link between Weladee and your Odoo 11.0 instance.
+This Odoo module create the link between Weladee and your Odoo 14.0 instance.
 
 You will be able to synchronize departments, employees and attendance.
+
+## What is synschronized
+
+### Bi-Directional between Odoo-Weladee / Weladee-Odoo
+
+- Department
+- Employee
+- Position
+
+### Uni-Directional from Weladee to Odoo
+
+This data is sent from Weladee to Odoo. Weladee feeds Odoo with HRMS data.
+
+- Attendance
+- Leave
+- Timesheet (project, task)
+
+
+
 
 ## Technical
 
@@ -113,4 +132,4 @@ Simple code parsing a stream of log events that need to be synchronized with Odo
 
 ![](https://img.shields.io/badge/Developed%20by%20-Frontware%20International-orange)
 --------------------------------------------------------------
-(c) 2021 [Frontware International Co,Ltd.](https://www.frontware.co.th)
+(c) 2022 [Frontware International Co,Ltd.](https://www.frontware.co.th)
