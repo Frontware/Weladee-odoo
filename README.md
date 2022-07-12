@@ -132,8 +132,4 @@ Simple code parsing a stream of log events that need to be synchronized with Odo
 
 ![](https://img.shields.io/badge/Developed%20by%20-Frontware%20International-orange)
 --------------------------------------------------------------
-<<<<<<< HEAD
 (c) 2022 [Frontware International Co,Ltd.](https://www.frontware.co.th)
-=======
-(c) 2022 [Frontware International Co,Ltd.](https://www.frontware.co.th)
->>>>>>> a5cd3810c1ab0d0eef4d28c48329f6812add833d
