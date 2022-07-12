@@ -41,15 +41,8 @@ In case of conflict, the most recent data will be used.
 It shouldn't be a problem because the data is not often updated. The HR operator should decice which app to use to update the data. Create employee on Weladee is probably the best move.
 
 
-```plantuml
-@startuml
-Weladee <-> Odoo: Position
-Weladee <-> Odoo: Department
-Weladee <-> Odoo: Employee
+![](https://www.plantuml.com/plantuml/svg/SoWkIImgAStDuGfFpKbCIKrLiD6rK_1FoS-tKWZ8ByuioSpFmoBbabe0r9QRcbU2HT8rjo0dlp8rbOlB8JKl1MWs0000)
 
-@enduml
-
-```
 
 ### Uni-Directional from Weladee to Odoo
 
@@ -59,16 +52,9 @@ This data is sent from Weladee to Odoo. Weladee feeds Odoo with HRMS data.
 - Leave
 - Timesheet (project, task)
 
+![](https://www.plantuml.com/plantuml/svg/SoWkIImgAStDuGfFpKbCIKrLqBLJy4_9pxTIS2mfISrBISnBJiMKyqbDBCCY79APcrgSaPfQmkK0r0eq5G00)
 
-```plantuml
-@startuml
-Weladee -> Odoo: Attendance
-Weladee -> Odoo: Leave
-Weladee -> Odoo: Timesheet
 
-@enduml
-
-```
 
 
 ## Technical
