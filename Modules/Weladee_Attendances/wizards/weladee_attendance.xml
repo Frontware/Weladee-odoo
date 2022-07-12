@@ -13,16 +13,16 @@
             <field name="model">weladee_attendance_form</field>
             <field name="arch" type="xml">
                <form string="Weladee Synchronization">
-                    <span colspan="4" class="o_form_label">List</span><br />
-                    <span colspan="4" class="o_form_label">   - Positions</span><br />
-                    <span colspan="4" class="o_form_label">   - Departments</span><br />
-                    <span colspan="4" class="o_form_label">   - Employees</span><br />
-                    <span colspan="4" class="o_form_label">   - Holidays</span><br />
-                    <span colspan="4" class="o_form_label">   - Attendance</span><br />
-                    <span colspan="4" class="o_form_label">   - Customers</span><br />
-                    <span colspan="4" class="o_form_label">   - Projects</span><br />
-                    <br />
-                    <br />
+                    <span colspan="4" class="o_form_label">List</span><br/>
+                    <span colspan="4" class="o_form_label">   - Positions</span><br/>
+                    <span colspan="4" class="o_form_label">   - Departments</span><br/>
+                    <span colspan="4" class="o_form_label">   - Employees</span><br/>
+                    <span colspan="4" class="o_form_label">   - Holidays</span><br/>
+                    <span colspan="4" class="o_form_label">   - Attendance</span><br/>
+                    <span colspan="4" class="o_form_label">   - Customers</span><br/>
+                    <span colspan="4" class="o_form_label">   - Projects</span><br/>
+                    <br/>
+                    <br/>
                     <span class="o_form_label">After synchronization, result will send to email address below</span>
                     <field name="email" readonly="1" />
                     <footer>

@@ -57,7 +57,7 @@
                             <label for="email"/>
                             <div>
                                 <field name="email" requird="1"/>
-                                <br />
+                                <br/>
                                 <span class="o_form_label">*Note: you can separate each email by ;</span>
                             </div>
                         </group>
