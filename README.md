@@ -26,16 +26,21 @@ See how much lateness costs you with our simulation page: https://www.weladee.co
 
 This Odoo module create the link between Weladee and your Odoo 14.0 instance.
 
-You will be able to synchronize departments, employees and attendance.
+You will be able to synchronize departments, employees and attendance. Import expenses, timesheet, leave, holidays, ... from Weladee to your Odoo instance.
 
 ## What is synschronized
 
 ### Bi-Directional between Odoo-Weladee / Weladee-Odoo
 
+The idea is to use Weladee a HRMS addon to Odoo. So mostof the data is collected in Weladee and then imported to Odoo.
+
+There are 3 exceptions:
+
 - Department
 - Employee
 - Position
 
+These 3 data can be sent to Weladee from Odoo and vice versa.
 
 In case of conflict, the most recent data will be used.
 It shouldn't be a problem because the data is not often updated. The HR operator should decice which app to use to update the data. Create employee on Weladee is probably the best move.
