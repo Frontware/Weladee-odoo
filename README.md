@@ -51,8 +51,10 @@ This data is sent from Weladee to Odoo. Weladee feeds Odoo with HRMS data.
 - Attendance
 - Leave
 - Timesheet (project, task)
+- Job classifieds (https://job.weladee.com)
+- Expenses
 
-![](https://www.plantuml.com/plantuml/svg/SoWkIImgAStDuGfFpKbCIKrLqBLJy4_9pxTIS2mfISrBISnBJiMKyqbDBCCY79APcrgSaPfQmkK0r0eq5G00)
+![](http://www.plantuml.com/plantuml/svg/SoWkIImgAStDuGfFpKbCIKrLqBLJy4_9pxTIS2mfISrBISnBJiMKyqbDBCCY79APcrgSaPfQWYdbbP-4AUXQKP2QLvnQpEK0j0de2000)
 
 
 
