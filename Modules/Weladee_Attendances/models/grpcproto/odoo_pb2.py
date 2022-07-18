@@ -18,10 +18,11 @@ from . import weladee_pb2 as weladee__pb2
 from . import timesheet_pb2 as timesheet__pb2
 from . import expense_pb2 as expense__pb2
 from . import approval_pb2 as approval__pb2
+from . import skill_pb2 as skill__pb2
 from . import job_pb2 as job__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nodoo.proto\x12\x10grpc.weladee.com\x1a\rweladee.proto\x1a\x0ftimesheet.proto\x1a\rexpense.proto\x1a\x0e\x61pproval.proto\x1a\tjob.proto\"5\n\x11\x41ttendanceRequest\x12\x0c\n\x04\x46rom\x18\x02 \x01(\x03\x12\x12\n\nEmployeeID\x18\x03 \x01(\x03\"_\n\x0bHolidayOdoo\x12*\n\x07Holiday\x18\x01 \x01(\x0b\x32\x19.grpc.weladee.com.Holiday\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"_\n\x0bProjectOdoo\x12*\n\x07Project\x18\x01 \x01(\x0b\x32\x19.grpc.weladee.com.Project\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"Y\n\tSheetOdoo\x12&\n\x05Sheet\x18\x01 \x01(\x0b\x32\x17.grpc.weladee.com.Sheet\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"Y\n\tStageOdoo\x12&\n\x05Stage\x18\x01 \x01(\x0b\x32\x17.grpc.weladee.com.Stage\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"V\n\x08TaskOdoo\x12$\n\x04Task\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.Task\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"b\n\x0cWorkTypeOdoo\x12,\n\x08WorkType\x18\x01 \x01(\x0b\x32\x1a.grpc.weladee.com.WorkType\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"b\n\x0c\x43ustomerOdoo\x12,\n\x08\x43ustomer\x18\x01 \x01(\x0b\x32\x1a.grpc.weladee.com.Customer\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"Y\n\tJobAdOdoo\x12&\n\x05JobAd\x18\x01 \x01(\x0b\x32\x17.grpc.weladee.com.JobAd\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"t\n\x12JobApplicationOdoo\x12\x38\n\x0eJobApplication\x18\x01 \x01(\x0b\x32 .grpc.weladee.com.JobApplication\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"_\n\x0b\x45xpenseOdoo\x12*\n\x07\x45xpense\x18\x01 \x01(\x0b\x32\x19.grpc.weladee.com.Expense\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"k\n\x0f\x45xpenseTypeOdoo\x12\x32\n\x0b\x45xpenseType\x18\x01 \x01(\x0b\x32\x1d.grpc.weladee.com.ExpenseType\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"V\n\x0cLogEventOdoo\x12,\n\x08logevent\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.LogEvent\x12\x18\n\x10\x65mployee_odoo_id\x18\x03 \x01(\x03\"S\n\x0bOdooRequest\x12\x10\n\x02ID\x18\x01 \x01(\x03H\x00R\x02id\x12\x1a\n\x07odoo_id\x18\x02 \x01(\x03H\x00R\x07odoo_id\x12\r\n\x05\x46orce\x18\x03 \x01(\x08\x42\x07\n\x05query\"\x87\x01\n\x0c\x45mployeeOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12,\n\x08\x65mployee\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.Employee\x12\r\n\x05\x42\x61\x64ge\x18\x03 \x01(\t\x12\x14\n\x0c\x44\x65partmentID\x18\x04 \x01(\x03\"_\n\x0bRequestOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12*\n\x07request\x18\x02 \x01(\x0b\x32\x19.grpc.weladee.com.Request\"n\n\x10\x41pprovalTypeOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12\x34\n\x0c\x41pprovaltype\x18\x02 \x01(\x0b\x32\x1e.grpc.weladee.com.ApprovalType\"v\n\x15HolidayAllocationOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12\x37\n\nallocation\x18\x02 \x01(\x0b\x32#.grpc.weladee.com.HolidayAllocation\"h\n\x0e\x44\x65partmentOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12\x30\n\ndepartment\x18\x02 \x01(\x0b\x32\x1c.grpc.weladee.com.Department\"r\n\x0cPositionOdoo\x12*\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odooR\x04odoo\x12\x36\n\x08position\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.PositionR\x08position\"\xaf\x01\n\x04odoo\x12\x18\n\x07odoo_id\x18\x01 \x01(\x03R\x07odoo_id\x12(\n\x0fodoo_created_on\x18\x02 \x01(\x03R\x0fodoo_created_on\x12&\n\x0eodoo_synced_on\x18\x03 \x01(\x03R\x0eodoo_synced_on\x12\x1c\n\todoo_note\x18\x04 \x01(\tR\todoo_note\x12\x1d\n\x07\x64\x65leted\x18\x05 \x01(\x08R\x0codoo_deleted2\x80\x12\n\x04Odoo\x12G\n\rUpdateRequest\x12\x1d.grpc.weladee.com.RequestOdoo\x1a\x17.grpc.weladee.com.Empty\x12G\n\x0bGetRequests\x12\x17.grpc.weladee.com.Empty\x1a\x1d.grpc.weladee.com.RequestOdoo0\x01\x12H\n\nAddRequest\x12\x1d.grpc.weladee.com.RequestOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12Q\n\x10GetApprovalTypes\x12\x17.grpc.weladee.com.Empty\x1a\".grpc.weladee.com.ApprovalTypeOdoo0\x01\x12R\n\x0f\x41\x64\x64\x41pprovalType\x12\".grpc.weladee.com.ApprovalTypeOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12I\n\x0eUpdateEmployee\x12\x1e.grpc.weladee.com.EmployeeOdoo\x1a\x17.grpc.weladee.com.Empty\x12O\n\x0cGetEmployees\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x1e.grpc.weladee.com.EmployeeOdoo0\x01\x12J\n\x0b\x41\x64\x64\x45mployee\x12\x1e.grpc.weladee.com.EmployeeOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12U\n\x13GetEmployeeHolidays\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x1d.grpc.weladee.com.HolidayOdoo0\x01\x12G\n\x0bGetHolidays\x12\x17.grpc.weladee.com.Empty\x1a\x1d.grpc.weladee.com.HolidayOdoo0\x01\x12H\n\nAddHoliday\x12\x1d.grpc.weladee.com.HolidayOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12\x45\n\x0b\x44ropHoliday\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x17.grpc.weladee.com.Empty\x12G\n\rUpdateHoliday\x12\x1d.grpc.weladee.com.HolidayOdoo\x1a\x17.grpc.weladee.com.Empty\x12S\n\x0eGetDepartments\x12\x1d.grpc.weladee.com.OdooRequest\x1a .grpc.weladee.com.DepartmentOdoo0\x01\x12N\n\rAddDepartment\x12 .grpc.weladee.com.DepartmentOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12M\n\x10UpdateDepartment\x12 .grpc.weladee.com.DepartmentOdoo\x1a\x17.grpc.weladee.com.Empty\x12Y\n\x10GetNewAttendance\x12#.grpc.weladee.com.AttendanceRequest\x1a\x1e.grpc.weladee.com.LogEventOdoo0\x01\x12I\n\x0cGetPositions\x12\x17.grpc.weladee.com.Empty\x1a\x1e.grpc.weladee.com.PositionOdoo0\x01\x12J\n\x0b\x41\x64\x64Position\x12\x1e.grpc.weladee.com.PositionOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12\x43\n\tGetJobAds\x12\x17.grpc.weladee.com.Empty\x1a\x1b.grpc.weladee.com.JobAdOdoo0\x01\x12U\n\x12GetJobApplications\x12\x17.grpc.weladee.com.Empty\x1a$.grpc.weladee.com.JobApplicationOdoo0\x01\x12I\n\x0cGetWorkTypes\x12\x17.grpc.weladee.com.Empty\x1a\x1e.grpc.weladee.com.WorkTypeOdoo0\x01\x12\x41\n\x08GetTasks\x12\x17.grpc.weladee.com.Empty\x1a\x1a.grpc.weladee.com.TaskOdoo0\x01\x12\x43\n\tGetStages\x12\x17.grpc.weladee.com.Empty\x1a\x1b.grpc.weladee.com.StageOdoo0\x01\x12G\n\x0bGetProjects\x12\x17.grpc.weladee.com.Empty\x1a\x1d.grpc.weladee.com.ProjectOdoo0\x01\x12I\n\x0cGetCustomers\x12\x17.grpc.weladee.com.Empty\x1a\x1e.grpc.weladee.com.CustomerOdoo0\x01\x12G\n\rGetTimeSheets\x12\x17.grpc.weladee.com.Empty\x1a\x1b.grpc.weladee.com.SheetOdoo0\x01\x12G\n\x0bGetExpenses\x12\x17.grpc.weladee.com.Empty\x1a\x1d.grpc.weladee.com.ExpenseOdoo0\x01\x12O\n\x0fGetExpenseTypes\x12\x17.grpc.weladee.com.Empty\x1a!.grpc.weladee.com.ExpenseTypeOdoo0\x01\x12G\n\rUpdateExpense\x12\x1d.grpc.weladee.com.ExpenseOdoo\x1a\x17.grpc.weladee.com.EmptyB0\n\x1a\x63om.frontware.weladee_odooB\x0bWeladeeGRPCH\x03P\x01\x90\x01\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nodoo.proto\x12\x10grpc.weladee.com\x1a\rweladee.proto\x1a\x0ftimesheet.proto\x1a\rexpense.proto\x1a\x0e\x61pproval.proto\x1a\x0bskill.proto\x1a\tjob.proto\"5\n\x11\x41ttendanceRequest\x12\x0c\n\x04\x46rom\x18\x02 \x01(\x03\x12\x12\n\nEmployeeID\x18\x03 \x01(\x03\"_\n\x0bHolidayOdoo\x12*\n\x07Holiday\x18\x01 \x01(\x0b\x32\x19.grpc.weladee.com.Holiday\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"_\n\x0bProjectOdoo\x12*\n\x07Project\x18\x01 \x01(\x0b\x32\x19.grpc.weladee.com.Project\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"Y\n\tSheetOdoo\x12&\n\x05Sheet\x18\x01 \x01(\x0b\x32\x17.grpc.weladee.com.Sheet\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"Y\n\tStageOdoo\x12&\n\x05Stage\x18\x01 \x01(\x0b\x32\x17.grpc.weladee.com.Stage\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"V\n\x08TaskOdoo\x12$\n\x04Task\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.Task\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"b\n\x0cWorkTypeOdoo\x12,\n\x08WorkType\x18\x01 \x01(\x0b\x32\x1a.grpc.weladee.com.WorkType\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"b\n\x0c\x43ustomerOdoo\x12,\n\x08\x43ustomer\x18\x01 \x01(\x0b\x32\x1a.grpc.weladee.com.Customer\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"Y\n\tJobAdOdoo\x12&\n\x05JobAd\x18\x01 \x01(\x0b\x32\x17.grpc.weladee.com.JobAd\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"t\n\x12JobApplicationOdoo\x12\x38\n\x0eJobApplication\x18\x01 \x01(\x0b\x32 .grpc.weladee.com.JobApplication\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"_\n\x0b\x45xpenseOdoo\x12*\n\x07\x45xpense\x18\x01 \x01(\x0b\x32\x19.grpc.weladee.com.Expense\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"k\n\x0f\x45xpenseTypeOdoo\x12\x32\n\x0b\x45xpenseType\x18\x01 \x01(\x0b\x32\x1d.grpc.weladee.com.ExpenseType\x12$\n\x04odoo\x18\x02 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\"V\n\x0cLogEventOdoo\x12,\n\x08logevent\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.LogEvent\x12\x18\n\x10\x65mployee_odoo_id\x18\x03 \x01(\x03\"S\n\x0bOdooRequest\x12\x10\n\x02ID\x18\x01 \x01(\x03H\x00R\x02id\x12\x1a\n\x07odoo_id\x18\x02 \x01(\x03H\x00R\x07odoo_id\x12\r\n\x05\x46orce\x18\x03 \x01(\x08\x42\x07\n\x05query\"\x87\x01\n\x0c\x45mployeeOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12,\n\x08\x65mployee\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.Employee\x12\r\n\x05\x42\x61\x64ge\x18\x03 \x01(\t\x12\x14\n\x0c\x44\x65partmentID\x18\x04 \x01(\x03\"_\n\x0bRequestOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12*\n\x07request\x18\x02 \x01(\x0b\x32\x19.grpc.weladee.com.Request\"n\n\x10\x41pprovalTypeOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12\x34\n\x0c\x41pprovaltype\x18\x02 \x01(\x0b\x32\x1e.grpc.weladee.com.ApprovalType\"e\n\rSkillTypeOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12.\n\tSkillType\x18\x02 \x01(\x0b\x32\x1b.grpc.weladee.com.SkillType\"h\n\x0eSkillLevelOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12\x30\n\nSkillLevel\x18\x02 \x01(\x0b\x32\x1c.grpc.weladee.com.SkillLevel\"Y\n\tSkillOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12&\n\x05Skill\x18\x02 \x01(\x0b\x32\x17.grpc.weladee.com.Skill\"q\n\x11SkillEmployeeOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12\x36\n\rEmployeeSkill\x18\x02 \x01(\x0b\x32\x1f.grpc.weladee.com.EmployeeSkill\"v\n\x15HolidayAllocationOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12\x37\n\nallocation\x18\x02 \x01(\x0b\x32#.grpc.weladee.com.HolidayAllocation\"h\n\x0e\x44\x65partmentOdoo\x12$\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odoo\x12\x30\n\ndepartment\x18\x02 \x01(\x0b\x32\x1c.grpc.weladee.com.Department\"r\n\x0cPositionOdoo\x12*\n\x04odoo\x18\x01 \x01(\x0b\x32\x16.grpc.weladee.com.odooR\x04odoo\x12\x36\n\x08position\x18\x02 \x01(\x0b\x32\x1a.grpc.weladee.com.PositionR\x08position\"\xaf\x01\n\x04odoo\x12\x18\n\x07odoo_id\x18\x01 \x01(\x03R\x07odoo_id\x12(\n\x0fodoo_created_on\x18\x02 \x01(\x03R\x0fodoo_created_on\x12&\n\x0eodoo_synced_on\x18\x03 \x01(\x03R\x0eodoo_synced_on\x12\x1c\n\todoo_note\x18\x04 \x01(\tR\todoo_note\x12\x1d\n\x07\x64\x65leted\x18\x05 \x01(\x08R\x0codoo_deleted2\xb6\x14\n\x04Odoo\x12G\n\rUpdateRequest\x12\x1d.grpc.weladee.com.RequestOdoo\x1a\x17.grpc.weladee.com.Empty\x12G\n\x0bGetRequests\x12\x17.grpc.weladee.com.Empty\x1a\x1d.grpc.weladee.com.RequestOdoo0\x01\x12H\n\nAddRequest\x12\x1d.grpc.weladee.com.RequestOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12Q\n\x10GetApprovalTypes\x12\x17.grpc.weladee.com.Empty\x1a\".grpc.weladee.com.ApprovalTypeOdoo0\x01\x12R\n\x0f\x41\x64\x64\x41pprovalType\x12\".grpc.weladee.com.ApprovalTypeOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12K\n\rGetSkillTypes\x12\x17.grpc.weladee.com.Empty\x1a\x1f.grpc.weladee.com.SkillTypeOdoo0\x01\x12M\n\x0eGetSkillLevels\x12\x17.grpc.weladee.com.Empty\x1a .grpc.weladee.com.SkillLevelOdoo0\x01\x12\x43\n\tGetSkills\x12\x17.grpc.weladee.com.Empty\x1a\x1b.grpc.weladee.com.SkillOdoo0\x01\x12S\n\x11GetSkillEmployees\x12\x17.grpc.weladee.com.Empty\x1a#.grpc.weladee.com.SkillEmployeeOdoo0\x01\x12I\n\x0eUpdateEmployee\x12\x1e.grpc.weladee.com.EmployeeOdoo\x1a\x17.grpc.weladee.com.Empty\x12O\n\x0cGetEmployees\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x1e.grpc.weladee.com.EmployeeOdoo0\x01\x12J\n\x0b\x41\x64\x64\x45mployee\x12\x1e.grpc.weladee.com.EmployeeOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12U\n\x13GetEmployeeHolidays\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x1d.grpc.weladee.com.HolidayOdoo0\x01\x12G\n\x0bGetHolidays\x12\x17.grpc.weladee.com.Empty\x1a\x1d.grpc.weladee.com.HolidayOdoo0\x01\x12H\n\nAddHoliday\x12\x1d.grpc.weladee.com.HolidayOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12\x45\n\x0b\x44ropHoliday\x12\x1d.grpc.weladee.com.OdooRequest\x1a\x17.grpc.weladee.com.Empty\x12G\n\rUpdateHoliday\x12\x1d.grpc.weladee.com.HolidayOdoo\x1a\x17.grpc.weladee.com.Empty\x12S\n\x0eGetDepartments\x12\x1d.grpc.weladee.com.OdooRequest\x1a .grpc.weladee.com.DepartmentOdoo0\x01\x12N\n\rAddDepartment\x12 .grpc.weladee.com.DepartmentOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12M\n\x10UpdateDepartment\x12 .grpc.weladee.com.DepartmentOdoo\x1a\x17.grpc.weladee.com.Empty\x12Y\n\x10GetNewAttendance\x12#.grpc.weladee.com.AttendanceRequest\x1a\x1e.grpc.weladee.com.LogEventOdoo0\x01\x12I\n\x0cGetPositions\x12\x17.grpc.weladee.com.Empty\x1a\x1e.grpc.weladee.com.PositionOdoo0\x01\x12J\n\x0b\x41\x64\x64Position\x12\x1e.grpc.weladee.com.PositionOdoo\x1a\x1b.grpc.weladee.com.AddResult\x12\x43\n\tGetJobAds\x12\x17.grpc.weladee.com.Empty\x1a\x1b.grpc.weladee.com.JobAdOdoo0\x01\x12U\n\x12GetJobApplications\x12\x17.grpc.weladee.com.Empty\x1a$.grpc.weladee.com.JobApplicationOdoo0\x01\x12I\n\x0cGetWorkTypes\x12\x17.grpc.weladee.com.Empty\x1a\x1e.grpc.weladee.com.WorkTypeOdoo0\x01\x12\x41\n\x08GetTasks\x12\x17.grpc.weladee.com.Empty\x1a\x1a.grpc.weladee.com.TaskOdoo0\x01\x12\x43\n\tGetStages\x12\x17.grpc.weladee.com.Empty\x1a\x1b.grpc.weladee.com.StageOdoo0\x01\x12G\n\x0bGetProjects\x12\x17.grpc.weladee.com.Empty\x1a\x1d.grpc.weladee.com.ProjectOdoo0\x01\x12I\n\x0cGetCustomers\x12\x17.grpc.weladee.com.Empty\x1a\x1e.grpc.weladee.com.CustomerOdoo0\x01\x12G\n\rGetTimeSheets\x12\x17.grpc.weladee.com.Empty\x1a\x1b.grpc.weladee.com.SheetOdoo0\x01\x12G\n\x0bGetExpenses\x12\x17.grpc.weladee.com.Empty\x1a\x1d.grpc.weladee.com.ExpenseOdoo0\x01\x12O\n\x0fGetExpenseTypes\x12\x17.grpc.weladee.com.Empty\x1a!.grpc.weladee.com.ExpenseTypeOdoo0\x01\x12G\n\rUpdateExpense\x12\x1d.grpc.weladee.com.ExpenseOdoo\x1a\x17.grpc.weladee.com.EmptyB0\n\x1a\x63om.frontware.weladee_odooB\x0bWeladeeGRPCH\x03P\x01\x90\x01\x01\x62\x06proto3')
 
 
 
@@ -42,6 +43,10 @@ _ODOOREQUEST = DESCRIPTOR.message_types_by_name['OdooRequest']
 _EMPLOYEEODOO = DESCRIPTOR.message_types_by_name['EmployeeOdoo']
 _REQUESTODOO = DESCRIPTOR.message_types_by_name['RequestOdoo']
 _APPROVALTYPEODOO = DESCRIPTOR.message_types_by_name['ApprovalTypeOdoo']
+_SKILLTYPEODOO = DESCRIPTOR.message_types_by_name['SkillTypeOdoo']
+_SKILLLEVELODOO = DESCRIPTOR.message_types_by_name['SkillLevelOdoo']
+_SKILLODOO = DESCRIPTOR.message_types_by_name['SkillOdoo']
+_SKILLEMPLOYEEODOO = DESCRIPTOR.message_types_by_name['SkillEmployeeOdoo']
 _HOLIDAYALLOCATIONODOO = DESCRIPTOR.message_types_by_name['HolidayAllocationOdoo']
 _DEPARTMENTODOO = DESCRIPTOR.message_types_by_name['DepartmentOdoo']
 _POSITIONODOO = DESCRIPTOR.message_types_by_name['PositionOdoo']
@@ -165,6 +170,34 @@ ApprovalTypeOdoo = _reflection.GeneratedProtocolMessageType('ApprovalTypeOdoo', 
   })
 _sym_db.RegisterMessage(ApprovalTypeOdoo)
 
+SkillTypeOdoo = _reflection.GeneratedProtocolMessageType('SkillTypeOdoo', (_message.Message,), {
+  'DESCRIPTOR' : _SKILLTYPEODOO,
+  '__module__' : 'odoo_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.weladee.com.SkillTypeOdoo)
+  })
+_sym_db.RegisterMessage(SkillTypeOdoo)
+
+SkillLevelOdoo = _reflection.GeneratedProtocolMessageType('SkillLevelOdoo', (_message.Message,), {
+  'DESCRIPTOR' : _SKILLLEVELODOO,
+  '__module__' : 'odoo_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.weladee.com.SkillLevelOdoo)
+  })
+_sym_db.RegisterMessage(SkillLevelOdoo)
+
+SkillOdoo = _reflection.GeneratedProtocolMessageType('SkillOdoo', (_message.Message,), {
+  'DESCRIPTOR' : _SKILLODOO,
+  '__module__' : 'odoo_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.weladee.com.SkillOdoo)
+  })
+_sym_db.RegisterMessage(SkillOdoo)
+
+SkillEmployeeOdoo = _reflection.GeneratedProtocolMessageType('SkillEmployeeOdoo', (_message.Message,), {
+  'DESCRIPTOR' : _SKILLEMPLOYEEODOO,
+  '__module__' : 'odoo_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.weladee.com.SkillEmployeeOdoo)
+  })
+_sym_db.RegisterMessage(SkillEmployeeOdoo)
+
 HolidayAllocationOdoo = _reflection.GeneratedProtocolMessageType('HolidayAllocationOdoo', (_message.Message,), {
   'DESCRIPTOR' : _HOLIDAYALLOCATIONODOO,
   '__module__' : 'odoo_pb2'
@@ -198,50 +231,58 @@ if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
   DESCRIPTOR._serialized_options = b'\n\032com.frontware.weladee_odooB\013WeladeeGRPCH\003P\001\220\001\001'
-  _ATTENDANCEREQUEST._serialized_start=106
-  _ATTENDANCEREQUEST._serialized_end=159
-  _HOLIDAYODOO._serialized_start=161
-  _HOLIDAYODOO._serialized_end=256
-  _PROJECTODOO._serialized_start=258
-  _PROJECTODOO._serialized_end=353
-  _SHEETODOO._serialized_start=355
-  _SHEETODOO._serialized_end=444
-  _STAGEODOO._serialized_start=446
-  _STAGEODOO._serialized_end=535
-  _TASKODOO._serialized_start=537
-  _TASKODOO._serialized_end=623
-  _WORKTYPEODOO._serialized_start=625
-  _WORKTYPEODOO._serialized_end=723
-  _CUSTOMERODOO._serialized_start=725
-  _CUSTOMERODOO._serialized_end=823
-  _JOBADODOO._serialized_start=825
-  _JOBADODOO._serialized_end=914
-  _JOBAPPLICATIONODOO._serialized_start=916
-  _JOBAPPLICATIONODOO._serialized_end=1032
-  _EXPENSEODOO._serialized_start=1034
-  _EXPENSEODOO._serialized_end=1129
-  _EXPENSETYPEODOO._serialized_start=1131
-  _EXPENSETYPEODOO._serialized_end=1238
-  _LOGEVENTODOO._serialized_start=1240
-  _LOGEVENTODOO._serialized_end=1326
-  _ODOOREQUEST._serialized_start=1328
-  _ODOOREQUEST._serialized_end=1411
-  _EMPLOYEEODOO._serialized_start=1414
-  _EMPLOYEEODOO._serialized_end=1549
-  _REQUESTODOO._serialized_start=1551
-  _REQUESTODOO._serialized_end=1646
-  _APPROVALTYPEODOO._serialized_start=1648
-  _APPROVALTYPEODOO._serialized_end=1758
-  _HOLIDAYALLOCATIONODOO._serialized_start=1760
-  _HOLIDAYALLOCATIONODOO._serialized_end=1878
-  _DEPARTMENTODOO._serialized_start=1880
-  _DEPARTMENTODOO._serialized_end=1984
-  _POSITIONODOO._serialized_start=1986
-  _POSITIONODOO._serialized_end=2100
-  _ODOO._serialized_start=2103
-  _ODOO._serialized_end=2278
-  _ODOO._serialized_start=2281
-  _ODOO._serialized_end=4585
+  _ATTENDANCEREQUEST._serialized_start=119
+  _ATTENDANCEREQUEST._serialized_end=172
+  _HOLIDAYODOO._serialized_start=174
+  _HOLIDAYODOO._serialized_end=269
+  _PROJECTODOO._serialized_start=271
+  _PROJECTODOO._serialized_end=366
+  _SHEETODOO._serialized_start=368
+  _SHEETODOO._serialized_end=457
+  _STAGEODOO._serialized_start=459
+  _STAGEODOO._serialized_end=548
+  _TASKODOO._serialized_start=550
+  _TASKODOO._serialized_end=636
+  _WORKTYPEODOO._serialized_start=638
+  _WORKTYPEODOO._serialized_end=736
+  _CUSTOMERODOO._serialized_start=738
+  _CUSTOMERODOO._serialized_end=836
+  _JOBADODOO._serialized_start=838
+  _JOBADODOO._serialized_end=927
+  _JOBAPPLICATIONODOO._serialized_start=929
+  _JOBAPPLICATIONODOO._serialized_end=1045
+  _EXPENSEODOO._serialized_start=1047
+  _EXPENSEODOO._serialized_end=1142
+  _EXPENSETYPEODOO._serialized_start=1144
+  _EXPENSETYPEODOO._serialized_end=1251
+  _LOGEVENTODOO._serialized_start=1253
+  _LOGEVENTODOO._serialized_end=1339
+  _ODOOREQUEST._serialized_start=1341
+  _ODOOREQUEST._serialized_end=1424
+  _EMPLOYEEODOO._serialized_start=1427
+  _EMPLOYEEODOO._serialized_end=1562
+  _REQUESTODOO._serialized_start=1564
+  _REQUESTODOO._serialized_end=1659
+  _APPROVALTYPEODOO._serialized_start=1661
+  _APPROVALTYPEODOO._serialized_end=1771
+  _SKILLTYPEODOO._serialized_start=1773
+  _SKILLTYPEODOO._serialized_end=1874
+  _SKILLLEVELODOO._serialized_start=1876
+  _SKILLLEVELODOO._serialized_end=1980
+  _SKILLODOO._serialized_start=1982
+  _SKILLODOO._serialized_end=2071
+  _SKILLEMPLOYEEODOO._serialized_start=2073
+  _SKILLEMPLOYEEODOO._serialized_end=2186
+  _HOLIDAYALLOCATIONODOO._serialized_start=2188
+  _HOLIDAYALLOCATIONODOO._serialized_end=2306
+  _DEPARTMENTODOO._serialized_start=2308
+  _DEPARTMENTODOO._serialized_end=2412
+  _POSITIONODOO._serialized_start=2414
+  _POSITIONODOO._serialized_end=2528
+  _ODOO._serialized_start=2531
+  _ODOO._serialized_end=2706
+  _ODOO._serialized_start=2709
+  _ODOO._serialized_end=5323
 Odoo = service_reflection.GeneratedServiceType('Odoo', (_service.Service,), dict(
   DESCRIPTOR = _ODOO,
   __module__ = 'odoo_pb2'

@@ -29,7 +29,8 @@
              'hr_holidays', 
              'hr_timesheet', 
              'hr_recruitment', 
-             'hr_expense','fw_approvals'],
+             'hr_expense',
+             'hr_skills','fw_approvals'],
 "data" :["security/security.xml",
          "security/ir.model.access.csv",   
 
@@ -49,6 +50,7 @@
          "views/fw_hr_leave.xml",
          "views/weladee_company_holiday.xml",
          "views/fw_hr_employee.xml",
+         "views/fw_hr_skill.xml",
          "views/fw_user_profile.xml",
          "views/fw_res_partner.xml",
          "views/fw_project_project.xml",

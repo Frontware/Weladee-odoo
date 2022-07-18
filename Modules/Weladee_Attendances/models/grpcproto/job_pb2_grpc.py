@@ -2,8 +2,8 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import job_pb2 as job__pb2
-import weladee_pb2 as weladee__pb2
+from . import job_pb2 as job__pb2
+from . import weladee_pb2 as weladee__pb2
 
 
 class JobStub(object):

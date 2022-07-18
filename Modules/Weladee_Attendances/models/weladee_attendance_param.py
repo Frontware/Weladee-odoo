@@ -20,6 +20,11 @@ class weladee_attendance_param():
           self.employee_odoo_weladee_ids = {}
           self.period_settings = False
 
+          self.skill_type_obj = False
+          self.skill_level_obj = False
+          self.skill_obj = False
+          self.skill_employee_obj = False
+
           self.leave_obj = False  
           self.company_holiday_obj = False
 

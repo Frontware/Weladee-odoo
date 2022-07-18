@@ -8,6 +8,9 @@ from . import weladee_attendance_sync
 from . import weladee_attendance
 from . import weladee_department
 from . import weladee_employee
+from . import weladee_skill_type
+from . import weladee_skill_level
+from . import weladee_skill
 from . import weladee_holiday_status
 from . import weladee_holidays
 from . import weladee_position

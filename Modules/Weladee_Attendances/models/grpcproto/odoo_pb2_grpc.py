@@ -43,6 +43,26 @@ class OdooStub(object):
                 request_serializer=odoo__pb2.ApprovalTypeOdoo.SerializeToString,
                 response_deserializer=weladee__pb2.AddResult.FromString,
                 )
+        self.GetSkillTypes = channel.unary_stream(
+                '/grpc.weladee.com.Odoo/GetSkillTypes',
+                request_serializer=weladee__pb2.Empty.SerializeToString,
+                response_deserializer=odoo__pb2.SkillTypeOdoo.FromString,
+                )
+        self.GetSkillLevels = channel.unary_stream(
+                '/grpc.weladee.com.Odoo/GetSkillLevels',
+                request_serializer=weladee__pb2.Empty.SerializeToString,
+                response_deserializer=odoo__pb2.SkillLevelOdoo.FromString,
+                )
+        self.GetSkills = channel.unary_stream(
+                '/grpc.weladee.com.Odoo/GetSkills',
+                request_serializer=weladee__pb2.Empty.SerializeToString,
+                response_deserializer=odoo__pb2.SkillOdoo.FromString,
+                )
+        self.GetSkillEmployees = channel.unary_stream(
+                '/grpc.weladee.com.Odoo/GetSkillEmployees',
+                request_serializer=weladee__pb2.Empty.SerializeToString,
+                response_deserializer=odoo__pb2.SkillEmployeeOdoo.FromString,
+                )
         self.UpdateEmployee = channel.unary_unary(
                 '/grpc.weladee.com.Odoo/UpdateEmployee',
                 request_serializer=odoo__pb2.EmployeeOdoo.SerializeToString,
@@ -210,6 +230,34 @@ class OdooServicer(object):
 
     def AddApprovalType(self, request, context):
         """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetSkillTypes(self, request, context):
+        """Return all skill types
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetSkillLevels(self, request, context):
+        """Level
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetSkills(self, request, context):
+        """Return all skills
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetSkillEmployees(self, request, context):
+        """Return all skills by employee
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -475,6 +523,26 @@ def add_OdooServicer_to_server(servicer, server):
                     request_deserializer=odoo__pb2.ApprovalTypeOdoo.FromString,
                     response_serializer=weladee__pb2.AddResult.SerializeToString,
             ),
+            'GetSkillTypes': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetSkillTypes,
+                    request_deserializer=weladee__pb2.Empty.FromString,
+                    response_serializer=odoo__pb2.SkillTypeOdoo.SerializeToString,
+            ),
+            'GetSkillLevels': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetSkillLevels,
+                    request_deserializer=weladee__pb2.Empty.FromString,
+                    response_serializer=odoo__pb2.SkillLevelOdoo.SerializeToString,
+            ),
+            'GetSkills': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetSkills,
+                    request_deserializer=weladee__pb2.Empty.FromString,
+                    response_serializer=odoo__pb2.SkillOdoo.SerializeToString,
+            ),
+            'GetSkillEmployees': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetSkillEmployees,
+                    request_deserializer=weladee__pb2.Empty.FromString,
+                    response_serializer=odoo__pb2.SkillEmployeeOdoo.SerializeToString,
+            ),
             'UpdateEmployee': grpc.unary_unary_rpc_method_handler(
                     servicer.UpdateEmployee,
                     request_deserializer=odoo__pb2.EmployeeOdoo.FromString,
@@ -695,6 +763,74 @@ class Odoo(object):
         return grpc.experimental.unary_unary(request, target, '/grpc.weladee.com.Odoo/AddApprovalType',
             odoo__pb2.ApprovalTypeOdoo.SerializeToString,
             weladee__pb2.AddResult.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetSkillTypes(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetSkillTypes',
+            weladee__pb2.Empty.SerializeToString,
+            odoo__pb2.SkillTypeOdoo.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetSkillLevels(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetSkillLevels',
+            weladee__pb2.Empty.SerializeToString,
+            odoo__pb2.SkillLevelOdoo.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetSkills(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetSkills',
+            weladee__pb2.Empty.SerializeToString,
+            odoo__pb2.SkillOdoo.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetSkillEmployees(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetSkillEmployees',
+            weladee__pb2.Empty.SerializeToString,
+            odoo__pb2.SkillEmployeeOdoo.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

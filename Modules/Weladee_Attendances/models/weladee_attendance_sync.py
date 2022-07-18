@@ -19,6 +19,7 @@ from odoo.addons.Weladee_Attendances.models.sync.weladee_position import sync_po
 from odoo.addons.Weladee_Attendances.models.sync.weladee_department import sync_department_data, sync_department
 from odoo.addons.Weladee_Attendances.models.sync.weladee_employee import sync_employee_data, sync_employee
 from odoo.addons.Weladee_Attendances.models.sync.weladee_manager import sync_manager_dep,sync_manager_emp
+from odoo.addons.Weladee_Attendances.models.sync.weladee_skill import sync_skill
 from odoo.addons.Weladee_Attendances.models.sync.weladee_log import sync_log
 from odoo.addons.Weladee_Attendances.models.sync.weladee_holiday import sync_holiday
 from odoo.addons.Weladee_Attendances.models.sync.weladee_customer import sync_customer
@@ -113,6 +114,16 @@ class weladee_attendance(models.TransientModel):
 
             sync_manager_dep(req)
             sync_manager_emp(req)
+        
+        if not sync_has_error(req.context_sync):
+            sync_logdebug(req.context_sync, "Start sync...Skill")
+
+            req.skill_type_obj = self.env['hr.skill.type']
+            req.skill_level_obj = self.env['hr.skill.level']
+            req.skill_obj = self.env['hr.skill']
+            req.skill_employee_obj = self.env['hr.employee.skill']
+            req.translation_obj = self.env['ir.translation']
+            sync_skill(req)
         
         odoo_weladee_ids = {}
         if not sync_has_error(req.context_sync):
