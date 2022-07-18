@@ -190,7 +190,7 @@ def sync_approvals_type(req):
                         sync_stat_error(req.context_sync['stat-approvals-type'], 1)
                 except Exception as e:
                     print(traceback.format_exc())
-                    sync_logerror(req.context, 'Add appoval type %s failed : %s' % (weladee_approvals_type, e))
+                    sync_logerror(req.context_sync, 'Add appoval type %s failed : %s' % (weladee_approvals_type, e))
                     sync_stat_error(req.context_sync['stat-approvals-type'], 1)
             elif odoo_approvals_type and odoo_approvals_type['res-mode'] == 'update' and 'res-id' in odoo_approvals_type:
                 odoo_id = req.approvals_type_obj.search([("id","=",odoo_approvals_type['res-id']),'|',('active','=',False),('active','=',True)], limit=1)

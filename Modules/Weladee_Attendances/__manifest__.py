@@ -29,7 +29,7 @@
              'hr_holidays', 
              'hr_timesheet', 
              'hr_recruitment', 
-             'hr_expense'],
+             'hr_expense','fw_approvals'],
 "data" :["security/security.xml",
          "security/ir.model.access.csv",   
 
