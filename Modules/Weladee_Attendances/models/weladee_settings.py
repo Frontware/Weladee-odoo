@@ -212,7 +212,7 @@ class weladee_settings(models.TransientModel):
     tz = fields.Selection(_tz_get, string='Timezone', default=_get_tz,required=True)    
     expense_product_id = fields.Many2one("product.product", String="Expense product",required=True,default=_get_expense_product )
 
-    account_analytic = fields.Many2one('account.analytic.line', string="Account Analytic", required=True, default=_get_account_analytic)
+    account_analytic_id = fields.Many2one('account.analytic.account', string="Account Analytic", required=True, default=_get_account_analytic)
 
     def _save_setting(self, pool, key, value):
         line_ids = pool.search([('key','=',key)])
@@ -244,4 +244,4 @@ class weladee_settings(models.TransientModel):
         
         self._save_setting(config_pool, CONST_SETTING_EXPENSE_PRODUCT_ID, self.expense_product_id.id)
 
-        self._save_setting(config_pool, CONST_SETTING_TIMESHEET_ACCOUNT_ANALYTIC_ID, self.account_analytic.id)
+        self._save_setting(config_pool, CONST_SETTING_TIMESHEET_ACCOUNT_ANALYTIC_ID, self.account_analytic_id.id)

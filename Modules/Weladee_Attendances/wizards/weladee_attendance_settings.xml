@@ -70,7 +70,7 @@
                     </page>
                     <page string="Timesheet">
                         <group>
-                            <field name="account_analytic"/>
+                            <field name="account_analytic_id"/>
                         </group>
                     </page>
                     <page string="Job"></page>
