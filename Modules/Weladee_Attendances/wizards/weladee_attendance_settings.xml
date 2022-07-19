@@ -68,6 +68,14 @@
                             </div>
                         </group>
                     </page>
+                    <page string="Timesheet">
+                        <group>
+                            <field name="account_analytic"/>
+                        </group>
+                    </page>
+                    <page string="Job"></page>
+                    <page string="Skill"></page>
+                    <page string="Approval"></page>
                 </notebook>
                 <footer>
                     <button icon="fa-close" special="cancel" string="Close"/>

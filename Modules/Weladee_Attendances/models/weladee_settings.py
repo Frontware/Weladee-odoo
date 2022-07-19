@@ -18,6 +18,8 @@ CONST_SETTING_HOLIDAY_STATUS_ID = 'weladee-holiday_status_id'
 CONST_SETTING_SICK_STATUS_ID = 'weladee-sick_status_id'
 
 CONST_SETTING_EXPENSE_PRODUCT_ID = 'weladee-expense_product_id'
+
+CONST_SETTING_TIMESHEET_ACCOUNT_ANALYTIC_ID = 'weladee-timesheet_account_analytic_id'
 class wiz_setting():
     def __init__(self):
         self.authorization = False
@@ -26,44 +28,50 @@ class wiz_setting():
         self.sick_status_id = False
         self.tz = False
         self.expense_product_id = False
+        self.account_analytic_id = False
 
 def get_api_key(self):
-  '''
-  get api key from settings
-  return authorization, holiday_status_id, api_db
+    '''
+    get api key from settings
+    return authorization, holiday_status_id, api_db
 
-  '''
-  line_ids = self.env['ir.config_parameter'].search([('key','like','weladee-%')])
-  ret = wiz_setting()  
-  for dataSet in line_ids:
-      if dataSet.key == CONST_SETTING_APIKEY :
-          ret.authorization = [("authorization", dataSet.value)]
-      elif dataSet.key == CONST_SETTING_HOLIDAY_STATUS_ID:
-          try:
-            ret.holiday_status_id = int(float(dataSet.value))
-          except:
-            pass  
-      elif dataSet.key == CONST_SETTING_SICK_STATUS_ID:
-          try:
-            ret.sick_status_id = int(float(dataSet.value))
-          except:
-            pass  
-      elif dataSet.key == CONST_SETTING_APIDB:
-          ret.api_db = dataSet.value   
-          if ret.api_db != self.env.cr.dbname:
-             ret.authorization = False
-             ret.holiday_status_id = False
-             ret.sick_status_id = False 
-             ret.tz = False 
-      elif dataSet.key == CONST_SETTING_HOLIDAY_TIMEZONE :
-          ret.tz = dataSet.value
-      elif dataSet.key == CONST_SETTING_EXPENSE_PRODUCT_ID:
-          try:
-            ret.expense_product_id = int(float(dataSet.value))
-          except:
-            pass  
+    '''
+    line_ids = self.env['ir.config_parameter'].search([('key','like','weladee-%')])
+    ret = wiz_setting()  
+    for dataSet in line_ids:
+        if dataSet.key == CONST_SETTING_APIKEY :
+            ret.authorization = [("authorization", dataSet.value)]
+        elif dataSet.key == CONST_SETTING_HOLIDAY_STATUS_ID:
+            try:
+                ret.holiday_status_id = int(float(dataSet.value))
+            except:
+                pass  
+        elif dataSet.key == CONST_SETTING_SICK_STATUS_ID:
+            try:
+                ret.sick_status_id = int(float(dataSet.value))
+            except:
+                pass  
+        elif dataSet.key == CONST_SETTING_APIDB:
+            ret.api_db = dataSet.value   
+            if ret.api_db != self.env.cr.dbname:
+                ret.authorization = False
+                ret.holiday_status_id = False
+                ret.sick_status_id = False 
+                ret.tz = False 
+        elif dataSet.key == CONST_SETTING_HOLIDAY_TIMEZONE :
+            ret.tz = dataSet.value
+        elif dataSet.key == CONST_SETTING_EXPENSE_PRODUCT_ID:
+            try:
+                ret.expense_product_id = int(float(dataSet.value))
+            except:
+                pass
+        elif dataSet.key == CONST_SETTING_TIMESHEET_ACCOUNT_ANALYTIC_ID:
+            try:
+                ret.account_analytic_id = int(dataSet.value)
+            except:
+                pass
 
-  return ret
+    return ret
 
 def get_synchronous_period(self):
     '''
@@ -180,6 +188,11 @@ class weladee_settings(models.TransientModel):
         ret = get_api_key(self)
 
         return ret.expense_product_id
+    
+    def _get_account_analytic(self):
+        ret = get_api_key(self)
+
+        return ret.account_analytic_id
 
     holiday_status_id = fields.Many2one("hr.leave.type", String="Default Leave Type",required=True,default=_get_holiday_status )
     sick_status_id = fields.Many2one("hr.leave.type", String="Sick leave Type",default=_get_sick_status )
@@ -198,6 +211,8 @@ class weladee_settings(models.TransientModel):
                                    ('all','All')],string='Since',default=_get_log_period,required=True)
     tz = fields.Selection(_tz_get, string='Timezone', default=_get_tz,required=True)    
     expense_product_id = fields.Many2one("product.product", String="Expense product",required=True,default=_get_expense_product )
+
+    account_analytic = fields.Many2one('account.analytic.line', string="Account Analytic", required=True, default=_get_account_analytic)
 
     def _save_setting(self, pool, key, value):
         line_ids = pool.search([('key','=',key)])
@@ -228,3 +243,5 @@ class weladee_settings(models.TransientModel):
         self._save_setting(config_pool, CONST_SETTING_HOLIDAY_NOTICE_EMAIL, self.holiday_notify_leave_req_email)
         
         self._save_setting(config_pool, CONST_SETTING_EXPENSE_PRODUCT_ID, self.expense_product_id.id)
+
+        self._save_setting(config_pool, CONST_SETTING_TIMESHEET_ACCOUNT_ANALYTIC_ID, self.account_analytic.id)
