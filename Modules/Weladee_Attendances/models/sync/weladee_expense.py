@@ -83,7 +83,7 @@ def sync_expense(req):
                         'name': newid.name,
                         'employee_id': newid.employee_id.id,
                         'expense_line_ids': [(6,0,[newid.id])],
-                        'state': 'submit'
+                        'state': 'approve'
                     })
 
                 else:
@@ -95,6 +95,7 @@ def sync_expense(req):
                 odoo_id = req.expense_obj.browse(odoo_expense['res-id'])
                 if odoo_id.id:
                    odoo_id.write(sync_clean_up(odoo_expense))
+                   if odoo_id.sheet_id: odoo_id.sheet_id.write({'state':'approve'}) 
                    sync_logdebug(req.context_sync, "Updated expense '%s' to odoo" % odoo_expense['name'] )
                    sync_stat_update(req.context_sync['stat-expense'], 1)
                 else:
