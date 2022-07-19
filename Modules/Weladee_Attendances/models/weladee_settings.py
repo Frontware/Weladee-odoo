@@ -14,12 +14,26 @@ CONST_SETTING_HOLIDAY_NOTICE = 'weladee-holiday-notify'
 CONST_SETTING_HOLIDAY_NOTICE_EMAIL = 'weladee-holiday-notify-email'
 CONST_SETTING_HOLIDAY_TIMEZONE = 'weladee-holiday-timezone'
 CONST_SETTING_HOLIDAY_STATUS_ID = 'weladee-holiday_status_id'
+CONST_SETTING_HOLIDAY_PERIOD = 'weladee-holiday_period'
+CONST_SETTING_HOLIDAY_PERIOD_UNIT = 'weladee-holiday_period_unit'
 
 CONST_SETTING_SICK_STATUS_ID = 'weladee-sick_status_id'
 
 CONST_SETTING_EXPENSE_PRODUCT_ID = 'weladee-expense_product_id'
 
 CONST_SETTING_TIMESHEET_ACCOUNT_ANALYTIC_ID = 'weladee-timesheet_account_analytic_id'
+
+CONST_SETTING_SYNC_EMPLOYEE = 'weladee-sync-employee'
+CONST_SETTING_SYNC_POSITION = 'weladee-sync-position'
+CONST_SETTING_SYNC_DEPARTMENT = 'weladee-sync-department'
+CONST_SETTING_SYNC_CUSTOMER = 'weladee-sync-customer'
+CONST_SETTING_SYNC_ATTENDANCE = 'weladee-sync-attendance'
+CONST_SETTING_SYNC_HOLIDAY = 'weladee-sync-holiday'
+CONST_SETTING_SYNC_EXPENSE = 'weladee-sync-expense'
+CONST_SETTING_SYNC_TIMESHEET = 'weladee-sync-timesheet'
+CONST_SETTING_SYNC_JOB = 'weladee-sync-job'
+CONST_SETTING_SYNC_SKILL = 'weladee-sync-skill'
+CONST_SETTING_SYNC_APPROVAL = 'weladee-sync-approval'
 class wiz_setting():
     def __init__(self):
         self.authorization = False
@@ -29,6 +43,18 @@ class wiz_setting():
         self.tz = False
         self.expense_product_id = False
         self.account_analytic_id = False
+
+        self.sync_employee = False
+        self.sync_position = False
+        self.sync_department = False
+        self.sync_customer = False
+        self.sync_attendance = False
+        self.sync_holiday = False
+        self.sync_expense = False
+        self.sync_timesheet = False
+        self.sync_job = False
+        self.sync_skill = False
+        self.sync_approval = False
 
 def get_api_key(self):
     '''
@@ -70,6 +96,28 @@ def get_api_key(self):
                 ret.account_analytic_id = int(dataSet.value)
             except:
                 pass
+        elif dataSet.key == CONST_SETTING_SYNC_EMPLOYEE:
+            ret.sync_employee = dataSet.value
+        elif dataSet.key == CONST_SETTING_SYNC_POSITION:
+            ret.sync_position = dataSet.value
+        elif dataSet.key == CONST_SETTING_SYNC_DEPARTMENT:
+            ret.sync_department = dataSet.value
+        elif dataSet.key == CONST_SETTING_SYNC_CUSTOMER:
+            ret.sync_customer = dataSet.value
+        elif dataSet.key == CONST_SETTING_SYNC_ATTENDANCE:
+            ret.sync_attendance = dataSet.value
+        elif dataSet.key == CONST_SETTING_SYNC_HOLIDAY:
+            ret.sync_holiday = dataSet.value
+        elif dataSet.key == CONST_SETTING_SYNC_EXPENSE:
+            ret.sync_expense = dataSet.value
+        elif dataSet.key == CONST_SETTING_SYNC_TIMESHEET:
+            ret.sync_timesheet = dataSet.value
+        elif dataSet.key == CONST_SETTING_SYNC_JOB:
+            ret.sync_job = dataSet.value
+        elif dataSet.key == CONST_SETTING_SYNC_SKILL:
+            ret.sync_skill = dataSet.value
+        elif dataSet.key == CONST_SETTING_SYNC_APPROVAL:
+            ret.sync_approval = dataSet.value
 
     return ret
 
@@ -134,6 +182,82 @@ def get_holiday_notify_email(self):
         self.env['ir.config_parameter'].create({'key':CONST_SETTING_HOLIDAY_NOTICE_EMAIL,'value':''}) 
         return ""
 
+def get_holiday_period(self):
+    '''
+    get synchronous log period
+    '''
+    rets = {'period':'w','unit':'1'}
+    config_pool = self.env['ir.config_parameter']
+    ret = config_pool.search([('key','=',CONST_SETTING_HOLIDAY_PERIOD)])
+    if ret:
+       rets['period'] = ret.value
+    else:
+        config_pool.create({'key':CONST_SETTING_HOLIDAY_PERIOD,'value':'w'})
+
+    ret = config_pool.search([('key','=',CONST_SETTING_HOLIDAY_PERIOD_UNIT)])
+    if ret:
+       rets['unit'] = ret.value
+    else:
+        config_pool.create({'key':CONST_SETTING_HOLIDAY_PERIOD_UNIT,'value':'1'})
+
+    return rets
+
+def get_synchronous_attendance(self):
+    '''
+    get synchronous attendance setting
+    '''
+    ret = self.env['ir.config_parameter'].search([('key','=',CONST_SETTING_SYNC_ATTENDANCE)])
+    if ret:
+        return ret.value == 'Y'
+
+def get_synchronous_holiday(self):
+    '''
+    get synchronous holiday setting
+    '''
+    ret = self.env['ir.config_parameter'].search([('key','=',CONST_SETTING_SYNC_HOLIDAY)])
+    if ret:
+        return ret.value == 'Y'
+
+def get_synchronous_expense(self):
+    '''
+    get synchronous expense setting
+    '''
+    ret = self.env['ir.config_parameter'].search([('key','=',CONST_SETTING_SYNC_EXPENSE)])
+    if ret:
+        return ret.value == 'Y'
+
+def get_synchronous_timesheet(self):
+    '''
+    get synchronous timesheet setting
+    '''
+    ret = self.env['ir.config_parameter'].search([('key','=',CONST_SETTING_SYNC_TIMESHEET)])
+    if ret:
+        return ret.value == 'Y'
+
+def get_synchronous_job(self):
+    '''
+    get synchronous job setting
+    '''
+    ret = self.env['ir.config_parameter'].search([('key','=',CONST_SETTING_SYNC_JOB)])
+    if ret:
+        return ret.value == 'Y'
+
+def get_synchronous_skill(self):
+    '''
+    get synchronous skill setting
+    '''
+    ret = self.env['ir.config_parameter'].search([('key','=',CONST_SETTING_SYNC_SKILL)])
+    if ret:
+        return ret.value == 'Y'
+
+def get_synchronous_approval(self):
+    '''
+    get synchronous approval setting
+    '''
+    ret = self.env['ir.config_parameter'].search([('key','=',CONST_SETTING_SYNC_APPROVAL)])
+    if ret:
+        return ret.value == 'Y'
+
 class weladee_settings(models.TransientModel):
     _name="weladee_attendance.synchronous.setting"
     _description="Weladee settings"
@@ -172,12 +296,20 @@ class weladee_settings(models.TransientModel):
     def _get_log_period(self):
         ret = get_synchronous_period(self)['period']    
         return ret
-    
+
     def _get_holiday_notify_leave_req(self):
         return get_holiday_notify(self)
 
     def _get_holiday_notify_leave_req_email(self):
         return get_holiday_notify_email(self)
+    
+    def _get_holiday_period_unit(self):
+        ret = int(get_holiday_period(self)['unit'])
+        return ret
+
+    def _get_holiday_period(self):
+        ret = get_holiday_period(self)['period']
+        return ret
 
     def _get_tz(self):
         ret = get_api_key(self)
@@ -194,6 +326,27 @@ class weladee_settings(models.TransientModel):
 
         return ret.account_analytic_id
 
+    def _get_sync_attendance(self):
+        return get_synchronous_attendance(self)
+
+    def _get_sync_holiday(self):
+        return get_synchronous_holiday(self)
+
+    def _get_sync_expense(self):
+        return get_synchronous_expense(self)
+
+    def _get_sync_timesheet(self):
+        return get_synchronous_timesheet(self)
+
+    def _get_sync_job(self):
+        return get_synchronous_job(self)
+
+    def _get_sync_skill(self):
+        return get_synchronous_job(self)
+
+    def _get_sync_approval(self):
+        return get_synchronous_approval(self)
+
     holiday_status_id = fields.Many2one("hr.leave.type", String="Default Leave Type",required=True,default=_get_holiday_status )
     sick_status_id = fields.Many2one("hr.leave.type", String="Sick leave Type",default=_get_sick_status )
     holiday_notify_leave_req = fields.Boolean('Notify if there is not enough allocated leave request', default=_get_holiday_notify_leave_req )
@@ -209,10 +362,27 @@ class weladee_settings(models.TransientModel):
                                    ('m','month(s) ago'),
                                    ('y','year(s) ago'),
                                    ('all','All')],string='Since',default=_get_log_period,required=True)
-    tz = fields.Selection(_tz_get, string='Timezone', default=_get_tz,required=True)    
+    tz = fields.Selection(_tz_get, string='Timezone', default=_get_tz,required=True)
+    holiday_period_unit = fields.Integer('Period unit', required=True, default=_get_holiday_period_unit)
+    holiday_period = fields.Selection([('w','week(s) ago'),
+                                        ('m','month(s) ago'),
+                                        ('y','year(s) ago'),
+                                        ('all', 'All')], string='Since', required=True, default=_get_holiday_period)
     expense_product_id = fields.Many2one("product.product", String="Expense product",required=True,default=_get_expense_product )
 
     account_analytic_id = fields.Many2one('account.analytic.account', string="Account Analytic", required=True, default=_get_account_analytic)
+
+    sync_employee = fields.Boolean('Sync Employee', readonly=True, default=True)
+    sync_position = fields.Boolean('Sync Position', readonly=True, default=True)
+    sync_department = fields.Boolean('Sync Department', readonly=True, default=True)
+    sync_customer = fields.Boolean('Sync Customer', readonly=True, default=True)
+    sync_attendance = fields.Boolean('Sync Attendance', default=_get_sync_attendance)
+    sync_holiday = fields.Boolean('Sync Holiday', default=_get_sync_holiday)
+    sync_expense = fields.Boolean('Sync Expense', default=_get_sync_expense)
+    sync_timesheet = fields.Boolean('Sync Timesheet', default=_get_sync_timesheet)
+    sync_job = fields.Boolean('Sync Job', default=_get_sync_job)
+    sync_skill = fields.Boolean('Sync Skill', default=_get_sync_skill)
+    sync_approval = fields.Boolean('Sync Approval', default=_get_sync_approval)
 
     def _save_setting(self, pool, key, value):
         line_ids = pool.search([('key','=',key)])
@@ -241,7 +411,21 @@ class weladee_settings(models.TransientModel):
 
         self._save_setting(config_pool, CONST_SETTING_HOLIDAY_NOTICE, "Y" if self.holiday_notify_leave_req else "N")
         self._save_setting(config_pool, CONST_SETTING_HOLIDAY_NOTICE_EMAIL, self.holiday_notify_leave_req_email)
+        self._save_setting(config_pool, CONST_SETTING_HOLIDAY_PERIOD_UNIT, self.holiday_period_unit)
+        self._save_setting(config_pool, CONST_SETTING_HOLIDAY_PERIOD, self.holiday_period)
         
         self._save_setting(config_pool, CONST_SETTING_EXPENSE_PRODUCT_ID, self.expense_product_id.id)
 
         self._save_setting(config_pool, CONST_SETTING_TIMESHEET_ACCOUNT_ANALYTIC_ID, self.account_analytic_id.id)
+
+        self._save_setting(config_pool, CONST_SETTING_SYNC_EMPLOYEE, "Y" if self.sync_employee else "")
+        self._save_setting(config_pool, CONST_SETTING_SYNC_POSITION, "Y" if self.sync_position else "")
+        self._save_setting(config_pool, CONST_SETTING_SYNC_DEPARTMENT, "Y" if self.sync_department else "")
+        self._save_setting(config_pool, CONST_SETTING_SYNC_CUSTOMER, "Y" if self.sync_customer else "")
+        self._save_setting(config_pool, CONST_SETTING_SYNC_ATTENDANCE, "Y" if self.sync_attendance else "")
+        self._save_setting(config_pool, CONST_SETTING_SYNC_HOLIDAY, "Y" if self.sync_holiday else "")
+        self._save_setting(config_pool, CONST_SETTING_SYNC_EXPENSE, "Y" if self.sync_expense else "")
+        self._save_setting(config_pool, CONST_SETTING_SYNC_TIMESHEET, "Y" if self.sync_timesheet else "")
+        self._save_setting(config_pool, CONST_SETTING_SYNC_JOB, "Y" if self.sync_job else "")
+        self._save_setting(config_pool, CONST_SETTING_SYNC_SKILL, "Y" if self.sync_skill else "")
+        self._save_setting(config_pool, CONST_SETTING_SYNC_APPROVAL, "Y" if self.sync_approval else "")

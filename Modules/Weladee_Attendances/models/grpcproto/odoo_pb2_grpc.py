@@ -85,7 +85,7 @@ class OdooStub(object):
                 )
         self.GetHolidays = channel.unary_stream(
                 '/grpc.weladee.com.Odoo/GetHolidays',
-                request_serializer=weladee__pb2.Empty.SerializeToString,
+                request_serializer=odoo__pb2.Period.SerializeToString,
                 response_deserializer=odoo__pb2.HolidayOdoo.FromString,
                 )
         self.AddHoliday = channel.unary_unary(
@@ -565,7 +565,7 @@ def add_OdooServicer_to_server(servicer, server):
             ),
             'GetHolidays': grpc.unary_stream_rpc_method_handler(
                     servicer.GetHolidays,
-                    request_deserializer=weladee__pb2.Empty.FromString,
+                    request_deserializer=odoo__pb2.Period.FromString,
                     response_serializer=odoo__pb2.HolidayOdoo.SerializeToString,
             ),
             'AddHoliday': grpc.unary_unary_rpc_method_handler(
@@ -914,7 +914,7 @@ class Odoo(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetHolidays',
-            weladee__pb2.Empty.SerializeToString,
+            odoo__pb2.Period.SerializeToString,
             odoo__pb2.HolidayOdoo.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
