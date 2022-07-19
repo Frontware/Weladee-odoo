@@ -7,10 +7,11 @@
             <field name="model">fw.approvals.request</field>
             <field name="inherit_id" ref="fw_approvals.fw_approvals_request_form"/>
             <field name="arch" type="xml">
+            <!--
                 <xpath expr="/form/header/widget[@name='attach_document']" position="attributes">
                     <attribute name="attrs">{'invisible':[('weladee_id','!=',False),('weladee_id','!=','')]}</attribute>
                 </xpath>
-
+            -->
                 <xpath expr="/form/sheet/*[position() = 1]" position="before">
                     <field name="weladee_id" invisible="1"/>
                     <div class="oe_button_box">

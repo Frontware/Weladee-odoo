@@ -133,7 +133,7 @@ def sync_approvals_request(req):
 
             if odoo_approvals_request and odoo_approvals_request['res-mode'] == 'create':
                 try:
-                    newid = req.approvals_request_obj.create(odoo_approvals_request)
+                    newid = req.approvals_request_obj.with_context({'skip_validation':True}).create(odoo_approvals_request)
                     if newid and newid.id:
                         if weladee_approvals_request.request.IPFS:
                             req.attach_obj.create({
@@ -154,7 +154,7 @@ def sync_approvals_request(req):
                 odoo_id = req.approvals_request_obj.search([("id","=",odoo_approvals_request['res-id']),'|',('active','=',False),('active','=',True)], limit=1)
                 if odoo_id.id:
                     try:
-                        odoo_id.write(odoo_approvals_request)
+                        odoo_id.with_context({'skip_validation':True}).write(odoo_approvals_request)
                         req.attach_obj.search([('res_model','=',model_id),('res_id','=',odoo_id.id)]).unlink() # Clear attachment
                         if weladee_approvals_request.request.IPFS:
                             # Attach document
