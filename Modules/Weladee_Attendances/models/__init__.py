@@ -8,6 +8,9 @@ from . import weladee_attendance_sync
 from . import weladee_attendance
 from . import weladee_department
 from . import weladee_employee
+from . import weladee_skill_type
+from . import weladee_skill_level
+from . import weladee_skill
 from . import weladee_holiday_status
 from . import weladee_holidays
 from . import weladee_position
@@ -20,4 +23,7 @@ from . import weladee_job_ads
 from . import weladee_job_app
 from . import weladee_expense
 from . import weladee_expense_sheet
+from . import weladee_approvals_type
+from . import weladee_approvals_approver
+from . import weladee_approvals_request
 from . import weladee_settings

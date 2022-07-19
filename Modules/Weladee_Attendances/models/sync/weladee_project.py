@@ -56,9 +56,9 @@ def sync_project(req):
     odoo_prj = False
     weladee_project = False
 
-    sync_delete_timesheet(req)
-    sync_delete_task(req)
-    sync_delete_project(req)
+    # sync_delete_timesheet(req)
+    # sync_delete_task(req)
+    # sync_delete_project(req)
 
     try:        
         sync_loginfo(req.context_sync,'[project] updating changes from weladee-> odoo')
