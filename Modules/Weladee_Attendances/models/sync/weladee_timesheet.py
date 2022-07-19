@@ -19,8 +19,9 @@ def sync_timesheet_data(weladee_timesheet, req):
             'date': datetime.datetime.utcfromtimestamp(weladee_timesheet.Sheet.Day),
             'unit_amount': weladee_timesheet.Sheet.TimeSpent / 60,
             'weladee_cost': weladee_timesheet.Sheet.Cost,
+            'account_id': req.config.account_analytic_account_id,
             'work_type_id': req.work_type_odoo_weladee_ids.get(str(weladee_timesheet.Sheet.WorkTypeID),False)
-            }        
+            }
     data['res-mode'] = 'create'
     print(data)
     return data   
