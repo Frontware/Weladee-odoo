@@ -140,26 +140,26 @@ def sync_approvals_type_data(weladee_approvals_type, req):
     # Download icon and convert icon to base64.
     if weladee_approvals_type.Approvaltype.Icon:
         # Approval type has icon.
-        stdout, stderr = False, False
-        proc = subprocess.Popen(['convert',
+        bstderr = False
+        try:
+            proc = subprocess.Popen(['convert',
                                     '-',
                                     'png:-'],
                                     stdin=subprocess.PIPE,
                                     stdout=subprocess.PIPE)
-        try:
             r = requests.get(weladee_approvals_type.Approvaltype.Icon)
             content = r.content
-            stdout, stderr = proc.communicate(input=content)
-            iconBase64 = base64.b64encode(stdout)
+            bstdout, bstderr = proc.communicate(input=content)
+            iconBase64 = base64.b64encode(bstdout)
             data['image'] = iconBase64
         except requests.Timeout as e:
-            sync_logerror(req.context_sync, 'request: %s' % e)
+            sync_logwarn(req.context_sync, 'request: %s' % e)
         except requests.RequestException as e:
-            sync_stat_error(req.context_sync, 'request: %s' % e)
+            sync_logwarn(req.context_sync, 'request: %s' % e)
         except subprocess.TimeoutExpired as e:
-            sync_logerror(req.context_sync, 'convert: %s' % e)
+            sync_logwarn(req.context_sync, 'convert: %s' % e)
         except Exception as e:
-            sync_logerror(req.context_sync, 'Error: %s' % (stderr or e or 'undefined'))
+            sync_logwarn(req.context_sync, 'Error: %s' % (bstderr or e or 'undefined'))
     else:
         # Approval type does not have icon
         data['image'] = False

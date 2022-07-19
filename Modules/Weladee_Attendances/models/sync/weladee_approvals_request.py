@@ -148,7 +148,7 @@ def sync_approvals_request(req):
                         sync_stat_error(req.context_sync['stat-approvals-request'], 1)
                 except Exception as e:
                     print(traceback.format_exc())
-                    sync_logerror(req.context, 'Add appoval request %s failed : %s' % (weladee_approvals_request, e))
+                    sync_logerror(req.context_sync, 'Add appoval request %s failed : %s' % (weladee_approvals_request, e))
                     sync_stat_error(req.context_sync['stat-approvals-request'], 1)
             elif odoo_approvals_request and odoo_approvals_request['res-mode'] == 'update' and 'res-id' in odoo_approvals_request:
                 odoo_id = req.approvals_request_obj.search([("id","=",odoo_approvals_request['res-id']),'|',('active','=',False),('active','=',True)], limit=1)
@@ -168,10 +168,10 @@ def sync_approvals_request(req):
                         sync_stat_update(req.context_sync['stat-approvals-request'], 1)
                     except Exception as e:
                         print(traceback.format_exc())
-                        sync_logerror(req.context, 'Update appoval request %s failed : %s' % (weladee_approvals_request, e))
+                        sync_logerror(req.context_sync, 'Update appoval request %s failed : %s' % (weladee_approvals_request, e))
                         sync_stat_error(req.context_sync['stat-approvals-request'], 1)
                 else:
-                    sync_logerror(req.context, 'Odoo appoval request not found for : %s' % weladee_approvals_request)
+                    sync_logerror(req.context_sync, 'Odoo appoval request not found for : %s' % weladee_approvals_request)
                     sync_stat_error(req.context_sync['stat-approvals-request'], 1)
 
     except Exception as e:
