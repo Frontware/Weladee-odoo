@@ -24,9 +24,45 @@ See how much lateness costs you with our simulation page: https://www.weladee.co
 
 [Odoo](https://www.odoo.co.th) module for Weladee
 
-This Odoo module create the link between Weladee and your Odoo 11.0 instance.
+This Odoo module create the link between Weladee and your Odoo 14.0 instance.
 
-You will be able to synchronize departments, employees and attendance.
+You will be able to synchronize departments, employees and attendance. Import expenses, timesheet, leave, holidays, ... from Weladee to your Odoo instance.
+
+## What is synschronized
+
+### Bi-Directional between Odoo-Weladee / Weladee-Odoo
+
+The idea is to use Weladee a HRMS addon to Odoo. So mostof the data is collected in Weladee and then imported to Odoo.
+
+There are 3 exceptions:
+
+- Department
+- Employee
+- Position
+
+These 3 data can be sent to Weladee from Odoo and vice versa.
+
+In case of conflict, the most recent data will be used.
+It shouldn't be a problem because the data is not often updated. The HR operator should decice which app to use to update the data. Create employee on Weladee is probably the best move.
+
+
+![](https://www.plantuml.com/plantuml/svg/SoWkIImgAStDuGfFpKbCIKrLiD6rK_1FoS-tKWZ8ByuioSpFmoBbabe0r9QRcbU2HT8rjo0dlp8rbOlB8JKl1MWs0000)
+
+
+### Uni-Directional from Weladee to Odoo
+
+This data is sent from Weladee to Odoo. Weladee feeds Odoo with HRMS data.
+
+- Attendance
+- Leave
+- Timesheet (project, task)
+- Job classifieds (https://job.weladee.com)
+- Expenses
+
+![](http://www.plantuml.com/plantuml/svg/SoWkIImgAStDuGfFpKbCIKrLqBLJy4_9pxTIS2mfISrBISnBJiMKyqbDBCCY79APcrgSaPfQWYdbbP-4AUXQKP2QLvnQpEK0j0de2000)
+
+
+
 
 ## Technical
 
@@ -49,7 +85,7 @@ Weladee is free to subscribe with 3 months trial period or even 100% free for co
 
 ## Sample Code for gRPC API
 
-It's ready for Odoo 11. gRPC code is compatible python 2 & 3.
+It's ready for Odoo 14. gRPC code is compatible python 3.
 
 ### Connect to server
 
