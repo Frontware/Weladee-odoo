@@ -13,5 +13,6 @@ class weladee_expense(models.Model):
     project_id = fields.Many2one('project.project',string='Project')
     user_id = fields.Many2one('res.users')
     journal_id = fields.Many2one('account.journal')
+    bill_partner_id = fields.Many2one('res.partner')
 
     request_amount = fields.Float(string='Amount request',digits=(10,2))

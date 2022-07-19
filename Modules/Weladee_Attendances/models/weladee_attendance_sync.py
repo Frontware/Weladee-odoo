@@ -19,6 +19,7 @@ from odoo.addons.Weladee_Attendances.models.sync.weladee_position import sync_po
 from odoo.addons.Weladee_Attendances.models.sync.weladee_department import sync_department_data, sync_department
 from odoo.addons.Weladee_Attendances.models.sync.weladee_employee import sync_employee_data, sync_employee
 from odoo.addons.Weladee_Attendances.models.sync.weladee_manager import sync_manager_dep,sync_manager_emp
+from odoo.addons.Weladee_Attendances.models.sync.weladee_skill import sync_skill
 from odoo.addons.Weladee_Attendances.models.sync.weladee_log import sync_log
 from odoo.addons.Weladee_Attendances.models.sync.weladee_holiday import sync_holiday
 from odoo.addons.Weladee_Attendances.models.sync.weladee_customer import sync_customer
@@ -29,6 +30,8 @@ from odoo.addons.Weladee_Attendances.models.sync.weladee_timesheet import sync_t
 from odoo.addons.Weladee_Attendances.models.sync.weladee_job_ads import sync_job_ads
 from odoo.addons.Weladee_Attendances.models.sync.weladee_job_applicant import sync_job_applicant
 from odoo.addons.Weladee_Attendances.models.sync.weladee_expense import sync_expense
+from odoo.addons.Weladee_Attendances.models.sync.weladee_approvals_type import sync_approvals_type
+from odoo.addons.Weladee_Attendances.models.sync.weladee_approvals_request import sync_approvals_request
 class weladee_attendance_working(models.TransientModel):
       _name="weladee_attendance.working"  
 
@@ -79,7 +82,7 @@ class weladee_attendance(models.TransientModel):
             sync_stop(req.context_sync)
             sync_logerror(req.context_sync,'You must setup API Key, Default Holiday Status at Attendances -> Weladee settings')
         
-        if not sync_has_error(req.context_sync):
+        if req.config.sync_position and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Positions")
             req.job_obj = self.env['hr.job']    
             sync_position(req) 
@@ -89,7 +92,7 @@ class weladee_attendance(models.TransientModel):
                req.context_sync['connection-error'] = False
                resync_position(req) 
 
-        if not sync_has_error(req.context_sync):
+        if req.config.sync_department and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Departments")
             req.department_obj = self.env['hr.department']    
             sync_department(req)
@@ -100,58 +103,68 @@ class weladee_attendance(models.TransientModel):
             for cu in country_line_ids:
                 if cu.name : req.country[ cu.name ] = cu.id
         
-        if not sync_has_error(req.context_sync):
+        if req.config.sync_employee and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Employee")
                
             req.employee_obj = self.env['hr.employee']    
             sync_employee(req)
 
-        if not sync_has_error(req.context_sync):
+        if req.config.sync_employee and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Manager")
 
             sync_manager_dep(req)
             sync_manager_emp(req)
         
+        if req.config.sync_skill and not sync_has_error(req.context_sync):
+            sync_logdebug(req.context_sync, "Start sync...Skill")
+
+            req.skill_type_obj = self.env['hr.skill.type']
+            req.skill_level_obj = self.env['hr.skill.level']
+            req.skill_obj = self.env['hr.skill']
+            req.skill_employee_obj = self.env['hr.employee.skill']
+            req.translation_obj = self.env['ir.translation']
+            sync_skill(req)
+        
         odoo_weladee_ids = {}
-        if not sync_has_error(req.context_sync):
+        if req.config.sync_attendance and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Log")
             req.log_obj = self.env['hr.attendance']
             req.period_settings = get_synchronous_period(self)
             sync_log(self, req )
 
-        if not sync_has_error(req.context_sync):
+        if req.config.sync_holiday and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Holiday")
             req.leave_obj = self.env['hr.leave']
             req.company_holiday_obj = self.env['weladee_attendance.company.holidays']
             sync_holiday(self, req)
 
         cus_odoo_weladee_ids = {}
-        if not sync_has_error(req.context_sync):
+        if req.config.sync_customer and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Customer")
             req.customer_obj = self.env['res.partner']
             sync_customer(req)
 
-        if not sync_has_error(req.context_sync):
+        if req.config.sync_timesheet and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Project")
             req.project_obj = self.env['project.project']
             req.task_obj = self.env['project.task']
             req.timesheet_obj= self.env['account.analytic.line']
             sync_project(req)
 
-        if not sync_has_error(req.context_sync):
+        if req.config.sync_timesheet and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Task")
             sync_task(req)
 
-        if not sync_has_error(req.context_sync):
+        if req.config.sync_timesheet and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Work type")
             req.work_type_obj = self.env['mail.activity.type']
             sync_work_type(req)
 
-        if not sync_has_error(req.context_sync):
+        if req.config.sync_timesheet and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Timesheet")
             sync_timesheet(req)
 
-        if not sync_has_error(req.context_sync):
+        if req.config.sync_job and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Job ads")
             test_key = self.env['ir.config_parameter'].search([('key','=','test-k1')])
             if test_key and len(test_key) > 0:
@@ -161,17 +174,34 @@ class weladee_attendance(models.TransientModel):
             sync_job_ads(req)
 
         req.config = weladee_settings.get_api_key(self)
-        if not sync_has_error(req.context_sync):
+        if req.config.sync_job and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Job applicant")
             req.lang_obj = self.env['res.lang']
             sync_job_applicant(req)
 
-        if not sync_has_error(req.context_sync):
+        if req.config.sync_expense and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Expense")
             req.expense_obj = self.env['hr.expense']
             req.expense_sheet_obj = self.env['hr.expense.sheet']
             req.attach_obj = self.env['ir.attachment']
             sync_expense(req)
+        
+        if req.config.sync_approval and not sync_has_error(req.context_sync):
+            sync_logdebug(req.context_sync,"Start sync...Approvals Types")
+            req.employee_obj = self.env['hr.employee']
+            req.approvals_type_obj = self.env['fw.approvals.type']
+            req.translation_obj = self.env['ir.translation']
+            sync_approvals_type(req)
+        
+        if req.config.sync_approval and not sync_has_error(req.context_sync):
+            sync_logdebug(req.context_sync,"Start sync...Approvals Requests")
+            req.employee_obj = self.env['hr.employee']
+            req.project_obj = self.env['project.project']
+            req.attach_obj = self.env['ir.attachment']
+            req.approvals_type_obj = self.env['fw.approvals.type']
+            req.approvals_approver_obj = self.env['fw.approvals.approver']
+            req.approvals_request_obj = self.env['fw.approvals.request']
+            sync_approvals_request(req)
 
         sync_loginfo(req.context_sync,'sending result to %s' % req.context_sync['request-email'])
         req.context_sync['request-elapse'] = str(datetime.today() - elapse_start)

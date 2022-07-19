@@ -18,6 +18,26 @@
                             <field name="api_key"/>
                         </group>
                     </page>
+                    <page string="Employee">
+                        <group>
+                            <field name="sync_employee"/>
+                        </group>
+                    </page>
+                    <page string="Position">
+                        <group>
+                            <field name="sync_position"/>
+                        </group>
+                    </page>
+                    <page string="Department">
+                        <group>
+                            <field name="sync_department"/>
+                        </group>
+                    </page>
+                    <page string="Customer">
+                        <group>
+                            <field name="sync_customer"/>
+                        </group>
+                    </page>
                     <page string="Attendance">
                         <group>
                             <label for="log_period"/>
@@ -26,6 +46,7 @@
                                 <span attrs="{'invisible':[('log_period','=','all')]}">&amp;nbsp;</span>
                                 <field name="log_period" style="height:24px" class="oe_inline" />
                             </div>
+                            <field name="sync_attendance"/>
                         </group>
                     </page>
                     <page string="Holiday">
@@ -37,6 +58,13 @@
                             <div>
                                 <field name="holiday_notify_leave_req"/>
                             </div>
+                            <label for="holiday_period"/>
+                            <div>
+                                <field attrs="{'invisible':[('holiday_period','=','all')]}" name="holiday_period_unit" class="oe_inline" />
+                                <span attrs="{'invisible':[('holiday_period','=','all')]}">&amp;nbsp;</span>
+                                <field name="holiday_period" style="height:24px" class="oe_inline" />
+                            </div>
+                            <field name="sync_holiday"/>
                         </group>
                         <group attrs="{'invisible':[('holiday_notify_leave_req','=',False)]}">
                             <span class="o_form_label">to email</span><br/>
@@ -50,6 +78,7 @@
                     <page string="Expense">
                         <group>
                             <field name="expense_product_id"/>
+                            <field name="sync_expense"/>
                         </group>
                     </page>
                     <page string="Notification">
@@ -66,6 +95,27 @@
                                 <field name="api_debug" nolabel="1" class="oe_inline"/>
                                 <label for="api_debug" />
                             </div>
+                        </group>
+                    </page>
+                    <page string="Timesheet">
+                        <group>
+                            <field name="account_analytic_id"/>
+                            <field name="sync_timesheet"/>
+                        </group>
+                    </page>
+                    <page string="Job">
+                        <group>
+                            <field name="sync_job"/>
+                        </group>
+                    </page>
+                    <page string="Skill">
+                        <group>
+                            <field name="sync_skill"/>
+                        </group>
+                    </page>
+                    <page string="Approval">
+                        <group>
+                            <field name="sync_approval"/>
                         </group>
                     </page>
                 </notebook>

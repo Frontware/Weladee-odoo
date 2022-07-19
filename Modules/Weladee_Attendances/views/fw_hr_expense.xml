@@ -53,6 +53,28 @@
         </field>
         </record>
 
+        <record id="weladee_att_hr_exp_header" model="ir.ui.view">
+            <field name="name">weladee_att_hr_exp_header</field>
+            <field name="model">hr.expense</field>
+            <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/div[position() = 1]" position="inside">
+                    <field name="weladee_id" invisible="1"/>
+                    <button
+                            class="oe_stat_button"
+                            widget="url"
+                            attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}"
+                        >
+                            <div role="img" class="o_button_icon icon-weladee"/>
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Weladee</span>
+                                <span class="o_stat_value">Expense</span>
+                            </div>
+                        </button>
+                </xpath>
+            </field>
+        </record>
+
         <record id="hr_expense.hr_expense_actions_my_unsubmitted" model="ir.actions.act_window">
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
