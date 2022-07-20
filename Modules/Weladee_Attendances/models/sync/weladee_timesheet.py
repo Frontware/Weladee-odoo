@@ -2,8 +2,9 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import traceback
 import datetime
+from dateutil.relativedelta import relativedelta
 
-from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
+from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2, weladee_pb2
 from .weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
 from .weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
 
@@ -42,7 +43,21 @@ def sync_timesheet(req):
 
     try:        
         sync_loginfo(req.context_sync,'[timesheet] updating changes from weladee-> odoo')
-        for weladee_timesheet in stub.GetTimeSheets(weladee_pb2.Empty(), metadata=req.config.authorization):
+
+        # Calculate period
+        period = odoo_pb2.Period()
+        if req.config.timesheet_period == 'w':
+            period.From = int((datetime.datetime.now() - relativedelta(weeks=abs(req.config.timesheet_period_unit))).timestamp())
+        elif req.config.timesheet_period == 'm':
+            period.From = int((datetime.datetime.now() - relativedelta(months=abs(req.config.timesheet_period_unit))).timestamp())
+        elif req.config.timesheet_period == 'y':
+            period.From = int((datetime.datetime.now() - relativedelta(years=abs(req.config.timesheet_period_unit))).timestamp())
+        elif req.config.timesheet_period == 'all':
+            period = weladee_pb2.Empty()
+        else:
+            period.From = int((datetime.datetime.now() - relativedelta(weeks=1)).timestamp())
+
+        for weladee_timesheet in stub.GetTimeSheets(period, metadata=req.config.authorization):
             print(weladee_timesheet)
             sync_stat_to_sync(req.context_sync['stat-timesheet'], 1)
             if not weladee_timesheet :

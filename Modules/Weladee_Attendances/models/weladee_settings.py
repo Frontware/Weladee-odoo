@@ -20,8 +20,12 @@ CONST_SETTING_HOLIDAY_PERIOD_UNIT = 'weladee-holiday_period_unit'
 CONST_SETTING_SICK_STATUS_ID = 'weladee-sick_status_id'
 
 CONST_SETTING_EXPENSE_PRODUCT_ID = 'weladee-expense_product_id'
+CONST_SETTING_EXPENSE_PERIOD = 'weladee-expense_period'
+CONST_SETTING_EXPENSE_PERIOD_UNIT = 'weladee-expense_period_unit'
 
 CONST_SETTING_TIMESHEET_ACCOUNT_ANALYTIC_ID = 'weladee-timesheet_account_analytic_id'
+CONST_SETTING_TIMESHEET_PERIOD = 'weladee-timesheet_period'
+CONST_SETTING_TIMESHEET_PERIOD_UNIT = 'weladee-timesheet_period_unit'
 
 CONST_SETTING_SYNC_EMPLOYEE = 'weladee-sync-employee'
 CONST_SETTING_SYNC_POSITION = 'weladee-sync-position'
@@ -45,6 +49,10 @@ class wiz_setting():
         self.account_analytic_id = False
         self.holiday_period_unit = False
         self.holiday_period = False
+        self.timesheet_period_unit = False
+        self.timesheet_period = False
+        self.expense_period_unit = False
+        self.expense_period = False
 
         self.sync_employee = False
         self.sync_position = False
@@ -105,6 +113,20 @@ def get_api_key(self):
                 ret.holiday_period_unit = 1
         elif dataSet.key == CONST_SETTING_HOLIDAY_PERIOD:
             ret.holiday_period = dataSet.value
+        elif dataSet.key == CONST_SETTING_TIMESHEET_PERIOD_UNIT:
+            try:
+                ret.timesheet_period_unit = int(dataSet.value)
+            except:
+                ret.timesheet_period_unit = 1
+        elif dataSet.key == CONST_SETTING_TIMESHEET_PERIOD:
+            ret.timesheet_period = dataSet.value
+        elif dataSet.key == CONST_SETTING_EXPENSE_PERIOD_UNIT:
+            try:
+                ret.expense_period_unit = int(dataSet.value)
+            except:
+                ret.expense_period_unit = 1
+        elif dataSet.key == CONST_SETTING_EXPENSE_PERIOD:
+            ret.expense_period = dataSet.value
         elif dataSet.key == CONST_SETTING_SYNC_EMPLOYEE:
             ret.sync_employee = dataSet.value
         elif dataSet.key == CONST_SETTING_SYNC_POSITION:
@@ -193,7 +215,7 @@ def get_holiday_notify_email(self):
 
 def get_holiday_period(self):
     '''
-    get synchronous log period
+    get synchronous holiday period
     '''
     rets = {'period':'w','unit':'1'}
     config_pool = self.env['ir.config_parameter']
@@ -208,6 +230,46 @@ def get_holiday_period(self):
        rets['unit'] = ret.value
     else:
         config_pool.create({'key':CONST_SETTING_HOLIDAY_PERIOD_UNIT,'value':'1'})
+
+    return rets
+
+def get_timesheet_period(self):
+    '''
+    get synchronous timesheet period
+    '''
+    rets = {'period':'w','unit':'1'}
+    config_pool = self.env['ir.config_parameter']
+    ret = config_pool.search([('key','=',CONST_SETTING_TIMESHEET_PERIOD)])
+    if ret:
+       rets['period'] = ret.value
+    else:
+        config_pool.create({'key':CONST_SETTING_TIMESHEET_PERIOD,'value':'w'})
+
+    ret = config_pool.search([('key','=',CONST_SETTING_TIMESHEET_PERIOD_UNIT)])
+    if ret:
+       rets['unit'] = ret.value
+    else:
+        config_pool.create({'key':CONST_SETTING_TIMESHEET_PERIOD_UNIT,'value':'1'})
+
+    return rets
+
+def get_expense_period(self):
+    '''
+    get synchronous expense period
+    '''
+    rets = {'period':'w','unit':'1'}
+    config_pool = self.env['ir.config_parameter']
+    ret = config_pool.search([('key','=',CONST_SETTING_EXPENSE_PERIOD)])
+    if ret:
+       rets['period'] = ret.value
+    else:
+        config_pool.create({'key':CONST_SETTING_EXPENSE_PERIOD,'value':'w'})
+
+    ret = config_pool.search([('key','=',CONST_SETTING_EXPENSE_PERIOD_UNIT)])
+    if ret:
+       rets['unit'] = ret.value
+    else:
+        config_pool.create({'key':CONST_SETTING_EXPENSE_PERIOD_UNIT,'value':'1'})
 
     return rets
 
@@ -330,10 +392,26 @@ class weladee_settings(models.TransientModel):
 
         return ret.expense_product_id
     
+    def _get_expense_period_unit(self):
+        ret = int(get_expense_period(self)['unit'])
+        return ret
+
+    def _get_expense_period(self):
+        ret = get_expense_period(self)['period']
+        return ret
+    
     def _get_account_analytic(self):
         ret = get_api_key(self)
 
         return ret.account_analytic_id
+    
+    def _get_timesheet_period_unit(self):
+        ret = int(get_timesheet_period(self)['unit'])
+        return ret
+
+    def _get_timesheet_period(self):
+        ret = get_timesheet_period(self)['period']
+        return ret
 
     def _get_sync_attendance(self):
         return get_synchronous_attendance(self)
@@ -378,8 +456,18 @@ class weladee_settings(models.TransientModel):
                                         ('y','year(s) ago'),
                                         ('all', 'All')], string='Since', default=_get_holiday_period)
     expense_product_id = fields.Many2one("product.product", String="Expense product",default=_get_expense_product )
+    expense_period_unit = fields.Integer('Period Unit', default=_get_expense_period_unit)
+    expense_period = fields.Selection([('w','week(s) ago'),
+                                        ('m','month(s) ago'),
+                                        ('y','year(s) ago'),
+                                        ('all', 'All')], string='Since', default=_get_expense_period)
 
     account_analytic_id = fields.Many2one('account.analytic.account', string="Account Analytic", default=_get_account_analytic)
+    timesheet_period_unit = fields.Integer('Period Unit', default=_get_timesheet_period_unit)
+    timesheet_period = fields.Selection([('w','week(s) ago'),
+                                        ('m','month(s) ago'),
+                                        ('y','year(s) ago'),
+                                        ('all', 'All')], string='Since', default=_get_timesheet_period)
 
     sync_employee = fields.Boolean('Sync Employee', readonly=True, default=True)
     sync_position = fields.Boolean('Sync Position', readonly=True, default=True)
@@ -430,9 +518,13 @@ class weladee_settings(models.TransientModel):
 
         if self.sync_expense:
            self._save_setting(config_pool, CONST_SETTING_EXPENSE_PRODUCT_ID, self.expense_product_id.id)
+           self._save_setting(config_pool, CONST_SETTING_EXPENSE_PERIOD_UNIT, self.expense_period_unit)
+           self._save_setting(config_pool, CONST_SETTING_EXPENSE_PERIOD, self.expense_period)
 
         if self.sync_timesheet:
            self._save_setting(config_pool, CONST_SETTING_TIMESHEET_ACCOUNT_ANALYTIC_ID, self.account_analytic_id.id)
+           self._save_setting(config_pool, CONST_SETTING_TIMESHEET_PERIOD_UNIT, self.timesheet_period_unit)
+           self._save_setting(config_pool, CONST_SETTING_TIMESHEET_PERIOD, self.timesheet_period)
 
         self._save_setting(config_pool, CONST_SETTING_SYNC_EMPLOYEE, "Y" if self.sync_employee else "")
         self._save_setting(config_pool, CONST_SETTING_SYNC_POSITION, "Y" if self.sync_position else "")
