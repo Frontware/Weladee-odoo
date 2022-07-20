@@ -122,17 +122,28 @@
                                     <span attrs="{'invisible':[('log_period','=','all')]}">&amp;nbsp;</span>
                                     <field name="log_period" attrs="{'required':[('sync_attendance','=',True)]}" style="height:24px" class="oe_inline" />
                                 </div>
-                                <field name="sync_attendance"/>
                             </group>
                         </page>
                         <page string="Timesheet" attrs="{'invisible':[('sync_timesheet','=',False)]}">
                             <group>
                                 <field name="account_analytic_id" attrs="{'required':[('sync_timesheet','=',True)]}"/>
+                                <label for="timesheet_period"/>
+                                <div>
+                                    <field attrs="{'required':[('sync_timesheet','=',True)],'invisible':[('timesheet_period','=','all')]}" name="timesheet_period_unit" class="oe_inline" />
+                                    <span attrs="{'invisible':[('timesheet_period','=','all')]}">&amp;nbsp;</span>
+                                    <field name="timesheet_period" attrs="{'required':[('sync_timesheet','=',True)]}" style="height:24px" class="oe_inline" />
+                                </div>
                             </group>
                         </page>
                         <page string="Expense" attrs="{'invisible':[('sync_expense','=',False)]}">
                             <group>
                                 <field name="expense_product_id" attrs="{'required':[('sync_expense','=',True)]}"/>
+                                <label for="expense_period"/>
+                                <div>
+                                    <field attrs="{'required':[('sync_expense','=',True)],'invisible':[('expense_period','=','all')]}" name="expense_period_unit" class="oe_inline" />
+                                    <span attrs="{'invisible':[('expense_period','=','all')]}">&amp;nbsp;</span>
+                                    <field name="expense_period" attrs="{'required':[('sync_expense','=',True)]}" style="height:24px" class="oe_inline" />
+                                </div>
                             </group>
                         </page>
                         <page string="Notification">
