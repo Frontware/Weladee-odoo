@@ -44,7 +44,7 @@ def sync_manager_emp(req):
     #look only changed employees
     odoo_emps_change = [x for x in req.employee_managers]
     
-    odoo_emps = req.employee_obj.search([('id','in',odoo_emps_change),'|',('active','=',False),('active','=',True)],limit=1)
+    odoo_emps = req.employee_obj.search([('id','in',odoo_emps_change),'|',('active','=',False),('active','=',True)])
     for odoo_emp in odoo_emps :
         sync_stat_to_sync(req.context_sync['stat-e-manager'], 1)
         if odoo_emp.id and odoo_emp.id in req.employee_managers :
