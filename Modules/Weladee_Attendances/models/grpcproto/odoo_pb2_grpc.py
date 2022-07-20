@@ -170,12 +170,12 @@ class OdooStub(object):
                 )
         self.GetTimeSheets = channel.unary_stream(
                 '/grpc.weladee.com.Odoo/GetTimeSheets',
-                request_serializer=weladee__pb2.Empty.SerializeToString,
+                request_serializer=odoo__pb2.Period.SerializeToString,
                 response_deserializer=odoo__pb2.SheetOdoo.FromString,
                 )
         self.GetExpenses = channel.unary_stream(
                 '/grpc.weladee.com.Odoo/GetExpenses',
-                request_serializer=weladee__pb2.Empty.SerializeToString,
+                request_serializer=odoo__pb2.Period.SerializeToString,
                 response_deserializer=odoo__pb2.ExpenseOdoo.FromString,
                 )
         self.GetExpenseTypes = channel.unary_stream(
@@ -650,12 +650,12 @@ def add_OdooServicer_to_server(servicer, server):
             ),
             'GetTimeSheets': grpc.unary_stream_rpc_method_handler(
                     servicer.GetTimeSheets,
-                    request_deserializer=weladee__pb2.Empty.FromString,
+                    request_deserializer=odoo__pb2.Period.FromString,
                     response_serializer=odoo__pb2.SheetOdoo.SerializeToString,
             ),
             'GetExpenses': grpc.unary_stream_rpc_method_handler(
                     servicer.GetExpenses,
-                    request_deserializer=weladee__pb2.Empty.FromString,
+                    request_deserializer=odoo__pb2.Period.FromString,
                     response_serializer=odoo__pb2.ExpenseOdoo.SerializeToString,
             ),
             'GetExpenseTypes': grpc.unary_stream_rpc_method_handler(
@@ -1203,7 +1203,7 @@ class Odoo(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetTimeSheets',
-            weladee__pb2.Empty.SerializeToString,
+            odoo__pb2.Period.SerializeToString,
             odoo__pb2.SheetOdoo.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
@@ -1220,7 +1220,7 @@ class Odoo(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetExpenses',
-            weladee__pb2.Empty.SerializeToString,
+            odoo__pb2.Period.SerializeToString,
             odoo__pb2.ExpenseOdoo.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
