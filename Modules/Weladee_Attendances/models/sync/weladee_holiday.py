@@ -2,10 +2,12 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import time
 import datetime
+from dateutil.relativedelta import relativedelta
 import traceback
 import pytz
 
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
+from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from .weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
 from .weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
 from .weladee_log import get_emp_odoo_weladee_ids
@@ -130,7 +132,21 @@ def sync_holiday(self, req):
     weladee_holiday = False
     try:        
         sync_loginfo(req.context_sync,'[holiday] updating changes from weladee-> odoo')
-        for weladee_holiday in stub.GetHolidays(weladee_pb2.Empty(), metadata=req.config.authorization):
+
+        # Calculate period
+        period = odoo_pb2.Period()
+        if req.config.holiday_period == 'w':
+            period.From = int((datetime.datetime.now() - relativedelta(weeks=abs(req.config.holiday_period_unit))).timestamp())
+        elif req.config.holiday_period == 'm':
+            period.From = int((datetime.datetime.now() - relativedelta(months=abs(req.config.holiday_period_unit))).timestamp())
+        elif req.config.holiday_period == 'y':
+            period.From = int((datetime.datetime.now() - relativedelta(years=abs(req.config.holiday_period_unit))).timestamp())
+        elif req.config.holiday_period == 'all':
+            period = weladee_pb2.Empty()
+        else:
+            period.From = int((datetime.datetime.now() - relativedelta(weeks=1)).timestamp())
+
+        for weladee_holiday in stub.GetHolidays(period, metadata=req.config.authorization):
             sync_stat_to_sync(req.context_sync['stat-hol'], 1)
             if not weladee_holiday :
                sync_logwarn(req.context_sync,'weladee holiday is empty')

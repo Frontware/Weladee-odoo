@@ -43,6 +43,8 @@ class wiz_setting():
         self.tz = False
         self.expense_product_id = False
         self.account_analytic_id = False
+        self.holiday_period_unit = False
+        self.holiday_period = False
 
         self.sync_employee = False
         self.sync_position = False
@@ -96,6 +98,13 @@ def get_api_key(self):
                 ret.account_analytic_id = int(dataSet.value)
             except:
                 pass
+        elif dataSet.key == CONST_SETTING_HOLIDAY_PERIOD_UNIT:
+            try:
+                ret.holiday_period_unit = int(dataSet.value)
+            except:
+                ret.holiday_period_unit = 1
+        elif dataSet.key == CONST_SETTING_HOLIDAY_PERIOD:
+            ret.holiday_period = dataSet.value
         elif dataSet.key == CONST_SETTING_SYNC_EMPLOYEE:
             ret.sync_employee = dataSet.value
         elif dataSet.key == CONST_SETTING_SYNC_POSITION:
