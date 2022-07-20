@@ -347,7 +347,7 @@ class weladee_settings(models.TransientModel):
     def _get_sync_approval(self):
         return get_synchronous_approval(self)
 
-    holiday_status_id = fields.Many2one("hr.leave.type", String="Default Leave Type",required=True,default=_get_holiday_status )
+    holiday_status_id = fields.Many2one("hr.leave.type", String="Default Leave Type",default=_get_holiday_status )
     sick_status_id = fields.Many2one("hr.leave.type", String="Sick leave Type",default=_get_sick_status )
     holiday_notify_leave_req = fields.Boolean('Notify if there is not enough allocated leave request', default=_get_holiday_notify_leave_req )
     holiday_notify_leave_req_email = fields.Text('Notified Email', default=_get_holiday_notify_leave_req_email)
@@ -357,20 +357,20 @@ class weladee_settings(models.TransientModel):
     api_database = fields.Char('API Database',default=lambda s: s.env.cr.dbname)
     api_debug = fields.Boolean('Show debug info',default=_get_debug)
 
-    log_period_unit = fields.Integer('Period unit',default=_get_log_period_unit,required=True)
+    log_period_unit = fields.Integer('Period unit',default=_get_log_period_unit)
     log_period = fields.Selection([('w','week(s) ago'),
                                    ('m','month(s) ago'),
                                    ('y','year(s) ago'),
-                                   ('all','All')],string='Since',default=_get_log_period,required=True)
-    tz = fields.Selection(_tz_get, string='Timezone', default=_get_tz,required=True)
-    holiday_period_unit = fields.Integer('Period unit', required=True, default=_get_holiday_period_unit)
+                                   ('all','All')],string='Since',default=_get_log_period)
+    tz = fields.Selection(_tz_get, string='Timezone', default=_get_tz)
+    holiday_period_unit = fields.Integer('Period unit', default=_get_holiday_period_unit)
     holiday_period = fields.Selection([('w','week(s) ago'),
                                         ('m','month(s) ago'),
                                         ('y','year(s) ago'),
-                                        ('all', 'All')], string='Since', required=True, default=_get_holiday_period)
-    expense_product_id = fields.Many2one("product.product", String="Expense product",required=True,default=_get_expense_product )
+                                        ('all', 'All')], string='Since', default=_get_holiday_period)
+    expense_product_id = fields.Many2one("product.product", String="Expense product",default=_get_expense_product )
 
-    account_analytic_id = fields.Many2one('account.analytic.account', string="Account Analytic", required=True, default=_get_account_analytic)
+    account_analytic_id = fields.Many2one('account.analytic.account', string="Account Analytic", default=_get_account_analytic)
 
     sync_employee = fields.Boolean('Sync Employee', readonly=True, default=True)
     sync_position = fields.Boolean('Sync Position', readonly=True, default=True)
@@ -396,27 +396,34 @@ class weladee_settings(models.TransientModel):
         write back to parameter
         '''
         config_pool = self.env['ir.config_parameter']
-        self._save_setting(config_pool, CONST_SETTING_APIKEY, self.api_key)
-        self._save_setting(config_pool, CONST_SETTING_HOLIDAY_STATUS_ID, self.holiday_status_id.id)
-        self._save_setting(config_pool, CONST_SETTING_SYNC_EMAIL, self.email)
         self._save_setting(config_pool, CONST_SETTING_APIDB, self.api_database)
-        self._save_setting(config_pool, CONST_SETTING_SICK_STATUS_ID, self.sick_status_id.id)
-        self._save_setting(config_pool, CONST_SETTING_HOLIDAY_TIMEZONE, self.tz)
+        self._save_setting(config_pool, CONST_SETTING_APIKEY, self.api_key)
 
+        # notification
+        self._save_setting(config_pool, CONST_SETTING_SYNC_EMAIL, self.email)
         _api_debug = ""
         if self.api_debug: _api_debug = "Y"
         self._save_setting(config_pool, CONST_SETTING_API_DEBUG, _api_debug)
-        self._save_setting(config_pool, CONST_SETTING_LOG_PERIOD_UNIT, self.log_period_unit)
-        self._save_setting(config_pool, CONST_SETTING_LOG_PERIOD, self.log_period)
 
-        self._save_setting(config_pool, CONST_SETTING_HOLIDAY_NOTICE, "Y" if self.holiday_notify_leave_req else "N")
-        self._save_setting(config_pool, CONST_SETTING_HOLIDAY_NOTICE_EMAIL, self.holiday_notify_leave_req_email)
-        self._save_setting(config_pool, CONST_SETTING_HOLIDAY_PERIOD_UNIT, self.holiday_period_unit)
-        self._save_setting(config_pool, CONST_SETTING_HOLIDAY_PERIOD, self.holiday_period)
-        
-        self._save_setting(config_pool, CONST_SETTING_EXPENSE_PRODUCT_ID, self.expense_product_id.id)
+        if self.sync_holiday:
+           self._save_setting(config_pool, CONST_SETTING_HOLIDAY_TIMEZONE, self.tz)
+           self._save_setting(config_pool, CONST_SETTING_HOLIDAY_STATUS_ID, self.holiday_status_id.id)
+           self._save_setting(config_pool, CONST_SETTING_SICK_STATUS_ID, self.sick_status_id.id)
+           self._save_setting(config_pool, CONST_SETTING_HOLIDAY_NOTICE, "Y" if self.holiday_notify_leave_req else "N")
+           self._save_setting(config_pool, CONST_SETTING_HOLIDAY_NOTICE_EMAIL, self.holiday_notify_leave_req_email)
+           
+           self._save_setting(config_pool, CONST_SETTING_HOLIDAY_PERIOD_UNIT, self.holiday_period_unit)
+           self._save_setting(config_pool, CONST_SETTING_HOLIDAY_PERIOD, self.holiday_period)
 
-        self._save_setting(config_pool, CONST_SETTING_TIMESHEET_ACCOUNT_ANALYTIC_ID, self.account_analytic_id.id)
+        if self.sync_attendance:
+           self._save_setting(config_pool, CONST_SETTING_LOG_PERIOD_UNIT, self.log_period_unit)
+           self._save_setting(config_pool, CONST_SETTING_LOG_PERIOD, self.log_period)
+
+        if self.sync_expense:
+           self._save_setting(config_pool, CONST_SETTING_EXPENSE_PRODUCT_ID, self.expense_product_id.id)
+
+        if self.sync_timesheet:
+           self._save_setting(config_pool, CONST_SETTING_TIMESHEET_ACCOUNT_ANALYTIC_ID, self.account_analytic_id.id)
 
         self._save_setting(config_pool, CONST_SETTING_SYNC_EMPLOYEE, "Y" if self.sync_employee else "")
         self._save_setting(config_pool, CONST_SETTING_SYNC_POSITION, "Y" if self.sync_position else "")
