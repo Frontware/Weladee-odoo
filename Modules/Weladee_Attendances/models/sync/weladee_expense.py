@@ -65,7 +65,7 @@ def sync_expense(req):
             odoo_expense = sync_expense_data(weladee_expense, req)
             
             if odoo_expense and odoo_expense['res-mode'] == 'create':
-                newid = req.expense_obj.create(sync_clean_up(odoo_expense))
+                newid = req.expense_obj.with_context({'mail_create_nosubscribe':False}).create(sync_clean_up(odoo_expense))
                 if newid and newid.id:
                     sync_logdebug(req.context_sync, "Insert expense '%s' to odoo" % odoo_expense )
                     sync_stat_create(req.context_sync['stat-expense'], 1)
@@ -94,8 +94,8 @@ def sync_expense(req):
             elif odoo_expense and odoo_expense['res-mode'] == 'update':
                 odoo_id = req.expense_obj.browse(odoo_expense['res-id'])
                 if odoo_id.id:
-                   odoo_id.write(sync_clean_up(odoo_expense))
-                   if odoo_id.sheet_id: odoo_id.sheet_id.write({'state':'approve'}) 
+                   odoo_id.with_context({'mail_create_nosubscribe':False}).write(sync_clean_up(odoo_expense))
+                   if odoo_id.sheet_id: odoo_id.sheet_id.with_context({'mail_create_nosubscribe':False}).write({'state':'approve'}) 
                    sync_logdebug(req.context_sync, "Updated expense '%s' to odoo" % odoo_expense['name'] )
                    sync_stat_update(req.context_sync['stat-expense'], 1)
                 else:
