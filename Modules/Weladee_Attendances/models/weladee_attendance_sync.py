@@ -177,6 +177,8 @@ class weladee_attendance(models.TransientModel):
         if req.config.sync_job and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Job applicant")
             req.lang_obj = self.env['res.lang']
+            req.utm_source_obj = self.env['utm.source']
+            req.translation_obj = self.env['ir.translation']
             sync_job_applicant(req)
 
         if req.config.sync_expense and not sync_has_error(req.context_sync):
