@@ -133,12 +133,5 @@
         <field name="view_mode">form</field>
         <field name="view_id" ref="weladee_setting_wizard"/>
         <field name="target">new</field>
-    </record>
-
-    <menuitem id="weladee_setting_menu" name="Weladee Settings" sequence="76" parent="hr_attendance.menu_hr_attendance_root" groups="hr_attendance.group_hr_attendance_manager" action="action_weladee_setting_form" />
-    
-    <record id="hr_attendance.menu_hr_attendance_kiosk_no_user_mode" model="ir.ui.menu">
-        <field name="active">false</field>
-    </record>
-
+    </record>    
 </odoo>  

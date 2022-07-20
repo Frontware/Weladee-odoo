@@ -11,6 +11,10 @@ remarks:
             <field name="active" eval="False"/>
         </record>
 
+        <record id="hr_attendance.menu_hr_attendance_kiosk_no_user_mode" model="ir.ui.menu">
+            <field name="active">false</field>
+        </record>
+
         <record id="weladee_att_hr_att_list" model="ir.ui.view">
             <field name="name">weladee_att_hr_att_list</field>
             <field name="model">hr.attendance</field>

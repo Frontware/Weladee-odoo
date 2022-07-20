@@ -60,6 +60,8 @@
          "views/fw_hr_expense.xml",
          "views/fw_approvals_type.xml",
          'views/fw_approvals_request.xml',
+
+         'views/menu.xml',
 ],
 "qweb":[
          "static/src/xml/holiday.xml"

@@ -54,12 +54,5 @@
             <field name="code">action = model.open_sync_form()</field>
         </record>
  
-        <menuitem id="weladee_attendance_synchronous_menu"
-                  name="Weladee Synchronization"
-                  sequence="75"
-                  action="weladee_attendance_synchronous_act_server"
-                  parent="hr_attendance.menu_hr_attendance_root"
-                  groups="hr_attendance.group_hr_attendance_manager"
-        />
     </data>
 </odoo>  
