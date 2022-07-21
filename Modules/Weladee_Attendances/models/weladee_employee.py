@@ -78,6 +78,7 @@ class weladee_employee(models.Model):
     resignation_date = fields.Date('Resignation date')
     resignation_reason = fields.Text('Resignation reason')
     probation_due_date = fields.Date('Probation due date')
+    timesheet_cost = fields.Float('Timesheet cost')
 
     marital = fields.Selection([
         ('single', 'Single'),
