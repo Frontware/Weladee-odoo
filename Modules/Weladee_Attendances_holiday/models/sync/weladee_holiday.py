@@ -107,8 +107,6 @@ def sync_holiday_data(weladee_holiday, req, leaves_types):
        data['res-mode'] = ''
        sync_logwarn(req.context_sync, 'can''t find this weladee employee (%s) in odoo, will skip this holiday' % weladee_holiday.Holiday.EmployeeID)
        sync_logdebug(req.context_sync, 'weladee > %s ' % weladee_holiday)
-    else:
-       print(data) 
 
     return data   
 
