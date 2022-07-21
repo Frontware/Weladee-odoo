@@ -201,10 +201,10 @@ def sync_approvals_type(req):
                         sync_stat_update(req.context_sync['stat-approvals-type'], 1)
                     except Exception as e:
                         print(traceback.format_exc())
-                        sync_logerror(req.context, 'Update appoval type %s failed : %s' % (weladee_approvals_type, e))
+                        sync_logerror(req.context_sync, 'Update appoval type %s failed : %s' % (weladee_approvals_type, e))
                         sync_stat_error(req.context_sync['stat-approvals-type'], 1)
                 else:
-                    sync_logerror(req.context, 'Odoo appoval type not found for : %s' % weladee_approvals_type)
+                    sync_logerror(req.context_sync, 'Odoo appoval type not found for : %s' % weladee_approvals_type)
                     sync_stat_error(req.context_sync['stat-approvals-type'], 1)
 
     except Exception as e:
