@@ -17,7 +17,6 @@ class weladee_expense_sheet(models.Model):
     _inherit = 'hr.expense.sheet'
 
     def approve_expense_sheets(self):
-        print('xxx')
         for each in self.expense_line_ids:
             if each.weladee_id:
                self._update_in_weladee(each)
@@ -27,7 +26,7 @@ class weladee_expense_sheet(models.Model):
         '''
         create new record in weladee
         '''
-        ret = weladee_settings.get_api_key(self)      
+        ret = self.env['weladee_attendance.synchronous.setting'].get_settings()
         
         if ret.authorization:
             WeladeeData = odoo_pb2.ExpenseOdoo()

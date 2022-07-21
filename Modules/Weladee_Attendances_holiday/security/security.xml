@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+weladee attendances group
+
+remarks:
+
+2018-05-28 KPO created
+-->
+<odoo>
+    <data noupdate="1">
+
+        <record id="group_weladee_leave_allocation" model="res.groups">
+            <field name="name">for allocate leave</field>
+        </record>
+
+    </data>
+</odoo>

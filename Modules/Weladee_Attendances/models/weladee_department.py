@@ -40,7 +40,7 @@ class weladee_department(models.Model):
         '''
         create new record in weladee
         '''
-        ret = weladee_settings.get_api_key(self)      
+        ret = self.env['weladee_attendance.synchronous.setting'].get_settings()
         
         if ret.authorization:
             newDepartment = odoo_pb2.DepartmentOdoo()
@@ -78,7 +78,7 @@ class weladee_department(models.Model):
         '''
         create new record in weladee
         '''
-        ret = weladee_settings.get_api_key(self)      
+        ret = self.env['weladee_attendance.synchronous.setting'].get_settings()
         
         if ret.authorization:
             newDepartment = False

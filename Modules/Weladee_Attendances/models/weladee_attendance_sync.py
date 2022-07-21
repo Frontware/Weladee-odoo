@@ -14,24 +14,10 @@ from . import weladee_settings
 from .sync.weladee_base import renew_connection, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_has_error
 
 from odoo.addons.Weladee_Attendances.models.weladee_attendance_param import weladee_attendance_param
-from odoo.addons.Weladee_Attendances.models.weladee_settings import get_synchronous_email, get_synchronous_debug,get_synchronous_period 
-from odoo.addons.Weladee_Attendances.models.sync.weladee_position import sync_position_data, sync_position, resync_position 
-from odoo.addons.Weladee_Attendances.models.sync.weladee_department import sync_department_data, sync_department
-from odoo.addons.Weladee_Attendances.models.sync.weladee_employee import sync_employee_data, sync_employee
+from odoo.addons.Weladee_Attendances.models.sync.weladee_position import sync_position, resync_position 
+from odoo.addons.Weladee_Attendances.models.sync.weladee_department import sync_department
+from odoo.addons.Weladee_Attendances.models.sync.weladee_employee import sync_employee
 from odoo.addons.Weladee_Attendances.models.sync.weladee_manager import sync_manager_dep,sync_manager_emp
-from odoo.addons.Weladee_Attendances.models.sync.weladee_skill import sync_skill
-from odoo.addons.Weladee_Attendances.models.sync.weladee_log import sync_log
-from odoo.addons.Weladee_Attendances.models.sync.weladee_holiday import sync_holiday
-from odoo.addons.Weladee_Attendances.models.sync.weladee_customer import sync_customer
-from odoo.addons.Weladee_Attendances.models.sync.weladee_project import sync_project
-from odoo.addons.Weladee_Attendances.models.sync.weladee_task import sync_task
-from odoo.addons.Weladee_Attendances.models.sync.weladee_work_type import sync_work_type
-from odoo.addons.Weladee_Attendances.models.sync.weladee_timesheet import sync_timesheet
-from odoo.addons.Weladee_Attendances.models.sync.weladee_job_ads import sync_job_ads
-from odoo.addons.Weladee_Attendances.models.sync.weladee_job_applicant import sync_job_applicant
-from odoo.addons.Weladee_Attendances.models.sync.weladee_expense import sync_expense
-from odoo.addons.Weladee_Attendances.models.sync.weladee_approvals_type import sync_approvals_type
-from odoo.addons.Weladee_Attendances.models.sync.weladee_approvals_request import sync_approvals_request
 class weladee_attendance_working(models.TransientModel):
       _name="weladee_attendance.working"  
 
@@ -40,6 +26,9 @@ class weladee_attendance_working(models.TransientModel):
 class weladee_attendance(models.TransientModel):
     _name="weladee_attendance.synchronous"
     _description="synchronous Employee, Department, Holiday and attendance"
+
+    def init_param(self):
+        return weladee_attendance_param()
 
     @api.model
     def start_sync(self):
@@ -58,18 +47,18 @@ class weladee_attendance(models.TransientModel):
             today = elapse_start.astimezone(user_tz)
         except:
             today = user_tz.localize(elapse_start)
-        req = weladee_attendance_param()
+        req = self.init_param()
         req.context_sync = {
             'request-date':today.strftime('%d/%m/%Y %H:%M'),
             'request-logs':[],
             'request-logs-key':{},
             'request-error':False,
             'request-logs-y':False,
-            'request-email':get_synchronous_email(self),
-            'request-debug':get_synchronous_debug(self)
+            'request-email':self.env['weladee_attendance.synchronous.setting'].get_synchronous_email(),
+            'request-debug':self.env['weladee_attendance.synchronous.setting'].get_synchronous_debug()
         }
         sync_loginfo(req.context_sync,"Starting sync..")
-        req.config = weladee_settings.get_api_key(self)
+        req.config = self.env['weladee_attendance.synchronous.setting'].get_settings()
 
         req.to_email = True
         if req.config.api_db and (req.config.api_db != self.env.cr.dbname):
@@ -77,8 +66,7 @@ class weladee_attendance(models.TransientModel):
            sync_logerror(req.context_sync,'Warning this api key of (%s) is not match with current database' % req.config.api_db)
            req.to_email = False
         
-        if (not req.config.holiday_status_id) or (not req.config.authorization) and (req.config.api_db == self.env.cr.dbname):
-            
+        if  (not req.config.authorization) and (req.config.api_db == self.env.cr.dbname):            
             sync_stop(req.context_sync)
             sync_logerror(req.context_sync,'You must setup API Key, Default Holiday Status at Attendances -> Weladee settings')
         
@@ -114,96 +102,8 @@ class weladee_attendance(models.TransientModel):
 
             sync_manager_dep(req)
             sync_manager_emp(req)
-        
-        if req.config.sync_skill and not sync_has_error(req.context_sync):
-            sync_logdebug(req.context_sync, "Start sync...Skill")
-
-            req.skill_type_obj = self.env['hr.skill.type']
-            req.skill_level_obj = self.env['hr.skill.level']
-            req.skill_obj = self.env['hr.skill']
-            req.skill_employee_obj = self.env['hr.employee.skill']
-            req.translation_obj = self.env['ir.translation']
-            sync_skill(req)
-        
-        odoo_weladee_ids = {}
-        if req.config.sync_attendance and not sync_has_error(req.context_sync):
-            sync_logdebug(req.context_sync,"Start sync...Log")
-            req.log_obj = self.env['hr.attendance']
-            req.period_settings = get_synchronous_period(self)
-            sync_log(self, req )
-
-        if req.config.sync_holiday and not sync_has_error(req.context_sync):
-            sync_logdebug(req.context_sync,"Start sync...Holiday")
-            req.leave_obj = self.env['hr.leave']
-            req.company_holiday_obj = self.env['weladee_attendance.company.holidays']
-            sync_holiday(self, req)
-
-        cus_odoo_weladee_ids = {}
-        if req.config.sync_customer and not sync_has_error(req.context_sync):
-            sync_logdebug(req.context_sync,"Start sync...Customer")
-            req.customer_obj = self.env['res.partner']
-            sync_customer(req)
-
-        if req.config.sync_timesheet and not sync_has_error(req.context_sync):
-            sync_logdebug(req.context_sync,"Start sync...Project")
-            req.project_obj = self.env['project.project']
-            req.task_obj = self.env['project.task']
-            req.timesheet_obj= self.env['account.analytic.line']
-            sync_project(req)
-
-        if req.config.sync_timesheet and not sync_has_error(req.context_sync):
-            sync_logdebug(req.context_sync,"Start sync...Task")
-            sync_task(req)
-
-        if req.config.sync_timesheet and not sync_has_error(req.context_sync):
-            sync_logdebug(req.context_sync,"Start sync...Work type")
-            req.work_type_obj = self.env['mail.activity.type']
-            sync_work_type(req)
-
-        if req.config.sync_timesheet and not sync_has_error(req.context_sync):
-            sync_logdebug(req.context_sync,"Start sync...Timesheet")
-            sync_timesheet(req)
-
-        if req.config.sync_job and not sync_has_error(req.context_sync):
-            sync_logdebug(req.context_sync,"Start sync...Job ads")
-            test_key = self.env['ir.config_parameter'].search([('key','=','test-k1')])
-            if test_key and len(test_key) > 0:
-               req.config.authorization = [('authorization', test_key[0].value)]
-            req.jobads_obj = self.env['weladee_job_ads']
-            req.jobapp_obj = self.env['hr.applicant']
-            sync_job_ads(req)
-
-        req.config = weladee_settings.get_api_key(self)
-        if req.config.sync_job and not sync_has_error(req.context_sync):
-            sync_logdebug(req.context_sync,"Start sync...Job applicant")
-            req.lang_obj = self.env['res.lang']
-            req.utm_source_obj = self.env['utm.source']
-            req.translation_obj = self.env['ir.translation']
-            sync_job_applicant(req)
-
-        if req.config.sync_expense and not sync_has_error(req.context_sync):
-            sync_logdebug(req.context_sync,"Start sync...Expense")
-            req.expense_obj = self.env['hr.expense']
-            req.expense_sheet_obj = self.env['hr.expense.sheet']
-            req.attach_obj = self.env['ir.attachment']
-            sync_expense(req)
-        
-        if req.config.sync_approval and not sync_has_error(req.context_sync):
-            sync_logdebug(req.context_sync,"Start sync...Approvals Types")
-            req.employee_obj = self.env['hr.employee']
-            req.approvals_type_obj = self.env['fw.approvals.type']
-            req.translation_obj = self.env['ir.translation']
-            sync_approvals_type(req)
-        
-        if req.config.sync_approval and not sync_has_error(req.context_sync):
-            sync_logdebug(req.context_sync,"Start sync...Approvals Requests")
-            req.employee_obj = self.env['hr.employee']
-            req.project_obj = self.env['project.project']
-            req.attach_obj = self.env['ir.attachment']
-            req.approvals_type_obj = self.env['fw.approvals.type']
-            req.approvals_approver_obj = self.env['fw.approvals.approver']
-            req.approvals_request_obj = self.env['fw.approvals.request']
-            sync_approvals_request(req)
+            
+        self.do_sync_options(req)
 
         sync_loginfo(req.context_sync,'sending result to %s' % req.context_sync['request-email'])
         req.context_sync['request-elapse'] = str(datetime.today() - elapse_start)
@@ -225,6 +125,10 @@ class weladee_attendance(models.TransientModel):
         works = self.env['weladee_attendance.working'].search([])
         if works: works.unlink()
 
+    def do_sync_options(self, req):
+        return
+        
+
     def send_result_mail(self, ctx):
         '''
         send result email to admin
@@ -243,5 +147,4 @@ class weladee_attendance(models.TransientModel):
             if template:
                 template.with_context(ctx).send_mail(self.id)        
             else:
-                _logger.error('sending result to %s failed, no template found' % ctx['request-email'])            
-
+                _logger.error('sending result to %s failed, no template found' % ctx['request-email'])     

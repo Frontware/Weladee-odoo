@@ -116,7 +116,7 @@ class weladee_employee(models.Model):
         '''
         create new employee record in weladee
         '''
-        ret = weladee_settings.get_api_key(self)      
+        ret = self.env['weladee_attendance.synchronous.setting'].get_settings()
         
         if ret.authorization:
             WeladeeData = odoo_pb2.EmployeeOdoo()
@@ -176,7 +176,10 @@ class weladee_employee(models.Model):
 
             if "birthday" in vals:    
                 if vals['birthday']:
-                   WeladeeData.employee.Birthday = int(datetime.strptime(vals["birthday"],'%Y-%m-%d').timestamp())
+                   if type(vals['birthday']) is datetime:
+                      WeladeeData.employee.Birthday = int(vals["birthday"].timestamp())
+                   else: 
+                      WeladeeData.employee.Birthday = int(datetime.strptime(vals["birthday"],'%Y-%m-%d').timestamp())
 
             #language not sync yet
             WeladeeData.employee.lg = "en"
@@ -262,7 +265,7 @@ class weladee_employee(models.Model):
         '''
         create new record in weladee
         '''
-        ret = weladee_settings.get_api_key(self)      
+        ret = self.env['weladee_attendance.synchronous.setting'].get_settings()
         
         if ret.authorization:
             WeladeeData = False
@@ -547,12 +550,14 @@ class weladee_employee(models.Model):
     def write(self, vals):
         odoovals = sync_clean_up(vals)
         self.clean_up_space(odoovals)
-        wid = vals.get('weladee_id', self.weladee_id)
-        wp = vals.get('weladee_profile', self.weladee_profile)
-        if wid and not wp:
-           self.weladee_profile = "https://www.weladee.com/employee/%s" % wid
+        ret = False
+        for each in self:
+            wid = vals.get('weladee_id', each.weladee_id)
+            wp = vals.get('weladee_profile', each.weladee_profile)
+            if wid and not wp:
+               vals['weladee_profile'] = "https://www.weladee.com/employee/%s" % wid
 
-        ret = super(weladee_employee, self).write( odoovals )
+            ret = super(weladee_employee, each).write( odoovals )
         # if don't need to sync when there is weladee-id in vals
         # case we don't need to send to weladee, like just update weladee-id in odoo
         

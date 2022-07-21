@@ -24,18 +24,11 @@
 "author" : "Frontware International",
 "category" : "Generic Modules",
 'summary': 'Weladee-Odoo attendances\'s module',
-"depends" : ['base', 'hr', 
-             'hr_attendance', 
-             'hr_holidays', 
-             'hr_timesheet', 
-             'hr_recruitment', 
-             'hr_expense',
-             'hr_skills','fw_approvals'],
+"depends" : ['base', 'hr'],
 "data" :["security/security.xml",
          "security/ir.model.access.csv",   
 
          "data/emails/weladee_attendance.xml",
-         "data/emails/weladee_allocate_error.xml",
 
          "wizards/weladee_attendance_settings.xml",
          "wizards/weladee_attendance.xml",
@@ -43,38 +36,20 @@
          "data/templates/asset_Weladee_Attendances.xml",
          "data/schedule.xml",
 
-         "views/fw_hr_timesheet.xml",
          "views/fw_hr_department.xml",
-         "views/fw_hr_attendances.xml",
-         'views/fw_hr_leave_type.xml',
-         "views/fw_hr_leave.xml",
-         "views/weladee_company_holiday.xml",
          "views/fw_hr_employee.xml",
-         "views/fw_hr_skill.xml",
-         "views/fw_user_profile.xml",
-         "views/fw_res_partner.xml",
-         "views/fw_project_project.xml",
-         "views/fw_project_task.xml",
-         "views/fw_hr_job.xml",
-         "views/fw_hr_job_applicant.xml",
-         "views/fw_hr_expense.xml",
-         "views/fw_approvals_type.xml",
-         'views/fw_approvals_request.xml',
 
          'views/menu.xml',
 ],
-"qweb":[
-         "static/src/xml/holiday.xml"
-         ],
 "installable" : True,
 "active" : False,
 "website" : "https://www.weladee.com/",
 "description":"""
 Weladee attendances module
 ==========================
-Module to manage synchronous Employee, Department, Holiday and attendances.
+Module to manage synchronous Employee, Department.
 
-It will synchronus employee, department, position, holidays and import attendances to odoo.
+It will synchronus employee, department, position to odoo.
 
 change log:
 ------------------------------------

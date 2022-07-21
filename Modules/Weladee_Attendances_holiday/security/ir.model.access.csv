@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+group_weladee_leave_allocation_all,group_weladee_leave_allocation_all,hr_holidays.model_hr_leave,Weladee_Attendances.group_weladee_leave_allocation,1,0,0,0
+weladee_attendance.company.holidays_user,weladee_attendance.company.holidays_user,model_weladee_attendance_company_holidays,base.group_user,1,0,0,0
+
+access_hr_leave_type_man,access_hr_leave_type_man,hr_holidays.model_hr_leave_type,Weladee_Attendances.group_weladee_attendance_admin,1,1,1,1

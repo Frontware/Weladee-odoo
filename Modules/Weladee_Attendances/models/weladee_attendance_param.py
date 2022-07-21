@@ -3,58 +3,26 @@
 class weladee_attendance_param():
       def __init__(self):
           self.config = False
+          ''' weladee_attendance.synchronous.setting get_settings'''
           self.context_sync = False
+          ''' data for log '''
           self.to_email = False
+          ''' flag to send email or not '''
 
           self.job_obj = False
+          ''' hr.job pool'''
 
           self.department_obj = False
+          ''' hr.department pool'''
           self.department_managers = {}
+          ''' map of department manager, key: department odoo id/value: weladee managerid '''
 
           self.country = {}
+          ''' map of country list, key: country code/value: country odoo id'''
 
           self.employee_managers = {}
+          ''' map of employee manager, key = employee odoo.id/value: weladee managerid'''
           self.employee_obj = False
-
-          self.log_obj = False
+          ''' hr.employee pool '''
           self.employee_odoo_weladee_ids = {}
-          self.period_settings = False
-
-          self.skill_type_obj = False
-          self.skill_level_obj = False
-          self.skill_obj = False
-          self.skill_employee_obj = False
-
-          self.leave_obj = False  
-          self.company_holiday_obj = False
-
-          self.customer_obj = False
-          self.customer_odoo_weladee_ids = {}
-
-          self.project_obj = False
-          self.project_odoo_weladee_ids = {}
-
-          self.task_obj = False
-          self.task_odoo_weladee_ids = {}
-
-          self.work_type_obj = False
-          self.work_type_odoo_weladee_ids = {}
-
-          self.timesheet_obj = False  
-
-          self.jobads_obj = False  
-          self.job_ads_odoo_weladee_ids = {}
-
-          self.jobapp_obj = False  
-          self.lang_obj = False
-          self.utm_source_obj = False
-
-          self.expense_obj = False
-          self.expense_sheet_obj = False
-          self.attach_obj = False
-
-          self.approvals_type_obj = False
-          self.approvals_approver_obj = False
-          self.approvals_request_obj = False
-
-          self.translation_obj = False
+          ''' map emloyee : key = weladee employee id/value = employee odoo id '''

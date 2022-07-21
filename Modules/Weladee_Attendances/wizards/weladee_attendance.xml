@@ -17,10 +17,6 @@
                     <span colspan="4" class="o_form_label">   - Positions</span><br/>
                     <span colspan="4" class="o_form_label">   - Departments</span><br/>
                     <span colspan="4" class="o_form_label">   - Employees</span><br/>
-                    <span colspan="4" class="o_form_label">   - Holidays</span><br/>
-                    <span colspan="4" class="o_form_label">   - Attendance</span><br/>
-                    <span colspan="4" class="o_form_label">   - Customers</span><br/>
-                    <span colspan="4" class="o_form_label">   - Projects</span><br/>
                     <br/>
                     <br/>
                     <span class="o_form_label">After synchronization, result will send to email address below</span>

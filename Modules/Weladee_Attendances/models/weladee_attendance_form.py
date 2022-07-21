@@ -8,7 +8,6 @@ import pytz
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
-from odoo.addons.Weladee_Attendances.models.weladee_settings import get_synchronous_email 
 
 class weladee_attendance_form(models.TransientModel):
     _name="weladee_attendance_form"
@@ -18,7 +17,7 @@ class weladee_attendance_form(models.TransientModel):
         return "get_synchronous_email(self)"
 
     def _get_synchronous_email(self):
-        self.email = get_synchronous_email(self)
+        self.email = self.env['weladee_attendance.synchronous.setting'].get_synchronous_email()
 
     #fields
     email = fields.Text(compute='_get_synchronous_email',default=_get_synchronous_email)
