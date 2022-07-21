@@ -20,7 +20,7 @@ class weladee_expense_sheet(models.Model):
         for each in self.expense_line_ids:
             if each.weladee_id:
                self._update_in_weladee(each)
-        return super(weladee_expense_sheet, self).approve_expense_sheets()       
+        return super(weladee_expense_sheet, self).with_context({'mail_create_nosubscribe':False}).approve_expense_sheets()       
 
     def _update_in_weladee(self, line):
         '''
