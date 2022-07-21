@@ -46,6 +46,6 @@ Weladee attendances holiday module
 ==========================
 Module to manage synchronous Holiday.
 
-It will synchronus employee holidays and company holidas to odoo.
+It will synchronus employee holidays and company holidays to odoo.
 """
 }
