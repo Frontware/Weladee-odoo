@@ -14,13 +14,19 @@ class weladee_attendance_form(models.TransientModel):
 
     @api.model
     def _get_synchronous_email(self):
-        return "get_synchronous_email(self)"
+        return "get_synchronous_data(self)"
 
-    def _get_synchronous_email(self):
+    def get_synchronous_data(self):
         self.email = self.env['weladee_attendance.synchronous.setting'].get_synchronous_email()
+        self.fns = '''
+        <li>Position</li>
+        <li>Department</li>
+        <li>Employee</li>
+        '''
 
     #fields
-    email = fields.Text(compute='_get_synchronous_email',default=_get_synchronous_email)
+    email = fields.Text(compute='get_synchronous_data',default=_get_synchronous_email)
+    fns = fields.Text(compute='get_synchronous_data',default=_get_synchronous_email)
 
     @api.model
     def open_sync_form(self):
