@@ -48,3 +48,5 @@ docs/_build/
 .idea/markdown-navigator.xml
 *.iml
 .idea/*
+
+.vscode/*
