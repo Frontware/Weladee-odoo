@@ -28,14 +28,18 @@ remarks:
                     </div>
                     </button>
                 </xpath>
+            </field>
+        </record>
 
+        <record id="hr_employee_weladee_profile_holidaywe" model="ir.ui.view">
+            <field name="name">hr_employee_weladee_profile_holidaywe</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="Weladee_Attendances.hr_employee_weladee_profile"/>
+            <field name="arch" type="xml">                
                 <xpath expr="//page[@name='weladee']" position="inside">
-                        <group>
-                            <group string="Holiday">
-                                <field name="can_request_holiday" />
-                            </group>                        
+                        <group string="Holiday">
+                            <field name="can_request_holiday" />
                         </group>                        
-                    </page>
                 </xpath>   
             </field>
         </record>

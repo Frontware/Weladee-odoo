@@ -32,6 +32,7 @@
 
          'views/fw_hr_leave_type.xml',
          "views/fw_hr_leave.xml",
+         'views/fw_hr_employee.xml',
          "views/weladee_company_holiday.xml",
 ],
 "qweb":[
