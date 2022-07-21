@@ -6,3 +6,4 @@ from . import weladee_attendance_sync
 from . import weladee_holiday_status
 from . import weladee_holidays
 from . import weladee_settings
+from . import weladee_attendance_form
