@@ -26,6 +26,7 @@ class weladee_attendance_holiday(models.TransientModel):
         return r    
 
     def do_sync_options(self, req):
+        super(weladee_attendance_holiday, self).do_sync_options(req)
 
         if req.config.sync_holiday and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Holiday")
