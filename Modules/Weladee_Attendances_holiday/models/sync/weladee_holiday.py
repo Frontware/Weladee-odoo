@@ -51,24 +51,26 @@ def sync_holiday_data(weladee_holiday, req, leaves_types):
     if not weladee_holiday.Holiday.EmployeeID:
        return sync_company_holiday_data(weladee_holiday, req)
 
-    df = datetime.datetime.strptime(str(weladee_holiday.Holiday.date) + ' 00:00:00','%Y%m%d %H:%M:%S')
-    dt = datetime.datetime.strptime(str(weladee_holiday.Holiday.date) + ' 23:59:59','%Y%m%d %H:%M:%S')
+    df0 = datetime.datetime.strptime(str(weladee_holiday.Holiday.date),'%Y%m%d')
+    df0 = datetime.datetime.combine( df0, datetime.time.min)
+    dt0 = datetime.datetime.combine( df0, datetime.time.max)
     tzoffset = datetime.datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(pytz.timezone(req.config.tz)).utcoffset().total_seconds() / 60 / 60 
 
-    df = df + datetime.timedelta(hours=0-tzoffset)
-    dt = dt + datetime.timedelta(hours=0-tzoffset)
+    df = df0 + datetime.timedelta(hours=0-tzoffset)
+    dt = dt0 + datetime.timedelta(hours=0-tzoffset)
+    
     data = {'name': (weladee_holiday.Holiday.NameEnglish or weladee_holiday.Holiday.NameThai or '').strip(' '),
             'date_from': df,
             'date_to': dt,
             'request_date_from': df,
             'request_date_to': dt,
+            'number_of_days': 1,
             'employee_id':req.employee_odoo_weladee_ids.get('%s' % weladee_holiday.Holiday.EmployeeID,False),
             'holiday_status_id': req.config.holiday_status_id,            
             'holiday_type':'employee',
             'weladee_code': weladee_holiday.Holiday.code,
             'weladee_sick': weladee_holiday.Holiday.sickLeave,
-            'state':'validate'}            
-    data['number_of_days'] = req.leave_obj._get_number_of_days(df, dt, data['employee_id'])['days']
+            'state':'validate'}                
     
     # 2018-11-14 KPO allow multiple type, but default come from setting
     if weladee_holiday.Holiday.code in leaves_types:
@@ -104,7 +106,10 @@ def sync_holiday_data(weladee_holiday, req, leaves_types):
     if not data['employee_id']:
        data['res-mode'] = ''
        sync_logwarn(req.context_sync, 'can''t find this weladee employee (%s) in odoo, will skip this holiday' % weladee_holiday.Holiday.EmployeeID)
-       print(weladee_holiday.Holiday)
+       sync_logdebug(req.context_sync, 'weladee > %s ' % weladee_holiday)
+    else:
+       print(data) 
+
     return data   
 
 def _update_weladee_holiday_back(req, weladee_holiday, holiday_odoo):
