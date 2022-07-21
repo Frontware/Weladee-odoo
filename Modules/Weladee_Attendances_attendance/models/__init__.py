@@ -4,3 +4,4 @@ from . import sync
 from . import weladee_attendance_sync
 from . import weladee_attendance
 from . import weladee_settings
+from . import weladee_attendance_form
