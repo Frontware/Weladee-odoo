@@ -94,7 +94,7 @@ def sync_expense(req):
                             'res_id': newid.id,
                         })
 
-                    req.expense_sheet_obj.create({
+                    req.expense_sheet_obj.with_context({'mail_create_nosubscribe':False}).create({
                         'name': newid.name,
                         'employee_id': newid.employee_id.id,
                         'expense_line_ids': [(6,0,[newid.id])],
