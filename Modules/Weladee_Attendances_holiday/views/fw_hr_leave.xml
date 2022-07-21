@@ -27,6 +27,19 @@ remarks:
         </field>
     </record>
 
+    <record id="weladee_att_hr_leave_man" model="ir.ui.view">
+        <field name="name">weladee_att_hr_leave_man</field>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_form_manager"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="create">0</attribute>
+                <attribute name="edit">0</attribute>
+                <attribute name="delete">0</attribute>
+            </xpath>
+        </field>
+    </record>
+
     <record id="weladee_att_hr_leave_list_simp" model="ir.ui.view">
         <field name="name">weladee_att_hr_leave_list_simp</field>
         <field name="model">hr.leave</field>

@@ -2,16 +2,14 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import time
 import datetime
-from dateutil.relativedelta import relativedelta
 import traceback
 import pytz
 
-from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2, weladee_pb2
-from .weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
-from .weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
-from .weladee_log import get_emp_odoo_weladee_ids
+from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
+from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
+from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
+from odoo.addons.Weladee_Attendances.models.sync.weladee_log import get_emp_odoo_weladee_ids
 from odoo.addons.Weladee_Attendances.library.weladee_lib import _convert_to_tz_time
-from odoo.addons.Weladee_Attendances.models.weladee_settings import get_holiday_notify, get_holiday_notify_email
 
 def sync_company_holiday_data(weladee_holiday, req):
     '''
@@ -62,12 +60,15 @@ def sync_holiday_data(weladee_holiday, req, leaves_types):
     data = {'name': (weladee_holiday.Holiday.NameEnglish or weladee_holiday.Holiday.NameThai or '').strip(' '),
             'date_from': df,
             'date_to': dt,
+            'request_date_from': df,
+            'request_date_to': dt,
             'employee_id':req.employee_odoo_weladee_ids.get('%s' % weladee_holiday.Holiday.EmployeeID,False),
             'holiday_status_id': req.config.holiday_status_id,            
             'holiday_type':'employee',
             'weladee_code': weladee_holiday.Holiday.code,
             'weladee_sick': weladee_holiday.Holiday.sickLeave,
-            'state':'validate'}
+            'state':'validate'}            
+    data['number_of_days'] = req.leave_obj._get_number_of_days(df, dt, data['employee_id'])['days']
     
     # 2018-11-14 KPO allow multiple type, but default come from setting
     if weladee_holiday.Holiday.code in leaves_types:
@@ -131,21 +132,7 @@ def sync_holiday(self, req):
     weladee_holiday = False
     try:        
         sync_loginfo(req.context_sync,'[holiday] updating changes from weladee-> odoo')
-
-        # Calculate period
-        period = odoo_pb2.Period()
-        if req.config.holiday_period == 'w':
-            period.From = int((datetime.datetime.now() - relativedelta(weeks=abs(req.config.holiday_period_unit))).timestamp())
-        elif req.config.holiday_period == 'm':
-            period.From = int((datetime.datetime.now() - relativedelta(months=abs(req.config.holiday_period_unit))).timestamp())
-        elif req.config.holiday_period == 'y':
-            period.From = int((datetime.datetime.now() - relativedelta(years=abs(req.config.holiday_period_unit))).timestamp())
-        elif req.config.holiday_period == 'all':
-            period = weladee_pb2.Empty()
-        else:
-            period.From = int((datetime.datetime.now() - relativedelta(weeks=1)).timestamp())
-
-        for weladee_holiday in stub.GetHolidays(period, metadata=req.config.authorization):
+        for weladee_holiday in stub.GetHolidays(weladee_pb2.Empty(), metadata=req.config.authorization):
             sync_stat_to_sync(req.context_sync['stat-hol'], 1)
             if not weladee_holiday :
                sync_logwarn(req.context_sync,'weladee holiday is empty')
@@ -201,9 +188,11 @@ def sync_holiday(self, req):
     except Exception as e:
         print(traceback.format_exc())
         sync_logdebug(req.context_sync, 'odoo >> %s' % odoo_hol) 
+        bget_holiday_notify = self.env['weladee_attendance.synchronous.setting'].get_holiday_notify_leave_req()
+        bget_holiday_notify_email = self.env['weladee_attendance.synchronous.setting'].get_holiday_notify_leave_req_email()
 
         # extra options
-        if req.to_email and get_holiday_notify(self) and get_holiday_notify_email(self):
+        if req.to_email and bget_holiday_notify and bget_holiday_notify_email:
             if 'The number of remaining leaves is not sufficient for this leave type' in ("%s" % e):
                 
                 date = datetime.datetime.strptime(str(weladee_holiday.Holiday.date),'%Y%m%d')
@@ -223,7 +212,7 @@ def sync_holiday(self, req):
                         self.env['ir.config_parameter'].search([('key','=','web.base.url')]).value,
                         self.env.ref('hr_holidays.menu_open_department_leave_allocation_approve').id,
                         self.env.ref('hr_holidays.open_department_holidays_allocation_approve').id)
-                    template.with_context({'email-to':get_holiday_notify_email(self),
+                    template.with_context({'email-to':bget_holiday_notify_email,
                                            'employee': emp_name,
                                            'url':allocation_url}).send_mail(self.id)        
 
