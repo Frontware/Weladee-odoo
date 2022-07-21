@@ -12,6 +12,16 @@ from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from .weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
 from .weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info 
 
+def get_emp_odoo_weladee_ids(req):
+    '''
+    return odoo id from weladee id
+    '''
+    odoo_weladee_ids = {}
+    for each in req.employee_obj.search([('weladee_id','!=',False),'|',('active','=',False),('active','=',True)]):
+        odoo_weladee_ids[each.weladee_id] = each.id
+
+    return odoo_weladee_ids    
+
 def sync_employee_data_gender(weladee_emp):
     '''
     convert weladee employee gender to odoo

@@ -8,7 +8,7 @@ import pytz
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
-from odoo.addons.Weladee_Attendances.models.sync.weladee_log import get_emp_odoo_weladee_ids
+from odoo.addons.Weladee_Attendances.models.sync.weladee_employee import get_emp_odoo_weladee_ids
 from odoo.addons.Weladee_Attendances.library.weladee_lib import _convert_to_tz_time
 
 def sync_company_holiday_data(weladee_holiday, req):
@@ -101,6 +101,10 @@ def sync_holiday_data(weladee_holiday, req, leaves_types):
             sync_logwarn(req.context_sync, 'can''t find this odoo-id %s in odoo holiday, will skip and not update' % weladee_holiday.odoo.odoo_id)
             data['res-mode'] = ''
 
+    if not data['employee_id']:
+       data['res-mode'] = ''
+       sync_logwarn(req.context_sync, 'can''t find this weladee employee (%s) in odoo, will skip this holiday' % weladee_holiday.Holiday.EmployeeID)
+       print(weladee_holiday.Holiday)
     return data   
 
 def _update_weladee_holiday_back(req, weladee_holiday, holiday_odoo):
