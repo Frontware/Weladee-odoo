@@ -20,6 +20,11 @@ class weladee_attendance_param():
           self.employee_odoo_weladee_ids = {}
           self.period_settings = False
 
+          self.skill_type_obj = False
+          self.skill_level_obj = False
+          self.skill_obj = False
+          self.skill_employee_obj = False
+
           self.leave_obj = False  
           self.company_holiday_obj = False
 
@@ -42,7 +47,14 @@ class weladee_attendance_param():
 
           self.jobapp_obj = False  
           self.lang_obj = False
+          self.utm_source_obj = False
 
           self.expense_obj = False
           self.expense_sheet_obj = False
           self.attach_obj = False
+
+          self.approvals_type_obj = False
+          self.approvals_approver_obj = False
+          self.approvals_request_obj = False
+
+          self.translation_obj = False

@@ -11,68 +11,160 @@
         <field name="model">weladee_attendance.synchronous.setting</field>
         <field name="arch" type="xml">
             <form string="Setting">
-                <notebook>
-                    <page string="API">
-                        <group>
-                            <field name="api_database" readonly="1" />
-                            <field name="api_key"/>
-                        </group>
-                    </page>
-                    <page string="Attendance">
-                        <group>
-                            <label for="log_period"/>
+                <header>
+                    <button name="saveBtn" string="Save" class="oe_highlight" type="object"/>
+                    <button name="cancel" string="Cancel"/>
+                </header>
+                <group>
+                    <!-- left -->
+                    <group string="API">
+                        <field name="api_database" readonly="1" />
+                        <field name="api_key"/>
+                    </group>
+                    <group></group>
+
+                    <group string="Synchronization">
+                        <label for="sync_position" string="Position"/>
+                        <div>
                             <div>
-                                <field attrs="{'invisible':[('log_period','=','all')]}" name="log_period_unit" class="oe_inline" />
-                                <span attrs="{'invisible':[('log_period','=','all')]}">&amp;nbsp;</span>
-                                <field name="log_period" style="height:24px" class="oe_inline" />
+                                <field name="sync_position" class="oe_inline"/>
                             </div>
-                        </group>
-                    </page>
-                    <page string="Holiday">
-                        <group>
-                            <field name="tz"/>
-                            <field name="holiday_status_id"/>
-                            <field name="sick_status_id"/>
-                            <label for="holiday_notify_leave_req" string="Notify" />
+                        </div>    
+                        <label for="sync_department" string="Department"/>
+                        <div>
                             <div>
-                                <field name="holiday_notify_leave_req"/>
+                                <field name="sync_department" class="oe_inline"/>
                             </div>
-                        </group>
-                        <group attrs="{'invisible':[('holiday_notify_leave_req','=',False)]}">
-                            <span class="o_form_label">to email</span><br/>
+                        </div>    
+                        <label for="sync_employee" string="Employee"/>
+                        <div>
                             <div>
-                                <field name="holiday_notify_leave_req_email" attrs="{'required':[('holiday_notify_leave_req','=',True)]}"/>
+                                <field name="sync_employee" class="oe_inline"/>
                             </div>
-                            <br/>
-                            <span class="o_form_label">*Note: you can separate each email by ;</span>
-                        </group>
-                    </page>
-                    <page string="Expense">
-                        <group>
-                            <field name="expense_product_id"/>
-                        </group>
-                    </page>
-                    <page string="Notification">
-                        <group>
-                            <label for="email"/>
+                        </div>    
+                        <label for="sync_holiday" string="Holiday"/>
+                        <div>
                             <div>
-                                <field name="email" requird="1"/>
-                                <br />
+                                <field name="sync_holiday" class="oe_inline"/>
+                            </div>
+                        </div>    
+                        <label for="sync_attendance" string="Attendance"/>
+                        <div>
+                            <div>
+                                <field name="sync_attendance" class="oe_inline"/>
+                            </div>
+                        </div>    
+                        <label for="sync_timesheet" string="Timesheet"/>
+                        <div>
+                            <div>
+                                <field name="sync_timesheet" class="oe_inline"/>
+                                <label attrs="{'invisible':[('sync_timesheet','=',False)]}" for="sync_timesheet" string="Also sync Customer, Project and Task" class="oe_inline"/>
+                            </div>
+                        </div>    
+                        <label for="sync_expense" string="Expense"/>
+                        <div>
+                            <div>
+                                <field name="sync_expense" class="oe_inline"/>
+                            </div>
+                        </div>    
+                        <label for="sync_job" string="Job"/>
+                        <div>
+                            <div>
+                                <field name="sync_job" class="oe_inline"/>
+                            </div>
+                        </div>    
+                        <label for="sync_approval" string="Approval"/>
+                        <div>
+                            <div>
+                                <field name="sync_approval" class="oe_inline"/>
+                            </div>
+                        </div>    
+                        <label for="sync_skill" string="Skill"/>
+                        <div>
+                            <div>
+                                <field name="sync_skill" class="oe_inline"/>
+                            </div>
+                        </div>    
+                    </group>
+                
+                    <group string="Settings">
+                    <notebook>
+                        <page string="Holiday" attrs="{'invisible':[('sync_holiday','=',False)]}">
+                            <group>
+                                <field name="tz" attrs="{'required':[('sync_holiday','=',True)]}"/>
+                                <field name="holiday_status_id" attrs="{'required':[('sync_holiday','=',True)]}"/>
+                                <field name="sick_status_id" attrs="{'required':[('sync_holiday','=',True)]}"/>
+                                <label for="holiday_notify_leave_req" string="Notify" />
+                                <div>
+                                    <field name="holiday_notify_leave_req"/>
+                                </div>
+                                <label for="holiday_period"/>
+                                <div>
+                                    <field attrs="{'required':[('sync_holiday','=',True)],'invisible':[('holiday_period','=','all')]}" name="holiday_period_unit" class="oe_inline" />
+                                    <span attrs="{'invisible':[('holiday_period','=','all')]}">&amp;nbsp;</span>
+                                    <field name="holiday_period" style="height:24px" attrs="{'required':[('sync_holiday','=',True)]}" class="oe_inline" />
+                                </div>
+                            </group>
+                            <group attrs="{'invisible':[('holiday_notify_leave_req','=',False)]}">
+                                <span class="o_form_label">to email</span><br/>
+                                <div>
+                                    <field name="holiday_notify_leave_req_email" attrs="{'required':[('holiday_notify_leave_req','=',True)]}"/>
+                                </div>
+                                <br/>
                                 <span class="o_form_label">*Note: you can separate each email by ;</span>
-                            </div>
-                        </group>
-                        <group>
-                            <div>
-                                <field name="api_debug" nolabel="1" class="oe_inline"/>
-                                <label for="api_debug" />
-                            </div>
-                        </group>
-                    </page>
-                </notebook>
-                <footer>
-                    <button icon="fa-close" special="cancel" string="Close"/>
-                    <button icon="fa-gear" name="saveBtn" string="Save" class="oe_highlight" type="object"/>
-                </footer>
+                            </group>
+                        </page>
+                        <page string="Attendance" attrs="{'invisible':[('sync_attendance','=',False)]}">
+                            <group>
+                                <label for="log_period"/>
+                                <div>
+                                    <field attrs="{'required':[('sync_attendance','=',True)],'invisible':[('log_period','=','all')]}" name="log_period_unit" class="oe_inline" />
+                                    <span attrs="{'invisible':[('log_period','=','all')]}">&amp;nbsp;</span>
+                                    <field name="log_period" attrs="{'required':[('sync_attendance','=',True)]}" style="height:24px" class="oe_inline" />
+                                </div>
+                            </group>
+                        </page>
+                        <page string="Timesheet" attrs="{'invisible':[('sync_timesheet','=',False)]}">
+                            <group>
+                                <field name="account_analytic_id" attrs="{'required':[('sync_timesheet','=',True)]}"/>
+                                <label for="timesheet_period"/>
+                                <div>
+                                    <field attrs="{'required':[('sync_timesheet','=',True)],'invisible':[('timesheet_period','=','all')]}" name="timesheet_period_unit" class="oe_inline" />
+                                    <span attrs="{'invisible':[('timesheet_period','=','all')]}">&amp;nbsp;</span>
+                                    <field name="timesheet_period" attrs="{'required':[('sync_timesheet','=',True)]}" style="height:24px" class="oe_inline" />
+                                </div>
+                            </group>
+                        </page>
+                        <page string="Expense" attrs="{'invisible':[('sync_expense','=',False)]}">
+                            <group>
+                                <field name="expense_product_id" attrs="{'required':[('sync_expense','=',True)]}"/>
+                                <label for="expense_period"/>
+                                <div>
+                                    <field attrs="{'required':[('sync_expense','=',True)],'invisible':[('expense_period','=','all')]}" name="expense_period_unit" class="oe_inline" />
+                                    <span attrs="{'invisible':[('expense_period','=','all')]}">&amp;nbsp;</span>
+                                    <field name="expense_period" attrs="{'required':[('sync_expense','=',True)]}" style="height:24px" class="oe_inline" />
+                                </div>
+                            </group>
+                        </page>
+                        <page string="Notification">
+                            <group>
+                                <label for="email"/>
+                                <div>
+                                    <field name="email" requird="1"/>
+                                    <br/>
+                                    <span class="o_form_label">*Note: you can separate each email by ;</span>
+                                </div>
+                            </group>
+                            <group>
+                                <div>
+                                    <field name="api_debug" nolabel="1" class="oe_inline"/>
+                                    <label for="api_debug" />
+                                </div>
+                            </group>
+                        </page>                    
+                    </notebook>
+                    </group>
+                </group>
             </form>
         </field>
     </record>
@@ -82,13 +174,6 @@
         <field name="res_model">weladee_attendance.synchronous.setting</field>
         <field name="view_mode">form</field>
         <field name="view_id" ref="weladee_setting_wizard"/>
-        <field name="target">new</field>
-    </record>
-
-    <menuitem id="weladee_setting_menu" name="Weladee Settings" sequence="76" parent="hr_attendance.menu_hr_attendance_root" groups="hr_attendance.group_hr_attendance_manager" action="action_weladee_setting_form" />
-    
-    <record id="hr_attendance.menu_hr_attendance_kiosk_no_user_mode" model="ir.ui.menu">
-        <field name="active">false</field>
-    </record>
-
+        <field name="target">inline</field>
+    </record>    
 </odoo>  

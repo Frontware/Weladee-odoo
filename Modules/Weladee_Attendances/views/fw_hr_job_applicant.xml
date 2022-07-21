@@ -11,17 +11,31 @@ remarks:
             <field name="name">weladee_fw_hr_jobapp_form</field>
             <field name="model">hr.applicant</field>
             <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
-            <field name="arch" type="xml">                
-               <xpath expr="//field[@name='type_id']" position="after">
-                   <field name="gender" />
-                   <field name="lang_id" />
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/div[position() = 1]" position="inside">
+                    <field name="weladee_id" invisible="1"/>
+                    <button
+                            class="oe_stat_button"
+                            widget="url"
+                            attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}"
+                        >
+                            <div role="img" class="o_button_icon icon-weladee"/>
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Weladee</span>
+                                <span class="o_stat_value">Expense</span>
+                            </div>
+                        </button>
+                </xpath>
+                <xpath expr="//field[@name='type_id']" position="after">
+                    <field name="gender" />
+                    <field name="lang_id" />
                 </xpath>
                 <xpath expr="//field[@name='source_id']" position="after">
-                   <field name="date_apply" />
+                    <field name="date_apply" />
                 </xpath>
                 <xpath expr="//field[@name='emp_id']//..//.." position="after">
-                   <label for="note" />
-                   <field name="note" />
+                    <label for="note" />
+                    <field name="note" />
                 </xpath>
             </field>
         </record>

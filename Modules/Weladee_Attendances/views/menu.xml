@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<odoo>
+    <menuitem id="weladee_fw_menu_root" name="Weladee"
+        web_icon="Weladee_Attendances,static/description/icon.png"
+    />
+        
+    <menuitem id="weladee_attendance_synchronous_menu"
+                name="Weladee Synchronization"
+                sequence="75"
+                action="weladee_attendance_synchronous_act_server"
+                parent="weladee_fw_menu_root"
+                groups="Weladee_Attendances.group_weladee_attendance_admin"
+    />
+
+    <menuitem id="weladee_setting_menu" name="Weladee Settings" 
+        sequence="76" parent="weladee_fw_menu_root" 
+        groups="Weladee_Attendances.group_weladee_attendance_admin" 
+        action="action_weladee_setting_form" />
+
+</odoo>

@@ -20,7 +20,7 @@ def sync_manager_dep(req):
         if odoo_dep.id and odoo_dep.id in req.department_managers :
 
             odoo_manager = req.employee_obj.search( [("weladee_id","=", req.department_managers[odoo_dep.id] ),\
-                                                '|',("active","=",False),("active","=",True)] )
+                                                '|',("active","=",False),("active","=",True)],limit=1)
 
             try:
                 __ = odoo_dep.write( {"send2-weladee": False,"manager_id": int(odoo_manager.id) } )
@@ -50,7 +50,7 @@ def sync_manager_emp(req):
         if odoo_emp.id and odoo_emp.id in req.employee_managers :
 
             odoo_manager = req.employee_obj.search( [("weladee_id","=", req.employee_managers[odoo_emp.id] ),\
-                                                '|',("active","=",False),("active","=",True)] )
+                                                '|',("active","=",False),("active","=",True)],limit=1)
 
             try:
                 __ = odoo_emp.write( {"send2-weladee": False, "parent_id": int(odoo_manager.id) } )

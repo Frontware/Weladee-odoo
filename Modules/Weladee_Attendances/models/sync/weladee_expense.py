@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import datetime
+from dateutil.relativedelta import relativedelta
 import traceback
 from odoo.addons.Weladee_Attendances.models.grpcproto.job_pb2 import ApplicationRefused
-from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
+from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2, weladee_pb2
 from .weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
 from .weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
 
@@ -55,7 +56,21 @@ def sync_expense(req):
     
     try:        
         sync_loginfo(req.context_sync,'[expense] updating changes from weladee-> odoo')
-        for weladee_expense in stub.GetExpenses(weladee_pb2.Empty(), metadata=req.config.authorization):
+
+        # Calculate period
+        period = odoo_pb2.Period()
+        if req.config.expense_period == 'w':
+            period.From = int((datetime.datetime.now() - relativedelta(weeks=abs(req.config.expense_period_unit))).timestamp())
+        elif req.config.expense_period == 'm':
+            period.From = int((datetime.datetime.now() - relativedelta(months=abs(req.config.expense_period_unit))).timestamp())
+        elif req.config.expense_period == 'y':
+            period.From = int((datetime.datetime.now() - relativedelta(years=abs(req.config.expense_period_unit))).timestamp())
+        elif req.config.expense_period == 'all':
+            period = weladee_pb2.Empty()
+        else:
+            period.From = int((datetime.datetime.now() - relativedelta(weeks=1)).timestamp())
+
+        for weladee_expense in stub.GetExpenses(period, metadata=req.config.authorization):
             print(weladee_expense)
             sync_stat_to_sync(req.context_sync['stat-expense'], 1)
             if not weladee_expense :
@@ -65,7 +80,7 @@ def sync_expense(req):
             odoo_expense = sync_expense_data(weladee_expense, req)
             
             if odoo_expense and odoo_expense['res-mode'] == 'create':
-                newid = req.expense_obj.create(sync_clean_up(odoo_expense))
+                newid = req.expense_obj.with_context({'mail_create_nosubscribe':False}).create(sync_clean_up(odoo_expense))
                 if newid and newid.id:
                     sync_logdebug(req.context_sync, "Insert expense '%s' to odoo" % odoo_expense )
                     sync_stat_create(req.context_sync['stat-expense'], 1)
@@ -83,7 +98,7 @@ def sync_expense(req):
                         'name': newid.name,
                         'employee_id': newid.employee_id.id,
                         'expense_line_ids': [(6,0,[newid.id])],
-                        'state': 'submit'
+                        'state': 'approve'
                     })
 
                 else:
@@ -94,7 +109,8 @@ def sync_expense(req):
             elif odoo_expense and odoo_expense['res-mode'] == 'update':
                 odoo_id = req.expense_obj.browse(odoo_expense['res-id'])
                 if odoo_id.id:
-                   odoo_id.write(sync_clean_up(odoo_expense))
+                   odoo_id.with_context({'mail_create_nosubscribe':False}).write(sync_clean_up(odoo_expense))
+                   if odoo_id.sheet_id: odoo_id.sheet_id.with_context({'mail_create_nosubscribe':False}).write({'state':'approve'}) 
                    sync_logdebug(req.context_sync, "Updated expense '%s' to odoo" % odoo_expense['name'] )
                    sync_stat_update(req.context_sync['stat-expense'], 1)
                 else:

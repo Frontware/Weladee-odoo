@@ -32,6 +32,7 @@ def sync_job_app_data(weladee_job_app, req):
             'gender': sync_jobapp_data_gender(weladee_job_app),
             'date_apply': datetime.datetime.fromtimestamp( weladee_job_app.JobApplication.Timestamp ),
             'partner_name': ' '.join([weladee_job_app.JobApplication.FirstName,weladee_job_app.JobApplication.LastName]),
+            'source_id': req.utm_source_obj.search([('name','=','Weladee')], limit=1).id,
             'active': weladee_job_app.JobApplication.Status != ApplicationRefused
             }        
     jobadid = req.job_ads_odoo_weladee_ids.get(weladee_job_app.JobApplication.JobAdID, False)
@@ -52,8 +53,16 @@ def sync_job_applicant(req):
     odoo_job_app = False
     weladee_job_app = False
 
-    try:        
+    try:
         sync_loginfo(req.context_sync,'[job_app] updating changes from weladee-> odoo')
+
+        # Create `Weladee` source if it does not exist
+        source_id = req.utm_source_obj.search([('name','=','Weladee')], limit=1)
+        if not source_id.id:
+            source_id = req.utm_source_obj.create({'name':'Weladee'})
+            if source_id and source_id.id:
+                req.translation_obj._set_ids('utm.source,name', 'model', 'th_TH', [source_id.id], 'เวลาดี')
+
         for weladee_job_app in stub.GetJobApplications(weladee_pb2.Empty(), metadata=req.config.authorization):
             print(weladee_job_app)
             sync_stat_to_sync(req.context_sync['stat-job_app'], 1)

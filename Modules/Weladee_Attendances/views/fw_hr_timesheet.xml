@@ -11,6 +11,25 @@ remarks:
         <record id="hr_timesheet.timesheet_menu_root" model="ir.ui.menu">
             <field name="active" eval="False"/>
         </record>
-        
+
+        <record id="weladee_att_hr_timesheet_list" model="ir.ui.view">
+            <field name="name">weladee_att_hr_timesheet_list</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='project_id']" position="before">
+                    <field name="partner_id" string="Customer"/>
+                </xpath>
+                <xpath expr="//field[@name='unit_amount']" position="after">
+                    <field name="weladee_id" invisible="1"/>
+                    <button
+                            name="open_weladee_timesheet"
+                            class="icon-weladee-table-cell"
+                            type="object"
+                            attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}"
+                        />
+                </xpath>
+            </field>
+        </record>
     </data>
 </odoo>

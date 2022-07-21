@@ -22,10 +22,11 @@ def sync_project_data(weladee_project, req):
     data['res-mode'] = 'create'
     prev_rec = req.project_obj.search( [ ('name','=', data['name'] )],limit=1 )
     if prev_rec and prev_rec.id:
-        data['res-mode'] = '' 
+        data['res-mode'] = 'update'  
+        data['res-id'] = prev_rec.id
         sync_logdebug(req.context_sync, 'weladee > %s ' % weladee_project)
         sync_logdebug(req.context_sync, 'odoo > %s ' % data)
-        sync_logwarn(req.context_sync, 'this project\'name record already exist for this %s exist, no change will apply' % data['name'])
+        #sync_logwarn(req.context_sync, 'this project\'name record already exist for this %s exist, no change will apply' % data['name'])
 
     return data   
 
@@ -56,14 +57,14 @@ def sync_project(req):
     odoo_prj = False
     weladee_project = False
 
-    sync_delete_timesheet(req)
-    sync_delete_task(req)
-    sync_delete_project(req)
+    # sync_delete_timesheet(req)
+    # sync_delete_task(req)
+    # sync_delete_project(req)
 
     try:        
         sync_loginfo(req.context_sync,'[project] updating changes from weladee-> odoo')
         for weladee_project in stub.GetProjects(weladee_pb2.Empty(), metadata=req.config.authorization):
-            print(weladee_project)
+            #print(weladee_project)
             sync_stat_to_sync(req.context_sync['stat-proj'], 1)
             if not weladee_project :
                sync_logwarn(req.context_sync,'weladee project is empty')
@@ -82,6 +83,20 @@ def sync_project(req):
                     sync_logdebug(req.context_sync, 'weladee > %s' % weladee_project) 
                     sync_logerror(req.context_sync, "error while create odoo project id %s of '%s' in odoo" % (odoo_prj['res-id'], odoo_prj) ) 
                     sync_stat_error(req.context_sync['stat-proj'], 1)
+
+            elif odoo_prj and odoo_prj['res-mode'] == 'update':
+                
+                odoo_id = req.project_obj.search([('id','=',odoo_prj['res-id']),'|',('active','=',False),('active','=',True)])
+                if odoo_id.id:
+                   odoo_id.write({'partner_id': odoo_prj.get('partner_id')})
+                   sync_logdebug(req.context_sync, "Updated project '%s' to odoo" % odoo_prj['name'] )
+                   sync_stat_update(req.context_sync['stat-proj'], 1)
+                   
+                   req.project_odoo_weladee_ids[weladee_project.Project.ID] = odoo_id.id
+                else:
+                   sync_logdebug(req.context_sync, 'weladee > %s' % weladee_project) 
+                   sync_logerror(req.context_sync, "Not found this odoo project id %s of '%s' in odoo" % (odoo_prj['res-id'], odoo_prj['name']) ) 
+                   sync_stat_error(req.context_sync['stat-proj'], 1)
 
     except Exception as e:
         print(traceback.format_exc())
