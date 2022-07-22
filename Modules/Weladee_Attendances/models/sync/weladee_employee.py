@@ -106,7 +106,7 @@ def sync_employee_data(weladee_employee, req):
 
         except Exception as e:
             sync_logdebug(req.context_sync, "image : %s" % weladee_employee.employee.photo)
-            sync_logerror(req.context_sync, "Error when load image %s : %s" % (weladee_employee.employee.photo,bytese or e or 'undefined'))
+            sync_logwarn(req.context_sync, "Error when load image %s : %s" % (weladee_employee.employee.photo,bytese or e or 'undefined'))
     
     #2018-06-07 KPO don't sync note back   
     #2018-06-21 KPO get team but don't sync back     

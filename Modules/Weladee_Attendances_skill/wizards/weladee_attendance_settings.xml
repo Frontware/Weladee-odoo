@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+	purpose : render synchronous settings
+
+	remarks :
+	2018-05-28 KPO moved
+ -->
+<odoo>
+    <record id="weladee_setting_wizard_skill" model="ir.ui.view">
+        <field name="name">weladee_setting_wizard_skill</field>
+        <field name="model">weladee_attendance.synchronous.setting</field>
+        <field name="inherit_id" ref="Weladee_Attendances.weladee_setting_wizard"/>
+        <field name="arch" type="xml">
+                <xpath expr="//field[@name='sync_employee']//..//.." position="after">
+                    <label for="sync_skill" string="Skill"/>
+                    <div>
+                        <div>
+                            <field name="sync_skill" class="oe_inline"/>
+                        </div>
+                    </div>   
+                </xpath>
+        </field>
+    </record>
+</odoo>  

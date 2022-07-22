@@ -17,7 +17,6 @@ class weladee_job(models.Model):
     _inherit = 'hr.job'
 
     weladee_id = fields.Char(string="Weladee ID",copy=False)
-    #job_ads_ids = fields.One2many('weladee_job_ads','position_id',string='Job ads')
 
     _sql_constraints = [
         ('name_uniq', 'unique(name)', "Name can't duplicate !"),
