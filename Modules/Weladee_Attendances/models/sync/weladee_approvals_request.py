@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import base64
 from datetime import datetime
 import requests
 import subprocess
@@ -198,6 +199,20 @@ def sync_approvals_request_data(weladee_approvals_request, req):
                 continue
 
             data[level].append((_SET, False, list(odoo_approvers_by_level[level] & odoo_approvers_to_update[level])))
+    
+    if weladee_approvals_request.request.IPFS:
+        try:
+            r = requests.get(weladee_approvals_request.request.IPFS)
+            content = r.content
+            data['documents'] = base64.b64encode(content)
+        except requests.Timeout as e:
+            sync_logwarn(req.context_sync, 'request: %s' % e)
+        except requests.RequestException as e:
+            sync_logwarn(req.context_sync, 'request: %s' % e)
+        except Exception as e:
+            sync_logwarn(req.context_sync, 'Error: %s' % (e or 'undefined'))
+    else:
+        data['documents'] = False
 
     return data
 
