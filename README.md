@@ -66,6 +66,12 @@ This data is sent from Weladee to Odoo. Weladee feeds Odoo with HRMS data.
 
 ## Technical
 
+
+### Install modules
+
+
+![](https://i.imgur.com/4g13hYX.png)
+
 ### gRPC
 
 [gRPC](https://grpc.io) is used to communicate with [weladee](https://www.weladee.com) server.
