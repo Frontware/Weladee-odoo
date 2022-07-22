@@ -11,32 +11,60 @@ from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from .weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
 from .weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info
 
+_CREATE = 0 # Create new relation
 _UPDATE = 1 # Update relation
+_CLEAR = 5 # Clear relation
+_SET = 6 # Clear and then select relation
 
 base_url = 'https://www.weladee.com/approval/req/'
 
 model_id = 'fw.approvals.request'
 
-status_dict = {
-    'approvalnew':'submitted',
-    'approvalrejected':'refused',
-    'approvalcancelled':'canceled',
-    'approvalapproved':'approved_3',
-    'approvallevel1approved':'approved_1',
-    'approvallevel2approved':'approved_2',
-}
+def sync_approvals_request_data_request_status(weladee_approvals_request):
+    '''
+    convert weladee approvals request status to odoo
+    '''
+    status = approval_pb2.ApprovalStatus.Name(weladee_approvals_request.request.Status).lower()
 
-response_dict = {
-    'responsewaiting':False,
-    'responseapproved':True,
-    'responserejected':False,
-}
+    if status == 'approvalnew':
+        return 'submitted'
+    elif status == 'approvalrejected':
+        return 'refused'
+    elif status == 'approvalcancelled':
+        return 'canceled'
+    elif status == 'approvalapproved':
+        return 'approved_3'
+    elif status == 'approvallevel1approved':
+        return 'approved_1'
+    elif status == 'approvallevel2approved':
+        return 'approved_2'
+
+    return None
+
+def sync_approvals_request_data_answer_approved(weladee_approvals_request_response):
+    '''
+    convert weladee approvals request answer approved to odoo
+    '''
+    status = approval_pb2.ApprovalResponse.Name(weladee_approvals_request_response.Answer).lower()
+
+    return status == 'responseapproved'
+
+def sync_approvals_request_data_answer_rejected(weladee_approvals_request_response):
+    '''
+    convert weladee approvals request answer rejected to odoo
+    '''
+    status = approval_pb2.ApprovalResponse.Name(weladee_approvals_request_response.Answer).lower()
+
+    return status == 'responserejected'
 
 def sync_approvals_request_data(weladee_approvals_request, req):
     data = {
         'weladee_id':weladee_approvals_request.request.ID,
         'weladee_url':base_url + str(weladee_approvals_request.request.ID),
     }
+
+    odoo_approvers_by_level = {} # Set of k:v pairs where k is the name of the field and v is a set of approver's ids
+    odoo_approvers_to_update = {} # Set of k:v pairs where k is the name of the field and v is a set of approver's ids (subset of odoo_approvers_by_level)
 
     # Check for odoo approval type with same weladee-id.
     odoo_approvals_type = req.approvals_type_obj.search([("weladee_id","=",weladee_approvals_request.request.TypeID),'|',('active','=',False),('active','=',True)], limit=1)
@@ -63,21 +91,21 @@ def sync_approvals_request_data(weladee_approvals_request, req):
 
     data['description'] = weladee_approvals_request.request.Description
 
-    # if odoo_approvals_type.field_place != 'none': # Uncomment when place field is available
-    #     data['place'] = weladee_approvals_request.request.Place
+    if odoo_approvals_type.field_place != 'none':
+        data['place'] = weladee_approvals_request.request.Place
     if odoo_approvals_type.field_period != 'none':
         data['date_start'] = datetime.fromtimestamp(weladee_approvals_request.request.PeriodFrom)
         data['date_end'] = datetime.fromtimestamp(weladee_approvals_request.request.PeriodTo)
-    # if odoo_approvals_type.field_amount != 'none': # Uncomment when amount field is available
-    #     data['amount'] = weladee_approvals_request.request.Amount
-    # if odoo_approvals_type.field_quantity != 'none': # Uncomment when quantity field is available
-    #     data['quantity'] = weladee_approvals_request.request.Quantity
+    if odoo_approvals_type.field_amount != 'none':
+        data['amount'] = weladee_approvals_request.request.Amount
+    if odoo_approvals_type.field_quantity != 'none':
+        data['quantity'] = weladee_approvals_request.request.Quantity
     if odoo_approvals_type.field_date != 'none':
         data['date'] = datetime.fromtimestamp(weladee_approvals_request.request.Date).strftime('%Y-%m-%d')
-    # if odoo_approvals_type.field_reference != 'none': # Uncomment when reference field is available
-    #     data['reference'] = weladee_approvals_request.Reference
+    if odoo_approvals_type.field_reference != 'none':
+        data['reference'] = weladee_approvals_request.Reference
     
-    data['state'] = status_dict[approval_pb2.ApprovalStatus.Name(weladee_approvals_request.request.Status).lower()]
+    data['state'] = sync_approvals_request_data_request_status(weladee_approvals_request)
     
     # Check for odoo record with same weladee-id
     odoo_approvals_request = req.approvals_request_obj.search([('weladee_id','=',data['weladee_id']),'|',('active','=',False),('active','=',True)], limit=1)
@@ -88,32 +116,88 @@ def sync_approvals_request_data(weladee_approvals_request, req):
         # odoo record exists.
         data['res-mode'] = 'update'
         data['res-id'] = odoo_approvals_request.id
+        for level in filter(lambda x: x.startswith('approvers_'), dir(odoo_approvals_request)):
+            approvers_x = getattr(odoo_approvals_request, level)
+            for approver in approvers_x:
+                if level not in odoo_approvers_by_level:
+                    odoo_approvers_by_level[level] = set()
+                odoo_approvers_by_level[level].add(approver.id)
     
-    for approver in weladee_approvals_request.request.Responses:
-        # Retrieve employee in odoo with the same weladee-id.
-        odoo_approver = req.approvals_approver_obj.search([("weladee_id","=",approver.EmployeeID),'|',('active','=',False),('active','=',True)], limit=1)
-        if not odoo_approver.id:
-            # Approver is not employee in odoo.
+    for response in weladee_approvals_request.request.Responses:
+        # Retrieve approver from approval type in odoo with the same weladee-id.
+        odoo_approver_type = req.approvals_approver_obj.search([('approval_type_id','=',odoo_approvals_type.id),("weladee_id","=",response.EmployeeID),'|',('active','=',False),('active','=',True)], limit=1)
+        if not odoo_approver_type.id:
+            # Approver is not in odoo.
             continue
 
-        # Update approver relation command.
-        update_approver = (_UPDATE, odoo_approver.id, {
-                'status':response_dict[approval_pb2.ApprovalResponse.Name(approver.Answer).lower()],
+        # Create new approver relation command.
+        new_approver = (_CREATE, False, {
+                'approval_type_id':odoo_approver_type.approval_type_id.id,
+                'employee_id':odoo_approver_type.employee_id.id,
+                'required':odoo_approver_type.required,
+                'level':odoo_approver_type.level,
+                'status':sync_approvals_request_data_answer_approved(response),
+                'refuse':sync_approvals_request_data_answer_rejected(response),
+                # 'timestamp':datetime.fromtimestamp(response.Timestamp),
             },
         )
 
-        if approver.Level == 1:
-            if 'approvers_1' not in data:
-                data['approvers_1'] = []
-            data['approvers_1'].append(update_approver)
-        elif approver.Level == 2:
-            if 'approvers_2' not in data:
-                data['approvers_2'] = []
-            data['approvers_2'].append(update_approver)
-        else:
-            if 'approvers_3' not in data:
-                data['approvers_3'] = []
-            data['approvers_3'].append(update_approver)
+        if response.RefuseReason:
+            data['text_text'] = response.RefuseReason
+
+        odoo_approver = getattr(req, 'approvals_approver_' + str(odoo_approver_type.level) + '_obj').search([('approval_type_id','=',odoo_approver_type.approval_type_id.id),('employee_id','=',odoo_approver_type.employee_id.id)], limit=1)
+        if odoo_approver.id:
+            # Add this approver id to the list of approvers to update.
+            if 'approvers_' + str(odoo_approver_type.level) not in odoo_approvers_to_update:
+                odoo_approvers_to_update['approvers_' + str(odoo_approver_type.level)] = set()
+            odoo_approvers_to_update['approvers_' + str(odoo_approver_type.level)].add(odoo_approver.id)
+
+            # Update existing approver.
+            new_approver = (_UPDATE, odoo_approver.id, {
+                    'approval_type_id':odoo_approver_type.approval_type_id.id,
+                    'employee_id':odoo_approver_type.employee_id.id,
+                    'required':odoo_approver_type.required,
+                    'level':odoo_approver_type.level,
+                    'status':sync_approvals_request_data_answer_approved(response),
+                    'refuse':sync_approvals_request_data_answer_rejected(response),
+                    # 'timestamp':datetime.fromtimestamp(response.Timestamp),
+                },
+            )
+
+        approvers_x = 'approvers_' + str(odoo_approver_type.level)
+        if approvers_x not in data:
+            data[approvers_x] = []
+        data[approvers_x].append(new_approver)
+
+    # Clean up approver relation
+    if data['res-mode'] == 'update':
+        for level in filter(lambda x: x.startswith('approvers_'), dir(odoo_approvals_request)):
+            if level not in data:
+                # No new approver and approver not updated.
+                if level in odoo_approvers_by_level:
+                    # Approver(s) in level L exist(s) in odoo.
+                    if level not in odoo_approvers_to_update:
+                        # Approver(s) in level L exist(s) but it's not kept.
+                        data[level] = [(_CLEAR, False, False)] # Don't keep the approvers.
+                        continue
+
+                    # Approver(s) in level L exist(s) and some are kept.
+                    intersection = odoo_approvers_by_level[level] & odoo_approvers_to_update[level]
+                    if len(intersection) < len(odoo_approvers_by_level[level]):
+                        # Keep some of the approvers, not all.
+                        data[level] = [(_SET, False, list(intersection))]
+                continue
+
+            # New approver(s) or approver(s) updated.
+            if level not in odoo_approvers_by_level:
+                # New approver(s) only
+                continue
+
+            if level not in odoo_approvers_to_update:
+                # Dangling approver records
+                continue
+
+            data[level].append((_SET, False, list(odoo_approvers_by_level[level] & odoo_approvers_to_update[level])))
 
     return data
 
@@ -132,44 +216,34 @@ def sync_approvals_request(req):
             odoo_approvals_request = sync_approvals_request_data(weladee_approvals_request, req)
 
             if odoo_approvals_request and odoo_approvals_request['res-mode'] == 'create':
-                try:
-                    newid = req.approvals_request_obj.with_context({'skip_validation':True}).create(odoo_approvals_request)
-                    if newid and newid.id:
-                        if weladee_approvals_request.request.IPFS:
-                            req.attach_obj.create({
-                                'type':'url',
-                                'url':weladee_approvals_request.request.IPFS,
-                                'name':newid.name,
-                                'res_model':model_id,
-                                'res_id':newid.id,
-                            })
-                        sync_stat_create(req.context_sync['stat-approvals-request'], 1)
-                    else:
-                        sync_stat_error(req.context_sync['stat-approvals-request'], 1)
-                except Exception as e:
-                    print(traceback.format_exc())
-                    sync_logerror(req.context_sync, 'Add appoval request %s failed : %s' % (weladee_approvals_request, e))
+                newid = req.approvals_request_obj.with_context({'skip_validation':True}).create(odoo_approvals_request)
+                if newid and newid.id:
+                    if weladee_approvals_request.request.IPFS:
+                        req.attach_obj.create({
+                            'type':'url',
+                            'url':weladee_approvals_request.request.IPFS,
+                            'name':newid.name,
+                            'res_model':model_id,
+                            'res_id':newid.id,
+                        })
+                    sync_stat_create(req.context_sync['stat-approvals-request'], 1)
+                else:
                     sync_stat_error(req.context_sync['stat-approvals-request'], 1)
             elif odoo_approvals_request and odoo_approvals_request['res-mode'] == 'update' and 'res-id' in odoo_approvals_request:
                 odoo_id = req.approvals_request_obj.search([("id","=",odoo_approvals_request['res-id']),'|',('active','=',False),('active','=',True)], limit=1)
                 if odoo_id.id:
-                    try:
-                        odoo_id.with_context({'skip_validation':True}).write(odoo_approvals_request)
-                        req.attach_obj.search([('res_model','=',model_id),('res_id','=',odoo_id.id)]).unlink() # Clear attachment
-                        if weladee_approvals_request.request.IPFS:
-                            # Attach document
-                            req.attach_obj.create({
-                                'type':'url',
-                                'url':weladee_approvals_request.request.IPFS,
-                                'name':odoo_id.name,
-                                'res_model':model_id,
-                                'res_id':odoo_id.id,
-                            })
-                        sync_stat_update(req.context_sync['stat-approvals-request'], 1)
-                    except Exception as e:
-                        print(traceback.format_exc())
-                        sync_logerror(req.context_sync, 'Update appoval request %s failed : %s' % (weladee_approvals_request, e))
-                        sync_stat_error(req.context_sync['stat-approvals-request'], 1)
+                    odoo_id.with_context({'skip_validation':True}).write(odoo_approvals_request)
+                    req.attach_obj.search([('res_model','=',model_id),('res_id','=',odoo_id.id)]).unlink() # Clear attachment
+                    if weladee_approvals_request.request.IPFS:
+                        # Attach document
+                        req.attach_obj.create({
+                            'type':'url',
+                            'url':weladee_approvals_request.request.IPFS,
+                            'name':odoo_id.name,
+                            'res_model':model_id,
+                            'res_id':odoo_id.id,
+                        })
+                    sync_stat_update(req.context_sync['stat-approvals-request'], 1)
                 else:
                     sync_logerror(req.context_sync, 'Odoo appoval request not found for : %s' % weladee_approvals_request)
                     sync_stat_error(req.context_sync['stat-approvals-request'], 1)

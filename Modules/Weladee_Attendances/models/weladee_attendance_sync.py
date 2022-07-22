@@ -203,6 +203,9 @@ class weladee_attendance(models.TransientModel):
             req.approvals_type_obj = self.env['fw.approvals.type']
             req.approvals_approver_obj = self.env['fw.approvals.approver']
             req.approvals_request_obj = self.env['fw.approvals.request']
+            req.approvals_approver_1_obj = self.env['fw.approvals.approver1']
+            req.approvals_approver_2_obj = self.env['fw.approvals.approver2']
+            req.approvals_approver_3_obj = self.env['fw.approvals.approver3']
             sync_approvals_request(req)
 
         sync_loginfo(req.context_sync,'sending result to %s' % req.context_sync['request-email'])

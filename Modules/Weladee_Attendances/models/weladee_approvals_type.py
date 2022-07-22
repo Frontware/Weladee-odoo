@@ -7,9 +7,12 @@ from odoo.exceptions import UserError, ValidationError
 
 class weladee_approvals_type(models.Model):
     _inherit = 'fw.approvals.type'
+    _sql_constraints = [
+        ('unique_approval_type_name', 'UNIQUE(name,weladee_id)', _('Approval type name must be unique.')),
+    ]
 
-    weladee_id = fields.Char(string="Weladee ID",copy=False, readonly=True)
-    weladee_url = fields.Char(string="Weladee Url", copy=False, default="", readonly=True)
+    weladee_id = fields.Char(string="Weladee ID",copy=False, default="", readonly=True, required=True)
+    weladee_url = fields.Char(string="Weladee Url", copy=False, default="", readonly=True, required=True)
 
     @api.model
     def create(self, vals):

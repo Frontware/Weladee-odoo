@@ -56,5 +56,8 @@ class weladee_attendance_param():
           self.approvals_type_obj = False
           self.approvals_approver_obj = False
           self.approvals_request_obj = False
+          self.approvals_approver_1_obj = False
+          self.approvals_approver_2_obj = False
+          self.approvals_approver_3_obj = False
 
           self.translation_obj = False

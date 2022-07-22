@@ -25,6 +25,60 @@ lang_dict = {
     'th_TH':'thai',
 }
 
+def sync_approvals_type_data_show_field_date(weladee_approvals_type):
+    '''
+    convert weladee approvals type show field date to odoo
+    '''
+    return approval_pb2.ApprovalFieldShow.Name(weladee_approvals_type.Approvaltype.FieldDate).lower()
+
+def sync_approvals_type_data_show_field_period(weladee_approvals_type):
+    '''
+    convert weladee approvals type show field period to odoo
+    '''
+    return approval_pb2.ApprovalFieldShow.Name(weladee_approvals_type.Approvaltype.FieldPeriod).lower()
+
+def sync_approvals_type_data_show_field_quantity(weladee_approvals_type):
+    '''
+    convert weladee approvals type show field quantity to odoo
+    '''
+    return approval_pb2.ApprovalFieldShow.Name(weladee_approvals_type.Approvaltype.FieldQuantity).lower()
+
+def sync_approvals_type_data_show_field_amount(weladee_approvals_type):
+    '''
+    convert weladee approvals type show field amount to odoo
+    '''
+    return approval_pb2.ApprovalFieldShow.Name(weladee_approvals_type.Approvaltype.FieldAmount).lower()
+
+def sync_approvals_type_data_show_field_reference(weladee_approvals_type):
+    '''
+    convert weladee approvals type show field reference to odoo
+    '''
+    return approval_pb2.ApprovalFieldShow.Name(weladee_approvals_type.Approvaltype.FieldReference).lower()
+
+def sync_approvals_type_data_show_field_project(weladee_approvals_type):
+    '''
+    convert weladee approvals type show field project to odoo
+    '''
+    return approval_pb2.ApprovalFieldShow.Name(weladee_approvals_type.Approvaltype.FieldProject).lower()
+
+def sync_approvals_type_data_show_field_place(weladee_approvals_type):
+    '''
+    convert weladee approvals type show field place to odoo
+    '''
+    return approval_pb2.ApprovalFieldShow.Name(weladee_approvals_type.Approvaltype.FieldPlace).lower()
+
+def sync_approvals_type_data_show_field_document(weladee_approvals_type):
+    '''
+    convert weladee approvals type show field document to odoo
+    '''
+    return approval_pb2.ApprovalFieldShow.Name(weladee_approvals_type.Approvaltype.FieldDocument).lower()
+
+def sync_approvals_type_data_show_manager_approver(weladee_approvals_type):
+    '''
+    convert weladee approvals type show field manager approver to odoo
+    '''
+    return approval_pb2.ApprovalFieldShow.Name(weladee_approvals_type.Approvaltype.ManagerIsApprover).lower()
+
 def sync_approvals_type_data(weladee_approvals_type, req):
     data = {
         'weladee_id':weladee_approvals_type.Approvaltype.ID,
@@ -35,16 +89,15 @@ def sync_approvals_type_data(weladee_approvals_type, req):
         'active':weladee_approvals_type.Approvaltype.Active,
         'description':weladee_approvals_type.Approvaltype.DescriptionEnglish,
         # 'note':weladee_approvals_type.Approvaltype.Note,
-        'field_date':approval_pb2.ApprovalFieldShow.Name(weladee_approvals_type.Approvaltype.FieldDate).lower(),
-        'field_period':approval_pb2.ApprovalFieldShow.Name(weladee_approvals_type.Approvaltype.FieldPeriod).lower(),
-        'field_quantity':approval_pb2.ApprovalFieldShow.Name(weladee_approvals_type.Approvaltype.FieldQuantity).lower(),
-        'field_amount':approval_pb2.ApprovalFieldShow.Name(weladee_approvals_type.Approvaltype.FieldAmount).lower(),
-        'field_reference':approval_pb2.ApprovalFieldShow.Name(weladee_approvals_type.Approvaltype.FieldReference).lower(),
-        'field_project':approval_pb2.ApprovalFieldShow.Name(weladee_approvals_type.Approvaltype.FieldProject).lower(),
-        'field_place':approval_pb2.ApprovalFieldShow.Name(weladee_approvals_type.Approvaltype.FieldPlace).lower(),
-        'field_location':approval_pb2.ApprovalFieldShow.Name(weladee_approvals_type.Approvaltype.FieldPlace).lower(),
-        'field_document':approval_pb2.ApprovalFieldShow.Name(weladee_approvals_type.Approvaltype.FieldDocument).lower(),
-        'manager_approver':approval_pb2.ApprovalFieldShow.Name(weladee_approvals_type.Approvaltype.ManagerIsApprover).lower(),
+        'field_date':sync_approvals_type_data_show_field_date(weladee_approvals_type),
+        'field_period':sync_approvals_type_data_show_field_period(weladee_approvals_type),
+        'field_quantity':sync_approvals_type_data_show_field_quantity(weladee_approvals_type),
+        'field_amount':sync_approvals_type_data_show_field_amount(weladee_approvals_type),
+        'field_reference':sync_approvals_type_data_show_field_reference(weladee_approvals_type),
+        'field_project':sync_approvals_type_data_show_field_project(weladee_approvals_type),
+        'field_place':sync_approvals_type_data_show_field_place(weladee_approvals_type),
+        'field_document':sync_approvals_type_data_show_field_document(weladee_approvals_type),
+        'manager_approver':sync_approvals_type_data_show_manager_approver(weladee_approvals_type),
         'minimum_approval':weladee_approvals_type.Approvaltype.Level1MinApproval,
     }
 
@@ -116,6 +169,7 @@ def sync_approvals_type_data(weladee_approvals_type, req):
             data[field_name] = []
         data[field_name].append(new_approver)
     
+    # Clean up approver relation
     if data['res-mode'] == 'update':
         for level in filter(lambda x: x.startswith('level_') and x.endswith('_ids'), dir(odoo_approvals_type)):
             if level not in data:
@@ -128,7 +182,7 @@ def sync_approvals_type_data(weladee_approvals_type, req):
                         data[level] = [(_CLEAR, False, False)]
                         continue
                     if len(intersection) < len(odoo_approvers_by_level[level]):
-                        # Keep some of the approvers.
+                        # Keep some of the approvers, not all.
                         data[level] = [(_SET, False, list(intersection))]
                 continue
             # New approver(s) or approver(s) updated.
@@ -181,28 +235,18 @@ def sync_approvals_type(req):
             odoo_approvals_type, translation_req = sync_approvals_type_data(weladee_approvals_type, req)
 
             if odoo_approvals_type and odoo_approvals_type['res-mode'] == 'create':
-                try:
-                    newid = req.approvals_type_obj.create(odoo_approvals_type)
-                    if newid and newid.id:
-                        add_translation(newid.id, translation_req, req, lang='th_TH')
-                        sync_stat_create(req.context_sync['stat-approvals-type'], 1)
-                    else:
-                        sync_stat_error(req.context_sync['stat-approvals-type'], 1)
-                except Exception as e:
-                    print(traceback.format_exc())
-                    sync_logerror(req.context_sync, 'Add appoval type %s failed : %s' % (weladee_approvals_type, e))
+                newid = req.approvals_type_obj.create(odoo_approvals_type)
+                if newid and newid.id:
+                    add_translation(newid.id, translation_req, req, lang='th_TH')
+                    sync_stat_create(req.context_sync['stat-approvals-type'], 1)
+                else:
                     sync_stat_error(req.context_sync['stat-approvals-type'], 1)
             elif odoo_approvals_type and odoo_approvals_type['res-mode'] == 'update' and 'res-id' in odoo_approvals_type:
                 odoo_id = req.approvals_type_obj.search([("id","=",odoo_approvals_type['res-id']),'|',('active','=',False),('active','=',True)], limit=1)
                 if odoo_id.id:
-                    try:
-                        odoo_id.write(odoo_approvals_type)
-                        add_translation(odoo_id.id, translation_req, req, lang='th_TH')
-                        sync_stat_update(req.context_sync['stat-approvals-type'], 1)
-                    except Exception as e:
-                        print(traceback.format_exc())
-                        sync_logerror(req.context_sync, 'Update appoval type %s failed : %s' % (weladee_approvals_type, e))
-                        sync_stat_error(req.context_sync['stat-approvals-type'], 1)
+                    odoo_id.write(odoo_approvals_type)
+                    add_translation(odoo_id.id, translation_req, req, lang='th_TH')
+                    sync_stat_update(req.context_sync['stat-approvals-type'], 1)
                 else:
                     sync_logerror(req.context_sync, 'Odoo appoval type not found for : %s' % weladee_approvals_type)
                     sync_stat_error(req.context_sync['stat-approvals-type'], 1)
