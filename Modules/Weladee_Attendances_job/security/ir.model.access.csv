@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+weladee_job_ads_user,weladee_job_ads_user,model_weladee_job_ads,hr_recruitment.group_hr_recruitment_user,1,1,1,0
+weladee_job_ads_man,weladee_job_ads_man,model_weladee_job_ads,hr_recruitment.group_hr_recruitment_manager,1,1,1,1

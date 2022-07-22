@@ -17,7 +17,6 @@ class weladee_job(models.Model):
     _inherit = 'hr.job'
 
     weladee_id = fields.Char(string="Weladee ID",copy=False)
-    job_ads_ids = fields.One2many('weladee_job_ads','position_id',string='Job ads')
 
     _sql_constraints = [
         ('name_uniq', 'unique(name)', "Name can't duplicate !"),
@@ -39,7 +38,7 @@ class weladee_job(models.Model):
         '''
         create new record in weladee
         '''
-        ret = weladee_settings.get_api_key(self)      
+        ret = self.env['weladee_attendance.synchronous.setting'].get_settings()
         
         if ret.authorization:
             newPosition = odoo_pb2.PositionOdoo()
@@ -66,7 +65,7 @@ class weladee_job(models.Model):
         '''
         create new record in weladee
         '''
-        ret = weladee_settings.get_api_key(self)      
+        ret = self.env['weladee_attendance.synchronous.setting'].get_settings()
         
         if ret.authorization:
             newPosition = False

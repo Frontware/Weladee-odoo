@@ -40,7 +40,7 @@ class weladee_department(models.Model):
         '''
         create new record in weladee
         '''
-        ret = weladee_settings.get_api_key(self)      
+        ret = self.env['weladee_attendance.synchronous.setting'].get_settings()
         
         if ret.authorization:
             newDepartment = odoo_pb2.DepartmentOdoo()
@@ -78,7 +78,7 @@ class weladee_department(models.Model):
         '''
         create new record in weladee
         '''
-        ret = weladee_settings.get_api_key(self)      
+        ret = self.env['weladee_attendance.synchronous.setting'].get_settings()
         
         if ret.authorization:
             newDepartment = False
@@ -159,6 +159,10 @@ class weladee_department(models.Model):
 
     def write(self, vals):
         odoovals = sync_clean_up(vals)
+        if 'manager_id' in odoovals:
+            if odoovals['manager_id'] == 0:
+               del odoovals['manager_id']
+                
         ret = super(weladee_department, self).write( odoovals )
         # if don't need to sync when there is weladee-id in vals
         # case we don't need to send to weladee, like just update weladee-id in odoo

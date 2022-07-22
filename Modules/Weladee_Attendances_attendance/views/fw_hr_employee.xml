@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+customize HR Employee form
+
+remarks:
+2018-05-24 KPO created    
+-->
+<odoo>
+    <data>
+        <record id="hr_employee_weladee_profile_attend" model="ir.ui.view">
+            <field name="name">hr_employee_weladee_profile_attend</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="Weladee_Attendances.hr_employee_weladee_profile"/>
+            <field name="arch" type="xml">                
+                <xpath expr="//page[@name='weladee']" position="inside">
+                        <group string="Attendance">
+                            <field name="receive_check_notification" />
+                        </group>                         
+                </xpath>   
+            </field>
+        </record>
+    </data>
+</odoo>
