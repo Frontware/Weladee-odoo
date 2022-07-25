@@ -38,9 +38,9 @@ def sync_work_type_data(weladee_work_type, req):
           sync_logdebug(req.context_sync, 'odoo > %s' % odoo_work_type)
           sync_logdebug(req.context_sync, 'weladee > %s' % weladee_work_type)
           if odoo_work_type.weladee_id:
-             sync_logwarn(req.context_sync,'will replace old weladee id %s with new one %s' % (odoo_work_type.weladee_id, weladee_work_type.work_type.ID))      
+             sync_logwarn(req.context_sync,'will replace old weladee id %s with new one %s' % (odoo_work_type.weladee_id, weladee_work_type.WorkType.ID))      
           else:
-             sync_logdebug(req.context_sync,'missing weladee link, will update with new one %s' % weladee_work_type.work_type.ID)      
+             sync_logdebug(req.context_sync,'missing weladee link, will update with new one %s' % weladee_work_type.WorkType.ID)      
           pos['res-mode'] = 'update'
           pos['res-id'] = odoo_work_type.id
 
@@ -82,7 +82,7 @@ def sync_work_type(req):
                    sync_stat_error(req.context_sync['stat-work_type'], 1)
 
     except Exception as e:
-        print(traceback.format_exc())
+        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
         if sync_weladee_error(weladee_work_type, 'work_type', e, req.context_sync):
            return
     #stat

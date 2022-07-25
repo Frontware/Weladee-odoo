@@ -126,7 +126,7 @@ def sync_skill(req):
                     else:
                         sync_stat_error(req.context_sync['stat-skill-type'], 1)
                 except Exception as e:
-                    print(traceback.format_exc())
+                    sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
                     sync_logerror(req.context_sync, 'Add skill type %s failed : %s' % (weladee_skill_type, e))
                     sync_stat_error(req.context_sync['stat-skill-type'], 1)
             elif odoo_skill_type and odoo_skill_type['res-mode'] == 'update' and 'res-id' in odoo_skill_type:
@@ -138,7 +138,7 @@ def sync_skill(req):
                         add_translation(odoo_id.id, 'hr.skill.type', translation_req, req, lang='th_TH')
                         sync_stat_update(req.context_sync['stat-skill-type'], 1)
                     except Exception as e:
-                        print(traceback.format_exc())
+                        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
                         sync_logerror(req.context_sync, 'Update skill type %s failed : %s' % (weladee_skill_type, e))
                         sync_stat_error(req.context_sync['stat-skill-type'], 1)
                 else:
@@ -146,7 +146,7 @@ def sync_skill(req):
                     sync_stat_error(req.context_sync['stat-skill-type'], 1)
 
     except Exception as e:
-        print(traceback.format_exc())
+        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
         if sync_weladee_error(weladee_skill_type, 'skill type', e, req.context_sync):
            return
     
@@ -179,7 +179,7 @@ def sync_skill(req):
                     else:
                         sync_stat_error(req.context_sync['stat-skill-level'], 1)
                 except Exception as e:
-                    print(traceback.format_exc())
+                    sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
                     sync_logerror(req.context_sync, 'Add skill type %s failed : %s' % (weladee_skill_level, e))
                     sync_stat_error(req.context_sync['stat-skill-level'], 1)
             elif odoo_skill_level and odoo_skill_level['res-mode'] == 'update' and 'res-id' in odoo_skill_level:
@@ -191,7 +191,7 @@ def sync_skill(req):
                         add_translation(odoo_id.id, 'hr.skill.level', translation_req, req, lang='th_TH')
                         sync_stat_update(req.context_sync['stat-skill-level'], 1)
                     except Exception as e:
-                        print(traceback.format_exc())
+                        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
                         sync_logerror(req.context_sync, 'Update skill %s failed : %s' % (weladee_skill_level, e))
                         sync_stat_error(req.context_sync['stat-skill-level'], 1)
                 else:
@@ -199,7 +199,7 @@ def sync_skill(req):
                     sync_stat_error(req.context_sync['stat-skill-level'], 1)
 
     except Exception as e:
-        print(traceback.format_exc())
+        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
         if sync_weladee_error(weladee_skill_level, 'skill level', e, req.context_sync):
            return
     
@@ -232,7 +232,7 @@ def sync_skill(req):
                     else:
                         sync_stat_error(req.context_sync['stat-skill'], 1)
                 except Exception as e:
-                    print(traceback.format_exc())
+                    sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
                     sync_logerror(req.context_sync, 'Add skill type %s failed : %s' % (weladee_skill, e))
                     sync_stat_error(req.context_sync['stat-skill'], 1)
             elif odoo_skill and odoo_skill['res-mode'] == 'update' and 'res-id' in odoo_skill:
@@ -244,7 +244,7 @@ def sync_skill(req):
                         add_translation(odoo_id.id, 'hr.skill', translation_req, req, lang='th_TH')
                         sync_stat_update(req.context_sync['stat-skill'], 1)
                     except Exception as e:
-                        print(traceback.format_exc())
+                        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
                         sync_logerror(req.context_sync, 'Update skill %s failed : %s' % (weladee_skill, e))
                         sync_stat_error(req.context_sync['stat-skill'], 1)
                 else:
@@ -252,7 +252,7 @@ def sync_skill(req):
                     sync_stat_error(req.context_sync['stat-skill'], 1)
 
     except Exception as e:
-        print(traceback.format_exc())
+        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
         if sync_weladee_error(weladee_skill, 'skill', e, req.context_sync):
            return
     

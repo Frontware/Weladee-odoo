@@ -130,7 +130,7 @@ def sync_expense(req):
 
 
     except Exception as e:
-        print(traceback.format_exc())
+        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
         sync_logdebug(req.context_sync, 'odoo >> %s' % odoo_expense) 
         if sync_weladee_error(weladee_expense, 'expense', e, req.context_sync):
             return

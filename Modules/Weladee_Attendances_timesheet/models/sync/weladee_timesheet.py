@@ -78,7 +78,7 @@ def sync_timesheet(req):
                     sync_stat_error(req.context_sync['stat-timesheet'], 1)
 
     except Exception as e:
-        print(traceback.format_exc())
+        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
         sync_logdebug(req.context_sync, 'odoo >> %s' % odoo_timesheet) 
         if sync_weladee_error(weladee_timesheet, 'timesheet', e, req.context_sync):
             return

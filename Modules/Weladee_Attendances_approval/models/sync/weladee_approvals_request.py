@@ -264,7 +264,7 @@ def sync_approvals_request(req):
                     sync_stat_error(req.context_sync['stat-approvals-request'], 1)
 
     except Exception as e:
-        print(traceback.format_exc())
+        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
         if sync_weladee_error(weladee_approvals_request, 'approvals request', e, req.context_sync):
            return
     

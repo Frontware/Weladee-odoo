@@ -95,7 +95,7 @@ def sync_project(req):
                    sync_stat_error(req.context_sync['stat-proj'], 1)
 
     except Exception as e:
-        print(traceback.format_exc())
+        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
         sync_logdebug(req.context_sync, 'odoo >> %s' % odoo_prj) 
         if sync_weladee_error(weladee_project, 'project', e, req.context_sync):
             return

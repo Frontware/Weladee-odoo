@@ -65,7 +65,7 @@ def sync_customer(req):
                     sync_stat_error(req.context_sync['stat-cus'], 1)
 
     except Exception as e:
-        print(traceback.format_exc())
+        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
         sync_logdebug(req.context_sync, 'odoo >> %s' % odoo_cus) 
         if sync_weladee_error(weladee_customer, 'customer', e, req.context_sync):
             return

@@ -193,7 +193,7 @@ def sync_holiday(self, req):
                    sync_stat_error(req.context_sync['stat-hol'], 1)
 
     except Exception as e:
-        print(traceback.format_exc())
+        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
         sync_logdebug(req.context_sync, 'odoo >> %s' % odoo_hol) 
         bget_holiday_notify = self.env['weladee_attendance.synchronous.setting'].get_holiday_notify_leave_req()
         bget_holiday_notify_email = self.env['weladee_attendance.synchronous.setting'].get_holiday_notify_leave_req_email()

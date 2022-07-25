@@ -77,7 +77,7 @@ def sync_job_ads(req):
                     sync_stat_error(req.context_sync['stat-job_ads'], 1)
 
     except Exception as e:
-        print(traceback.format_exc())
+        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
         sync_logdebug(req.context_sync, 'odoo >> %s' % odoo_job_ads) 
         if sync_weladee_error(weladee_job_ads, 'job_ads', e, req.context_sync):
             return

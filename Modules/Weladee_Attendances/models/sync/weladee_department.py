@@ -88,7 +88,7 @@ def sync_department(req):
                    sync_stat_error(req.context_sync['stat-department'], 1)
 
     except Exception as e:
-        print(traceback.format_exc())
+        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
         sync_logdebug(req.context_sync, 'odoo >> %s' % odoo_dept) 
         if sync_weladee_error(weladee_department, 'department', e, req.context_sync):
            return
@@ -124,7 +124,7 @@ def sync_department(req):
             sync_logdebug(req.context_sync, "Added department to weladee : %s" % odoo_department.name)
             sync_stat_create(req.context_sync['stat-w-department'], 1)
         except Exception as e:
-            print(traceback.format_exc())
+            sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
             sync_logdebug(req.context_sync, 'odoo > %s' % odoo_department)
             sync_logerror(req.context_sync, "Add department '%s' failed : %s" % (odoo_department.name, e))
             sync_stat_error(req.context_sync['stat-w-department'], 1)

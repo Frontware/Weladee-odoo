@@ -84,7 +84,7 @@ def sync_job_applicant(req):
                     sync_stat_error(req.context_sync['stat-job_app'], 1)
 
     except Exception as e:
-        print(traceback.format_exc())
+        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
         sync_logdebug(req.context_sync, 'odoo >> %s' % odoo_job_app) 
         if sync_weladee_error(weladee_job_app, 'job_app', e, req.context_sync):
             return
