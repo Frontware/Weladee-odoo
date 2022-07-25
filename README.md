@@ -66,6 +66,12 @@ This data is sent from Weladee to Odoo. Weladee feeds Odoo with HRMS data.
 
 ## Technical
 
+
+### Install modules
+
+
+![](https://i.imgur.com/4g13hYX.png)
+
 ### gRPC
 
 [gRPC](https://grpc.io) is used to communicate with [weladee](https://www.weladee.com) server.
@@ -146,6 +152,12 @@ Simple code parsing a stream of log events that need to be synchronized with Odo
         i+=1
         logging.log(i,att)
 ```
+
+### Deleted records
+
+
+If records have been deleted on Weladee, you will call gRPC function **GetDeleted**. It will return all IDs of deleted record for a specific table.
+
 
 ![](https://img.shields.io/badge/Developed%20by%20-Frontware%20International-orange)
 --------------------------------------------------------------
