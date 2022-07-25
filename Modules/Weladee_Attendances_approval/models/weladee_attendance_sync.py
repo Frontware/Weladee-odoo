@@ -27,7 +27,7 @@ class weladee_attendance_approval(models.TransientModel):
         r.attach_obj = False
 
         r.approvals_type_obj = False
-        r.approvals_approver_obj = False
+        r.approvals_type_approver_obj = False
         r.approvals_request_obj = False
         r.approvals_approver_1_obj = False
         r.approvals_approver_2_obj = False
@@ -50,7 +50,7 @@ class weladee_attendance_approval(models.TransientModel):
             req.project_obj = self.env['project.project']
             req.attach_obj = self.env['ir.attachment']
             req.approvals_type_obj = self.env['fw.approvals.type']
-            req.approvals_approver_obj = self.env['fw.approvals.approver']
+            req.approvals_type_approver_obj = self.env['fw.approvals.type.approver']
             req.approvals_request_obj = self.env['fw.approvals.request']
             req.approvals_approver_1_obj = self.env['fw.approvals.approver1']
             req.approvals_approver_2_obj = self.env['fw.approvals.approver2']

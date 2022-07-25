@@ -25,7 +25,7 @@ class OdooStub(object):
                 )
         self.GetRequests = channel.unary_stream(
                 '/grpc.weladee.com.Odoo/GetRequests',
-                request_serializer=weladee__pb2.Empty.SerializeToString,
+                request_serializer=odoo__pb2.Period.SerializeToString,
                 response_deserializer=odoo__pb2.RequestOdoo.FromString,
                 )
         self.AddRequest = channel.unary_unary(
@@ -187,6 +187,11 @@ class OdooStub(object):
                 '/grpc.weladee.com.Odoo/UpdateExpense',
                 request_serializer=odoo__pb2.ExpenseOdoo.SerializeToString,
                 response_deserializer=weladee__pb2.Empty.FromString,
+                )
+        self.GetDeleted = channel.unary_unary(
+                '/grpc.weladee.com.Odoo/GetDeleted',
+                request_serializer=weladee__pb2.AuditRequest.SerializeToString,
+                response_deserializer=odoo__pb2.Records.FromString,
                 )
 
 
@@ -495,6 +500,13 @@ class OdooServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetDeleted(self, request, context):
+        """Get list of deleted records
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_OdooServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -505,7 +517,7 @@ def add_OdooServicer_to_server(servicer, server):
             ),
             'GetRequests': grpc.unary_stream_rpc_method_handler(
                     servicer.GetRequests,
-                    request_deserializer=weladee__pb2.Empty.FromString,
+                    request_deserializer=odoo__pb2.Period.FromString,
                     response_serializer=odoo__pb2.RequestOdoo.SerializeToString,
             ),
             'AddRequest': grpc.unary_unary_rpc_method_handler(
@@ -668,6 +680,11 @@ def add_OdooServicer_to_server(servicer, server):
                     request_deserializer=odoo__pb2.ExpenseOdoo.FromString,
                     response_serializer=weladee__pb2.Empty.SerializeToString,
             ),
+            'GetDeleted': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetDeleted,
+                    request_deserializer=weladee__pb2.AuditRequest.FromString,
+                    response_serializer=odoo__pb2.Records.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
             'grpc.weladee.com.Odoo', rpc_method_handlers)
@@ -710,7 +727,7 @@ class Odoo(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetRequests',
-            weladee__pb2.Empty.SerializeToString,
+            odoo__pb2.Period.SerializeToString,
             odoo__pb2.RequestOdoo.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
@@ -1256,5 +1273,22 @@ class Odoo(object):
         return grpc.experimental.unary_unary(request, target, '/grpc.weladee.com.Odoo/UpdateExpense',
             odoo__pb2.ExpenseOdoo.SerializeToString,
             weladee__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetDeleted(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/grpc.weladee.com.Odoo/GetDeleted',
+            weladee__pb2.AuditRequest.SerializeToString,
+            odoo__pb2.Records.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

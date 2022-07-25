@@ -19,6 +19,18 @@
                         </div>
                     </div> 
                 </xpath>
+                <xpath expr="//notebook//page[last()]" position="before">
+                    <page string="Approval" attrs="{'invisible':[('sync_approval','=',False)]}">
+                        <group>
+                            <label for="approval_period"/>
+                            <div>
+                                <field attrs="{'required':[('sync_approval','=',True)],'invisible':[('approval_period','=','all')]}" name="approval_period_unit" class="oe_inline" />
+                                <span attrs="{'invisible':[('approval_period','=','all')]}">&amp;nbsp;</span>
+                                <field name="approval_period" attrs="{'required':[('sync_approval','=',True)]}" style="height:24px" class="oe_inline" />
+                            </div>
+                        </group>
+                    </page>
+                </xpath>
         </field>
     </record>
 </odoo>  
