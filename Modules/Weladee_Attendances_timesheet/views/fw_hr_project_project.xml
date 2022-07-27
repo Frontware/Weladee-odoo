@@ -30,5 +30,27 @@ remarks:
                 </xpath>
             </field>
         </record>
+
+        <record id="fw_project_view_project_kanban" model="ir.ui.view">
+            <field name="name">fw_project_view_project_kanban</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban"/>
+            <field name="priority">50</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='analytic_account_id']" position="after">
+                    <field name="weladee_id"/>
+                    <field name="weladee_url"/>
+                </xpath>
+
+                <xpath expr="//div[hasclass('o_project_kanban_boxes')]" position="attributes">
+                    <attribute t-if="record.weladee_id.value" name="style">align-items: center</attribute>
+                </xpath>
+                <xpath expr="//div[hasclass('o_project_kanban_boxes')]" position="inside">
+                    <a t-if="record.weladee_id.value" t-att="{'href':record.weladee_url.value}" target="_blank" style="width: 50px; text-align: right">
+                        <span class="icon-weladee-kanban"></span>
+                    </a>
+                </xpath>
+            </field>
+        </record>
     </data>
 </odoo>

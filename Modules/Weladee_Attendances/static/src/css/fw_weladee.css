@@ -24,3 +24,14 @@ remarks:
     height: 24px;
     width: 24px;
 }
+
+.icon-weladee-kanban::before {
+    content:"";
+    background-image: url("../img/Icon-App-72x72@1x.png");
+    display: table-cell;
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    height: 24px;
+    width: 24px;
+}
