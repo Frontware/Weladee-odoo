@@ -25,4 +25,4 @@ class weladee_account_analytic_line(models.Model):
               'target': 'new'
           }
       else:
-        raise UserError(_("This employee don't have weladee url."))
+        raise UserError(_("This employee doesn't have weladee url."))

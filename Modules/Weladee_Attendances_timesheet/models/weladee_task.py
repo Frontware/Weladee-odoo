@@ -4,12 +4,14 @@ import logging
 _logger = logging.getLogger(__name__)
 
 from odoo import osv
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError, ValidationError
 
 class weladee_task(models.Model):
     _inherit = 'project.task'
 
     weladee_id = fields.Char(string="Weladee ID",copy=False)
+    weladee_url = fields.Char(string="Weladee Url", default="", copy=False, readonly=True)
     hide_edit_btn_css = fields.Html(string='css', sanitize=False, compute='_compute_css')
 
     @api.model
@@ -23,6 +25,17 @@ class weladee_task(models.Model):
         irobj._set_ids('project.task,name','model','th_TH', [ret.id], name_th)
 
         return ret
+
+    def open_weladee_task(self):
+        if self.weladee_url:
+            return {
+                'name': _('Task'),
+                'type': 'ir.actions.act_url',
+                'url': self.weladee_url,
+                'target': 'new'
+            }
+        else:
+            raise UserError(_("This task doesn't have a weladee id."))
     
     @api.depends('weladee_id')
     def _compute_css(self):

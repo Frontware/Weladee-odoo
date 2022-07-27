@@ -35,7 +35,7 @@ class weladee_approvals_request(models.Model):
                 'target': 'new'
             }
         else:
-            raise UserError(_("This approval request don't have a weladee id."))
+            raise UserError(_("This approval request doesn't have a weladee id."))
     
     @api.depends('weladee_id')
     def _compute_css_hide_edit_btn(self):

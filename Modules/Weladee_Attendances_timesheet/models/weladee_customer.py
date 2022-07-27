@@ -4,11 +4,24 @@ import logging
 _logger = logging.getLogger(__name__)
 
 from odoo import osv
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError, ValidationError
 
 class weladee_partner(models.Model):
     _inherit = 'res.partner'
 
     weladee_id = fields.Char(string="Weladee ID",copy=False)
+    weladee_url = fields.Char(string="Weladee Url", default="", copy=False, readonly=True)
     name_thai = fields.Char(string='Name(thai)')
     customer_rank = fields.Integer(default=0, copy=False)
+
+    def open_weladee_customer(self):
+        if self.weladee_url:
+            return {
+                'name': _('Customer'),
+                'type': 'ir.actions.act_url',
+                'url': self.weladee_url,
+                'target': 'new'
+            }
+        else:
+            raise UserError(_("This customer doesn't have a weladee id."))

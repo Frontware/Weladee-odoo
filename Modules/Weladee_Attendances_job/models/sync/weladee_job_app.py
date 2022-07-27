@@ -7,6 +7,8 @@ from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
 
+base_url = 'https://www.weladee.com/jobads/jobapplication/'
+
 def sync_jobapp_data_gender(weladee_job_app):
     '''
     convert weladee job app gender to odoo
@@ -23,7 +25,8 @@ def sync_job_app_data(weladee_job_app, req):
     job_app data to sync
     '''
     data = {'name': weladee_job_app.JobApplication.Title,
-            'weladee_id':  weladee_job_app.JobApplication.ID, 
+            'weladee_id':  weladee_job_app.JobApplication.ID,
+            'weladee_url': base_url + str(weladee_job_app.JobApplication.ID),
             'firstname' :  weladee_job_app.JobApplication.FirstName, 
             'lastname' :  weladee_job_app.JobApplication.LastName, 
             'partner_mobile': weladee_job_app.JobApplication.Phone,

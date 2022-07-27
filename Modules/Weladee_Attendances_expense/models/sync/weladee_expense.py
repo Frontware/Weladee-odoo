@@ -9,12 +9,15 @@ from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myreq
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
 from odoo.addons.Weladee_Attendances.models.sync.weladee_employee import get_emp_odoo_weladee_ids
 
+base_url = 'https://www.weladee.com/expense/req/'
+
 def sync_expense_data(weladee_expense, req):
     '''
     expense data to sync
     '''
     dd = datetime.datetime.fromtimestamp( weladee_expense.Expense.Date )
-    data = {'weladee_id': weladee_expense.Expense.ID, 
+    data = {'weladee_id': weladee_expense.Expense.ID,
+            'weladee_url':base_url + str(weladee_expense.Expense.ID),
             'quantity': 1, 
             'employee_id': req.employee_odoo_weladee_ids.get(str(weladee_expense.Expense.EmployeeID)), 
             'date': dd, 

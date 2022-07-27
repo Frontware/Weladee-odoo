@@ -5,6 +5,8 @@ from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
 
+base_url = 'https://www.weladee.com/project/'
+
 def sync_project_data(weladee_project, req):
     '''
     project data to sync
@@ -16,6 +18,7 @@ def sync_project_data(weladee_project, req):
             'note': weladee_project.Project.Note,
             'url': weladee_project.Project.URL,
             'weladee_id':  weladee_project.Project.ID,
+            'weladee_url': base_url + str(weladee_project.Project.ID),
             'active':weladee_project.Project.active,
             }    
     data['partner_id'] = req.customer_odoo_weladee_ids.get(weladee_project.Project.CustomerID, False)
