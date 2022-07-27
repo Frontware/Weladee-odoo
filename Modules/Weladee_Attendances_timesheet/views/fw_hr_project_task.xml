@@ -35,6 +35,11 @@ remarks:
                <xpath expr="//field[@name='timesheet_ids']//form//field[@name='unit_amount']" position="after">
                    <field name="weladee_cost" />   
                 </xpath>
+
+                <!-- Hide edit button if record comes from weladee -->
+                <xpath expr="/form/sheet" position="inside">
+                    <field name="hide_edit_btn_css"/>
+                </xpath>
             </field>
         </record>
     </data>

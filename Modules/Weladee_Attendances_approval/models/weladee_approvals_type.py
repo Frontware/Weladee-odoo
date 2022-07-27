@@ -11,6 +11,7 @@ class weladee_approvals_type(models.Model):
 
     weladee_id = fields.Char(string="Weladee ID",copy=False, default="", readonly=True, required=True)
     weladee_url = fields.Char(string="Weladee Url", copy=False, default="", readonly=True, required=True)
+    hide_edit_btn_css = fields.Html(string='css', sanitize=False, compute='_compute_css')
 
     @api.model
     def create(self, vals):
@@ -37,3 +38,11 @@ class weladee_approvals_type(models.Model):
             }
         else:
             raise UserError(_("This approval type don't have a weladee id."))
+    
+    @api.depends('weladee_id')
+    def _compute_css(self):
+        for record in self:
+            if self.weladee_id:
+                record.hide_edit_btn_css = '<style>.o_form_button_edit {display: none !important;}</style>'
+            else:
+                record.hide_edit_btn_css = False
