@@ -16,3 +16,12 @@ class weladee_expense(models.Model):
     bill_partner_id = fields.Many2one('res.partner')
 
     request_amount = fields.Float(string='Amount request',digits=(10,2))
+    hide_edit_btn_css = fields.Html(string='css', sanitize=False, compute='_compute_css')
+
+    @api.depends('weladee_id')
+    def _compute_css(self):
+        for record in self:
+            if self.weladee_id:
+                record.hide_edit_btn_css = '<style>.o_form_button_edit {display: none !important;}</style>'
+            else:
+                record.hide_edit_btn_css = False

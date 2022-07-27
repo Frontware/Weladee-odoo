@@ -9,6 +9,7 @@ class weladee_approvals_request(models.Model):
     note = fields.Text(string="Note", copy=False, readonly=True)
     weladee_id = fields.Char(string="Weladee ID", copy=False, readonly=True)
     weladee_url = fields.Char(string="Weladee Url", default="", copy=False, readonly=True)
+    hide_edit_btn_css = fields.Html(string='css', sanitize=False, compute='_compute_css_hide_edit_btn')
 
     @api.model
     def create(self, vals):
@@ -35,3 +36,11 @@ class weladee_approvals_request(models.Model):
             }
         else:
             raise UserError(_("This approval request don't have a weladee id."))
+    
+    @api.depends('weladee_id')
+    def _compute_css_hide_edit_btn(self):
+        for record in self:
+            if self.weladee_id:
+                record.hide_edit_btn_css = '<style>.o_form_button_edit {display: none !important;}</style>'
+            else:
+                record.hide_edit_btn_css = False

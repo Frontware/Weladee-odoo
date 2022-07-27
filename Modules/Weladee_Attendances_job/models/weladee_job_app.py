@@ -22,3 +22,12 @@ class weladee_job_app(models.Model):
     lang_id = fields.Many2one('res.lang', string='Language')
     date_apply = fields.Datetime(string='Apply date')
     note = fields.Text(string='Note')
+    hide_edit_btn_css = fields.Html(string='css', sanitize=False, compute='_compute_css')
+
+    @api.depends('weladee_id')
+    def _compute_css(self):
+        for record in self:
+            if self.weladee_id:
+                record.hide_edit_btn_css = '<style>.o_form_button_edit {display: none !important;}</style>'
+            else:
+                record.hide_edit_btn_css = False

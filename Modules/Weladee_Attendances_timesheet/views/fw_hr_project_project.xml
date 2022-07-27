@@ -28,6 +28,11 @@ remarks:
                     <field name="note" />
                     </div>
                 </xpath>
+
+                <!-- Hide edit button if record comes from weladee -->
+                <xpath expr="/form/sheet" position="inside">
+                    <field name="hide_edit_btn_css"/>
+                </xpath>
             </field>
         </record>
     </data>
