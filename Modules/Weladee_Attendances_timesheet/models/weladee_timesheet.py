@@ -11,6 +11,7 @@ class weladee_account_analytic_line(models.Model):
     _inherit = 'account.analytic.line'
 
     weladee_id = fields.Char(string="Weladee ID",copy=False)
+    is_weladee = fields.Boolean(compute='_compute_from_weladee', copy=False, readonly=True, store=True)
     work_type_id = fields.Many2one('mail.activity.type', string='Work type')
     weladee_cost = fields.Float(string="Weladee cost",digits=(12,2))
 
@@ -26,3 +27,11 @@ class weladee_account_analytic_line(models.Model):
           }
       else:
         raise UserError(_("This employee doesn't have weladee url."))
+
+    @api.depends('weladee_id')
+    def _compute_from_weladee(self):
+        for record in self:
+            if record.weladee_id:
+                record.is_weladee = True
+            else:
+                record.is_weladee = False

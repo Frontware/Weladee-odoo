@@ -38,6 +38,7 @@
 
          "views/fw_hr_department.xml",
          "views/fw_hr_employee.xml",
+         "views/fw_hr_position.xml",
 
          'views/menu.xml',
 ],

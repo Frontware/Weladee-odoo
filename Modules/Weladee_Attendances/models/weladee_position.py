@@ -17,6 +17,7 @@ class weladee_job(models.Model):
     _inherit = 'hr.job'
 
     weladee_id = fields.Char(string="Weladee ID",copy=False)
+    is_weladee = fields.Boolean(compute='_compute_from_weladee', copy=False, readonly=True, store=True)
 
     _sql_constraints = [
         ('name_uniq', 'unique(name)', "Name can't duplicate !"),
@@ -123,3 +124,11 @@ class weladee_job(models.Model):
                   self._update_in_weladee(each, vals)
 
         return ret
+
+    @api.depends('weladee_id')
+    def _compute_from_weladee(self):
+        for record in self:
+            if record.weladee_id:
+                record.is_weladee = True
+            else:
+                record.is_weladee = False

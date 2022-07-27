@@ -6,6 +6,21 @@ remarks:
 2018-11-14 KPO created    
 -->
 <odoo>
+    <record id="weladee_att_hr_leave_status_search" model="ir.ui.view">
+        <field name="name">weladee_att_hr_leave_status_search</field>
+        <field name="model">hr.leave.type</field>
+        <field name="inherit_id" ref="hr_holidays.view_holidays_status_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="/search" position="inside">
+                <field name="weladee_code"/>
+                <filter string="Weladee" name="filter_weladee" domain="[('is_weladee','=',True)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Weladee" name="group_by_weladee" context="{'group_by':'is_weladee'}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
     <record id="weladee_att_hr_leave_status_form" model="ir.ui.view">
         <field name="name">weladee_att_hr_leave_status_form</field>
         <field name="model">hr.leave.type</field>

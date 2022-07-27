@@ -58,6 +58,7 @@ class weladee_employee(models.Model):
     #weladee link
     weladee_profile = fields.Char(string="Weladee Url", default="",copy=False)
     weladee_id = fields.Char(string="Weladee ID",copy=False)
+    is_weladee = fields.Boolean(compute='_compute_from_weladee', copy=False, readonly=True, store=True)
     receive_check_notification = fields.Boolean(string="Receive Check Notification", track_visibility='always')
     can_request_holiday = fields.Boolean(string="Can Request Holiday", track_visibility='always')
     hasToFillTimesheet = fields.Boolean(string="Has To Fill Timesheet", track_visibility='always')
@@ -596,3 +597,11 @@ class weladee_employee(models.Model):
         default['employee_code'] = False      
         default['first_name_english'] = '%s-%s' % (self.first_name_english, len(self.search([('first_name_english','=', self.first_name_english),'|',('active','=',False),('active','=',True)])))
         return super(weladee_employee, self).copy(default)
+
+    @api.depends('weladee_id')
+    def _compute_from_weladee(self):
+        for record in self:
+            if record.weladee_id:
+                record.is_weladee = True
+            else:
+                record.is_weladee = False

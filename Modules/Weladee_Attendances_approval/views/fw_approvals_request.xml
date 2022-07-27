@@ -2,6 +2,21 @@
 
 <odoo>
     <data>
+        <record id="fw_approvals_view_fw_approvals_request_search2" model="ir.ui.view">
+            <field name="name">fw_approvals_view_fw_approvals_request_search2</field>
+            <field name="model">fw.approvals.request</field>
+            <field name="inherit_id" ref="fw_approvals.view_fw_approvals_request_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="/search" position="inside">
+                    <field name="weladee_id"/>
+                    <filter string="Weladee" name="filter_weladee" domain="[('is_weladee','=',True)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Weladee" name="group_by_weladee" context="{'group_by':'is_weladee'}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
         <record id="fw_approvals_weladee_request" model="ir.ui.view">
             <field name="name">fw_approvals_weladee_request</field>
             <field name="model">fw.approvals.request</field>

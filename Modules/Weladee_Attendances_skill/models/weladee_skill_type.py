@@ -10,6 +10,7 @@ class weladee_skill_type(models.Model):
     name = fields.Char(required=True, translate=True)
     weladee_id = fields.Char(string="Weladee ID",copy=False, readonly=True)
     weladee_url = fields.Char(string="Weladee Url", default="", copy=False, readonly=True)
+    is_weladee = fields.Boolean(compute='_compute_from_weladee', copy=False, readonly=True, store=True)
     hide_edit_btn_css = fields.Html(string='css', sanitize=False, compute='_compute_css')
 
     @api.model
@@ -37,7 +38,15 @@ class weladee_skill_type(models.Model):
             }
         else:
             raise UserError(_("This skill type doesn't have a weladee id."))
-    
+
+    @api.depends('weladee_id')
+    def _compute_from_weladee(self):
+        for record in self:
+            if record.weladee_id:
+                record.is_weladee = True
+            else:
+                record.is_weladee = False
+
     @api.depends('weladee_id')
     def _compute_css(self):
         for record in self:
