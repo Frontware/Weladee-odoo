@@ -4,12 +4,14 @@ import logging
 _logger = logging.getLogger(__name__)
 
 from odoo import osv
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError, ValidationError
 
 class weladee_project(models.Model):
     _inherit = 'project.project'
 
     weladee_id = fields.Char(string="Weladee ID",copy=False)
+    weladee_url = fields.Char(string="Weladee Url", default="", copy=False, readonly=True)
     descrition = fields.Html(translate=True)
     url = fields.Char('URL')
     note = fields.Text('Note')
@@ -31,6 +33,17 @@ class weladee_project(models.Model):
         irobj._set_ids('project.project,description','model','th_TH', [ret.id], des_th)
 
         return ret
+
+    def open_weladee_project(self):
+        if self.weladee_url:
+            return {
+                'name': _('Project'),
+                'type': 'ir.actions.act_url',
+                'url': self.weladee_url,
+                'target': 'new'
+            }
+        else:
+            raise UserError(_("This project doesn't have a weladee id."))
     
     @api.depends('weladee_id')
     def _compute_css(self):

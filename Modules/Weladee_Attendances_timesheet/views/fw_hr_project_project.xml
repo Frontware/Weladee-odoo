@@ -11,7 +11,23 @@ remarks:
             <field name="name">fw_edit_project</field>
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.edit_project"/>
-            <field name="arch" type="xml">                
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='oe_button_box']" position="inside">
+                    <field name="weladee_id" invisible="1"/>
+                    <button
+                            name="open_weladee_project"
+                            class="oe_stat_button"
+                            type="object"
+                            widget="url"
+                            attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}"
+                        >
+                            <div role="img" class="o_button_icon icon-weladee"/>
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Weladee</span>
+                                <span class="o_stat_value">Project</span>
+                            </div>
+                        </button>
+                </xpath>
                <xpath expr="//field[@name='name']//.." position="after">
                    <field name="weladee_id" invisible="1" />
                    <div attrs="{'invisible':[('weladee_id','=',False)]}" style="color:red">

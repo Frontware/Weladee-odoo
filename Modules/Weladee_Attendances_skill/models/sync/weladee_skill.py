@@ -9,6 +9,8 @@ from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error 
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info
 
+base_url = 'https://www.weladee.com/skill/type/'
+
 lang_dict = {
     'en_US':'english',
     'th_TH':'thai',
@@ -17,6 +19,7 @@ lang_dict = {
 def sync_skill_type_data(weladee_skill_type, req):
     data = {
         'weladee_id':weladee_skill_type.SkillType.ID,
+        'weladee_url':base_url + str(weladee_skill_type.SkillType.ID),
         'name':weladee_skill_type.SkillType.NameEnglish,
     }
 

@@ -36,7 +36,7 @@ class weladee_skill_type(models.Model):
                 'target': 'new'
             }
         else:
-            raise UserError(_("This skill type don't have a weladee id."))
+            raise UserError(_("This skill type doesn't have a weladee id."))
     
     @api.depends('weladee_id')
     def _compute_css(self):

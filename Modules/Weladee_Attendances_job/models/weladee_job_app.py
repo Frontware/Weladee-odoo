@@ -7,12 +7,13 @@ import time
 from odoo import osv
 from odoo import models, fields, api, _
 from datetime import datetime,date, timedelta
-from odoo import exceptions
+from odoo.exceptions import UserError, ValidationError
 
 class weladee_job_app(models.Model):
     _inherit = 'hr.applicant'
 
     weladee_id = fields.Char(string="Weladee ID",copy=False)
+    weladee_url = fields.Char(string="Weladee Url", default="", copy=False, readonly=True)
     lastname = fields.Char('Last name')
     firstname = fields.Char('First name')
     gender = fields.Selection([
@@ -24,6 +25,17 @@ class weladee_job_app(models.Model):
     note = fields.Text(string='Note')
     hide_edit_btn_css = fields.Html(string='css', sanitize=False, compute='_compute_css')
 
+    def open_weladee_job_app(self):
+        if self.weladee_url:
+            return {
+                'name': _('Job application'),
+                'type': 'ir.actions.act_url',
+                'url': self.weladee_url,
+                'target': 'new'
+            }
+        else:
+            raise UserError(_("This job application doesn't have a weladee id."))
+    
     @api.depends('weladee_id')
     def _compute_css(self):
         for record in self:

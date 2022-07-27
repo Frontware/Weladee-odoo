@@ -64,7 +64,9 @@
                 <xpath expr="//div[@class='oe_button_box']" position="inside">
                     <field name="weladee_id" invisible="1"/>
                     <button
+                            name="open_weladee_expense"
                             class="oe_stat_button"
+                            type="object"
                             widget="url"
                             attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}"
                         >

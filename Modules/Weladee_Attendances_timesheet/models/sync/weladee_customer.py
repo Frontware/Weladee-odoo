@@ -5,6 +5,8 @@ from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
 
+base_url = 'https://www.weladee.com/customer/'
+
 def sync_customer_data(weladee_customer, req):
     '''
     customer data to sync
@@ -13,6 +15,7 @@ def sync_customer_data(weladee_customer, req):
             'name_thai': weladee_customer.Customer.NameThai,
             'comment': weladee_customer.Customer.Note,
             'weladee_id': weladee_customer.Customer.ID,
+            'weladee_url': base_url + str(weladee_customer.Customer.ID),
             'active':weladee_customer.Customer.active,
             'customer_rank': 1}    
     data['res-mode'] = 'create'
