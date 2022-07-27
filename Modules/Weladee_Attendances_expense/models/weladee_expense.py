@@ -16,6 +16,8 @@ class weladee_expense(models.Model):
     bill_partner_id = fields.Many2one('res.partner')
 
     request_amount = fields.Float(string='Amount request',digits=(10,2))
+    receipt_file_name = fields.Char(string='File name')
+    receipt = fields.Binary(string='Receipt')
     hide_edit_btn_css = fields.Html(string='css', sanitize=False, compute='_compute_css')
 
     @api.depends('weladee_id')

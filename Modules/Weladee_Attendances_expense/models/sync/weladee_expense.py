@@ -47,8 +47,25 @@ def sync_expense_data(weladee_expense, req):
     if not data['employee_id']:
        data['res-mode'] = ''   
        sync_logwarn(req.context_sync, 'can''t find this weladee employee id %s in odoo' % weladee_expense.Expense.EmployeeID)
+    
+    if data['res-mode'] == 'create':
+        if weladee_expense.Expense.IPFS:
+            try:
+                r = requests.get(weladee_expense.Expense.IPFS)
+                content = r.content
+                data['receipt'] = base64.b64encode(content)
+                data['receipt_file_name'] = data['name']
+            except requests.Timeout as e:
+                sync_logwarn(req.context_sync, 'request: %s' % e)
+            except requests.RequestException as e:
+                sync_logwarn(req.context_sync, 'request: %s' % e)
+            except Exception as e:
+                sync_logwarn(req.context_sync, 'Error: %s' % (e or 'undefined'))
+        else:
+            data['receipt_file_name'] = False
+            data['receipt'] = False
 
-    return data   
+    return data
 
 def sync_expense(req):
     '''

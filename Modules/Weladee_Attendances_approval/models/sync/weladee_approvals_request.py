@@ -197,10 +197,18 @@ def sync_approvals_request_data(weladee_approvals_request, req):
             data[level].append((_SET, False, list(odoo_approvers_by_level[level] & odoo_approvers_to_update[level])))
     
     if weladee_approvals_request.request.IPFS:
+        if data['res-mode'] == 'update':
+            odoo_attach = req.attach_obj.search([('res_model','=',model_id),('res_id','=',odoo_approvals_request.id)], limit=1)
+            if odoo_attach.id and odoo_attach.url == weladee_approvals_request.request.IPFS:
+                # Same IPFS url
+                return data
+
+        # Download new file
         try:
             r = requests.get(weladee_approvals_request.request.IPFS)
             content = r.content
-            data['documents'] = base64.b64encode(content)
+            data['document'] = base64.b64encode(content)
+            data['document_file_name'] = data['name']
         except requests.Timeout as e:
             sync_logwarn(req.context_sync, 'request: %s' % e)
         except requests.RequestException as e:
@@ -208,7 +216,8 @@ def sync_approvals_request_data(weladee_approvals_request, req):
         except Exception as e:
             sync_logwarn(req.context_sync, 'Error: %s' % (e or 'undefined'))
     else:
-        data['documents'] = False
+        data['document_file_name'] = False
+        data['document'] = False
 
     return data
 
@@ -258,16 +267,19 @@ def sync_approvals_request(req):
                 odoo_id = req.approvals_request_obj.search([("id","=",odoo_approvals_request['res-id']),'|',('active','=',False),('active','=',True)], limit=1)
                 if odoo_id.id:
                     odoo_id.with_context({'skip_validation':True}).write(odoo_approvals_request)
-                    req.attach_obj.search([('res_model','=',model_id),('res_id','=',odoo_id.id)]).unlink() # Clear attachment
                     if weladee_approvals_request.request.IPFS:
-                        # Attach document
-                        req.attach_obj.create({
-                            'type':'url',
-                            'url':weladee_approvals_request.request.IPFS,
-                            'name':odoo_id.name,
-                            'res_model':model_id,
-                            'res_id':odoo_id.id,
-                        })
+                        odoo_attach = req.attach_obj.search([('res_model','=',model_id),('res_id','=',odoo_id.id)], limit=1)
+                        if not odoo_attach.id or (odoo_attach.id and odoo_attach.url != weladee_approvals_request.request.IPFS):
+                            # Attach document
+                            req.attach_obj.create({
+                                'type':'url',
+                                'url':weladee_approvals_request.request.IPFS,
+                                'name':odoo_id.name,
+                                'res_model':model_id,
+                                'res_id':odoo_id.id,
+                            })
+                    else:
+                        req.attach_obj.search([('res_model','=',model_id),('res_id','=',odoo_id.id)], limit=1).unlink() # Clear attachment
                     sync_stat_update(req.context_sync['stat-approvals-request'], 1)
                 else:
                     sync_logerror(req.context_sync, 'Odoo appoval request not found for : %s' % weladee_approvals_request)
