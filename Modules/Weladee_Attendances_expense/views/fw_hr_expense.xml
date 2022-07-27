@@ -16,6 +16,21 @@
             <field name="active">true</field>
         </record>
 
+        <record id="weladee_att_hr_exp_search" model="ir.ui.view">
+        <field name="name">weladee_att_hr_exp_search</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense.hr_expense_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="/search" position="inside">
+                <field name="weladee_id"/>
+                <filter string="Weladee" name="filter_weladee" domain="[('is_weladee','=',True)]"/>
+            </xpath>
+            <xpath expr="//group" position="inside">
+                <filter string="Weladee" name="group_by_weladee" context="{'group_by':'is_weladee'}"/>
+            </xpath>
+        </field>
+        </record>
+
         <record id="weladee_att_hr_exp_list" model="ir.ui.view">
         <field name="name">weladee_att_hr_exp_list</field>
         <field name="model">hr.expense</field>

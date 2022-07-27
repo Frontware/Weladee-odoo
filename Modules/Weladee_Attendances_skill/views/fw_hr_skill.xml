@@ -2,8 +2,22 @@
 
 <odoo>
     <data>
-        <record id="fw_hr_skill_weladee_type" model="ir.ui.view">
-            <field name="name">fw_hr_skill_weladee_type</field>
+        <record id="fw_hr_skill_weladee_type_search" model="ir.ui.view">
+            <field name="name">fw_hr_skill_weladee_type_search</field>
+            <field name="model">hr.skill.type</field>
+            <field name="arch" type="xml">
+                <search string="Skill Types">
+                    <field name="weladee_id"/>
+                    <filter string="Weladee" name="filter_weladee" domain="[('is_weladee','=',True)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Weladee" name="group_by_weladee" context="{'group_by':'is_weladee'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="fw_hr_skill_weladee_type_form" model="ir.ui.view">
+            <field name="name">fw_hr_skill_weladee_type_form</field>
             <field name="model">hr.skill.type</field>
             <field name="inherit_id" ref="hr_skills.hr_employee_skill_type_view_form"/>
             <field name="arch" type="xml">

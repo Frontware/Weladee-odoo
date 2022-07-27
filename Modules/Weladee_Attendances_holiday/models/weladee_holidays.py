@@ -16,7 +16,16 @@ class weladee_holidays(models.Model):
 
     weladee_code = fields.Char('Weladee Code')
     weladee_sick = fields.Boolean('Sick')
+    is_weladee = fields.Boolean(compute='_compute_from_weladee', copy=False, readonly=True, store=True)
 
     def action_allocated(self):
         for each in self:
             each.write({'state':'validate'})
+
+    @api.depends('weladee_code')
+    def _compute_from_weladee(self):
+        for record in self:
+            if record.weladee_code:
+                record.weladee_code = True
+            else:
+                record.weladee_code = False

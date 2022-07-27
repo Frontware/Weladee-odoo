@@ -11,7 +11,16 @@ class weladee_holiday_status(models.Model):
     _inherit = 'hr.leave.type'
 
     weladee_code = fields.Char('Weladee Code')
+    is_weladee = fields.Boolean(compute='_compute_from_weladee', copy=False, readonly=True, store=True)
 
     _sql_constraints = [
       ('weladee_code_uniq', 'unique(weladee_code)', "Weladee Holiday Type can't duplicate !"),
     ]
+
+    @api.depends('weladee_code')
+    def _compute_from_weladee(self):
+        for record in self:
+            if record.weladee_code:
+                record.weladee_code = True
+            else:
+                record.weladee_code = False

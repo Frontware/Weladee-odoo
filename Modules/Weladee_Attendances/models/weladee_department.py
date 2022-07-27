@@ -17,6 +17,7 @@ class weladee_department(models.Model):
     _inherit = 'hr.department'
 
     weladee_id = fields.Char(string="Weladee ID",copy=False)
+    is_weladee = fields.Boolean(compute='_compute_from_weladee', copy=False, readonly=True, store=True)
     code = fields.Char('Code')
     email = fields.Char('Email')
     
@@ -178,3 +179,11 @@ class weladee_department(models.Model):
                   self._update_in_weladee(each, vals)
 
         return ret
+
+    @api.depends('weladee_id')
+    def _compute_from_weladee(self):
+        for record in self:
+            if record.weladee_id:
+                record.is_weladee = True
+            else:
+                record.is_weladee = False

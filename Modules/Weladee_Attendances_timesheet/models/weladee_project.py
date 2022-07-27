@@ -12,6 +12,7 @@ class weladee_project(models.Model):
 
     weladee_id = fields.Char(string="Weladee ID",copy=False)
     weladee_url = fields.Char(string="Weladee Url", default="", copy=False, readonly=True)
+    is_weladee = fields.Boolean(compute='_compute_from_weladee', copy=False, readonly=True, store=True)
     descrition = fields.Html(translate=True)
     url = fields.Char('URL')
     note = fields.Text('Note')
@@ -44,7 +45,15 @@ class weladee_project(models.Model):
             }
         else:
             raise UserError(_("This project doesn't have a weladee id."))
-    
+
+    @api.depends('weladee_id')
+    def _compute_from_weladee(self):
+        for record in self:
+            if record.weladee_id:
+                record.is_weladee = True
+            else:
+                record.is_weladee = False
+
     @api.depends('weladee_id')
     def _compute_css(self):
         for record in self:

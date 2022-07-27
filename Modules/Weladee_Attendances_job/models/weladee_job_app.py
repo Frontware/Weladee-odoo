@@ -14,6 +14,7 @@ class weladee_job_app(models.Model):
 
     weladee_id = fields.Char(string="Weladee ID",copy=False)
     weladee_url = fields.Char(string="Weladee Url", default="", copy=False, readonly=True)
+    is_weladee = fields.Boolean(compute='_compute_from_weladee', copy=False, readonly=True, store=True)
     lastname = fields.Char('Last name')
     firstname = fields.Char('First name')
     gender = fields.Selection([
@@ -36,6 +37,14 @@ class weladee_job_app(models.Model):
         else:
             raise UserError(_("This job application doesn't have a weladee id."))
     
+    @api.depends('weladee_id')
+    def _compute_from_weladee(self):
+        for record in self:
+            if record.weladee_id:
+                record.is_weladee = True
+            else:
+                record.is_weladee = False
+
     @api.depends('weladee_id')
     def _compute_css(self):
         for record in self:

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+        <record id="weladee_fw_hr_position_search" model="ir.ui.view">
+            <field name="name">weladee_fw_hr_position_search</field>
+            <field name="model">hr.job</field>
+            <field name="inherit_id" ref="hr.view_job_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="/search" position="inside">
+                    <field name="weladee_id"/>
+                    <filter string="Weladee" name="filter_weladee" domain="[('is_weladee','=',True)]"/>
+                </xpath>
+                <xpath expr="//group" position="inside">
+                    <filter string="Weladee" name="group_by_weladee" context="{'group_by':'is_weladee'}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
