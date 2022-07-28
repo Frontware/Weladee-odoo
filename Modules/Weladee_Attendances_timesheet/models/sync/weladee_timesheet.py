@@ -24,8 +24,32 @@ def sync_timesheet_data(weladee_timesheet, req):
             'work_type_id': req.work_type_odoo_weladee_ids.get(str(weladee_timesheet.Sheet.WorkTypeID),False)
             }
     data['res-mode'] = 'create'
-    print(data)
-    return data   
+
+    # look if there is odoo record with same weladee-id
+    # if not found then create else update
+    prev_rec = req.timesheet_obj.search( [ ('weladee_id','=', weladee_timesheet.Sheet.ID )],limit=1 )
+    if prev_rec and prev_rec.id:
+        data['res-mode'] = 'update'
+        data['res-id'] = prev_rec.id
+        del data['weladee_id']
+        del data['employee_id']
+        del data['date']
+        del data['account_id']
+        sync_logdebug(req.context_sync, 'weladee > %s ' % weladee_timesheet)
+        sync_logdebug(req.context_sync, 'odoo > %s ' % data)
+
+        return data
+
+    # check if there is same name
+    # consider it same record
+    odoo_timesheet = req.timesheet_obj.search( [ ('name','=', data['name'] ) ],limit=1 )
+    if odoo_timesheet.id:
+        data['res-mode'] = 'update'
+        data['res-id'] = odoo_timesheet.id
+        sync_logdebug(req.context_sync, 'odoo > %s' % odoo_timesheet)
+        sync_logdebug(req.context_sync, 'weladee > %s' % weladee_timesheet)
+
+    return data
 
 def sync_timesheet(req):
     '''
@@ -76,6 +100,17 @@ def sync_timesheet(req):
                     sync_logdebug(req.context_sync, 'weladee > %s' % weladee_timesheet) 
                     sync_logerror(req.context_sync, "error while create odoo timesheet id %s of '%s' in odoo" % (odoo_timesheet['res-id'], odoo_timesheet) ) 
                     sync_stat_error(req.context_sync['stat-timesheet'], 1)
+
+            elif odoo_timesheet and odoo_timesheet['res-mode'] == 'update':
+                odoo_id = req.timesheet_obj.search(['id','=',odoo_timesheet['res-id']])
+                if odoo_id.id:
+                   odoo_id.write(sync_clean_up(odoo_timesheet))
+                   sync_logdebug(req.context_sync, "Updated timesheet '%s' to odoo" % odoo_timesheet['name'] )
+                   sync_stat_update(req.context_sync['stat-timesheet'], 1)
+                else:
+                   sync_logdebug(req.context_sync, 'weladee > %s' % weladee_timesheet)
+                   sync_logerror(req.context_sync, "Not found this odoo timesheet id %s of '%s' in odoo" % (odoo_timesheet['res-id'], odoo_timesheet['name']) )
+                   sync_stat_error(req.context_sync['stat-timesheet'], 1)
 
     except Exception as e:
         sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 

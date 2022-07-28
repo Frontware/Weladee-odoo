@@ -24,14 +24,30 @@ def sync_task_data(weladee_task, req):
        data['partner_id'] = req.project_obj.browse(data['project_id']).partner_id.id 
 
     data['res-mode'] = 'create'
-    prev_rec = req.task_obj.search( [ ('name','=', data['name'] )],limit=1 )
+
+    # look if there is odoo record with same weladee-id
+    # if not found then create else update
+    prev_rec = req.task_obj.search( [ ('weladee_id','=', weladee_task.Task.ID ), '|', ('active','=',True), ('active','=',False)],limit=1 )
     if prev_rec and prev_rec.id:
-        data['res-mode'] = '' 
+        data['res-mode'] = 'update'
+        data['res-id'] = prev_rec.id
+        del data['weladee_id']
+        del data['weladee_url']
         sync_logdebug(req.context_sync, 'weladee > %s ' % weladee_task)
         sync_logdebug(req.context_sync, 'odoo > %s ' % data)
-        sync_logwarn(req.context_sync, 'this task\'name record already exist for this %s exist, no change will apply' % data['name'])
+        # sync_logwarn(req.context_sync, 'this task\'name record already exist for this %s exist, no change will apply' % data['name'])
+        return data
 
-    return data   
+    # check if there is same name
+    # consider it same record
+    odoo_task = req.task_obj.search( [ ('name','=', data['name'] ), '|', ('active','=',True), ('active','=',False)],limit=1 )
+    if odoo_task.id:
+        data['res-mode'] = 'update'
+        data['res-id'] = odoo_task.id
+        sync_logdebug(req.context_sync, 'odoo > %s' % odoo_task)
+        sync_logdebug(req.context_sync, 'weladee > %s' % weladee_task)
+
+    return data
 
 def sync_task(req):
     '''
@@ -63,6 +79,19 @@ def sync_task(req):
                 else:
                     sync_logdebug(req.context_sync, 'weladee > %s' % weladee_task) 
                     sync_logerror(req.context_sync, "error while create odoo task id %s of '%s' in odoo" % (odoo_task['res-id'], odoo_task) ) 
+                    sync_stat_error(req.context_sync['stat-task'], 1)
+
+            elif odoo_task and odoo_task['res-mode'] == 'update':
+                odoo_id = req.task_obj.search([('id','=',odoo_task['res-id']),'|',('active','=',True),('active','=',False)])
+                if odoo_id.id:
+                    odoo_id.write(sync_clean_up(odoo_task))
+                    sync_logdebug(req.context_sync, "Updated task '%s' to odoo" % odoo_task['name'] )
+                    sync_stat_update(req.context_sync['stat-task'], 1)
+
+                    req.task_odoo_weladee_ids[weladee_task.Task.ID] = odoo_id.id
+                else:
+                    sync_logdebug(req.context_sync, 'weladee > %s' % weladee_task)
+                    sync_logerror(req.context_sync, "Not found this odoo task id %s of '%s' in odoo" % (odoo_task['res-id'], odoo_task['name']) )
                     sync_stat_error(req.context_sync['stat-task'], 1)
 
     except Exception as e:

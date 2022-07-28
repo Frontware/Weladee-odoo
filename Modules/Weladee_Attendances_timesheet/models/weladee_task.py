@@ -27,6 +27,17 @@ class weladee_task(models.Model):
 
         return ret
 
+    def write(self, vals):
+        name_th = vals.get('name-th', '')
+        if 'name-th' in vals: del vals['name-th']
+        ret = super(weladee_task, self).write(vals)
+        irobj = self.env['ir.translation']
+
+        irobj._set_ids('project.task,name','model','en_US', [self._origin.id], vals.get('name', ''))
+        irobj._set_ids('project.task,name','model','th_TH', [self._origin.id], name_th)
+
+        return ret
+
     def open_weladee_task(self):
         if self.weladee_url:
             return {

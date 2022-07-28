@@ -45,7 +45,32 @@ def sync_job_app_data(weladee_job_app, req):
        data['lang_id']  = lgid.id
 
     data['res-mode'] = 'create'
-    return data   
+
+    # look if there is odoo record with same weladee-id
+    # if not found then create else update
+    prev_rec = req.jobapp_obj.search( [ ('weladee_id','=', weladee_job_app.JobApplication.ID ), '|', ('active','=',True), ('active','=',False)],limit=1 )
+    if prev_rec and prev_rec.id:
+        data['res-mode'] = 'update'
+        data['res-id'] = prev_rec.id
+        del data['weladee_id']
+        del data['weladee_url']
+        del data['date_apply']
+        del data['source_id']
+        sync_logdebug(req.context_sync, 'weladee > %s ' % weladee_job_app)
+        sync_logdebug(req.context_sync, 'odoo > %s ' % data)
+
+        return data
+
+    # check if there is same name
+    # consider it same record
+    odoo_job_app = req.jobapp_obj.search( [ ('name','=', data['name'] ), '|', ('active','=',True), ('active','=',False)],limit=1 )
+    if odoo_job_app.id:
+        data['res-mode'] = 'update'
+        data['res-id'] = odoo_job_app.id
+        sync_logdebug(req.context_sync, 'odoo > %s' % odoo_job_app)
+        sync_logdebug(req.context_sync, 'weladee > %s' % weladee_job_app)
+
+    return data
 
 def sync_job_applicant(req):
     '''
@@ -84,6 +109,17 @@ def sync_job_applicant(req):
                 else:
                     sync_logdebug(req.context_sync, 'weladee > %s' % weladee_job_app) 
                     sync_logerror(req.context_sync, "error while create odoo job_app id %s of '%s' in odoo" % (odoo_job_app['res-id'], odoo_job_app) ) 
+                    sync_stat_error(req.context_sync['stat-job_app'], 1)
+
+            elif odoo_job_app and odoo_job_app['res-mode'] == 'update':
+                odoo_id = req.jobapp_obj.search([('id','=',odoo_job_app['res-id']),'|',('active','=',True),('active','=',False)])
+                if odoo_id.id:
+                    odoo_id.write(sync_clean_up(odoo_job_app))
+                    sync_logdebug(req.context_sync, "Updated job application '%s' to odoo" % odoo_job_app['name'] )
+                    sync_stat_update(req.context_sync['stat-job_app'], 1)
+                else:
+                    sync_logdebug(req.context_sync, 'weladee > %s' % weladee_job_app)
+                    sync_logerror(req.context_sync, "Not found this odoo job application id %s of '%s' in odoo" % (odoo_job_app['res-id'], odoo_job_app['name']) )
                     sync_stat_error(req.context_sync['stat-job_app'], 1)
 
     except Exception as e:

@@ -23,15 +23,28 @@ def sync_project_data(weladee_project, req):
             }    
     data['partner_id'] = req.customer_odoo_weladee_ids.get(weladee_project.Project.CustomerID, False)
     data['res-mode'] = 'create'
-    prev_rec = req.project_obj.search( [ ('name','=', data['name'] )],limit=1 )
+
+    # look if there is odoo record with same weladee-id
+    # if not found then create else update
+    prev_rec = req.project_obj.search( [ ('weladee_id','=', weladee_project.Project.ID ), '|', ('active','=',True), ('active','=',False)],limit=1 )
     if prev_rec and prev_rec.id:
         data['res-mode'] = 'update'  
         data['res-id'] = prev_rec.id
         sync_logdebug(req.context_sync, 'weladee > %s ' % weladee_project)
         sync_logdebug(req.context_sync, 'odoo > %s ' % data)
         #sync_logwarn(req.context_sync, 'this project\'name record already exist for this %s exist, no change will apply' % data['name'])
+        return data
 
-    return data   
+    # check if there is same name
+    # consider it same record
+    odoo_prj = req.project_obj.search( [ ('name','=', data['name'] ), '|', ('active','=',True), ('active','=',False)],limit=1 )
+    if odoo_prj.id:
+        data['res-mode'] = 'update'
+        data['res-id'] = odoo_prj.id
+        sync_logdebug(req.context_sync, 'odoo > %s' % odoo_prj)
+        sync_logdebug(req.context_sync, 'weladee > %s' % weladee_project)
+
+    return data
 
 def sync_delete_project(req):
     del_ids = req.project_obj.search([('weladee_id','!=',False)])
@@ -93,7 +106,7 @@ def sync_project(req):
                    
                    req.project_odoo_weladee_ids[weladee_project.Project.ID] = odoo_id.id
                 else:
-                   sync_logdebug(req.context_sync, 'weladee > %s' % weladee_project) 
+                   sync_logdebug(req.context_sync, 'weladee > %s' % weladee_project)
                    sync_logerror(req.context_sync, "Not found this odoo project id %s of '%s' in odoo" % (odoo_prj['res-id'], odoo_prj['name']) ) 
                    sync_stat_error(req.context_sync['stat-proj'], 1)
 

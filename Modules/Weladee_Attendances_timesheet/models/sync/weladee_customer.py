@@ -17,16 +17,33 @@ def sync_customer_data(weladee_customer, req):
             'weladee_id': weladee_customer.Customer.ID,
             'weladee_url': base_url + str(weladee_customer.Customer.ID),
             'active':weladee_customer.Customer.active,
-            'customer_rank': 1}    
+            'customer_rank': 1}
+
     data['res-mode'] = 'create'
-    prev_rec = req.customer_obj.search( [ ('name','=', data['name'] )],limit=1 )
+
+    # look if there is odoo record with same weladee-id
+    # if not found then create else update
+    prev_rec = req.customer_obj.search( [ ('weladee_id','=', weladee_customer.Customer.ID ), '|', ('active','=',True), ('active','=',False)],limit=1 )
     if prev_rec and prev_rec.id:
-        data['res-mode'] = '' 
+        data['res-mode'] = 'update'
+        data['res-id'] = prev_rec.id
+        del data['weladee_id']
+        del data['weladee_url']
         sync_logdebug(req.context_sync, 'weladee > %s ' % weladee_customer)
         sync_logdebug(req.context_sync, 'odoo > %s ' % data)
-        sync_logwarn(req.context_sync, 'this customer\'name record already exist for this %s exist, no change will apply' % data['name'])
+        # sync_logwarn(req.context_sync, 'this customer\'name record already exist for this %s exist, no change will apply' % data['name'])
+        return data
 
-    return data   
+    # check if there is same name
+    # consider it same record
+    odoo_cus = req.customer_obj.search( [ ('name','=', data['name'] ), '|', ('active','=',True), ('active','=',False)],limit=1 )
+    if odoo_cus.id:
+        data['res-mode'] = 'update'
+        data['res-id'] = odoo_cus.id
+        sync_logdebug(req.context_sync, 'odoo > %s' % odoo_cus)
+        sync_logdebug(req.context_sync, 'weladee > %s' % weladee_customer)
+
+    return data
 
 def sync_delete_customer(req):
     del_ids = req.customer_obj.search([('weladee_id','!=',False)])
@@ -43,7 +60,7 @@ def sync_customer(req):
     odoo_cus = False
     weladee_customer = False
 
-    sync_delete_customer(req)
+    # sync_delete_customer(req)
 
     try:        
         sync_loginfo(req.context_sync,'[customer] updating changes from weladee-> odoo')
@@ -65,6 +82,19 @@ def sync_customer(req):
                 else:
                     sync_logdebug(req.context_sync, 'weladee > %s' % weladee_customer) 
                     sync_logerror(req.context_sync, "error while create odoo customer id %s of '%s' in odoo" % (odoo_cus['res-id'], odoo_cus) ) 
+                    sync_stat_error(req.context_sync['stat-cus'], 1)
+
+            elif odoo_cus and odoo_cus['res-mode'] == 'update':
+                odoo_id = req.customer_obj.search([('id','=',odoo_cus['res-id']),'|',('active','=',True),('active','=',False)])
+                if odoo_id.id:
+                    odoo_id.write(sync_clean_up(odoo_cus))
+                    sync_logdebug(req.context_sync, "Updated customer '%s' to odoo" % odoo_cus['name'] )
+                    sync_stat_update(req.context_sync['stat-cus'], 1)
+
+                    req.customer_odoo_weladee_ids[weladee_customer.Customer.ID] = odoo_id.id
+                else:
+                    sync_logdebug(req.context_sync, 'weladee > %s' % weladee_customer)
+                    sync_logerror(req.context_sync, "Not found this odoo customer id %s of '%s' in odoo" % (odoo_cus['res-id'], odoo_cus['name']) )
                     sync_stat_error(req.context_sync['stat-cus'], 1)
 
     except Exception as e:
