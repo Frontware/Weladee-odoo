@@ -102,7 +102,7 @@ def sync_timesheet(req):
                     sync_stat_error(req.context_sync['stat-timesheet'], 1)
 
             elif odoo_timesheet and odoo_timesheet['res-mode'] == 'update':
-                odoo_id = req.timesheet_obj.search(['id','=',odoo_timesheet['res-id']])
+                odoo_id = req.timesheet_obj.search([('id','=',odoo_timesheet['res-id'])])
                 if odoo_id.id:
                    odoo_id.write(sync_clean_up(odoo_timesheet))
                    sync_logdebug(req.context_sync, "Updated timesheet '%s' to odoo" % odoo_timesheet['name'] )
