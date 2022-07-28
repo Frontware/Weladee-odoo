@@ -40,9 +40,9 @@ def sync_timesheet_data(weladee_timesheet, req):
 
         return data
 
-    # check if there is same name
+    # check if there is same date, project and task
     # consider it same record
-    odoo_timesheet = req.timesheet_obj.search( [ ('name','=', data['name'] ) ],limit=1 )
+    odoo_timesheet = req.timesheet_obj.search( [ ('date','=', data['date'] ), ('project_id','=', data['project_id'] ), ('task_id','=', data['task_id'] ) ],limit=1 )
     if odoo_timesheet.id:
         data['res-mode'] = 'update'
         data['res-id'] = odoo_timesheet.id
