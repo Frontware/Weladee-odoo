@@ -17,13 +17,15 @@ class weladee_task(models.Model):
 
     @api.model
     def create(self, vals):
-        name_th = vals.get('name-th', '') 
+        name_th = vals.get('name-th', '')
         if 'name-th' in vals: del vals['name-th']
         ret = super(weladee_task, self).create(vals)
         irobj = self.env['ir.translation']
 
-        irobj._set_ids('project.task,name','model','en_US', [ret.id], vals.get('name', ''))
-        irobj._set_ids('project.task,name','model','th_TH', [ret.id], name_th)
+        # Check if record could be created
+        if ret.id:
+            irobj._set_ids('project.task,name','model','en_US', [ret.id], vals.get('name', ''))
+            irobj._set_ids('project.task,name','model','th_TH', [ret.id], name_th)
 
         return ret
 
@@ -33,8 +35,10 @@ class weladee_task(models.Model):
         ret = super(weladee_task, self).write(vals)
         irobj = self.env['ir.translation']
 
-        irobj._set_ids('project.task,name','model','en_US', [self._origin.id], vals.get('name', ''))
-        irobj._set_ids('project.task,name','model','th_TH', [self._origin.id], name_th)
+        # Check if record exists
+        if self.id:
+            irobj._set_ids('project.task,name','model','en_US', [self.id], vals.get('name', ''))
+            irobj._set_ids('project.task,name','model','th_TH', [self.id], name_th)
 
         return ret
 

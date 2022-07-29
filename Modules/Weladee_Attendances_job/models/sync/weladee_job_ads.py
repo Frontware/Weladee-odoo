@@ -27,20 +27,19 @@ def sync_job_ads_data(weladee_job_ads, req):
     if prev_rec and prev_rec.id:
         data['res-mode'] = 'update'
         data['res-id'] = prev_rec.id
-        del data['weladee_id']
         sync_logdebug(req.context_sync, 'weladee > %s ' % weladee_job_ads)
         sync_logdebug(req.context_sync, 'odoo > %s ' % data)
         # sync_logwarn(req.context_sync, 'this job_ads\'name record already exist for this %s exist, no change will apply' % data['name'])
-        return data
+        # return data
 
     # check if there is same name
     # consider it same record
-    odoo_job_ads = req.jobads_obj.search( [ ('name','=', data['name'] ) ],limit=1 )
-    if odoo_job_ads.id:
-        data['res-mode'] = 'update'
-        data['res-id'] = odoo_job_ads.id
-        sync_logdebug(req.context_sync, 'odoo > %s' % odoo_job_ads)
-        sync_logdebug(req.context_sync, 'weladee > %s' % weladee_job_ads)
+    # odoo_job_ads = req.jobads_obj.search( [ ('name','=', data['name'] ) ],limit=1 )
+    # if odoo_job_ads.id:
+    #     data['res-mode'] = 'update'
+    #     data['res-id'] = odoo_job_ads.id
+    #     sync_logdebug(req.context_sync, 'odoo > %s' % odoo_job_ads)
+    #     sync_logdebug(req.context_sync, 'weladee > %s' % weladee_job_ads)
 
     return data   
 

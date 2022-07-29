@@ -26,23 +26,23 @@ def sync_work_type_data(weladee_work_type, req):
     else:
        pos['res-mode'] = 'update'  
        pos['res-id'] = odoo_work_type.id
-       if not weladee_work_type.odoo.odoo_id:
-          pos['send2-weladee'] = True
+      #  if not weladee_work_type.odoo.odoo_id:
+      #     pos['send2-weladee'] = True
 
-    if pos['res-mode'] == 'create':
-       # check if there is same name
-       # consider it same record 
-       odoo_work_type = req.work_type_obj.search([('name','=',pos['name'] )],limit=1) 
-       if odoo_work_type.id:
-          #if there is weladee id, will update it 
-          sync_logdebug(req.context_sync, 'odoo > %s' % odoo_work_type)
-          sync_logdebug(req.context_sync, 'weladee > %s' % weladee_work_type)
-          if odoo_work_type.weladee_id:
-             sync_logwarn(req.context_sync,'will replace old weladee id %s with new one %s' % (odoo_work_type.weladee_id, weladee_work_type.WorkType.ID))      
-          else:
-             sync_logdebug(req.context_sync,'missing weladee link, will update with new one %s' % weladee_work_type.WorkType.ID)      
-          pos['res-mode'] = 'update'
-          pos['res-id'] = odoo_work_type.id
+   #  if pos['res-mode'] == 'create':
+   #     # check if there is same name
+   #     # consider it same record 
+   #     odoo_work_type = req.work_type_obj.search([('name','=',pos['name'] )],limit=1) 
+   #     if odoo_work_type.id:
+   #        #if there is weladee id, will update it 
+   #        sync_logdebug(req.context_sync, 'odoo > %s' % odoo_work_type)
+   #        sync_logdebug(req.context_sync, 'weladee > %s' % weladee_work_type)
+   #        if odoo_work_type.weladee_id:
+   #           sync_logwarn(req.context_sync,'will replace old weladee id %s with new one %s' % (odoo_work_type.weladee_id, weladee_work_type.WorkType.ID))      
+   #        else:
+   #           sync_logdebug(req.context_sync,'missing weladee link, will update with new one %s' % weladee_work_type.WorkType.ID)      
+   #        pos['res-mode'] = 'update'
+   #        pos['res-id'] = odoo_work_type.id
 
     return pos          
 

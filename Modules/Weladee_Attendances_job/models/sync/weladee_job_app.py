@@ -52,23 +52,19 @@ def sync_job_app_data(weladee_job_app, req):
     if prev_rec and prev_rec.id:
         data['res-mode'] = 'update'
         data['res-id'] = prev_rec.id
-        del data['weladee_id']
-        del data['weladee_url']
-        del data['date_apply']
-        del data['source_id']
         sync_logdebug(req.context_sync, 'weladee > %s ' % weladee_job_app)
         sync_logdebug(req.context_sync, 'odoo > %s ' % data)
 
-        return data
+        # return data
 
     # check if there is same name
     # consider it same record
-    odoo_job_app = req.jobapp_obj.search( [ ('name','=', data['name'] ), '|', ('active','=',True), ('active','=',False)],limit=1 )
-    if odoo_job_app.id:
-        data['res-mode'] = 'update'
-        data['res-id'] = odoo_job_app.id
-        sync_logdebug(req.context_sync, 'odoo > %s' % odoo_job_app)
-        sync_logdebug(req.context_sync, 'weladee > %s' % weladee_job_app)
+    # odoo_job_app = req.jobapp_obj.search( [ ('name','=', data['name'] ), '|', ('active','=',True), ('active','=',False)],limit=1 )
+    # if odoo_job_app.id:
+    #     data['res-mode'] = 'update'
+    #     data['res-id'] = odoo_job_app.id
+    #     sync_logdebug(req.context_sync, 'odoo > %s' % odoo_job_app)
+    #     sync_logdebug(req.context_sync, 'weladee > %s' % weladee_job_app)
 
     return data
 

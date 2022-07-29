@@ -33,16 +33,16 @@ def sync_project_data(weladee_project, req):
         sync_logdebug(req.context_sync, 'weladee > %s ' % weladee_project)
         sync_logdebug(req.context_sync, 'odoo > %s ' % data)
         #sync_logwarn(req.context_sync, 'this project\'name record already exist for this %s exist, no change will apply' % data['name'])
-        return data
+        # return data
 
     # check if there is same name
     # consider it same record
-    odoo_prj = req.project_obj.search( [ ('name','=', data['name'] ), '|', ('active','=',True), ('active','=',False)],limit=1 )
-    if odoo_prj.id:
-        data['res-mode'] = 'update'
-        data['res-id'] = odoo_prj.id
-        sync_logdebug(req.context_sync, 'odoo > %s' % odoo_prj)
-        sync_logdebug(req.context_sync, 'weladee > %s' % weladee_project)
+    # odoo_prj = req.project_obj.search( [ ('name','=', data['name'] ), '|', ('active','=',True), ('active','=',False)],limit=1 )
+    # if odoo_prj.id:
+    #     data['res-mode'] = 'update'
+    #     data['res-id'] = odoo_prj.id
+    #     sync_logdebug(req.context_sync, 'odoo > %s' % odoo_prj)
+    #     sync_logdebug(req.context_sync, 'weladee > %s' % weladee_project)
 
     return data
 
@@ -100,7 +100,8 @@ def sync_project(req):
                 
                 odoo_id = req.project_obj.search([('id','=',odoo_prj['res-id']),'|',('active','=',False),('active','=',True)])
                 if odoo_id.id:
-                   odoo_id.write({'partner_id': odoo_prj.get('partner_id')})
+                #    odoo_id.write({'partner_id': odoo_prj.get('partner_id')})
+                   odoo_id.write(sync_clean_up(odoo_prj))
                    sync_logdebug(req.context_sync, "Updated project '%s' to odoo" % odoo_prj['name'] )
                    sync_stat_update(req.context_sync['stat-proj'], 1)
                    

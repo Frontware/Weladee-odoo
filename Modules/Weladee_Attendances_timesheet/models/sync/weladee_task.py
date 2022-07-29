@@ -31,21 +31,19 @@ def sync_task_data(weladee_task, req):
     if prev_rec and prev_rec.id:
         data['res-mode'] = 'update'
         data['res-id'] = prev_rec.id
-        del data['weladee_id']
-        del data['weladee_url']
         sync_logdebug(req.context_sync, 'weladee > %s ' % weladee_task)
         sync_logdebug(req.context_sync, 'odoo > %s ' % data)
         # sync_logwarn(req.context_sync, 'this task\'name record already exist for this %s exist, no change will apply' % data['name'])
-        return data
+        # return data
 
     # check if there is same name
     # consider it same record
-    odoo_task = req.task_obj.search( [ ('name','=', data['name'] ), '|', ('active','=',True), ('active','=',False)],limit=1 )
-    if odoo_task.id:
-        data['res-mode'] = 'update'
-        data['res-id'] = odoo_task.id
-        sync_logdebug(req.context_sync, 'odoo > %s' % odoo_task)
-        sync_logdebug(req.context_sync, 'weladee > %s' % weladee_task)
+    # odoo_task = req.task_obj.search( [ ('name','=', data['name'] ), '|', ('active','=',True), ('active','=',False)],limit=1 )
+    # if odoo_task.id:
+    #     data['res-mode'] = 'update'
+    #     data['res-id'] = odoo_task.id
+    #     sync_logdebug(req.context_sync, 'odoo > %s' % odoo_task)
+    #     sync_logdebug(req.context_sync, 'weladee > %s' % weladee_task)
 
     return data
 
