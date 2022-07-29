@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 # Weladee grpc server address is hrpc.weladee.com:22443
+import copy
 import logging
 _logger = logging.getLogger(__name__)
 import base64
+import re
 
 from odoo.addons.Weladee_Attendances.models import weladee_grpc
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
@@ -21,26 +23,53 @@ def renew_connection():
     stub = weladee_grpc.weladee_grpc_ctrl()
     myrequest = weladee_pb2.EmployeeRequest()
 
+def sync_supress_bytes(log):
+    '''
+    suppress all bytes
+    '''
+    log = copy.deepcopy(log)
+
+    placeholder = "b'...'"
+    
+    if isinstance(log, str):
+        # Keep change if string has grown or shrunk
+        # Positive -> grown
+        # Negative -> shrunk
+        acc = 0
+        for m in re.finditer("b'[^,)\]}']+'", log):
+            log = log[:m.start()+acc] + placeholder + log[m.end()+acc:]
+            acc += len(placeholder) - m.end() + m.start()
+    elif isinstance(log, dict):
+        for key, val in log.items():
+            if not isinstance(val, bytes):
+                continue
+            log[key] = placeholder
+
+    return log
+
 def sync_loginfo(context_sync, log):
     '''
     write in context and log info
     '''
+    log = sync_supress_bytes(log)
     _logger.info('%s' % log )
 
-    context_sync['request-logs'].append(['i', log]) 
+    context_sync['request-logs'].append(['i', log])
 
 def sync_logdebug(context_sync, log):
     '''
     write in context and log debug
     '''
+    log = sync_supress_bytes(log)
     _logger.debug('%s' % log )
 
-    context_sync['request-logs'].append(['d', log]) 
+    context_sync['request-logs'].append(['d', log])
 
 def sync_logerror(context_sync, log):
     '''
     write in context and log error
     '''
+    log = sync_supress_bytes(log)
     _logger.error('%s' % log )
 
     context_sync['request-logs-y'] = 'Y'
@@ -50,6 +79,7 @@ def sync_logwarn(context_sync, log):
     '''
     write in context and log warn
     '''
+    log = sync_supress_bytes(log)
     _logger.warning('%s' % log )
 
     context_sync['request-logs'].append(['w', log])
