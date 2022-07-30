@@ -19,6 +19,18 @@
                         </div>
                     </div> 
                 </xpath>
+                <xpath expr="//notebook//page[last()]" position="before">
+                    <page string="Job" attrs="{'invisible':[('sync_job','=',False)]}">
+                        <group>
+                            <label for="job_period"/>
+                            <div>
+                                <field attrs="{'required':[('sync_job','=',True)],'invisible':[('job_period','=','all')]}" name="job_period_unit" class="oe_inline" />
+                                <span attrs="{'invisible':[('job_period','=','all')]}">&amp;nbsp;</span>
+                                <field name="job_period" attrs="{'required':[('sync_job','=',True)]}" style="height:24px" class="oe_inline" />
+                            </div>
+                        </group>
+                    </page>
+                </xpath>
         </field>
     </record>
 </odoo>  

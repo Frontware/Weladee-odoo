@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import datetime
+from dateutil.relativedelta import relativedelta
 import traceback
 from odoo.addons.Weladee_Attendances.models.grpcproto.job_pb2 import ApplicationRefused
-from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
+from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2, weladee_pb2
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
 
@@ -86,8 +87,21 @@ def sync_job_applicant(req):
             source_id = req.utm_source_obj.create({'name':'Weladee'})
             if source_id and source_id.id:
                 req.translation_obj._set_ids('utm.source,name', 'model', 'th_TH', [source_id.id], 'เวลาดี')
+        
+        # Calculate period
+        period = odoo_pb2.Period()
+        if req.config.job_period == 'w':
+            period.From = int((datetime.datetime.now() - relativedelta(weeks=abs(req.config.job_period_unit))).timestamp())
+        elif req.config.job_period == 'm':
+            period.From = int((datetime.datetime.now() - relativedelta(months=abs(req.config.job_period_unit))).timestamp())
+        elif req.config.job_period == 'y':
+            period.From = int((datetime.datetime.now() - relativedelta(years=abs(req.config.job_period_unit))).timestamp())
+        elif req.config.job_period == 'all':
+            period = weladee_pb2.Empty()
+        else:
+            period.From = int((datetime.datetime.now() - relativedelta(weeks=1)).timestamp())
 
-        for weladee_job_app in stub.GetJobApplications(weladee_pb2.Empty(), metadata=req.config.authorization):
+        for weladee_job_app in stub.GetJobApplications(period, metadata=req.config.authorization):
             print(weladee_job_app)
             sync_stat_to_sync(req.context_sync['stat-job_app'], 1)
             if not weladee_job_app :
