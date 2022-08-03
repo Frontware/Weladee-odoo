@@ -143,7 +143,7 @@ def sync_stat_error(context_sync, value):
     context_sync['error'] += value
 
 def sync_stat_info(context_sync, key, keyname, newline=False):
-    sync_loginfo(context_sync, '%s wait to sync %s item(s): %s created, %s updated, %s error' % (keyname,\
+    sync_loginfo(context_sync, '%s wait to sync %s item(s): \n\n%s created, %s updated, %s error\n' % (keyname,\
                                                                                              context_sync.get(key,{}).get('to-sync',0),\
                                                                                              context_sync.get(key,{}).get('create',0),\
                                                                                              context_sync.get(key,{}).get('update',0),\

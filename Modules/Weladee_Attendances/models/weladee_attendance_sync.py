@@ -105,7 +105,7 @@ class weladee_attendance(models.TransientModel):
             
         self.do_sync_options(req)
 
-        sync_loginfo(req.context_sync,'sending result to %s' % req.context_sync['request-email'])
+        sync_loginfo(req.context_sync,'\n\nsending result to %s\n' % req.context_sync['request-email'])
         req.context_sync['request-elapse'] = str(datetime.today() - elapse_start)
         # send email status
         req.context_sync['request-status'] = 'Success'
