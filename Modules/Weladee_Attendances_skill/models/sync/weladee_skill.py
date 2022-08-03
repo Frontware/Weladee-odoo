@@ -263,8 +263,8 @@ def sync_skill(req):
 
     # TODO: sync GetSkillEmployees
     # Sync skill employee
-    sync_loginfo(req.context_sync,'[skill employee] updating changes from weladee -> odoo')
-    weladee_skill_employee = None
+    #sync_loginfo(req.context_sync,'[skill employee] updating changes from weladee -> odoo')
+    #weladee_skill_employee = None
     # try:
     #     for weladee_skill_employee in stub.GetSkillEmployees(weladee_pb2.Empty(), metadata=req.config.authorization):
     #         if not weladee_skill_employee:
@@ -304,7 +304,7 @@ def sync_skill(req):
     #     if sync_weladee_error(weladee_skill_employee, 'skill employee', e, req.context_sync):
     #        return
     
-    sync_stat_info(req.context_sync,'stat-skill-employee','[skill employee] updating changes from weladee-> odoo')
+    #sync_stat_info(req.context_sync,'stat-skill-employee','[skill employee] updating changes from weladee-> odoo')
 
 
 def add_translation(identifiers, model_id, translation_req, req, lang='en_US'):
