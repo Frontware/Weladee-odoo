@@ -141,13 +141,18 @@ def sync_stat_update(context_sync, value):
     context_sync['update'] += value
 def sync_stat_error(context_sync, value):
     context_sync['error'] += value
+def sync_stat_skip(context_sync, value):
+    if not ('skip' in context_sync): return
+
+    context_sync['skip'] += value
 
 def sync_stat_info(context_sync, key, keyname, newline=False):
-    sync_loginfo(context_sync, '%s wait to sync %s item(s): \n\n%s created, %s updated, %s error\n' % (keyname,\
+    sync_loginfo(context_sync, '%s wait to sync %s item(s): \n\n%s created, %s updated, %s error%s\n' % (keyname,\
                                                                                              context_sync.get(key,{}).get('to-sync',0),\
                                                                                              context_sync.get(key,{}).get('create',0),\
                                                                                              context_sync.get(key,{}).get('update',0),\
-                                                                                             context_sync.get(key,{}).get('error',0)))
+                                                                                             context_sync.get(key,{}).get('error',0),\
+                                                                                             (', %s skipped'  % context_sync.get(key,{}).get('skip',0)) if 'skip' in context_sync.get(key,{}) else ''))
     if newline: sync_loginfo(context_sync, ' ') 
     del context_sync[key]                                                                                            
 
