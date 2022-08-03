@@ -49,6 +49,7 @@ class weladee_attendance(models.TransientModel):
             today = user_tz.localize(elapse_start)
         req = self.init_param()
         req.context_sync = {
+            'features': self.env['weladee_attendance_form'].create({}).fns,
             'request-date':today.strftime('%d/%m/%Y %H:%M'),
             'request-logs':[],
             'request-logs-key':{},
