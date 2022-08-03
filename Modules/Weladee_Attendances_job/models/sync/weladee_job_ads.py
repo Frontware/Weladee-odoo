@@ -70,7 +70,7 @@ def sync_job_ads(req):
     try:        
         sync_loginfo(req.context_sync,'[job_ads] updating changes from weladee-> odoo')
         for weladee_job_ads in stub.GetJobAds(weladee_pb2.Empty(), metadata=req.config.authorization):
-            print(weladee_job_ads)
+            
             sync_stat_to_sync(req.context_sync['stat-job_ads'], 1)
             if not weladee_job_ads :
                sync_logwarn(req.context_sync,'weladee job_ads is empty')
