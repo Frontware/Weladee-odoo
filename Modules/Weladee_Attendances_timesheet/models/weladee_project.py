@@ -46,12 +46,12 @@ class weladee_project(models.Model):
         irobj = self.env['ir.translation']
 
         # Check if record exists
-        if self.id:
-            irobj._set_ids('project.project,name','model','en_US', [self.id], vals.get('name', ''))
-            irobj._set_ids('project.project,name','model','th_TH', [self.id], name_th)
+        for each in self:
+            irobj._set_ids('project.project,name','model','en_US', [each.id], vals.get('name', ''))
+            irobj._set_ids('project.project,name','model','th_TH', [each.id], name_th)
 
-            irobj._set_ids('project.project,description','model','en_US', [self.id], vals.get('description', ''))
-            irobj._set_ids('project.project,description','model','th_TH', [self.id], des_th)
+            irobj._set_ids('project.project,description','model','en_US', [each.id], vals.get('description', ''))
+            irobj._set_ids('project.project,description','model','th_TH', [each.id], des_th)
 
         return ret
 

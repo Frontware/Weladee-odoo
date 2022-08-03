@@ -36,9 +36,9 @@ class weladee_task(models.Model):
         irobj = self.env['ir.translation']
 
         # Check if record exists
-        if self.id:
-            irobj._set_ids('project.task,name','model','en_US', [self.id], vals.get('name', ''))
-            irobj._set_ids('project.task,name','model','th_TH', [self.id], name_th)
+        for each in self:
+            irobj._set_ids('project.task,name','model','en_US', [each.id], vals.get('name', ''))
+            irobj._set_ids('project.task,name','model','th_TH', [each.id], name_th)
 
         return ret
 
