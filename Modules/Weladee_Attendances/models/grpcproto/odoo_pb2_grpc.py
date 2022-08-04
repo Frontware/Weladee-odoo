@@ -2,8 +2,8 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from . import odoo_pb2 as odoo__pb2
-from . import weladee_pb2 as weladee__pb2
+import odoo_pb2 as odoo__pb2
+import weladee_pb2 as weladee__pb2
 
 
 class OdooStub(object):
@@ -140,7 +140,7 @@ class OdooStub(object):
                 )
         self.GetJobApplications = channel.unary_stream(
                 '/grpc.weladee.com.Odoo/GetJobApplications',
-                request_serializer=weladee__pb2.Empty.SerializeToString,
+                request_serializer=odoo__pb2.Period.SerializeToString,
                 response_deserializer=odoo__pb2.JobApplicationOdoo.FromString,
                 )
         self.GetWorkTypes = channel.unary_stream(
@@ -413,7 +413,7 @@ class OdooServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def GetJobApplications(self, request, context):
-        """Get applications
+        """Get applications (list of candidates who applied for a job)
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -632,7 +632,7 @@ def add_OdooServicer_to_server(servicer, server):
             ),
             'GetJobApplications': grpc.unary_stream_rpc_method_handler(
                     servicer.GetJobApplications,
-                    request_deserializer=weladee__pb2.Empty.FromString,
+                    request_deserializer=odoo__pb2.Period.FromString,
                     response_serializer=odoo__pb2.JobApplicationOdoo.SerializeToString,
             ),
             'GetWorkTypes': grpc.unary_stream_rpc_method_handler(
@@ -1118,7 +1118,7 @@ class Odoo(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetJobApplications',
-            weladee__pb2.Empty.SerializeToString,
+            odoo__pb2.Period.SerializeToString,
             odoo__pb2.JobApplicationOdoo.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

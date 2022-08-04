@@ -60,6 +60,7 @@ def sync_holiday_data(weladee_holiday, req, leaves_types):
     df = df0 + datetime.timedelta(hours=0-tzoffset)
     dt = dt0 + datetime.timedelta(hours=0-tzoffset)
     
+    print(weladee_holiday.Holiday)
     data = {'name': (weladee_holiday.Holiday.NameEnglish or weladee_holiday.Holiday.NameThai or '').strip(' '),
             'date_from': df,
             'date_to': dt,

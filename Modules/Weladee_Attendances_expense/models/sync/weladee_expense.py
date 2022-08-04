@@ -3,6 +3,9 @@
 import datetime
 from dateutil.relativedelta import relativedelta
 import traceback
+import requests
+import base64
+
 from odoo.addons.Weladee_Attendances.models.grpcproto.job_pb2 import ApplicationRefused
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2, weladee_pb2
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
