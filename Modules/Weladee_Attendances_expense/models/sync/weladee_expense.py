@@ -122,15 +122,6 @@ def sync_expense(req):
                     sync_logdebug(req.context_sync, "Insert expense '%s' to odoo" % odoo_expense )
                     sync_stat_create(req.context_sync['stat-expense'], 1)
 
-                    if weladee_expense.Expense.IPFS:    
-                       req.attach_obj.create({
-                            'type': 'url',
-                            'url': weladee_expense.Expense.IPFS,
-                            'name': newid.name,
-                            'res_model': 'hr.expense',
-                            'res_id': newid.id,
-                        })
-
                     req.expense_sheet_obj.with_context({'mail_create_nosubscribe':False}).create({
                         'name': newid.name,
                         'employee_id': newid.employee_id.id,
