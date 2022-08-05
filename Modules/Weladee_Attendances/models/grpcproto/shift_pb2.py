@@ -12,7 +12,7 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
-import weladee_pb2 as weladee__pb2
+from . import weladee_pb2 as weladee__pb2
 import ot_pb2 as ot__pb2
 
 
