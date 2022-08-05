@@ -16,10 +16,15 @@ def sync_task_data(weladee_task, req):
             'name-th': weladee_task.Task.NameThai,
             'description': weladee_task.Task.Note,
             'weladee_id':  weladee_task.Task.ID,
-            'date_deadline': datetime.datetime.strptime(str(weladee_task.Task.Deadline),'%Y%m%d'),
             'weladee_url': base_url + str(weladee_task.Task.ID),
             'active':weladee_task.Task.active,
             }        
+    if weladee_task.Task.Deadline > 0:
+       try: 
+          data['date_deadline'] = datetime.datetime.strptime(str(weladee_task.Task.Deadline),'%Y%m%d')
+       except:
+          pass 
+
     data['partner_id'] = req.customer_odoo_weladee_ids.get(weladee_task.Task.CustomerID, False)
     data['project_id'] = req.project_odoo_weladee_ids.get(weladee_task.Task.ProjectID, False)
     if not data['partner_id']:
@@ -61,7 +66,7 @@ def sync_task(req):
     try:        
         sync_loginfo(req.context_sync,'[task] updating changes from weladee-> odoo')
         for weladee_task in stub.GetTasks(weladee_pb2.Empty(), metadata=req.config.authorization):
-            
+            print(weladee_task)
             sync_stat_to_sync(req.context_sync['stat-task'], 1)
             if not weladee_task :
                sync_logwarn(req.context_sync,'weladee task is empty')
