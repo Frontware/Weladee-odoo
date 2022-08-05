@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import traceback
+import datetime
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
@@ -15,6 +16,7 @@ def sync_task_data(weladee_task, req):
             'name-th': weladee_task.Task.NameThai,
             'description': weladee_task.Task.Note,
             'weladee_id':  weladee_task.Task.ID,
+            'date_deadline': datetime.datetime.strptime(str(weladee_task.Task.Deadline),'%Y%m%d'),
             'weladee_url': base_url + str(weladee_task.Task.ID),
             'active':weladee_task.Task.active,
             }        
