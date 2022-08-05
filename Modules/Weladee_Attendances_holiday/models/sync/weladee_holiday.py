@@ -142,6 +142,7 @@ def sync_holiday(self, req):
     try:        
         sync_loginfo(req.context_sync,'[holiday] updating changes from weladee-> odoo')
         for weladee_holiday in stub.GetHolidays(weladee_pb2.Empty(), metadata=req.config.authorization):
+            
             sync_stat_to_sync(req.context_sync['stat-hol'], 1)
             if not weladee_holiday :
                sync_logwarn(req.context_sync,'weladee holiday is empty')

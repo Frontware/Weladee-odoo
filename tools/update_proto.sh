@@ -11,7 +11,9 @@ echo
 if [ -d "weladee-proto" ]; then
     echo pull...
     cd weladee-proto
-    git pull gitlab master
+    git pull
+    git checkout develop
+    git pull gitlab develop
 else
     echo cloning...
     git clone -o gitlab --depth 1 git@gitlab.com:frontware_International/Weladee/proto.git weladee-proto

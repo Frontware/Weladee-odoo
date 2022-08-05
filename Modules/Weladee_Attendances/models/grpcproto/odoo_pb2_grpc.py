@@ -436,7 +436,8 @@ class OdooServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def GetTasks(self, request, context):
-        """Return stream of tasks
+        """Return stream of tasks. Only return tasks associated to a project.
+        All tasks without projects are not returned.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -465,6 +466,7 @@ class OdooServicer(object):
 
     def GetTimeSheets(self, request, context):
         """return stream of timesheet employee that have been approved (locked)
+        Be aware it will not return timesheet without Project ID.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
