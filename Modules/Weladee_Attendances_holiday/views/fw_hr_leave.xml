@@ -52,6 +52,9 @@ remarks:
                 <attribute name="edit">0</attribute>
                 <attribute name="delete">0</attribute>
             </xpath>
+            <xpath expr="//field[@name='number_of_days']//..//..//.." position="after">
+                <field name="day_part" />
+            </xpath>
         </field>
     </record>
 
@@ -62,6 +65,9 @@ remarks:
         <field name="arch" type="xml">
             <xpath expr="//button[@name='action_refuse']" position="attributes">
                 <attribute name="invisible">1</attribute>                
+            </xpath>
+            <xpath expr="//field[@name='number_of_days']//..//..//.." position="after">
+                <field name="day_part" />
             </xpath>
         </field>
     </record>

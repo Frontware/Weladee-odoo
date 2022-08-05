@@ -60,7 +60,7 @@ def sync_holiday_data(weladee_holiday, req, leaves_types):
     df = df0 + datetime.timedelta(hours=0-tzoffset)
     dt = dt0 + datetime.timedelta(hours=0-tzoffset)
     
-    print(weladee_holiday.Holiday)
+    print(weladee_holiday)
     data = {'name': (weladee_holiday.Holiday.NameEnglish or weladee_holiday.Holiday.NameThai or '').strip(' '),
             'date_from': df,
             'date_to': dt,
@@ -72,7 +72,21 @@ def sync_holiday_data(weladee_holiday, req, leaves_types):
             'holiday_type':'employee',
             'weladee_code': weladee_holiday.Holiday.code,
             'weladee_sick': weladee_holiday.Holiday.sickLeave,
+            'day_part': str(weladee_holiday.Holiday.DayPart),
             'state':'validate'}                
+    
+    if weladee_holiday.Holiday.DayPart == weladee_pb2.Morning or weladee_holiday.Holiday.DayPart == weladee_pb2.AfterNoon:
+       data['number_of_days'] = 0.5
+       
+       if weladee_holiday.Holiday.DayPart == weladee_pb2.Morning:
+          dt = dt + datetime.timedelta(hours=12)
+       elif weladee_holiday.Holiday.DayPart == weladee_pb2.AfterNoon:
+          df = df + datetime.timedelta(hours=12)  
+
+       data['date_from'] = df
+       data['date_to'] = dt
+       data['request_date_from']: df
+       data['request_date_to'] = dt
     
     # 2018-11-14 KPO allow multiple type, but default come from setting
     if weladee_holiday.Holiday.code in leaves_types:

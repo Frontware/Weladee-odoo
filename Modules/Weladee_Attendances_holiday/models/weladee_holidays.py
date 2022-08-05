@@ -16,6 +16,10 @@ class weladee_holidays(models.Model):
 
     weladee_code = fields.Char('Weladee Code')
     weladee_sick = fields.Boolean('Sick')
+    day_part = fields.Selection([
+            ('0', 'Fullday'),
+            ('1', 'Morning'),
+            ('2', 'Afternoon')],string='Day part')
     is_weladee = fields.Boolean(compute='_compute_from_weladee', copy=False, readonly=True, store=True)
 
     def action_allocated(self):
