@@ -9,7 +9,7 @@ import base64
 from odoo.addons.Weladee_Attendances.models.grpcproto.job_pb2 import ApplicationRefused
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2, weladee_pb2
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
-from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
+from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up,sync_stat_skip
 from odoo.addons.Weladee_Attendances.models.sync.weladee_employee import get_emp_odoo_weladee_ids
 
 base_url = 'https://www.weladee.com/expense/req/'
@@ -43,18 +43,23 @@ def sync_expense_data(weladee_expense, req):
         vid = req.customer_obj.create({'name':weladee_expense.Expense.Vendor})    
         data['bill_partner_id'] = vid.id
 
+    ipfschange = True
     odoo_exp = req.expense_obj.search([("weladee_id", "=", weladee_expense.Expense.ID)],limit=1) 
     if not odoo_exp.id:
        data['res-mode'] = 'create'
     else:
        data['res-mode'] = 'update'  
-       data['res-id'] = odoo_exp.id
+       data['res-id'] = odoo_exp.id       
+       if weladee_expense.Expense.IPFS:
+          if odoo_exp.receipt_file_name == weladee_expense.Expense.IPFS:
+             ipfschange = False
 
     if not data['employee_id']:
        data['res-mode'] = ''   
        sync_logwarn(req.context_sync, 'can''t find this weladee employee id %s in odoo' % weladee_expense.Expense.EmployeeID)
+       sync_stat_skip(req.context_sync['stat-expense'], 1)
     
-    if data['res-mode'] == 'create':
+    if ipfschange:
         if weladee_expense.Expense.IPFS:
             try:
                 r = requests.get(weladee_expense.Expense.IPFS)
@@ -78,7 +83,7 @@ def sync_expense(req):
     sync all expense from weladee (1 way from weladee)
 
     '''
-    req.context_sync['stat-expense'] = {'to-sync':0, "create":0, "update": 0, "error":0}
+    req.context_sync['stat-expense'] = {'to-sync':0, "create":0, "update": 0, "error":0, 'skip': 0}
     odoo_expense = False
     weladee_expense = False
 
@@ -103,8 +108,7 @@ def sync_expense(req):
         else:
             period.From = int((datetime.datetime.now() - relativedelta(weeks=1)).timestamp())
 
-        for weladee_expense in stub.GetExpenses(period, metadata=req.config.authorization):
-            print(weladee_expense)
+        for weladee_expense in stub.GetExpenses(period, metadata=req.config.authorization):            
             sync_stat_to_sync(req.context_sync['stat-expense'], 1)
             if not weladee_expense :
                sync_logwarn(req.context_sync,'weladee expense is empty')
