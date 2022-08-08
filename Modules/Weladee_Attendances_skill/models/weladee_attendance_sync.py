@@ -11,7 +11,10 @@ from odoo import osv
 from odoo import models, fields, api, _
 
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import renew_connection, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_has_error
+from odoo.addons.Weladee_Attendances_skill.models.sync.weladee_skill_type import sync_skill_type
+from odoo.addons.Weladee_Attendances_skill.models.sync.weladee_skill_level import sync_skill_level
 from odoo.addons.Weladee_Attendances_skill.models.sync.weladee_skill import sync_skill
+from odoo.addons.Weladee_Attendances_skill.models.sync.weladee_skill_employee import sync_skill_employee
 
 class weladee_attendance_skill(models.TransientModel):
     _inherit="weladee_attendance.synchronous"
@@ -39,4 +42,8 @@ class weladee_attendance_skill(models.TransientModel):
             req.skill_obj = self.env['hr.skill']
             req.skill_employee_obj = self.env['hr.employee.skill']
             req.translation_obj = self.env['ir.translation']
+
+            sync_skill_type(req)
+            sync_skill_level(req)
             sync_skill(req)
+            sync_skill_employee(req)
