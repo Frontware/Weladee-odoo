@@ -43,6 +43,10 @@ remarks:
                 <xpath expr="//field[@name='project_id']" position="before">
                     <field name="partner_id" string="Customer"/>
                 </xpath>
+                <xpath expr="//field[@name='employee_id']" position="attributes">
+                    <attribute name="invisible"></attribute>
+                    <attribute name="optional">hide</attribute>
+                </xpath>
                 <xpath expr="//field[@name='unit_amount']" position="after">
                     <field name="weladee_id" invisible="1"/>
                     <button
