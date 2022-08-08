@@ -25,9 +25,12 @@ remarks:
                     <field name="weladee_id"/>
                     <filter string="Weladee" name="filter_weladee" domain="[('is_weladee','=',True)]"/>
                 </xpath>
+                <xpath expr="//filter[@name='groupby_project']" position="before">                
+                    <filter string="Customer" name="group_by_customer" context="{'group_by':'partner_id'}"/>
+                </xpath>
+
                 <xpath expr="//group" position="inside">
                     <filter string="Weladee" name="group_by_weladee" context="{'group_by':'is_weladee'}"/>
-                    <filter string="Customer" name="group_by_customer" context="{'group_by':'partner_id'}"/>
                 </xpath>
             </field>
         </record>
