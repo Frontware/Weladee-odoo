@@ -77,8 +77,8 @@ def sync_skill_employee(req):
                     sync_logerror(req.context_sync, "Not found this odoo skill employee id %s in odoo" % (odoo_skill_employee['res-id']))
                     sync_stat_error(req.context_sync['stat-skill-employee'], 1)
 
-    except Exception as e:
-        print(traceback.format_exc())
+    except Exception as e:        
+        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
         if sync_weladee_error(weladee_skill_employee, 'skill employee', e, req.context_sync):
            return
     
