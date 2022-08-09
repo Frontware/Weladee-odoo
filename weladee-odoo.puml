@@ -1,6 +1,6 @@
 # Don't forget to update the image in README.md if you do any change in this file
 
-@startuml
+@startuml Sample case
 
 title Weladee/Odoo Sequence Diagram - Samples Cases\n
 
@@ -37,7 +37,7 @@ alt successfull
 end
 footer
 
-2017 Frontware International ... www.weladee.com
+2022 Frontware International ... https://weladee.com
 end footer
 
 @enduml
