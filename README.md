@@ -54,12 +54,13 @@ It shouldn't be a problem because the data is not often updated. The HR operator
 This data is sent from Weladee to Odoo. Weladee feeds Odoo with HRMS data.
 
 - Attendance
-- Leave
+- Leave (business, vacation, sick)
 - Timesheet (project, task)
 - Job classifieds (https://job.weladee.com)
 - Expenses
+- Skills
 
-![](http://www.plantuml.com/plantuml/svg/SoWkIImgAStDuGfFpKbCIKrLqBLJy4_9pxTIS2mfISrBISnBJiMKyqbDBCCY79APcrgSaPfQWYdbbP-4AUXQKP2QLvnQpEK0j0de2000)
+![](http://www.plantuml.com/plantuml/png/SoWkIImgAStDuGfFpKbCIKrLqBLJy4_9pxTIS2mfISrBISnBJiMKyqbDBCCY79APcrgSaPfQWYdbbP-4AUXQKP2QLvnQZ2aJd9sParFCvG1q0T1n0000)
 
 
 
