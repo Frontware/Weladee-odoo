@@ -41,8 +41,11 @@ remarks:
                                 <span class="o_stat_text">Weladee</span>
                                 <span class="o_stat_value">Task</span>
                             </div>
-                        </button>
+                    </button>
                 </xpath>
+                <field name="user_id" position="after">
+                    <field name="other_assignee_ids" widget="many2many_tags" attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}" />
+                </field>
                <xpath expr="//field[@name='name']//.." position="after">
                    <field name="weladee_id" invisible="1" />
                    <div attrs="{'invisible':[('weladee_id','=',False)]}" style="color:red">

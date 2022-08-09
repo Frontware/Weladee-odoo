@@ -14,6 +14,7 @@ class weladee_task(models.Model):
     weladee_url = fields.Char(string="Weladee Url", default="", copy=False, readonly=True)
     is_weladee = fields.Boolean(compute='_compute_from_weladee', copy=False, readonly=True, store=True)
     hide_edit_btn_css = fields.Html(string='css', sanitize=False, compute='_compute_css')
+    other_assignee_ids = fields.Many2many('res.users', 'project_task_assignee','task_id','user_id',string='Other assignee')
 
     @api.model
     def create(self, vals):

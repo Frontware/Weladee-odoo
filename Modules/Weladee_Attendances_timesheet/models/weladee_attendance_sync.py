@@ -36,6 +36,9 @@ class weladee_attendance_timesheet(models.TransientModel):
         r.task_odoo_weladee_ids = {}
         ''' map task, key: weladee task id,value: task odoo id'''
 
+        r.user_odoo_weladee_ids = {}
+        ''' map user, key: weladee employee id,value: user odoo id'''
+
         r.work_type_obj = False
         r.work_type_odoo_weladee_ids = {}
         ''' map work type, key: weladee work type id,value: work type odoo id'''

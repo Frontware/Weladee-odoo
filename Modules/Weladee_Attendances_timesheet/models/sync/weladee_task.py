@@ -25,6 +25,26 @@ def sync_task_data(weladee_task, req):
        except:
           pass 
 
+    # assignee 
+    if weladee_task.Employees:
+       eids = [req.employee_odoo_weladee_ids.get(str(x), 0) for x in weladee_task.Employees] 
+       for each in req.employee_obj.browse(eids):
+           if not each.user_id.id:
+              continue 
+
+           if not 'user_id' in data:
+              data['user_id'] = each.user_id.id
+           else:
+              if not 'other_assignee_ids' in data:
+                 data['other_assignee_ids'] = []
+              data['other_assignee_ids'] += [each.user_id.id]
+    
+    if not 'other_assignee_ids' in data:
+       data['other_assignee_ids'] = False
+
+    if not data.get('other_assignee_ids', False):
+       data['other_assignee_ids'] = False
+
     data['partner_id'] = req.customer_odoo_weladee_ids.get(weladee_task.Task.CustomerID, False)
     data['project_id'] = req.project_odoo_weladee_ids.get(weladee_task.Task.ProjectID, False)
     if not data['partner_id']:
@@ -52,6 +72,7 @@ def sync_task_data(weladee_task, req):
     #     sync_logdebug(req.context_sync, 'odoo > %s' % odoo_task)
     #     sync_logdebug(req.context_sync, 'weladee > %s' % weladee_task)
 
+    print(data)
     return data
 
 def sync_task(req):
