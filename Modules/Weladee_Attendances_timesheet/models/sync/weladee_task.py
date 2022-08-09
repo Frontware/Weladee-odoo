@@ -72,7 +72,6 @@ def sync_task_data(weladee_task, req):
     #     sync_logdebug(req.context_sync, 'odoo > %s' % odoo_task)
     #     sync_logdebug(req.context_sync, 'weladee > %s' % weladee_task)
 
-    print(data)
     return data
 
 def sync_task(req):
@@ -87,7 +86,7 @@ def sync_task(req):
     try:        
         sync_loginfo(req.context_sync,'[task] updating changes from weladee-> odoo')
         for weladee_task in stub.GetTasks(weladee_pb2.Empty(), metadata=req.config.authorization):
-            print(weladee_task)
+            
             sync_stat_to_sync(req.context_sync['stat-task'], 1)
             if not weladee_task :
                sync_logwarn(req.context_sync,'weladee task is empty')

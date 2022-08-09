@@ -5,6 +5,7 @@ from odoo import api, fields, models, _
 CONST_SETTING_EXPENSE_PRODUCT_ID = 'weladee-expense_product_id'
 CONST_SETTING_EXPENSE_PERIOD = 'weladee-expense_period'
 CONST_SETTING_EXPENSE_PERIOD_UNIT = 'weladee-expense_period_unit'
+CONST_SETTING_EXPENSE_JOURNAL_ID = 'weladee-expense_journal_id'
 
 CONST_SETTING_SYNC_EXPENSE = 'weladee-sync-expense'
 
@@ -28,13 +29,17 @@ class weladee_settings_expense(models.TransientModel):
     def get_expense_product(self):
         return self._get_params_value(CONST_SETTING_EXPENSE_PRODUCT_ID, number=True)
 
+    @api.model
+    def get_expense_journal(self):
+        return self._get_params_value(CONST_SETTING_EXPENSE_JOURNAL_ID, number=True)
+
     expense_product_id = fields.Many2one("product.product", String="Expense product",default=get_expense_product )
     expense_period_unit = fields.Integer('Period Unit', default=get_expense_period_unit)
     expense_period = fields.Selection([('w','week(s) ago'),
                                         ('m','month(s) ago'),
                                         ('y','year(s) ago'),
                                         ('all', 'All')], string='Since', default=get_expense_period)
-
+    expense_journal_id = fields.Many2one("account.journal", String="Expense journal",domain=[('type','=','purchase')],default=get_expense_journal )
     
     sync_expense = fields.Boolean('Sync Expense', default=get_sync_expense)
     
@@ -47,6 +52,7 @@ class weladee_settings_expense(models.TransientModel):
         r.expense_period_unit = self.get_expense_period_unit()
         r.expense_period = self.get_expense_period()
         r.expense_product_id = self.get_expense_product()
+        r.expense_journal_id = self.get_expense_journal()
        
         return r
 
@@ -58,6 +64,7 @@ class weladee_settings_expense(models.TransientModel):
            self._save_setting(config_pool, CONST_SETTING_EXPENSE_PRODUCT_ID, self.expense_product_id.id)
            self._save_setting(config_pool, CONST_SETTING_EXPENSE_PERIOD_UNIT, self.expense_period_unit)
            self._save_setting(config_pool, CONST_SETTING_EXPENSE_PERIOD, self.expense_period)
+           self._save_setting(config_pool, CONST_SETTING_EXPENSE_JOURNAL_ID, self.expense_journal_id.id)
 
         self._save_setting(config_pool, CONST_SETTING_SYNC_EXPENSE, "Y" if self.sync_expense else "")
         return ret

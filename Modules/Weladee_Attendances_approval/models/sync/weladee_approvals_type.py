@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
-
-import base64
-import requests
-import subprocess
 import traceback
 
 from odoo.addons.Weladee_Attendances.models.grpcproto import approval_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
-from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
+from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error, sync_image
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info
 
 _CREATE = 0 # Create new relation
@@ -193,27 +189,8 @@ def sync_approvals_type_data(weladee_approvals_type, req):
 
     # Download icon and convert icon to base64.
     if weladee_approvals_type.Approvaltype.Icon:
-        # Approval type has icon.
-        bstderr = False
-        try:
-            proc = subprocess.Popen(['convert',
-                                    '-',
-                                    'png:-'],
-                                    stdin=subprocess.PIPE,
-                                    stdout=subprocess.PIPE)
-            r = requests.get(weladee_approvals_type.Approvaltype.Icon)
-            content = r.content
-            bstdout, bstderr = proc.communicate(input=content)
-            iconBase64 = base64.b64encode(bstdout)
-            data['image'] = iconBase64
-        except requests.Timeout as e:
-            sync_logwarn(req.context_sync, 'request: %s' % e)
-        except requests.RequestException as e:
-            sync_logwarn(req.context_sync, 'request: %s' % e)
-        except subprocess.TimeoutExpired as e:
-            sync_logwarn(req.context_sync, 'convert: %s' % e)
-        except Exception as e:
-            sync_logwarn(req.context_sync, 'Error: %s' % (bstderr or e or 'undefined'))
+       # Approval type has icon.
+       data['image'] = sync_image(req, weladee_approvals_type.Approvaltype.Icon)
     else:
         # Approval type does not have icon
         data['image'] = False

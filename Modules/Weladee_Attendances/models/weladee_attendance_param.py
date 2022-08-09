@@ -9,6 +9,9 @@ class weladee_attendance_param():
           self.to_email = False
           ''' flag to send email or not '''
 
+          self.do_sync_image = False
+          ''' function do_sync_image '''
+
           self.job_obj = False
           ''' hr.job pool'''
 

@@ -7,7 +7,7 @@ import requests
 import base64
 
 from odoo.addons.Weladee_Attendances.models.grpcproto.job_pb2 import ApplicationRefused
-from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2, weladee_pb2
+from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2, weladee_pb2, expense_pb2
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up,sync_stat_skip
 from odoo.addons.Weladee_Attendances.models.sync.weladee_employee import get_emp_odoo_weladee_ids
@@ -29,6 +29,7 @@ def sync_expense_data(weladee_expense, req):
             'quantity': weladee_expense.Expense.AmountToRefund / 100,
             'request_amount': weladee_expense.Expense.Amount / 100,
             'reference': weladee_expense.Expense.Ref,
+            'journal_id': req.config.expense_journal_id,
             }    
 
     if weladee_expense.Expense.AmountToRefund == 0:
@@ -42,6 +43,14 @@ def sync_expense_data(weladee_expense, req):
     else:
         vid = req.customer_obj.create({'name':weladee_expense.Expense.Vendor})    
         data['bill_partner_id'] = vid.id
+
+    # check state
+    if weladee_expense.Expense.Status == expense_pb2.ExpenseStatusApproved:
+       data['state'] = 'approve' 
+    elif weladee_expense.Expense.Status == expense_pb2.ExpenseStatusRefused:
+       data['state'] = 'refused' 
+    elif weladee_expense.Expense.Status == expense_pb2.ExpenseStatusRefunded:
+       data['state'] = 'done' 
 
     ipfschange = True
     odoo_exp = req.expense_obj.search([("weladee_id", "=", weladee_expense.Expense.ID)],limit=1) 
@@ -76,7 +85,32 @@ def sync_expense_data(weladee_expense, req):
             data['receipt_file_name'] = False
             data['receipt'] = False
 
+    if not data['employee_id'] in req.employee_user:
+       req.employee_user[str(data['employee_id'])] = req.employee_obj.browse(data['employee_id']).user_id
+
     return data
+
+def _setstate(odoo_id, odoo_expense, req):
+     if odoo_id.sheet_id:                                           
+        # get state = done but old one is not
+        if odoo_expense.get('state', False) == 'done' and odoo_id.sheet_id.state != odoo_expense.get('state', False):
+           # check employee home address
+           if not odoo_id.sheet_id.employee_id.address_home_id.id:
+              user = req.employee_user.get(str(odoo_id.sheet_id.employee_id.id))  
+              if user:
+                 odoo_id.sheet_id.employee_id.with_context({'mail_create_nosubscribe':False,'send2-weladee': False}).address_home_id = user.partner_id.id
+              else:
+                 sync_logerror(req.context_sync, 'Error: no user define for this employee %s(%s)' % (odoo_id.sheet_id.employee_id.name, odoo_id.sheet_id.employee_id.id))
+       
+           if not odoo_id.sheet_id.employee_id.address_home_id.id: 
+              raise Exception('Employee %s(%s) has no home address' % (odoo_id.sheet_id.employee_id.name, odoo_id.sheet_id.employee_id.id))
+
+           # post first
+           odoo_id.sheet_id.journal_id = odoo_expense['journal_id']
+           odoo_id.sheet_id.with_context({'mail_create_nosubscribe':False,'send2-weladee': False}).action_sheet_move_create()
+
+        # change to state    
+        odoo_id.sheet_id.with_context({'mail_create_nosubscribe':False,'send2-weladee': False}).write({'state': odoo_expense['state'] if odoo_expense['state'] != 'refused' else 'cancel'}) 
 
 def sync_expense(req):
     '''
@@ -109,6 +143,7 @@ def sync_expense(req):
             period.From = int((datetime.datetime.now() - relativedelta(weeks=1)).timestamp())
 
         for weladee_expense in stub.GetExpenses(period, metadata=req.config.authorization):            
+            print(weladee_expense)
             sync_stat_to_sync(req.context_sync['stat-expense'], 1)
             if not weladee_expense :
                sync_logwarn(req.context_sync,'weladee expense is empty')
@@ -122,13 +157,19 @@ def sync_expense(req):
                     sync_logdebug(req.context_sync, "Insert expense '%s' to odoo" % odoo_expense )
                     sync_stat_create(req.context_sync['stat-expense'], 1)
 
-                    req.expense_sheet_obj.with_context({'mail_create_nosubscribe':False}).create({
+                    sheetst = odoo_expense.get('state', False)
+                    if sheetst == 'done': sheetst = 'approve'
+                    elif sheetst == 'refused': sheetst = 'cancel'
+
+                    req.expense_sheet_obj.with_context({'mail_create_nosubscribe':False,'send2-weladee': False}).create({
                         'name': newid.name,
                         'employee_id': newid.employee_id.id,
                         'expense_line_ids': [(6,0,[newid.id])],
-                        'state': 'approve'
+                        'journal_id': odoo_expense['journal_id'],
+                        'state': sheetst
                     })
 
+                    _setstate(newid, odoo_expense, req) 
                 else:
                     sync_logdebug(req.context_sync, 'weladee > %s' % weladee_expense) 
                     sync_logerror(req.context_sync, "error while create odoo expense id %s of '%s' in odoo" % (odoo_expense['res-id'], odoo_expense) ) 
@@ -137,8 +178,9 @@ def sync_expense(req):
             elif odoo_expense and odoo_expense['res-mode'] == 'update':
                 odoo_id = req.expense_obj.browse(odoo_expense['res-id'])
                 if odoo_id.id:
-                   odoo_id.with_context({'mail_create_nosubscribe':False}).write(sync_clean_up(odoo_expense))
-                   if odoo_id.sheet_id: odoo_id.sheet_id.with_context({'mail_create_nosubscribe':False}).write({'state':'approve'}) 
+                   odoo_id.with_context({'mail_create_nosubscribe':False,'send2-weladee': False}).write(sync_clean_up(odoo_expense))
+                   _setstate(odoo_id, odoo_expense, req) 
+
                    sync_logdebug(req.context_sync, "Updated expense '%s' to odoo" % odoo_expense['name'] )
                    sync_stat_update(req.context_sync['stat-expense'], 1)
                 else:

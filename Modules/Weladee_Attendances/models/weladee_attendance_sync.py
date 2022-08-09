@@ -10,7 +10,6 @@ from datetime import datetime
 from odoo import osv
 from odoo import models, fields, api, _
 
-from . import weladee_settings
 from .sync.weladee_base import renew_connection, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_has_error
 
 from odoo.addons.Weladee_Attendances.models.weladee_attendance_param import weladee_attendance_param
@@ -128,7 +127,6 @@ class weladee_attendance(models.TransientModel):
 
     def do_sync_options(self, req):
         return
-        
 
     def send_result_mail(self, ctx):
         '''

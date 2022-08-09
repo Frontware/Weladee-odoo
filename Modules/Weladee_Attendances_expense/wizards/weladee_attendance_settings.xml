@@ -23,6 +23,7 @@
                     <page string="Expense" attrs="{'invisible':[('sync_expense','=',False)]}">
                         <group>
                             <field name="expense_product_id" attrs="{'required':[('sync_expense','=',True)]}"/>
+                            <field name="expense_journal_id" attrs="{'required':[('sync_expense','=',True)]}" />
                             <label for="expense_period"/>
                             <div>
                                 <field attrs="{'required':[('sync_expense','=',True)],'invisible':[('expense_period','=','all')]}" name="expense_period_unit" class="oe_inline" />

@@ -26,10 +26,11 @@
 'summary': 'Weladee-Odoo attendances\'s module',
 "depends" : ['hr_expense', 
              'Weladee_Attendances'],
-"data" :[
+"data" :["security/ir.model.access.csv",   
         "wizards/weladee_attendance_settings.xml",
 
         'views/fw_hr_expense.xml',
+        'views/fw_expense_type.xml',
 ],
 "installable" : True,
 "active" : False,

@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import time
-import requests
-import base64
 import traceback
-import subprocess
 from datetime import datetime
 
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
-from .weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
+from .weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error, sync_image
 from .weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info 
 
 def get_emp_odoo_weladee_ids(req):
@@ -93,20 +90,7 @@ def sync_employee_data(weladee_employee, req):
     '''    
     photoBase64 = ''
     if weladee_employee.employee.photo:
-        bytese = False
-        bytesa = False
-        try :
-            process = subprocess.Popen(['convert',
-                                        '-',
-                                        'png:-'],
-                                        stdin=subprocess.PIPE,
-                                        stdout=subprocess.PIPE)
-            bytesa, bytese= process.communicate(input=requests.get(weladee_employee.employee.photo).content)
-            photoBase64 = base64.b64encode(bytesa)
-
-        except Exception as e:
-            sync_logdebug(req.context_sync, "image : %s" % weladee_employee.employee.photo)
-            sync_logwarn(req.context_sync, "Error when load image %s : %s" % (weladee_employee.employee.photo,bytese or e or 'undefined'))
+       photoBase64 = sync_image(req, weladee_employee.employee.photo)
     
     #2018-06-07 KPO don't sync note back   
     #2018-06-21 KPO get team but don't sync back     

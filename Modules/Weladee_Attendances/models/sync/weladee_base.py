@@ -6,6 +6,8 @@ import logging
 _logger = logging.getLogger(__name__)
 import base64
 import re
+import subprocess
+import requests
 
 from odoo.addons.Weladee_Attendances.models import weladee_grpc
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
@@ -167,3 +169,20 @@ def sync_message_log(rec_id, msg, e):
                     'type': 'binary',
                 })
     rec_id._message_log(body='<font color="red">Error!</font> there is an error while send this record to weladee: <a href="web/content/?model=ir.attachment&id=%s&filename_field=name&field=datas&download=true&name=">more info</a>' % attid.id )
+
+
+def sync_image(req, url):
+    bytese = False
+    bytesa = False
+    try :
+        process = subprocess.Popen(['convert',
+                                    '-',
+                                    'png:-'],
+                                    stdin=subprocess.PIPE,
+                                    stdout=subprocess.PIPE)
+        bytesa, bytese= process.communicate(input=requests.get(url).content)
+        return base64.b64encode(bytesa)
+
+    except Exception as e:
+        sync_logdebug(req.context_sync, "image : %s" % url)
+        sync_logwarn(req.context_sync, "Error when load image %s : %s" % (url, bytese or e or 'undefined'))                

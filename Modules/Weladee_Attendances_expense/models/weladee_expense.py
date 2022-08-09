@@ -22,6 +22,8 @@ class weladee_expense(models.Model):
     receipt_file_name = fields.Char(string='File name')
     receipt = fields.Binary(string='Receipt')
     hide_edit_btn_css = fields.Html(string='css', sanitize=False, compute='_compute_css')
+    refuse_reason = fields.Text('Refuse reason')
+    expense_type_id = fields.Many2one('weladee_expense_type',string='Expense type')
 
     def open_weladee_expense(self):
         if self.weladee_url:
