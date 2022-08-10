@@ -69,7 +69,14 @@ class weladee_attendance(models.TransientModel):
         if  (not req.config.authorization) and (req.config.api_db == self.env.cr.dbname):            
             sync_stop(req.context_sync)
             sync_logerror(req.context_sync,'You must setup API Key, Default Holiday Status at Attendances -> Weladee settings')
-        
+
+        # validate lang
+        # weladee required 2 langs
+        for lg in self.env['res.lang'].search([('code','in',['en_US','th_TH'])]):
+            if not lg.active:
+               lg.active = True
+               sync_logdebug(req.context_sync,"Activate Lang %s" % lg.name)
+
         if req.config.sync_position and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Positions")
             req.job_obj = self.env['hr.job']    

@@ -26,9 +26,11 @@ def sync_expense_data(weladee_expense, req):
             'date': dd, 
             'product_id': req.config.expense_product_id,
             'unit_amount': 1,
+            'refuse_reason': weladee_expense.Expense.Reason,
             'quantity': weladee_expense.Expense.AmountToRefund / 100,
             'request_amount': weladee_expense.Expense.Amount / 100,
             'reference': weladee_expense.Expense.Ref,
+            'expense_type_id': req.expense_type_odoo_weladee_ids.get(str(weladee_expense.Expense.ExTypeID), False),
             'journal_id': req.config.expense_journal_id,
             }    
 

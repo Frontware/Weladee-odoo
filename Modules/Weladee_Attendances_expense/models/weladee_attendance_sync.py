@@ -29,6 +29,9 @@ class weladee_attendance_expense(models.TransientModel):
         ''' map employee user, key:employee id, value: odoo user object '''
 
         r.expense_type_obj = False
+        r.expense_type_odoo_weladee_ids = {}
+        ''' map expense type, key:type id, value: odoo id '''
+
         return r    
 
     def do_sync_options(self, req):

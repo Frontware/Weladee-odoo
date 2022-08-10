@@ -6,6 +6,8 @@ _logger = logging.getLogger(__name__)
 from odoo import osv
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
+from odoo.addons.Weladee_Attendances.library.weladee_translation import add_value_translation
+
 
 class weladee_project(models.Model):
     _inherit = 'project.project'
@@ -28,12 +30,14 @@ class weladee_project(models.Model):
         irobj = self.env['ir.translation']
 
         # Check if record could be created
-        if ret.id:
-            irobj._set_ids('project.project,name','model','en_US', [ret.id], vals.get('name', ''))
-            irobj._set_ids('project.project,name','model','th_TH', [ret.id], name_th)
+        if ret.id and (('name-th' in vals) or ('name' in vals) or ('description-th' in vals) or ('description' in vals)):
+           irobj = self.env['ir.translation']
 
-            irobj._set_ids('project.project,description','model','en_US', [ret.id], vals.get('description', ''))
-            irobj._set_ids('project.project,description','model','th_TH', [ret.id], des_th)
+           if (('name-th' in vals) or ('name' in vals)):
+              add_value_translation(ret, irobj, 'project.project','name',vals.get('name', ''), name_th)
+
+           if (('description-th' in vals) or ('description' in vals)):
+              add_value_translation(ret, irobj, 'project.project','description',vals.get('name', ''), des_th)
 
         return ret
 
@@ -43,15 +47,15 @@ class weladee_project(models.Model):
         if 'name-th' in vals: del vals['name-th']
         if 'description-th' in vals: del vals['description-th']
         ret = super(weladee_project, self).write(vals)
-        irobj = self.env['ir.translation']
 
-        # Check if record exists
-        for each in self:
-            irobj._set_ids('project.project,name','model','en_US', [each.id], vals.get('name', ''))
-            irobj._set_ids('project.project,name','model','th_TH', [each.id], name_th)
-
-            irobj._set_ids('project.project,description','model','en_US', [each.id], vals.get('description', ''))
-            irobj._set_ids('project.project,description','model','th_TH', [each.id], des_th)
+        if ret and (('name-th' in vals) or ('name' in vals) or ('description-th' in vals) or ('description' in vals)):
+           irobj = self.env['ir.translation']
+           for each in self:
+               if (('name-th' in vals) or ('name' in vals)):
+                  add_value_translation(each, irobj, 'project.project','name',vals.get('name', ''), name_th)
+               if (('description-th' in vals) or ('description' in vals)):
+                  add_value_translation(each, irobj, 'project.project','description',vals.get('name', ''), des_th)
+               break
 
         return ret
 

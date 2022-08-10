@@ -6,6 +6,7 @@ _logger = logging.getLogger(__name__)
 from odoo import osv
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
+from odoo.addons.Weladee_Attendances.library.weladee_translation import add_value_translation
 
 class weladee_task(models.Model):
     _inherit = 'project.task'
@@ -21,12 +22,11 @@ class weladee_task(models.Model):
         name_th = vals.get('name-th', '')
         if 'name-th' in vals: del vals['name-th']
         ret = super(weladee_task, self).create(vals)
-        irobj = self.env['ir.translation']
 
         # Check if record could be created
-        if ret.id:
-            irobj._set_ids('project.task,name','model','en_US', [ret.id], vals.get('name', ''))
-            irobj._set_ids('project.task,name','model','th_TH', [ret.id], name_th)
+        if ret.id and (('name-th' in vals) or ('name' in vals)):
+           irobj = self.env['ir.translation']
+           add_value_translation(ret, irobj, 'project.task','name',vals.get('name', ''), name_th)
 
         return ret
 
@@ -34,12 +34,12 @@ class weladee_task(models.Model):
         name_th = vals.get('name-th', '')
         if 'name-th' in vals: del vals['name-th']
         ret = super(weladee_task, self).write(vals)
-        irobj = self.env['ir.translation']
 
-        # Check if record exists
-        for each in self:
-            irobj._set_ids('project.task,name','model','en_US', [each.id], vals.get('name', ''))
-            irobj._set_ids('project.task,name','model','th_TH', [each.id], name_th)
+        if ret and (('name-th' in vals) or ('name' in vals)):
+           irobj = self.env['ir.translation']
+           for each in self:
+               add_value_translation(each, irobj, 'project.task','name',vals.get('name', ''), name_th)
+               break
 
         return ret
 

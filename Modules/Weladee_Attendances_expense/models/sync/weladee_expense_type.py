@@ -13,13 +13,13 @@ def sync_expense_type_data(weladee_expense_type, req):
     expense_type data to sync
     '''
     pos = {"name" : weladee_expense_type.ExpenseType.NameEnglish,
-           "name_thai" : weladee_expense_type.ExpenseType.NameThai,
+           "name-th" : weladee_expense_type.ExpenseType.NameThai,
            "weladee_id" : weladee_expense_type.ExpenseType.ID,
            'code': weladee_expense_type.ExpenseType.Code,
            'active': weladee_expense_type.ExpenseType.Active,
             }
     if weladee_expense_type.ExpenseType.Icon:
-        pos['icon'] = sync_image(req, weladee_expense_type.ExpenseType.Icon)
+        pos['image_1920'] = sync_image(req, weladee_expense_type.ExpenseType.Icon)
 
     # look if there is odoo record with same weladee-id
     # if not found then create else update    
@@ -53,9 +53,11 @@ def sync_expense_type(req):
             odoo_pos = sync_expense_type_data(weladee_expense_type, req)
 
             if odoo_pos and odoo_pos['res-mode'] == 'create':
-               req.expense_type_obj.create(sync_clean_up(odoo_pos))
+               newid = req.expense_type_obj.create(sync_clean_up(odoo_pos))
                sync_logdebug(req.context_sync, "Insert expense_type '%s' to odoo" % odoo_pos['name'] )
                sync_stat_create(req.context_sync['stat-expense_type'], 1)
+
+               req.expense_type_odoo_weladee_ids[str(weladee_expense_type.ExpenseType.ID)] = newid.id
 
             elif odoo_pos and odoo_pos['res-mode'] == 'update':
                 odoo_id = req.expense_type_obj.search([('id','=',odoo_pos['res-id'])])
@@ -63,6 +65,8 @@ def sync_expense_type(req):
                    odoo_id.write(sync_clean_up(odoo_pos))
                    sync_logdebug(req.context_sync, "Updated expense_type '%s' to odoo" % odoo_pos['name'] )
                    sync_stat_update(req.context_sync['stat-expense_type'], 1)
+
+                   req.expense_type_odoo_weladee_ids[str(weladee_expense_type.ExpenseType.ID)] = odoo_id.id
                 else:
                    sync_logdebug(req.context_sync, 'weladee > %s' % weladee_expense_type) 
                    sync_logerror(req.context_sync, "Not found this odoo expense_type id %s of '%s' in odoo" % (odoo_pos['res-id'], odoo_pos['name']) ) 
