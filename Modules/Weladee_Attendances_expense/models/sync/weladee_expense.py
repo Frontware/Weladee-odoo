@@ -48,7 +48,7 @@ def sync_expense_data(weladee_expense, req):
 
     # check state
     if weladee_expense.Expense.Status == expense_pb2.ExpenseStatusApproved:
-       data['state'] = 'approve' 
+       data['state'] = 'approved' 
     elif weladee_expense.Expense.Status == expense_pb2.ExpenseStatusRefused:
        data['state'] = 'refused' 
     elif weladee_expense.Expense.Status == expense_pb2.ExpenseStatusRefunded:
@@ -112,7 +112,10 @@ def _setstate(odoo_id, odoo_expense, req):
            odoo_id.sheet_id.with_context({'mail_create_nosubscribe':False,'send2-weladee': False}).action_sheet_move_create()
 
         # change to state    
-        odoo_id.sheet_id.with_context({'mail_create_nosubscribe':False,'send2-weladee': False}).write({'state': odoo_expense['state'] if odoo_expense['state'] != 'refused' else 'cancel'}) 
+        sheetst = odoo_expense.get('state', False)
+        if sheetst == 'refused': sheetst = 'cancel'
+        elif sheetst == 'approved': sheetst = 'approve'
+        odoo_id.sheet_id.with_context({'mail_create_nosubscribe':False,'send2-weladee': False}).write({'state': sheetst}) 
 
 def sync_expense(req):
     '''
@@ -145,7 +148,7 @@ def sync_expense(req):
             period.From = int((datetime.datetime.now() - relativedelta(weeks=1)).timestamp())
 
         for weladee_expense in stub.GetExpenses(period, metadata=req.config.authorization):            
-            print(weladee_expense)
+            
             sync_stat_to_sync(req.context_sync['stat-expense'], 1)
             if not weladee_expense :
                sync_logwarn(req.context_sync,'weladee expense is empty')
@@ -154,7 +157,7 @@ def sync_expense(req):
             odoo_expense = sync_expense_data(weladee_expense, req)
             
             if odoo_expense and odoo_expense['res-mode'] == 'create':
-                newid = req.expense_obj.with_context({'mail_create_nosubscribe':False}).create(sync_clean_up(odoo_expense))
+                newid = req.expense_obj.with_context({'mail_create_nosubscribe':False,'send2-weladee': False}).create(sync_clean_up(odoo_expense))
                 if newid and newid.id:
                     sync_logdebug(req.context_sync, "Insert expense '%s' to odoo" % odoo_expense )
                     sync_stat_create(req.context_sync['stat-expense'], 1)
@@ -162,6 +165,7 @@ def sync_expense(req):
                     sheetst = odoo_expense.get('state', False)
                     if sheetst == 'done': sheetst = 'approve'
                     elif sheetst == 'refused': sheetst = 'cancel'
+                    elif sheetst == 'approved': sheetst = 'approve'
 
                     req.expense_sheet_obj.with_context({'mail_create_nosubscribe':False,'send2-weladee': False}).create({
                         'name': newid.name,

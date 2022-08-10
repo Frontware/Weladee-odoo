@@ -78,7 +78,7 @@ def sync_timesheet(req):
             period.From = int((datetime.datetime.now() - relativedelta(weeks=1)).timestamp())
 
         for weladee_timesheet in stub.GetTimeSheets(period, metadata=req.config.authorization):
-            print(weladee_timesheet)
+            
             sync_stat_to_sync(req.context_sync['stat-timesheet'], 1)
             if not weladee_timesheet :
                sync_logwarn(req.context_sync,'weladee timesheet is empty')

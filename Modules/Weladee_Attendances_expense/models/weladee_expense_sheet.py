@@ -17,10 +17,19 @@ class weladee_expense_sheet(models.Model):
     _inherit = 'hr.expense.sheet'
 
     def approve_expense_sheets(self):
-        for each in self.expense_line_ids:
-            if each.weladee_id:
-               self._update_in_weladee(each)
         return super(weladee_expense_sheet, self).with_context({'mail_create_nosubscribe':False}).approve_expense_sheets()       
+
+    def write(self, vals):
+        ret = super(weladee_expense_sheet, self).write(vals)
+        
+        if ('state' in vals) and ret and self.env.context.get('send2-weladee', True):
+           if vals.get('state')  == 'done':
+              for each in self:
+                  for line in each.expense_line_ids:
+                      if line.weladee_id:  
+                          self._update_in_weladee(line)
+
+        return ret
 
     def _update_in_weladee(self, line):
         '''
@@ -29,23 +38,13 @@ class weladee_expense_sheet(models.Model):
         ret = self.env['weladee_attendance.synchronous.setting'].get_settings()
         
         if ret.authorization:
-            WeladeeData = odoo_pb2.ExpenseOdoo()
-
-            WeladeeData.odoo.odoo_id = line.id
-            WeladeeData.odoo.odoo_created_on = int(time.time())
-            WeladeeData.odoo.odoo_synced_on = int(time.time())
-
-            WeladeeData.Expense.ID = int(line.weladee_id)
-            WeladeeData.Expense.Status = expense_pb2.Status.ExpenseStatusRefunded
-            # WeladeeData.Expense.EmployeeID = int(line.employee_id.weladee_id)
-            # WeladeeData.Expense.Vendor = line.bill_partner_id.name
-            WeladeeData.Expense.Amount = int(line.request_amount * 100)
-            WeladeeData.Expense.AmountToRefund = int(line.total_amount * 100)
-            # WeladeeData.Expense.Date = int(datetime.datetime.strptime(line.date.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
+            WeladeeData = odoo_pb2.ExpenseStatus()            
+            WeladeeData.ID = int(line.weladee_id)
+            WeladeeData.status = expense_pb2.ExpenseStatusRefunded
 
             try:
                 _logger.info("Odoo > %s" % WeladeeData)    
-                result = stub.UpdateExpense(WeladeeData, metadata=ret.authorization)
+                result = stub.UpdateExpenseStatus(WeladeeData, metadata=ret.authorization)
                 _logger.info("update expense on Weladee : %s" % result)
             except Exception as e:
                 _logger.info("Odoo > %s" % WeladeeData)
