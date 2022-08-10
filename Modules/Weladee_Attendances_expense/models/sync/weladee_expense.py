@@ -109,7 +109,9 @@ def _setstate(odoo_id, odoo_expense, req):
 
            # post first
            odoo_id.sheet_id.journal_id = odoo_expense['journal_id']
-           odoo_id.sheet_id.with_context({'mail_create_nosubscribe':False,'send2-weladee': False}).action_sheet_move_create()
+           # seem not to be sure to activate this
+           #odoo_id.sheet_id.with_context({'mail_create_nosubscribe':False,'send2-weladee': False}).action_sheet_move_create()
+           odoo_expense['state'] = 'approve'
 
         # change to state    
         sheetst = odoo_expense.get('state', False)
