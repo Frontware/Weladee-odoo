@@ -305,7 +305,7 @@ def sync_employee(req):
             newEmployee.employee.PositionID = int(odoo_employee.job_id.weladee_id or '0')
 
         if odoo_employee.birthday:
-            newEmployee.employee.Birthday = datetime.strptime(odoo_employee.birthday,'%Y-%m-%d').timestamp()
+            newEmployee.employee.Birthday = int(datetime.strptime(odoo_employee.birthday.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
 
         #language not sync yet
         newEmployee.employee.lg = "en"
@@ -354,6 +354,7 @@ def sync_employee(req):
             sync_stat_create(req.context_sync['stat-w-employee'], 1)
 
         except Exception as e:
+            print(traceback.format_exc())
             sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
             sync_logdebug(req.context_sync, 'odoo > %s' % odoo_employee)
             sync_logerror(req.context_sync, "Add employee '%s' failed : %s" % (odoo_employee.name, e))

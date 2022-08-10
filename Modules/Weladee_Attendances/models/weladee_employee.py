@@ -218,11 +218,17 @@ class weladee_employee(models.Model):
                 WeladeeData.employee.DrivingLicensePlaceIssue = vals['driving_license_place_issue'] or ''
             if "driving_license_date_issue" in vals:
                 if vals['driving_license_date_issue']:
-                   WeladeeData.employee.DrivingLicenseDateIssue = int(datetime.strptime(vals["driving_license_date_issue"],'%Y-%m-%d').timestamp())
+                   if type(vals['driving_license_date_issue']) is datetime:
+                      WeladeeData.employee.DrivingLicenseDateIssue = int(vals["driving_license_date_issue"].timestamp())
+                   else:
+                      WeladeeData.employee.DrivingLicenseDateIssue = int(datetime.strptime(vals["driving_license_date_issue"],'%Y-%m-%d').timestamp())
 
             if "driving_license_expiration_date" in vals:                
                 if vals['driving_license_expiration_date']:
-                   WeladeeData.employee.DrivingLicenseExpirationDate = int(datetime.strptime(vals["driving_license_expiration_date"],'%Y-%m-%d').timestamp())
+                   if type(vals['driving_license_expiration_date']) is datetime:
+                      WeladeeData.employee.DrivingLicenseExpirationDate = int(vals["driving_license_expiration_date"].timestamp())
+                   else:
+                      WeladeeData.employee.DrivingLicenseExpirationDate = int(datetime.strptime(vals["driving_license_expiration_date"],'%Y-%m-%d').timestamp())
 
             if "religion" in vals:
                 WeladeeData.employee.Religion = new_employee_data_religion( vals['religion'] or '')
@@ -232,10 +238,16 @@ class weladee_employee(models.Model):
                 WeladeeData.employee.MilitaryStatus = new_employee_data_military(vals['military_status'] or '')
             if "resignation_date" in vals:                
                 if vals['resignation_date']:
-                   WeladeeData.employee.ResignationDate = int(datetime.strptime(vals["resignation_date"],'%Y-%m-%d').timestamp())
+                   if type(vals['resignation_date']) is datetime:
+                      WeladeeData.employee.ResignationDate = int(vals["resignation_date"].timestamp())
+                   else:
+                      WeladeeData.employee.ResignationDate = int(datetime.strptime(vals["resignation_date"],'%Y-%m-%d').timestamp())
             if "probation_due_date" in vals:                
                 if vals['probation_due_date']:
-                   WeladeeData.employee.ProbationDueDate = int(datetime.strptime(vals["probation_due_date"],'%Y-%m-%d').timestamp())
+                   if type(vals['probation_due_date']) is datetime:
+                      WeladeeData.employee.ProbationDueDate = int(vals["probation_due_date"].timestamp())
+                   else:
+                      WeladeeData.employee.ProbationDueDate = int(datetime.strptime(vals["probation_due_date"],'%Y-%m-%d').timestamp())
             if "resignation_reason" in vals:
                 WeladeeData.employee.ResignationReason = vals['resignation_reason'] or ''
 
@@ -349,7 +361,10 @@ class weladee_employee(models.Model):
 
             if 'birthday' in vals:
                 if vals["birthday"]:
-                   WeladeeData.employee.Birthday = int(datetime.strptime(vals["birthday"],'%Y-%m-%d').timestamp())
+                    if type(vals['birthday']) is datetime:
+                      WeladeeData.employee.Birthday = int(vals["birthday"].timestamp())
+                    else: 
+                      WeladeeData.employee.Birthday = int(datetime.strptime(vals["birthday"],'%Y-%m-%d').timestamp())
             else :
                 if employee_odoo.birthday:
                    WeladeeData.employee.Birthday = int(datetime.strptime(employee_odoo.birthday.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
@@ -423,14 +438,20 @@ class weladee_employee(models.Model):
                 
             if 'driving_license_date_issue' in vals:
                 if vals["driving_license_date_issue"]:
-                   WeladeeData.employee.DrivingLicenseDateIssue = int(datetime.strptime(vals["driving_license_date_issue"],'%Y-%m-%d').timestamp())
+                    if type(vals['driving_license_date_issue']) is datetime:
+                      WeladeeData.employee.DrivingLicenseDateIssue = int(vals["driving_license_date_issue"].timestamp())
+                    else:
+                      WeladeeData.employee.DrivingLicenseDateIssue = int(datetime.strptime(vals["driving_license_date_issue"],'%Y-%m-%d').timestamp())
             else :
                 if employee_odoo.driving_license_date_issue:
                    WeladeeData.employee.DrivingLicenseDateIssue = int(datetime.strptime(employee_odoo.driving_license_date_issue.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
                    
             if 'driving_license_expiration_date' in vals:
                 if vals["driving_license_expiration_date"]:
-                   WeladeeData.employee.DrivingLicenseExpirationDate = int(datetime.strptime(vals["driving_license_expiration_date"],'%Y-%m-%d').timestamp())
+                   if type(vals['driving_license_expiration_date']) is datetime:
+                      WeladeeData.employee.DrivingLicenseExpirationDate = int(vals["driving_license_expiration_date"].timestamp())
+                   else: 
+                      WeladeeData.employee.DrivingLicenseExpirationDate = int(datetime.strptime(vals["driving_license_expiration_date"],'%Y-%m-%d').timestamp())
             else :
                 if employee_odoo.driving_license_expiration_date:
                    WeladeeData.employee.DrivingLicenseExpirationDate = int(datetime.strptime(employee_odoo.driving_license_expiration_date.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
@@ -452,14 +473,20 @@ class weladee_employee(models.Model):
                 
             if "resignation_date" in vals:
                 if vals["resignation_date"]:
-                   WeladeeData.employee.ResignationDate = int(datetime.strptime(vals["resignation_date"],'%Y-%m-%d').timestamp())
+                   if type(vals['resignation_date']) is datetime:
+                      WeladeeData.employee.ResignationDate = int(vals["resignation_date"].timestamp())
+                   else:  
+                      WeladeeData.employee.ResignationDate = int(datetime.strptime(vals["resignation_date"],'%Y-%m-%d').timestamp())
             else:
                 if employee_odoo.resignation_date:
                    WeladeeData.employee.ResignationDate = int(datetime.strptime(employee_odoo.resignation_date.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
 
             if "probation_due_date" in vals:
                 if vals["probation_due_date"]:
-                   WeladeeData.employee.ProbationDueDate = int(datetime.strptime(vals["probation_due_date"],'%Y-%m-%d').timestamp())
+                    if type(vals['probation_due_date']) is datetime:
+                      WeladeeData.employee.ProbationDueDate = int(vals["probation_due_date"].timestamp())
+                    else:  
+                      WeladeeData.employee.ProbationDueDate = int(datetime.strptime(vals["probation_due_date"],'%Y-%m-%d').timestamp())
             else:
                 if employee_odoo.probation_due_date:
                    WeladeeData.employee.ProbationDueDate = int(datetime.strptime(employee_odoo.probation_due_date.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
