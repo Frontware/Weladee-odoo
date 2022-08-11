@@ -32,13 +32,15 @@
 
         'views/fw_hr_job.xml',
         'views/fw_hr_job_applicant.xml',
+        'views/fw_weladee_job_ads.xml',
+        'templates/asset_Weladee_Attendances.xml',
 ],
 "installable" : True,
 "active" : False,
 "website" : "https://www.weladee.com/",
 "description":"""
 Weladee attendances job module
-==========================
+====================================
 Module to manage synchronous job.
 
 It will synchronus job to odoo.

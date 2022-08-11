@@ -16,7 +16,8 @@ def sync_job_ads_data(weladee_job_ads, req):
             'location': weladee_job_ads.JobAd.Location,
             'publish_date': datetime.datetime.fromtimestamp(weladee_job_ads.JobAd.PublishDate),
             'expire_date': datetime.datetime.fromtimestamp(weladee_job_ads.JobAd.ExpireDate),
-            'weladee_id':  weladee_job_ads.JobAd.ID,            
+            'weladee_id':  weladee_job_ads.JobAd.ID,    
+            'weladee_url':  weladee_job_ads.JobAd.URLName,
             }        
 
     data['res-mode'] = 'create'
@@ -29,17 +30,6 @@ def sync_job_ads_data(weladee_job_ads, req):
         data['res-id'] = prev_rec.id
         sync_logdebug(req.context_sync, 'weladee > %s ' % weladee_job_ads)
         sync_logdebug(req.context_sync, 'odoo > %s ' % data)
-        # sync_logwarn(req.context_sync, 'this job_ads\'name record already exist for this %s exist, no change will apply' % data['name'])
-        # return data
-
-    # check if there is same name
-    # consider it same record
-    # odoo_job_ads = req.jobads_obj.search( [ ('name','=', data['name'] ) ],limit=1 )
-    # if odoo_job_ads.id:
-    #     data['res-mode'] = 'update'
-    #     data['res-id'] = odoo_job_ads.id
-    #     sync_logdebug(req.context_sync, 'odoo > %s' % odoo_job_ads)
-    #     sync_logdebug(req.context_sync, 'weladee > %s' % weladee_job_ads)
 
     return data   
 
@@ -64,13 +54,9 @@ def sync_job_ads(req):
     odoo_job_ads = False
     weladee_job_ads = False
 
-    # sync_delete_jobapp(req)
-    # sync_delete_jobads(req)
-
     try:        
         sync_loginfo(req.context_sync,'[job_ads] updating changes from weladee-> odoo')
         for weladee_job_ads in stub.GetJobAds(weladee_pb2.Empty(), metadata=req.config.authorization):
-            
             sync_stat_to_sync(req.context_sync['stat-job_ads'], 1)
             if not weladee_job_ads :
                sync_logwarn(req.context_sync,'weladee job_ads is empty')

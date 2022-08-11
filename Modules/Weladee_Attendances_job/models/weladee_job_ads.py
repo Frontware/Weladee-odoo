@@ -11,6 +11,7 @@ from odoo import exceptions
 
 class weladee_job_ads(models.Model):
     _name = 'weladee_job_ads'
+    _order = 'expire_date desc'
 
     name = fields.Char(string='Name')
     position_id = fields.Many2one('hr.job',string='Position')
@@ -20,6 +21,7 @@ class weladee_job_ads(models.Model):
     description = fields.Text('Description')
     skills = fields.Text('Skill')
     weladee_id = fields.Char(string="Weladee ID",copy=False)
+    weladee_url = fields.Char('Weladee URL',copy=False)
 
     _sql_constraints = [
         ('name_uniq', 'unique(name)', "Name can't duplicate !"),
@@ -43,3 +45,20 @@ class weladee_job_ads(models.Model):
         ret = super(weladee_job_ads, self).create(vals)
         
         return ret
+        
+    def open_weladee_jobads(self):
+        if self.weladee_id:
+            return {
+                'name': self.name,
+                'type': 'ir.actions.act_url',
+                'url': self.weladee_url,
+                'target': 'new'
+            }
+
+    def action_jobads_live(self):
+        return {
+            'type': 'ir.actions.act_url',
+            'name': "Live",
+            'target': 'new',
+            'url': 'https://job.weladee.com/c/%s' % self.env['weladee_attendance.synchronous.setting'].get_company(),
+        }

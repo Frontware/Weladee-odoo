@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_backend" name="weladee attendances job assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/Weladee_Attendances_job/static/src/css/fw_jobweladee.css"/>
+        </xpath>
+    </template>
+</odoo>

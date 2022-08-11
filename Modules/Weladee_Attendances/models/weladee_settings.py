@@ -6,6 +6,7 @@ from odoo.addons.base.models.res_partner import _tz_get
 CONST_SETTING_APIKEY = 'weladee-api_key'
 CONST_SETTING_SYNC_EMAIL = 'weladee-sync-email'
 CONST_SETTING_APIDB = 'weladee-api_db'
+CONST_SETTING_COMPANYID = 'weladee-companyid'
 CONST_SETTING_API_DEBUG = 'weladee-api_debug'
 
 CONST_SETTING_SYNC_EMPLOYEE = 'weladee-sync-employee'
@@ -19,6 +20,7 @@ class wiz_setting():
         self.sync_employee = True
         self.sync_position = True
         self.sync_department = True
+        self.company_id = False
 
 class weladee_settings(models.TransientModel):
     _name="weladee_attendance.synchronous.setting"
@@ -43,7 +45,16 @@ class weladee_settings(models.TransientModel):
            r.authorization = False
            r.api_db = False
 
+        r.company_id = self._get_params_value(CONST_SETTING_COMPANYID, number=True)
         return r
+
+    @api.model
+    def set_company(self, companyid):
+        self.env['ir.config_parameter'].set_param(CONST_SETTING_COMPANYID, companyid)
+    
+    @api.model
+    def get_company(self):
+        return self.env['ir.config_parameter'].get_param(CONST_SETTING_COMPANYID)
 
     '''
     purpose : get default holiday_status_id

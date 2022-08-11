@@ -1,0 +1,37 @@
+/**
+weladee-odoo stylesheets
+
+remarks:
+2018-05-24 KPO created
+*/
+.icon-job-weladee::before {
+    content:"";
+    background-image: url("../img/72x72.png");
+    background-size: 28px 28px;
+    background-position: left top;
+    background-repeat: no-repeat;
+    height: 28px;
+    display: block;
+}
+
+.icon-job-weladee-table-cell::before {
+    content:"";
+    background-image: url("../img/72x72.png");
+    display: table-cell;
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    height: 24px;
+    width: 24px;
+}
+
+.icon-job-weladee-kanban::before {
+    content:"";
+    background-image: url("../img/72x72.png");
+    display: table-cell;
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    height: 24px;
+    width: 24px;
+}

@@ -98,11 +98,17 @@ class weladee_attendance(models.TransientModel):
             for cu in country_line_ids:
                 if cu.name : req.country[ cu.name ] = cu.id
         
+        oldcompanyid = req.config.company_id
+
         if req.config.sync_employee and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Employee")
                
             req.employee_obj = self.env['hr.employee']    
             sync_employee(req)
+
+        # keep config
+        if oldcompanyid != req.config.company_id:         
+           self.env['weladee_attendance.synchronous.setting'].set_company(req.config.company_id) 
 
         if req.config.sync_employee and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Manager")

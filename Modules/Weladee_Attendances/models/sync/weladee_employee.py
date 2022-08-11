@@ -88,6 +88,11 @@ def sync_employee_data(weladee_employee, req):
 
     2018-06-14 KPO sync qrcode from weladee
     '''    
+
+    ## keep company id
+    if not req.config.company_id:
+       req.config.company_id = weladee_employee.employee.CompanyID
+
     photoBase64 = ''
     if weladee_employee.employee.photo:
        photoBase64 = sync_image(req, weladee_employee.employee.photo)
