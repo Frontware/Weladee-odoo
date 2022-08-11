@@ -51,27 +51,29 @@ class weladee_attendance_timesheet(models.TransientModel):
         super(weladee_attendance_timesheet, self).do_sync_options(req)
 
         if req.config.sync_timesheet and not sync_has_error(req.context_sync):
+
+            if not req.config.timehsheet_account_analytic_id:
+               sync_stop(req.context_sync)
+               sync_logerror(req.context_sync,'Please setup Account Analytic at Weladee settings -> Timesheet')
+               return
+
             sync_logdebug(req.context_sync,"Start sync...Customer")
             req.customer_obj = self.env['res.partner']
             sync_customer(req)
 
-        if req.config.sync_timesheet and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Project")
             req.project_obj = self.env['project.project']
             req.task_obj = self.env['project.task']
             req.timesheet_obj= self.env['account.analytic.line']
             sync_project(req)
 
-        if req.config.sync_timesheet and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Task")
             sync_task(req)
 
-        if req.config.sync_timesheet and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Work type")
             req.work_type_obj = self.env['mail.activity.type']
             sync_work_type(req)
 
-        if req.config.sync_timesheet and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Timesheet")
             sync_timesheet(req)
 

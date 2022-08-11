@@ -6,7 +6,7 @@ import traceback
 import pytz
 
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
-from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error, sync_stat_skip
+from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error, sync_stat_skip, sync_period
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
 from odoo.addons.Weladee_Attendances.models.sync.weladee_employee import get_emp_odoo_weladee_ids
 from odoo.addons.Weladee_Attendances.library.weladee_lib import _convert_to_tz_time
@@ -155,7 +155,10 @@ def sync_holiday(self, req):
     weladee_holiday = False
     try:        
         sync_loginfo(req.context_sync,'[holiday] updating changes from weladee-> odoo')
-        for weladee_holiday in stub.GetHolidays(weladee_pb2.Empty(), metadata=req.config.authorization):
+
+        period = sync_period(req.config.holiday_period, req.config.holiday_period_unit)
+
+        for weladee_holiday in stub.GetHolidays(period, metadata=req.config.authorization):
             
             sync_stat_to_sync(req.context_sync['stat-hol'], 1)
             if not weladee_holiday :

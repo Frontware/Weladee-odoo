@@ -72,6 +72,8 @@ class weladee_settings_holiday(models.TransientModel):
         r.holiday_status_id = self.get_holiday_status()
         r.sick_status_id = self.get_holiday_sick_status()
         r.tz = self.get_holiday_tz()
+        r.holiday_period = self.get_holiday_period()
+        r.holiday_period_unit = self.get_holiday_period_unit()
        
         return r
 

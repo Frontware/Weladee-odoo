@@ -10,7 +10,7 @@ import traceback
 from odoo.addons.Weladee_Attendances.models.grpcproto import approval_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
-from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
+from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error, sync_period
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info
 
 _CREATE = 0 # Create new relation
@@ -228,17 +228,7 @@ def sync_approvals_request(req):
         weladee_approvals_request = None
 
         # Calculate period
-        period = odoo_pb2.Period()
-        if req.config.approval_period == 'w':
-            period.From = int((datetime.datetime.now() - relativedelta(weeks=abs(req.config.approval_period_unit))).timestamp())
-        elif req.config.approval_period == 'm':
-            period.From = int((datetime.datetime.now() - relativedelta(months=abs(req.config.approval_period_unit))).timestamp())
-        elif req.config.approval_period == 'y':
-            period.From = int((datetime.datetime.now() - relativedelta(years=abs(req.config.approval_period_unit))).timestamp())
-        elif req.config.approval_period == 'all':
-            period = weladee_pb2.Empty()
-        else:
-            period.From = int((datetime.datetime.now() - relativedelta(weeks=1)).timestamp())
+        period = sync_period(req.config.approval_period, req.config.approval_period_unit)
 
         for weladee_approvals_request in stub.GetRequests(period, metadata=req.config.authorization):
             sync_stat_to_sync(req.context_sync['stat-approvals-request'], 1)

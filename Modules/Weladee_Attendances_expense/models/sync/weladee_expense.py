@@ -8,7 +8,7 @@ import base64
 
 from odoo.addons.Weladee_Attendances.models.grpcproto.job_pb2 import ApplicationRefused
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2, weladee_pb2, expense_pb2
-from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error
+from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error, sync_period
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up,sync_stat_skip
 from odoo.addons.Weladee_Attendances.models.sync.weladee_employee import get_emp_odoo_weladee_ids
 
@@ -137,17 +137,7 @@ def sync_expense(req):
         sync_loginfo(req.context_sync,'[expense] updating changes from weladee-> odoo')
 
         # Calculate period
-        period = odoo_pb2.Period()
-        if req.config.expense_period == 'w':
-            period.From = int((datetime.datetime.now() - relativedelta(weeks=abs(req.config.expense_period_unit))).timestamp())
-        elif req.config.expense_period == 'm':
-            period.From = int((datetime.datetime.now() - relativedelta(months=abs(req.config.expense_period_unit))).timestamp())
-        elif req.config.expense_period == 'y':
-            period.From = int((datetime.datetime.now() - relativedelta(years=abs(req.config.expense_period_unit))).timestamp())
-        elif req.config.expense_period == 'all':
-            period = weladee_pb2.Empty()
-        else:
-            period.From = int((datetime.datetime.now() - relativedelta(weeks=1)).timestamp())
+        period = sync_period(req.config.expense_period, req.config.expense_period_unit)
 
         for weladee_expense in stub.GetExpenses(period, metadata=req.config.authorization):            
             

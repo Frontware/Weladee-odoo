@@ -10,7 +10,7 @@ from datetime import datetime
 from odoo import osv
 from odoo import models, fields, api, _
 
-from odoo.addons.Weladee_Attendances.models.sync.weladee_base import renew_connection, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_has_error
+from odoo.addons.Weladee_Attendances.models.sync.weladee_base import renew_connection, sync_loginfo, sync_logerror, sync_logdebug, sync_stop, sync_has_error
 from odoo.addons.Weladee_Attendances_expense.models.sync.weladee_expense import sync_expense
 from odoo.addons.Weladee_Attendances_expense.models.sync.weladee_expense_type import sync_expense_type
 
@@ -38,6 +38,16 @@ class weladee_attendance_expense(models.TransientModel):
         super(weladee_attendance_expense, self).do_sync_options(req)
 
         if req.config.sync_expense and not sync_has_error(req.context_sync):
+
+            if not req.config.expense_product_id:
+               sync_stop(req.context_sync)
+               sync_logerror(req.context_sync,'Please setup Expense product at Weladee settings -> Expense')
+               return
+
+            if not req.config.expense_journal_id:
+               sync_stop(req.context_sync)
+               sync_logerror(req.context_sync,'Please setup Expense journal at Weladee settings -> Expense')
+               return
 
             sync_logdebug(req.context_sync,"Start sync...Expense type")
             req.expense_type_obj = self.env['weladee_expense_type']

@@ -93,7 +93,7 @@ def sync_delete_log(self, req):
 
     dt_from_utc = False
     dt_delete_msg = ''
-    if req.period_settings["period"] == "all":
+    if (not dt_from) or req.period_settings["period"] == "all":
         del_ids = req.log_obj.search([])
         dt_delete_msg = 'remove all %s attendance(s) from all records' % len(del_ids)
     else:

@@ -8,9 +8,12 @@ import base64
 import re
 import subprocess
 import requests
+import datetime
+from dateutil.relativedelta import relativedelta
 
 from odoo.addons.Weladee_Attendances.models import weladee_grpc
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
+from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 
 stub = weladee_grpc.weladee_grpc_ctrl()
 myrequest = weladee_pb2.EmployeeRequest()
@@ -186,3 +189,19 @@ def sync_image(req, url):
     except Exception as e:
         sync_logdebug(req.context_sync, "image : %s" % url)
         sync_logwarn(req.context_sync, "Error when load image %s : %s" % (url, bytese or e or 'undefined'))                
+
+def sync_period(period_type, period_unit):
+    # Calculate period
+    period = odoo_pb2.Period()
+    if period_type == 'w':
+        period.From = int((datetime.datetime.now() - relativedelta(weeks=abs(period_unit))).timestamp())
+    elif period_type == 'm':
+        period.From = int((datetime.datetime.now() - relativedelta(months=abs(period_unit))).timestamp())
+    elif period_type == 'y':
+        period.From = int((datetime.datetime.now() - relativedelta(years=abs(period_unit))).timestamp())
+    elif period_type == 'all':
+        period = weladee_pb2.Empty()
+    else:
+        period.From = int((datetime.datetime.now() - relativedelta(weeks=1)).timestamp())
+
+    return period
