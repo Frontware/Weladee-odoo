@@ -496,7 +496,7 @@ class OdooServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def UpdateExpenseStatus(self, request, context):
-        """Expense can be set as refunded on Odoo, then we change status on Weladee
+        """Expense can be set as paid on Odoo, then we change status to refunded on Weladee
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
