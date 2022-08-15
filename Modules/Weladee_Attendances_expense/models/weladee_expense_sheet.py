@@ -16,9 +16,6 @@ from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub
 class weladee_expense_sheet(models.Model):
     _inherit = 'hr.expense.sheet'
 
-    def approve_expense_sheets(self):
-        return super(weladee_expense_sheet, self).with_context({'mail_create_nosubscribe':False}).approve_expense_sheets()       
-
     def write(self, vals):
         ret = super(weladee_expense_sheet, self).write(vals)
         
