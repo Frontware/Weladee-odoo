@@ -46,13 +46,17 @@ class weladee_attendance_form(models.TransientModel):
         click confirm to start synchronous
         '''
 
-        works = self.env['weladee_attendance.working'].search([])
+        works = self.env['weladee_attendance.working'].search([],limit=1,order='last_run desc')
         if works and len(works) > 0:           
            user_tz = pytz.timezone(self.env.context.get('tz') or self.env.user.tz or 'UTC')
            last_work = works.last_run
            last_run = last_work.astimezone(user_tz)
 
-           raise UserError('Caution, the task already started at %s. Please wait...' % last_run.strftime('%d/%m/%Y %H:%M'))      
+           # if last run is more than xx hours
+           h = int(self.env['ir.config_parameter'].get_param('weladee-sync-wait') or '2')
+           if h > ((datetime.datetime.utcnow() - works.last_run).seconds / 3600):
+              later = (datetime.datetime.now() + datetime.timedelta(hours=h)).astimezone(user_tz).strftime('%d/%m/%Y %H:%M')
+              raise UserError('Caution, the task already started at %s. Please wait until done or try again later lafter %s' % (last_run.strftime('%d/%m/%Y %H:%M'), later))      
 
         cron = self.env.ref('Weladee_Attendances.weladee_attendance_synchronous_cron')
         #restart cron
