@@ -76,4 +76,3 @@ class weladee_attendance_timesheet(models.TransientModel):
 
             sync_logdebug(req.context_sync,"Start sync...Timesheet")
             sync_timesheet(req)
-

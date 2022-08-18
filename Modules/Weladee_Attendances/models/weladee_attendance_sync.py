@@ -118,6 +118,8 @@ class weladee_attendance(models.TransientModel):
             
         self.do_sync_options(req)
 
+        self.do_delete_options(req)
+
         sync_loginfo(req.context_sync,'\n\nsending result to %s\n' % req.context_sync['request-email'])
         req.context_sync['request-elapse'] = str(datetime.today() - elapse_start)
         # send email status
@@ -140,6 +142,9 @@ class weladee_attendance(models.TransientModel):
 
     def do_sync_options(self, req):
         return
+
+    def do_delete_options(self, req):
+        pass
 
     def send_result_mail(self, ctx):
         '''

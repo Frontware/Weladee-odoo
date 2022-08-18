@@ -27,7 +27,7 @@ remarks:
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.edit_project"/>
             <field name="arch" type="xml">
-                <xpath expr="//div[@class='oe_button_box']" position="inside">
+                <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
                     <field name="weladee_id" invisible="1"/>
                     <button
                             name="open_weladee_project"
@@ -51,7 +51,10 @@ remarks:
                 </xpath>
                 <xpath expr="//notebook" position="before">
                     <label for="url" />
-                    <field name="url" />
+                    <field name="url" widget="url" />
+                    <br/>
+                    <label for="partner_id" />
+                    <xpath expr="//field[@name='partner_id']" position="move" />
                 </xpath>
                 <xpath expr="//notebook" position="after">
                     <label for="note" />

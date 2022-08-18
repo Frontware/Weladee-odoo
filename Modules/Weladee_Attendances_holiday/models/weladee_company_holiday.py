@@ -14,6 +14,7 @@ class weladee_company_holidays(models.Model):
     company_holiday_date = fields.Date(string='Date', required=True, default=fields.Date.today, track_visibility='always')
     company_holiday_active = fields.Boolean("Active", default=False, track_visibility='always')
     company_holiday_notes = fields.Text('Notes', track_visibility='always')
+    weladee_id = fields.Char(string="Weladee ID",copy=False)
 
     @api.onchange('company_holiday_date')
     def _onchange_company_holiday_date(self):

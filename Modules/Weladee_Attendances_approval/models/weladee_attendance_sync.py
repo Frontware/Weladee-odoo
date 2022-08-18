@@ -11,8 +11,8 @@ from odoo import osv
 from odoo import models, fields, api, _
 
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import renew_connection, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_has_error
-from odoo.addons.Weladee_Attendances_approval.models.sync.weladee_approvals_type import sync_approvals_type
-from odoo.addons.Weladee_Attendances_approval.models.sync.weladee_approvals_request import sync_approvals_request
+from odoo.addons.Weladee_Attendances_approval.models.sync.weladee_approvals_type import sync_approvals_type, delete_approvals_type
+from odoo.addons.Weladee_Attendances_approval.models.sync.weladee_approvals_request import sync_approvals_request, delete_approvals_request
 
 class weladee_attendance_approval(models.TransientModel):
     _inherit="weladee_attendance.synchronous"
@@ -57,4 +57,11 @@ class weladee_attendance_approval(models.TransientModel):
             req.approvals_approver_3_obj = self.env['fw.approvals.approver3']
 
             sync_approvals_request(req)
+
+    def do_delete_options(self, req):
+        if req.config.sync_approval:
+            delete_approvals_request(req)
+            delete_approvals_type(req)
+
+        super(weladee_attendance_approval, self).do_delete_options(req)
 

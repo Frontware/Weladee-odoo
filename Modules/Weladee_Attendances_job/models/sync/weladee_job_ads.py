@@ -96,3 +96,17 @@ def sync_job_ads(req):
             return
     #stat
     sync_stat_info(req.context_sync,'stat-job_ads','[job_ads] updating changes from weladee-> odoo')
+
+def delete_job_ads(req):
+    auditRequest = weladee_pb2.AuditRequest()
+    auditRequest.table = weladee_pb2.RecordType.TableJobAd
+
+    try:
+        rec = stub.GetDeleted(auditRequest, metadata=req.config.authorization)
+        if rec.IDs:
+            del_ids = req.jobads_obj.search([('weladee_id','in',rec.IDs)])
+            if del_ids:
+                del_ids.unlink()
+                sync_logwarn(req.context_sync, 'remove all linked job ads: %s record(s)' % len(del_ids))
+    except Exception:
+        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc())
