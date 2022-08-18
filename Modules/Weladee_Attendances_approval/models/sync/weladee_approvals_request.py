@@ -11,12 +11,8 @@ from odoo.addons.Weladee_Attendances.models.grpcproto import approval_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error, sync_period
-from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info
-
-_CREATE = 0 # Create new relation
-_UPDATE = 1 # Update relation
-_CLEAR = 5 # Clear relation
-_SET = 6 # Clear and then select relation
+from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
+from .common import _CREATE, _UPDATE, _CLEAR, _SET
 
 base_url = 'https://www.weladee.com/approval/req/'
 
@@ -240,7 +236,7 @@ def sync_approvals_request(req):
             odoo_approvals_request = sync_approvals_request_data(weladee_approvals_request, req)
 
             if odoo_approvals_request and odoo_approvals_request['res-mode'] == 'create':
-                newid = req.approvals_request_obj.with_context({'skip_validation':True}).create(odoo_approvals_request)
+                newid = req.approvals_request_obj.with_context({'skip_validation':True}).create(sync_clean_up(odoo_approvals_request))
                 if newid and newid.id:
                     if weladee_approvals_request.request.IPFS:
                         req.attach_obj.create({
@@ -256,7 +252,7 @@ def sync_approvals_request(req):
             elif odoo_approvals_request and odoo_approvals_request['res-mode'] == 'update' and 'res-id' in odoo_approvals_request:
                 odoo_id = req.approvals_request_obj.search([("id","=",odoo_approvals_request['res-id']),'|',('active','=',False),('active','=',True)], limit=1)
                 if odoo_id.id:
-                    odoo_id.with_context({'skip_validation':True}).write(odoo_approvals_request)
+                    odoo_id.with_context({'skip_validation':True}).write(sync_clean_up(odoo_approvals_request))
                     if weladee_approvals_request.request.IPFS:
                         odoo_attach = req.attach_obj.search([('res_model','=',model_id),('res_id','=',odoo_id.id)], limit=1)
                         if not odoo_attach.id or (odoo_attach.id and odoo_attach.url != weladee_approvals_request.request.IPFS):
@@ -281,3 +277,21 @@ def sync_approvals_request(req):
            return
     
     sync_stat_info(req.context_sync,'stat-approvals-request','[approvals request] updating changes from weladee-> odoo')
+
+def delete_approvals_request(req):
+    auditRequest = weladee_pb2.AuditRequest()
+    auditRequest.table = weladee_pb2.RecordType.TableApprovalRequest
+
+    try:
+        rec = stub.GetDeleted(auditRequest, metadata=req.config.authorization)
+        if rec.IDs:
+            try:
+                del_ids = req.approvals_request_obj.search([('weladee_id','in',rec.IDs),'|',('active','=',True),('active','=',False)])
+                if del_ids:
+                    del_ids.unlink()
+                    sync_logwarn(req.context_sync, 'remove all linked approval requests: %s record(s)' % len(del_ids))
+            except Exception:
+                if del_ids:
+                    del_ids.write({'active': False})
+    except Exception:
+        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc())

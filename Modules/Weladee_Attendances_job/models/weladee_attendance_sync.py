@@ -11,8 +11,8 @@ from odoo import osv
 from odoo import models, fields, api, _
 
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import renew_connection, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_has_error
-from odoo.addons.Weladee_Attendances_job.models.sync.weladee_job_ads import sync_job_ads
-from odoo.addons.Weladee_Attendances_job.models.sync.weladee_job_app import sync_job_applicant
+from odoo.addons.Weladee_Attendances_job.models.sync.weladee_job_ads import sync_job_ads, delete_job_ads
+from odoo.addons.Weladee_Attendances_job.models.sync.weladee_job_app import sync_job_applicant, delete_job_applicant
 
 class weladee_attendance_job(models.TransientModel):
     _inherit="weladee_attendance.synchronous"
@@ -53,3 +53,10 @@ class weladee_attendance_job(models.TransientModel):
             req.utm_source_obj = self.env['utm.source']
             req.translation_obj = self.env['ir.translation']
             sync_job_applicant(req)
+
+    def do_delete_options(self, req):
+        if req.config.sync_job:
+            delete_job_applicant(req)
+            delete_job_ads(req)
+
+        super(weladee_attendance_job, self).do_delete_options(req)

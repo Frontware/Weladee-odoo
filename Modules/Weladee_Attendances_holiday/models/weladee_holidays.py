@@ -14,6 +14,7 @@ from odoo.addons.Weladee_Attendances.library.weladee_translation import allocate
 class weladee_holidays(models.Model):
     _inherit = 'hr.leave'
 
+    weladee_id = fields.Char(string="Weladee ID",copy=False)
     weladee_code = fields.Char('Weladee Code')
     weladee_sick = fields.Boolean('Sick')
     day_part = fields.Selection([
