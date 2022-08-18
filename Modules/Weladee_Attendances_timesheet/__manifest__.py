@@ -25,6 +25,7 @@
 "category" : "Generic Modules",
 'summary': 'Weladee-Odoo attendances\'s module',
 "depends" : ['hr_timesheet', 
+             'hr_timesheet_attendance',
              'Weladee_Attendances'],
 "data" :[
         "wizards/weladee_attendance_settings.xml",
