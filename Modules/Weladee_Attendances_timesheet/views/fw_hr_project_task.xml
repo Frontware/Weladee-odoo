@@ -27,7 +27,7 @@ remarks:
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="arch" type="xml">
-                <xpath expr="//div[@class='oe_button_box']" position="inside">
+                <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
                     <field name="weladee_id" invisible="1"/>
                     <button
                             name="open_weladee_task"

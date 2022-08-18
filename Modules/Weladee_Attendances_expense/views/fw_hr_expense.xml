@@ -79,7 +79,7 @@
                 <xpath expr="//field[@name='reference']" position="before">
                     <field name="request_amount" readonly="1" />
                 </xpath>
-                <xpath expr="//div[@class='oe_button_box']" position="inside">
+                <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
                     <field name="weladee_id" invisible="1"/>
                     <button
                             name="open_weladee_expense"
