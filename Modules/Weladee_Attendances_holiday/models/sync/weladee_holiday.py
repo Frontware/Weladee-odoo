@@ -19,7 +19,8 @@ def sync_company_holiday_data(weladee_holiday, req):
     data = {'company_holiday_description': weladee_holiday.Holiday.NameEnglish or weladee_holiday.Holiday.NameThai,
             'company_holiday_date': date,
             'company_holiday_active':weladee_holiday.Holiday.active,
-            'company_holiday_notes':'sync from weladee %s' % weladee_holiday.Holiday.ID}
+            'company_holiday_notes':'sync from weladee %s' % weladee_holiday.Holiday.ID,
+            'weladee_id': weladee_holiday.Holiday.ID}
     data['res-type'] = 'company'
     # look if there is odoo record with same time
     # if not found then create else update    
@@ -70,6 +71,7 @@ def sync_holiday_data(weladee_holiday, req, leaves_types):
             'employee_id':req.employee_odoo_weladee_ids.get('%s' % weladee_holiday.Holiday.EmployeeID,False),
             'holiday_status_id': req.config.holiday_status_id,            
             'holiday_type':'employee',
+            'weladee_id': weladee_holiday.Holiday.ID,
             'weladee_code': weladee_holiday.Holiday.code,
             'weladee_sick': weladee_holiday.Holiday.sickLeave,
             'day_part': str(weladee_holiday.Holiday.DayPart),
@@ -85,7 +87,7 @@ def sync_holiday_data(weladee_holiday, req, leaves_types):
 
        data['date_from'] = df
        data['date_to'] = dt
-       data['request_date_from']: df
+       data['request_date_from'] = df
        data['request_date_to'] = dt
     
     # 2018-11-14 KPO allow multiple type, but default come from setting
@@ -159,7 +161,6 @@ def sync_holiday(self, req):
         period = sync_period(req.config.holiday_period, req.config.holiday_period_unit)
 
         for weladee_holiday in stub.GetHolidays(period, metadata=req.config.authorization):
-            
             sync_stat_to_sync(req.context_sync['stat-hol'], 1)
             if not weladee_holiday :
                sync_logwarn(req.context_sync,'weladee holiday is empty')
@@ -248,3 +249,23 @@ def sync_holiday(self, req):
             return
     #stat
     sync_stat_info(req.context_sync,'stat-hol','[holiday] updating changes from weladee-> odoo')
+
+def delete_holiday(req):
+    auditRequest = weladee_pb2.AuditRequest()
+    auditRequest.table = weladee_pb2.RecordType.TableHoliday
+
+    try:
+        rec = stub.GetDeleted(auditRequest, metadata=req.config.authorization)
+        for weladee_id in rec.IDs:
+            del_id = req.leave_obj.search([('weladee_id','=',weladee_id)])
+            if del_id.id:
+                del_id.unlink()
+                sync_logwarn(req.context_sync, 'remove leave %s' % del_id.id)
+                continue
+
+            del_id = req.company_holiday_obj.search([('weladee_id','=',weladee_id)])
+            if del_id.id:
+                del_id.unlink()
+                sync_logwarn(req.context_sync, 'remove company holiday %s' % del_id.id)
+    except Exception:
+        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc())

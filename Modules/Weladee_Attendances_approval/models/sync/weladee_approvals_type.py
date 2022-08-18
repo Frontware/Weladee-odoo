@@ -5,21 +5,12 @@ from odoo.addons.Weladee_Attendances.models.grpcproto import approval_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error, sync_image
-from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info
-
-_CREATE = 0 # Create new relation
-_UPDATE = 1 # Update relation
-_CLEAR = 5 # Clear relation
-_SET = 6 # Clear and then select relation
+from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
+from .common import add_translation, _CREATE, _UPDATE, _CLEAR, _SET
 
 base_url = 'https://www.weladee.com/approval/type/'
 
 model_id = 'fw.approvals.type'
-
-lang_dict = {
-    'en_US':'english',
-    'th_TH':'thai',
-}
 
 def sync_approvals_type_data_show_field_date(weladee_approvals_type):
     '''
@@ -212,17 +203,17 @@ def sync_approvals_type(req):
             odoo_approvals_type, translation_req = sync_approvals_type_data(weladee_approvals_type, req)
 
             if odoo_approvals_type and odoo_approvals_type['res-mode'] == 'create':
-                newid = req.approvals_type_obj.create(odoo_approvals_type)
+                newid = req.approvals_type_obj.create(sync_clean_up(odoo_approvals_type))
                 if newid and newid.id:
-                    add_translation(newid.id, translation_req, req, lang='th_TH')
+                    add_translation(newid.id, model_id, translation_req, req, lang='th_TH')
                     sync_stat_create(req.context_sync['stat-approvals-type'], 1)
                 else:
                     sync_stat_error(req.context_sync['stat-approvals-type'], 1)
             elif odoo_approvals_type and odoo_approvals_type['res-mode'] == 'update' and 'res-id' in odoo_approvals_type:
                 odoo_id = req.approvals_type_obj.search([("id","=",odoo_approvals_type['res-id']),'|',('active','=',False),('active','=',True)], limit=1)
                 if odoo_id.id:
-                    odoo_id.write(odoo_approvals_type)
-                    add_translation(odoo_id.id, translation_req, req, lang='th_TH')
+                    odoo_id.write(sync_clean_up(odoo_approvals_type))
+                    add_translation(odoo_id.id, model_id, translation_req, req, lang='th_TH')
                     sync_stat_update(req.context_sync['stat-approvals-type'], 1)
                 else:
                     sync_logerror(req.context_sync, 'Odoo appoval type not found for : %s' % weladee_approvals_type)
@@ -235,16 +226,20 @@ def sync_approvals_type(req):
     
     sync_stat_info(req.context_sync,'stat-approvals-type','[approvals type] updating changes from weladee-> odoo')
 
-def add_translation(identifiers, translation_req, req, lang='en_US'):
-    if lang not in lang_dict:
-        return
-    
-    if isinstance(identifiers, int):
-        identifiers = [identifiers]
-    
-    prefix = lang_dict[lang] + '_'
-    for field in filter(lambda f: f.startswith(prefix), translation_req):
-        field_name = field[len(prefix):]
-        name = ','.join([model_id, field_name])
-        value = translation_req[field]
-        req.translation_obj._set_ids(name, 'model', lang, identifiers, value)
+def delete_approvals_type(req):
+    auditRequest = weladee_pb2.AuditRequest()
+    auditRequest.table = weladee_pb2.RecordType.TableApprovalType
+
+    try:
+        rec = stub.GetDeleted(auditRequest, metadata=req.config.authorization)
+        if rec.IDs:
+            try:
+                del_ids = req.approvals_type_obj.search([('weladee_id','in',rec.IDs),'|',('active','=',True),('active','=',False)])
+                if del_ids:
+                    del_ids.unlink()
+                    sync_logwarn(req.context_sync, 'remove all linked approval types: %s record(s)' % len(del_ids))
+            except Exception:
+                if del_ids:
+                    del_ids.write({'active': False})
+    except Exception:
+        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc())

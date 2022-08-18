@@ -159,6 +159,13 @@ Simple code parsing a stream of log events that need to be synchronized with Odo
 
 If records have been deleted on Weladee, you will call gRPC function **GetDeleted**. It will return all IDs of deleted record for a specific table.
 
+**GetDeleted** is called on the following tables:
+
+- Approval
+- Holiday
+- Job
+- Skill
+
 
 ![](https://img.shields.io/badge/Developed%20by%20-Frontware%20International-orange)
 --------------------------------------------------------------

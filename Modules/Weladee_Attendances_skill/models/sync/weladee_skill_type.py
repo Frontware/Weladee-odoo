@@ -76,3 +76,17 @@ def sync_skill_type(req):
            return
     
     sync_stat_info(req.context_sync,'stat-skill-type','[skill type] updating changes from weladee-> odoo')
+
+def delete_skill_type(req):
+    auditRequest = weladee_pb2.AuditRequest()
+    auditRequest.table = weladee_pb2.RecordType.TableSkillType
+
+    try:
+        rec = stub.GetDeleted(auditRequest, metadata=req.config.authorization)
+        if rec.IDs:
+            del_ids = req.skill_type_obj.search([('weladee_id','in',rec.IDs)])
+            if del_ids:
+                del_ids.unlink()
+                sync_logwarn(req.context_sync, 'remove all linked skill types: %s record(s)' % len(del_ids))
+    except Exception:
+        sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc())
