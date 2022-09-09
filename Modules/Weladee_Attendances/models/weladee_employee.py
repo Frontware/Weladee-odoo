@@ -297,32 +297,32 @@ class weladee_employee(models.Model):
             WeladeeData.odoo.odoo_synced_on = int(time.time())
 
             if "first_name_english" in vals:
-              WeladeeData.employee.FirstNameEnglish = vals.get("first_name_english", '')
+              WeladeeData.employee.FirstNameEnglish = vals.get("first_name_english", '') or ''
             else:
               WeladeeData.employee.FirstNameEnglish = employee_odoo.first_name_english or ''
 
             if "last_name_english" in vals :
-              WeladeeData.employee.LastNameEnglish = vals.get("last_name_english", '')
+              WeladeeData.employee.LastNameEnglish = vals.get("last_name_english", '') or ''
             else:
               WeladeeData.employee.LastNameEnglish = employee_odoo.last_name_english or ''
 
             if "first_name_thai" in vals:
-              WeladeeData.employee.FirstNameThai = vals.get("first_name_thai", '')
+              WeladeeData.employee.FirstNameThai = vals.get("first_name_thai", '') or ''
             else:
               WeladeeData.employee.FirstNameThai = employee_odoo.first_name_thai or ''
 
             if "last_name_thai" in vals :
-              WeladeeData.employee.LastNameThai = vals.get("last_name_thai", '')
+              WeladeeData.employee.LastNameThai = vals.get("last_name_thai", '') or ''
             else:
               WeladeeData.employee.LastNameThai = employee_odoo.last_name_thai or ''
 
             if "nick_name_english" in vals :
-              WeladeeData.employee.nickname_english = vals.get("nick_name_english", '')
+              WeladeeData.employee.nickname_english = vals.get("nick_name_english", '') or ''
             else:
               WeladeeData.employee.nickname_english = employee_odoo.nick_name_english or ''
 
             if "nick_name_thai" in vals :
-              WeladeeData.employee.nickname_thai = vals.get("nick_name_thai", '')
+              WeladeeData.employee.nickname_thai = vals.get("nick_name_thai", '') or ''
             else:
               WeladeeData.employee.nickname_thai = employee_odoo.nick_name_thai or ''
 
