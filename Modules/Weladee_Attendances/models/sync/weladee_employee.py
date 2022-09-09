@@ -289,8 +289,18 @@ def sync_employee(req):
         newEmployee.odoo.odoo_created_on = int(time.time())
         newEmployee.odoo.odoo_synced_on = int(time.time())
 
-        newEmployee.employee.FirstNameEnglish = odoo_employee.first_name_english or odoo_employee.name
-        newEmployee.employee.LastNameEnglish = odoo_employee.last_name_english or bytes()
+        feng = odoo_employee.first_name_english or ''
+        leng = odoo_employee.last_name_english or ''
+        fnams = (odoo_employee.name or '').split(' ')
+        if len(fnams) > 0: 
+           if not feng: feng = fnams[0] 
+        if len(fnams) > 1: 
+           if not leng: 
+              del fnams[0]
+              leng = ' '.join(fnams)
+
+        newEmployee.employee.FirstNameEnglish = feng
+        newEmployee.employee.LastNameEnglish = leng or bytes()
         newEmployee.employee.FirstNameThai = odoo_employee.first_name_thai or ''
         newEmployee.employee.LastNameThai = odoo_employee.last_name_thai or ''
         newEmployee.employee.nickname_english = odoo_employee.nick_name_english or ''

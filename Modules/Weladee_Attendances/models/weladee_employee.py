@@ -138,7 +138,8 @@ class weladee_employee(models.Model):
                   if len(defs) > 0:                  
                      WeladeeData.employee.FirstNameEnglish = defs[0]
                   if len(defs) > 1:
-                    WeladeeData.employee.LastNameEnglish = defs[0]
+                     del defs[0]
+                     WeladeeData.employee.LastNameEnglish = ' '.join(defs)
 
             if "first_name_thai" in vals:
                 WeladeeData.employee.FirstNameThai = vals["first_name_thai"] or ''
@@ -592,7 +593,7 @@ class weladee_employee(models.Model):
         
         if (len(vals.keys) == 1) and ('leave_manager_id' in vals):
            return ret
-             
+
         # created, updated from odoo, always send
         # when create didn't success sync to weladeec
         # next update, try create again
