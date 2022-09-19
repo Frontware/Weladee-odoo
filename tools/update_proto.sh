@@ -20,23 +20,9 @@ fi
 
 echo
 echo update..
+rm -R -f ../weladee/Modules/Weladee_Attendances/models/grpcproto/*
 cp python/* ../weladee/Modules/Weladee_Attendances/models/grpcproto
 
-echo
-echo fix...
-# fix import  
-for file in ../weladee/Modules/Weladee_Attendances/models/grpcproto/*
-do
-    echo change $file ..
-    sed -i "s|import weladee_pb2 as|from . import weladee_pb2 as|g" $file
-    sed -i "s|import timesheet_pb2 as|from . import timesheet_pb2 as|g" $file
-    sed -i "s|import expense_pb2 as|from . import expense_pb2 as|g" $file
-    sed -i "s|import approval_pb2 as|from . import approval_pb2 as|g" $file
-    sed -i "s|import skill_pb2 as|from . import skill_pb2 as|g" $file
-    sed -i "s|import job_pb2 as|from . import job_pb2 as|g" $file
-    sed -i "s|import odoo_pb2 as|from . import odoo_pb2 as|g" $file
-
-done
 
 echo 
 echo copying...done

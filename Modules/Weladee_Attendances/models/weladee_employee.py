@@ -591,7 +591,7 @@ class weladee_employee(models.Model):
         # if don't need to sync when there is weladee-id in vals
         # case we don't need to send to weladee, like just update weladee-id in odoo
         
-        if (len(vals.keys) == 1) and ('leave_manager_id' in vals):
+        if (len(vals.keys()) == 1) and ('leave_manager_id' in vals):
            return ret
 
         # created, updated from odoo, always send

@@ -14,6 +14,7 @@ class weladee_account_analytic_line(models.Model):
     is_weladee = fields.Boolean(compute='_compute_from_weladee', copy=False, readonly=True, store=True)
     work_type_id = fields.Many2one('mail.activity.type', string='Work type')
     weladee_cost = fields.Float(string="Weladee cost",digits=(12,2))
+    time_to_charge  = fields.Float(string="Time to charge",digits=(12,2))
 
     def open_weladee_timesheet(self):
       '''

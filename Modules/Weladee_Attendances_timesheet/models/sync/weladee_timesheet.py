@@ -7,6 +7,7 @@ from dateutil.relativedelta import relativedelta
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2, weladee_pb2
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error, sync_period
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
+from odoo.addons.Weladee_Attendances.models.sync.weladee_employee import get_emp_odoo_weladee_ids
 
 def sync_timesheet_data(weladee_timesheet, req):
     '''
@@ -21,6 +22,7 @@ def sync_timesheet_data(weladee_timesheet, req):
             'unit_amount': weladee_timesheet.Sheet.TimeSpent / 60,
             'weladee_cost': weladee_timesheet.Sheet.Cost,
             'account_id': req.config.timehsheet_account_analytic_id,
+            'time_to_charge': weladee_timesheet.Sheet.TimeToCharge,
             'work_type_id': req.work_type_odoo_weladee_ids.get(str(weladee_timesheet.Sheet.WorkTypeID),False)
             }
     data['res-mode'] = 'create'
@@ -58,6 +60,11 @@ def sync_timesheet(req):
     for ec in req.work_type_obj.search([('weladee_id','!=',False)]):
         req.work_type_odoo_weladee_ids[ec.weladee_id] = ec.id
 
+    #if empty, create one 
+    if not req.employee_odoo_weladee_ids: 
+        sync_logdebug(req.context_sync, 'getting all employee-weladee link') 
+        req.employee_odoo_weladee_ids = get_emp_odoo_weladee_ids(req)
+
     odoo_timesheet = False
     weladee_timesheet = False
 
@@ -68,6 +75,7 @@ def sync_timesheet(req):
         period = sync_period(req.config.timesheet_period, req.config.timesheet_period_unit)
 
         for weladee_timesheet in stub.GetTimeSheets(period, metadata=req.config.authorization):
+            print(weladee_timesheet)
             
             sync_stat_to_sync(req.context_sync['stat-timesheet'], 1)
             if not weladee_timesheet :
