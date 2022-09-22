@@ -46,6 +46,7 @@ remarks:
                 <xpath expr="//field[@name='type_id']" position="after">
                     <field name="gender" />
                     <field name="lang_id" />
+                    <field name="linkedin_profile_url" widget="url" />
                 </xpath>
                 <xpath expr="//field[@name='source_id']" position="after">
                     <field name="date_apply" />

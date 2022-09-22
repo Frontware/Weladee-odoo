@@ -22,6 +22,7 @@ class weladee_job_app(models.Model):
         ('female', 'Female'),
         ('other', 'Other')])
     lang_id = fields.Many2one('res.lang', string='Language')
+    linkedin_profile_url = fields.Char('LinkedIn Profile')
     date_apply = fields.Datetime(string='Apply date')
     note = fields.Text(string='Note')
     hide_edit_btn_css = fields.Html(string='css', sanitize=False, compute='_compute_css')

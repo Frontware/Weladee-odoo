@@ -37,6 +37,7 @@ def sync_job_app_data(weladee_job_app, req):
             'date_apply': datetime.datetime.fromtimestamp( weladee_job_app.JobApplication.Timestamp ),
             'partner_name': ' '.join([weladee_job_app.JobApplication.FirstName,weladee_job_app.JobApplication.LastName]),
             'source_id': req.utm_source_obj.search([('name','=','Weladee')], limit=1).id,
+            'linkedin_profile_url': weladee_job_app.JobApplication.LinkedInProfileURL,
             'active': weladee_job_app.JobApplication.Status != ApplicationRefused
             }        
     jobadid = req.job_ads_odoo_weladee_ids.get(weladee_job_app.JobApplication.JobAdID, False)
