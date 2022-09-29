@@ -242,6 +242,7 @@ def sync_holiday(self, req):
                         self.env.ref('hr_holidays.open_department_holidays_allocation_approve').id)
                     template.with_context({'email-to':bget_holiday_notify_email,
                                            'employee': emp_name,
+                                           'code': weladee_holiday.Holiday.code,
                                            'url':allocation_url}).send_mail(self.id)        
 
 
