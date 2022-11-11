@@ -48,6 +48,7 @@ remarks:
                     <attribute name="optional">hide</attribute>
                 </xpath>
                 <xpath expr="//field[@name='unit_amount']" position="after">
+                    <field name="time_to_charge" optional="show" />
                     <field name="weladee_id" invisible="1"/>
                     <button
                             name="open_weladee_timesheet"

@@ -2,3 +2,69 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
+from . import timesheet_pb2 as timesheet__pb2
+
+
+class TimeSheetStub(object):
+    """This service is for customer to access the timesheet data
+    """
+
+    def __init__(self, channel):
+        """Constructor.
+
+        Args:
+            channel: A grpc.Channel.
+        """
+        self.GetTimeSheets = channel.unary_unary(
+                '/grpc.weladee.com.TimeSheet/GetTimeSheets',
+                request_serializer=timesheet__pb2.ShareSheetRequest.SerializeToString,
+                response_deserializer=timesheet__pb2.SharedSheet.FromString,
+                )
+
+
+class TimeSheetServicer(object):
+    """This service is for customer to access the timesheet data
+    """
+
+    def GetTimeSheets(self, request, context):
+        """Return a stream of timesheet
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+
+def add_TimeSheetServicer_to_server(servicer, server):
+    rpc_method_handlers = {
+            'GetTimeSheets': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetTimeSheets,
+                    request_deserializer=timesheet__pb2.ShareSheetRequest.FromString,
+                    response_serializer=timesheet__pb2.SharedSheet.SerializeToString,
+            ),
+    }
+    generic_handler = grpc.method_handlers_generic_handler(
+            'grpc.weladee.com.TimeSheet', rpc_method_handlers)
+    server.add_generic_rpc_handlers((generic_handler,))
+
+
+ # This class is part of an EXPERIMENTAL API.
+class TimeSheet(object):
+    """This service is for customer to access the timesheet data
+    """
+
+    @staticmethod
+    def GetTimeSheets(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/grpc.weladee.com.TimeSheet/GetTimeSheets',
+            timesheet__pb2.ShareSheetRequest.SerializeToString,
+            timesheet__pb2.SharedSheet.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

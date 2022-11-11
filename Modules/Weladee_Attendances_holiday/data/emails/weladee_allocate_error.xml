@@ -15,7 +15,7 @@
 <div>
 <p>Hi,
 <br/><br/>
-This employee ${ctx.get('employee','')} has not enough Leaves Allocation Request, which makes current synchronization stopped.<br/>
+This employee ${ctx.get('employee','')} has not enough Leaves Allocation Request (code = ${ctx.get('code','')}), which makes current synchronization stopped.<br/>
 <br/>
 Please go to Leaves -> Leaves to Approve -> <a href="${ctx.get('url','#')|safe}">Leaves Allocation</a> to define
 </p>
