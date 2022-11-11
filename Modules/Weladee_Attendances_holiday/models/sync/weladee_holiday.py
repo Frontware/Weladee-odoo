@@ -77,18 +77,18 @@ def sync_holiday_data(weladee_holiday, req, leaves_types):
             'day_part': str(weladee_holiday.Holiday.DayPart),
             'state':'validate'}                
     
-    if weladee_holiday.Holiday.DayPart == weladee_pb2.Morning or weladee_holiday.Holiday.DayPart == weladee_pb2.AfterNoon:
+    if (weladee_holiday.Holiday.DayPart == weladee_pb2.Morning) or (weladee_holiday.Holiday.DayPart == weladee_pb2.AfterNoon):
        data['number_of_days'] = 0.5
        
        if weladee_holiday.Holiday.DayPart == weladee_pb2.Morning:
-          dt = dt + datetime.timedelta(hours=12)
+          dt = df + datetime.timedelta(hours=12)
        elif weladee_holiday.Holiday.DayPart == weladee_pb2.AfterNoon:
-          df = df + datetime.timedelta(hours=12)  
+          df = dt - datetime.timedelta(hours=12)  
 
        data['date_from'] = df
        data['date_to'] = dt
-       data['request_date_from'] = df
-       data['request_date_to'] = dt
+       data['request_date_from'] = df0
+       data['request_date_to'] = df0
     
     # 2018-11-14 KPO allow multiple type, but default come from setting
     if weladee_holiday.Holiday.code in leaves_types:
