@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 
 	purpose : email template for sync
+    
+    2022-12-28 KPO updated to odoo 16.0
  -->
 <odoo>
     <data noupdate="1">
@@ -8,50 +10,51 @@
         <record id="weladee_attendance_synchronous_cron_mail" model="mail.template">
             <field name="name">Weladee Attendance: Synchronization task</field>
             <field name="email_from"></field>
-            <field name="email_to">${ctx.get('request-email','')}</field>
-            <field name="subject">Weladee Attendance Synchronization [${ctx.get('request-status','')}]: Synchronization task's result from request at ${ctx.get('request-date','')}</field>
+            <field name="email_to">{{ctx.get('request-email','')}}</field>
+            <field name="subject">Weladee Attendance Synchronization [{{ctx.get('request-status','')}}]: Synchronization task's result from request at {{ctx.get('request-date','')}}</field>
             <field name="model_id" ref="model_weladee_attendance_synchronous"/>
             <field name="body_html" type="html">
 <div>
 <p>Hi,
 <br/>
-There is a request to do Weladee Synchronization at ${ctx.get('request-date')}
+There is a request to do Weladee Synchronization at <t t-out="ctx.get('request-date')" />
 </p>
-% if ctx.get('request-error',False):
+<t t-if="ctx.get('request-error', False)">
     There is an error occured when run Synchronization:<br/>
     <ul>
-    % for err in ctx.get('request-logs'):
-      % if err[0] == 'e'
-        <li style="color:red">${err[1]}</li>
-      % endif
-    % endfor
+    <t t-foreach="ctx.get('request-logs')" t-as="err">:
+      <t t-if="err[0] == 'e'">
+        <li style="color:red"><t t-esc="err[1]"/></li>
+      </t>
+    </t>
     </ul>
-% else:
-
-    % if ctx.get('request-logs-y',False) == 'Y':
+</t>
+<t t-if="not ctx.get('request-error', False)">
+    <t t-if="ctx.get('request-logs-y',False) == 'Y'">
 
         There is an error occured when run Synchronization:<br/>
         <ul>
-            % for err in ctx.get('request-logs'):
-                % if err[0] == 'e'
-                <li style="color:red">${err[1]}</li>
-                % endif
-            % endfor
+            <t t-foreach="ctx.get('request-logs')" t-as="err">:
+                <t t-if="err[0] == 'e'">
+                    <li style="color:red"><t t-esc="err[1]"/></li>
+                </t>
+            </t>
         </ul>
 
-    % else:
+    </t>
+    <t t-if="ctx.get('request-logs-y',False) != 'Y'">
 
         These data are successfully sync with Weladee:
         <ul>
-            ${ctx.get('features') | safe}
+            <t t-out="ctx.get('features')"/>
         </ul>
 
-    % endif
+    </t>
 
-% endif
+</t>
 </div>
 <p>
-*This request and email are generated on database = ${user.env.cr.dbname} within ${ctx.get('request-elapse')}
+*This request and email are generated on database = <t t-out="user.env.cr.dbname"/> within <t t-out="ctx.get('request-elapse')"/>
 </p>
 </field>
         </record>
@@ -60,70 +63,69 @@ There is a request to do Weladee Synchronization at ${ctx.get('request-date')}
             <field name="name">Weladee Attendance: Synchronization task (debug)</field>
             <field name="email_from"></field>
             <field name="email_to"></field>
-            <field name="subject">Weladee Attendance Synchronization [${ctx.get('request-status','')}]: Synchronization task's result from request at ${ctx.get('request-date','')}</field>
+            <field name="subject">Weladee Attendance Synchronization [{{ctx.get('request-status','')}}]: Synchronization task's result from request at {{ctx.get('request-date','')}}</field>
             <field name="model_id" ref="model_weladee_attendance_synchronous"/>
             <field name="body_html" type="html">
 <div>
 <p>Hi,
 <br/>
-There is a request to do Weladee Synchronization at ${ctx.get('request-date')}
+There is a request to do Weladee Synchronization at <t t-out="ctx.get('request-date')" />
 </p>
-% if ctx.get('request-error',False):
+<t t-if="ctx.get('request-error', False)">
     There is an error occured when run Synchronization:<br/>
     <ul>
-    % for err in ctx.get('request-logs'):
-      % if err[0] == 'e'
-        <li style="color:red">${err[1]}</li>
-      % endif
-    % endfor
+    <t t-foreach="ctx.get('request-logs')" t-as="err">:
+      <t t-if="err[0] == 'e'">
+        <li style="color:red"><t t-esc="err[1]"/></li>
+      </t>
+    </t>
     </ul>
-% else:
-
-    % if ctx.get('request-logs-y',False) == 'Y':
+</t>
+<t t-if="not ctx.get('request-error', False)">
+    <t t-if="ctx.get('request-logs-y',False) == 'Y'">
 
         There is an error occured when run Synchronization:<br/>
         <ul>
-            % for err in ctx.get('request-logs'):
-                % if err[0] == 'e'
-                <li style="color:red">${err[1]}</li>
-                % endif
-            % endfor
+            <t t-foreach="ctx.get('request-logs')" t-as="err">
+                <t t-if="err[0] == 'e'">
+                    <li style="color:red"><t t-esc="err[1]"/></li>
+                </t>
+            </t>
         </ul>
 
-    % else:
+    </t>
+    <t t-if="ctx.get('request-logs-y',False) != 'Y'">
 
         These data are successfully sync with Weladee:
         <ul>
-            ${ctx.get('features') | safe}
+            <t t-out="ctx.get('features')"/>
         </ul>
 
-    % endif
-
-% endif
-
-% if ctx.get('request-debug',''):
+    </t>
+</t>
+<t t-if="ctx.get('request-debug','')">
     <br/>
     log info:<br/>
     <ul>
-        % for err in ctx.get('request-logs'):
-            % if err[0] == 'e'
-                <li style="color:red"><b>${err[1]}</b></li>
-            % endif
-            % if err[0] == 'w'
-                <li style="color:orange"><i>${err[1]}</i></li>
-            % endif
-            % if err[0] == 'd':
-                <li>---${err[1]}</li>
-            % endif
-            % if err[0] == 'i'
-                <li>${err[1]}</li>
-            % endif
-        % endfor
+        <t t-foreach="ctx.get('request-logs')" t-as="err">
+            <t t-if="err[0] == 'e'">
+                <li style="color:red"><b><t t-esc="err[1]"/></b></li>
+            </t>
+            <t t-if="err[0] == 'w'">
+                <li style="color:orange"><i><t t-esc="err[1]"/></i></li>
+            </t>
+            <t t-if="err[0] == 'd'">
+                <li>---<t t-esc="err[1]"/></li>
+            </t>
+            <t t-if="err[0] == 'i'">
+                <li><t t-esc="err[1]"/></li>
+            </t>
+        </t>
     </ul>
-% endif
+</t>
 </div>
 <p>
-*This request and email are generated on database = ${user.env.cr.dbname} within ${ctx.get('request-elapse')}
+*This request and email are generated on database = <t t-out="user.env.cr.dbname"/> within <t t-out="ctx.get('request-elapse')"/>
 </p>
 </field>
         </record>

@@ -187,3 +187,11 @@ class weladee_department(models.Model):
                 record.is_weladee = True
             else:
                 record.is_weladee = False
+
+    def open_weladee(self):
+        return {
+                'name': _('Department'),
+                'type': 'ir.actions.act_url',
+                'url': 'https://www.weladee.com/department/%s' % self.weladee_id,
+                'target': 'new'
+        }

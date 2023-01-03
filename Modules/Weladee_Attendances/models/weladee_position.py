@@ -132,3 +132,11 @@ class weladee_job(models.Model):
                 record.is_weladee = True
             else:
                 record.is_weladee = False
+
+    def open_weladee(self):
+        return {
+                'name': _('Department'),
+                'type': 'ir.actions.act_url',
+                'url': 'https://www.weladee.com/position/%s' % self.weladee_id,
+                'target': 'new'
+        }

@@ -16,5 +16,27 @@
                 </xpath>
             </field>
         </record>
+
+        <record id="weladee_fw_hr_position_form" model="ir.ui.view">
+            <field name="name">weladee_fw_hr_position_form</field>
+            <field name="model">hr.job</field>
+            <field name="inherit_id" ref="hr.view_hr_job_form"/>
+            <field name="arch" type="xml">        
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <field name="weladee_id" invisible="1" />
+                    <button
+                            name="open_weladee"
+                            class="oe_stat_button"
+                            type="object"
+                            widget="url"
+                            attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}">
+                            <div role="img" class="o_button_icon icon-weladee"/>
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Position</span>
+                            </div>                            
+                    </button>
+                </xpath>        
+            </field>
+        </record>
     </data>
 </odoo>
