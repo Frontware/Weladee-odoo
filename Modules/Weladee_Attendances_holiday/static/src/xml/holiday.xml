@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <templates>
-    <t t-extend="hr_holidays.dashboard.calendar.button">
-        <t t-jquery="button.btn" t-operation="replace">
-            
-        </t>
+    <t t-name="Weladee_Attendances_holiday.cal.ctrl.buttons" 
+       t-inherit="hr_holidays.CalendarController.controlButtons" t-inherit-mode="extension" owl="1">
+
+        <xpath expr="//span[hasclass('o_timeoff_buttons')]" position="replace" />
+
     </t>
 </templates>
