@@ -20,7 +20,7 @@
 ##############################################################################
 {
 "name" : "Weladee attendances holiday module",
-"version" : "5.00",
+"version" : "6.00",
 "author" : "Frontware International",
 "category" : "Generic Modules",
 'summary': 'Weladee-Odoo attendances\'s module',

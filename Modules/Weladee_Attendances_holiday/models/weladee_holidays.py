@@ -34,3 +34,11 @@ class weladee_holidays(models.Model):
                 record.weladee_code = True
             else:
                 record.weladee_code = False
+
+    def open_weladee(self):
+        return {
+                'name': _('TimeOff'),
+                'type': 'ir.actions.act_url',
+                'url': 'https://www.weladee.com/holiday/employee',
+                'target': 'new'
+        }
