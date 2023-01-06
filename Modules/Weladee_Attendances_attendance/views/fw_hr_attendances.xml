@@ -4,6 +4,7 @@ customize HR Attendance form
 
 remarks:
 2018-05-25 KPO created    
+2023-01-06 KPO updated to odoo 16.0
 -->
 <odoo>
     <data>
@@ -56,5 +57,17 @@ remarks:
             </field>
         </record>      
          
+        <record id="weladee_att_hr_att_kan" model="ir.ui.view">
+            <field name="name">weladee_att_hr_att_kan</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.view_hr_attendance_kanban"/>
+            <field name="arch" type="xml">
+               <xpath expr="//kanban" position="attributes">
+                    <attribute name="create">0</attribute>
+                    <attribute name="edit">0</attribute>
+                    <attribute name="delete">0</attribute>
+               </xpath>
+            </field>
+        </record>      
     </data>
 </odoo>

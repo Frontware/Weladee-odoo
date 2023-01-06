@@ -89,7 +89,7 @@ def sync_delete_log(self, req):
     elif req.period_settings["period"] == "m":       
        dt_from = dt_today.replace(month=dt_today.month - dt_unit) 
     elif req.period_settings["period"] == "y":       
-       dt_from = dt_today.replace(month=dt_today.year - dt_unit)             
+       dt_from = dt_today.replace(year=dt_today.year - dt_unit)             
 
     dt_from_utc = False
     dt_delete_msg = ''
