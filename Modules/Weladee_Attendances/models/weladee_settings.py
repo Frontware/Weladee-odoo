@@ -75,6 +75,7 @@ class weladee_settings(models.TransientModel):
     def get_synchronous_debug(self):
         return self._get_params_value(CONST_SETTING_API_DEBUG) == 'Y'   
 
+    name = fields.Char('Setting',default='Setting')
     api_key = fields.Char(string="API Key", required=True,default=get_api_key )
     email = fields.Text('Email', required=True, default=get_synchronous_email )
     api_database = fields.Char('API Database',default=lambda s: s.env.cr.dbname)

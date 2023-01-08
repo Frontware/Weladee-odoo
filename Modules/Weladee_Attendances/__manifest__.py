@@ -20,11 +20,11 @@
 ##############################################################################
 {
 "name" : "Weladee attendances module",
-"version" : "5.00",
+"version" : "6.00",
 "author" : "Frontware International",
 "category" : "Generic Modules",
 'summary': 'Weladee-Odoo attendances\'s module',
-"depends" : ['base', 'hr'],
+"depends" : ['base', 'hr', 'web'],
 "data" :["security/security.xml",
          "security/ir.model.access.csv",   
 
@@ -42,6 +42,14 @@
 
          'views/menu.xml',
 ],
+'assets': {
+  'web.assets_backend': [
+      'Weladee_Attendances/static/src/css/fw_weladee.css'
+  ]
+},
+'external_dependencies': {
+  'python': ['protobuf', 'grpcio']
+},
 "installable" : True,
 "active" : False,
 "website" : "https://www.weladee.com/",
@@ -52,8 +60,86 @@ Module to manage synchronous Employee, Department.
 
 It will synchronus employee, department, position to odoo.
 
+Weladee
+- Weladee settings
+- Weladee Synchronization
+
+Email template
+- Weladee Attendance: Synchronization task
+- Weladee Attendance: Synchronization task (debug)
+
+Schedule
+- Weladee Attendance: Synchronous task
+
+Employee
+- field work_email
+- field job_id
+
+- field country_id
+- field taxID
+
+- field name (set mandatory)
+- field first_name_english
+- field last_name_english
+- field first_name_thai 
+- field last_name_thai
+- field nick_name_english
+- field nick_name_thai
+
+- field weladee_profile
+- field weladee_id
+- field is_weladee
+- field receive_check_notification
+- field can_request_holiday
+- field hasToFillTimesheet
+
+- field employee_code
+- field qr_code
+- field employee_team
+
+- field driving_license_number
+- field driving_license_place_issue
+- field driving_license_date_issue
+- field driving_license_expiration_date
+
+- field religion
+- field military_status
+
+- field resignation_date
+- field resignation_reason
+- field probation_due_date
+- field timesheet_cost
+
+- field marital
+
+- first + last name eng. can't duplicate
+- first + last name thai can't duplicate
+- work_email can't duplicate
+- employee_code can't duplicate
+
+- search by weladee
+- group by weladee
+- weladee button link
+
+department
+- name can't duplicate
+- field code
+- field email
+
+- search by weladee
+- group by weladee
+- weladee button link
+
+position
+- name can't duplicate
+
+- search by weladee
+- group by weladee
+- weladee button link
+
 change log:
 ------------------------------------
+* 2022-12-28 KPO (6.0) updated to odoo 16.0
 * 2021-11-02 KPO updated to odoo14
 * 2019-02-18 KPO allow to resync if 1st connection failed.
 * 2018-11-14 KPO allow to sync with multiple leave type
@@ -78,12 +164,6 @@ requirement:
 * grpcio
 
   pip3 install grpcio  
-
-* grpc
-  
-  install: 
-    
-  pip3 install --upgrade grpcio==1.7.3
 
 * imagemagick
   

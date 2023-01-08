@@ -4,13 +4,14 @@
 
 	remarks :
 	2018-05-28 KPO moved
+    2022-12-28 KPO updated to odoo 16.0
  -->
 <odoo>
     <record id="weladee_setting_wizard" model="ir.ui.view">
         <field name="name">weladee_setting_wizard</field>
         <field name="model">weladee_attendance.synchronous.setting</field>
         <field name="arch" type="xml">
-            <form string="Setting">
+            <form string="Setting" create="0" delete="0">
                 <header>
                     <button name="saveBtn" string="Save" class="oe_highlight" type="object"/>
                     <button name="cancel" string="Cancel"/>
@@ -45,22 +46,19 @@
                     </group>
                 
                     <group string="Settings">
-                    <notebook>
+                    <notebook colspan="2">
                         <page string="Notification">
-                            <group>
-                                <label for="email"/>
-                                <div>
-                                    <field name="email" requird="1"/>
-                                    <br/>
-                                    <span class="o_form_label">*Note: you can separate each email by ;</span>
-                                </div>
-                            </group>
-                            <group>
-                                <div>
-                                    <field name="api_debug" nolabel="1" class="oe_inline"/>
-                                    <label for="api_debug" />
-                                </div>
-                            </group>
+                            <label for="email"/>
+                            <div>
+                                <field name="email" requird="1"/>
+                            </div>
+                            <div>
+                                <span class="text-danger">*Note: you can separate each email by ;</span>
+                            </div>
+                            <div>
+                                <field name="api_debug" nolabel="1" class="oe_inline"/>
+                                <label for="api_debug"/>
+                            </div>
                         </page>                    
                     </notebook>
                     </group>

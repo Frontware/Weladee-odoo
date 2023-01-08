@@ -52,9 +52,6 @@ remarks:
                 <attribute name="edit">0</attribute>
                 <attribute name="delete">0</attribute>
             </xpath>
-            <xpath expr="//field[@name='number_of_days']//..//..//.." position="after">
-                <field name="day_part" invisible="1" />
-            </xpath>
         </field>
     </record>
 
@@ -66,8 +63,26 @@ remarks:
             <xpath expr="//button[@name='action_refuse']" position="attributes">
                 <attribute name="invisible">1</attribute>                
             </xpath>
-            <xpath expr="//field[@name='number_of_days']//..//..//.." position="after">
+            <xpath expr="//field[@name='number_of_days_display']//..//..//.." position="after">
                 <field name="day_part" />
+            </xpath>
+            <xpath expr="//widget[@name='web_ribbon']" position="after">
+                <BR/>
+                <div class="oe_button_box" name="button_box">
+                    <field name="weladee_id" invisible="1" />
+                    <button
+                            style="width:180px;height:50px"
+                            name="open_weladee"
+                            class="oe_stat_button"
+                            type="object"
+                            widget="url"
+                            attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}">
+                            <div role="img" class="o_button_icon icon-weladee"/>
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Weladee</span>
+                            </div>                            
+                    </button>
+                </div>
             </xpath>
         </field>
     </record>

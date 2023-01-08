@@ -9,6 +9,7 @@ import time
 class weladee_company_holidays(models.Model):
     _name="weladee_attendance.company.holidays"
     _description="Weladee company holidays"
+    _rec_name = 'company_holiday_date'
     
     company_holiday_description = fields.Char(string='Description', required=True, track_visibility='always')
     company_holiday_date = fields.Date(string='Date', required=True, default=fields.Date.today, track_visibility='always')
