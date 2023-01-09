@@ -24,22 +24,24 @@ class weladee_task(models.Model):
         ret = super(weladee_task, self).create(vals)
 
         # Check if record could be created
-        if ret.id and (('name-th' in vals) or ('name' in vals)):
-           irobj = self.env['ir.translation']
-           add_value_translation(ret, irobj, 'project.task','name',vals.get('name', ''), name_th)
+        if ret and name_th:
+           ret.with_context(lang='th_TH').write({'name': name_th})
 
         return ret
+        
+    def unlink(self):
+        self.env['weladee_attendance.synchronous'].check_weladee_id(self, {})
+
+        return super(weladee_task, self).unlink()
 
     def write(self, vals):
         name_th = vals.get('name-th', '')
         if 'name-th' in vals: del vals['name-th']
         ret = super(weladee_task, self).write(vals)
 
-        if ret and (('name-th' in vals) or ('name' in vals)):
-           irobj = self.env['ir.translation']
-           for each in self:
-               add_value_translation(each, irobj, 'project.task','name',vals.get('name', ''), name_th)
-               break
+        if ret and name_th:
+           for each in self: 
+               each.with_context(lang='th_TH').write({'name': name_th})
 
         return ret
 

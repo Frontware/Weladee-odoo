@@ -62,11 +62,6 @@ remarks:
                     <field name="note" />
                     </div>
                 </xpath>
-
-                <!-- Hide edit button if record comes from weladee -->
-                <xpath expr="/form/sheet" position="inside">
-                    <field name="hide_edit_btn_css"/>
-                </xpath>
             </field>
         </record>
 
@@ -91,5 +86,18 @@ remarks:
                 </xpath>
             </field>
         </record>
+
+        <record id="fwweladee_tree_project" model="ir.ui.view">
+            <field name="name">fwweladee_tree_project</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='stage_id']" position="after">
+                    <field name="weladee_id" invisible="1" />
+                    <button attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}" type="object" name="open_weladee_project" class="icon-weladee-kanban"></button>
+                </xpath>
+            </field>
+        </record>
+
     </data>
 </odoo>

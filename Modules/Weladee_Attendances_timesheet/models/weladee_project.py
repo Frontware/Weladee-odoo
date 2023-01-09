@@ -15,7 +15,7 @@ class weladee_project(models.Model):
     weladee_id = fields.Char(string="Weladee ID",copy=False)
     weladee_url = fields.Char(string="Weladee Url", default="", copy=False, readonly=True)
     is_weladee = fields.Boolean(compute='_compute_from_weladee', copy=False, readonly=True, store=True)
-    descrition = fields.Html(translate=True)
+    description = fields.Html(translate=True)
     url = fields.Char('URL')
     note = fields.Text('Note')
     hide_edit_btn_css = fields.Html(string='css', sanitize=False, compute='_compute_css')
@@ -26,20 +26,18 @@ class weladee_project(models.Model):
         des_th = vals.get('description-th', '')
         if 'name-th' in vals: del vals['name-th']
         if 'description-th' in vals: del vals['description-th']
+
         ret = super(weladee_project, self).create(vals)
-        irobj = self.env['ir.translation']
 
-        # Check if record could be created
-        if ret.id and (('name-th' in vals) or ('name' in vals) or ('description-th' in vals) or ('description' in vals)):
-           irobj = self.env['ir.translation']
-
-           if (('name-th' in vals) or ('name' in vals)):
-              add_value_translation(ret, irobj, 'project.project','name',vals.get('name', ''), name_th)
-
-           if (('description-th' in vals) or ('description' in vals)):
-              add_value_translation(ret, irobj, 'project.project','description',vals.get('name', ''), des_th)
+        if name_th or des_th:
+           ret.with_context(lang='th_TH').write({'name': name_th,'description': des_th})
 
         return ret
+
+    def unlink(self):
+        self.env['weladee_attendance.synchronous'].check_weladee_id(self, {})
+
+        return super(weladee_project, self).unlink()
 
     def write(self, vals):
         name_th = vals.get('name-th', '')
@@ -48,14 +46,9 @@ class weladee_project(models.Model):
         if 'description-th' in vals: del vals['description-th']
         ret = super(weladee_project, self).write(vals)
 
-        if ret and (('name-th' in vals) or ('name' in vals) or ('description-th' in vals) or ('description' in vals)):
-           irobj = self.env['ir.translation']
-           for each in self:
-               if (('name-th' in vals) or ('name' in vals)):
-                  add_value_translation(each, irobj, 'project.project','name',vals.get('name', ''), name_th)
-               if (('description-th' in vals) or ('description' in vals)):
-                  add_value_translation(each, irobj, 'project.project','description',vals.get('name', ''), des_th)
-               break
+        if name_th or des_th:
+           for each in self: 
+               each.with_context(lang='th_TH').write({'name': name_th,'description': des_th})
 
         return ret
 
