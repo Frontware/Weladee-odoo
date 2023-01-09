@@ -29,25 +29,8 @@ def sync_customer_data(weladee_customer, req):
         data['res-id'] = prev_rec.id
         sync_logdebug(req.context_sync, 'weladee > %s ' % weladee_customer)
         sync_logdebug(req.context_sync, 'odoo > %s ' % data)
-        # sync_logwarn(req.context_sync, 'this customer\'name record already exist for this %s exist, no change will apply' % data['name'])
-        # return data
-
-    # check if there is same name
-    # consider it same record
-    # odoo_cus = req.customer_obj.search( [ ('name','=', data['name'] ), '|', ('active','=',True), ('active','=',False)],limit=1 )
-    # if odoo_cus.id:
-    #     data['res-mode'] = 'update'
-    #     data['res-id'] = odoo_cus.id
-    #     sync_logdebug(req.context_sync, 'odoo > %s' % odoo_cus)
-    #     sync_logdebug(req.context_sync, 'weladee > %s' % weladee_customer)
 
     return data
-
-def sync_delete_customer(req):
-    del_ids = req.customer_obj.search([('weladee_id','!=',False)])
-    if del_ids: 
-       del_ids.unlink()
-       sync_logwarn(req.context_sync, 'remove all linked customers: %s record(s)' % len(del_ids))
 
 def sync_customer(req):
     '''
@@ -57,8 +40,6 @@ def sync_customer(req):
     req.context_sync['stat-cus'] = {'to-sync':0, "create":0, "update": 0, "error":0}
     odoo_cus = False
     weladee_customer = False
-
-    # sync_delete_customer(req)
 
     try:        
         sync_loginfo(req.context_sync,'[customer] updating changes from weladee-> odoo')

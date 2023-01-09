@@ -50,6 +50,9 @@ mail.acitivity.typ
 task
 - field other_assignee_ids
 
+sync customer, project, task, worktype and timesheet
+- weladee -> odoo
+
 change log:
 ------------------------------------
 * 2023-01-09 KPO (6.0) updated to odoo 16.0
