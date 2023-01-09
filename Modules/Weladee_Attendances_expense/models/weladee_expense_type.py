@@ -24,21 +24,34 @@ class weladee_expense_type(models.Model):
         if 'name-th' in vals: del vals['name-th']
         ret = super(weladee_expense_type, self).create(vals)
 
-        if ret.id and (('name-th' in vals) or ('name' in vals)):
-           irobj = self.env['ir.translation']
-           add_value_translation(ret, irobj, 'weladee_expense_type','name',vals.get('name', ''), name_th)
+        if name_th:
+           ret.with_context(lang='th_TH').write({'name': name_th})
 
         return ret
+
+    def unlink(self):
+        self.env['weladee_attendance.synchronous'].check_weladee_id(self, {})
+
+        return super(weladee_expense_type, self).unlink()
 
     def write(self, vals):
         name_th = vals.get('name-th', '')
         if 'name-th' in vals: del vals['name-th']
         ret = super(weladee_expense_type, self).write(vals)
 
-        if ret and (('name-th' in vals) or ('name' in vals)):
-           irobj = self.env['ir.translation']
-           for each in self:
-               add_value_translation(each, irobj, 'weladee_expense_type','name',vals.get('name', ''), name_th)
-               break
+        if name_th:
+           for each in self: 
+               each.with_context(lang='th_TH').write({'name': name_th})
 
         return ret    
+
+    def open_weladee_type(self):
+        if self.weladee_id:
+            return {
+                'name': _('Project'),
+                'type': 'ir.actions.act_url',
+                'url': 'https://www.weladee.com/expense/type/%s' % self.weladee_id,
+                'target': 'new'
+            }
+        else:
+            raise UserError(_("This project doesn't have a weladee id."))

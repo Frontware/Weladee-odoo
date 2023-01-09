@@ -6,7 +6,22 @@
         <field name="arch" type="xml">
             <form string="Type">
                 <sheet>
-                    <div class="oe_button_box" name="button_box"/>
+<div class="oe_button_box" name="button_box">
+                    <field name="weladee_id" invisible="1"/>
+                    <button
+                            name="open_weladee_type"
+                            class="oe_stat_button"
+                            type="object"
+                            widget="url"
+                            attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}"
+                        >
+                            <div role="img" class="o_button_icon icon-weladee"/>
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Weladee</span>
+                                <span class="o_stat_value">Expense Type</span>
+                            </div>
+                    </button>
+                    </div>
                     <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
                     <field name="active" invisible="1"/>
                     <field name="id" invisible="1"/>
@@ -15,6 +30,9 @@
                         <label class="oe_edit_only" for="name" string="Name"/>
                         <h1><field name="name" placeholder="e.g. Gas"/></h1>
                     </div>
+                   <div attrs="{'invisible':[('weladee_id','=',False)]}" style="color:red">
+                        This record is imported from weladee, any change in odoo will be replaced by data from weladee.
+                   </div>
                     <group>
                         <group>
                             <field name="code"/>

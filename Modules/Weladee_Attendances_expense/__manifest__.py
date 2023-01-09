@@ -20,7 +20,7 @@
 ##############################################################################
 {
 "name" : "Weladee attendances expense module",
-"version" : "5.00",
+"version" : "6.00",
 "author" : "Frontware International",
 "category" : "Generic Modules",
 'summary': 'Weladee-Odoo attendances\'s module',
@@ -41,5 +41,19 @@ Weladee attendances expense module
 Module to manage synchronous expense.
 
 It will synchronus expense to odoo.
+
+expense
+- field request_amount
+- field receipt_file_name
+- field receipt
+- field expense_type_id
+- field refuse_reason
+
+expenses / Configuration
+- weladee expense type
+
+change log:
+------------------------------------
+* 2023-01-09 KPO (6.0) updated to odoo 16.0
 """
 }
