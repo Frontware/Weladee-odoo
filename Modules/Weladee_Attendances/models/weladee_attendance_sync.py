@@ -9,7 +9,7 @@ from datetime import datetime
 
 from odoo import osv
 from odoo import models, fields, api, _
-
+from odoo.exceptions import UserError
 from .sync.weladee_base import renew_connection, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_has_error
 
 from odoo.addons.Weladee_Attendances.models.weladee_attendance_param import weladee_attendance_param
@@ -25,6 +25,21 @@ class weladee_attendance_working(models.TransientModel):
 class weladee_attendance(models.TransientModel):
     _name="weladee_attendance.synchronous"
     _description="synchronous Employee, Department, Holiday and attendance"
+
+    @api.model
+    def check_weladee_id(self, recs, vals):
+        wid = False
+        if 'weladee_id' in vals:
+           wid = vals['weladee_id'] 
+        else:
+           for each in recs:
+               if each.weladee_id: 
+                  wid = each.weladee_id    
+                  break
+
+        if wid and self.env.context.get('validate_weladee_id',True):
+           raise UserError(_('This record is imported from weladee, any change in odoo will be replaced by data from weladee.'))         
+
 
     def init_param(self):
         return weladee_attendance_param()
