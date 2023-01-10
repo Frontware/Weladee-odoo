@@ -38,5 +38,17 @@
                 </xpath>        
             </field>
         </record>
+
+        <record id="weladee_fw_hr_position_tree" model="ir.ui.view">
+            <field name="name">weladee_fw_hr_position_tree</field>
+            <field name="model">hr.job</field>
+            <field name="inherit_id" ref="hr.view_hr_job_tree"/>
+            <field name="arch" type="xml">        
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="weladee_id" invisible="1" />
+                    <button attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}" type="object" name="open_weladee" class="icon-weladee-kanban"></button>
+                </xpath>        
+            </field>
+        </record>
     </data>
 </odoo>
