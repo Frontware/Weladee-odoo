@@ -97,6 +97,10 @@ remarks:
                 <attribute name="edit">0</attribute>
                 <attribute name="delete">0</attribute>
             </xpath>
+            <xpath expr="//field[@name='activity_exception_decoration']" position="after">
+                <field name="weladee_id" invisible="1" />
+                <button attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}" type="object" name="open_weladee" class="icon-weladee-kanban"></button>
+            </xpath>            
         </field>
     </record>    
 </odoo>
