@@ -64,7 +64,7 @@ def sync_timesheet(req):
         period = sync_period(req.config.timesheet_period, req.config.timesheet_period_unit)
 
         for weladee_timesheet in stub.GetTimeSheets(period, metadata=req.config.authorization):
-            print(weladee_timesheet)
+            #print(weladee_timesheet)
             
             sync_stat_to_sync(req.context_sync['stat-timesheet'], 1)
             if not weladee_timesheet :
@@ -74,7 +74,7 @@ def sync_timesheet(req):
             odoo_timesheet = sync_timesheet_data(weladee_timesheet, req)
             
             if odoo_timesheet and odoo_timesheet['res-mode'] == 'create':
-                newid = req.timesheet_obj.create(sync_clean_up(odoo_timesheet))
+                newid = req.timesheet_obj.with_context(validate_weladee_id=False).create(sync_clean_up(odoo_timesheet))
                 if newid and newid.id:
                     sync_logdebug(req.context_sync, "Insert timesheet '%s' to odoo" % odoo_timesheet )
                     sync_stat_create(req.context_sync['stat-timesheet'], 1)
@@ -87,7 +87,7 @@ def sync_timesheet(req):
             elif odoo_timesheet and odoo_timesheet['res-mode'] == 'update':
                 odoo_id = req.timesheet_obj.search([('id','=',odoo_timesheet['res-id'])])
                 if odoo_id.id:
-                   odoo_id.write(sync_clean_up(odoo_timesheet))
+                   odoo_id.with_context(validate_weladee_id=False).write(sync_clean_up(odoo_timesheet))
                    sync_logdebug(req.context_sync, "Updated timesheet '%s' to odoo" % odoo_timesheet['name'] )
                    sync_stat_update(req.context_sync['stat-timesheet'], 1)
                 else:
