@@ -27,6 +27,11 @@ class weladee_job_app(models.Model):
     note = fields.Text(string='Note')
     hide_edit_btn_css = fields.Html(string='css', sanitize=False, compute='_compute_css')
 
+    def unlink(self):
+        self.env['weladee_attendance.synchronous'].check_weladee_id(self, {})
+
+        return super(weladee_job_app, self).unlink()
+
     def open_weladee_job_app(self):
         if self.weladee_url:
             return {

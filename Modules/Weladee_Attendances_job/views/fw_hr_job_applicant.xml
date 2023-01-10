@@ -43,6 +43,12 @@ remarks:
                             </div>
                         </button>
                 </xpath>
+               <xpath expr="//field[@name='name']//.." position="after">
+                   <field name="weladee_id" invisible="1" />
+                   <div attrs="{'invisible':['|',('weladee_id','=',''),('weladee_id','=',False)]}" style="color:red">
+                   This record is imported from weladee, any change in odoo will be replaced by data from weladee.
+                   </div>
+                </xpath>
                 <xpath expr="//field[@name='type_id']" position="after">
                     <field name="gender" />
                     <field name="lang_id" />
@@ -51,7 +57,7 @@ remarks:
                 <xpath expr="//field[@name='source_id']" position="after">
                     <field name="date_apply" />
                 </xpath>
-                <xpath expr="//field[@name='emp_id']//..//.." position="after">
+                <xpath expr="//field[@name='emp_id']" position="after">
                     <label for="note" />
                     <field name="note" />
                 </xpath>
@@ -62,5 +68,18 @@ remarks:
                 </xpath>
             </field>
         </record>
+
+        <record id="weladee_fw_hr_jobapp_tree" model="ir.ui.view">
+            <field name="name">weladee_fw_hr_jobapp_tree</field>
+            <field name="model">hr.applicant</field>
+            <field name="inherit_id" ref="hr_recruitment.crm_case_tree_view_job"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="weladee_id" invisible="1" />
+                    <button attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}" type="object" name="open_weladee_job_app" class="icon-weladee-kanban"></button>
+                </xpath>
+            </field>
+        </record>
+
     </data>
 </odoo>
