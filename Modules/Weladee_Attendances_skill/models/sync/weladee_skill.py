@@ -57,7 +57,7 @@ def sync_skill(req):
                 newid = req.skill_obj.create(sync_clean_up(odoo_skill))
                 if newid and newid.id:
                     # Add translation
-                    add_translation(newid.id, 'hr.skill', translation_req, req, lang='th_TH')
+                    add_translation(newid, translation_req, lang='th_TH')
                     sync_logdebug(req.context_sync, "Insert skill level '%s' to odoo" % odoo_skill['name'])
                     sync_stat_create(req.context_sync['stat-skill'], 1)
                 else:
@@ -67,7 +67,7 @@ def sync_skill(req):
                 if odoo_id.id:
                     odoo_id.write(sync_clean_up(odoo_skill))
                     # Add translation
-                    add_translation(odoo_id.id, 'hr.skill', translation_req, req, lang='th_TH')
+                    add_translation(odoo_id, translation_req, lang='th_TH')
                     sync_logdebug(req.context_sync, "Updated skill '%s' to odoo" % odoo_skill['name'])
                     sync_stat_update(req.context_sync['stat-skill'], 1)
                 else:

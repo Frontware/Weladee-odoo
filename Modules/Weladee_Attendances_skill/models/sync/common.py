@@ -8,19 +8,17 @@ lang_dict = {
     'th_TH':'thai',
 }
 
-def add_translation(identifiers, model_id, translation_req, req, lang='en_US'):
+def add_translation(obj, translation_req, lang='en_US'):
+    if not obj:
+        return
+
     if not translation_req:
         return
     
     if lang not in lang_dict:
         return
-    
-    if isinstance(identifiers, int):
-        identifiers = [identifiers]
-    
+        
     prefix = lang_dict[lang] + '_'
     for field in filter(lambda f: f.startswith(prefix), translation_req):
-        field_name = field[len(prefix):]
-        name = ','.join([model_id, field_name])
         value = translation_req[field]
-        req.translation_obj._set_ids(name, 'model', lang, identifiers, value)
+        obj.with_context(lang=lang).name = value

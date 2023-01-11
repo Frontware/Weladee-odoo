@@ -27,7 +27,6 @@ class weladee_attendance_skill(models.TransientModel):
         r.skill_level_obj = False
         r.skill_obj = False
         r.skill_employee_obj = False
-        r.translation_obj = False
 
         return r    
 
@@ -38,7 +37,6 @@ class weladee_attendance_skill(models.TransientModel):
             sync_logdebug(req.context_sync, "Start sync...Skill Type")
 
             req.skill_type_obj = self.env['hr.skill.type']
-            req.translation_obj = self.env['ir.translation']
 
             sync_skill_type(req)
 
@@ -47,7 +45,6 @@ class weladee_attendance_skill(models.TransientModel):
 
             req.skill_type_obj = self.env['hr.skill.type']
             req.skill_level_obj = self.env['hr.skill.level']
-            req.translation_obj = self.env['ir.translation']
 
             sync_skill_level(req)
 
@@ -56,7 +53,6 @@ class weladee_attendance_skill(models.TransientModel):
 
             req.skill_type_obj = self.env['hr.skill.type']
             req.skill_obj = self.env['hr.skill']
-            req.translation_obj = self.env['ir.translation']
 
             sync_skill(req)
 
