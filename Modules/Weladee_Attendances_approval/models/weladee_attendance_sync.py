@@ -22,16 +22,13 @@ class weladee_attendance_approval(models.TransientModel):
 
         # for approval
         r.employee_obj  = False
-        r.translation_obj = False
         r.project_obj = False
         r.attach_obj = False
 
         r.approvals_type_obj = False
         r.approvals_type_approver_obj = False
         r.approvals_request_obj = False
-        r.approvals_approver_1_obj = False
-        r.approvals_approver_2_obj = False
-        r.approvals_approver_3_obj = False
+        r.approvals_approver_obj = False
 
         return r    
 
@@ -41,7 +38,6 @@ class weladee_attendance_approval(models.TransientModel):
             sync_logdebug(req.context_sync,"Start sync...Approvals Types")
             req.employee_obj = self.env['hr.employee']
             req.approvals_type_obj = self.env['fw.approvals.type']
-            req.translation_obj = self.env['ir.translation']
             sync_approvals_type(req)
         
         if req.config.sync_approval and not sync_has_error(req.context_sync):
@@ -52,9 +48,7 @@ class weladee_attendance_approval(models.TransientModel):
             req.approvals_type_obj = self.env['fw.approvals.type']
             req.approvals_type_approver_obj = self.env['fw.approvals.type.approver']
             req.approvals_request_obj = self.env['fw.approvals.request']
-            req.approvals_approver_1_obj = self.env['fw.approvals.approver1']
-            req.approvals_approver_2_obj = self.env['fw.approvals.approver2']
-            req.approvals_approver_3_obj = self.env['fw.approvals.approver3']
+            req.approvals_approver_obj = self.env['fw.approvals.approver']
 
             sync_approvals_request(req)
 

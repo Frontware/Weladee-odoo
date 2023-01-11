@@ -6,7 +6,8 @@ from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error, sync_image
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
-from .common import add_translation, _CREATE, _UPDATE, _CLEAR, _SET
+from odoo.addons.Weladee_Attendances.models.common import add_translation, lang_dict
+from .common import _CREATE, _UPDATE, _CLEAR, _SET
 
 base_url = 'https://www.weladee.com/approval/type/'
 
@@ -194,6 +195,7 @@ def sync_approvals_type(req):
         sync_loginfo(req.context_sync,'[approvals type] updating changes from weladee -> odoo')
         weladee_approvals_type = None
         for weladee_approvals_type in stub.GetApprovalTypes(weladee_pb2.Empty(), metadata=req.config.authorization):
+            print(weladee_approvals_type)
             sync_stat_to_sync(req.context_sync['stat-approvals-type'], 1)
             if not weladee_approvals_type:
                 sync_logwarn(req.context_sync,'weladee approvals type is empty')
@@ -205,7 +207,7 @@ def sync_approvals_type(req):
             if odoo_approvals_type and odoo_approvals_type['res-mode'] == 'create':
                 newid = req.approvals_type_obj.create(sync_clean_up(odoo_approvals_type))
                 if newid and newid.id:
-                    add_translation(newid.id, model_id, translation_req, req, lang='th_TH')
+                    add_translation(newid, translation_req, lang='th_TH')
                     sync_stat_create(req.context_sync['stat-approvals-type'], 1)
                 else:
                     sync_stat_error(req.context_sync['stat-approvals-type'], 1)
@@ -213,7 +215,7 @@ def sync_approvals_type(req):
                 odoo_id = req.approvals_type_obj.search([("id","=",odoo_approvals_type['res-id']),'|',('active','=',False),('active','=',True)], limit=1)
                 if odoo_id.id:
                     odoo_id.write(sync_clean_up(odoo_approvals_type))
-                    add_translation(odoo_id.id, model_id, translation_req, req, lang='th_TH')
+                    add_translation(odoo_id,translation_req, lang='th_TH')
                     sync_stat_update(req.context_sync['stat-approvals-type'], 1)
                 else:
                     sync_logerror(req.context_sync, 'Odoo appoval type not found for : %s' % weladee_approvals_type)
