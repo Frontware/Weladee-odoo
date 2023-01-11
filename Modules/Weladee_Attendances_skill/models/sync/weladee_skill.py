@@ -8,7 +8,7 @@ from odoo.addons.Weladee_Attendances.models.grpcproto import skill_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error 
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
-from .common import add_translation, lang_dict
+from odoo.addons.Weladee_Attendances.models.common import add_translation, lang_dict
 
 def sync_skill_data(weladee_skill, req):
     data = {
