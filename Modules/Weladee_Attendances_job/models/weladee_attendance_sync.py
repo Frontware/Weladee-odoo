@@ -28,7 +28,6 @@ class weladee_attendance_job(models.TransientModel):
 
         r.lang_obj = False
         r.utm_source_obj = False
-        r.translation_obj = False
 
         return r    
 
@@ -51,7 +50,6 @@ class weladee_attendance_job(models.TransientModel):
             sync_logdebug(req.context_sync,"Start sync...Job applicant")
             req.lang_obj = self.env['res.lang']
             req.utm_source_obj = self.env['utm.source']
-            #req.translation_obj = self.env['ir.translation']
             sync_job_applicant(req)
 
     def do_delete_options(self, req):
