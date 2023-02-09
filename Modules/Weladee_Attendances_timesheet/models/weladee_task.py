@@ -65,7 +65,7 @@ class weladee_task(models.Model):
     @api.depends('weladee_id')
     def _compute_css(self):
         for record in self:
-            if self.weladee_id:
+            if record.weladee_id:
                 record.hide_edit_btn_css = '<style>.o_form_button_edit {display: none !important;}</style>'
             else:
                 record.hide_edit_btn_css = False
