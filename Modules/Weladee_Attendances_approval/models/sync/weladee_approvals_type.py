@@ -6,7 +6,7 @@ from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error, sync_image
 from odoo.addons.Weladee_Attendances.models.sync.weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info,sync_clean_up
-from .common import add_translation, _CREATE, _UPDATE, _CLEAR, _SET
+from odoo.addons.Weladee_Attendances.models.sync.common import add_translation, _CREATE, _UPDATE, _CLEAR, _SET
 
 base_url = 'https://www.weladee.com/approval/type/'
 
