@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+        <record id="fw_ot_view_fw_ot_request_search2" model="ir.ui.view">
+            <field name="name">fw_ot_view_fw_ot_request_search2</field>
+            <field name="model">fwot_ot_requests</field>
+            <field name="inherit_id" ref="fw_ot.fwot_ot_requests_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='employee_id']" position="after">
+                    <field name="weladee_id"/>
+                </xpath>    
+                <xpath expr="//filter[@name='my_approve']" position="after">
+                    <filter string="Weladee" name="filter_weladee" domain="[('is_weladee','=',True)]"/>
+                </xpath>    
+                <xpath expr="//filter[@name='by_employee']" position="after">
+                    <filter string="Weladee" name="group_by_weladee" context="{'group_by':'is_weladee'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="fw_ot_weladee_request" model="ir.ui.view">
+            <field name="name">fw_ot_weladee_request</field>
+            <field name="model">fwot_ot_requests</field>
+            <field name="inherit_id" ref="fw_ot.fwot_ot_requests_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/*[position() = 1]" position="before">
+                    <field name="weladee_id" invisible="1"/>
+                    <div class="oe_button_box">
+                        <button
+                            name="open_weladee_ot_request"
+                            class="oe_stat_button"
+                            type="object"
+                            widget="url"
+                            attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}"
+                        >
+                            <div role="img" class="o_button_icon icon-weladee"/>
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">OT</span>
+                                <span class="o_stat_value">Request</span>
+                            </div>
+                        </button>
+                    </div>
+                </xpath>
+                <!-- Hide edit button if record comes from weladee -->
+                <xpath expr="/form/sheet" position="inside">
+                    <field name="hide_edit_btn_css"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

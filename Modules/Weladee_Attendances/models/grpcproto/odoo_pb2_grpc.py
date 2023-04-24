@@ -173,6 +173,16 @@ class OdooStub(object):
                 request_serializer=odoo__pb2.Period.SerializeToString,
                 response_deserializer=odoo__pb2.SheetOdoo.FromString,
                 )
+        self.GetOTTypes = channel.unary_stream(
+                '/grpc.weladee.com.Odoo/GetOTTypes',
+                request_serializer=weladee__pb2.Empty.SerializeToString,
+                response_deserializer=odoo__pb2.OTTypeOdoo.FromString,
+                )
+        self.GetOTRequests = channel.unary_stream(
+                '/grpc.weladee.com.Odoo/GetOTRequests',
+                request_serializer=weladee__pb2.Empty.SerializeToString,
+                response_deserializer=odoo__pb2.OTRequestOdoo.FromString,
+                )
         self.GetExpenses = channel.unary_stream(
                 '/grpc.weladee.com.Odoo/GetExpenses',
                 request_serializer=odoo__pb2.Period.SerializeToString,
@@ -472,6 +482,22 @@ class OdooServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetOTTypes(self, request, context):
+        """OT
+
+        return a stream of ottype.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetOTRequests(self, request, context):
+        """Return stream of ot request.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def GetExpenses(self, request, context):
         """
         ####### #     # ######  ####### #     #  #####  #######  #####
@@ -666,6 +692,16 @@ def add_OdooServicer_to_server(servicer, server):
                     servicer.GetTimeSheets,
                     request_deserializer=odoo__pb2.Period.FromString,
                     response_serializer=odoo__pb2.SheetOdoo.SerializeToString,
+            ),
+            'GetOTTypes': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetOTTypes,
+                    request_deserializer=weladee__pb2.Empty.FromString,
+                    response_serializer=odoo__pb2.OTTypeOdoo.SerializeToString,
+            ),
+            'GetOTRequests': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetOTRequests,
+                    request_deserializer=weladee__pb2.Empty.FromString,
+                    response_serializer=odoo__pb2.OTRequestOdoo.SerializeToString,
             ),
             'GetExpenses': grpc.unary_stream_rpc_method_handler(
                     servicer.GetExpenses,
@@ -1224,6 +1260,40 @@ class Odoo(object):
         return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetTimeSheets',
             odoo__pb2.Period.SerializeToString,
             odoo__pb2.SheetOdoo.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetOTTypes(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetOTTypes',
+            weladee__pb2.Empty.SerializeToString,
+            odoo__pb2.OTTypeOdoo.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetOTRequests(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetOTRequests',
+            weladee__pb2.Empty.SerializeToString,
+            odoo__pb2.OTRequestOdoo.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

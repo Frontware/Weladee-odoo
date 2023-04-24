@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+	purpose : render synchronous settings
+
+	remarks :
+	2018-05-28 KPO moved
+ -->
+<odoo>
+    <record id="weladee_setting_wizard_ot" model="ir.ui.view">
+        <field name="name">weladee_setting_wizard_ot</field>
+        <field name="model">weladee_attendance.synchronous.setting</field>
+        <field name="inherit_id" ref="Weladee_Attendances.weladee_setting_wizard"/>
+        <field name="arch" type="xml">
+                <xpath expr="//field[@name='sync_employee']//..//.." position="after">
+                    <label for="sync_ot" string="ot"/>
+                    <div>
+                        <div>
+                            <field name="sync_ot" class="oe_inline"/>
+                        </div>
+                    </div> 
+                </xpath>
+                <xpath expr="//notebook//page[last()]" position="before">
+                    <page string="ot" attrs="{'invisible':[('sync_ot','=',False)]}">
+                        <group>
+                            <label for="ot_period"/>
+                            <div>
+                                <field attrs="{'required':[('sync_ot','=',True)],'invisible':[('ot_period','=','all')]}" name="ot_period_unit" class="oe_inline" />
+                                <span attrs="{'invisible':[('ot_period','=','all')]}">&amp;nbsp;</span>
+                                <field name="ot_period" attrs="{'required':[('sync_ot','=',True)]}" style="height:24px" class="oe_inline" />
+                            </div>
+                        </group>
+                    </page>
+                </xpath>
+        </field>
+    </record>
+</odoo>  
