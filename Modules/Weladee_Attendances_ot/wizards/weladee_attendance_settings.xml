@@ -12,7 +12,7 @@
         <field name="inherit_id" ref="Weladee_Attendances.weladee_setting_wizard"/>
         <field name="arch" type="xml">
                 <xpath expr="//field[@name='sync_employee']//..//.." position="after">
-                    <label for="sync_ot" string="ot"/>
+                    <label for="sync_ot" string="OT"/>
                     <div>
                         <div>
                             <field name="sync_ot" class="oe_inline"/>
@@ -20,7 +20,7 @@
                     </div> 
                 </xpath>
                 <xpath expr="//notebook//page[last()]" position="before">
-                    <page string="ot" attrs="{'invisible':[('sync_ot','=',False)]}">
+                    <page string="OT" attrs="{'invisible':[('sync_ot','=',False)]}">
                         <group>
                             <label for="ot_period"/>
                             <div>
