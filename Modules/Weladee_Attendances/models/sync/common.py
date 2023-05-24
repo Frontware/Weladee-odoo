@@ -3,6 +3,11 @@
 
 base_url = 'https://www.weladee.com/skill/type/'
 
+_CREATE = 0 # Create new relation
+_UPDATE = 1 # Update relation
+_CLEAR = 5 # Clear relation
+_SET = 6 # Clear and then select relation
+
 lang_dict = {
     'en_US':'english',
     'th_TH':'thai',
