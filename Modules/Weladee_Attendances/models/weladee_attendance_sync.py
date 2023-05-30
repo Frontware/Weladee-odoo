@@ -60,15 +60,19 @@ class weladee_attendance(models.TransientModel):
         sync_loginfo(req.context_sync,"Starting sync..")
         req.config = self.env['weladee_attendance.synchronous.setting'].get_settings()
 
+        if not req.config.api_db:
+           sync_logerror(req.context_sync,'Warning this api key of (%s) is not match with current database' % (req.config.api_db or ''))
+           sync_stop(req.context_sync)
+
         req.to_email = True
         if req.config.api_db and (req.config.api_db != self.env.cr.dbname):
-           sync_stop(req.context_sync)
            sync_logerror(req.context_sync,'Warning this api key of (%s) is not match with current database' % req.config.api_db)
+           sync_stop(req.context_sync)
            req.to_email = False
         
         if  (not req.config.authorization) and (req.config.api_db == self.env.cr.dbname):            
-            sync_stop(req.context_sync)
             sync_logerror(req.context_sync,'You must setup API Key, Default Holiday Status at Attendances -> Weladee settings')
+            sync_stop(req.context_sync)
 
         # validate lang
         # weladee required 2 langs
@@ -107,8 +111,9 @@ class weladee_attendance(models.TransientModel):
             sync_employee(req)
 
         # keep config
-        if oldcompanyid != req.config.company_id:         
-           self.env['weladee_attendance.synchronous.setting'].set_company(req.config.company_id) 
+        if not sync_has_error(req.context_sync):
+           if oldcompanyid != req.config.company_id:         
+              self.env['weladee_attendance.synchronous.setting'].set_company(req.config.company_id) 
 
         if req.config.sync_employee and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Manager")
