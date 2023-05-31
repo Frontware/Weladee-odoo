@@ -4,7 +4,7 @@ import logging
 _logger = logging.getLogger(__name__)
 
 from odoo import osv,api
-from odoo import models, fields
+from odoo import models, fields, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.addons.Weladee_Attendances.library.weladee_translation import add_value_translation
 
