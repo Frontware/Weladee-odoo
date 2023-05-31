@@ -12,6 +12,9 @@ class weladee_attendance(models.Model):
     weladee_id = fields.Char(string="Weladee ID",copy=False)
     is_weladee = fields.Boolean(compute='_compute_from_weladee', copy=False, readonly=True, store=True)
 
+    gate_in = fields.Many2one('weladee_gate',string='Gate in', readonly=True)
+    gate_out = fields.Many2one('weladee_gate',string='Gate out', readonly=True)
+
     _sql_constraints = [
         ('unique_empin_timestamp', 'unique (employee_id, check_in)', 'employee checkin record'),
         ('unique_empout_timestamp', 'unique (employee_id, check_out)', 'employee checkout record'),

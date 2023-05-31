@@ -27,10 +27,12 @@
 "depends" : ['hr_attendance', 
              'Weladee_Attendances'],
 "data" :[
+         "security/ir.model.access.csv",
          "wizards/weladee_attendance_settings.xml",
 
          'views/fw_hr_attendances.xml',
          'views/fw_hr_employee.xml',
+         'views/weladee_gate.xml',
 ],
 "installable" : True,
 "active" : False,

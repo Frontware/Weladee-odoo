@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="weladee_gate_form" model="ir.ui.view">
+            <field name="name">weladee_gate_form</field>
+            <field name="model">weladee_gate</field>
+            <field name="arch" type="xml">                
+                <form create="0" edit="0" delete="0">
+                    <sheet>
+                        <field name="weladee_id" invisible="1"/>
+                        <div class="oe_button_box">
+                            <button
+                                name="open_weladee_gate"
+                                class="oe_stat_button"
+                                type="object"
+                                widget="url"
+                                attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}"
+                            >
+                                <div role="img" class="o_button_icon icon-weladee"/>
+                                <div class="o_stat_info">
+                                    <span class="o_stat_text">Gate</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" />
+                        </h1>
+                    </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="weladee_gate_tree" model="ir.ui.view">
+            <field name="name">weladee_gate_tree</field>
+            <field name="model">weladee_gate</field>
+            <field name="arch" type="xml">                
+                <tree create="0" edit="0" delete="0">
+                    <field name="name" />
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

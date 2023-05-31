@@ -23,12 +23,15 @@ def sync_log_data(weladee_att, req):
     # look if there is odoo record with same time
     # if not found then create else update    
     check_field = 'check_in'
+    gate_field = 'gate_in'
     if weladee_att.logevent.action == "o" : 
         check_field = 'check_out' 
+        gate_field = 'gate_out'
 
     data['res-mode'] = 'create'
     #write checkin/out time
     data[check_field] = date
+    data[gate_field] = req.gate_odoo_weladee_ids.get(str(weladee_att.logevent.gateid))
 
     if not data['employee_id']:
         data['res-mode'] = '' 
@@ -55,6 +58,7 @@ def sync_log_data(weladee_att, req):
                 sync_logdebug(req.context_sync, 'weladee > %s ' % weladee_att)
                 sync_logdebug(req.context_sync, 'odoo > %s ' % data)
                 sync_logwarn(req.context_sync, 'can''t find this odoo-employee-id %s with no checkout ' % data['employee_id'])
+    
     return data      
 
 def create_odoo_log(req, data):    
@@ -135,7 +139,7 @@ def sync_log(self, req):
         ireq = 0
         for weladee_att in stub.GetNewAttendance(reqw, metadata=req.config.authorization):
             ireq +=1
-
+            print(weladee_att)
             sync_stat_to_sync(req.context_sync['stat-log'], 1)
             if not weladee_att :
                 sync_logwarn(req.context_sync,'weladee attendance is empty')

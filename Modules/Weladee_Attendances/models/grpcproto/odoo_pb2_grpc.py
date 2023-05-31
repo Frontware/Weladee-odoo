@@ -123,6 +123,11 @@ class OdooStub(object):
                 request_serializer=odoo__pb2.AttendanceRequest.SerializeToString,
                 response_deserializer=odoo__pb2.LogEventOdoo.FromString,
                 )
+        self.GetGates = channel.unary_stream(
+                '/grpc.weladee.com.Odoo/GetGates',
+                request_serializer=weladee__pb2.Empty.SerializeToString,
+                response_deserializer=odoo__pb2.GateOdoo.FromString,
+                )
         self.GetPositions = channel.unary_stream(
                 '/grpc.weladee.com.Odoo/GetPositions',
                 request_serializer=weladee__pb2.Empty.SerializeToString,
@@ -390,6 +395,13 @@ class OdooServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetGates(self, request, context):
+        """Return list of active gates. Gate sync is Weladee -> Odoo only.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def GetPositions(self, request, context):
         """rpc SyncAttendance (stream LogEventOdooSync) returns (Empty); // Send a stream of LogEventSync to confirm the log entries have been synchronized with Odoo. This funciton use a stream in order to synchronize a large bunch of records very quickly. Odoo can not update or create or delete LogEvent record in Weladee.
         return a stream of positions. Called "job title" in odoo
@@ -642,6 +654,11 @@ def add_OdooServicer_to_server(servicer, server):
                     servicer.GetNewAttendance,
                     request_deserializer=odoo__pb2.AttendanceRequest.FromString,
                     response_serializer=odoo__pb2.LogEventOdoo.SerializeToString,
+            ),
+            'GetGates': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetGates,
+                    request_deserializer=weladee__pb2.Empty.FromString,
+                    response_serializer=odoo__pb2.GateOdoo.SerializeToString,
             ),
             'GetPositions': grpc.unary_stream_rpc_method_handler(
                     servicer.GetPositions,
@@ -1090,6 +1107,23 @@ class Odoo(object):
         return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetNewAttendance',
             odoo__pb2.AttendanceRequest.SerializeToString,
             odoo__pb2.LogEventOdoo.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetGates(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/grpc.weladee.com.Odoo/GetGates',
+            weladee__pb2.Empty.SerializeToString,
+            odoo__pb2.GateOdoo.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
