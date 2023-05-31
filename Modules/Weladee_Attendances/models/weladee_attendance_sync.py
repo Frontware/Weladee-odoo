@@ -76,10 +76,9 @@ class weladee_attendance(models.TransientModel):
 
         # validate lang
         # weladee required 2 langs
-        for lg in self.env['res.lang'].search([('code','in',['en_US','th_TH'])]):
-            if not lg.active:
-               lg.active = True
-               sync_logdebug(req.context_sync,"Activate Lang %s" % lg.name)
+        for lg in self.env['res.lang'].search([('active','=',False),('code','in',['en_US','th_TH'])]):            
+            lg.active = True
+            sync_logdebug(req.context_sync,"Activate Lang %s" % lg.name)
 
         if req.config.sync_position and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Positions")
