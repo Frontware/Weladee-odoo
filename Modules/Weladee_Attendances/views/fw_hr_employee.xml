@@ -28,7 +28,7 @@ remarks:
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">                
 
-                <xpath expr="//field[@name='category_ids']" position="after">
+                <xpath expr="//field[@name='category_ids']//.." position="after">
                     <group>
                         <group>
                             <field name="first_name_english"/>
