@@ -10,10 +10,9 @@
         <field name="name">weladee_setting_wizard</field>
         <field name="model">weladee_attendance.synchronous.setting</field>
         <field name="arch" type="xml">
-            <form string="Setting">
+            <form string="Setting" create="0" delete="0">
                 <header>
-                    <button name="saveBtn" string="Save" class="oe_highlight" type="object"/>
-                    <button name="cancel" string="Cancel"/>
+                    <button name="saveBtn" string="Apply/Save settings" class="oe_highlight" type="object"/>
                 </header>
                 <group>
                     <!-- left -->
@@ -45,24 +44,22 @@
                     </group>
                 
                     <group string="Settings">
+                    <div style="position:absolute" class="col-lg-5">
                     <notebook>
-                        <page string="Notification">
-                            <group>
+                        <page string="Notification" class="m10">
                                 <label for="email"/>
                                 <div>
                                     <field name="email" requird="1"/>
                                     <br/>
                                     <span class="o_form_label">*Note: you can separate each email by ;</span>
                                 </div>
-                            </group>
-                            <group>
                                 <div>
                                     <field name="api_debug" nolabel="1" class="oe_inline"/>
-                                    <label for="api_debug" />
+                                    <label for="api_debug"/>
                                 </div>
-                            </group>
                         </page>                    
                     </notebook>
+                    </div>
                     </group>
                 </group>
             </form>

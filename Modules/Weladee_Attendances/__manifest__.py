@@ -32,7 +32,7 @@
 "website" : "https://www.weladee.com/",
 "description":"""
 Weladee attendances module
-==========================
+===========================
 Module to manage synchronous Employee, Department.
 
 It will synchronus employee, department, position to odoo.
