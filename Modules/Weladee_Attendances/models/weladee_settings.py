@@ -27,7 +27,7 @@ class weladee_settings(models.TransientModel):
     _description="Weladee settings"
 
     def _get_params_value(self, key, number=False, default=False):
-        r = self.env['ir.config_parameter'].get_param(key)
+        r = self.env['ir.config_parameter'].sudo().get_param(key)
         if number:
            try:
                 return int(float(r)) or default
