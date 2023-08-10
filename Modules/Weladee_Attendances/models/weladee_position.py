@@ -132,3 +132,14 @@ class weladee_job(models.Model):
                 record.is_weladee = True
             else:
                 record.is_weladee = False
+
+    def open_weladee_position(self):
+      if self.weladee_id :
+        return {
+              'name': _("Weladee Position"),
+              'type': 'ir.actions.act_url',
+              'url': 'https://www.weladee.com/position/%s' % self.weladee_id,
+              'target': 'new'
+          }
+      else :
+        raise exceptions.UserError(_("This position don't have weladee url."))
