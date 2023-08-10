@@ -41,7 +41,6 @@ class weladee_attendance_approval(models.TransientModel):
             sync_logdebug(req.context_sync,"Start sync...Approvals Types")
             req.employee_obj = self.env['hr.employee']
             req.approvals_type_obj = self.env['fw.approvals.type']
-            req.translation_obj = self.env['ir.translation']
             sync_approvals_type(req)
         
         if req.config.sync_approval and not sync_has_error(req.context_sync):

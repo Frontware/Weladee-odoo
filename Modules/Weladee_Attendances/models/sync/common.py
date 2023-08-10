@@ -28,4 +28,5 @@ def add_translation(identifiers, model_id, translation_req, req, lang='en_US'):
         field_name = field[len(prefix):]
         name = ','.join([model_id, field_name])
         value = translation_req[field]
-        req.translation_obj._set_ids(name, 'model', lang, identifiers, value)
+        #req.translation_obj._set_ids(name, 'model', lang, identifiers, value)
+        req.with_context(lg=lang).write({field_name: value})

@@ -27,17 +27,15 @@ class weladee_project(models.Model):
         if 'name-th' in vals: del vals['name-th']
         if 'description-th' in vals: del vals['description-th']
         ret = super(weladee_project, self).create(vals)
-        irobj = self.env['ir.translation']
 
         # Check if record could be created
         if ret.id and (('name-th' in vals) or ('name' in vals) or ('description-th' in vals) or ('description' in vals)):
-           irobj = self.env['ir.translation']
 
            if (('name-th' in vals) or ('name' in vals)):
-              add_value_translation(ret, irobj, 'project.project','name',vals.get('name', ''), name_th)
+              add_value_translation(ret, 'name', vals.get('name', ''), name_th)
 
            if (('description-th' in vals) or ('description' in vals)):
-              add_value_translation(ret, irobj, 'project.project','description',vals.get('name', ''), des_th)
+              add_value_translation(ret, 'description', vals.get('name', ''), des_th)
 
         return ret
 
@@ -49,13 +47,11 @@ class weladee_project(models.Model):
         ret = super(weladee_project, self).write(vals)
 
         if ret and (('name-th' in vals) or ('name' in vals) or ('description-th' in vals) or ('description' in vals)):
-           irobj = self.env['ir.translation']
            for each in self:
                if (('name-th' in vals) or ('name' in vals)):
-                  add_value_translation(each, irobj, 'project.project','name',vals.get('name', ''), name_th)
+                  add_value_translation(each, 'name',vals.get('name', ''), name_th)
                if (('description-th' in vals) or ('description' in vals)):
-                  add_value_translation(each, irobj, 'project.project','description',vals.get('name', ''), des_th)
-               break
+                  add_value_translation(each, 'description',vals.get('name', ''), des_th)
 
         return ret
 

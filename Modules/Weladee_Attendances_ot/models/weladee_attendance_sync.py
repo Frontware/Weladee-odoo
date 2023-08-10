@@ -32,7 +32,6 @@ class weladee_attendance_ot(models.TransientModel):
             sync_logdebug(req.context_sync,"Start sync...OT Types")
             req.employee_obj = self.env['hr.employee']
             req.ot_type_obj = self.env['fwot_ot_type']
-            req.translation_obj = self.env['ir.translation']
             sync_ot_type(req)
         
         if req.config.sync_ot and not sync_has_error(req.context_sync):

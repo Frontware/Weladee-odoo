@@ -46,8 +46,7 @@ class weladee_ot_type(models.Model):
         ret = super(weladee_ot_type, self).create(vals)
 
         if ret.id and (('name-th' in vals) or ('name' in vals)):
-           irobj = self.env['ir.translation']
-           add_value_translation(ret, irobj, 'fwot_ot_type','name',vals.get('name', ''), name_th)
+           add_value_translation(ret, 'name', vals.get('name', ''), name_th)
 
         return ret
 
@@ -57,9 +56,7 @@ class weladee_ot_type(models.Model):
         ret = super(weladee_ot_type, self).write(vals)
 
         if ret and (('name-th' in vals) or ('name' in vals)):
-           irobj = self.env['ir.translation']
            for each in self:
-               add_value_translation(each, irobj, 'fwot_ot_type','name',vals.get('name', ''), name_th)
-               break
+               add_value_translation(each, 'name', vals.get('name', ''), name_th)
 
         return ret    

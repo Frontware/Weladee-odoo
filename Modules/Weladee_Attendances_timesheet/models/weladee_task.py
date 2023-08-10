@@ -25,8 +25,7 @@ class weladee_task(models.Model):
 
         # Check if record could be created
         if ret.id and (('name-th' in vals) or ('name' in vals)):
-           irobj = self.env['ir.translation']
-           add_value_translation(ret, irobj, 'project.task','name',vals.get('name', ''), name_th)
+           add_value_translation(ret, 'name',vals.get('name', ''), name_th)
 
         return ret
 
@@ -36,10 +35,8 @@ class weladee_task(models.Model):
         ret = super(weladee_task, self).write(vals)
 
         if ret and (('name-th' in vals) or ('name' in vals)):
-           irobj = self.env['ir.translation']
            for each in self:
-               add_value_translation(each, irobj, 'project.task','name',vals.get('name', ''), name_th)
-               break
+               add_value_translation(each, 'name',vals.get('name', ''), name_th)
 
         return ret
 

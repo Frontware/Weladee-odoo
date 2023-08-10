@@ -51,8 +51,7 @@ class weladee_gate(models.Model):
         ret = super(weladee_gate, self).create(vals)
 
         if ret.id and (('name-th' in vals) or ('name' in vals)):
-           irobj = self.env['ir.translation']
-           add_value_translation(ret, irobj, 'weladee_gate','name',vals.get('name', ''), name_th)
+           add_value_translation(ret, 'name', vals.get('name', ''), name_th)
 
         return ret
 
@@ -61,10 +60,9 @@ class weladee_gate(models.Model):
         if 'name-th' in vals: del vals['name-th']
         ret = super(weladee_gate, self).write(vals)
 
+        if self.env.context.get('updateLang'): return ret
         if ret and (('name-th' in vals) or ('name' in vals)):
-           irobj = self.env['ir.translation']
            for each in self:
-               add_value_translation(each, irobj, 'weladee_gate','name',vals.get('name', ''), name_th)
-               break
+               add_value_translation(each, 'name', vals.get('name', ''), name_th)
 
         return ret    
