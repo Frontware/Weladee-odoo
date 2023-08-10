@@ -34,8 +34,21 @@ class weladee_expense_type(models.Model):
         if 'name-th' in vals: del vals['name-th']
         ret = super(weladee_expense_type, self).write(vals)
 
+        if self.env.context.get('updateLang'): return ret
         if ret and (('name-th' in vals) or ('name' in vals)):
            for each in self:
                add_value_translation(each, 'name', vals.get('name', ''), name_th)
 
         return ret    
+    
+    def open_weladee_type(self):
+        if self.weladee_id:
+            return {
+                'name': _('Weladee Expense type'),
+                'type': 'ir.actions.act_url',
+                'url': 'https://www.weladee.com/expense/type/%s' % self.weladee_id,
+                'target': 'new'
+            }
+        else:
+            raise UserError(_("This expense type doesn't have a weladee id."))
+       
