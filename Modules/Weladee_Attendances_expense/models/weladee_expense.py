@@ -28,7 +28,7 @@ class weladee_expense(models.Model):
     def write(self, vals):
         for each in self:
             cansave = True
-            if each.weladee_id: cansave = False    
+            if each.weladee_id: cansave = 'weladee_id' in vals
 
             if not cansave:
                raise UserError('You cannot change this record from weladee') 
