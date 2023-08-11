@@ -51,12 +51,12 @@ remarks:
                 <xpath expr="//field[@name='source_id']" position="after">
                     <field name="date_apply" />
                 </xpath>
-                <xpath expr="//field[@name='emp_id']//..//.." position="after">
-                    <label for="note" />
-                    <field name="note" />
+                <xpath expr="//field[@name='description']//.." position="after">
+                    <page string="Note">
+                        <field name="note" placeholder="Note..."/>
+                    </page>
                 </xpath>
 
-                <!-- Hide edit button if record comes from weladee -->
                 <xpath expr="/form/sheet" position="inside">
                     <field name="hide_edit_btn_css"/>
                 </xpath>

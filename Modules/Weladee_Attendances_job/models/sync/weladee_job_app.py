@@ -87,7 +87,7 @@ def sync_job_applicant(req):
         if not source_id.id:
             source_id = req.utm_source_obj.create({'name':'Weladee'})
             if source_id and source_id.id:
-                req.translation_obj._set_ids('utm.source,name', 'model', 'th_TH', [source_id.id], 'เวลาดี')
+                source_id.with_context(lang='th_TH').name = 'เวลาดี'
         
         # Calculate period
         period = sync_period(req.config.job_period, req.config.job_period_unit)
