@@ -1,0 +1,7 @@
+.o_timeoff_buttons > .btn-time-off {
+    display: none;
+}
+
+.o_timeoff_buttons > .btn-secondary {
+    display: none;
+}
