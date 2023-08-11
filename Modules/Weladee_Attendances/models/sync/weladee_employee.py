@@ -315,9 +315,7 @@ def sync_employee(req):
 
         if odoo_employee.parent_id and odoo_employee.parent_id.weladee_id:
             newEmployee.employee.ManagerID = int(odoo_employee.parent_id.weladee_id or '0')
-        print('xxxxxxxxxxxxxxxxxxxxxxx')
-        print(odoo_employee.job_id.weladee_id)
-        print('xxxxxxxxxxxxxxxxxxxxxxx')
+
         if odoo_employee.job_id and odoo_employee.job_id.weladee_id:
             newEmployee.employee.PositionID = int(odoo_employee.job_id.weladee_id or '0')
 
