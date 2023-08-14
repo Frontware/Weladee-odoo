@@ -55,6 +55,14 @@ class weladee_ot_type(models.Model):
         if 'name-th' in vals: del vals['name-th']
         ret = super(weladee_ot_type, self).write(vals)
 
+        for each in self:
+            cansave = True
+            if each.weladee_id: cansave = 'weladee_id' in vals
+
+            if not cansave:
+               raise UserError('You cannot change this record from weladee') 
+
+        if self.env.context.get('updateLang'): return ret
         if ret and (('name-th' in vals) or ('name' in vals)):
            for each in self:
                add_value_translation(each, 'name', vals.get('name', ''), name_th)

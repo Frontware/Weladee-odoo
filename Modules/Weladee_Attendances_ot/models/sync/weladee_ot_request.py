@@ -92,7 +92,7 @@ def sync_ot(req):
             elif odoo_ot and odoo_ot['res-mode'] == 'update':
                 odoo_id = req.ot_request_obj.browse(odoo_ot['res-id'])
                 if odoo_id.id:
-                   odoo_id.with_context({'mail_create_nosubscribe':False,'send2-weladee': False}).write(sync_clean_up(odoo_ot))
+                   odoo_id.with_context({'mail_create_nosubscribe':False,'send2-weladee': False,'updateLang':True}).write(sync_clean_up(odoo_ot))
 
                    sync_logdebug(req.context_sync, "Updated ot '%s' to odoo" % odoo_ot['description'] )
                    sync_stat_update(req.context_sync['stat-ot'], 1)

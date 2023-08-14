@@ -18,7 +18,6 @@ class weladee_attendance_ot(models.TransientModel):
 
         # for ot
         r.employee_obj  = False
-        r.translation_obj = False
 
         r.ot_type_obj = False
         r.ot_request_obj = False
