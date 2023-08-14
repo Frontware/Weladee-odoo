@@ -38,7 +38,7 @@ class weladee_account_analytic_line(models.Model):
                 record.is_weladee = False
 
     def write(self, vals):
-        if not self.env.context.get('updateLang'): 
+        if not self.env.context.get('updateLang'):
            for each in self:
                cansave = True
                if each.weladee_id: cansave = 'weladee_id' in vals
