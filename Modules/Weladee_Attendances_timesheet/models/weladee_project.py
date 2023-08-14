@@ -44,8 +44,18 @@ class weladee_project(models.Model):
         des_th = vals.get('description-th', '')
         if 'name-th' in vals: del vals['name-th']
         if 'description-th' in vals: del vals['description-th']
+
+        if not self.env.context.get('updateLang'):
+           for each in self:
+               cansave = True
+               if each.weladee_id: cansave = 'weladee_id' in vals
+
+               if not cansave:
+                  raise UserError('You cannot change this record from weladee') 
+
         ret = super(weladee_project, self).write(vals)
 
+        if self.env.context.get('updateLang'): return ret
         if ret and (('name-th' in vals) or ('name' in vals) or ('description-th' in vals) or ('description' in vals)):
            for each in self:
                if (('name-th' in vals) or ('name' in vals)):

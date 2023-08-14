@@ -15,7 +15,7 @@ def sync_work_type_data(weladee_work_type, req):
     pos = {"name" : weladee_work_type.WorkType.NameEnglish,
            "name_thai" : weladee_work_type.WorkType.NameThai,
            "weladee_id" : weladee_work_type.WorkType.ID,
-           'default_description': weladee_work_type.WorkType.Note,
+           'default_note': weladee_work_type.WorkType.Note,
            'send2-weladee':False}
 
     # look if there is odoo record with same weladee-id

@@ -43,10 +43,10 @@ remarks:
                             </div>
                     </button>
                 </xpath>
-                <field name="user_id" position="after">
+                <field name="user_ids" position="after">
                     <field name="other_assignee_ids" widget="many2many_tags" attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}" />
                 </field>
-               <xpath expr="//field[@name='name']//.." position="after">
+               <xpath expr="//field[@name='name']//..//.." position="after">
                    <field name="weladee_id" invisible="1" />
                    <div attrs="{'invisible':[('weladee_id','=',False)]}" style="color:red">
                    This record is imported from weladee, any change in odoo will be replaced by data from weladee.

@@ -32,11 +32,21 @@ class weladee_task(models.Model):
     def write(self, vals):
         name_th = vals.get('name-th', '')
         if 'name-th' in vals: del vals['name-th']
+
+        if not self.env.context.get('updateLang'): 
+           for each in self:
+               cansave = True
+               if each.weladee_id: cansave = 'weladee_id' in vals
+
+               if not cansave:
+                  raise UserError('You cannot change this record from weladee') 
+
         ret = super(weladee_task, self).write(vals)
 
+        if self.env.context.get('updateLang'): return ret
         if ret and (('name-th' in vals) or ('name' in vals)):
            for each in self:
-               add_value_translation(each, 'name',vals.get('name', ''), name_th)
+               add_value_translation(each, 'name', vals.get('name', ''), name_th)
 
         return ret
 

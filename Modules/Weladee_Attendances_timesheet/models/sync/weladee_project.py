@@ -101,7 +101,7 @@ def sync_project(req):
                 odoo_id = req.project_obj.search([('id','=',odoo_prj['res-id']),'|',('active','=',False),('active','=',True)])
                 if odoo_id.id:
                 #    odoo_id.write({'partner_id': odoo_prj.get('partner_id')})
-                   odoo_id.write(sync_clean_up(odoo_prj))
+                   odoo_id.with_context(updateLang=True).write(sync_clean_up(odoo_prj))
                    sync_logdebug(req.context_sync, "Updated project '%s' to odoo" % odoo_prj['name'] )
                    sync_stat_update(req.context_sync['stat-proj'], 1)
                    
