@@ -28,7 +28,6 @@ class weladee_attendance_job(models.TransientModel):
 
         r.lang_obj = False
         r.utm_source_obj = False
-        r.translation_obj = False
 
         return r    
 
