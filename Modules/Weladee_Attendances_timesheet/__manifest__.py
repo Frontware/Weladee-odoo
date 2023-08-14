@@ -7,11 +7,13 @@
 'summary': 'Weladee-Odoo attendances\'s module',
 "depends" : ['hr_timesheet', 
              'hr_timesheet_attendance',
+             'mail',
              'Weladee_Attendances'],
 "data" :[
         "wizards/weladee_attendance_settings.xml",
 
         'views/fw_hr_employee.xml',
+        'views/fw_hr_work_type.xml',
         'views/fw_hr_project_project.xml',
         'views/fw_hr_project_task.xml',
         'views/fw_hr_timesheet.xml',
