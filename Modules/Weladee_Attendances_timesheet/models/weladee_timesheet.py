@@ -36,3 +36,14 @@ class weladee_account_analytic_line(models.Model):
                 record.is_weladee = True
             else:
                 record.is_weladee = False
+
+    def write(self, vals):
+        if not self.env.context.get('updateLang'): 
+           for each in self:
+               cansave = True
+               if each.weladee_id: cansave = 'weladee_id' in vals
+
+               if not cansave:
+                  raise UserError('You cannot change this record from weladee') 
+
+        return super(weladee_account_analytic_line, self).write(vals)

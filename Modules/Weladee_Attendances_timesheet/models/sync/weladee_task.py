@@ -63,15 +63,6 @@ def sync_task_data(weladee_task, req):
         # sync_logwarn(req.context_sync, 'this task\'name record already exist for this %s exist, no change will apply' % data['name'])
         # return data
 
-    # check if there is same name
-    # consider it same record
-    # odoo_task = req.task_obj.search( [ ('name','=', data['name'] ), '|', ('active','=',True), ('active','=',False)],limit=1 )
-    # if odoo_task.id:
-    #     data['res-mode'] = 'update'
-    #     data['res-id'] = odoo_task.id
-    #     sync_logdebug(req.context_sync, 'odoo > %s' % odoo_task)
-    #     sync_logdebug(req.context_sync, 'weladee > %s' % weladee_task)
-
     return data
 
 def sync_task(req):
@@ -109,7 +100,7 @@ def sync_task(req):
             elif odoo_task and odoo_task['res-mode'] == 'update':
                 odoo_id = req.task_obj.search([('id','=',odoo_task['res-id']),'|',('active','=',True),('active','=',False)])
                 if odoo_id.id:
-                    odoo_id.with_context(mail_auto_subscribe_no_notify=True).write(sync_clean_up(odoo_task))
+                    odoo_id.with_context({'mail_auto_subscribe_no_notify':True,'updateLang':True}).write(sync_clean_up(odoo_task))
                     sync_logdebug(req.context_sync, "Updated task '%s' to odoo" % odoo_task['name'] )
                     sync_stat_update(req.context_sync['stat-task'], 1)
 
