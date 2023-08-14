@@ -28,12 +28,13 @@ class weladee_job_app(models.Model):
     hide_edit_btn_css = fields.Html(string='css', sanitize=False, compute='_compute_css')
 
     def write(self, vals):
-        for each in self:
-            cansave = True
-            if each.weladee_id: cansave = 'weladee_id' in vals
+        if not self.env.context.get('updateLang'):
+           for each in self:
+               cansave = True
+               if each.weladee_id: cansave = 'weladee_id' in vals
 
-            if not cansave:
-               raise UserError('You cannot change this record from weladee') 
+               if not cansave:
+                  raise UserError('You cannot change this record from weladee') 
 
         return super(weladee_job_app, self).write(vals)
 
