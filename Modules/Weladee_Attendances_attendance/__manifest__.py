@@ -25,6 +25,15 @@ Module to manage synchronous attendance.
 
 It will synchronus employee attendance to odoo.
 
+employee
+- field receive_check_notification
+- search, group by weladeeid
+
+Attendances
+- hide kiosk mode
+- hide my attendances
+- remove create,edit,delete
+
 change log:
 ------------------------------------
 * 2023-08-09 KPO updated to odoo 16

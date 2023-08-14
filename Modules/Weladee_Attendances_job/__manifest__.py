@@ -30,6 +30,12 @@ Module to manage synchronous job.
 
 It will synchronus job to odoo.
 
+job positions
+- tab job ads
+
+Recruitment
+- weladee jobads
+
 change log:
 ------------------------------------
 * 2023-08-11 KPO updated to odoo 16

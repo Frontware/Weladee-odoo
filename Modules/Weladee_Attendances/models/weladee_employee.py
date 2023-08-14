@@ -636,3 +636,11 @@ class weladee_employee(models.Model):
                 record.is_weladee = True
             else:
                 record.is_weladee = False
+
+    def open_weladee(self):
+        return {
+                'name': _('Employee'),
+                'type': 'ir.actions.act_url',
+                'url': 'https://www.weladee.com/employee/%s' % self.weladee_id,
+                'target': 'new'
+        }

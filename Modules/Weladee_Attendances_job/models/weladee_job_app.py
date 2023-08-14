@@ -37,6 +37,10 @@ class weladee_job_app(models.Model):
                   raise UserError('You cannot change this record from weladee') 
 
         return super(weladee_job_app, self).write(vals)
+    def unlink(self):
+        self.env['weladee_attendance.synchronous'].check_weladee_id(self, {})
+
+        return super(weladee_job_app, self).unlink()
 
     def open_weladee_job_app(self):
         if self.weladee_url:

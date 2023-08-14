@@ -86,7 +86,7 @@ def sync_task(req):
             odoo_task = sync_task_data(weladee_task, req)
             
             if odoo_task and odoo_task['res-mode'] == 'create':
-                newid = req.task_obj.with_context(mail_auto_subscribe_no_notify=True).create(sync_clean_up(odoo_task))
+                newid = req.task_obj.with_context(mail_auto_subscribe_no_notify=True,validate_weladee_id=False).create(sync_clean_up(odoo_task))
                 if newid and newid.id:
                     sync_logdebug(req.context_sync, "Insert task '%s' to odoo" % odoo_task )
                     sync_stat_create(req.context_sync['stat-task'], 1)

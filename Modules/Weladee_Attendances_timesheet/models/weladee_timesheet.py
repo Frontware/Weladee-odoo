@@ -29,6 +29,14 @@ class weladee_account_analytic_line(models.Model):
       else:
         raise UserError(_("This employee doesn't have weladee url."))
 
+    def unlink(self):
+        self.env['weladee_attendance.synchronous'].check_weladee_id(self, {})
+        return super(weladee_account_analytic_line, self).unlink()
+
+    def write(self, vals):
+        self.env['weladee_attendance.synchronous'].check_weladee_id(self, {})
+        return super(weladee_account_analytic_line, self).write(vals)
+
     @api.depends('weladee_id')
     def _compute_from_weladee(self):
         for record in self:

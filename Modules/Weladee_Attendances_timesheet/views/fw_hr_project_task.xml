@@ -76,5 +76,18 @@ remarks:
                 </xpath>
             </field>
         </record>
+
+        <record id="fwweladee_tree_task" model="ir.ui.view">
+            <field name="name">fwweladee_tree_task</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_tree2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='stage_id']" position="after">
+                    <field name="weladee_id" invisible="1" />
+                    <button attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}" type="object" name="open_weladee_task" class="icon-weladee-kanban"></button>
+                </xpath>
+            </field>
+        </record>
+
     </data>
 </odoo>

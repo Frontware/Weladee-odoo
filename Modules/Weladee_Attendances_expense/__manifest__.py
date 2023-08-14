@@ -23,6 +23,16 @@ Module to manage synchronous expense.
 
 It will synchronus expense to odoo.
 
+expense
+- field request_amount
+- field receipt_file_name
+- field receipt
+- field expense_type_id
+- field refuse_reason
+
+expenses / Configuration
+- weladee expense type
+
 change log:
 ------------------------------------
 * 2023-08-10 KPO updated to odoo 16

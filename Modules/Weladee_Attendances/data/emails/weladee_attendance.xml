@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 
 	purpose : email template for sync
+    
+    2022-12-28 KPO updated to odoo 16.0
  -->
 <odoo>
     <data noupdate="1">

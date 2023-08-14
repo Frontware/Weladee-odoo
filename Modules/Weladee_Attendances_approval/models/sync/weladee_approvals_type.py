@@ -194,6 +194,7 @@ def sync_approvals_type(req):
         sync_loginfo(req.context_sync,'[approvals type] updating changes from weladee -> odoo')
         weladee_approvals_type = None
         for weladee_approvals_type in stub.GetApprovalTypes(weladee_pb2.Empty(), metadata=req.config.authorization):
+            print(weladee_approvals_type)
             sync_stat_to_sync(req.context_sync['stat-approvals-type'], 1)
             if not weladee_approvals_type:
                 sync_logwarn(req.context_sync,'weladee approvals type is empty')

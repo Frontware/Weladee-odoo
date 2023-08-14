@@ -40,6 +40,9 @@
                         <label class="oe_edit_only" for="name" string="Name"/>
                         <h1><field name="name" placeholder="e.g. Gas"/></h1>
                     </div>
+                   <div attrs="{'invisible':[('weladee_id','=',False)]}" style="color:red">
+                        This record is imported from weladee, any change in odoo will be replaced by data from weladee.
+                   </div>
                     <group>
                         <group>
                             <field name="code"/>

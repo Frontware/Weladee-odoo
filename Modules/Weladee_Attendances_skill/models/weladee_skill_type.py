@@ -12,7 +12,12 @@ class weladee_skill_type(models.Model):
     weladee_url = fields.Char(string="Weladee Url", default="", copy=False, readonly=True)
     is_weladee = fields.Boolean(compute='_compute_from_weladee', copy=False, readonly=True, store=True)
     hide_edit_btn_css = fields.Html(string='css', sanitize=False, compute='_compute_css')
-    
+
+    def unlink(self):
+        self.env['weladee_attendance.synchronous'].check_weladee_id(self, {})
+
+        return super(weladee_skill_type, self).unlink()
+
     def open_weladee_skill_type(self):
         if self.weladee_url:
             return {

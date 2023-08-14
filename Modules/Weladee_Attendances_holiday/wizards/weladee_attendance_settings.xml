@@ -25,25 +25,27 @@
                             <field name="tz" attrs="{'required':[('sync_holiday','=',True)]}"/>
                             <field name="holiday_status_id" attrs="{'required':[('sync_holiday','=',True)]}"/>
                             <field name="sick_status_id" attrs="{'required':[('sync_holiday','=',True)]}"/>
-                            <label for="holiday_notify_leave_req" string="Notify" />
-                            <div>
-                                <field name="holiday_notify_leave_req"/>
-                            </div>
-                            <label for="holiday_period"/>
+                            <label for="holiday_period" string="Sync holiday since"/>
                             <div>
                                 <field attrs="{'required':[('sync_holiday','=',True)],'invisible':[('holiday_period','=','all')]}" name="holiday_period_unit" class="oe_inline" />
                                 <span attrs="{'invisible':[('holiday_period','=','all')]}">&amp;nbsp;</span>
                                 <field name="holiday_period" style="height:24px" attrs="{'required':[('sync_holiday','=',True)]}" class="oe_inline" />
                             </div>
                         </group>
+                        <br />
+                        <div class="o_wrap_label">
+                            <label for="holiday_notify_leave_req" string="Notify when no enough leave allocate" class="o_form_label oe_inline" />
+                            <field name="holiday_notify_leave_req" class="oe_inline"/>
+                        </div>
                         <group attrs="{'invisible':[('holiday_notify_leave_req','=',False)]}">
-                            <span class="o_form_label">to email</span><br/>
+                            <label for="email" string="To email"/>
                             <div>
                                 <field name="holiday_notify_leave_req_email" attrs="{'required':[('holiday_notify_leave_req','=',True)]}"/>
                             </div>
-                            <br/>
-                            <span class="o_form_label">*Note: you can separate each email by ;</span>
                         </group>
+                        <div attrs="{'invisible':[('holiday_notify_leave_req','=',False)]}">
+                            <span class="text-danger">*Note: you can separate each email by ;</span>
+                        </div>
                     </page>
                 </xpath>
         </field>

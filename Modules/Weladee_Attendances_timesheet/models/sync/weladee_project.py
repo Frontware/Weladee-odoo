@@ -32,37 +32,8 @@ def sync_project_data(weladee_project, req):
         data['res-id'] = prev_rec.id
         sync_logdebug(req.context_sync, 'weladee > %s ' % weladee_project)
         sync_logdebug(req.context_sync, 'odoo > %s ' % data)
-        #sync_logwarn(req.context_sync, 'this project\'name record already exist for this %s exist, no change will apply' % data['name'])
-        # return data
-
-    # check if there is same name
-    # consider it same record
-    # odoo_prj = req.project_obj.search( [ ('name','=', data['name'] ), '|', ('active','=',True), ('active','=',False)],limit=1 )
-    # if odoo_prj.id:
-    #     data['res-mode'] = 'update'
-    #     data['res-id'] = odoo_prj.id
-    #     sync_logdebug(req.context_sync, 'odoo > %s' % odoo_prj)
-    #     sync_logdebug(req.context_sync, 'weladee > %s' % weladee_project)
 
     return data
-
-def sync_delete_project(req):
-    del_ids = req.project_obj.search([('weladee_id','!=',False)])
-    if del_ids:         
-       del_ids.unlink()
-       sync_logwarn(req.context_sync, 'remove all linked project: %s record(s)' % len(del_ids))
-
-def sync_delete_task(req):
-    del_ids = req.task_obj.search([('weladee_id','!=',False)])
-    if del_ids: 
-       del_ids.unlink()
-       sync_logwarn(req.context_sync, 'remove all linked task: %s record(s)' % len(del_ids))
-
-def sync_delete_timesheet(req):
-    del_ids = req.timesheet_obj.search([('weladee_id','!=',False)])
-    if del_ids: 
-       del_ids.unlink()
-       sync_logwarn(req.context_sync, 'remove all linked timesheet: %s record(s)' % len(del_ids))
 
 def sync_project(req):
     '''
@@ -85,7 +56,7 @@ def sync_project(req):
             odoo_prj = sync_project_data(weladee_project, req)
             
             if odoo_prj and odoo_prj['res-mode'] == 'create':
-                newid = req.project_obj.create(sync_clean_up(odoo_prj))
+                newid = req.project_obj.with_context(validate_weladee_id=False).create(sync_clean_up(odoo_prj))
                 if newid and newid.id:
                     sync_logdebug(req.context_sync, "Insert project '%s' to odoo" % odoo_prj )
                     sync_stat_create(req.context_sync['stat-proj'], 1)

@@ -34,6 +34,59 @@ Module to manage synchronous Holiday.
 
 It will synchronus employee holidays and company holidays to odoo.
 
+email temmplate
+- Weladee Attendance: Employee's Leaves Allocation Request not enough
+
+group
+- group_weladee_leave_allocation
+
+employee
+- field can_request_holiday
+
+leave type
+- field weladee_code
+- group by weladee
+- search by weladee_code
+
+leave
+- no create/edit/delete
+- remove allocation menu
+- remove manager approve menu
+- group by weladee
+
+- field daypart
+- field weladee_sick
+- field weladee_code
+- field weladee_id
+
+user
+- remove button leave, leave allocate
+
+Time off 
+- company holiday
+- mytime off 
+  - dashboard (hide new time off, allocation request buttons)
+- overview (hide new time off, allocation request buttons)
+- approvals
+  - timeoff (hide new time off, allocation request buttons)
+
+weladee sync form
+- add holiday
+
+weladee sync
+- add sync holiday and company holiday
+- 1 way from weladee to odoo
+
+weladee settings
+- field holiday_period
+- field holiday_period_unit
+- field holiday_status_id
+- field sick_status_id
+- field holiday_notify_leave_req
+- field holiday_notify_leave_req_email
+- field tz
+- field sync_holiday
+
 change log:
 ------------------------------------
 * 2023-08-11 KPO updated to odoo 16

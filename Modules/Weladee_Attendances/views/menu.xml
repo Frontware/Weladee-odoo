@@ -6,14 +6,14 @@
         
     <menuitem id="weladee_attendance_synchronous_menu"
         name="Weladee Synchronization"
-        sequence="75"
+        sequence="76"
         action="weladee_attendance_synchronous_act_server"
         parent="weladee_fw_menu_root"
         groups="Weladee_Attendances.group_weladee_attendance_admin"
     />
 
     <menuitem id="weladee_setting_menu" name="Weladee Settings" 
-        sequence="76" parent="weladee_fw_menu_root" 
+        sequence="75" parent="weladee_fw_menu_root" 
         groups="Weladee_Attendances.group_weladee_attendance_admin" 
         action="action_weladee_setting_form" />
 

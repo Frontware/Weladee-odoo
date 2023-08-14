@@ -29,6 +29,11 @@ class weladee_expense_type(models.Model):
 
         return ret
 
+    def unlink(self):
+        self.env['weladee_attendance.synchronous'].check_weladee_id(self, {})
+
+        return super(weladee_expense_type, self).unlink()
+
     def write(self, vals):
         name_th = vals.get('name-th', '')
         if 'name-th' in vals: del vals['name-th']

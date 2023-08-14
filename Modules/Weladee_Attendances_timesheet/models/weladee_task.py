@@ -28,6 +28,11 @@ class weladee_task(models.Model):
            add_value_translation(ret, 'name',vals.get('name', ''), name_th)
 
         return ret
+        
+    def unlink(self):
+        self.env['weladee_attendance.synchronous'].check_weladee_id(self, {})
+
+        return super(weladee_task, self).unlink()
 
     def write(self, vals):
         name_th = vals.get('name-th', '')

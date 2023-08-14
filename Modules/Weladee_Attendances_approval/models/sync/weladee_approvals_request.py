@@ -63,13 +63,29 @@ def sync_approvals_request_data(weladee_approvals_request, req):
 
     odoo_approvers_by_level = {} # Set of k:v pairs where k is the name of the field and v is a set of approver's ids
     odoo_approvers_to_update = {} # Set of k:v pairs where k is the name of the field and v is a set of approver's ids (subset of odoo_approvers_by_level)
-
+    
     # Check for odoo approval type with same weladee-id.
     odoo_approvals_type = req.approvals_type_obj.search([("weladee_id","=",weladee_approvals_request.request.TypeID),'|',('active','=',False),('active','=',True)], limit=1)
     if not odoo_approvals_type.id:
         # Approval type with same weladee-id does not exists.
         return
     data['type'] = odoo_approvals_type.id
+
+    # copy all fields def.
+    data['field_document'] = odoo_approvals_type.field_document
+    data['field_contact'] = odoo_approvals_type.field_contact
+    data['field_date'] = odoo_approvals_type.field_date
+    data['field_quantity'] = odoo_approvals_type.field_quantity
+    data['field_amount'] = odoo_approvals_type.field_amount
+    data['field_period'] = odoo_approvals_type.field_period
+    data['field_reference'] = odoo_approvals_type.field_reference
+    data['field_payment'] = odoo_approvals_type.field_payment
+    data['field_place'] = odoo_approvals_type.field_place
+    data['require_manager'] = odoo_approvals_type.manager_approver
+    data['approvers_1_minimum_approval'] = odoo_approvals_type.minimum_approval
+    # copy all fields def.
+
+
     data['name'] = odoo_approvals_type.name
     data['date_confirmed'] = datetime.datetime.fromtimestamp(weladee_approvals_request.request.CreatedOn)
 
@@ -80,7 +96,7 @@ def sync_approvals_request_data(weladee_approvals_request, req):
     data['owner_request'] = odoo_employee.id
 
     data['note'] = 'Created by %s' % weladee_approvals_request.request.CreatedByName
-
+    
     # Link weladee project and odoo project.
     if weladee_approvals_request.request.ProjectID:
         odoo_project = req.project_obj.search([("weladee_id","=",weladee_approvals_request.request.ProjectID),'|',('active','=',False),('active','=',True)], limit=1)
@@ -106,8 +122,10 @@ def sync_approvals_request_data(weladee_approvals_request, req):
     
     data['state'] = sync_approvals_request_data_request_status(weladee_approvals_request)
     
+    
     # Check for odoo record with same weladee-id
     odoo_approvals_request = req.approvals_request_obj.search([('weladee_id','=',data['weladee_id']),'|',('active','=',False),('active','=',True)], limit=1)
+    
     if not odoo_approvals_request.id:
         # odoo record does not exist.
         data['res-mode'] = 'create'
@@ -124,7 +142,7 @@ def sync_approvals_request_data(weladee_approvals_request, req):
             continue
 
         if response.RefuseReason:
-            data['text_text'] = response.RefuseReason
+            data['refuse_reason'] = response.RefuseReason
 
         vals = {
             'employee_id':odoo_approver_type.employee_id.id,
@@ -141,9 +159,7 @@ def sync_approvals_request_data(weladee_approvals_request, req):
         # Create new approver relation command.
         new_approver = (_CREATE, False, vals)
 
-        print()
         prv = req.approvals_approver.search([('level','=',odoo_approver_type.level),('request_id','=',odoo_approvals_request.id)])
-        print(prv)
         prv.unlink()
 
         approvers_x = 'approvers_' + str(odoo_approver_type.level)
@@ -204,6 +220,7 @@ def sync_approvals_request_data(weladee_approvals_request, req):
         data['document_file_name'] = False
         data['document'] = False
 
+    print(data)
     return data
 
 def sync_approvals_request(req):

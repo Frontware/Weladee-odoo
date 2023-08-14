@@ -33,7 +33,7 @@ class weladee_settings_expense(models.TransientModel):
     def get_expense_journal(self):
         return self._get_params_value(CONST_SETTING_EXPENSE_JOURNAL_ID, number=True)
 
-    expense_product_id = fields.Many2one("product.product", String="Expense product",default=get_expense_product )
+    expense_product_id = fields.Many2one("product.product", String="Expense Categories",default=get_expense_product )
     expense_period_unit = fields.Integer('Period Unit', default=get_expense_period_unit)
     expense_period = fields.Selection([('w','week(s) ago'),
                                         ('m','month(s) ago'),

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+        <record id="fw_hr_skill_weladee_type_search" model="ir.ui.view">
+            <field name="name">fw_hr_skill_weladee_type_search</field>
+            <field name="model">hr.skill.type</field>
+            <field name="arch" type="xml">
+                <search string="Skill Types">
+                    <field name="weladee_id"/>
+                    <filter string="Weladee" name="filter_weladee" domain="[('is_weladee','=',True)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Weladee" name="group_by_weladee" context="{'group_by':'is_weladee'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="fw_hr_skill_weladee_type_form" model="ir.ui.view">
+            <field name="name">fw_hr_skill_weladee_type_form</field>
+            <field name="model">hr.skill.type</field>
+            <field name="inherit_id" ref="hr_skills.hr_employee_skill_type_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/*[position() = 1]" position="before">
+                    <field name="weladee_id" invisible="1"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            name="open_weladee_skill_type"
+                            class="oe_stat_button"
+                            type="object"
+                            widget="url"
+                            attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}"
+                        >
+                            <div role="img" class="o_button_icon icon-weladee"/>
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Skill</span>
+                                <span class="o_stat_value">Type</span>
+                            </div>
+                        </button>
+                    </div>
+                </xpath>
+                <xpath expr="//field[@name='name']//.." position="after">
+                   <field name="weladee_id" invisible="1" />
+                   <div attrs="{'invisible':['|',('weladee_id','=',''),('weladee_id','=',False)]}" style="color:red">
+                   This record is imported from weladee, any change in odoo will be replaced by data from weladee.
+                   </div>
+                </xpath>
+
+                <!-- Hide edit button if record comes from weladee -->
+                <xpath expr="/form/sheet" position="inside">
+                    <field name="hide_edit_btn_css"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="fw_hr_skill_weladee_type_tree" model="ir.ui.view">
+            <field name="name">fw_hr_skill_weladee_type_tree</field>
+            <field name="model">hr.skill.type</field>
+            <field name="inherit_id" ref="hr_skills.hr_skill_type_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='skill_ids']" position="after">
+                    <field name="weladee_id" invisible="1" />
+                    <button attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}" type="object" name="open_weladee_skill_type" class="icon-weladee-kanban"></button>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

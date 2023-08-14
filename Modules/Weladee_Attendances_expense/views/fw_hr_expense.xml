@@ -107,14 +107,21 @@
                     </group>
                 </xpath>
 
+               <xpath expr="//field[@name='name']//.." position="after">
+                   <field name="weladee_id" invisible="1" />
+                   <div attrs="{'invisible':[('weladee_id','=',False)]}" style="color:red">
+                   This record is imported from weladee, any change in odoo will be replaced by data from weladee.
+                   </div>
+                </xpath>
+
                 <!-- Hide edit button if record comes from weladee -->
                 <xpath expr="/form/sheet" position="inside">
                     <field name="hide_edit_btn_css"/>
                 </xpath>
 
-                <field name="product_id" position="after">
+                <xpath expr="//field[@name='product_id']//.." position="after">
                     <field name="expense_type_id" />
-                </field>
+                </xpath>
 
                 <xpath expr="//field[@name='description']//.." position="before">
                     <label for="refuse_reason" attrs="{'invisible':[('state','!=','refused')]}"/>                    
@@ -131,6 +138,6 @@
                     Run Attendances <span class="fa fa-arrow-right o_we_selected_image" style="font-size: 13px;"></span> Weladee synchronization to get your expense from weladee
                 </p>
             </field>
-        </record>
+        </record> 
     </data>
 </odoo>       

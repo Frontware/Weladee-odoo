@@ -49,14 +49,14 @@ def sync_work_type(req):
             odoo_pos = sync_work_type_data(weladee_work_type, req)
 
             if odoo_pos and odoo_pos['res-mode'] == 'create':
-               req.work_type_obj.create(sync_clean_up(odoo_pos))
+               req.work_type_obj.with_context(validate_weladee_id=False).create(sync_clean_up(odoo_pos))
                sync_logdebug(req.context_sync, "Insert work_type '%s' to odoo" % odoo_pos['name'] )
                sync_stat_create(req.context_sync['stat-work_type'], 1)
 
             elif odoo_pos and odoo_pos['res-mode'] == 'update':
                 odoo_id = req.work_type_obj.search([('id','=',odoo_pos['res-id'])])
                 if odoo_id.id:
-                   odoo_id.write(sync_clean_up(odoo_pos))
+                   odoo_id.with_context(validate_weladee_id=False).write(sync_clean_up(odoo_pos))
                    sync_logdebug(req.context_sync, "Updated work_type '%s' to odoo" % odoo_pos['name'] )
                    sync_stat_update(req.context_sync['stat-work_type'], 1)
                 else:

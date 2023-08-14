@@ -15,7 +15,7 @@ class weladee_project(models.Model):
     weladee_id = fields.Char(string="Weladee ID",copy=False)
     weladee_url = fields.Char(string="Weladee Url", default="", copy=False, readonly=True)
     is_weladee = fields.Boolean(compute='_compute_from_weladee', copy=False, readonly=True, store=True)
-    descrition = fields.Html(translate=True)
+    description = fields.Html(translate=True)
     url = fields.Char('URL')
     note = fields.Text('Note')
     hide_edit_btn_css = fields.Html(string='css', sanitize=False, compute='_compute_css')
@@ -26,6 +26,7 @@ class weladee_project(models.Model):
         des_th = vals.get('description-th', '')
         if 'name-th' in vals: del vals['name-th']
         if 'description-th' in vals: del vals['description-th']
+
         ret = super(weladee_project, self).create(vals)
 
         # Check if record could be created
@@ -38,6 +39,11 @@ class weladee_project(models.Model):
               add_value_translation(ret, 'description', vals.get('name', ''), des_th)
 
         return ret
+
+    def unlink(self):
+        self.env['weladee_attendance.synchronous'].check_weladee_id(self, {})
+
+        return super(weladee_project, self).unlink()
 
     def write(self, vals):
         name_th = vals.get('name-th', '')
