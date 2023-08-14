@@ -22,16 +22,13 @@ class weladee_attendance_approval(models.TransientModel):
 
         # for approval
         r.employee_obj  = False
-        r.translation_obj = False
         r.project_obj = False
         r.attach_obj = False
 
         r.approvals_type_obj = False
         r.approvals_type_approver_obj = False
         r.approvals_request_obj = False
-        r.approvals_approver_1_obj = False
-        r.approvals_approver_2_obj = False
-        r.approvals_approver_3_obj = False
+        r.approvals_approver = False
 
         return r    
 
@@ -51,9 +48,7 @@ class weladee_attendance_approval(models.TransientModel):
             req.approvals_type_obj = self.env['fw.approvals.type']
             req.approvals_type_approver_obj = self.env['fw.approvals.type.approver']
             req.approvals_request_obj = self.env['fw.approvals.request']
-            req.approvals_approver_1_obj = self.env['fw.approvals.approver1']
-            req.approvals_approver_2_obj = self.env['fw.approvals.approver2']
-            req.approvals_approver_3_obj = self.env['fw.approvals.approver3']
+            req.approvals_approver = self.env['fw.approvals.approver']
 
             sync_approvals_request(req)
 

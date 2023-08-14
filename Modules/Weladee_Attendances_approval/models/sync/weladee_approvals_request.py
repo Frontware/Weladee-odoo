@@ -31,7 +31,7 @@ def sync_approvals_request_data_request_status(weladee_approvals_request):
     elif status == 'approvalcancelled':
         return 'canceled'
     elif status == 'approvalapproved':
-        return 'approved_3'
+        return 'approved'
     elif status == 'approvallevel1approved':
         return 'approved_1'
     elif status == 'approvallevel2approved':
@@ -115,12 +115,6 @@ def sync_approvals_request_data(weladee_approvals_request, req):
         # odoo record exists.
         data['res-mode'] = 'update'
         data['res-id'] = odoo_approvals_request.id
-        for level in filter(lambda x: x.startswith('approvers_'), dir(odoo_approvals_request)):
-            approvers_x = getattr(odoo_approvals_request, level)
-            for approver in approvers_x:
-                if level not in odoo_approvers_by_level:
-                    odoo_approvers_by_level[level] = set()
-                odoo_approvers_by_level[level].add(approver.id)
     
     for response in weladee_approvals_request.request.Responses:
         # Retrieve approver from approval type in odoo with the same weladee-id.
@@ -136,8 +130,9 @@ def sync_approvals_request_data(weladee_approvals_request, req):
             'employee_id':odoo_approver_type.employee_id.id,
             'required':odoo_approver_type.required,
             'level':odoo_approver_type.level,
-            'status':sync_approvals_request_data_answer_approved(response),
+            'accept':sync_approvals_request_data_answer_approved(response),
             'refuse':sync_approvals_request_data_answer_rejected(response),
+            'request_id': odoo_approvals_request.id,
         }
 
         if response.Timestamp:
@@ -146,16 +141,10 @@ def sync_approvals_request_data(weladee_approvals_request, req):
         # Create new approver relation command.
         new_approver = (_CREATE, False, vals)
 
-        # Retrieve approver related to the request id.
-        odoo_approver = getattr(req, 'approvals_approver_' + str(odoo_approver_type.level) + '_obj').search([('request_id','=',odoo_approvals_request.id),('employee_id','=',odoo_approver_type.employee_id.id)], limit=1)
-        if odoo_approver.id:
-            # Add this approver id to the list of approvers to update.
-            if 'approvers_' + str(odoo_approver_type.level) not in odoo_approvers_to_update:
-                odoo_approvers_to_update['approvers_' + str(odoo_approver_type.level)] = set()
-            odoo_approvers_to_update['approvers_' + str(odoo_approver_type.level)].add(odoo_approver.id)
-
-            # Update existing approver.
-            new_approver = (_UPDATE, odoo_approver.id, vals)
+        print()
+        prv = req.approvals_approver.search([('level','=',odoo_approver_type.level),('request_id','=',odoo_approvals_request.id)])
+        print(prv)
+        prv.unlink()
 
         approvers_x = 'approvers_' + str(odoo_approver_type.level)
         if approvers_x not in data:

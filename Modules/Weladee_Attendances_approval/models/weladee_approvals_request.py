@@ -38,3 +38,14 @@ class weladee_approvals_request(models.Model):
                 record.hide_edit_btn_css = '<style>.o_form_button_edit {display: none !important;}</style>'
             else:
                 record.hide_edit_btn_css = False
+
+    def write(self, vals):
+        if not self.env.context.get('updateLang'):
+           for each in self:
+               cansave = True
+               if each.weladee_id: cansave = 'weladee_id' in vals
+
+               if not cansave:
+                  raise UserError('You cannot change this record from weladee') 
+
+        return super(weladee_approvals_request, self).write(vals)

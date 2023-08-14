@@ -205,7 +205,7 @@ def sync_approvals_type(req):
             if odoo_approvals_type and odoo_approvals_type['res-mode'] == 'create':
                 newid = req.approvals_type_obj.create(sync_clean_up(odoo_approvals_type))
                 if newid and newid.id:
-                    add_translation(newid.id, model_id, translation_req, req, lang='th_TH')
+                    add_translation(newid, translation_req, lang='th_TH')
                     sync_stat_create(req.context_sync['stat-approvals-type'], 1)
                 else:
                     sync_stat_error(req.context_sync['stat-approvals-type'], 1)
@@ -213,7 +213,7 @@ def sync_approvals_type(req):
                 odoo_id = req.approvals_type_obj.search([("id","=",odoo_approvals_type['res-id']),'|',('active','=',False),('active','=',True)], limit=1)
                 if odoo_id.id:
                     odoo_id.write(sync_clean_up(odoo_approvals_type))
-                    add_translation(odoo_id.id, model_id, translation_req, req, lang='th_TH')
+                    add_translation(odoo_id, translation_req, lang='th_TH')
                     sync_stat_update(req.context_sync['stat-approvals-type'], 1)
                 else:
                     sync_logerror(req.context_sync, 'Odoo appoval type not found for : %s' % weladee_approvals_type)
