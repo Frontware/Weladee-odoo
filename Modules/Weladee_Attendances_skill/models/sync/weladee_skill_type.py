@@ -52,7 +52,7 @@ def sync_skill_type(req):
                 newid = req.skill_type_obj.create(sync_clean_up(odoo_skill_type))
                 if newid and newid.id:
                     # Add translation
-                    add_translation(newid.id, 'hr.skill.type', translation_req, req, lang='th_TH')
+                    add_translation(newid, translation_req, lang='th_TH')
                     sync_logdebug(req.context_sync, "Insert skill type '%s' to odoo" % odoo_skill_type['name'])
                     sync_stat_create(req.context_sync['stat-skill-type'], 1)
                 else:
@@ -60,9 +60,9 @@ def sync_skill_type(req):
             elif odoo_skill_type and odoo_skill_type['res-mode'] == 'update' and 'res-id' in odoo_skill_type:
                 odoo_id = req.skill_type_obj.search([('id','=',odoo_skill_type['res-id'])], limit=1)
                 if odoo_id.id:
-                    odoo_id.write(sync_clean_up(odoo_skill_type))
+                    odoo_id.with_context(updateLang=True).write(sync_clean_up(odoo_skill_type))
                     # Add translation
-                    add_translation(odoo_id.id, 'hr.skill.type', translation_req, req, lang='th_TH')
+                    add_translation(odoo_id, translation_req, lang='th_TH')
                     sync_logdebug(req.context_sync, "Updated skill type '%s' to odoo" % odoo_skill_type['name'])
                     sync_stat_update(req.context_sync['stat-skill-type'], 1)
                 else:

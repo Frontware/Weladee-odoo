@@ -27,7 +27,6 @@ class weladee_attendance_skill(models.TransientModel):
         r.skill_level_obj = False
         r.skill_obj = False
         r.skill_employee_obj = False
-        r.translation_obj = False
 
         return r    
 
