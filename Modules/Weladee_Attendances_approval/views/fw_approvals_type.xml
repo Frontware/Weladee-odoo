@@ -24,7 +24,7 @@
             <field name="arch" type="xml">
                 <xpath expr="/form/sheet/*[position() = 1]" position="before">
                     <field name="weladee_id" invisible="1"/>
-                    <div class="oe_button_box">
+                    <div class="oe_button_box" name="button_box">
                         <button
                             name="open_weladee_approvals_type"
                             class="oe_stat_button"
@@ -40,6 +40,12 @@
                         </button>
                     </div>
                 </xpath>
+               <xpath expr="//field[@name='name']//.." position="after">
+                   <field name="weladee_id" invisible="1" />
+                   <div attrs="{'invisible':['|',('weladee_id','=',''),('weladee_id','=',False)]}" style="color:red">
+                   This record is imported from weladee, any change in odoo will be replaced by data from weladee.
+                   </div>
+                </xpath>
 
                 <!-- Hide edit button if record comes from weladee -->
                 <xpath expr="/form/sheet" position="inside">
@@ -47,5 +53,36 @@
                 </xpath>
             </field>
         </record>
+
+        <record id="fw_approvals_weladee_type_kanban" model="ir.ui.view">
+            <field name="name">fw_approvals_weladee_type_kanban</field>
+            <field name="model">fw.approvals.type</field>
+            <field name="inherit_id" ref="fw_approvals.fw_approvals_type_kanban"/>
+            <field name="priority">50</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="weladee_id"/>
+                    <field name="weladee_url"/>
+                </xpath>
+
+                <xpath expr="//div[hasclass('oe_kanban_bottom_right')]//.." position="inside">
+                    <a t-if="record.weladee_id.value" t-att="{'href':record.weladee_url.value}" target="_blank" style="width: 50px; text-align: right">
+                        <span class="icon-weladee-kanban"></span>
+                    </a>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="fw_approvals_weladee_type_tree" model="ir.ui.view">
+            <field name="name">fw_approvals_weladee_type_tree</field>
+            <field name="model">fw.approvals.type</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="weladee_id" invisible="1" />
+                    <button attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}" type="object" name="open_weladee_approvals_type" class="icon-weladee-kanban"></button>
+                </tree>
+            </field>
+        </record>        
     </data>
 </odoo>
