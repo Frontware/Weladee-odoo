@@ -16,7 +16,7 @@
                         <div>
                             <div t-attf-class="o_kanban_card_header">
                                 <div class="o_kanban_card_header_title">
-                                    <div class="float-end" t-if="record.active.raw_value">
+                                    <div class="float-right" t-if="record.active.raw_value">
                                         <span class="fa fa-circle text-success" role="img" aria-label="Present" title="Present" name="presence_present">
                                         </span>
                                     </div>
