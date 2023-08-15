@@ -28,4 +28,5 @@ class weladee_settings_skill(models.TransientModel):
 
         config_pool = self.env['ir.config_parameter']
         self._save_setting(config_pool, CONST_SETTING_SYNC_SKILL, "Y" if self.sync_skill else "")
+        self.env.ref('Weladee_Attendances_skill.weladee_attendance_feature_skill').sudo().active = self.sync_skill
         return ret

@@ -66,5 +66,6 @@ class weladee_settings_expense(models.TransientModel):
            self._save_setting(config_pool, CONST_SETTING_EXPENSE_PERIOD, self.expense_period)
            self._save_setting(config_pool, CONST_SETTING_EXPENSE_JOURNAL_ID, self.expense_journal_id.id)
 
+        self.env.ref('Weladee_Attendances_expense.weladee_attendance_feature_expense').sudo().active = self.sync_expense
         self._save_setting(config_pool, CONST_SETTING_SYNC_EXPENSE, "Y" if self.sync_expense else "")
         return ret

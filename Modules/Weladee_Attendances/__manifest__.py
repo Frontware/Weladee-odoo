@@ -10,9 +10,11 @@
          "security/ir.model.access.csv",   
 
          "data/emails/weladee_attendance.xml",
+         'data/feature.xml',
 
          "wizards/weladee_attendance_settings.xml",
          "wizards/weladee_attendance.xml",
+         'wizards/weladee_feature.xml',
 
          "data/schedule.xml",
 

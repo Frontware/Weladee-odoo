@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="weladee_attendance_feature_expense" model="weladee_attendance_feature">
+            <field name="name">Expense</field>
+            <field name="description">Sync expense, expense type from weladee to odoo</field>
+            <field name="sequence">7</field>
+            <field name="to_odoo">True</field>
+        </record>
+
+    </data>
+</odoo>    

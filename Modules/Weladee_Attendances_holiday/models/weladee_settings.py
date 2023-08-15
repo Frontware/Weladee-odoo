@@ -92,5 +92,6 @@ class weladee_settings_holiday(models.TransientModel):
            self._save_setting(config_pool, CONST_SETTING_HOLIDAY_PERIOD_UNIT, self.holiday_period_unit)
            self._save_setting(config_pool, CONST_SETTING_HOLIDAY_PERIOD, self.holiday_period)
 
+        self.env.ref('Weladee_Attendances_holiday.weladee_attendance_feature_holiday').sudo().active = self.sync_holiday
         self._save_setting(config_pool, CONST_SETTING_SYNC_HOLIDAY, "Y" if self.sync_holiday else "")
         return ret

@@ -187,6 +187,9 @@ class weladee_department(models.Model):
                 record.is_weladee = True
             else:
                 record.is_weladee = False
+    
+    def open_weladee(self):
+        pass
 
     def open_weladee_department(self):
       if self.weladee_id :

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="weladee_attendance_feature_job" model="weladee_attendance_feature">
+            <field name="name">Job</field>
+            <field name="description">Sync Job ads, Job application from weladee to odoo</field>
+            <field name="sequence">11</field>
+            <field name="to_odoo">True</field>
+        </record>
+
+    </data>
+</odoo>    

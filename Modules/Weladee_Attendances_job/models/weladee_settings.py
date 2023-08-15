@@ -50,5 +50,6 @@ class weladee_settings_job(models.TransientModel):
            self._save_setting(config_pool, CONST_SETTING_JOB_PERIOD_UNIT, self.job_period_unit)
            self._save_setting(config_pool, CONST_SETTING_JOB_PERIOD, self.job_period)
 
+        self.env.ref('Weladee_Attendances_job.weladee_attendance_feature_job').sudo().active = self.sync_job
         self._save_setting(config_pool, CONST_SETTING_SYNC_JOB, "Y" if self.sync_job else "")
         return ret

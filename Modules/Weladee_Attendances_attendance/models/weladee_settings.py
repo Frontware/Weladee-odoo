@@ -48,5 +48,6 @@ class weladee_settings_attendance(models.TransientModel):
            self._save_setting(config_pool, CONST_SETTING_LOG_PERIOD, self.log_period)
 
 
+        self.env.ref('Weladee_Attendances_attendance.weladee_attendance_feature_attendant').sudo().active = self.sync_attendance
         self._save_setting(config_pool, CONST_SETTING_SYNC_ATTENDANCE, "Y" if self.sync_attendance else "")
         return ret

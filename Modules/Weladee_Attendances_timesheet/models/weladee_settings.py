@@ -57,5 +57,6 @@ class weladee_settings_timesheet(models.TransientModel):
            self._save_setting(config_pool, CONST_SETTING_TIMESHEET_PERIOD_UNIT, self.timesheet_period_unit)
            self._save_setting(config_pool, CONST_SETTING_TIMESHEET_PERIOD, self.timesheet_period)
 
+        self.env.ref('Weladee_Attendances_timesheet.weladee_attendance_feature_timesheet').sudo().active = self.sync_timesheet
         self._save_setting(config_pool, CONST_SETTING_SYNC_TIMESHEET, "Y" if self.sync_timesheet else "")
         return ret

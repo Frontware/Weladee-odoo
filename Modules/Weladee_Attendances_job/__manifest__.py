@@ -10,6 +10,7 @@
 "data" :[
         "security/ir.model.access.csv",           
         "wizards/weladee_attendance_settings.xml",
+        'data/feature.xml',
 
         'views/fw_hr_job.xml',
         'views/fw_hr_job_applicant.xml',

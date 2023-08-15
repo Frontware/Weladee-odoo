@@ -12,6 +12,8 @@
 "data" :[
         "wizards/weladee_attendance_settings.xml",
 
+        'data/feature.xml',
+
         'views/fw_hr_employee.xml',
         'views/fw_hr_work_type.xml',
         'views/fw_hr_project_project.xml',

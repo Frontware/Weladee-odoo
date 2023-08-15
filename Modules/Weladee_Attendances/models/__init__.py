@@ -4,6 +4,7 @@ from . import grpcproto
 from . import sync
 from . import weladee_attendance_form
 from . import weladee_attendance_sync
+from . import weladee_feature
 from . import weladee_department
 from . import weladee_employee
 from . import weladee_position

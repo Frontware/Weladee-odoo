@@ -143,3 +143,6 @@ class weladee_job(models.Model):
           }
       else :
         raise exceptions.UserError(_("This position don't have weladee url."))
+
+    def open_weladee(self):
+        pass

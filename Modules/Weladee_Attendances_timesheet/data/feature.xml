@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="weladee_attendance_feature_timesheet" model="weladee_attendance_feature">
+            <field name="name">Timesheet</field>
+            <field name="description">Sync customer, project, task, worktype and timesheet  from weladee to odoo</field>
+            <field name="sequence">4</field>
+            <field name="to_odoo">True</field>
+        </record>
+
+    </data>
+</odoo>    

@@ -50,5 +50,8 @@ class weladee_settings_approval(models.TransientModel):
             self._save_setting(config_pool, CONST_SETTING_APPROVAL_PERIOD_UNIT, self.approval_period_unit)
             self._save_setting(config_pool, CONST_SETTING_APPROVAL_PERIOD, self.approval_period)
 
+        
+        self.env.ref('Weladee_Attendances_approval.weladee_attendance_feature_approval').sudo().active = self.sync_approval
+
         self._save_setting(config_pool, CONST_SETTING_SYNC_APPROVAL, "Y" if self.sync_approval else "")
         return ret

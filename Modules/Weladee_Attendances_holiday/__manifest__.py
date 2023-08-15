@@ -8,9 +8,10 @@
 "depends" : ['hr_holidays', 
              'Weladee_Attendances'],
 "data" :[
-        'security/security.xml',
-        'security/ir.model.access.csv',
-        "data/emails/weladee_allocate_error.xml",
+         'security/security.xml',
+         'security/ir.model.access.csv',
+         "data/emails/weladee_allocate_error.xml",
+         'data/feature.xml',
          "wizards/weladee_attendance_settings.xml",
 
          'views/fw_hr_leave_type.xml',
