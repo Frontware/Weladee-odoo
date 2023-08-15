@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="weladee_attendance_feature_frm" model="ir.ui.view">
+            <field name="name">weladee_attendance_feature_frm</field>
+            <field name="model">weladee_attendance_feature</field>
+            <field name="arch" type="xml">
+            <kanban create="false" class="oe_background_grey o_kanban_dashboard">
+                <field name="name" />
+                <field name="description" />
+                <field name="active" />
+                <field name="to_odoo" />
+                <field name="to_weladee" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div>
+                            <div t-attf-class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="float-end" t-if="record.active.raw_value">
+                                        <span class="fa fa-circle text-success" role="img" aria-label="Present" title="Present" name="presence_present">
+                                        </span>
+                                    </div>
+                                    <div class="o_primary">
+                                        <field name="name"/>
+                                    </div>
+                                    <div class="o_secondary">
+                                        <field name="description"/>
+                                        <br/>
+                                        Sync:<br/>
+                                        <ul>
+                                        <li t-if="record.to_odoo.raw_value">Weladee to Odoo</li>
+                                        <li t-if="record.to_weladee.raw_value">Odoo to Weladee</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="weladee_attendance_feature_act">
+            <field name="name">Weladee Synchronization</field>
+            <field name="res_model">weladee_attendance_feature</field>
+            <field name="view_mode">kanban</field>
+        </record>   
+ 
+    </data>
+</odoo>  

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="weladee_attendance_feature_position" model="weladee_attendance_feature">
+            <field name="name">Position</field>
+            <field name="description">Sync Employee's position from weladee to odoo and odoo to weladee</field>
+            <field name="active">True</field>
+            <field name="sequence">1</field>
+            <field name="to_odoo">True</field>
+            <field name="to_weladee">True</field>
+        </record>
+
+        <record id="weladee_attendance_feature_department" model="weladee_attendance_feature">
+            <field name="name">Department</field>
+            <field name="description">Sync Employee's department from weladee to odoo and odoo to weladee</field>
+            <field name="active">True</field>
+            <field name="sequence">2</field>
+            <field name="to_odoo">True</field>
+            <field name="to_weladee">True</field>
+        </record>
+
+        <record id="weladee_attendance_feature_employee" model="weladee_attendance_feature">
+            <field name="name">Employee</field>
+            <field name="description">Sync Employee from weladee to odoo and odoo to weladee</field>
+            <field name="active">True</field>
+            <field name="sequence">3</field>
+            <field name="to_odoo">True</field>
+            <field name="to_weladee">True</field>
+        </record>
+    </data>
+</odoo>    

@@ -2,6 +2,30 @@
 
 <odoo>
     <data>
+
+        <record id="weladee_fw_hr_position_form" model="ir.ui.view">
+            <field name="name">weladee_fw_hr_position_form</field>
+            <field name="model">hr.job</field>
+            <field name="inherit_id" ref="hr.view_hr_job_form"/>
+            <field name="arch" type="xml">
+               <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                    <field name="weladee_id" invisible="1" /> 
+                   <button 
+                        name="open_weladee_position" 
+                        class="oe_stat_button" 
+                        type="object"
+                        widget="url"
+                        attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}"
+                    >  
+                    <div role="img" class="o_button_icon icon-weladee"/>
+                    <div class="o_stat_info">
+                    <span class="o_stat_text">Weladee</span>
+                    </div>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
         <record id="weladee_fw_hr_position_search" model="ir.ui.view">
             <field name="name">weladee_fw_hr_position_search</field>
             <field name="model">hr.job</field>
@@ -14,6 +38,40 @@
                 <xpath expr="//group" position="inside">
                     <filter string="Weladee" name="group_by_weladee" context="{'group_by':'is_weladee'}"/>
                 </xpath>
+            </field>
+        </record>
+
+        <record id="weladee_fw_hr_position_form" model="ir.ui.view">
+            <field name="name">weladee_fw_hr_position_form</field>
+            <field name="model">hr.job</field>
+            <field name="inherit_id" ref="hr.view_hr_job_form"/>
+            <field name="arch" type="xml">        
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <field name="weladee_id" invisible="1" />
+                    <button
+                            name="open_weladee"
+                            class="oe_stat_button"
+                            type="object"
+                            widget="url"
+                            attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}">
+                            <div role="img" class="o_button_icon icon-weladee"/>
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Position</span>
+                            </div>                            
+                    </button>
+                </xpath>        
+            </field>
+        </record>
+
+        <record id="weladee_fw_hr_position_tree" model="ir.ui.view">
+            <field name="name">weladee_fw_hr_position_tree</field>
+            <field name="model">hr.job</field>
+            <field name="inherit_id" ref="hr.view_hr_job_tree"/>
+            <field name="arch" type="xml">        
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="weladee_id" invisible="1" />
+                    <button attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}" type="object" name="open_weladee" class="icon-weladee-kanban"></button>
+                </xpath>        
             </field>
         </record>
     </data>

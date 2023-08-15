@@ -10,7 +10,7 @@
         <field name="name">weladee_setting_wizard</field>
         <field name="model">weladee_attendance.synchronous.setting</field>
         <field name="arch" type="xml">
-            <form string="Setting">
+            <form string="Setting" create="0" delete="0">
                 <header>
                     <button name="saveBtn" string="Save" class="oe_highlight" type="object"/>
                     <button name="cancel" string="Cancel"/>

@@ -33,6 +33,9 @@
          "wizards/weladee_attendance_settings.xml",
          "wizards/weladee_attendance.xml",
 
+         'data/feature.xml',
+         'wizards/weladee_feature.xml',
+
          "data/templates/asset_Weladee_Attendances.xml",
          "data/schedule.xml",
 
