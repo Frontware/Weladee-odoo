@@ -29,7 +29,7 @@
 "data" :[
          "security/ir.model.access.csv",
          "wizards/weladee_attendance_settings.xml",
-
+         'data/feature.xml',
          'views/fw_hr_attendances.xml',
          'views/fw_hr_employee.xml',
          'views/weladee_gate.xml',
