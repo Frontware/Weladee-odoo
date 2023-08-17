@@ -25,6 +25,10 @@ class weladee_expense(models.Model):
     refuse_reason = fields.Text('Refuse reason')
     expense_type_id = fields.Many2one('weladee_expense_type',string='Expense type')
 
+    def unlink(self):
+        self.env['weladee_attendance.synchronous'].check_weladee_id(self, {})
+        return super(weladee_expense, self).unlink()
+
     def write(self, vals):
         for each in self:
             cansave = True

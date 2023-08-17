@@ -40,6 +40,14 @@ class weladee_expense_type(models.Model):
         ret = super(weladee_expense_type, self).write(vals)
 
         if self.env.context.get('updateLang'): return ret
+
+        for each in self:
+            cansave = True
+            if each.weladee_id: cansave = 'weladee_id' in vals
+
+            if not cansave:
+               raise UserError('You cannot change this record from weladee') 
+
         if ret and (('name-th' in vals) or ('name' in vals)):
            for each in self:
                add_value_translation(each, 'name', vals.get('name', ''), name_th)
