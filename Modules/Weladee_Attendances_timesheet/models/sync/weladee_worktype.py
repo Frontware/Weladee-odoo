@@ -13,7 +13,7 @@ def sync_work_type_data(weladee_work_type, req):
     work_type data to sync
     '''
     pos = {"name" : weladee_work_type.WorkType.NameEnglish,
-           "name_thai" : weladee_work_type.WorkType.NameThai,
+           "name-th" : weladee_work_type.WorkType.NameThai,
            "weladee_id" : weladee_work_type.WorkType.ID,
            'default_description': weladee_work_type.WorkType.Note,
            'send2-weladee':False}
@@ -26,23 +26,6 @@ def sync_work_type_data(weladee_work_type, req):
     else:
        pos['res-mode'] = 'update'  
        pos['res-id'] = odoo_work_type.id
-      #  if not weladee_work_type.odoo.odoo_id:
-      #     pos['send2-weladee'] = True
-
-   #  if pos['res-mode'] == 'create':
-   #     # check if there is same name
-   #     # consider it same record 
-   #     odoo_work_type = req.work_type_obj.search([('name','=',pos['name'] )],limit=1) 
-   #     if odoo_work_type.id:
-   #        #if there is weladee id, will update it 
-   #        sync_logdebug(req.context_sync, 'odoo > %s' % odoo_work_type)
-   #        sync_logdebug(req.context_sync, 'weladee > %s' % weladee_work_type)
-   #        if odoo_work_type.weladee_id:
-   #           sync_logwarn(req.context_sync,'will replace old weladee id %s with new one %s' % (odoo_work_type.weladee_id, weladee_work_type.WorkType.ID))      
-   #        else:
-   #           sync_logdebug(req.context_sync,'missing weladee link, will update with new one %s' % weladee_work_type.WorkType.ID)      
-   #        pos['res-mode'] = 'update'
-   #        pos['res-id'] = odoo_work_type.id
 
     return pos          
 
@@ -66,14 +49,14 @@ def sync_work_type(req):
             odoo_pos = sync_work_type_data(weladee_work_type, req)
 
             if odoo_pos and odoo_pos['res-mode'] == 'create':
-               req.work_type_obj.create(sync_clean_up(odoo_pos))
+               req.work_type_obj.with_context(validate_weladee_id=False).create(sync_clean_up(odoo_pos))
                sync_logdebug(req.context_sync, "Insert work_type '%s' to odoo" % odoo_pos['name'] )
                sync_stat_create(req.context_sync['stat-work_type'], 1)
 
             elif odoo_pos and odoo_pos['res-mode'] == 'update':
                 odoo_id = req.work_type_obj.search([('id','=',odoo_pos['res-id'])])
                 if odoo_id.id:
-                   odoo_id.write(sync_clean_up(odoo_pos))
+                   odoo_id.with_context(validate_weladee_id=False).write(sync_clean_up(odoo_pos))
                    sync_logdebug(req.context_sync, "Updated work_type '%s' to odoo" % odoo_pos['name'] )
                    sync_stat_update(req.context_sync['stat-work_type'], 1)
                 else:

@@ -38,7 +38,7 @@
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
-                    Run Attendances <span class="fa fa-arrow-right o_we_selected_image" style="font-size: 13px;"></span> Weladee synchronization to get your company holiday from weladee
+                    Run Weladee <span class="fa fa-arrow-right o_we_selected_image" style="font-size: 13px;"></span> Weladee synchronization to get your company holiday from weladee
                 </p>
             </field>
         </record>
@@ -48,7 +48,7 @@
             action="action_company_holidays"
             parent="hr_holidays.menu_hr_holidays_root"
             groups="hr_holidays.group_hr_holidays_manager"
-            sequence="80"
+            sequence="4"
             id="menu_company_holidays"/>
 
 </odoo>

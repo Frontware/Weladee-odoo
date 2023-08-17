@@ -26,7 +26,7 @@
             <field name="arch" type="xml">
                 <xpath expr="/form/sheet/*[position() = 1]" position="before">
                     <field name="weladee_id" invisible="1"/>
-                    <div class="oe_button_box">
+                    <div class="oe_button_box" name="button_box">
                         <button
                             name="open_weladee_ot_request"
                             class="oe_stat_button"

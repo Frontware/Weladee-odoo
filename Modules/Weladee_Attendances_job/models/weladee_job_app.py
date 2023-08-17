@@ -27,6 +27,21 @@ class weladee_job_app(models.Model):
     note = fields.Text(string='Note')
     hide_edit_btn_css = fields.Html(string='css', sanitize=False, compute='_compute_css')
 
+    def write(self, vals):
+        if not self.env.context.get('updateLang'):
+           for each in self:
+               cansave = True
+               if each.weladee_id: cansave = 'weladee_id' in vals
+
+               if not cansave:
+                  raise UserError('You cannot change this record from weladee') 
+
+        return super(weladee_job_app, self).write(vals)
+    def unlink(self):
+        self.env['weladee_attendance.synchronous'].check_weladee_id(self, {})
+
+        return super(weladee_job_app, self).unlink()
+
     def open_weladee_job_app(self):
         if self.weladee_url:
             return {

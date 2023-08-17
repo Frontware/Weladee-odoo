@@ -12,7 +12,12 @@ class weladee_skill_type(models.Model):
     weladee_url = fields.Char(string="Weladee Url", default="", copy=False, readonly=True)
     is_weladee = fields.Boolean(compute='_compute_from_weladee', copy=False, readonly=True, store=True)
     hide_edit_btn_css = fields.Html(string='css', sanitize=False, compute='_compute_css')
-    
+
+    def unlink(self):
+        self.env['weladee_attendance.synchronous'].check_weladee_id(self, {})
+
+        return super(weladee_skill_type, self).unlink()
+
     def open_weladee_skill_type(self):
         if self.weladee_url:
             return {
@@ -39,3 +44,14 @@ class weladee_skill_type(models.Model):
                 record.hide_edit_btn_css = '<style>.o_form_button_edit {display: none !important;}</style>'
             else:
                 record.hide_edit_btn_css = False
+
+    def write(self, vals):
+        if not self.env.context.get('updateLang'):
+           for each in self:
+               cansave = True
+               if each.weladee_id: cansave = 'weladee_id' in vals
+
+               if not cansave:
+                  raise UserError('You cannot change this record from weladee') 
+
+        return super(weladee_skill_type, self).write(vals)

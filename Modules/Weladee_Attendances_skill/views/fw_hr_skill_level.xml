@@ -2,16 +2,16 @@
 
 <odoo>
     <data>
-        <record id="fw_hr_skill_weladee_form" model="ir.ui.view">
-            <field name="name">fw_hr_skill_weladee_form</field>
-            <field name="model">hr.skill</field>
-            <field name="inherit_id" ref="hr_skills.hr_skill_view_form"/>
+        <record id="fw_hr_skill_level_weladee_form" model="ir.ui.view">
+            <field name="name">fw_hr_skill_level_weladee_form</field>
+            <field name="model">hr.skill.level</field>
+            <field name="inherit_id" ref="hr_skills.employee_skill_level_view_form"/>
             <field name="arch" type="xml">
                 <xpath expr="/form/sheet/*[position() = 1]" position="before">
                     <field name="weladee_id" invisible="1"/>
                     <div class="oe_button_box" name="button_box">
                         <button
-                            name="open_weladee_skill"
+                            name="open_weladee_level"
                             class="oe_stat_button"
                             type="object"
                             widget="url"
@@ -38,14 +38,14 @@
                 </xpath>
             </field>
         </record>
-        <record id="fw_hr_skill_weladee_tree" model="ir.ui.view">
-            <field name="name">fw_hr_skill_weladee_tree</field>
-            <field name="model">hr.skill</field>
-            <field name="inherit_id" ref="hr_skills.employee_skill_view_tree"/>
+        <record id="fw_hr_skill_level_weladee_tree" model="ir.ui.view">
+            <field name="name">fw_hr_skill_level_weladee_tree</field>
+            <field name="model">hr.skill.level</field>
+            <field name="inherit_id" ref="hr_skills.employee_skill_level_view_tree"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='name']" position="after">
+                <xpath expr="//field[@name='level_progress']" position="after">
                     <field name="weladee_id" invisible="1" />
-                    <button attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}" type="object" name="open_weladee_skill" class="icon-weladee-kanban"></button>
+                    <button attrs="{'invisible':['|',('weladee_id','=',False),('weladee_id','=','')]}" type="object" name="open_weladee_level" class="icon-weladee-kanban"></button>
                 </xpath>
             </field>
         </record>

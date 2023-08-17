@@ -15,7 +15,7 @@ class weladee_project(models.Model):
     weladee_id = fields.Char(string="Weladee ID",copy=False)
     weladee_url = fields.Char(string="Weladee Url", default="", copy=False, readonly=True)
     is_weladee = fields.Boolean(compute='_compute_from_weladee', copy=False, readonly=True, store=True)
-    descrition = fields.Html(translate=True)
+    description = fields.Html(translate=True)
     url = fields.Char('URL')
     note = fields.Text('Note')
     hide_edit_btn_css = fields.Html(string='css', sanitize=False, compute='_compute_css')
@@ -26,36 +26,48 @@ class weladee_project(models.Model):
         des_th = vals.get('description-th', '')
         if 'name-th' in vals: del vals['name-th']
         if 'description-th' in vals: del vals['description-th']
+
         ret = super(weladee_project, self).create(vals)
-        irobj = self.env['ir.translation']
 
         # Check if record could be created
         if ret.id and (('name-th' in vals) or ('name' in vals) or ('description-th' in vals) or ('description' in vals)):
-           irobj = self.env['ir.translation']
 
            if (('name-th' in vals) or ('name' in vals)):
-              add_value_translation(ret, irobj, 'project.project','name',vals.get('name', ''), name_th)
+              add_value_translation(ret, 'name', vals.get('name', ''), name_th)
 
            if (('description-th' in vals) or ('description' in vals)):
-              add_value_translation(ret, irobj, 'project.project','description',vals.get('name', ''), des_th)
+              add_value_translation(ret, 'description', vals.get('name', ''), des_th)
 
         return ret
+
+    def unlink(self):
+        self.env['weladee_attendance.synchronous'].check_weladee_id(self, {})
+
+        return super(weladee_project, self).unlink()
 
     def write(self, vals):
         name_th = vals.get('name-th', '')
         des_th = vals.get('description-th', '')
         if 'name-th' in vals: del vals['name-th']
         if 'description-th' in vals: del vals['description-th']
+
+        if not self.env.context.get('updateLang'):
+           for each in self:
+               cansave = True
+               if each.weladee_id: cansave = 'weladee_id' in vals
+
+               if not cansave:
+                  raise UserError('You cannot change this record from weladee') 
+
         ret = super(weladee_project, self).write(vals)
 
+        if self.env.context.get('updateLang'): return ret
         if ret and (('name-th' in vals) or ('name' in vals) or ('description-th' in vals) or ('description' in vals)):
-           irobj = self.env['ir.translation']
            for each in self:
                if (('name-th' in vals) or ('name' in vals)):
-                  add_value_translation(each, irobj, 'project.project','name',vals.get('name', ''), name_th)
+                  add_value_translation(each, 'name',vals.get('name', ''), name_th)
                if (('description-th' in vals) or ('description' in vals)):
-                  add_value_translation(each, irobj, 'project.project','description',vals.get('name', ''), des_th)
-               break
+                  add_value_translation(each, 'description',vals.get('name', ''), des_th)
 
         return ret
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="weladee_attendance_feature_holiday" model="weladee_attendance_feature">
+            <field name="name">Holiday</field>
+            <field name="description">Sync holiday, company holiday from weladee to odoo</field>
+            <field name="sequence">6</field>
+            <field name="to_odoo">True</field>
+        </record>
+
+    </data>
+</odoo>    

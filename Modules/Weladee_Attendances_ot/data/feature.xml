@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="weladee_attendance_feature_ot" model="weladee_attendance_feature">
+            <field name="name">OT</field>
+            <field name="description">Sync ot type and ot request from weladee to odoo</field>
+            <field name="sequence">8</field>
+            <field name="to_odoo">True</field>
+        </record>
+
+    </data>
+</odoo>    

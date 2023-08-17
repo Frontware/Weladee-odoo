@@ -42,3 +42,15 @@ class weladee_expense_type(models.Model):
                break
 
         return ret    
+    
+    def open_weladee_type(self):
+        if self.weladee_id:
+            return {
+                'name': _('Weladee Expense type'),
+                'type': 'ir.actions.act_url',
+                'url': 'https://www.weladee.com/expense/type/%s' % self.weladee_id,
+                'target': 'new'
+            }
+        else:
+            raise UserError(_("This expense type doesn't have a weladee id."))
+       

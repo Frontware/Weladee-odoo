@@ -7,30 +7,6 @@ remarks:
 -->
 <odoo>
     <data>
-        <record id="hr_employee_weladee_profile_holiday" model="ir.ui.view">
-            <field name="name">hr_employee_weladee_profile_holiday</field>
-            <field name="model">hr.employee</field>
-            <field name="inherit_id" ref="hr.view_employee_form"/>
-            <field name="arch" type="xml">                
-               <xpath expr="//field[@name='show_leaves']" position="after">
-                   <field name="weladee_profile" invisible="1" /> 
-                   <button 
-                        name="open_weladee_employee" 
-                        class="oe_stat_button" 
-                        type="object"
-                        widget="url"
-                        attrs="{'invisible':['|',('weladee_profile','=',False),('weladee_profile','=','')]}"
-                    >  
-                    <div role="img" class="o_button_icon icon-weladee"/>
-                    <div class="o_stat_info">
-                    <span class="o_stat_text">Weladee</span>
-                    <span class="o_stat_value">profile</span>
-                    </div>
-                    </button>
-                </xpath>
-            </field>
-        </record>
-
         <record id="hr_employee_weladee_profile_holidaywe" model="ir.ui.view">
             <field name="name">hr_employee_weladee_profile_holidaywe</field>
             <field name="model">hr.employee</field>

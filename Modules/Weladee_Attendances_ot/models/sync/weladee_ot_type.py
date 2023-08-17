@@ -63,7 +63,7 @@ def sync_ot_type(req):
             elif odoo_pos and odoo_pos['res-mode'] == 'update':
                 odoo_id = req.ot_type_obj.search([('id','=',odoo_pos['res-id'])])
                 if odoo_id.id:
-                   odoo_id.write(sync_clean_up(odoo_pos))
+                   odoo_id.with_context(updateLang=True).write(sync_clean_up(odoo_pos))
                    sync_logdebug(req.context_sync, "Updated ot_type '%s' to odoo" % odoo_pos['name'] )
                    sync_stat_update(req.context_sync['stat-ot_type'], 1)
 

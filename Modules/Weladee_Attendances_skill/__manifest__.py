@@ -29,7 +29,11 @@
 "data" :[
         "wizards/weladee_attendance_settings.xml",
 
+        'data/feature.xml',
+
         'views/fw_hr_skill.xml',
+        'views/fw_hr_skill_type.xml',
+        'views/fw_hr_skill_level.xml',
 ],
 "installable" : True,
 "active" : False,

@@ -8,6 +8,7 @@
              'Weladee_Attendances'],
 "data" :[
         "wizards/weladee_attendance_settings.xml",
+        'data/feature.xml',
 
         'views/fw_ot_type.xml',
         'views/fw_ot_request.xml',

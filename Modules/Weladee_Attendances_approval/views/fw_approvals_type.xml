@@ -65,7 +65,7 @@
                     <field name="weladee_url"/>
                 </xpath>
 
-                <xpath expr="//div[hasclass('oe_kanban_bottom_right')]//.." position="inside">
+                <xpath expr="//div[hasclass('oe_kanban_bottom_right')]//..//.." position="after">
                     <a t-if="record.weladee_id.value" t-att="{'href':record.weladee_url.value}" target="_blank" style="width: 50px; text-align: right">
                         <span class="icon-weladee-kanban"></span>
                     </a>

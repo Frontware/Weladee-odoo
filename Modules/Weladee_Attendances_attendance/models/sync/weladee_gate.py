@@ -50,14 +50,14 @@ def sync_gate(self, req):
             odoo_pos = sync_gate_data(weladee_gate, req)
 
             if odoo_pos and odoo_pos['res-mode'] == 'create':
-               newid = req.gate_obj.create(sync_clean_up(odoo_pos))
+               newid = req.gate_obj.sudo().create(sync_clean_up(odoo_pos))
                sync_logdebug(req.context_sync, "Insert gate '%s' to odoo" % odoo_pos['name'] )
                sync_stat_create(req.context_sync['stat-gate'], 1)
 
                req.gate_odoo_weladee_ids[str(weladee_gate.gate.ID)] = newid.id
 
             elif odoo_pos and odoo_pos['res-mode'] == 'update':
-                odoo_id = req.gate_obj.search([('id','=',odoo_pos['res-id'])])
+                odoo_id = req.gate_obj.sudo().search([('id','=',odoo_pos['res-id'])])
                 if odoo_id.id:
                    odoo_id.write(sync_clean_up(odoo_pos))
                    sync_logdebug(req.context_sync, "Updated gate '%s' to odoo" % odoo_pos['name'] )

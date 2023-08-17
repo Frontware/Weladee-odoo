@@ -26,8 +26,11 @@
 'summary': 'Weladee-Odoo attendances\'s module',
 "depends" : ['hr_holidays', 
              'Weladee_Attendances'],
-"data" :["data/emails/weladee_allocate_error.xml",
-
+"data" :[
+         'security/security.xml',
+         'security/ir.model.access.csv',
+         "data/emails/weladee_allocate_error.xml",
+         'data/feature.xml',
          "wizards/weladee_attendance_settings.xml",
 
          'views/fw_hr_leave_type.xml',

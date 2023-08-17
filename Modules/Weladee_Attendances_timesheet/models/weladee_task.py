@@ -23,23 +23,37 @@ class weladee_task(models.Model):
         if 'name-th' in vals: del vals['name-th']
         ret = super(weladee_task, self).create(vals)
 
+        irobj = self.env['ir.translation']
         # Check if record could be created
         if ret.id and (('name-th' in vals) or ('name' in vals)):
-           irobj = self.env['ir.translation']
            add_value_translation(ret, irobj, 'project.task','name',vals.get('name', ''), name_th)
 
         return ret
+        
+    def unlink(self):
+        self.env['weladee_attendance.synchronous'].check_weladee_id(self, {})
+
+        return super(weladee_task, self).unlink()
 
     def write(self, vals):
         name_th = vals.get('name-th', '')
         if 'name-th' in vals: del vals['name-th']
+
+        if not self.env.context.get('updateLang'): 
+           for each in self:
+               cansave = True
+               if each.weladee_id: cansave = 'weladee_id' in vals
+
+               if not cansave:
+                  raise UserError('You cannot change this record from weladee') 
+
         ret = super(weladee_task, self).write(vals)
 
+        if self.env.context.get('updateLang'): return ret
         if ret and (('name-th' in vals) or ('name' in vals)):
            irobj = self.env['ir.translation']
            for each in self:
                add_value_translation(each, irobj, 'project.task','name',vals.get('name', ''), name_th)
-               break
 
         return ret
 

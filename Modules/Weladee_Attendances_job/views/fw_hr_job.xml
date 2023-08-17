@@ -14,7 +14,7 @@ remarks:
             <field name="arch" type="xml">                
                <xpath expr="//notebook[last()]" position="inside">
                    <page string="Job ads">
-                    <field name="job_ads_ids">
+                    <field name="job_ads_ids" readonly="1">
                         <tree>
                             <field name="name" />
                         </tree>

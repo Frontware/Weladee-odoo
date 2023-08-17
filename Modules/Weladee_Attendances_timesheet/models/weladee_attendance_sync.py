@@ -49,7 +49,7 @@ class weladee_attendance_timesheet(models.TransientModel):
 
     def do_sync_options(self, req):
         super(weladee_attendance_timesheet, self).do_sync_options(req)
-
+        
         if req.config.sync_timesheet and not sync_has_error(req.context_sync):
 
             if not req.config.timehsheet_account_analytic_id:

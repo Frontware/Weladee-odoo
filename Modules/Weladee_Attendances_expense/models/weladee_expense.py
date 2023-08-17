@@ -25,6 +25,16 @@ class weladee_expense(models.Model):
     refuse_reason = fields.Text('Refuse reason')
     expense_type_id = fields.Many2one('weladee_expense_type',string='Expense type')
 
+    def write(self, vals):
+        for each in self:
+            cansave = True
+            if each.weladee_id: cansave = 'weladee_id' in vals
+
+            if not cansave:
+               raise UserError('You cannot change this record from weladee') 
+
+        return super(weladee_expense, self).write(vals)
+
     def open_weladee_expense(self):
         if self.weladee_url:
             return {
