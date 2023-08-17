@@ -4,7 +4,7 @@ import logging
 _logger = logging.getLogger(__name__)
 
 from odoo import osv
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 from odoo.addons.Weladee_Attendances.library.weladee_translation import add_value_translation
 
@@ -75,14 +75,3 @@ class weladee_mail_act_type(models.Model):
                add_value_translation(each, irobj, 'mail.activity.type','name',vals.get('name', ''), name_th)
 
         return ret
-
-    def open_weladee_type(self):
-        if self.weladee_url:
-            return {
-                'name': _('Work Type'),
-                'type': 'ir.actions.act_url',
-                'url': 'https://www.weladee.com/worktype/' % self.weladee_id,
-                'target': 'new'
-            }
-        else:
-            raise UserError(_("This type doesn't have a weladee id."))
