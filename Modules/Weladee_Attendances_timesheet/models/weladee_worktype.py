@@ -96,14 +96,3 @@ class weladee_mail_act_type(models.Model):
                add_value_translation(each, 'name', vals.get('name', ''), name_th)
 
         return ret
-
-    def open_weladee_type(self):
-        if self.weladee_url:
-            return {
-                'name': _('Work Type'),
-                'type': 'ir.actions.act_url',
-                'url': 'https://www.weladee.com/worktype/' % self.weladee_id,
-                'target': 'new'
-            }
-        else:
-            raise UserError(_("This type doesn't have a weladee id."))
