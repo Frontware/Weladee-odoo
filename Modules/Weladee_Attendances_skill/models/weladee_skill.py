@@ -32,7 +32,7 @@ class weladee_skill(models.Model):
             return {
                 'name': _('Skill'),
                 'type': 'ir.actions.act_url',
-                'url': 'https://www.weladee.com/skills/%s' % self.weladee_id,
+                'url': 'https://www.weladee.com/skill/skill/%s' % self.weladee_id,
                 'target': 'new'
             }
         else:

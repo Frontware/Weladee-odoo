@@ -28,15 +28,7 @@ class weladee_skill_level(models.Model):
         return super(weladee_skill_level, self).unlink()
 
     def open_weladee_level(self):
-        if self.weladee_url:
-            return {
-                'name': _('Skill level'),
-                'type': 'ir.actions.act_url',
-                'url': 'https://www.weladee.com/skills/%s' % self.weladee_id,
-                'target': 'new'
-            }
-        else:
-            raise UserError(_("This skill type doesn't have a weladee id."))
+        return {}
     
     @api.depends('weladee_id')
     def _compute_css(self):
