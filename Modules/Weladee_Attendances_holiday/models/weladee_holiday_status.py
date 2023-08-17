@@ -17,6 +17,10 @@ class weladee_holiday_status(models.Model):
       ('weladee_code_uniq', 'unique(weladee_code)', "Weladee Holiday Type can't duplicate !"),
     ]
 
+    def unlink(self):
+        self.env['weladee_attendance.synchronous'].check_weladee_id(self, {})
+        return super(weladee_holiday_status, self).unlink()
+    
     @api.depends('weladee_code')
     def _compute_from_weladee(self):
         for record in self:

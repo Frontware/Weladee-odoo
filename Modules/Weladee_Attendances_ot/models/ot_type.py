@@ -70,3 +70,8 @@ class weladee_ot_type(models.Model):
                add_value_translation(each, irobj, 'fwot_ot_type','name',vals.get('name', ''), name_th)
 
         return ret    
+    
+    def unlink(self):
+        self.env['weladee_attendance.synchronous'].check_weladee_id(self, {})
+
+        return super(weladee_ot_type, self).unlink()    

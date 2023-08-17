@@ -37,3 +37,8 @@ class weladee_ot_request(models.Model):
                 record.hide_edit_btn_css = '<style>.o_form_button_edit {display: none !important;}</style>'
             else:
                 record.hide_edit_btn_css = False
+
+    def unlink(self):
+        self.env['weladee_attendance.synchronous'].check_weladee_id(self, {})
+
+        return super(weladee_ot_request, self).unlink()    
