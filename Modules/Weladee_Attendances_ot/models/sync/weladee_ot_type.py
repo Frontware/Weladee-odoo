@@ -15,7 +15,7 @@ def sync_ot_type_data(weladee_ot_type, req):
     ot_type = {"name" : weladee_ot_type.OTType.NameEnglish,
            "name-th" : weladee_ot_type.OTType.NameThai,
            "weladee_id" : weladee_ot_type.OTType.ID,
-           'ot_hourly_rate': weladee_ot_type.OTType.HourlyRatePct / 100,
+           'ot_hourly_rate': weladee_ot_type.OTType.HourlyRatePct,
            'code': weladee_ot_type.OTType.Code,
            'active': weladee_ot_type.OTType.active,
            'note': weladee_ot_type.OTType.Note,
