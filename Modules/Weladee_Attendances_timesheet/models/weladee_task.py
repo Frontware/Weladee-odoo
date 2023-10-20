@@ -23,7 +23,6 @@ class weladee_task(models.Model):
         if 'name-th' in vals: del vals['name-th']
         ret = super(weladee_task, self).create(vals)
 
-        irobj = self.env['ir.translation']
         # Check if record could be created
         if ret.id and (('name-th' in vals) or ('name' in vals)):
            add_value_translation(ret, 'name',vals.get('name', ''), name_th)
