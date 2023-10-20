@@ -19,6 +19,7 @@ from odoo.addons.Weladee_Attendances.models.sync.weladee_employee import sync_em
 from odoo.addons.Weladee_Attendances.models.sync.weladee_manager import sync_manager_dep,sync_manager_emp
 class weladee_attendance_working(models.TransientModel):
       _name="weladee_attendance.working"  
+      _description="weladee_attendance.working"  
 
       last_run = fields.Datetime('Last run')
 

@@ -10,10 +10,11 @@ from odoo.addons.Weladee_Attendances.library.weladee_translation import add_valu
 
 class weladee_expense_type(models.Model):
     _name = 'weladee_expense_type'
+    _description = 'weladee_expense_type'
     _inherit = ['image.mixin']
 
     weladee_id = fields.Char(string="Weladee ID",copy=False)
-    name = fields.Char('Name',translated=True)
+    name = fields.Char('Name',translate=True)
     code = fields.Char('Code')
     active = fields.Boolean('Active',default=True)
     image_1920 = fields.Image('Icon')

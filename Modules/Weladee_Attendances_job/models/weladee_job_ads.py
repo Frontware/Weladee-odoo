@@ -11,6 +11,7 @@ from odoo import exceptions
 
 class weladee_job_ads(models.Model):
     _name = 'weladee_job_ads'
+    _description = 'weladee_job_ads'
     _order = 'expire_date desc'
 
     name = fields.Char(string='Name')

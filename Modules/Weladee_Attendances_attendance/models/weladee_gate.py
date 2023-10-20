@@ -10,6 +10,7 @@ from odoo.addons.Weladee_Attendances.library.weladee_translation import add_valu
 
 class weladee_gate(models.Model):
     _name = 'weladee_gate'
+    _description = 'weladee_gate'
 
     name = fields.Char('Name',translate=True)
     weladee_id = fields.Char(string="Weladee ID",copy=False, default="", readonly=True, required=True)

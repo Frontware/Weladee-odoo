@@ -8,6 +8,7 @@ from odoo.exceptions import UserError, ValidationError
 
 class weladee_attendance_feature(models.Model):
     _name = "weladee_attendance_feature"
+    _description = "weladee_attendance_feature"
     _order = 'sequence'
 
     #fields
