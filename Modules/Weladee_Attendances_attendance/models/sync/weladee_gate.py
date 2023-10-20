@@ -57,7 +57,7 @@ def sync_gate(self, req):
                req.gate_odoo_weladee_ids[str(weladee_gate.gate.ID)] = newid.id
 
             elif odoo_pos and odoo_pos['res-mode'] == 'update':
-                odoo_id = req.gate_obj.search([('id','=',odoo_pos['res-id'])])
+                odoo_id = req.gate_obj.sudo().search([('id','=',odoo_pos['res-id'])])
                 if odoo_id.id:
                    odoo_id.sudo().write(sync_clean_up(odoo_pos))
                    sync_logdebug(req.context_sync, "Updated gate '%s' to odoo" % odoo_pos['name'] )

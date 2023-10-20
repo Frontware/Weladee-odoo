@@ -39,7 +39,7 @@ class weladee_settings_expense(models.TransientModel):
                                         ('m','month(s) ago'),
                                         ('y','year(s) ago'),
                                         ('all', 'All')], string='Since', default=get_expense_period)
-    expense_journal_id = fields.Many2one("account.journal", String="Expense journal",domain=[('type','=','purchase')],default=get_expense_journal )
+    expense_journal_id = fields.Many2one("account.journal", string="Expense journal",domain=[('type','=','purchase')],default=get_expense_journal )
     
     sync_expense = fields.Boolean('Sync Expense', default=get_sync_expense)
     

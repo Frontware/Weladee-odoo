@@ -10,7 +10,6 @@
 "data" :["security/ir.model.access.csv",   
         "wizards/weladee_attendance_settings.xml",
         'data/feature.xml',
-
         'views/fw_hr_expense.xml',
         'views/fw_expense_type.xml',
 ],

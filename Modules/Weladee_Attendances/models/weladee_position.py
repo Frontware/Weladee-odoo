@@ -68,6 +68,7 @@ class weladee_job(models.Model):
         '''
         ret = self.env['weladee_attendance.synchronous.setting'].get_settings()
         
+        print(ret.authorization)
         if ret.authorization:
             newPosition = False
             newPosition_mode = 'create'

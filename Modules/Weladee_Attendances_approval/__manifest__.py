@@ -10,7 +10,6 @@
 "data" :[
         "wizards/weladee_attendance_settings.xml",
         'data/feature.xml',
-
         'views/fw_approvals_type.xml',
         'views/fw_approvals_request.xml',
 ],

@@ -37,34 +37,34 @@ class weladee_employee(models.Model):
     _inherit = 'hr.employee'
 
     #contact info
-    work_email = fields.Char(required=True, track_visibility='always')
+    work_email = fields.Char(required=True, tracking=True)
 
     #position
-    job_id = fields.Many2one(required=True, track_visibility='always')
+    job_id = fields.Many2one(required=True, tracking=True)
 
     #citizenship
-    country_id = fields.Many2one(string="Nationality (Country)", required=True, track_visibility='always')
-    taxID = fields.Char(string="TaxID", track_visibility='always')
+    country_id = fields.Many2one(string="Nationality (Country)", required=True, tracking=True)
+    taxID = fields.Char(string="TaxID", tracking=True)
 
     #main
     name = fields.Char(required=False)
-    first_name_english = fields.Char(string="English First Name", track_visibility='always',required=True)
-    last_name_english = fields.Char(string="English Last Name", track_visibility='always',required=True)
-    first_name_thai = fields.Char(string="Thai First Name", track_visibility='always')
-    last_name_thai = fields.Char(string="Thai Last Name", track_visibility='always')
-    nick_name_english = fields.Char(string="English Nick Name", track_visibility='always')
-    nick_name_thai = fields.Char(string="Thai Nick Name", track_visibility='always')
+    first_name_english = fields.Char(string="English First Name", tracking=True,required=True)
+    last_name_english = fields.Char(string="English Last Name", tracking=True,required=True)
+    first_name_thai = fields.Char(string="Thai First Name", tracking=True)
+    last_name_thai = fields.Char(string="Thai Last Name", tracking=True)
+    nick_name_english = fields.Char(string="English Nick Name", tracking=True)
+    nick_name_thai = fields.Char(string="Thai Nick Name", tracking=True)
 
     #weladee link
     weladee_profile = fields.Char(string="Weladee Url", default="",copy=False)
     weladee_id = fields.Char(string="Weladee ID",copy=False)
     is_weladee = fields.Boolean(compute='_compute_from_weladee', copy=False, readonly=True, store=True)
-    receive_check_notification = fields.Boolean(string="Receive Check Notification", track_visibility='always')
-    can_request_holiday = fields.Boolean(string="Can Request Holiday", track_visibility='always')
-    hasToFillTimesheet = fields.Boolean(string="Has To Fill Timesheet", track_visibility='always')
+    receive_check_notification = fields.Boolean(string="Receive Check Notification", tracking=True)
+    can_request_holiday = fields.Boolean(string="Can Request Holiday", tracking=True)
+    hasToFillTimesheet = fields.Boolean(string="Has To Fill Timesheet", tracking=True)
 
     #other 
-    employee_code = fields.Char(string='Employee Code', track_visibility='always',copy=False)
+    employee_code = fields.Char(string='Employee Code', tracking=True,copy=False)
     qr_code = fields.Char('QR Code',copy=False)
     employee_team = fields.Char('Team')
 

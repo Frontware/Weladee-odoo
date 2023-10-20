@@ -11,6 +11,7 @@ from odoo.exceptions import UserError, ValidationError
 
 class weladee_attendance_form(models.TransientModel):
     _name="weladee_attendance_form"
+    _description="weladee_attendance_form"
 
     @api.model
     def _get_synchronous_email(self):

@@ -49,8 +49,8 @@ class weladee_settings_holiday(models.TransientModel):
     def get_holiday_sick_status(self):
         return self._get_params_value(CONST_SETTING_SICK_STATUS_ID, number=True)    
 
-    holiday_status_id = fields.Many2one("hr.leave.type", String="Default Leave Type",default=get_holiday_status )
-    sick_status_id = fields.Many2one("hr.leave.type", String="Sick leave Type",default=get_holiday_sick_status )
+    holiday_status_id = fields.Many2one("hr.leave.type", string="Default Leave Type",default=get_holiday_status )
+    sick_status_id = fields.Many2one("hr.leave.type", string="Sick leave Type",default=get_holiday_sick_status )
     holiday_notify_leave_req = fields.Boolean('Notify if there is not enough allocated leave request', default=get_holiday_notify_leave_req )
     holiday_notify_leave_req_email = fields.Text('Notified Email', default=get_holiday_notify_leave_req_email)
 
