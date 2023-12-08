@@ -121,7 +121,7 @@ remarks:
             <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='image_128']" position="after">
-                    <field name="weladee_id"/>
+                    <field name="weladee_id" invisible="1" />
                 </xpath>
 
                 <xpath expr="//div[hasclass('oe_kanban_bottom_right')]" position="after" t-if="record.weladee_id.raw_value">
