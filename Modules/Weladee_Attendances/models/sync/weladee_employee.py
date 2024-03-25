@@ -348,10 +348,12 @@ def sync_employee(req):
            newEmployee.employee.DrivingLicenseDateIssue = int(datetime.strptime(odoo_employee.driving_license_date_issue.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
         if odoo_employee.driving_license_expiration_date:
            newEmployee.employee.DrivingLicenseExpirationDate = int(datetime.strptime(odoo_employee.driving_license_expiration_date.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
-        newEmployee.employee.Religion = new_employee_data_religion(odoo_employee.religion)
-        newEmployee.employee.MaritalStatus = new_employee_data_marital(odoo_employee.marital)
-
-        newEmployee.employee.MilitaryStatus = new_employee_data_military( odoo_employee.military_status)
+        if odoo_employee.religion:
+           newEmployee.employee.Religion = new_employee_data_religion(odoo_employee.religion)
+        if odoo_employee.marital:
+           newEmployee.employee.MaritalStatus = new_employee_data_marital(odoo_employee.marital)
+        if odoo_employee.military_status:
+           newEmployee.employee.MilitaryStatus = new_employee_data_military( odoo_employee.military_status)
         if odoo_employee.resignation_date:
            newEmployee.employee.ResignationDate = int(datetime.strptime(odoo_employee.resignation_date.strftime('%Y-%m-%d'),'%Y-%m-%d').timestamp())
         if odoo_employee.probation_due_date:
