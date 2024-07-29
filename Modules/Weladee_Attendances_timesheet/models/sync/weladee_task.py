@@ -32,8 +32,8 @@ def sync_task_data(weladee_task, req):
            if not each.user_id.id:
               continue 
 
-           if not 'user_id' in data:
-              data['user_id'] = each.user_id.id
+           if not 'user_ids' in data:
+              data['user_ids'] = [each.user_id.id]
            else:
               if not 'other_assignee_ids' in data:
                  data['other_assignee_ids'] = []
