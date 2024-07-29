@@ -51,7 +51,46 @@ class weladee_account_analytic_line(models.Model):
                cansave = True
                if each.weladee_id: cansave = 'weladee_id' in vals
 
-               if not cansave:
+               if not cansave and self.env.context.get('validate_weladee_id', True):
                   raise UserError('You cannot change this record from weladee') 
+        
+        r = False
+        try:            
+           r = super(weladee_account_analytic_line, self).write(vals)
+        except Exception as e:
+           r = self.forceupdate(super(weladee_account_analytic_line, self).write, vals, e)
+        return r    
 
-        return super(weladee_account_analytic_line, self).write(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        r = False
+        try:
+           r = super().create(vals_list)
+        except Exception as e:
+           r = self.forceupdate(super().create, vals_list, e)
+        return r     
+
+    def forceupdate(self, fn, vals_list, e):
+        r = False
+        estr = ('%s' % e)
+        forceupdate = False
+        if 'Timesheets must be created with an active employee' in estr:
+            forceupdate = True
+        elif 'You cannot set an archived employee to the existing timesheets' in estr:
+            forceupdate = True
+            
+        if forceupdate:   
+            if not self.env.context.get('validate_weladee_id',True):
+                eid = False
+                if type(vals_list) is list:
+                   eid = vals_list[0]['employee_id']
+                else:
+                   eid = vals_list['employee_id']
+                # set employee active = True
+                self.env['hr.employee'].browse(eid).write({'active':True})
+                r = fn(vals_list)
+                self.env['hr.employee'].browse(eid).write({'active':False})
+        else:
+            raise e
+        
+        return r
