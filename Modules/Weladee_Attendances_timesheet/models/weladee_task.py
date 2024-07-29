@@ -43,7 +43,7 @@ class weladee_task(models.Model):
                cansave = True
                if each.weladee_id: cansave = 'weladee_id' in vals
 
-               if not cansave:
+               if not cansave and self.env.context.get('validate_weladee_id', True):
                   raise UserError('You cannot change this record from weladee') 
 
         ret = super(weladee_task, self).write(vals)
@@ -54,6 +54,12 @@ class weladee_task(models.Model):
                add_value_translation(each, 'name', vals.get('name', ''), name_th)
 
         return ret
+    
+    @api.model
+    def _task_message_auto_subscribe_notify(self, users_per_task):
+        if self.env.context.get('mail_auto_subscribe_no_notify'): return
+
+        return super()._task_message_auto_subscribe_notify(users_per_task)
 
     def open_weladee_task(self):
         if self.weladee_url:
