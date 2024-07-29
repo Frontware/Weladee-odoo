@@ -231,11 +231,11 @@ class weladee_employee(models.Model):
                    else:
                       WeladeeData.employee.DrivingLicenseExpirationDate = int(datetime.strptime(vals["driving_license_expiration_date"],'%Y-%m-%d').timestamp())
 
-            if "religion" in vals:
+            if "religion" in vals and vals['religion']:
                 WeladeeData.employee.Religion = new_employee_data_religion( vals['religion'] or '')
-            if "marital_status" in vals:
+            if "marital_status" in vals and vals['marital_status']:
                WeladeeData.employee.MaritalStatus = new_employee_data_marital( vals['marital_status'] or '')
-            if "military_status" in vals:
+            if "military_status" in vals and vals['military_status']:
                 WeladeeData.employee.MilitaryStatus = new_employee_data_military(vals['military_status'] or '')
             if "resignation_date" in vals:                
                 if vals['resignation_date']:
