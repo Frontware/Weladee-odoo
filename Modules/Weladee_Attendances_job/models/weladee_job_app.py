@@ -34,7 +34,7 @@ class weladee_job_app(models.Model):
                if each.weladee_id: cansave = 'weladee_id' in vals
 
                if not cansave:
-                  raise UserError('You cannot change this record from weladee') 
+                  raise UserError(_('You cannot change this record from weladee') )
 
         return super(weladee_job_app, self).write(vals)
     def unlink(self):

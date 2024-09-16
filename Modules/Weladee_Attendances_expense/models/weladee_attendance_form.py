@@ -12,6 +12,6 @@ class weladee_attendance_form_expense(models.TransientModel):
         super(weladee_attendance_form_expense, self).get_synchronous_data()
 
         if self.env['weladee_attendance.synchronous.setting'].get_sync_expense():
-           self.fns += '''
+           self.fns += _('''
             <li>Expense</li>
-            '''
+            ''')

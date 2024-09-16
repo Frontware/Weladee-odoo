@@ -12,6 +12,6 @@ class weladee_attendance_form_timesheet(models.TransientModel):
         super(weladee_attendance_form_timesheet, self).get_synchronous_data()
 
         if self.env['weladee_attendance.synchronous.setting'].get_sync_timesheet():
-           self.fns += '''
+           self.fns += _('''
             <li>Timesheet</li>
-            '''
+            ''')

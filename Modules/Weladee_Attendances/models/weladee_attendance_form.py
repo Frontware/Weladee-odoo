@@ -57,7 +57,7 @@ class weladee_attendance_form(models.TransientModel):
            h = int(self.env['ir.config_parameter'].get_param('weladee-sync-wait') or '2')
            if h > ((datetime.datetime.utcnow() - works.last_run).seconds / 3600):
               later = (datetime.datetime.now() + datetime.timedelta(hours=h)).astimezone(user_tz).strftime('%d/%m/%Y %H:%M')
-              raise UserError('Caution, the task already started at %s. Please wait until done or try again later lafter %s' % (last_run.strftime('%d/%m/%Y %H:%M'), later))      
+              raise UserError(_('Warning: The task has already started at %s. Please wait until it is completed, or try again later after %s.' % (last_run.strftime('%d/%m/%Y %H:%M'), later)))      
 
         cron = self.env.ref('Weladee_Attendances.weladee_attendance_synchronous_cron')
         #restart cron
@@ -69,7 +69,7 @@ class weladee_attendance_form(models.TransientModel):
         self.env['weladee_attendance.working'].create({'last_run':elapse_start})
 
         return {
-            "name":"Weladee Synchronization",
+            "name": _("Weladee Synchronization"),
             "view_id": self.env.ref('Weladee_Attendances.weladee_attendance_wizard_frm_ok').id,
             "res_model": "weladee_attendance_form",
             "res_id": self.create({}).id,

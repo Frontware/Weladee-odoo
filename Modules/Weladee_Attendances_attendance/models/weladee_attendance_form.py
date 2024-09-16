@@ -12,6 +12,6 @@ class weladee_attendance_form_holiday(models.TransientModel):
         super(weladee_attendance_form_holiday, self).get_synchronous_data()
 
         if self.env['weladee_attendance.synchronous.setting'].get_sync_attendance():
-           self.fns += '''
+           self.fns += _('''
             <li>Attendance</li>
-            '''
+            ''')

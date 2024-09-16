@@ -12,6 +12,6 @@ class weladee_attendance_form_job(models.TransientModel):
         super(weladee_attendance_form_job, self).get_synchronous_data()
 
         if self.env['weladee_attendance.synchronous.setting'].get_sync_job():
-           self.fns += '''
+           self.fns += _('''
             <li>Job ads & Job Applicant</li>
-            '''
+            ''')

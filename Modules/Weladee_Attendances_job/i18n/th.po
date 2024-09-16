@@ -1,0 +1,377 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* Weladee_Attendances_job
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0-20230925\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-16 07:41+0000\n"
+"PO-Revision-Date: 2024-09-16 07:41+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: Weladee_Attendances_job
+#. odoo-python
+#: code:addons/Weladee_Attendances_job/models/weladee_attendance_form.py:0
+#, python-format
+msgid ""
+"\n"
+"            <li>Job ads & Job Applicant</li>\n"
+"            "
+msgstr ""
+"\n"
+"            <li>ประกาศตำแหน่งงาน & ผู้สมัครงาน</li>\n"
+"            "
+
+#. module: Weladee_Attendances_job
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_job.weladee_setting_wizard_job
+msgid "<span attrs=\"{'invisible':[('job_period','=','all')]}\">&amp;nbsp;</span>"
+msgstr ""
+
+#. module: Weladee_Attendances_job
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_job.weladee_fw_hr_jobapp_form
+msgid ""
+"<span class=\"o_stat_text\">Weladee</span>\n"
+"                                <span class=\"o_stat_value\">Job application</span>"
+msgstr ""
+"<span class=\"o_stat_text\">เวลาดี</span>\n"
+"                                <span class=\"o_stat_value\">ผู้สมัครงาน</span>"
+
+#. module: Weladee_Attendances_job
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_job.weladee_job_ads_view
+msgid ""
+"<span class=\"o_stat_text\">Weladee</span>\n"
+"                                <span class=\"o_stat_value\">Jobads</span>"
+msgstr ""
+"<span class=\"o_stat_text\">เวลาดี</span>\n"
+"                                <span class=\"o_stat_value\">ประกาศตำแหน่งงาน</span>"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields.selection,name:Weladee_Attendances_job.selection__weladee_attendance_synchronous_setting__job_period__all
+msgid "All"
+msgstr "ทั้งหมด"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model,name:Weladee_Attendances_job.model_hr_applicant
+msgid "Applicant"
+msgstr "ผู้สมัครงาน"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_hr_applicant__date_apply
+msgid "Apply date"
+msgstr "วันที่สมัคร"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_weladee_job_ads__create_uid
+msgid "Created by"
+msgstr "สร้างเมื่อ"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_weladee_job_ads__create_date
+msgid "Created on"
+msgstr "สร้างโดย"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_weladee_job_ads__description
+msgid "Description"
+msgstr "รายละเอียด"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_weladee_job_ads__display_name
+msgid "Display Name"
+msgstr "ชื่อ"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_weladee_job_ads__expire_date
+msgid "Expire date"
+msgstr "วันหมดอายุ"
+
+#. module: Weladee_Attendances_job
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_job.weladee_job_ads_filter
+msgid "Expired"
+msgstr "หมดอายุ"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields.selection,name:Weladee_Attendances_job.selection__hr_applicant__gender__female
+msgid "Female"
+msgstr "ผู้หญิง"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_hr_applicant__firstname
+msgid "First name"
+msgstr "ชื่อจริง"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_hr_applicant__gender
+msgid "Gender"
+msgstr "เพศ"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_weladee_job_ads__id
+msgid "ID"
+msgstr "รหัส"
+
+#. module: Weladee_Attendances_job
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_job.weladee_job_ads_filter
+msgid "Incoming"
+msgstr "กำลังตรวจสอบ"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_hr_applicant__is_weladee
+msgid "Is Weladee"
+msgstr "ข้อมูลจากเวลาดี"
+
+#. module: Weladee_Attendances_job
+#: model:weladee_attendance_feature,name:Weladee_Attendances_job.weladee_attendance_feature_job
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_job.weladee_setting_wizard_job
+msgid "Job"
+msgstr "ตำแหน่งงาน"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model,name:Weladee_Attendances_job.model_hr_job
+msgid "Job Position"
+msgstr "ตำแหน่งงาน"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_hr_job__job_ads_ids
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_job.weladee_fw_hr_job_form
+msgid "Job ads"
+msgstr "ประกาศตำแหน่งงาน"
+
+#. module: Weladee_Attendances_job
+#. odoo-python
+#: code:addons/Weladee_Attendances_job/models/weladee_job_app.py:0
+#, python-format
+msgid "Job application"
+msgstr "ผู้สมัครงาน"
+
+#. module: Weladee_Attendances_job
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_job.weladee_job_ads_filter
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_job.weladee_job_ads_view
+msgid "Jobads"
+msgstr "ประกาศตำแหน่งงาน"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_hr_applicant__lang_id
+msgid "Language"
+msgstr "ภาษา"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_weladee_job_ads____last_update
+msgid "Last Modified on"
+msgstr "แก้ไขครั้งสุดท้ายเมื่อ"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_weladee_job_ads__write_uid
+msgid "Last Updated by"
+msgstr "แก้ไขครั้งสุดท้ายโดย"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_weladee_job_ads__write_date
+msgid "Last Updated on"
+msgstr "แก้ไขครั้งสุดท้ายเมื่อ"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_hr_applicant__lastname
+msgid "Last name"
+msgstr "นามสกุล"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_hr_applicant__linkedin_profile_url
+msgid "LinkedIn Profile"
+msgstr "ลิงก์ไปยัง LinkedIn"
+
+#. module: Weladee_Attendances_job
+#: model:ir.actions.server,name:Weladee_Attendances_job.weladee_job_ads_live_action
+msgid "Live"
+msgstr "เปิดใช้งาน"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_weladee_job_ads__location
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_job.weladee_job_ads_filter
+msgid "Location"
+msgstr "สถานที่"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields.selection,name:Weladee_Attendances_job.selection__hr_applicant__gender__male
+msgid "Male"
+msgstr "ผู้ชาย"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_weladee_job_ads__name
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_job.weladee_job_ads_view
+msgid "Name"
+msgstr "ชื่อ"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.constraint,message:Weladee_Attendances_job.constraint_weladee_job_ads_name_uniq
+msgid "Name can't duplicate !"
+msgstr "ชื่อประกาศตำแหน่งงานซ้ำ"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_hr_applicant__note
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_job.weladee_fw_hr_jobapp_form
+msgid "Note"
+msgstr "หมายเหตุ"
+
+#. module: Weladee_Attendances_job
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_job.weladee_fw_hr_jobapp_form
+msgid "Note..."
+msgstr "หมายเหตุ..."
+
+#. module: Weladee_Attendances_job
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_job.weladee_job_ads_filter
+msgid "Now"
+msgstr "ปัจจุบัน"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields.selection,name:Weladee_Attendances_job.selection__hr_applicant__gender__other
+msgid "Other"
+msgstr "ือื่นๆ"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_weladee_attendance_synchronous_setting__job_period_unit
+msgid "Period unit"
+msgstr "ระยะเวลา"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_weladee_job_ads__position_id
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_job.weladee_job_ads_filter
+msgid "Position"
+msgstr "ตำแหน่งงาน"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_weladee_job_ads__publish_date
+msgid "Publish date"
+msgstr "วันประกาศ"
+
+#. module: Weladee_Attendances_job
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_job.weladee_job_ads_filter
+msgid "Search Jobads"
+msgstr "ค้นหาประกาศตำแหน่งงาน"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_weladee_attendance_synchronous_setting__job_period
+msgid "Since"
+msgstr "ตั้งแต่"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_weladee_job_ads__skills
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_job.weladee_job_ads_filter
+msgid "Skill"
+msgstr "ทักษะ"
+
+#. module: Weladee_Attendances_job
+#: model:weladee_attendance_feature,description:Weladee_Attendances_job.weladee_attendance_feature_job
+msgid "Sync Job ads, Job application from weladee to odoo"
+msgstr "ดึงข้อมูลประกาศตำแหน่งงาน, ผู้สมัครงาน จากเวลาดีมาโอดู"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_weladee_attendance_synchronous_setting__sync_job
+msgid "Sync job"
+msgstr "ดึงข้อมูลตำแหน่งงาน"
+
+#. module: Weladee_Attendances_job
+#. odoo-python
+#: code:addons/Weladee_Attendances_job/models/weladee_job_app.py:0
+#, python-format
+msgid "This job application doesn't have a weladee id."
+msgstr "ผู้สมัครงานนี้ไม่ได้เชื่อมต่อกับเวลาดี"
+
+#. module: Weladee_Attendances_job
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_job.weladee_fw_hr_jobapp_form
+msgid ""
+"This record is imported from weladee, any change in odoo will be replaced by"
+" data from weladee."
+msgstr ""
+"ข้อมูลเรคคอร์ดนี้สร้างมาจากข้อมูลในเวลาดี, "
+"การเปลี่ยนแปลงใดๆในโอดูจะถูกแทนที่ด้วย ข้อมูลจากเวลาดี."
+
+#. module: Weladee_Attendances_job
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_job.weladee_fw_hr_jobapp_search
+msgid "Weladee"
+msgstr "เวลาดี"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_hr_applicant__weladee_id
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_weladee_job_ads__weladee_id
+msgid "Weladee ID"
+msgstr "รหัสในเวลาดี"
+
+#. module: Weladee_Attendances_job
+#: model:ir.actions.act_window,name:Weladee_Attendances_job.weladee_job_ads_action
+#: model:ir.ui.menu,name:Weladee_Attendances_job.weladee_job_ads_menu
+msgid "Weladee Jobads"
+msgstr "ข้อมูลประกาศตำแหน่งงานในเวลาดี"
+
+#. module: Weladee_Attendances_job
+#: model:ir.ui.menu,name:Weladee_Attendances_job.weladee_job_ads_live_menu
+msgid "Weladee Jobads Live!"
+msgstr "ประกาศตำแหน่งงานในเวลาดี"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_weladee_job_ads__weladee_url
+msgid "Weladee URL"
+msgstr "ลิงก์ไปยังเวลาดี"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_hr_applicant__weladee_url
+msgid "Weladee Url"
+msgstr "ลิงก์ไปยังเวลาดี"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model,name:Weladee_Attendances_job.model_weladee_attendance_synchronous_setting
+msgid "Weladee settings"
+msgstr "การตั้งค่าในเวลาดี"
+
+#. module: Weladee_Attendances_job
+#. odoo-python
+#: code:addons/Weladee_Attendances_job/models/weladee_job_app.py:0
+#, python-format
+msgid "You cannot change this record from weladee"
+msgstr "ข้อมูลเรคคอร์ดนี้สร้างมาจากข้อมูลในเวลาดี, ไม่สามารถแก้ไจได้"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields,field_description:Weladee_Attendances_job.field_hr_applicant__hide_edit_btn_css
+msgid "css"
+msgstr ""
+
+#. module: Weladee_Attendances_job
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_job.weladee_job_ads_view
+msgid "e.g. Secretary"
+msgstr "ตัวอย่าง เลขานุการ"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields.selection,name:Weladee_Attendances_job.selection__weladee_attendance_synchronous_setting__job_period__m
+msgid "month(s) ago"
+msgstr "เดือนที่แล้ว"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model,name:Weladee_Attendances_job.model_weladee_attendance_synchronous
+msgid "synchronous Employee, Department, Holiday and attendance"
+msgstr "ดึงข้อมูลพนักงาน ตำแหน่ง วันหยุดและข้อมูลเข้าออก"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields.selection,name:Weladee_Attendances_job.selection__weladee_attendance_synchronous_setting__job_period__w
+msgid "week(s) ago"
+msgstr "สัปดาห์ที่แล้ว"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model,name:Weladee_Attendances_job.model_weladee_attendance_form
+msgid "weladee_attendance_form"
+msgstr "การดึงข้อมูลจากเวลาดี มุมมอง"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model,name:Weladee_Attendances_job.model_weladee_job_ads
+msgid "weladee_job_ads"
+msgstr "ประกาศตำแหน่งงานในเวลาดี"
+
+#. module: Weladee_Attendances_job
+#: model:ir.model.fields.selection,name:Weladee_Attendances_job.selection__weladee_attendance_synchronous_setting__job_period__y
+msgid "year(s) ago"
+msgstr "ปีที่แล้ว"

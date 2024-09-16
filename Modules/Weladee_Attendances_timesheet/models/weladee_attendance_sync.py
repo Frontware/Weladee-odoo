@@ -54,7 +54,7 @@ class weladee_attendance_timesheet(models.TransientModel):
 
             if not req.config.timehsheet_account_analytic_id:
                sync_stop(req.context_sync)
-               sync_logerror(req.context_sync,'Please setup Account Analytic at Weladee settings -> Timesheet')
+               sync_logerror(req.context_sync,_('Please setup Account Analytic at Weladee settings -> Timesheet'))
                return
 
             sync_logdebug(req.context_sync,"Start sync...Customer")

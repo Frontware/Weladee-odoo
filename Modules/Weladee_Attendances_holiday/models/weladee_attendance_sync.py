@@ -31,19 +31,19 @@ class weladee_attendance_holiday(models.TransientModel):
             if not req.config.tz:
                 sync_stop(req.context_sync)
                 sync_logerror(
-                    req.context_sync, 'Please setup Timezone at Weladee settings -> Holiday')
+                    req.context_sync, _('Please setup Timezone at Weladee settings -> Holiday'))
                 return
 
             if not req.config.holiday_status_id:
                 sync_stop(req.context_sync)
                 sync_logerror(
-                    req.context_sync, 'Please setup Holiday status at Weladee settings -> Holiday')
+                    req.context_sync, _('Please setup Holiday status at Weladee settings -> Holiday'))
                 return
 
             if not req.config.sick_status_id:
                 sync_stop(req.context_sync)
                 sync_logerror(
-                    req.context_sync, 'Please setup Sick status at Weladee settings -> Holiday')
+                    req.context_sync, _('Please setup Sick status at Weladee settings -> Holiday'))
                 return
 
             sync_logdebug(req.context_sync, "Start sync...Holiday")

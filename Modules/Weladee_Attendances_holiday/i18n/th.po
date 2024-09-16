@@ -1,0 +1,555 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* Weladee_Attendances_holiday
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0-20230925\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-16 04:55+0000\n"
+"PO-Revision-Date: 2024-09-16 04:55+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: Weladee_Attendances_holiday
+#. odoo-python
+#: code:addons/Weladee_Attendances_holiday/models/weladee_attendance_form.py:0
+#, python-format
+msgid ""
+"\n"
+"            <li>Holiday</li>\n"
+"            "
+msgstr ""
+"\n"
+"            <li>วันลา</li>\n"
+"            "
+
+#. module: Weladee_Attendances_holiday
+#. odoo-python
+#: code:addons/Weladee_Attendances_holiday/models/weladee_company_holiday.py:0
+#, python-format
+msgid "%s is already a company holiday."
+msgstr "%s เป็นวันหยุดบริษัท"
+
+#. module: Weladee_Attendances_holiday
+#: model:mail.template,body_html:Weladee_Attendances_holiday.weladee_attendance_allocate_emp_mail
+msgid ""
+"<div>\n"
+"<p>Hi,\n"
+"<br><br>\n"
+"This employee <t t-out=\"ctx.get('employee','')\"></t> does not have enough leave allocation requests (code = <t t-out=\"ctx.get('code','')\"></t>), which has halted the current synchronization.<br>\n"
+"<br>\n"
+"Please go to Time Off -&gt; Approvals -&gt; <a t-attr-href=\"ctx.get('url','#')\">Time Off</a> to define the necessary allocation\n"
+"</p>\n"
+"<p>\n"
+"*This request and email were generated in the database <t t-esc=\"user.env.cr.dbname\"></t>\n"
+"</p>\n"
+"</div>\n"
+msgstr ""
+"<div>\n"
+"<p>Hi,\n"
+"<br><br>\n"
+"พนักงาน <t t-out=\"ctx.get('employee','')\"></t> มีจำนวนวันลาหยุดไม่พอ (รหัสวันลา = <t t-out=\"ctx.get('code','')\"></t>), การดึงข้อมูลจะสิ้นสุดการทำงานช.<br>\n"
+"<br>\n"
+"กรุณาไมที่ การลา -&gt; การอนุมัติ -&gt; <a t-attr-href=\"ctx.get('url','#')\">การลา</a> เพิ่มจำนวนวันลาหยุดให้เพียงพอ\n"
+"</p>\n"
+"<p>\n"
+"*คำร้องขอและอีเมลถูกสร้างในฐานข้อมูล <t t-esc=\"user.env.cr.dbname\"></t>\n"
+"</p>\n"
+"</div>\n"
+
+#. module: Weladee_Attendances_holiday
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_holiday.weladee_setting_wizard_holiday
+msgid ""
+"<span "
+"attrs=\"{'invisible':[('holiday_period','=','all')]}\">&amp;nbsp;</span>"
+msgstr ""
+
+#. module: Weladee_Attendances_holiday
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_holiday.weladee_att_hr_leave_form
+msgid "<span class=\"o_stat_text\">Weladee</span>"
+msgstr "<span class=\"o_stat_text\">เวลาดี</span>"
+
+#. module: Weladee_Attendances_holiday
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_holiday.weladee_setting_wizard_holiday
+msgid "<span class=\"text-danger\">*Note: you can separate each email by ;</span>"
+msgstr "<span class=\"text-danger\">*หมายเหตุ: คั่นอีเมลแต่ละอันด้วย ;</span>"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__message_needaction
+msgid "Action Needed"
+msgstr "ต้องการการตอบสนอง"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__company_holiday_active
+msgid "Active"
+msgstr "เปิดใช้งาน"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__activity_ids
+msgid "Activities"
+msgstr "กิจกรรม"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__activity_state
+msgid "Activity State"
+msgstr "สถานะกิจกรรม"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "รูปแสดงของประเภทกิจกรรม"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields.selection,name:Weladee_Attendances_holiday.selection__hr_leave__day_part__2
+msgid "Afternoon"
+msgstr "บ่าย"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields.selection,name:Weladee_Attendances_holiday.selection__weladee_attendance_synchronous_setting__holiday_period__all
+msgid "All"
+msgstr "ทั้งหมด"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__message_attachment_count
+msgid "Attachment Count"
+msgstr "จำนวน"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.ui.menu,name:Weladee_Attendances_holiday.menu_company_holidays
+msgid "Company Holidays"
+msgstr "วันหยุดบริษัท"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.actions.act_window,name:Weladee_Attendances_holiday.action_company_holidays
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_holiday.view_company_holidays_form
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_holiday.view_company_holidays_tree
+msgid "Company holidays"
+msgstr "วันหยุดบริษัท"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__create_uid
+msgid "Created by"
+msgstr "สร้างโดย"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__create_date
+msgid "Created on"
+msgstr "สร้างเมื่อ"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__company_holiday_date
+msgid "Date"
+msgstr "วันที่"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_hr_leave__day_part
+msgid "Day part"
+msgstr "ช่วงเวลา"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_synchronous_setting__holiday_status_id
+msgid "Default Leave Type"
+msgstr "ประเภทการลา(ค่าเริ่มต้น)"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__company_holiday_description
+msgid "Description"
+msgstr "รายละเอียด"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__display_name
+msgid "Display Name"
+msgstr "ชื่อ"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__message_follower_ids
+msgid "Followers"
+msgstr "ผู้ติดตาม"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "ผู้ติดตาม(คู่ค้า)"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,help:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Font awesome icon เข่น fa-tasks"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields.selection,name:Weladee_Attendances_holiday.selection__hr_leave__day_part__0
+msgid "Fullday"
+msgstr "ทั้งวัน"
+
+#. module: Weladee_Attendances_holiday
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_holiday.weladee_att_hr_leave_status_search
+msgid "Group By"
+msgstr "จัดกลุ่มโดย"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__has_message
+msgid "Has Message"
+msgstr "มีข้อความ"
+
+#. module: Weladee_Attendances_holiday
+#: model:weladee_attendance_feature,name:Weladee_Attendances_holiday.weladee_attendance_feature_holiday
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_holiday.hr_employee_weladee_profile_holidaywe
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_holiday.weladee_setting_wizard_holiday
+msgid "Holiday"
+msgstr "วันลา"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__id
+msgid "ID"
+msgstr "รหัส"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__activity_exception_icon
+msgid "Icon"
+msgstr "รูปแสดง"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,help:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "ไอคอนเพื่อระบุกิจกรรมข้อยกเว้น"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,help:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "หากเลือกไว้ ข้อความใหม่จะต้องได้รับการตรวจสอบ"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,help:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__message_has_error
+#: model:ir.model.fields,help:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "ถ้าเลือกไว้ ข้อความบางข้อความจะมีข้อผิดพลาดในการส่ง"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__message_is_follower
+msgid "Is Follower"
+msgstr “เป็นผู้ติดตาม”
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_hr_leave__is_weladee
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_hr_leave_type__is_weladee
+msgid "Is Weladee"
+msgstr "ข้อมูลจากเวลาดี"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays____last_update
+msgid "Last Modified on"
+msgstr "แก้ไขครั้งสุดท้ายเมื่อ"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__write_uid
+msgid "Last Updated by"
+msgstr "แก้ไขครั้งสุดท้ายโดย"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__write_date
+msgid "Last Updated on"
+msgstr "แก้ไขครั้งสุดท้ายเมื่อ"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__message_main_attachment_id
+msgid "Main Attachment"
+msgstr “สิ่งที่แนบมาหลัก”
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields.selection,name:Weladee_Attendances_holiday.selection__hr_leave__day_part__1
+msgid "Morning"
+msgstr ""
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__company_holiday_notes
+msgid "Notes"
+msgstr ""
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_synchronous_setting__holiday_notify_leave_req_email
+msgid "Notified Email"
+msgstr ""
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_synchronous_setting__holiday_notify_leave_req
+msgid "Notify if there is not enough allocated leave request"
+msgstr ""
+
+#. module: Weladee_Attendances_holiday
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_holiday.weladee_setting_wizard_holiday
+msgid "Notify when no enough leave allocate"
+msgstr "ส่งอีเมลแจ้งเตือนเมื่อวันลาไม่เพียงพอ"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,help:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,help:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_synchronous_setting__holiday_period_unit
+msgid "Period unit"
+msgstr "ช่วงเวลา"
+
+#. module: Weladee_Attendances_holiday
+#. odoo-python
+#: code:addons/Weladee_Attendances_holiday/models/weladee_attendance_sync.py:0
+#, python-format
+msgid "Please setup Holiday status at Weladee settings -> Holiday"
+msgstr "กรุณาตั้งค่า ประเภทการลา ที่การตั้งค่าในเวลาดี -> วันลา"
+
+#. module: Weladee_Attendances_holiday
+#. odoo-python
+#: code:addons/Weladee_Attendances_holiday/models/weladee_attendance_sync.py:0
+#, python-format
+msgid "Please setup Sick status at Weladee settings -> Holiday"
+msgstr "กรุณาตั้งค่า ประเภทการลาป่วย ที่การตั้งค่าในเวลาดี -> วันลา"
+
+#. module: Weladee_Attendances_holiday
+#. odoo-python
+#: code:addons/Weladee_Attendances_holiday/models/weladee_attendance_sync.py:0
+#, python-format
+msgid "Please setup Timezone at Weladee settings -> Holiday"
+msgstr "กรุณาตั้งค่า เขตเวลา ที่การตั้งค่าในเวลาดี -> วันลา"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__activity_user_id
+msgid "Responsible User"
+msgstr "ผู้ใช้งานโอดูที่รับผิดชอบ"
+
+#. module: Weladee_Attendances_holiday
+#: model_terms:ir.actions.act_window,help:Weladee_Attendances_holiday.action_company_holidays
+msgid ""
+"Run Weladee <span class=\"fa fa-arrow-right o_we_selected_image\" "
+"style=\"font-size: 13px;\"></span> Weladee synchronization to get your "
+"company holiday from weladee"
+msgstr ""
+"เรียกใช้ Weladee <span class=\"fa fa-arrow-right o_we_selected_image\" "
+"style=\"font-size: 13px;\"></span> การซิงโครไนซ์ Weladee เพื่อรับ "
+"วันหยุดบริษัทจาก weladee"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_hr_leave__weladee_sick
+msgid "Sick"
+msgstr "ลาป่วย"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_synchronous_setting__sick_status_id
+msgid "Sick leave Type"
+msgstr "ประเภทการลาป่วย"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_synchronous_setting__holiday_period
+msgid "Since"
+msgstr "ตั้งแต่"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,help:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"สถานะตามกิจกรรม\n"
+"เลยกำหนด: วันครบกำหนดผ่านไปแล้ว\n"
+"วันนี้: วันกิจกรรมคือวันนี้\n"
+"วางแผน: กิจกรรมในอนาคต"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_synchronous_setting__sync_holiday
+msgid "Sync Holiday"
+msgstr "ดึงข้อมูลวันลา"
+
+#. module: Weladee_Attendances_holiday
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_holiday.weladee_setting_wizard_holiday
+msgid "Sync holiday since"
+msgstr "ดึงข้อมูลวันลาตั้งแต่"
+
+#. module: Weladee_Attendances_holiday
+#: model:weladee_attendance_feature,description:Weladee_Attendances_holiday.weladee_attendance_feature_holiday
+msgid "Sync holiday, company holiday from weladee to odoo"
+msgstr "ดึงข้อมูลวันลา,วันหยุดบริษัทจากเวลาดีมาโอดู"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model,name:Weladee_Attendances_holiday.model_hr_leave
+msgid "Time Off"
+msgstr "การลา"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model,name:Weladee_Attendances_holiday.model_hr_leave_type
+msgid "Time Off Type"
+msgstr "ประเภทการลา"
+
+#. module: Weladee_Attendances_holiday
+#. odoo-python
+#: code:addons/Weladee_Attendances_holiday/models/weladee_holidays.py:0
+#, python-format
+msgid "TimeOff"
+msgstr "วันลา"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_synchronous_setting__tz
+msgid "Timezone"
+msgstr "เขตเวลา"
+
+#. module: Weladee_Attendances_holiday
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_holiday.weladee_setting_wizard_holiday
+msgid "To email"
+msgstr "ส่งไปที่อีเมล"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,help:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,help:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: Weladee_Attendances_holiday
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_holiday.weladee_att_hr_leave_search
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_holiday.weladee_att_hr_leave_status_form
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_holiday.weladee_att_hr_leave_status_search
+msgid "Weladee"
+msgstr "เวลาดี"
+
+#. module: Weladee_Attendances_holiday
+#: model:mail.template,name:Weladee_Attendances_holiday.weladee_attendance_allocate_emp_mail
+msgid "Weladee Attendance: Employee's Leaves Allocation Request not enough"
+msgstr "การดึงข้อมูลจากเวลาดี: จำนวนวันลาหยุดของพนักงานไม่พอ"
+
+#. module: Weladee_Attendances_holiday
+#: model:mail.template,subject:Weladee_Attendances_holiday.weladee_attendance_allocate_emp_mail
+msgid ""
+"Weladee Attendance: this employee {{ctx.get('employee','')}} has not enough "
+"Leaves Allocation Request in Odoo"
+msgstr ""
+"การดึงข้อมูลจากเวลาดี: พนักงาน {{ctx.get('employee','')}} มีจำนวนวันลาหยุดไม่พอ"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_hr_leave__weladee_code
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_hr_leave_type__weladee_code
+msgid "Weladee Code"
+msgstr "รหัสในเวลาดี"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.constraint,message:Weladee_Attendances_holiday.constraint_hr_leave_type_weladee_code_uniq
+msgid "Weladee Holiday Type can't duplicate !"
+msgstr "ประเภทการลาไม่สามารถซ้ำกันได้"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_hr_leave__weladee_id
+#: model:ir.model.fields,field_description:Weladee_Attendances_holiday.field_weladee_attendance_company_holidays__weladee_id
+msgid "Weladee ID"
+msgstr "รหัสในเวลาดี"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model,name:Weladee_Attendances_holiday.model_weladee_attendance_company_holidays
+msgid "Weladee company holidays"
+msgstr "วันหยุดบริษัท"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model,name:Weladee_Attendances_holiday.model_weladee_attendance_synchronous_setting
+msgid "Weladee settings"
+msgstr "การตั้งค่าในเวลาดี"
+
+#. module: Weladee_Attendances_holiday
+#: model:res.groups,name:Weladee_Attendances_holiday.group_weladee_leave_allocation
+msgid "for allocate leave"
+msgstr "สำหรับการกำหนดจำนวนวันลา"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields.selection,name:Weladee_Attendances_holiday.selection__weladee_attendance_synchronous_setting__holiday_period__m
+msgid "month(s) ago"
+msgstr "เดือนที่แล้ว"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model,name:Weladee_Attendances_holiday.model_weladee_attendance_synchronous
+msgid "synchronous Employee, Department, Holiday and attendance"
+msgstr "ดึงข้อมูลพนักงาน ตำแหน่ง วันหยุดและข้อมูลเข้าออก"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields.selection,name:Weladee_Attendances_holiday.selection__weladee_attendance_synchronous_setting__holiday_period__w
+msgid "week(s) ago"
+msgstr "สัปดาห์ที่แล้ว"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model,name:Weladee_Attendances_holiday.model_weladee_attendance_form
+msgid "weladee_attendance_form"
+msgstr "การดึงข้อมูลจากเวลาดี มุมมอง"
+
+#. module: Weladee_Attendances_holiday
+#: model:ir.model.fields.selection,name:Weladee_Attendances_holiday.selection__weladee_attendance_synchronous_setting__holiday_period__y
+msgid "year(s) ago"
+msgstr "ปีที่แล้ว"

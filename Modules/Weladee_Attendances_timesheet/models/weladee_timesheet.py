@@ -52,7 +52,7 @@ class weladee_account_analytic_line(models.Model):
                if each.weladee_id: cansave = 'weladee_id' in vals
 
                if not cansave and self.env.context.get('validate_weladee_id', True):
-                  raise UserError('You cannot change this record from weladee') 
+                  raise UserError(_('You cannot change this record from weladee'))
         
         r = False
         try:            

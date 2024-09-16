@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0-20230925\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-16 03:31+0000\n"
-"PO-Revision-Date: 2024-09-16 03:31+0000\n"
+"POT-Creation-Date: 2024-09-16 04:07+0000\n"
+"PO-Revision-Date: 2024-09-16 04:07+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -380,6 +380,15 @@ msgstr "บันทึกและเริ่มใช้งาน"
 #: model:ir.model.fields,field_description:Weladee_Attendances.field_hr_employee__can_request_holiday
 msgid "Can Request Holiday"
 msgstr "สามารถขอวันหยุด"
+
+#. module: Weladee_Attendances
+#. odoo-python
+#: code:addons/Weladee_Attendances/models/weladee_attendance_form.py:0
+#, python-format
+msgid ""
+"Warning: The task has already started at %s. Please wait until it is completed, or try again later after %s."
+msgstr ""
+"คำเตือน: งานนี้เริ่มต้นแล้วเมื่อเวลา %s กรุณารอให้เสร็จสิ้นก่อน หรือลองอีกครั้งหลังจากเวลา %s"
 
 #. module: Weladee_Attendances
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances.weladee_attendance_wizard_frm
@@ -902,6 +911,7 @@ msgstr "การตั้งค่าดึงข้อมูลในเวล
 
 #. module: Weladee_Attendances
 #. odoo-python
+#: code:addons/Weladee_Attendances/models/weladee_attendance_form.py:0
 #: code:addons/Weladee_Attendances/models/weladee_attendance_form.py:0
 #: model:ir.actions.act_window,name:Weladee_Attendances.weladee_attendance_feature_act
 #: model:ir.actions.server,name:Weladee_Attendances.weladee_attendance_synchronous_act_server

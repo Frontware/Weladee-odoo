@@ -4,7 +4,7 @@ import logging
 _logger = logging.getLogger(__name__)
 
 from odoo import osv
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 from odoo.addons.Weladee_Attendances.library.weladee_translation import add_value_translation
 
@@ -86,7 +86,7 @@ class weladee_mail_act_type(models.Model):
                if each.weladee_id: cansave = 'weladee_id' in vals
 
                if not cansave:
-                  raise UserError('You cannot change this record from weladee') 
+                  raise UserError(_('You cannot change this record from weladee') )
 
         ret = super(weladee_mail_act_type, self).write(vals)
 

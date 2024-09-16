@@ -1,0 +1,367 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* Weladee_Attendances_timesheet
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0-20230925\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-16 07:15+0000\n"
+"PO-Revision-Date: 2024-09-16 07:15+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: Weladee_Attendances_timesheet
+#. odoo-python
+#: code:addons/Weladee_Attendances_timesheet/models/weladee_attendance_form.py:0
+#, python-format
+msgid ""
+"\n"
+"            <li>Timesheet</li>\n"
+"            "
+msgstr ""
+"\n"
+"            <li>การลงเวลางาน</li>\n"
+"            "
+
+#. module: Weladee_Attendances_timesheet
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_timesheet.weladee_setting_wizard_timesheet
+msgid ""
+"<span "
+"attrs=\"{'invisible':[('timesheet_period','=','all')]}\">&amp;nbsp;</span>"
+msgstr ""
+
+#. module: Weladee_Attendances_timesheet
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_timesheet.fwweltimesheet_view_type_form2
+msgid "<span class=\"o_stat_text\">Weladee</span>"
+msgstr "<span class=\"o_stat_text\">เวลาดี</span>"
+
+#. module: Weladee_Attendances_timesheet
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_timesheet.fw_view_partner_form
+msgid ""
+"<span class=\"o_stat_text\">Weladee</span>\n"
+"                                <span class=\"o_stat_value\">Customer</span>"
+msgstr ""
+"<span class=\"o_stat_text\">เวลาดี</span>\n"
+"                                <span class=\"o_stat_value\">ลูกค้า</span>"
+
+#. module: Weladee_Attendances_timesheet
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_timesheet.fw_edit_project
+msgid ""
+"<span class=\"o_stat_text\">Weladee</span>\n"
+"                                <span class=\"o_stat_value\">Project</span>"
+msgstr ""
+"<span class=\"o_stat_text\">เวลาดี</span>\n"
+"                                <span class=\"o_stat_value\">โครงงาน</span>"
+
+#. module: Weladee_Attendances_timesheet
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_timesheet.fw_task_view_task_form2
+msgid ""
+"<span class=\"o_stat_text\">Weladee</span>\n"
+"                                <span class=\"o_stat_value\">Task</span>"
+msgstr ""
+"<span class=\"o_stat_text\">เวลาดี</span>\n"
+"                                <span class=\"o_stat_value\">งาน</span>"
+
+#. module: Weladee_Attendances_timesheet
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_timesheet.fw_worktype_view_form
+msgid ""
+"<span class=\"o_stat_text\">Weladee</span>\n"
+"                                <span class=\"o_stat_value\">WorkType</span>"
+msgstr ""
+"<span class=\"o_stat_text\">เวลาดี</span>\n"
+"                                <span class=\"o_stat_value\">ชนิดงานWorkType</span>"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_weladee_attendance_synchronous_setting__timehsheet_account_analytic_id
+msgid "Account Analytic"
+msgstr "บัญชีวิเคราะห์"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model,name:Weladee_Attendances_timesheet.model_mail_activity_type
+msgid "Activity Type"
+msgstr "ประเภทกิจกรรม"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields.selection,name:Weladee_Attendances_timesheet.selection__weladee_attendance_synchronous_setting__timesheet_period__all
+msgid "All"
+msgstr "ทั้งหมด"
+
+#. module: Weladee_Attendances_timesheet
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_timesheet.weladee_setting_wizard_timesheet
+msgid "Also sync Customer, Project and Task"
+msgstr "พร้อมทั้ง ลูกค้า โครงงาน และงาน"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model,name:Weladee_Attendances_timesheet.model_account_analytic_line
+msgid "Analytic Line"
+msgstr "ไลน์การวิเคราะห์"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model,name:Weladee_Attendances_timesheet.model_res_partner
+msgid "Contact"
+msgstr "ติดต่อ"
+
+#. module: Weladee_Attendances_timesheet
+#. odoo-python
+#: code:addons/Weladee_Attendances_timesheet/models/weladee_customer.py:0
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_timesheet.weladee_att_hr_timesheet_list
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_timesheet.weladee_att_hr_timesheet_search
+#, python-format
+msgid "Customer"
+msgstr "ลูกค้า"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_res_partner__customer_rank
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_res_users__customer_rank
+msgid "Customer Rank"
+msgstr "อันดับของลูกค้า"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_project_project__description
+msgid "Description"
+msgstr "รายละเอียด"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields,help:Weladee_Attendances_timesheet.field_project_project__description
+msgid "Description to provide more information and context about this project"
+msgstr "รายละเอียดเพิ่มเติมสำหรับโครงงาน"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_account_analytic_line__is_weladee
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_mail_activity_type__is_weladee
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_project_project__is_weladee
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_project_task__is_weladee
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_res_partner__is_weladee
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_res_users__is_weladee
+msgid "Is Weladee"
+msgstr "ข้อมูลจากเวลาดี"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_res_partner__name_thai
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_res_users__name_thai
+msgid "Name(thai)"
+msgstr "ชื่อภาษาไทย"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_project_project__note
+msgid "Note"
+msgstr "บันทึกเพิ่มเติม"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_project_task__other_assignee_ids
+msgid "Other assignee"
+msgstr "ผู้รับผิดชอบอื่นๆ"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_weladee_attendance_synchronous_setting__timesheet_period_unit
+msgid "Period Unit"
+msgstr "ช่วงเวลา"
+
+#. module: Weladee_Attendances_timesheet
+#. odoo-python
+#: code:addons/Weladee_Attendances_timesheet/models/weladee_attendance_sync.py:0
+#, python-format
+msgid "Please setup Account Analytic at Weladee settings -> Timesheet"
+msgstr "กรุณาตั้งค่า บัญชีวิเคราะห์ ที่การตั้งค่าของเวลาดี -> การลงเวลางาน"
+
+#. module: Weladee_Attendances_timesheet
+#. odoo-python
+#: code:addons/Weladee_Attendances_timesheet/models/weladee_project.py:0
+#: model:ir.model,name:Weladee_Attendances_timesheet.model_project_project
+#, python-format
+msgid "Project"
+msgstr "โปรเจกต์"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_weladee_attendance_synchronous_setting__timesheet_period
+msgid "Since"
+msgstr "ตั้งแต่"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_weladee_attendance_synchronous_setting__sync_timesheet
+msgid "Sync Timesheet"
+msgstr "ดึงข้อมูลการลงเวลางาน"
+
+#. module: Weladee_Attendances_timesheet
+#: model:weladee_attendance_feature,description:Weladee_Attendances_timesheet.weladee_attendance_feature_timesheet
+msgid ""
+"Sync customer, project, task, worktype and timesheet  from weladee to odoo"
+msgstr ""
+"ดึงข้อมูล ลูกค้า, โครงงาน, งาน, ประเทศงาน และการลงเวลางาน จากเวลาดีมาโอดู"
+
+#. module: Weladee_Attendances_timesheet
+#. odoo-python
+#: code:addons/Weladee_Attendances_timesheet/models/weladee_task.py:0
+#: model:ir.model,name:Weladee_Attendances_timesheet.model_project_task
+#, python-format
+msgid "Task"
+msgstr "งาน"
+
+#. module: Weladee_Attendances_timesheet
+#. odoo-python
+#: code:addons/Weladee_Attendances_timesheet/models/weladee_customer.py:0
+#, python-format
+msgid "This customer doesn't have a weladee id."
+msgstr "ลูกค้านี้ไม่ได้เชื่อมต่อกับเวลาดี"
+
+#. module: Weladee_Attendances_timesheet
+#. odoo-python
+#: code:addons/Weladee_Attendances_timesheet/models/weladee_timesheet.py:0
+#, python-format
+msgid "This employee doesn't have weladee url."
+msgstr "พนักงานนี้ไม่ได้เชื่อมต่อกับเวลาดี"
+
+#. module: Weladee_Attendances_timesheet
+#. odoo-python
+#: code:addons/Weladee_Attendances_timesheet/models/weladee_project.py:0
+#, python-format
+msgid "This project doesn't have a weladee id."
+msgstr "โครงงานนี้ไม่ได้เชื่อมต่อกับเวลาดี"
+
+#. module: Weladee_Attendances_timesheet
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_timesheet.fw_edit_project
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_timesheet.fw_task_view_task_form2
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_timesheet.fw_view_partner_form
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_timesheet.fw_worktype_view_form
+msgid ""
+"This record is imported from weladee, any change in odoo will be replaced by"
+" data from weladee."
+msgstr ""
+"ข้อมูลเรคคอร์ดนี้สร้างมาจากข้อมูลในเวลาดี, "
+"การเปลี่ยนแปลงใดๆในโอดูจะถูกแทนที่ด้วย ข้อมูลจากเวลาดี."
+
+#. module: Weladee_Attendances_timesheet
+#. odoo-python
+#: code:addons/Weladee_Attendances_timesheet/models/weladee_task.py:0
+#, python-format
+msgid "This task doesn't have a weladee id."
+msgstr "งานนี้ไม่ได้เชื่อมต่อกับเวลาดี"
+
+#. module: Weladee_Attendances_timesheet
+#. odoo-python
+#: code:addons/Weladee_Attendances_timesheet/models/weladee_worktype.py:0
+#, python-format
+msgid "This type doesn't have a weladee id."
+msgstr "ชนิดงานนี้ไม่ได้เชื่อมต่อกับเวลาดี"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_account_analytic_line__time_to_charge
+msgid "Time to charge"
+msgstr "เวลาที่เรียกเก็บ"
+
+#. module: Weladee_Attendances_timesheet
+#: model:weladee_attendance_feature,name:Weladee_Attendances_timesheet.weladee_attendance_feature_timesheet
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_timesheet.hr_employee_weladee_profile_timesheet
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_timesheet.weladee_setting_wizard_timesheet
+msgid "Timesheet"
+msgstr "การลงเวลางาน"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_project_project__url
+msgid "URL"
+msgstr "ลิงก์"
+
+#. module: Weladee_Attendances_timesheet
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_timesheet.fw_view_project_project_filter_inherited
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_timesheet.fw_view_res_partner_filter_inherited
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_timesheet.fw_view_task_search_form_inherited
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_timesheet.weladee_att_hr_timesheet_search
+msgid "Weladee"
+msgstr "เวลาดี"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_mail_activity_type__weladee_code
+msgid "Weladee Code"
+msgstr "รหัสในเวลาดี"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_account_analytic_line__weladee_id
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_mail_activity_type__weladee_id
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_project_project__weladee_id
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_project_task__weladee_id
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_res_partner__weladee_id
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_res_users__weladee_id
+msgid "Weladee ID"
+msgstr "รหัสในเวลาดี"
+
+#. module: Weladee_Attendances_timesheet
+#. odoo-python
+#: code:addons/Weladee_Attendances_timesheet/models/weladee_timesheet.py:0
+#, python-format
+msgid "Weladee Timesheet"
+msgstr "การลงเวลางานในเวลาดี"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_project_project__weladee_url
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_project_task__weladee_url
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_res_partner__weladee_url
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_res_users__weladee_url
+msgid "Weladee Url"
+msgstr "ลิงก์ไปยังเวลาดี"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_account_analytic_line__weladee_cost
+msgid "Weladee cost"
+msgstr "ราคาในเวลาดี"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model,name:Weladee_Attendances_timesheet.model_weladee_attendance_synchronous_setting
+msgid "Weladee settings"
+msgstr "การตั้งค่าในเวลาดี"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_account_analytic_line__work_type_id
+msgid "Work type"
+msgstr "ประเทศงาน"
+
+#. module: Weladee_Attendances_timesheet
+#. odoo-python
+#: code:addons/Weladee_Attendances_timesheet/models/weladee_worktype.py:0
+#, python-format
+msgid "WorkType"
+msgstr "ประเทศงาน"
+
+#. module: Weladee_Attendances_timesheet
+#. odoo-python
+#: code:addons/Weladee_Attendances_timesheet/models/weladee_timesheet.py:0
+#: code:addons/Weladee_Attendances_timesheet/models/weladee_worktype.py:0
+#, python-format
+msgid "You cannot change this record from weladee"
+msgstr "ข้อมูลเรคคอร์ดนี้สร้างมาจากข้อมูลในเวลาดี, ไม่สามารถแก้ไจได้"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_mail_activity_type__hide_edit_btn_css
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_project_project__hide_edit_btn_css
+#: model:ir.model.fields,field_description:Weladee_Attendances_timesheet.field_project_task__hide_edit_btn_css
+msgid "css"
+msgstr ""
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields.selection,name:Weladee_Attendances_timesheet.selection__weladee_attendance_synchronous_setting__timesheet_period__m
+msgid "month(s) ago"
+msgstr "เดือนที่แล้ว"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model,name:Weladee_Attendances_timesheet.model_weladee_attendance_synchronous
+msgid "synchronous Employee, Department, Holiday and attendance"
+msgstr "ดึงข้อมูลพนักงาน ตำแหน่ง วันหยุดและข้อมูลเข้าออก"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields.selection,name:Weladee_Attendances_timesheet.selection__weladee_attendance_synchronous_setting__timesheet_period__w
+msgid "week(s) ago"
+msgstr "สัปดาห์ที่แล้ว"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model,name:Weladee_Attendances_timesheet.model_weladee_attendance_form
+msgid "weladee_attendance_form"
+msgstr "การดึงข้อมูลจากเวลาดี มุมมอง"
+
+#. module: Weladee_Attendances_timesheet
+#: model:ir.model.fields.selection,name:Weladee_Attendances_timesheet.selection__weladee_attendance_synchronous_setting__timesheet_period__y
+msgid "year(s) ago"
+msgstr "ปีที่แล้ว"

@@ -17,12 +17,12 @@
 <div>
 <p>Hi,
 <br/><br/>
-This employee <t t-out="ctx.get('employee','')" /> has not enough Leaves Allocation Request (code = <t t-out="ctx.get('code','')" />), which makes current synchronization stopped.<br/>
+This employee <t t-out="ctx.get('employee','')" /> does not have enough leave allocation requests (code = <t t-out="ctx.get('code','')" />), which has halted the current synchronization.<br/>
 <br/>
-Please go to Leaves -> Leaves to Approve -> <a t-attr-href="ctx.get('url','#')">Leaves Allocation</a> to define
+Please go to Time Off -> Approvals -> <a t-attr-href="ctx.get('url','#')">Time Off</a> to define the necessary allocation
 </p>
 <p>
-*This request and email are generated on database = <t t-out="user.env.cr.dbname" />
+*This request and email were generated in the database <t t-esc="user.env.cr.dbname"></t>
 </p>
 </div>
 </field>

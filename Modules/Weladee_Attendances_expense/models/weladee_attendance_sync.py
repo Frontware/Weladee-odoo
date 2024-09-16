@@ -41,12 +41,12 @@ class weladee_attendance_expense(models.TransientModel):
 
             if not req.config.expense_product_id:
                sync_stop(req.context_sync)
-               sync_logerror(req.context_sync,'Please setup Expense product at Weladee settings -> Expense')
+               sync_logerror(req.context_sync, _('Please setup Expense product at Weladee settings -> Expense'))
                return
 
             if not req.config.expense_journal_id:
                sync_stop(req.context_sync)
-               sync_logerror(req.context_sync,'Please setup Expense journal at Weladee settings -> Expense')
+               sync_logerror(req.context_sync, _('Please setup Expense journal at Weladee settings -> Expense'))
                return
 
             sync_logdebug(req.context_sync,"Start sync...Expense type")
