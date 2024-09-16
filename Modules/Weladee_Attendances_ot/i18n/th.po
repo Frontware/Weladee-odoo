@@ -1,0 +1,187 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* Weladee_Attendances_ot
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0-20230925\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-16 08:18+0000\n"
+"PO-Revision-Date: 2024-09-16 08:18+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: Weladee_Attendances_ot
+#. odoo-python
+#: code:addons/Weladee_Attendances_ot/models/weladee_attendance_form.py:0
+#, python-format
+msgid ""
+"\n"
+"            <li>OT</li>\n"
+"            "
+msgstr ""
+"\n"
+"            <li>ทำงานล่วงเวลา</li>\n"
+"            "
+
+#. module: Weladee_Attendances_ot
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_ot.weladee_setting_wizard_ot
+msgid "<span attrs=\"{'invisible':[('ot_period','=','all')]}\">&amp;nbsp;</span>"
+msgstr ""
+
+#. module: Weladee_Attendances_ot
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_ot.fw_ot_weladee_request
+msgid ""
+"<span class=\"o_stat_text\">OT</span>\n"
+"                                <span class=\"o_stat_value\">Request</span>"
+msgstr ""
+"<span class=\"o_stat_text\">คำขอ</span>\n"
+"                                <span class=\"o_stat_value\">ทำงานล่วงเวลา</span>"
+
+#. module: Weladee_Attendances_ot
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_ot.fw_ot_weladee_type
+msgid ""
+"<span class=\"o_stat_text\">OT</span>\n"
+"                                <span class=\"o_stat_value\">Type</span>"
+msgstr ""
+"<span class=\"o_stat_text\">ชนิด</span>\n"
+"                                <span class=\"o_stat_value\">ทำงานล่วงเวลา</span>"
+
+#. module: Weladee_Attendances_ot
+#: model:ir.model.fields.selection,name:Weladee_Attendances_ot.selection__weladee_attendance_synchronous_setting__ot_period__all
+msgid "All"
+msgstr "ทั้งหมด"
+
+#. module: Weladee_Attendances_ot
+#: model:ir.model.fields,field_description:Weladee_Attendances_ot.field_fwot_ot_requests__is_weladee
+#: model:ir.model.fields,field_description:Weladee_Attendances_ot.field_fwot_ot_type__is_weladee
+msgid "Is Weladee"
+msgstr "ข้อมูลจากเวลาดี"
+
+#. module: Weladee_Attendances_ot
+#: model:weladee_attendance_feature,name:Weladee_Attendances_ot.weladee_attendance_feature_ot
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_ot.weladee_setting_wizard_ot
+msgid "OT"
+msgstr "ทำงานล่วงเวลา"
+
+#. module: Weladee_Attendances_ot
+#. odoo-python
+#: code:addons/Weladee_Attendances_ot/models/ot_request.py:0
+#, python-format
+msgid "OT Request"
+msgstr "คำขอทำงานล่วงเวลา"
+
+#. module: Weladee_Attendances_ot
+#. odoo-python
+#: code:addons/Weladee_Attendances_ot/models/ot_type.py:0
+#, python-format
+msgid "OT Type"
+msgstr "ประเภททำงานล่วงเวลา"
+
+#. module: Weladee_Attendances_ot
+#: model:ir.model.fields,field_description:Weladee_Attendances_ot.field_weladee_attendance_synchronous_setting__ot_period_unit
+msgid "Period unit"
+msgstr "ระยะเวลา"
+
+#. module: Weladee_Attendances_ot
+#: model:ir.model.fields,field_description:Weladee_Attendances_ot.field_weladee_attendance_synchronous_setting__ot_period
+msgid "Since"
+msgstr "ตั้งแต่"
+
+#. module: Weladee_Attendances_ot
+#: model:ir.model.fields,field_description:Weladee_Attendances_ot.field_weladee_attendance_synchronous_setting__sync_ot
+msgid "Sync OT"
+msgstr "ดึงข้อมูลทำงานล่วงเวลา"
+
+#. module: Weladee_Attendances_ot
+#: model:weladee_attendance_feature,description:Weladee_Attendances_ot.weladee_attendance_feature_ot
+msgid "Sync ot type and ot request from weladee to odoo"
+msgstr "ดึงข้อมูล ประเภททำงานล่วงเวลา คำขอทำงานล่วงเวลา จากเวลาดีมาโอดู"
+
+#. module: Weladee_Attendances_ot
+#. odoo-python
+#: code:addons/Weladee_Attendances_ot/models/ot_type.py:0
+#, python-format
+msgid "This OT type doesn't have a weladee id."
+msgstr "ประเภททำงานล่วงเวลานี้ไม่ได้เชื่อมต่อกับเวลาดี"
+
+#. module: Weladee_Attendances_ot
+#. odoo-python
+#: code:addons/Weladee_Attendances_ot/models/ot_request.py:0
+#, python-format
+msgid "This ot request doesn't have a weladee id."
+msgstr "คำขอทำงานล่วงเวลานี้ไม่ได้เชื่อมต่อกับเวลาดี"
+
+#. module: Weladee_Attendances_ot
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_ot.fw_ot_view_fw_ot_request_search2
+msgid "Weladee"
+msgstr "เวลาดี"
+
+#. module: Weladee_Attendances_ot
+#: model:ir.model.fields,field_description:Weladee_Attendances_ot.field_fwot_ot_requests__weladee_id
+#: model:ir.model.fields,field_description:Weladee_Attendances_ot.field_fwot_ot_type__weladee_id
+msgid "Weladee ID"
+msgstr "รหัสในเวลาดี"
+
+#. module: Weladee_Attendances_ot
+#: model:ir.model.fields,field_description:Weladee_Attendances_ot.field_fwot_ot_requests__weladee_url
+#: model:ir.model.fields,field_description:Weladee_Attendances_ot.field_fwot_ot_type__weladee_url
+msgid "Weladee Url"
+msgstr "ลิงก์ไปยังเวลาดี"
+
+#. module: Weladee_Attendances_ot
+#: model:ir.model,name:Weladee_Attendances_ot.model_weladee_attendance_synchronous_setting
+msgid "Weladee settings"
+msgstr "การตั้งค่าในเวลาดี"
+
+#. module: Weladee_Attendances_ot
+#. odoo-python
+#: code:addons/Weladee_Attendances_ot/models/ot_type.py:0
+#, python-format
+msgid "You cannot change this record from weladee"
+msgstr "ข้อมูลเรคคอร์ดนี้สร้างมาจากข้อมูลในเวลาดี, ไม่สามารถแก้ไชได้"
+
+#. module: Weladee_Attendances_ot
+#: model:ir.model.fields,field_description:Weladee_Attendances_ot.field_fwot_ot_requests__hide_edit_btn_css
+#: model:ir.model.fields,field_description:Weladee_Attendances_ot.field_fwot_ot_type__hide_edit_btn_css
+msgid "css"
+msgstr ""
+
+#. module: Weladee_Attendances_ot
+#: model:ir.model,name:Weladee_Attendances_ot.model_fwot_ot_requests
+msgid "fwot_ot_requests"
+msgstr "คำขอทำงานล่วงเวลา"
+
+#. module: Weladee_Attendances_ot
+#: model:ir.model,name:Weladee_Attendances_ot.model_fwot_ot_type
+msgid "fwot_ot_type"
+msgstr "ประเภททำงานล่วงเวลา"
+
+#. module: Weladee_Attendances_ot
+#: model:ir.model.fields.selection,name:Weladee_Attendances_ot.selection__weladee_attendance_synchronous_setting__ot_period__m
+msgid "month(s) ago"
+msgstr "เดือนที่แล้ว"
+
+#. module: Weladee_Attendances_ot
+#: model:ir.model,name:Weladee_Attendances_ot.model_weladee_attendance_synchronous
+msgid "synchronous Employee, Department, Holiday and attendance"
+msgstr "ดึงข้อมูลพนักงาน ตำแหน่ง วันหยุดและข้อมูลเข้าออก"
+
+#. module: Weladee_Attendances_ot
+#: model:ir.model.fields.selection,name:Weladee_Attendances_ot.selection__weladee_attendance_synchronous_setting__ot_period__w
+msgid "week(s) ago"
+msgstr "สัปดาห์ที่แล้ว"
+
+#. module: Weladee_Attendances_ot
+#: model:ir.model,name:Weladee_Attendances_ot.model_weladee_attendance_form
+msgid "weladee_attendance_form"
+msgstr "การดึงข้อมูลจากเวลาดี มุมมอง"
+
+#. module: Weladee_Attendances_ot
+#: model:ir.model.fields.selection,name:Weladee_Attendances_ot.selection__weladee_attendance_synchronous_setting__ot_period__y
+msgid "year(s) ago"
+msgstr "ปีที่แล้ว"

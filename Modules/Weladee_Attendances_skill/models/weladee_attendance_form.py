@@ -12,6 +12,6 @@ class weladee_attendance_form_skill(models.TransientModel):
         super(weladee_attendance_form_skill, self).get_synchronous_data()
 
         if self.env['weladee_attendance.synchronous.setting'].get_sync_skill():
-           self.fns += '''
+           self.fns += _('''
             <li>Skill</li>
-            '''
+            ''')

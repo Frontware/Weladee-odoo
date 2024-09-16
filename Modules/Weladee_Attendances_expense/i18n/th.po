@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0-20230925\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-16 04:25+0000\n"
-"PO-Revision-Date: 2024-09-16 04:25+0000\n"
+"POT-Creation-Date: 2024-09-16 08:15+0000\n"
+"PO-Revision-Date: 2024-09-16 08:15+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -102,7 +102,7 @@ msgstr "ชื่อประเทภค่าใช้จ่าย"
 #: model_terms:ir.ui.view,arch_db:Weladee_Attendances_expense.weladee_setting_wizard_expense
 #, python-format
 msgid "Expense"
-msgstr "ค่าใช้จ่าย"
+msgstr "รายจ่าย"
 
 #. module: Weladee_Attendances_expense
 #: model:ir.model.fields,field_description:Weladee_Attendances_expense.field_weladee_attendance_synchronous_setting__expense_product_id
@@ -112,7 +112,7 @@ msgstr "สินค้าชนิดค่าใช้จ่าย"
 #. module: Weladee_Attendances_expense
 #: model:ir.model,name:Weladee_Attendances_expense.model_hr_expense_sheet
 msgid "Expense Report"
-msgstr "รายงานค่าใช้จ่าย"
+msgstr "รายงานรายจ่าย"
 
 #. module: Weladee_Attendances_expense
 #: model:ir.model.fields,field_description:Weladee_Attendances_expense.field_weladee_attendance_synchronous_setting__expense_journal_id
@@ -207,7 +207,8 @@ msgstr "กรุณาตั้งค่า บัญชีค่าใช้�
 #: code:addons/Weladee_Attendances_expense/models/weladee_attendance_sync.py:0
 #, python-format
 msgid "Please setup Expense product at Weladee settings -> Expense"
-msgstr "กรุณาตั้งค่า สินค้าชนิดค่าใช้จ่าย ที่การตั้งค่าของเวลาดี -> ค่าใช้จ่าย"
+msgstr ""
+"กรุณาตั้งค่า สินค้าชนิดค่าใช้จ่าย ที่การตั้งค่าของเวลาดี -> ค่าใช้จ่าย"
 
 #. module: Weladee_Attendances_expense
 #: model:ir.model.fields,field_description:Weladee_Attendances_expense.field_hr_expense__project_id
@@ -307,6 +308,14 @@ msgstr "ลิงก์ไปยังเวลาดี"
 #: model:ir.model,name:Weladee_Attendances_expense.model_weladee_attendance_synchronous_setting
 msgid "Weladee settings"
 msgstr "การตั้งค่าในเวลาดี"
+
+#. module: Weladee_Attendances_expense
+#. odoo-python
+#: code:addons/Weladee_Attendances_expense/models/weladee_expense.py:0
+#: code:addons/Weladee_Attendances_expense/models/weladee_expense_type.py:0
+#, python-format
+msgid "You cannot change this record from weladee"
+msgstr "ข้อมูลเรคคอร์ดนี้สร้างมาจากข้อมูลในเวลาดี, ไม่สามารถแก้ไขได้"
 
 #. module: Weladee_Attendances_expense
 #: model:ir.model.fields,field_description:Weladee_Attendances_expense.field_hr_expense__hide_edit_btn_css

@@ -47,7 +47,7 @@ class weladee_expense_type(models.Model):
             if each.weladee_id: cansave = 'weladee_id' in vals
 
             if not cansave:
-               raise UserError('You cannot change this record from weladee') 
+               raise UserError(_('You cannot change this record from weladee') )
 
         if ret and (('name-th' in vals) or ('name' in vals)):
            for each in self:

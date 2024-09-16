@@ -52,6 +52,6 @@ class weladee_approvals_type(models.Model):
                if each.weladee_id: cansave = 'weladee_id' in vals
 
                if not cansave:
-                  raise UserError('You cannot change this record from weladee') 
+                  raise UserError(_('You cannot change this record from weladee') )
 
         return super(weladee_approvals_type, self).write(vals)

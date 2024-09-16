@@ -12,6 +12,6 @@ class weladee_attendance_form_ot(models.TransientModel):
         super(weladee_attendance_form_ot, self).get_synchronous_data()
 
         if self.env['weladee_attendance.synchronous.setting'].get_sync_ot():
-           self.fns += '''
+           self.fns += _('''
             <li>OT</li>
-            '''
+            ''')

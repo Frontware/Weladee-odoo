@@ -1,0 +1,167 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* Weladee_Attendances_skill
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0-20230925\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-16 08:06+0000\n"
+"PO-Revision-Date: 2024-09-16 08:06+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: Weladee_Attendances_skill
+#. odoo-python
+#: code:addons/Weladee_Attendances_skill/models/weladee_attendance_form.py:0
+#, python-format
+msgid ""
+"\n"
+"            <li>Skill</li>\n"
+"            "
+msgstr ""
+"\n"
+"            <li>ทักษะ</li>\n"
+"            "
+
+#. module: Weladee_Attendances_skill
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_skill.fw_hr_skill_weladee_form
+msgid ""
+"<span class=\"o_stat_text\">Skill</span>\n"
+"                                <span class=\"o_stat_value\"/>"
+msgstr ""
+"<span class=\"o_stat_text\">ทักษะ</span>\n"
+"                                <span class=\"o_stat_value\"/>"
+
+#. module: Weladee_Attendances_skill
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_skill.fw_hr_skill_weladee_type_form
+msgid ""
+"<span class=\"o_stat_text\">Skill</span>\n"
+"                                <span class=\"o_stat_value\">Type</span>"
+msgstr ""
+"<span class=\"o_stat_text\">ชนิด</span>\n"
+"                                <span class=\"o_stat_value\">ทักษะ</span>"
+
+#. module: Weladee_Attendances_skill
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_skill.fw_hr_skill_weladee_type_search
+msgid "Group By"
+msgstr "จัดกลุ่มโดย"
+
+#. module: Weladee_Attendances_skill
+#: model:ir.model.fields,field_description:Weladee_Attendances_skill.field_hr_skill_type__is_weladee
+msgid "Is Weladee"
+msgstr "ข้อมูลจากเวลาดี"
+
+#. module: Weladee_Attendances_skill
+#: model:ir.model.fields,field_description:Weladee_Attendances_skill.field_hr_skill__name
+#: model:ir.model.fields,field_description:Weladee_Attendances_skill.field_hr_skill_level__name
+#: model:ir.model.fields,field_description:Weladee_Attendances_skill.field_hr_skill_type__name
+msgid "Name"
+msgstr "ชื่อ"
+
+#. module: Weladee_Attendances_skill
+#. odoo-python
+#: code:addons/Weladee_Attendances_skill/models/weladee_skill.py:0
+#: model:ir.model,name:Weladee_Attendances_skill.model_hr_skill
+#: model:weladee_attendance_feature,name:Weladee_Attendances_skill.weladee_attendance_feature_skill
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_skill.weladee_setting_wizard_skill
+#, python-format
+msgid "Skill"
+msgstr "ทักษะ"
+
+#. module: Weladee_Attendances_skill
+#: model:ir.model,name:Weladee_Attendances_skill.model_hr_skill_level
+msgid "Skill Level"
+msgstr "ระดับทักษะ"
+
+#. module: Weladee_Attendances_skill
+#. odoo-python
+#: code:addons/Weladee_Attendances_skill/models/weladee_skill_type.py:0
+#: model:ir.model,name:Weladee_Attendances_skill.model_hr_skill_type
+#, python-format
+msgid "Skill Type"
+msgstr "ประเภททักษะ"
+
+#. module: Weladee_Attendances_skill
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_skill.fw_hr_skill_weladee_type_search
+msgid "Skill Types"
+msgstr "ประเภททักษะ"
+
+#. module: Weladee_Attendances_skill
+#: model:ir.model.fields,field_description:Weladee_Attendances_skill.field_weladee_attendance_synchronous_setting__sync_skill
+msgid "Sync Skill"
+msgstr "ดึงข้อมูลทักษะ"
+
+#. module: Weladee_Attendances_skill
+#: model:weladee_attendance_feature,description:Weladee_Attendances_skill.weladee_attendance_feature_skill
+msgid "Sync skill, skill type and skill level from weladee to odoo"
+msgstr "ดึงข้อมูล ทักษะ, ชนิดทักษะ และระดับทักษะ จากเวลาดีมาโอดู"
+
+#. module: Weladee_Attendances_skill
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_skill.fw_hr_skill_level_weladee_form
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_skill.fw_hr_skill_weladee_form
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_skill.fw_hr_skill_weladee_type_form
+msgid ""
+"This record is imported from weladee, any change in odoo will be replaced by"
+" data from weladee."
+msgstr ""
+
+#. module: Weladee_Attendances_skill
+#. odoo-python
+#: code:addons/Weladee_Attendances_skill/models/weladee_skill.py:0
+#: code:addons/Weladee_Attendances_skill/models/weladee_skill_type.py:0
+#, python-format
+msgid "This skill type doesn't have a weladee id."
+msgstr "ทักษะนี้ไม่ได้เชื่อมต่อกับเวลาดี"
+
+#. module: Weladee_Attendances_skill
+#: model_terms:ir.ui.view,arch_db:Weladee_Attendances_skill.fw_hr_skill_weladee_type_search
+msgid "Weladee"
+msgstr "เวลาดี"
+
+#. module: Weladee_Attendances_skill
+#: model:ir.model.fields,field_description:Weladee_Attendances_skill.field_hr_skill__weladee_id
+#: model:ir.model.fields,field_description:Weladee_Attendances_skill.field_hr_skill_level__weladee_id
+#: model:ir.model.fields,field_description:Weladee_Attendances_skill.field_hr_skill_type__weladee_id
+msgid "Weladee ID"
+msgstr "รหัสในเวลาดี"
+
+#. module: Weladee_Attendances_skill
+#: model:ir.model.fields,field_description:Weladee_Attendances_skill.field_hr_skill_type__weladee_url
+msgid "Weladee Url"
+msgstr "ลิงก์ไปยังเวลาดี"
+
+#. module: Weladee_Attendances_skill
+#: model:ir.model,name:Weladee_Attendances_skill.model_weladee_attendance_synchronous_setting
+msgid "Weladee settings"
+msgstr "การตั้งค่าในเวลาดี"
+
+#. module: Weladee_Attendances_skill
+#. odoo-python
+#: code:addons/Weladee_Attendances_skill/models/weladee_skill.py:0
+#: code:addons/Weladee_Attendances_skill/models/weladee_skill_level.py:0
+#: code:addons/Weladee_Attendances_skill/models/weladee_skill_type.py:0
+#, python-format
+msgid "You cannot change this record from weladee"
+msgstr "ข้อมูลเรคคอร์ดนี้สร้างมาจากข้อมูลในเวลาดี, ไม่สามารถแก้ไขได้"
+
+#. module: Weladee_Attendances_skill
+#: model:ir.model.fields,field_description:Weladee_Attendances_skill.field_hr_skill__hide_edit_btn_css
+#: model:ir.model.fields,field_description:Weladee_Attendances_skill.field_hr_skill_level__hide_edit_btn_css
+#: model:ir.model.fields,field_description:Weladee_Attendances_skill.field_hr_skill_type__hide_edit_btn_css
+msgid "css"
+msgstr ""
+
+#. module: Weladee_Attendances_skill
+#: model:ir.model,name:Weladee_Attendances_skill.model_weladee_attendance_synchronous
+msgid "synchronous Employee, Department, Holiday and attendance"
+msgstr "ดึงข้อมูลพนักงาน ตำแหน่ง วันหยุดและข้อมูลเข้าออก"
+
+#. module: Weladee_Attendances_skill
+#: model:ir.model,name:Weladee_Attendances_skill.model_weladee_attendance_form
+msgid "weladee_attendance_form"
+msgstr "การดึงข้อมูลจากเวลาดี มุมมอง"
