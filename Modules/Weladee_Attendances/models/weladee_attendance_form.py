@@ -19,11 +19,11 @@ class weladee_attendance_form(models.TransientModel):
 
     def get_synchronous_data(self):
         self.email = self.env['weladee_attendance.synchronous.setting'].get_synchronous_email()
-        self.fns = '''
+        self.fns = _('''
         <li>Position</li>
         <li>Department</li>
         <li>Employee</li>
-        '''
+        ''')
 
     #fields
     email = fields.Text(compute='get_synchronous_data',default=_get_synchronous_email)
@@ -32,7 +32,7 @@ class weladee_attendance_form(models.TransientModel):
     @api.model
     def open_sync_form(self):
         return {
-            "name":"Weladee Synchronization",
+            "name": _("Weladee Synchronization"),
             "view_id": self.env.ref('Weladee_Attendances.weladee_attendance_wizard_frm').id,
             "res_model": "weladee_attendance_form",
             "res_id": self.create({}).id,

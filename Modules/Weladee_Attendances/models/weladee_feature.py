@@ -12,9 +12,9 @@ class weladee_attendance_feature(models.Model):
     _order = 'sequence'
 
     #fields
-    name = fields.Char('Name')
+    name = fields.Char('Name',translate=True)
     sequence = fields.Integer('Sequence')
-    description = fields.Text('Description')
+    description = fields.Text('Description',translate=True)
     active = fields.Boolean('Active')
 
     to_odoo = fields.Boolean('Sync to odoo')

@@ -45,10 +45,7 @@ A request has been made to perform Weladee Synchronization at <t t-esc="ctx.get(
     <t t-else="">
 
         The following data have been successfully synced with Weladee:<br/>
-        <ul>
-        <t t-foreach="ctx.get('features')" t-as="f">
-<li><t t-out="f"></t></li>
-</t>
+        <ul t-raw="ctx.get('features')">
         </ul>
 
     </t>
@@ -98,12 +95,8 @@ A request has been made to perform Weladee Synchronization at <t t-esc="ctx.get(
     </t>
     <t t-else="">
 
-        The following data have been successfully synced with Weladee:<br.>
-        <ul>
-        <t t-foreach="ctx.get('features')" t-as="f">
-<li><t t-out="f"></t></li>
-</t>
-        </ul>
+        The following data have been successfully synced with Weladee:<br/>
+        <ul t-raw="ctx.get('features')"></ul>
 
     </t>
 
