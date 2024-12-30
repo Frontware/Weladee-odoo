@@ -40,7 +40,7 @@ def sync_work_type(req):
     try:
         weladee_work_type = False
         sync_loginfo(req.context_sync,'[work_type] updating changes from weladee-> odoo')
-        for weladee_work_type in stub.GetWorkTypes(myrequest, metadata=req.config.authorization,timeout=5):
+        for weladee_work_type in stub.GetWorkTypes(myrequest, metadata=req.config.authorization):
             sync_stat_to_sync(req.context_sync['stat-work_type'], 1)
             if not weladee_work_type :
                sync_logwarn(req.context_sync,'weladee work_type is empty')

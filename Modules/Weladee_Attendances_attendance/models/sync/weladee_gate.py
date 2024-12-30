@@ -40,7 +40,7 @@ def sync_gate(self, req):
     try:
         weladee_gate = False
         sync_loginfo(req.context_sync,'[gate] updating changes from weladee-> odoo')
-        for weladee_gate in stub.GetGates(weladee_pb2.Empty(), metadata=req.config.authorization,timeout=5):
+        for weladee_gate in stub.GetGates(weladee_pb2.Empty(), metadata=req.config.authorization):
             
             sync_stat_to_sync(req.context_sync['stat-gate'], 1)
             if not weladee_gate :

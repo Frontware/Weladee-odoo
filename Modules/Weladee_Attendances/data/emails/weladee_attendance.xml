@@ -10,16 +10,27 @@
         <record id="weladee_attendance_synchronous_cron_mail" model="mail.template">
             <field name="name">Weladee Attendance: Synchronization task</field>
             <field name="email_from"></field>
+<<<<<<< HEAD
             <field name="email_to">{{ ctx.get('request-email','')}}</field>
             <field name="subject">Weladee Attendance Synchronization [{{ctx.get('request-status','')}}]: Result of the synchronization task from the request on {{ctx.get('request-date','')}}</field>
+=======
+            <field name="email_to">${ctx.get('request-email','')}</field>
+            <field name="subject">Weladee Attendance Synchronization [${ctx.get('request-status','')}]: Result of the synchronization task from the request on ${ctx.get('request-date','')}</field>
+>>>>>>> fix-timeout
             <field name="model_id" ref="model_weladee_attendance_synchronous"/>
             <field name="body_html" type="html">
 <div>
 <p>Hi,
 <br/>
+<<<<<<< HEAD
 A request has been made to perform Weladee Synchronization at <t t-esc="ctx.get('request-date')"/>
 </p>
 <t t-if="ctx.get('request-error',False)">
+=======
+A request has been made to perform Weladee Synchronization at ${ctx.get('request-date')}
+</p>
+% if ctx.get('request-error',False):
+>>>>>>> fix-timeout
      An error occurred during synchronization:<br/>
     <ul>
     <t t-foreach="ctx.get('request-logs')" t-as="err">

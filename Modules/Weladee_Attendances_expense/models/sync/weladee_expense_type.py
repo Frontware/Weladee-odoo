@@ -43,7 +43,7 @@ def sync_expense_type(req):
     try:
         weladee_expense_type = False
         sync_loginfo(req.context_sync,'[expense_type] updating changes from weladee-> odoo')
-        for weladee_expense_type in stub.GetExpenseTypes(myrequest, metadata=req.config.authorization,timeout=5):
+        for weladee_expense_type in stub.GetExpenseTypes(myrequest, metadata=req.config.authorization):
             
             sync_stat_to_sync(req.context_sync['stat-expense_type'], 1)
             if not weladee_expense_type :
