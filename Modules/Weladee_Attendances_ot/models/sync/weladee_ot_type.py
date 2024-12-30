@@ -44,7 +44,7 @@ def sync_ot_type(req):
     try:
         weladee_ot_type = False
         sync_loginfo(req.context_sync,'[ot_type] updating changes from weladee-> odoo')
-        for weladee_ot_type in stub.GetOTTypes(weladee_pb2.Empty(), metadata=req.config.authorization,timeout=5):
+        for weladee_ot_type in stub.GetOTTypes(weladee_pb2.Empty(), metadata=req.config.authorization):
             
             sync_stat_to_sync(req.context_sync['stat-ot_type'], 1)
             if not weladee_ot_type :
