@@ -9,13 +9,13 @@
             <field name="name">Weladee Attendance: Synchronization task</field>
             <field name="email_from"></field>
             <field name="email_to">${ctx.get('request-email','')}</field>
-            <field name="subject">Weladee Attendance Synchronization [${ctx.get('request-status','')}]: Result of the synchronization task from the request on ${ctx.get('request-date','')}</field>
+            <field name="subject">[Weladee Attendance Sync - ${ctx.get('request-status','')}] Task Result from ${ctx.get('request-date','')}</field>
             <field name="model_id" ref="model_weladee_attendance_synchronous"/>
             <field name="body_html" type="html">
 <div>
 <p>Hi,
 <br/>
-A request has been made to perform Weladee Synchronization at ${ctx.get('request-date')}
+A request was made to perform Weladee Synchronization on ${ctx.get('request-date')}.
 </p>
 % if ctx.get('request-error',False):
      An error occurred during synchronization:<br/>
@@ -51,7 +51,7 @@ A request has been made to perform Weladee Synchronization at ${ctx.get('request
 % endif
 </div>
 <p>
-**This request and email were generated in the database ${user.env.cr.dbname} within ${ctx.get('request-elapse')}
+**This request and email were generated in the database ${user.env.cr.dbname} and took ${ctx.get('request-elapse')} to complete.**
 </p>
 </field>
         </record>
@@ -60,13 +60,13 @@ A request has been made to perform Weladee Synchronization at ${ctx.get('request
             <field name="name">Weladee Attendance: Synchronization task (debug)</field>
             <field name="email_from"></field>
             <field name="email_to"></field>
-            <field name="subject">Weladee Attendance Synchronization [${ctx.get('request-status','')}]: Result of the synchronization task from the request on ${ctx.get('request-date','')}</field>
+            <field name="subject">[Weladee Attendance Sync - ${ctx.get('request-status','')}] Task Result from ${ctx.get('request-date','')}</field>
             <field name="model_id" ref="model_weladee_attendance_synchronous"/>
             <field name="body_html" type="html">
 <div>
 <p>Hi,
 <br/>
-A request has been made to perform Weladee Synchronization at ${ctx.get('request-date')}
+A request was made to perform Weladee Synchronization on ${ctx.get('request-date')}.
 </p>
 % if ctx.get('request-error',False):
      An error occurred during synchronization::<br/>
@@ -123,7 +123,7 @@ A request has been made to perform Weladee Synchronization at ${ctx.get('request
 % endif
 </div>
 <p>
-**This request and email were generated in the database ${user.env.cr.dbname} within ${ctx.get('request-elapse')}
+**This request and email were generated in the database ${user.env.cr.dbname} and took ${ctx.get('request-elapse')} to complete.**
 </p>
 </field>
         </record>
