@@ -5,7 +5,7 @@ import traceback
 
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
-from .weladee_base import stub, myrequest, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error, renew_connection
+from .weladee_base import stub, myrequest, grpc_time_out, sync_loginfo, sync_logerror, sync_logdebug, sync_logwarn, sync_stop, sync_weladee_error, renew_connection
 from .weladee_base import sync_stat_to_sync,sync_stat_create,sync_stat_update,sync_stat_error,sync_stat_info
 
 def sync_position_data(weladee_position, req):
@@ -45,8 +45,25 @@ def sync_position_data(weladee_position, req):
     return pos          
 
 def resync_position(req):
-    sync_logdebug(req.context_sync, "we are detected that current connect is not valid or failed")
-    sync_logdebug(req.context_sync, "we are reconnecting and try again..")
+    """
+    Resynchronize the position by attempting to renew the connection and retry the synchronization.
+ 
+    This function logs debug messages indicating the detection of an invalid or failed connection,
+    attempts to renew the connection, and then retries the synchronization process.
+ 
+    Args:
+       req: An object containing the context for synchronization, including the context_sync attribute
+           which holds synchronization-related information.
+ 
+    Side Effects:
+       - Logs debug messages about the connection status and actions taken.
+       - Updates the 'request-logs-y' and 'request-error' keys in the context_sync dictionary to False.
+       - Calls the renew_connection() function to attempt to renew the connection.
+       - Calls the sync_position(req) function to retry the synchronization process.
+    """
+    sync_logdebug(req.context_sync, "Detected invalid or failed connection")
+    sync_logdebug(req.context_sync, "Attempting to renew the connection and retry synchronization...")
+    # reset error
     req.context_sync['request-logs-y'] = False
     req.context_sync['request-error'] = False
     renew_connection()
@@ -63,7 +80,7 @@ def sync_position(req):
     try:
         weladee_position = False
         sync_loginfo(req.context_sync,'[position] updating changes from weladee-> odoo')
-        for weladee_position in stub.GetPositions(myrequest, metadata=req.config.authorization,timeout=5):
+        for weladee_position in stub.GetPositions(myrequest, metadata=req.config.authorization, timeout=grpc_time_out):
             sync_stat_to_sync(req.context_sync['stat-position'], 1)
             if not weladee_position :
                sync_logwarn(req.context_sync,'weladee position is empty')
@@ -113,7 +130,7 @@ def sync_position(req):
         newPosition.position.active = True
         try:
             returnobj = stub.AddPosition(newPosition, metadata=req.config.authorization)
-            #print( result  )
+            sync_logdebug(req.context_sync, "return from weladee : %s" % returnobj)
             positionData.write({'send2-weladee': False, 'weladee_id':returnobj.ID})
             sync_logdebug(req.context_sync, "Added position to weladee : %s" % positionData.name)
             sync_stat_create(req.context_sync['stat-w-position'], 1)
