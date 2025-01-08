@@ -91,7 +91,12 @@ def sync_delete_log(self, req):
     if req.period_settings["period"] == "w":
        dt_from = dt_today - datetime.timedelta(days=(dt_unit * 7))
     elif req.period_settings["period"] == "m":       
-       dt_from = dt_today.replace(month=dt_today.month - dt_unit) 
+       newm = dt_today.month - dt_unit
+       newy = dt_today.year
+       if newm <= 0: 
+          newm = 12 + newm
+          newy -= 1
+       dt_from = dt_today.replace(month=newm,year=newy) 
     elif req.period_settings["period"] == "y":       
        dt_from = dt_today.replace(year=dt_today.year - dt_unit)             
 
