@@ -25,10 +25,24 @@ class weladee_attendance_working(models.TransientModel):
 
 class weladee_attendance(models.TransientModel):
     _name="weladee_attendance.synchronous"
-    _description="synchronous Employee, Department, Holiday and attendance"
+    _description="synchronous Employee, Department and position"
 
     @api.model
     def check_weladee_id(self, recs, vals):
+        """
+        Checks for the presence of a 'weladee_id' in the provided records or values.
+
+        This method verifies if a 'weladee_id' exists either in the `vals` dictionary or within the `recs` records.
+        If a 'weladee_id' is found and the context allows validation of the 'weladee_id', a UserError is raised to
+        prevent changes to records imported from Weladee.
+
+        Args:
+            recs (recordset): The records to check for a 'weladee_id'.
+            vals (dict): The values to check for a 'weladee_id'.
+
+        Raises:
+            UserError: If a 'weladee_id' is found and the context allows validation, indicating that changes are not allowed.
+        """
         wid = False
         if 'weladee_id' in vals:
            wid = vals['weladee_id'] 
@@ -43,19 +57,72 @@ class weladee_attendance(models.TransientModel):
 
 
     def init_param(self):
+        """
+        Initializes and returns the Weladee attendance parameters.
+
+        Returns:
+            weladee_attendance_param: An instance of the Weladee attendance parameters.
+        """
         return weladee_attendance_param()
+
+    def disable_weladee_schedule(self, req):
+        """
+        Disables the Weladee attendance synchronization schedule.
+
+        This method deactivates the scheduled cron job responsible for synchronizing
+        Weladee attendance data. It also logs an error message indicating that the
+        synchronization schedule has been disabled.
+
+        Args:
+            req: The request object containing the context for synchronization.
+        """
+        self.env.ref('Weladee_Attendances.weladee_attendance_synchronous_cron').write({'active':False})
+        sync_logerror(req.context_sync, 'The Weladee attendance synchronization schedule has been disabled.')
 
     @api.model
     def start_sync(self):
-        '''
-            request-date : date user request to sync
-            request-error : if error and stop ?
-            request-logs-y : if any error ?
-            request-logs : logs info
-            request-logs-key: internal use for prevent write duplicate log
-            request-email : email recipient
-            request-debug : display debug log
-        '''
+        """
+        Starts the synchronization process for attendance data.
+        This method initializes the synchronization parameters, validates the configuration,
+        and performs the synchronization for positions, departments, employees, and managers.
+        It also handles logging, error checking, and sending email notifications about the
+        synchronization status.
+        Attributes:
+            elapse_start (datetime): The start time of the synchronization process.
+            user_tz (timezone): The user's timezone.
+            req (object): The request object containing synchronization parameters and context.
+        Context Sync Dictionary:
+            features (list): List of features for the attendance form.
+            request-date (str): The date and time when the sync was requested.
+            request-logs (list): List of log messages.
+            request-logs-key (dict): Dictionary to prevent duplicate log entries.
+            request-error (bool): Indicates if there was an error during the sync.
+            request-logs-y (bool): Indicates if there were any errors.
+            request-email (str): Email recipient for the sync results.
+            request-debug (bool): Indicates if debug logs should be displayed.
+            connection-error (bool): Indicates if there was a connection error.
+            connection-error-count (int): Count of connection errors.
+            request-elapse (str): The elapsed time for the synchronization process.
+            request-status (str): The status of the synchronization process.
+        Methods:
+            init_param(): Initializes the synchronization parameters.
+            sync_loginfo(context, message): Logs informational messages.
+            sync_logerror(context, message): Logs error messages.
+            sync_stop(context): Stops the synchronization process.
+            sync_logdebug(context, message): Logs debug messages.
+            sync_has_error(context): Checks if there were any errors during the sync.
+            sync_position(req): Synchronizes positions.
+            resync_position(req): Re-synchronizes positions in case of connection errors.
+            sync_department(req): Synchronizes departments.
+            sync_employee(req): Synchronizes employees.
+            sync_manager_dep(req): Synchronizes department managers.
+            sync_manager_emp(req): Synchronizes employee managers.
+            do_sync_options(req): Performs additional synchronization options.
+            do_delete_options(req): Performs deletion options after synchronization.
+            send_result_mail(context): Sends the synchronization result via email.
+        Raises:
+            Exception: If there is an error during the synchronization process.
+        """
         elapse_start = datetime.today()
         user_tz = pytz.timezone(self.env.context.get('tz') or self.env.user.tz or 'UTC')
         try: 
@@ -77,24 +144,30 @@ class weladee_attendance(models.TransientModel):
         req.config = self.env['weladee_attendance.synchronous.setting'].get_settings()
 
         if not req.config.api_db:
-           sync_logerror(req.context_sync,'Warning this api key of (%s) is not match with current database' % (req.config.api_db or ''))
+           sync_logerror(
+               req.context_sync,
+               'Warning: Current API key is not defined for the current database %s, please re-setup weladee settings' % self.env.cr.dbname
+           )
+           self.disable_weladee_schedule(req)
            sync_stop(req.context_sync)
 
         req.to_email = True
         if req.config.api_db and (req.config.api_db != self.env.cr.dbname):
-           sync_logerror(req.context_sync,'Warning this api key of (%s) is not match with current database' % req.config.api_db)
+           sync_logerror(req.context_sync, 'Warning: The API key for (%s) does not match the current database' % req.config.api_db)
+           self.disable_weladee_schedule(req)
            sync_stop(req.context_sync)
            req.to_email = False
         
         if  (not req.config.authorization) and (req.config.api_db == self.env.cr.dbname):            
-            sync_logerror(req.context_sync,'You must setup API Key, Default Holiday Status at Attendances -> Weladee settings')
+            sync_logerror(req.context_sync,'API Key must be configured in Attendances -> Weladee settings.')
+            self.disable_weladee_schedule(req)
             sync_stop(req.context_sync)
 
         # validate lang
         # weladee required 2 langs
         for lg in self.env['res.lang'].search([('active','=',False),('code','in',['en_US','th_TH'])]):            
             lg.active = True
-            sync_logdebug(req.context_sync,"Activate Lang %s" % lg.name)
+            sync_loginfo(req.context_sync, "Language '%s' has been activated." % lg.name)
 
         if req.config.sync_position and not sync_has_error(req.context_sync):
             sync_logdebug(req.context_sync,"Start sync...Positions")

@@ -17,16 +17,30 @@ from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 
 stub = weladee_grpc.weladee_grpc_ctrl()
 myrequest = weladee_pb2.EmployeeRequest()
-grpc_error_1 = 'Error while connect to GRPC Server, please check if:'
-grpc_error_2 = '- your connection available'
+''' for Getposition '''
+grpc_time_out = 5
+'''timeout when call Getposition default 5'''
+
+grpc_error_1 = 'Error connecting to the gRPC server. Please ensure:'
+grpc_error_2 = '- your internet connection is stable'
 grpc_error_3 = '- your Weladee API Key is valid'
-grpc_error_4 = 'or just temporary connection problem, please try again'
+grpc_error_4 = '- there may be a temporary connection issue, please try again later'
 
 def renew_connection():
-    global stub, myrequest
+    """
+    Renew the gRPC connection and initialize global variables.
+    This function sets up a new gRPC connection by creating a new stub and request object.
+    It also sets the gRPC timeout value to 30 seconds.
+    Globals:
+        stub: The gRPC stub for making remote procedure calls.
+        myrequest: The gRPC request object for employee-related operations.
+        grpc_time_out: The timeout value for gRPC calls, set to 30 seconds.
+    """
+    global stub, myrequest, grpc_time_out
     
     stub = weladee_grpc.weladee_grpc_ctrl()
     myrequest = weladee_pb2.EmployeeRequest()
+    grpc_time_out = 30
 
 def sync_supress_bytes(log):
     '''
@@ -101,7 +115,7 @@ def sync_weladee_error(weladee_obj, weladee_type, e, context_sync, stop_if_conne
        sync_logdebug(context_sync, 'weladee >> %s' % weladee_obj)   
 
     if context_sync.get('connection-error-count',0) < 2:
-       ee = ['Connect Failed','connection refused','Endpoint read failed','Deadline Exceeded']  
+       ee = ['Connect Failed','connection refused','Endpoint read failed','Deadline Exceeded','Connection reset by peer']  
        for e0 in ee:
           if e0 in ('%s' % e):
              if context_sync.get('connection-error-count',0) > 0:
