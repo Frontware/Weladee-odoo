@@ -2,6 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import datetime
 import traceback
+import re
 
 from odoo.addons.Weladee_Attendances.models.grpcproto import odoo_pb2
 from odoo.addons.Weladee_Attendances.models.grpcproto import weladee_pb2
@@ -68,10 +69,34 @@ def create_odoo_log(req, data):
     ret = False
     try:
         ret = req.log_obj.create(sync_clean_up(data))
-    except Exception as e:
-        pass
+    except Exception as e:        
+        check_log_error(req, e)
+        print('create error %s' % traceback.format_exc())
     return ret
 
+def check_log_error(req, e):
+    """
+    Checks for a specific error pattern in the provided exception and updates the request context with the earliest redo date.
+
+    Args:
+        req: The request object which contains the context_sync dictionary.
+        e: The exception object to be checked for the error pattern.
+
+    The function looks for an error message that matches the pattern:
+    "attendance record for ... checked ... since DD/MM/YYYY HH:MM:SS".
+    If a match is found, it extracts the date and updates the 'redo-date' in the request's context_sync dictionary.
+    If 'redo-date' is already present, it updates it only if the new date is earlier.
+    """
+    pat = r"attendance record for(.+?)checked (.+?)since (\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})"
+    mat = re.search(pat, str(e))
+    if mat and len(mat.groups()) == 3:
+       redodate = datetime.datetime.strptime(mat.group(3)[:10],'%m/%d/%Y')
+       if not req.context_sync.get('redo-date'):
+          req.context_sync['redo-date'] = redodate
+       else:
+          if redodate < req.context_sync['redo-date']:
+             req.context_sync['redo-date'] = redodate                
+        
 def update_odoo_log(req, odoo_log, data):    
     '''
     update odoo with new connection to be able to continue
@@ -79,6 +104,7 @@ def update_odoo_log(req, odoo_log, data):
     try:
         return req.log_obj.browse(odoo_log.id).write(sync_clean_up(data))
     except Exception as e:
+        print('update error %s' % traceback.format_exc())
         return False
 
 def sync_delete_log(self, req):
@@ -100,6 +126,25 @@ def sync_delete_log(self, req):
     elif req.period_settings["period"] == "y":       
        dt_from = dt_today.replace(year=dt_today.year - dt_unit)             
 
+    return _sync_delete_log(self, req, dt_from)
+
+def _sync_delete_log(self, req, dt_from):
+    """
+    Synchronize and delete attendance logs based on the given date.
+
+    This method deletes attendance records from the log object based on the 
+    provided date. If no date is provided or the period setting is "all", 
+    all attendance records are deleted. Otherwise, only records with a 
+    check-in time after the specified date are deleted.
+
+    Args:
+        req: An object containing the log object and period settings.
+        dt_from (datetime): The date from which to start deleting records.
+
+    Returns:
+        datetime: The UTC datetime from which records were deleted, or False 
+        if no date was provided.
+    """
     dt_from_utc = False
     dt_delete_msg = ''
     if (not dt_from) or req.period_settings["period"] == "all":
@@ -126,7 +171,13 @@ def sync_log(self, req):
     req.context_sync['error-emp'] = {}
     req.context_sync['cursor'] = False
     
-    dt_from_utc = sync_delete_log(self, req)
+    dt_from_utc = False
+    if req.context_sync.get('redo-date'):
+        sync_logdebug(req.context_sync, 'resync again at %s' % req.context_sync.get('redo-date')) 
+        dt_from_utc = _sync_delete_log(self, req, req.context_sync.get('redo-date'))
+        del req.context_sync['redo-date']
+    else:        
+        dt_from_utc = sync_delete_log(self, req)
     
     #if empty, create one 
     if not req.employee_odoo_weladee_ids: 
@@ -144,7 +195,6 @@ def sync_log(self, req):
         ireq = 0
         for weladee_att in stub.GetNewAttendance(reqw, metadata=req.config.authorization):
             ireq +=1
-            print(weladee_att)
             sync_stat_to_sync(req.context_sync['stat-log'], 1)
             if not weladee_att :
                 sync_logwarn(req.context_sync,'weladee attendance is empty')
@@ -158,9 +208,7 @@ def sync_log(self, req):
                 
                 if newid and newid.id:
                     sync_logdebug(req.context_sync, "Insert log '%s' to odoo" % odoo_att )
-                    sync_stat_create(req.context_sync['stat-log'], 1)
-
-                    
+                    sync_stat_create(req.context_sync['stat-log'], 1)                    
                 else:
                     sync_stat_error(req.context_sync['stat-log'], 1)
             elif odoo_att and odoo_att['res-mode'] == 'update':
@@ -179,6 +227,7 @@ def sync_log(self, req):
 
     except Exception as e:
         print('xxxxxxxxxxxxxxxxxxxxxxxxxx')
+        print(traceback.format_exc())
         sync_logdebug(req.context_sync, 'exception > %s' % traceback.format_exc()) 
         sync_logdebug(req.context_sync, 'weladee >> %s' % weladee_att or '-') 
         sync_logdebug(req.context_sync, 'odoo >> %s' % odoo_att or '-') 

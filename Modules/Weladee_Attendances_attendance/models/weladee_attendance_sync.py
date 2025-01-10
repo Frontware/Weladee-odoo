@@ -41,3 +41,7 @@ class weladee_attendance_attendance(models.TransientModel):
             req.log_obj = self.env['hr.attendance']
             req.period_settings = req.config.period_settings
             sync_log(self, req )
+
+            # redo sync    
+            if req.context_sync.get('redo-date'):               
+               sync_log(self, req )     
