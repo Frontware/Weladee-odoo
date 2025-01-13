@@ -72,6 +72,11 @@ class weladee_attendance_skill(models.TransientModel):
 
     def do_delete_options(self, req):
         if req.config.sync_skill:
+            req.skill_type_obj = self.env['hr.skill.type']
+            req.skill_level_obj = self.env['hr.skill.level']
+            req.skill_obj = self.env['hr.skill']
+            req.skill_employee_obj = self.env['hr.employee.skill']
+
             delete_skill(req)
             delete_skill_level(req)
             delete_skill_type(req)

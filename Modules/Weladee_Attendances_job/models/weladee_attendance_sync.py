@@ -56,6 +56,12 @@ class weladee_attendance_job(models.TransientModel):
 
     def do_delete_options(self, req):
         if req.config.sync_job:
+            req.jobads_obj = self.env['weladee_job_ads']
+            req.jobapp_obj = self.env['hr.applicant']
+            req.lang_obj = self.env['res.lang']
+            req.utm_source_obj = self.env['utm.source']
+            req.translation_obj = self.env['ir.translation']
+
             delete_job_applicant(req)
             delete_job_ads(req)
 
