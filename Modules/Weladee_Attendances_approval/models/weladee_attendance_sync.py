@@ -54,6 +54,16 @@ class weladee_attendance_approval(models.TransientModel):
 
     def do_delete_options(self, req):
         if req.config.sync_approval:
+            req.employee_obj = self.env['hr.employee']
+            req.approvals_type_obj = self.env['fw.approvals.type']
+            req.translation_obj = self.env['ir.translation']
+
+            req.project_obj = self.env['project.project']
+            req.attach_obj = self.env['ir.attachment']
+            req.approvals_type_approver_obj = self.env['fw.approvals.type.approver']
+            req.approvals_request_obj = self.env['fw.approvals.request']
+            req.approvals_approver = self.env['fw.approvals.approver']
+
             delete_approvals_request(req)
             delete_approvals_type(req)
 

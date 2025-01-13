@@ -53,6 +53,9 @@ class weladee_attendance_holiday(models.TransientModel):
     
     def do_delete_options(self, req):
         if req.config.sync_holiday:
+            req.leave_obj = self.env['hr.leave']
+            req.company_holiday_obj = self.env['weladee_attendance.company.holidays']
+
             delete_holiday(req)
 
         super(weladee_attendance_holiday, self).do_delete_options(req)
