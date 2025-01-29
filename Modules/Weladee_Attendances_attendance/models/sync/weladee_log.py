@@ -90,7 +90,19 @@ def check_log_error(req, e):
     pat = r"attendance record for(.+?)checked (.+?)since (\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})"
     mat = re.search(pat, str(e))
     if mat and len(mat.groups()) == 3:
-       redodate = datetime.datetime.strptime(mat.group(3)[:10],'%m/%d/%Y')
+       redodate = datetime.datetime.strptime(mat.group(3)[:10],'%d/%m/%Y')
+       if not req.context_sync.get('redo-date'):
+          req.context_sync['redo-date'] = redodate
+       else:
+          if redodate < req.context_sync['redo-date']:
+             req.context_sync['redo-date'] = redodate                
+    
+    if req.context_sync.get('redo-date'): return
+    if not ('duplicate key value violates unique constraint' in str(e)): return
+    pat = r"\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}"
+    mat = re.search(pat, str(e))
+    if mat and len(mat.groups()) == 1:
+       redodate = datetime.datetime.strptime(mat[0][:10],'%Y-%m-%d')
        if not req.context_sync.get('redo-date'):
           req.context_sync['redo-date'] = redodate
        else:
