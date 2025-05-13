@@ -3,7 +3,7 @@
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/weladee)
 
 
-![Weladee logo](https://vgy.me/jlVton.png)![odoo](https://vgy.me/5KoRp0.png)
+![Weladee logo](https://www.weladee.com/images/128.webp)![odoo](https://kiffcom.com/wp-content/uploads/2024/10/odoo-official-partner.png)
 
 ## What is Weladee?
 
