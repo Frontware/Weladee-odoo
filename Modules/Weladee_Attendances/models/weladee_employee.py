@@ -582,10 +582,10 @@ class weladee_employee(models.Model):
         self.clean_up_space(odoovals)
         ret = False
         for each in self:
-            wid = vals.get('weladee_id', each.weladee_id)
-            wp = vals.get('weladee_profile', each.weladee_profile)
+            wid = odoovals.get('weladee_id', each.weladee_id)
+            wp = odoovals.get('weladee_profile', each.weladee_profile)
             if wid and not wp:
-               vals['weladee_profile'] = "https://www.weladee.com/employee/%s" % wid
+               odoovals['weladee_profile'] = "https://www.weladee.com/employee/%s" % wid
 
             ret = super(weladee_employee, each).write( odoovals )
         # if don't need to sync when there is weladee-id in vals
