@@ -3,7 +3,7 @@
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/weladee)
 
 
-![Weladee logo](https://vgy.me/jlVton.png)![odoo](https://vgy.me/5KoRp0.png)
+![Weladee logo](https://www.weladee.com/images/128.webp)![odoo](https://download.frontware.com/images/odoo-logo.png)
 
 ## What is Weladee?
 
@@ -169,4 +169,4 @@ If records have been deleted on Weladee, you will call gRPC function **GetDelete
 
 ![](https://img.shields.io/badge/Developed%20by%20-Frontware%20International-orange)
 --------------------------------------------------------------
-(c) 2022 [Frontware International Co,Ltd.](https://www.frontware.co.th)
+(c) 2025 [Frontware International Co,Ltd.](https://www.frontware.co.th)
